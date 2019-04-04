@@ -1,3 +1,3 @@
 # Atlas
 
-Plate Map Creator
+Plate Map Creator for Exemplar LIMS

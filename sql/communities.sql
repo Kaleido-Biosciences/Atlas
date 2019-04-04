@@ -1,0 +1,1 @@
+select name from community order by name;
