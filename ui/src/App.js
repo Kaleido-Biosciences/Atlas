@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
+import { NewExperimentPage } from './pages/NewExperimentPage';
+
 class App extends Component {
   render() {
     return (
-      <div>Atlas</div>
+      <div><NewExperimentPage /></div>
     );
   }
 }
