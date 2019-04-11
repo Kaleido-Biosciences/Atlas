@@ -6,6 +6,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.1",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "redux-starter-kit": "^0.4.3"
   },
