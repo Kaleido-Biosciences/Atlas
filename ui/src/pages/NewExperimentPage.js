@@ -10,6 +10,10 @@ class NewExperimentPage extends Component {
     this.props.fetchEntityLists();
   }
 
+  handleFormSubmit = formValues => {
+    console.log(formValues);
+  };
+
   render() {
     const { pending, loaded, error } = this.props;
     if (pending) {
@@ -17,10 +21,17 @@ class NewExperimentPage extends Component {
     } else if (error) {
       return <div>{error}</div>;
     } else if (loaded) {
+      const { experiments, compounds, communities, media } = this.props.values;
       return (
         <Grid centered columns={2}>
           <Grid.Column>
-            <NewExperimentForm />
+            <NewExperimentForm
+              onSubmit={this.handleFormSubmit}
+              experiments={experiments}
+              compounds={compounds}
+              communities={communities}
+              media={media}
+            />
           </Grid.Column>
         </Grid>
       );
