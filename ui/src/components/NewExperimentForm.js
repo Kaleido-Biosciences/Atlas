@@ -1,8 +1,60 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'semantic-ui-react';
-import { Form } from 'semantic-ui-react';
+import { Form, Dropdown } from 'semantic-ui-react';
+import { Field, reduxForm } from 'redux-form';
 
-export class NewExperimentForm extends Component {
+const validate = values => {
+  const errors = {};
+  if (!values.experiment) {
+    errors.experiment = 'Experiment is required';
+  }
+  if (!values.communities) {
+    errors.communities = 'At least one community is required';
+  }
+  if (!values.compounds) {
+    errors.compounds = 'At least one compound is required';
+  }
+  if (!values.media) {
+    errors.media = 'At least one media is required';
+  }
+  return errors;
+};
+
+const renderSelect = field => (
+  <Form.Field error={field.meta.touched && field.meta.error}>
+    <label>{field.label}</label>
+    <Dropdown
+      placeholder={field.placeholder}
+      fluid
+      search
+      selection
+      options={field.options}
+      onChange={(e, { value }) => field.input.onChange(value)}
+    />
+    {field.meta.touched &&
+      ((field.meta.error && <span>{field.meta.error}</span>) ||
+        (field.meta.warning && <span>{field.meta.warning}</span>))}
+  </Form.Field>
+);
+
+const renderMultiSelect = field => (
+  <Form.Field error={field.meta.touched && field.meta.error}>
+    <label>{field.label}</label>
+    <Dropdown
+      placeholder={field.placeholder}
+      fluid
+      search
+      multiple
+      selection
+      options={field.options}
+      onChange={(e, { value }) => field.input.onChange(value)}
+    />
+    {field.meta.touched &&
+      ((field.meta.error && <span>{field.meta.error}</span>) ||
+        (field.meta.warning && <span>{field.meta.warning}</span>))}
+  </Form.Field>
+);
+
+class NewExperimentForm extends Component {
   constructor(props) {
     super(props);
     this.experiments = props.experiments.slice(0, 50).map((exp, i) => {
@@ -17,68 +69,50 @@ export class NewExperimentForm extends Component {
     this.media = props.media.slice(0, 50).map((media, i) => {
       return { key: i, text: media.name, value: media.name };
     });
-    this.state = {
-      experiment: '',
-      communities: [],
-      compounds: [],
-      media: [],
-    };
   }
 
-  handleChange = key => (e, { value }) => {
-    const change = {};
-    change[key] = value;
-    this.setState(change);
-  };
-
-  handleSubmit = () => {
-    this.props.onSubmit(this.state);
-  };
-
   render() {
+    const { handleSubmit } = this.props;
     return (
-      <div>
-        <Dropdown
+      <Form onSubmit={handleSubmit}>
+        <Field
+          component={renderSelect}
+          label="Experiment"
+          name="experiment"
           placeholder="Experiment"
-          fluid
-          search
-          selection
           options={this.experiments}
-          onChange={this.handleChange('experiment')}
         />
-        <Dropdown
+        <Field
+          component={renderMultiSelect}
+          label="Communities"
+          name="communities"
           placeholder="Communities"
-          fluid
-          search
-          multiple
-          selection
           options={this.communities}
-          onChange={this.handleChange('communities')}
         />
-        <Dropdown
+        <Field
+          component={renderMultiSelect}
+          label="Compounds"
+          name="compounds"
           placeholder="Compounds"
-          fluid
-          search
-          multiple
-          selection
           options={this.compounds}
-          onChange={this.handleChange('compounds')}
         />
-        <Dropdown
+        <Field
+          component={renderMultiSelect}
+          label="Media"
+          name="media"
           placeholder="Media"
-          fluid
-          search
-          multiple
-          selection
           options={this.media}
-          onChange={this.handleChange('media')}
         />
         <Form.Group inline>
-          <Form.Button primary onClick={this.handleSubmit}>
-            Submit
-          </Form.Button>
+          <Form.Button primary>Submit</Form.Button>
         </Form.Group>
-      </div>
+      </Form>
     );
   }
 }
+
+const wrapped = reduxForm({
+  form: 'newExperiment',
+  validate,
+})(NewExperimentForm);
+export { wrapped as NewExperimentForm };
