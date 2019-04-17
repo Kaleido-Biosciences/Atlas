@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 
 import { fetchEntityLists } from '../store/entityLists';
 import { NewExperimentForm } from '../components/NewExperimentForm';
@@ -16,7 +17,13 @@ class NewExperimentPage extends Component {
     } else if (error) {
       return <div>{error}</div>;
     } else if (loaded) {
-      return <NewExperimentForm />;
+      return (
+        <Grid centered columns={2}>
+          <Grid.Column>
+            <NewExperimentForm />
+          </Grid.Column>
+        </Grid>
+      );
     } else return <div />;
   }
 }
