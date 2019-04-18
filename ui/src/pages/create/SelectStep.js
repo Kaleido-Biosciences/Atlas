@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchEntityLists } from '../../store/entityLists';
+import { createExperimentActions } from '../../store/createExperiment';
 import { NewExperimentForm } from '../../components/NewExperimentForm';
 
 class SelectStep extends Component {
@@ -10,7 +11,8 @@ class SelectStep extends Component {
   }
 
   handleFormSubmit = formValues => {
-    console.log(formValues);
+    this.props.setExperimentOptions(formValues);
+    this.props.onStepComplete();
   };
 
   render() {
@@ -40,6 +42,6 @@ const mapState = (state, props) => {
 
 const connected = connect(
   mapState,
-  { fetchEntityLists }
+  { fetchEntityLists, ...createExperimentActions }
 )(SelectStep);
 export { connected as SelectStep };
