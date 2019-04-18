@@ -20,7 +20,7 @@ const validate = values => {
 };
 
 const renderSelect = field => (
-  <Form.Field error={field.meta.touched && field.meta.error}>
+  <Form.Field error={field.meta.touched && field.meta.error ? true : false}>
     <label>{field.label}</label>
     <Dropdown
       placeholder={field.placeholder}
@@ -37,7 +37,7 @@ const renderSelect = field => (
 );
 
 const renderMultiSelect = field => (
-  <Form.Field error={field.meta.touched && field.meta.error}>
+  <Form.Field error={field.meta.touched && field.meta.error ? true : false}>
     <label>{field.label}</label>
     <Dropdown
       placeholder={field.placeholder}
