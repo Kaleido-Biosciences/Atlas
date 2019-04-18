@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid } from 'semantic-ui-react';
 
-import { fetchEntityLists } from '../store/entityLists';
-import { NewExperimentForm } from '../components/NewExperimentForm';
+import { fetchEntityLists } from '../../store/entityLists';
+import { NewExperimentForm } from '../../components/NewExperimentForm';
 
-class NewExperimentPage extends Component {
+class SelectStep extends Component {
   componentDidMount() {
     this.props.fetchEntityLists();
   }
@@ -23,17 +22,13 @@ class NewExperimentPage extends Component {
     } else if (loaded) {
       const { experiments, compounds, communities, media } = this.props.values;
       return (
-        <Grid centered columns={2}>
-          <Grid.Column>
-            <NewExperimentForm
-              onSubmit={this.handleFormSubmit}
-              experiments={experiments}
-              compounds={compounds}
-              communities={communities}
-              media={media}
-            />
-          </Grid.Column>
-        </Grid>
+        <NewExperimentForm
+          onSubmit={this.handleFormSubmit}
+          experiments={experiments}
+          compounds={compounds}
+          communities={communities}
+          media={media}
+        />
       );
     } else return <div />;
   }
@@ -46,5 +41,5 @@ const mapState = (state, props) => {
 const connected = connect(
   mapState,
   { fetchEntityLists }
-)(NewExperimentPage);
-export { connected as NewExperimentPage };
+)(SelectStep);
+export { connected as SelectStep };
