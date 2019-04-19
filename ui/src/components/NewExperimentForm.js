@@ -8,13 +8,13 @@ const validate = values => {
   if (!values.experiment) {
     errors.experiment = 'Experiment is required';
   }
-  if (!values.communities) {
+  if (!values.communities || !values.communities.length) {
     errors.communities = 'At least one community is required';
   }
-  if (!values.compounds) {
+  if (!values.compounds || !values.compounds.length) {
     errors.compounds = 'At least one compound is required';
   }
-  if (!values.media) {
+  if (!values.media || !values.media.length) {
     errors.media = 'At least one media is required';
   }
   return errors;
