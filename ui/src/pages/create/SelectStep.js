@@ -16,7 +16,7 @@ class SelectStep extends Component {
   };
 
   render() {
-    const { pending, loaded, error } = this.props;
+    const { pending, loaded, error, currentValues } = this.props;
     if (pending) {
       return <div>Loading...</div>;
     } else if (error) {
@@ -30,6 +30,7 @@ class SelectStep extends Component {
           compounds={compounds}
           communities={communities}
           media={media}
+          initialValues={currentValues}
         />
       );
     } else return <div />;
@@ -37,7 +38,13 @@ class SelectStep extends Component {
 }
 
 const mapState = (state, props) => {
-  return state.entityLists;
+  return {
+    currentValues: {
+      experiment: state.createExperiment.experiment,
+      ...state.createExperiment.components,
+    },
+    ...state.entityLists,
+  };
 };
 
 const connected = connect(

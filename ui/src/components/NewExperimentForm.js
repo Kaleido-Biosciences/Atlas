@@ -27,6 +27,7 @@ const renderSelect = field => (
       fluid
       search
       selection
+      value={field.input.value}
       options={field.options}
       onChange={(e, { value }) => field.input.onChange(value)}
     />
@@ -45,6 +46,7 @@ const renderMultiSelect = field => (
       search
       multiple
       selection
+      value={field.input.value}
       options={field.options}
       onChange={(e, { value }) => field.input.onChange(value)}
     />
