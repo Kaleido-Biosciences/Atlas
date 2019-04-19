@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Container, Step } from 'semantic-ui-react';
@@ -8,12 +9,6 @@ import { BuildStep } from './BuildStep';
 import { ConfirmStep } from './ConfirmStep';
 
 class CreateNew extends Component {
-  state = {
-    stepOneComplete: false,
-    stepTwoComplete: false,
-    stepThreeComplete: false,
-  };
-
   selectStepComplete = () => {
     this.props.history.push('build');
   };
@@ -21,11 +16,15 @@ class CreateNew extends Component {
   render() {
     const { match } = this.props;
     const { pathname } = this.props.location;
+    const { stepOneCompleted } = this.props.steps;
     return (
       <React.Fragment>
         <Container style={{ display: 'flex', justifyContent: 'center' }}>
           <Step.Group ordered>
-            <Step active={pathname.endsWith('select')} completed={this.props.steps.stepOneCompleted}>
+            <Step
+              active={pathname.endsWith('select')}
+              completed={stepOneCompleted}
+            >
               <Step.Content>
                 <Step.Title>Select</Step.Title>
                 <Step.Description>your experiment options</Step.Description>
@@ -62,6 +61,12 @@ class CreateNew extends Component {
     );
   }
 }
+
+CreateNew.propTypes = {
+  match: PropTypes.object,
+  location: PropTypes.object,
+  steps: PropTypes.object,
+};
 
 const mapState = (state, props) => {
   return { steps: state.createExperiment.steps };

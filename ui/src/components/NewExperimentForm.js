@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Dropdown } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 
@@ -112,6 +113,14 @@ class NewExperimentForm extends Component {
     );
   }
 }
+
+NewExperimentForm.propTypes = {
+  experiments: PropTypes.array.isRequired,
+  communities: PropTypes.array.isRequired,
+  compounds: PropTypes.array.isRequired,
+  media: PropTypes.array.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
 
 const wrapped = reduxForm({
   form: 'newExperiment',
