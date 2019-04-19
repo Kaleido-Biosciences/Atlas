@@ -7,7 +7,9 @@ import { NewExperimentForm } from '../../components/NewExperimentForm';
 
 class SelectStep extends Component {
   componentDidMount() {
-    this.props.fetchEntityLists();
+    if(!this.props.loaded && !this.props.pending) {
+      this.props.fetchEntityLists();
+    }
   }
 
   handleFormSubmit = formValues => {
