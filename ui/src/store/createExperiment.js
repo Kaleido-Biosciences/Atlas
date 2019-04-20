@@ -9,6 +9,7 @@ const createExperiment = createSlice({
       communities: [],
       media: [],
     },
+    activePlatemapId: null,
     plateSize: 96,
     platemaps: [],
     steps: {
@@ -25,7 +26,12 @@ const createExperiment = createSlice({
       state.steps.stepOneCompleted = true;
     },
     addPlatemap(state, action) {
-      state.platemaps.push(action.payload);
+      const platemap = action.payload;
+      platemap.id = state.platemaps.length;
+      state.platemaps.push(platemap);
+    },
+    setActivePlatemapId(state, action) {
+      state.activePlatemapId = action.payload;
     },
   },
 });
@@ -35,13 +41,19 @@ export const {
   reducer: createExperimentReducer,
 } = createExperiment;
 
-const { addPlatemap } = createExperimentActions;
+const { addPlatemap, setActivePlatemapId } = createExperimentActions;
 
 export function createNewPlatemap(numberOfWells) {
+  const platemap = {
+    selected: false,
+    active: false,
+  };
   if (numberOfWells === 96) {
-    return addPlatemap(getPlatemapArray(96));
+    platemap.map = getPlatemapArray(96);
+    return addPlatemap(platemap);
   } else if (numberOfWells === 384) {
-    return addPlatemap(getPlatemapArray(384));
+    platemap.map = getPlatemapArray(384);
+    return addPlatemap(platemap);
   }
 }
 
@@ -64,4 +76,12 @@ function getPlatemapArray(size) {
     platemap.push(row);
   }
   return platemap;
+}
+
+export function createFirstPlate() {
+  return (dispatch, getState) => {
+    dispatch(createNewPlatemap(96));
+    const { platemaps } = getState().createExperiment;
+    dispatch(setActivePlatemapId(platemaps[0].id))
+  };
 }
