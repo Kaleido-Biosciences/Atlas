@@ -64,6 +64,7 @@ const mapState = (state, props) => {
     selectOptions,
     currentValues: {
       experiment: state.createExperiment.experiment,
+      plateSize: state.createExperiment.plateSize,
       ...state.createExperiment.components,
     },
   };

@@ -57,6 +57,15 @@ const renderMultiSelect = field => (
   </Form.Field>
 );
 
+const renderRadio = field => (
+  <Form.Radio
+    checked={field.input.value === field.radioValue}
+    label={field.label}
+    name={field.input.name}
+    onChange={(e, { checked }) => field.input.onChange(field.radioValue)}
+  />
+);
+
 class NewExperimentForm extends Component {
   constructor(props) {
     super(props);
@@ -107,7 +116,22 @@ class NewExperimentForm extends Component {
           options={this.media}
         />
         <Form.Group inline>
-          <Form.Button primary>Submit</Form.Button>
+          <label>Plate Size</label>
+          <Field
+            component={renderRadio}
+            label="96 wells"
+            name="plateSize"
+            radioValue={96}
+          />
+          <Field
+            component={renderRadio}
+            label="384 wells"
+            name="plateSize"
+            radioValue={384}
+          />
+        </Form.Group>
+        <Form.Group inline>
+          <Form.Button primary>Next</Form.Button>
         </Form.Group>
       </Form>
     );

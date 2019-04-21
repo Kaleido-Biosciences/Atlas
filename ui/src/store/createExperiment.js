@@ -20,8 +20,15 @@ const createExperiment = createSlice({
   },
   reducers: {
     setExperimentOptions(state, action) {
-      const { experiment, compounds, communities, media } = action.payload;
+      const {
+        experiment,
+        plateSize,
+        compounds,
+        communities,
+        media,
+      } = action.payload;
       state.experiment = experiment;
+      state.plateSize = plateSize;
       state.components = { compounds, communities, media };
       state.steps.stepOneCompleted = true;
     },
@@ -82,6 +89,6 @@ export function createFirstPlate() {
   return (dispatch, getState) => {
     dispatch(createNewPlatemap(96));
     const { platemaps } = getState().createExperiment;
-    dispatch(setActivePlatemapId(platemaps[0].id))
+    dispatch(setActivePlatemapId(platemaps[0].id));
   };
 }
