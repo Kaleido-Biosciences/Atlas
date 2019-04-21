@@ -28,6 +28,9 @@ const createExperiment = createSlice({
         media,
       } = action.payload;
       state.experiment = experiment;
+      if(state.plateSize !== plateSize) {
+        state.platemaps = [];
+      }
       state.plateSize = plateSize;
       state.components = { compounds, communities, media };
       state.steps.stepOneCompleted = true;
@@ -85,10 +88,13 @@ function getPlatemapArray(size) {
   return platemap;
 }
 
-export function createFirstPlate() {
+export function initPlatemaps(plateSize) {
   return (dispatch, getState) => {
-    dispatch(createNewPlatemap(96));
-    const { platemaps } = getState().createExperiment;
-    dispatch(setActivePlatemapId(platemaps[0].id));
+    let { platemaps } = getState().createExperiment;
+    if (!platemaps.length) {
+      dispatch(createNewPlatemap(plateSize));
+      let { platemaps } = getState().createExperiment;
+      dispatch(setActivePlatemapId(platemaps[0].id));
+    }
   };
 }
