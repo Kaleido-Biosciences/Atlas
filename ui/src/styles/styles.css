@@ -1,0 +1,71 @@
+.ui.top.fixed.menu {
+  height: 3em;
+  min-height: 3em;
+}
+
+.ui.fluid.container {
+  padding-left: 1em !important;
+  padding-right: 1em !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.main-container {
+  padding-top: 3em;
+}
+
+.step-container {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+}
+
+.step-container .steps {
+  width: 100%;
+  font-size: 0.8em;
+}
+
+.step-container .ui.steps .step {
+  padding: 0.6em;
+  /*padding: 1.14285714em 2em;*/
+}
+
+.step-container .ui.steps .step .title {
+  font-size: 1em;
+  /* font-size: 1.14285714em */
+}
+
+.step-container .ui.steps .step .description {
+  font-size: 0.9em;
+  /* font-size: .92857143em; */
+}
+
+.step-container .ui.ordered.steps .step:before {
+  font-size: 1.8em;
+  /* font-size: 2.5em; */
+}
+
+.select-container {
+  margin-top: 2em;
+}
+
+.select-container .ui.form {
+  margin: auto;
+  max-width: 40em;
+}
+
+.build-container {
+  display: flex;
+}
+
+.build-container .build-plate-menu {
+  width: 16rem;
+}
+
+.build-container .build-platemap {
+  flex-grow: 1;
+}
+
+.build-container .build-sidebar {
+  width: 18rem;
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Container, Step } from 'semantic-ui-react';
+import { Step } from 'semantic-ui-react';
 
 import { SelectStep } from './SelectStep';
 import { BuildStep } from './BuildStep';
@@ -19,8 +19,8 @@ class CreateNew extends Component {
     const { stepOneCompleted } = this.props.steps;
     return (
       <React.Fragment>
-        <Container style={{ display: 'flex', justifyContent: 'center' }}>
-          <Step.Group ordered>
+        <div className="step-container">
+          <Step.Group unstackable ordered>
             <Step
               active={pathname.endsWith('select')}
               completed={stepOneCompleted}
@@ -43,20 +43,18 @@ class CreateNew extends Component {
               </Step.Content>
             </Step>
           </Step.Group>
-        </Container>
-        <Container>
-          <Switch>
-            <Route
-              path={`${match.path}/select`}
-              render={() => (
-                <SelectStep onStepComplete={this.selectStepComplete} />
-              )}
-            />
-            <Route path={`${match.path}/build`} component={BuildStep} />
-            <Route path={`${match.path}/confirm`} component={ConfirmStep} />
-            <Route render={() => <Redirect to={`${match.path}/select`} />} />
-          </Switch>
-        </Container>
+        </div>
+        <Switch>
+          <Route
+            path={`${match.path}/select`}
+            render={() => (
+              <SelectStep onStepComplete={this.selectStepComplete} />
+            )}
+          />
+          <Route path={`${match.path}/build`} component={BuildStep} />
+          <Route path={`${match.path}/confirm`} component={ConfirmStep} />
+          <Route render={() => <Redirect to={`${match.path}/select`} />} />
+        </Switch>
       </React.Fragment>
     );
   }

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Container } from 'semantic-ui-react';
 
 import { PlateMenu } from '../../components/PlateMenu';
+import { Platemap } from '../../components/Platemap';
+import { Sidebar } from '../../components/Sidebar';
+
 import {
   createExperimentActions,
   initPlatemaps,
@@ -21,14 +25,24 @@ class BuildStep extends Component {
   render() {
     const { platemaps, activePlatemapId } = this.props;
     return (
-      <div>
-        <PlateMenu
-          platemaps={platemaps}
-          activePlatemapId={activePlatemapId}
-          onMenuItemClick={this.props.setActivePlatemapId}
-          onAddClick={this.handleAddClick}
-        />
-      </div>
+      <Container fluid>
+        <div className="build-container">
+          <div className="build-plate-menu">
+            <PlateMenu
+              platemaps={platemaps}
+              activePlatemapId={activePlatemapId}
+              onMenuItemClick={this.props.setActivePlatemapId}
+              onAddClick={this.handleAddClick}
+            />
+          </div>
+          <div className="build-platemap">
+            <Platemap />
+          </div>
+          <div className="build-sidebar">
+            <Sidebar />
+          </div>
+        </div>
+      </Container>
     );
   }
 }

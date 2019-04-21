@@ -32,14 +32,16 @@ class SelectStep extends Component {
         media,
       } = this.props.selectOptions;
       return (
-        <NewExperimentForm
-          onSubmit={this.handleFormSubmit}
-          experiments={experiments}
-          compounds={compounds}
-          communities={communities}
-          media={media}
-          initialValues={currentValues}
-        />
+        <div className="select-container">
+          <NewExperimentForm
+            onSubmit={this.handleFormSubmit}
+            experiments={experiments}
+            compounds={compounds}
+            communities={communities}
+            media={media}
+            initialValues={currentValues}
+          />
+        </div>
       );
     } else return <div />;
   }
