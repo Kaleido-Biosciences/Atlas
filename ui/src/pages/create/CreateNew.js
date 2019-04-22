@@ -27,19 +27,19 @@ class CreateNew extends Component {
             >
               <Step.Content>
                 <Step.Title>Select</Step.Title>
-                <Step.Description>your experiment options</Step.Description>
+                <Step.Description>experiment options</Step.Description>
               </Step.Content>
             </Step>
             <Step active={pathname.endsWith('build')}>
               <Step.Content>
                 <Step.Title>Build</Step.Title>
-                <Step.Description>your plates</Step.Description>
+                <Step.Description>plate maps</Step.Description>
               </Step.Content>
             </Step>
             <Step>
               <Step.Content>
                 <Step.Title>Confirm</Step.Title>
-                <Step.Description>and print platemaps</Step.Description>
+                <Step.Description>and print</Step.Description>
               </Step.Content>
             </Step>
           </Step.Group>

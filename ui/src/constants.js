@@ -1,4 +1,4 @@
-export const plateRowHeaders = [
+export const plateMapRowHeaders = [
   'A',
   'B',
   'C',

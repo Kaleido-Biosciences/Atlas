@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Segment, Header, Icon } from 'semantic-ui-react';
 
-import { plateRowHeaders } from '../constants';
+import { plateMapRowHeaders } from '../constants';
 
-export class Platemap extends Component {
-  renderTable(platemap) {
-    const rows = platemap.map((row, i) => {
+export class PlateMap extends Component {
+  renderTable(plateMap) {
+    const rows = plateMap.map((row, i) => {
       const columns = row.map((well, j) => {
         return (
           <td key={j + 1}>
@@ -14,11 +14,11 @@ export class Platemap extends Component {
           </td>
         );
       });
-      columns.unshift(<th key={0}>{plateRowHeaders[i]}</th>);
+      columns.unshift(<th key={0}>{plateMapRowHeaders[i]}</th>);
       return <tr key={i + 1}>{columns}</tr>;
     });
 
-    const topHeaderCells = platemap[0].map((well, i) => {
+    const topHeaderCells = plateMap[0].map((well, i) => {
       return <th key={i + 1}>{i + 1}</th>;
     });
     topHeaderCells.unshift(<td key="blank" />);
@@ -32,18 +32,18 @@ export class Platemap extends Component {
     );
   }
   handleDelete = () => {
-    this.props.onDelete(this.props.platemap.id);
+    this.props.onDelete(this.props.plateMap.id);
   };
   render() {
-    const { platemap, numberOfPlateMaps } = this.props;
-    if (platemap) {
+    const { plateMap, numberOfPlateMaps } = this.props;
+    if (plateMap) {
       return (
         <div style={{ border: '1px solid black' }}>
-          <div>{platemap.id}</div>
+          <div>{plateMap.id}</div>
           <Button primary onClick={this.handleDelete}>
             Delete
           </Button>
-          {this.renderTable(platemap.map)}
+          {this.renderTable(plateMap.data)}
         </div>
       );
     } else if(!numberOfPlateMaps) {
@@ -60,9 +60,9 @@ export class Platemap extends Component {
   }
 }
 
-Platemap.propTypes = {
-  platemap: PropTypes.object,
+PlateMap.propTypes = {
+  plateMap: PropTypes.object,
   numberOfPlateMaps: PropTypes.number.isRequired,
-  addPlate: PropTypes.func.isRequired,
-  deletePlate: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
