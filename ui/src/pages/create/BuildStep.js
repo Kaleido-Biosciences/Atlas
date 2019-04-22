@@ -15,9 +15,6 @@ import {
 
 class BuildStep extends Component {
 
-  handleAddClick = () => {
-    this.props.createPlateMap(this.props.plateSize);
-  };
 
   render() {
     const { plateMaps, activePlateMapId, activePlateMap } = this.props;
@@ -29,7 +26,7 @@ class BuildStep extends Component {
               plateMaps={plateMaps}
               activePlateMapId={activePlateMapId}
               onMenuItemClick={this.props.setActivePlateMapId}
-              onAddClick={this.handleAddClick}
+              onAddClick={this.props.createPlateMap}
             />
           </div>
           <div className="build-platemap">
@@ -50,7 +47,6 @@ class BuildStep extends Component {
 }
 
 BuildStep.propTypes = {
-  plateSize: PropTypes.number.isRequired,
   plateMaps: PropTypes.array.isRequired,
   activePlateMapId: PropTypes.number,
   createPlateMap: PropTypes.func.isRequired,
