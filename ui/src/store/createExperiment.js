@@ -20,7 +20,6 @@ const createExperiment = createSlice({
     },
   },
   reducers: {
-    //change to init experiment
     setExperimentOptions(state, action) {
       const {
         experiment,
@@ -65,6 +64,17 @@ export const {
 
 const { addPlateMap, setActivePlateMapId } = createExperimentActions;
 
+export function initializePlateMaps() {
+  return (dispatch, getState) => {
+    let { plateMaps, plateSize } = getState().createExperiment;
+    if (!plateMaps.length) {
+      dispatch(createPlateMap(plateSize));
+      let { plateMaps } = getState().createExperiment;
+      dispatch(setActivePlateMapId(plateMaps[0].id));
+    }
+  };
+}
+
 export function createPlateMap(numberOfWells) {
   const plateMap = {
     selected: false,
@@ -99,17 +109,6 @@ function getPlateMapArray(size) {
   return plateMap;
 }
 
-export function initPlateMaps(plateSize) {
-  return (dispatch, getState) => {
-    let { plateMaps } = getState().createExperiment;
-    if (!plateMaps.length) {
-      dispatch(createPlateMap(plateSize));
-      let { plateMaps } = getState().createExperiment;
-      dispatch(setActivePlateMapId(plateMaps[0].id));
-    }
-  };
-}
-
 export const selectActivePlateMap = createSelector(
   ['createExperiment.plateMaps', 'createExperiment.activePlateMapId'],
   (plateMaps, activePlateMapId) => {
@@ -118,3 +117,14 @@ export const selectActivePlateMap = createSelector(
     } else return null;
   }
 );
+
+// export function initPlateMaps(plateSize) {
+//   return (dispatch, getState) => {
+//     let { plateMaps } = getState().createExperiment;
+//     if (!plateMaps.length) {
+//       dispatch(createPlateMap(plateSize));
+//       let { plateMaps } = getState().createExperiment;
+//       dispatch(setActivePlateMapId(plateMaps[0].id));
+//     }
+//   };
+// }

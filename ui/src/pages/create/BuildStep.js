@@ -9,16 +9,11 @@ import { Sidebar } from '../../components/Sidebar';
 
 import {
   createExperimentActions,
-  initPlateMaps,
   createPlateMap,
   selectActivePlateMap,
 } from '../../store/createExperiment';
 
 class BuildStep extends Component {
-  componentWillMount() {
-    // shouldnt happen here
-    this.props.initPlateMaps(this.props.plateSize);
-  }
 
   handleAddClick = () => {
     this.props.createPlateMap(this.props.plateSize);
@@ -55,12 +50,11 @@ class BuildStep extends Component {
 }
 
 BuildStep.propTypes = {
-  initPlateMaps: PropTypes.func.isRequired,
-  createPlateMap: PropTypes.func.isRequired,
-  deletePlateMap: PropTypes.func.isRequired,
   plateSize: PropTypes.number.isRequired,
   plateMaps: PropTypes.array.isRequired,
   activePlateMapId: PropTypes.number,
+  createPlateMap: PropTypes.func.isRequired,
+  deletePlateMap: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -70,6 +64,6 @@ const mapState = (state, props) => {
 
 const connected = connect(
   mapState,
-  { ...createExperimentActions, initPlateMaps, createPlateMap }
+  { ...createExperimentActions, createPlateMap }
 )(BuildStep);
 export { connected as BuildStep };

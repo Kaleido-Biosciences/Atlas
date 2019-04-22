@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchEntityLists } from '../../store/entityLists';
-import { createExperimentActions } from '../../store/createExperiment';
+import { createExperimentActions, initializePlateMaps } from '../../store/createExperiment';
 import { NewExperimentForm } from '../../components/NewExperimentForm';
 
 class SelectStep extends Component {
@@ -15,6 +15,7 @@ class SelectStep extends Component {
 
   handleFormSubmit = formValues => {
     this.props.setExperimentOptions(formValues);
+    this.props.initializePlateMaps();
     this.props.onStepComplete();
   };
 
@@ -53,7 +54,9 @@ SelectStep.propTypes = {
   error: PropTypes.string.isRequired,
   selectOptions: PropTypes.object.isRequired,
   currentValues: PropTypes.object,
+  fetchEntityLists: PropTypes.func.isRequired,
   setExperimentOptions: PropTypes.func.isRequired,
+  initializePlateMaps: PropTypes.func.isRequired,
   onStepComplete: PropTypes.func.isRequired,
 };
 
@@ -74,6 +77,6 @@ const mapState = (state, props) => {
 
 const connected = connect(
   mapState,
-  { fetchEntityLists, ...createExperimentActions }
+  { fetchEntityLists, initializePlateMaps, ...createExperimentActions }
 )(SelectStep);
 export { connected as SelectStep };
