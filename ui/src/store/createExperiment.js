@@ -81,12 +81,13 @@ export function initializePlateMaps() {
 
 export function createPlateMap() {
   return (dispatch, getState) => {
-    const { plateSize } = getState().createExperiment;
+    const { plateSize, plateMaps } = getState().createExperiment;
     const plateMap = {
       selected: false,
       active: false,
     };
     plateMap.data = getPlateMapArray(plateSize);
+    if(!plateMaps.length) plateMap.active = true;
     dispatch(addPlateMap(plateMap));
   };
 }
