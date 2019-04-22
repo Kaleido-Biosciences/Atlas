@@ -4,7 +4,6 @@ import { Button, Segment, Header, Icon } from 'semantic-ui-react';
 
 import { plateMapRowHeaders } from '../constants';
 
-
 export class PlateMap extends Component {
   renderTable(plateMap) {
     const rows = plateMap.map((row, i) => {
@@ -47,7 +46,7 @@ export class PlateMap extends Component {
           {this.renderTable(plateMap.data)}
         </div>
       );
-    } else if(!numberOfPlateMaps) {
+    } else if (!numberOfPlateMaps) {
       return (
         <Segment placeholder>
           <Header icon>
@@ -57,6 +56,8 @@ export class PlateMap extends Component {
           <Button primary>Add Plate Map</Button>
         </Segment>
       );
+    } else {
+      return <div />;
     }
   }
 }
