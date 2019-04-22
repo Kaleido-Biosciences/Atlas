@@ -14,8 +14,6 @@ import {
 } from '../../store/createExperiment';
 
 class BuildStep extends Component {
-
-
   render() {
     const { plateMaps, activePlateMap } = this.props;
     return (
@@ -32,8 +30,8 @@ class BuildStep extends Component {
             <PlateMap
               plateMap={activePlateMap}
               numberOfPlateMaps={plateMaps.length}
-              onCreate={this.props.createPlateMap}
-              onDelete={this.props.deletePlateMap}
+              onAddClick={this.props.createPlateMap}
+              onDeleteClick={this.props.deletePlateMap}
             />
           </div>
           <div className="build-sidebar">
@@ -47,6 +45,8 @@ class BuildStep extends Component {
 
 BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
+  activePlateMap: PropTypes.object,
+  setActivePlateMap: PropTypes.func.isRequired,
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
 };

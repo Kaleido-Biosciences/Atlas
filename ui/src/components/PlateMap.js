@@ -32,7 +32,7 @@ export class PlateMap extends Component {
     );
   }
   handleDelete = () => {
-    this.props.onDelete(this.props.plateMap.id);
+    this.props.onDeleteClick(this.props.plateMap.id);
   };
   render() {
     const { plateMap, numberOfPlateMaps } = this.props;
@@ -53,7 +53,7 @@ export class PlateMap extends Component {
             <Icon name="grid layout" />
             There are no plate maps in this experiment
           </Header>
-          <Button primary>Add Plate Map</Button>
+          <Button primary onClick={this.props.onAddClick}>Add a Plate Map</Button>
         </Segment>
       );
     } else {
@@ -65,6 +65,6 @@ export class PlateMap extends Component {
 PlateMap.propTypes = {
   plateMap: PropTypes.object,
   numberOfPlateMaps: PropTypes.number.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onAddClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
 };
