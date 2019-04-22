@@ -10,7 +10,6 @@ const createExperiment = createSlice({
       media: [],
     },
     plateSize: 96,
-    activePlateMapId: null,
     plateMaps: [],
     nextPlateMapId: 1,
     steps: {
@@ -42,17 +41,22 @@ const createExperiment = createSlice({
       state.plateMaps.push(plateMap);
       state.nextPlateMapId++;
     },
-    setActivePlateMapId(state, action) {
-      state.activePlateMapId = action.payload;
+    setActivePlateMap(state, action) {
+      const plateMapId = action.payload;
+      const { plateMaps } = state;
+      plateMaps.forEach(plateMap => {
+        if (plateMap.id === plateMapId) {
+          plateMap.active = true;
+        } else if (plateMap.active) {
+          plateMap.active = false;
+        }
+      });
     },
     deletePlateMap(state, action) {
       const idToRemove = action.payload;
       state.plateMaps = state.plateMaps.filter((plateMap, i) => {
         return plateMap.id !== idToRemove;
       });
-      if (state.activePlateMapId === idToRemove) {
-        state.activePlateMapId = null;
-      }
     },
   },
 });
@@ -62,7 +66,7 @@ export const {
   reducer: createExperimentReducer,
 } = createExperiment;
 
-const { addPlateMap, setActivePlateMapId } = createExperimentActions;
+const { addPlateMap, setActivePlateMap } = createExperimentActions;
 
 export function initializePlateMaps() {
   return (dispatch, getState) => {
@@ -70,7 +74,7 @@ export function initializePlateMaps() {
     if (!plateMaps.length) {
       dispatch(createPlateMap());
       let { plateMaps } = getState().createExperiment;
-      dispatch(setActivePlateMapId(plateMaps[0].id));
+      dispatch(setActivePlateMap(plateMaps[0].id));
     }
   };
 }
@@ -109,10 +113,10 @@ function getPlateMapArray(size) {
 }
 
 export const selectActivePlateMap = createSelector(
-  ['createExperiment.plateMaps', 'createExperiment.activePlateMapId'],
-  (plateMaps, activePlateMapId) => {
+  ['createExperiment.plateMaps'],
+  plateMaps => {
     if (plateMaps.length) {
-      return plateMaps.find(plateMap => plateMap.id === activePlateMapId);
+      return plateMaps.find(plateMap => plateMap.active);
     } else return null;
   }
 );

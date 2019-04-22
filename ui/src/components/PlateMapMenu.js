@@ -8,12 +8,12 @@ export class PlateMapMenu extends Component {
   };
 
   render() {
-    const { plateMaps, activePlateMapId } = this.props;
+    const { plateMaps } = this.props;
     const menuItems = plateMaps.map((plateMap, i) => (
       <Menu.Item
         key={plateMap.id}
         platemapid={plateMap.id}
-        active={activePlateMapId === plateMap.id}
+        active={plateMap.active}
         name={`Plate Map ${i + 1}`}
         onClick={this.handleMenuItemClick}
       />
@@ -36,7 +36,6 @@ export class PlateMapMenu extends Component {
 
 PlateMapMenu.propTypes = {
   plateMaps: PropTypes.array.isRequired,
-  activePlateMapId: PropTypes.number,
   onMenuItemClick: PropTypes.func.isRequired,
   onAddClick: PropTypes.func.isRequired,
 };

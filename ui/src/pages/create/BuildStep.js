@@ -17,15 +17,14 @@ class BuildStep extends Component {
 
 
   render() {
-    const { plateMaps, activePlateMapId, activePlateMap } = this.props;
+    const { plateMaps, activePlateMap } = this.props;
     return (
       <Container fluid>
         <div className="build-container">
           <div className="build-plate-menu">
             <PlateMapMenu
               plateMaps={plateMaps}
-              activePlateMapId={activePlateMapId}
-              onMenuItemClick={this.props.setActivePlateMapId}
+              onMenuItemClick={this.props.setActivePlateMap}
               onAddClick={this.props.createPlateMap}
             />
           </div>
@@ -48,7 +47,6 @@ class BuildStep extends Component {
 
 BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
-  activePlateMapId: PropTypes.number,
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
 };
