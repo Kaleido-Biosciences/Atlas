@@ -11,10 +11,11 @@ import {
   createExperimentActions,
   initPlatemaps,
   createNewPlatemap,
+  selectActivePlatemap,
 } from '../../store/createExperiment';
 
 class BuildStep extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.initPlatemaps(this.props.plateSize);
   }
 
@@ -23,7 +24,7 @@ class BuildStep extends Component {
   };
 
   render() {
-    const { platemaps, activePlatemapId } = this.props;
+    const { platemaps, activePlatemapId, activePlatemap } = this.props;
     return (
       <Container fluid>
         <div className="build-container">
@@ -36,7 +37,7 @@ class BuildStep extends Component {
             />
           </div>
           <div className="build-platemap">
-            <Platemap />
+            {activePlatemap && <Platemap platemap={activePlatemap} />}
           </div>
           <div className="build-sidebar">
             <Sidebar />
@@ -52,11 +53,12 @@ BuildStep.propTypes = {
   createNewPlatemap: PropTypes.func.isRequired,
   plateSize: PropTypes.number.isRequired,
   platemaps: PropTypes.array.isRequired,
-  activePlatemapId: PropTypes.number.isRequired,
+  activePlatemapId: PropTypes.number,
 };
 
 const mapState = (state, props) => {
-  return state.createExperiment;
+  const activePlatemap = selectActivePlatemap(state);
+  return {activePlatemap, ...state.createExperiment};
 };
 
 const connected = connect(

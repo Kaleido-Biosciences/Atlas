@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice, createSelector } from 'redux-starter-kit';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
@@ -28,7 +28,7 @@ const createExperiment = createSlice({
         media,
       } = action.payload;
       state.experiment = experiment;
-      if(state.plateSize !== plateSize) {
+      if (state.plateSize !== plateSize) {
         state.platemaps = [];
       }
       state.plateSize = plateSize;
@@ -98,3 +98,12 @@ export function initPlatemaps(plateSize) {
     }
   };
 }
+
+export const selectActivePlatemap = createSelector(
+  ['createExperiment.platemaps', 'createExperiment.activePlatemapId'],
+  (platemaps, activePlatemapId) => {
+    if (platemaps.length) {
+      return platemaps.find(platemap => platemap.id === activePlatemapId);
+    } else return null;
+  }
+);

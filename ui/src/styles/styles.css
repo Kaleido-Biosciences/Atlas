@@ -69,3 +69,23 @@
 .build-container .build-sidebar {
   width: 18rem;
 }
+
+.platemap-container {
+  padding: 1em;
+}
+
+.plate {
+  width: 100%;
+}
+
+/* .plate .well {
+  height: 50px;
+  width: 50px;
+  border: 1px solid rgba(34,36,38,.2);
+  border-radius: 50px;
+} */
+
+.plate td,
+.plate th {
+  text-align: center;
+}
