@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button, Segment, Header, Icon } from 'semantic-ui-react';
 
 import { plateRowHeaders } from '../constants';
 
@@ -30,17 +31,38 @@ export class Platemap extends Component {
       </div>
     );
   }
+  handleDelete = () => {
+    this.props.onDelete(this.props.platemap.id);
+  };
   render() {
-    const { platemap } = this.props;
-    return (
-      <div style={{ border: '1px solid black' }}>
-        <div>{platemap.id}</div>
-        {this.renderTable(platemap.map)}
-      </div>
-    );
+    const { platemap, numberOfPlateMaps } = this.props;
+    if (platemap) {
+      return (
+        <div style={{ border: '1px solid black' }}>
+          <div>{platemap.id}</div>
+          <Button primary onClick={this.handleDelete}>
+            Delete
+          </Button>
+          {this.renderTable(platemap.map)}
+        </div>
+      );
+    } else if(!numberOfPlateMaps) {
+      return (
+        <Segment placeholder>
+          <Header icon>
+            <Icon name="grid layout" />
+            There are no plate maps in this experiment
+          </Header>
+          <Button primary>Add Plate Map</Button>
+        </Segment>
+      );
+    }
   }
 }
 
 Platemap.propTypes = {
-  platemap: PropTypes.object.isRequired,
+  platemap: PropTypes.object,
+  numberOfPlateMaps: PropTypes.number.isRequired,
+  addPlate: PropTypes.func.isRequired,
+  deletePlate: PropTypes.func.isRequired,
 };

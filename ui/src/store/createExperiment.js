@@ -17,6 +17,7 @@ const createExperiment = createSlice({
       stepTwoCompleted: false,
       stepthreeCompleted: false,
     },
+    nextPlatemapId: 1,
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -37,11 +38,21 @@ const createExperiment = createSlice({
     },
     addPlatemap(state, action) {
       const platemap = action.payload;
-      platemap.id = state.platemaps.length;
+      platemap.id = state.nextPlatemapId;
       state.platemaps.push(platemap);
+      state.nextPlatemapId++;
     },
     setActivePlatemapId(state, action) {
       state.activePlatemapId = action.payload;
+    },
+    deletePlatemap(state, action) {
+      const idToRemove = action.payload;
+      state.platemaps = state.platemaps.filter((platemap, i) => {
+        return platemap.id !== idToRemove;
+      });
+      if (state.activePlatemapId === idToRemove) {
+        state.activePlatemapId = null;
+      }
     },
   },
 });

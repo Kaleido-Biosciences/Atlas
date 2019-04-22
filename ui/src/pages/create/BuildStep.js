@@ -37,7 +37,11 @@ class BuildStep extends Component {
             />
           </div>
           <div className="build-platemap">
-            {activePlatemap && <Platemap platemap={activePlatemap} />}
+            <Platemap
+              platemap={activePlatemap}
+              totalPlates={platemaps.length}
+              onDelete={this.props.deletePlatemap}
+            />
           </div>
           <div className="build-sidebar">
             <Sidebar />
@@ -51,6 +55,7 @@ class BuildStep extends Component {
 BuildStep.propTypes = {
   initPlatemaps: PropTypes.func.isRequired,
   createNewPlatemap: PropTypes.func.isRequired,
+  deletePlatemap: PropTypes.func.isRequired,
   plateSize: PropTypes.number.isRequired,
   platemaps: PropTypes.array.isRequired,
   activePlatemapId: PropTypes.number,
@@ -58,7 +63,7 @@ BuildStep.propTypes = {
 
 const mapState = (state, props) => {
   const activePlatemap = selectActivePlatemap(state);
-  return {activePlatemap, ...state.createExperiment};
+  return { activePlatemap, ...state.createExperiment };
 };
 
 const connected = connect(
