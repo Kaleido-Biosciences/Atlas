@@ -32,6 +32,7 @@ class BuildStep extends Component {
               numberOfPlateMaps={plateMaps.length}
               onAddClick={this.props.createPlateMap}
               onDeleteClick={this.props.deletePlateMap}
+              onWellClick={this.props.toggleWellSelected}
             />
           </div>
           <div className="build-sidebar">
@@ -49,6 +50,7 @@ BuildStep.propTypes = {
   setActivePlateMap: PropTypes.func.isRequired,
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
+  toggleWellSelected: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {

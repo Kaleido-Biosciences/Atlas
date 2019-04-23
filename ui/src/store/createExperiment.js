@@ -58,6 +58,15 @@ const createExperiment = createSlice({
         return plateMap.id !== idToRemove;
       });
     },
+    toggleWellSelected(state, action) {
+      const { plateMapId, wellId } = action.payload;
+      const plateMap = findPlateMapById(plateMapId, state.plateMaps);
+      const rowSize = plateMap.data[0].length;
+      const row = Math.floor(wellId / rowSize);
+      const index = wellId % rowSize;
+      const well = plateMap.data[row][index];
+      well.selected = !well.selected;
+    },
   },
 });
 
@@ -87,7 +96,7 @@ export function createPlateMap() {
       active: false,
     };
     plateMap.data = getPlateMapArray(plateSize);
-    if(!plateMaps.length) plateMap.active = true;
+    if (!plateMaps.length) plateMap.active = true;
     dispatch(addPlateMap(plateMap));
   };
 }
@@ -121,3 +130,9 @@ export const selectActivePlateMap = createSelector(
     } else return null;
   }
 );
+
+function findPlateMapById(id, plateMaps) {
+  return plateMaps.find((plateMap, i) => {
+    return plateMap.id === id;
+  });
+}

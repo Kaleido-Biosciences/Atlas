@@ -89,3 +89,7 @@
 .plate th {
   text-align: center;
 }
+
+.well.selected {
+  background-color: #2185d0;
+}

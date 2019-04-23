@@ -33,7 +33,7 @@ export class PlateMap extends Component {
     );
   }
   handleWellClick = (wellId) => {
-    console.log(wellId)
+    this.props.onWellClick({ plateMapId: this.props.plateMap.id, wellId})
   };
   handleDelete = () => {
     this.props.onDeleteClick(this.props.plateMap.id);
@@ -73,4 +73,5 @@ PlateMap.propTypes = {
   numberOfPlateMaps: PropTypes.number.isRequired,
   onAddClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
+  onWellClick: PropTypes.func.isRequired,
 };
