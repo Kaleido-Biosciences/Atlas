@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react';
 
 import { PlateMapMenu } from '../../components/PlateMapMenu';
 import { PlateMap } from '../../components/PlateMap';
-import { Sidebar } from '../../components/Sidebar';
+import { ComponentToolbar } from '../../components/ComponentToolbar';
 
 import {
   createExperimentActions,
@@ -36,7 +36,7 @@ class BuildStep extends Component {
             />
           </div>
           <div className="build-sidebar">
-            <Sidebar />
+            <ComponentToolbar />
           </div>
         </div>
       </Container>
