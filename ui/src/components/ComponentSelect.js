@@ -15,7 +15,7 @@ export class ComponentSelect extends Component {
     }
     this.props.onChange({
       type: this.props.type,
-      selections: this.selectedComponents,
+      selections: [...this.selectedComponents],
     });
   };
   renderFields(components) {

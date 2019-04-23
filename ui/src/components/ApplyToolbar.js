@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { ComponentSelect } from './ComponentSelect';
+import { createExperimentActions } from '../store/createExperiment';
 
 class ApplyToolbar extends Component {
   handleComponentSelectChange = data => {
-    const { type, selections } = data;
-    console.log(type, selections);
+    this.props.setSelectedComponents(data);
   };
   render() {
     const { media } = this.props;
@@ -27,6 +27,7 @@ class ApplyToolbar extends Component {
 
 ApplyToolbar.propTypes = {
   media: PropTypes.array.isRequired,
+  setSelectedComponents: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -35,5 +36,8 @@ const mapState = (state, props) => {
   };
 };
 
-const connected = connect(mapState)(ApplyToolbar);
+const connected = connect(
+  mapState,
+  { ...createExperimentActions }
+)(ApplyToolbar);
 export { connected as ApplyToolbar };

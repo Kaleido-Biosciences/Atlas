@@ -17,7 +17,12 @@ const createExperiment = createSlice({
       stepTwoCompleted: false,
       stepthreeCompleted: false,
     },
-    clickMode: 'select',
+    clickMode: 'apply',
+    selectedComponents: {
+      compounds: [],
+      communities: [],
+      media: [],
+    },
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -70,6 +75,10 @@ const createExperiment = createSlice({
     },
     setClickMode(state, action) {
       state.clickMode = action.payload;
+    },
+    setSelectedComponents(state, action) {
+      const { type, selections } = action.payload;
+      state.selectedComponents[type] = selections;
     },
   },
 });
