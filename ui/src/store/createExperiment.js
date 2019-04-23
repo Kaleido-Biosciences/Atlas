@@ -17,6 +17,7 @@ const createExperiment = createSlice({
       stepTwoCompleted: false,
       stepthreeCompleted: false,
     },
+    clickMode: 'select'
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -67,6 +68,9 @@ const createExperiment = createSlice({
       const well = plateMap.data[row][index];
       well.selected = !well.selected;
     },
+    setClickMode(state, action) {
+      state.clickMode = action.payload;
+    }
   },
 });
 

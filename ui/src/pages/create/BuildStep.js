@@ -14,6 +14,9 @@ import {
 } from '../../store/createExperiment';
 
 class BuildStep extends Component {
+  handleClickModeChange = (clickMode) => {
+    this.props.setClickMode(clickMode);
+  }
   render() {
     const { plateMaps, activePlateMap } = this.props;
     return (
@@ -36,7 +39,7 @@ class BuildStep extends Component {
             />
           </div>
           <div className="build-sidebar">
-            <ComponentToolbar />
+            <ComponentToolbar onTabChange={this.handleClickModeChange}/>
           </div>
         </div>
       </Container>
@@ -51,6 +54,7 @@ BuildStep.propTypes = {
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
   toggleWellSelected: PropTypes.func.isRequired,
+  setClickMode: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
