@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Segment, Header, Icon } from 'semantic-ui-react';
 
 import { plateMapRowHeaders } from '../constants';
+import { Well } from './Well';
 
 export class PlateMap extends Component {
   renderTable(plateMap) {
@@ -10,7 +11,7 @@ export class PlateMap extends Component {
       const columns = row.map((well, j) => {
         return (
           <td key={j + 1}>
-            <div className="well">well</div>
+            <Well onClick={this.handleWellClick} well={well} />
           </td>
         );
       });
@@ -31,6 +32,9 @@ export class PlateMap extends Component {
       </div>
     );
   }
+  handleWellClick = (wellId) => {
+    console.log(wellId)
+  };
   handleDelete = () => {
     this.props.onDeleteClick(this.props.plateMap.id);
   };
@@ -53,7 +57,9 @@ export class PlateMap extends Component {
             <Icon name="grid layout" />
             There are no plate maps in this experiment
           </Header>
-          <Button primary onClick={this.props.onAddClick}>Add a Plate Map</Button>
+          <Button primary onClick={this.props.onAddClick}>
+            Add a Plate Map
+          </Button>
         </Segment>
       );
     } else {
