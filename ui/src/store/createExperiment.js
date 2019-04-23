@@ -5,9 +5,9 @@ const createExperiment = createSlice({
   initialState: {
     experiment: '',
     components: {
-      compounds: [],
-      communities: [],
-      media: [],
+      compounds: ['KB10-14', 'KB100-2'],
+      communities: ['057-002', '057-012'],
+      media: ['MM.10', 'MM.11', 'CM.10', 'CM.11'],
     },
     plateSize: 96,
     plateMaps: [],
@@ -17,7 +17,7 @@ const createExperiment = createSlice({
       stepTwoCompleted: false,
       stepthreeCompleted: false,
     },
-    clickMode: 'select'
+    clickMode: 'select',
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -70,7 +70,7 @@ const createExperiment = createSlice({
     },
     setClickMode(state, action) {
       state.clickMode = action.payload;
-    }
+    },
   },
 });
 
