@@ -32,8 +32,28 @@ export class PlateMap extends Component {
       </div>
     );
   }
-  handleWellClick = (wellId) => {
-    this.props.onWellClick({ plateMapId: this.props.plateMap.id, wellId})
+  // handleWellClick = (wellId) => {
+  //   this.props.onWellClick({ plateMapId: this.props.plateMap.id, wellId})
+  // };
+  handleWellClick = well => {
+    const plateMapId = this.props.plateMap.id;
+    const wellIds = [well.id];
+    switch (this.props.clickMode) {
+      case 'apply':
+        this.props.modifyWells({
+          plateMapId,
+          wellIds,
+          values: { components: this.props.valuesToApply },
+        });
+        break;
+      case 'select':
+        this.props.modifyWells({
+          plateMapId,
+          wellIds,
+          values: { selected: !well.selected },
+        });
+        break;
+    }
   };
   handleDelete = () => {
     this.props.onDeleteClick(this.props.plateMap.id);
@@ -71,7 +91,10 @@ export class PlateMap extends Component {
 PlateMap.propTypes = {
   plateMap: PropTypes.object,
   numberOfPlateMaps: PropTypes.number.isRequired,
+  valuesToApply: PropTypes.object.isRequired,
+  clickMode: PropTypes.string.isRequired,
   onAddClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   onWellClick: PropTypes.func.isRequired,
+  modifyWells: PropTypes.func.isRequired,
 };

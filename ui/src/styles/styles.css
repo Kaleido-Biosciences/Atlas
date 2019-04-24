@@ -64,6 +64,8 @@
 
 .build-container .build-platemap {
   flex-grow: 1;
+  max-width: 44rem;
+  overflow: auto;
 }
 
 .build-container .build-sidebar {
@@ -88,6 +90,11 @@
 .plate td,
 .plate th {
   text-align: center;
+}
+
+.well {
+  background-color: #f3f3f3;
+  min-width: 2rem;
 }
 
 .well.selected {

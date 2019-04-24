@@ -18,7 +18,7 @@ class BuildStep extends Component {
     this.props.setClickMode(clickMode);
   }
   render() {
-    const { plateMaps, activePlateMap } = this.props;
+    const { plateMaps, activePlateMap, clickMode } = this.props;
     return (
       <Container fluid>
         <div className="build-container">
@@ -36,6 +36,9 @@ class BuildStep extends Component {
               onAddClick={this.props.createPlateMap}
               onDeleteClick={this.props.deletePlateMap}
               onWellClick={this.props.toggleWellSelected}
+              clickMode={this.props.clickMode}
+              valuesToApply={this.props.selectedComponents}
+              modifyWells={this.props.modifyWells}
             />
           </div>
           <div className="build-sidebar">
@@ -55,6 +58,7 @@ BuildStep.propTypes = {
   deletePlateMap: PropTypes.func.isRequired,
   toggleWellSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
+  modifyWells: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {

@@ -81,6 +81,14 @@ const createExperiment = createSlice({
       const { type, selections } = action.payload;
       state.selectedComponents[type] = selections;
     },
+    modifyWells(state, action) {
+      const { plateMapId, wellIds, values } = action.payload;
+      const plateMap = findPlateMapById(plateMapId, state.plateMaps);
+      const flattenedData = plateMap.data.flat();
+      wellIds.forEach((wellId) => {
+        flattenedData[wellId] = Object.assign(flattenedData[wellId], values);
+      });
+    },
   },
 });
 
@@ -126,10 +134,14 @@ function getPlateMapArray(size) {
     for (let i = 0; i < columns; i++) {
       row.push({
         id: wellCount,
-        name: `${rowLetter}${i+1}`,
+        name: `${rowLetter}${i + 1}`,
         selected: false,
         blank: false,
-        components: {},
+        components: {
+          compounds: [],
+          communities: [],
+          media: [],
+        },
       });
       wellCount++;
     }

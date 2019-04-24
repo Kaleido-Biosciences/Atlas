@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 export class Well extends Component {
   handleClick = () => {
-    this.props.onClick(this.props.well.id);
+    this.props.onClick(this.props.well);
   };
   render() {
     const { id, selected } = this.props.well;
@@ -13,7 +13,7 @@ export class Well extends Component {
         onClick={this.handleClick}
         className={classNames('well', { selected })}
       >
-        {id}
+        {JSON.stringify(this.props.well.components.media)}
       </div>
     );
   }
