@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from 'redux-starter-kit';
+import { plateMapRowHeaders } from '../constants';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
@@ -121,9 +122,11 @@ function getPlateMapArray(size) {
   const columns = size === 96 ? 12 : 24;
   for (let i = 0; i < rows; i++) {
     const row = [];
+    const rowLetter = plateMapRowHeaders[i];
     for (let i = 0; i < columns; i++) {
       row.push({
         id: wellCount,
+        name: `${rowLetter}${i+1}`,
         selected: false,
         blank: false,
         components: {},
