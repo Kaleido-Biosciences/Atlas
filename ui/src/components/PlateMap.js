@@ -43,7 +43,7 @@ export class PlateMap extends Component {
         this.props.modifyWells({
           plateMapId,
           wellIds,
-          values: { components: this.props.valuesToApply },
+          values: { ...this.props.valuesToApply },
         });
         break;
       case 'select':
@@ -53,6 +53,37 @@ export class PlateMap extends Component {
           values: { selected: !well.selected },
         });
         break;
+      case 'clear':
+        var newValues = {};
+        switch (this.props.clearMode) {
+          case 'all':
+            newValues = {
+              communities: [],
+              compounds: [],
+              media: [],
+            };
+            break;
+          case 'communities':
+            newValues = {
+              communities: [],
+            };
+            break;
+          case 'compounds':
+            newValues = {
+              compounds: [],
+            };
+            break;
+          case 'media':
+            newValues = {
+              media: [],
+            };
+            break;
+        }
+        this.props.modifyWells({
+          plateMapId,
+          wellIds,
+          values: newValues,
+        });
     }
   };
   handleDelete = () => {
@@ -93,6 +124,7 @@ PlateMap.propTypes = {
   numberOfPlateMaps: PropTypes.number.isRequired,
   valuesToApply: PropTypes.object.isRequired,
   clickMode: PropTypes.string.isRequired,
+  clearMode: PropTypes.string.isRequired,
   onAddClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   onWellClick: PropTypes.func.isRequired,

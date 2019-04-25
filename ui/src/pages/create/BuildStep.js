@@ -14,9 +14,9 @@ import {
 } from '../../store/createExperiment';
 
 class BuildStep extends Component {
-  handleClickModeChange = (clickMode) => {
+  handleClickModeChange = clickMode => {
     this.props.setClickMode(clickMode);
-  }
+  };
   render() {
     const { plateMaps, activePlateMap, clickMode } = this.props;
     return (
@@ -39,10 +39,11 @@ class BuildStep extends Component {
               clickMode={this.props.clickMode}
               valuesToApply={this.props.selectedComponents}
               modifyWells={this.props.modifyWells}
+              clearMode={this.props.clearMode}
             />
           </div>
           <div className="build-sidebar">
-            <ComponentToolbar onTabChange={this.handleClickModeChange}/>
+            <ComponentToolbar onTabChange={this.handleClickModeChange} />
           </div>
         </div>
       </Container>
@@ -53,6 +54,7 @@ class BuildStep extends Component {
 BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
+  clearMode: PropTypes.string,
   setActivePlateMap: PropTypes.func.isRequired,
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,

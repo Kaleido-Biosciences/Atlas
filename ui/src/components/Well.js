@@ -13,7 +13,9 @@ export class Well extends Component {
         onClick={this.handleClick}
         className={classNames('well', { selected })}
       >
-        {JSON.stringify(this.props.well.components)}
+        {JSON.stringify(this.props.well.communities)}
+        {JSON.stringify(this.props.well.compounds)}
+        {JSON.stringify(this.props.well.media)}
       </div>
     );
   }
