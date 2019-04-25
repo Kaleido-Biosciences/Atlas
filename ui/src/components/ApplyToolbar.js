@@ -10,10 +10,21 @@ class ApplyToolbar extends Component {
     this.props.setSelectedComponents(data);
   };
   render() {
-    const { media } = this.props;
+    const { communities, compounds, media } = this.props;
     return (
-      <div>
-        Apply Mode
+      <div className="apply-toolbar">
+        <ComponentSelect
+          type="communities"
+          label="Communities"
+          components={communities}
+          onChange={this.handleComponentSelectChange}
+        />
+        <ComponentSelect
+          type="compounds"
+          label="Compounds"
+          components={compounds}
+          onChange={this.handleComponentSelectChange}
+        />
         <ComponentSelect
           type="media"
           label="Media"
@@ -26,12 +37,16 @@ class ApplyToolbar extends Component {
 }
 
 ApplyToolbar.propTypes = {
+  communities: PropTypes.array.isRequired,
+  compounds: PropTypes.array.isRequired,
   media: PropTypes.array.isRequired,
   setSelectedComponents: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
   return {
+    communities: state.createExperiment.components.communities,
+    compounds: state.createExperiment.components.compounds,
     media: state.createExperiment.components.media,
   };
 };

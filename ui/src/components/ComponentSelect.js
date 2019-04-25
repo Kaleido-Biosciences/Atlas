@@ -34,10 +34,14 @@ export class ComponentSelect extends Component {
   render() {
     const { components, label } = this.props;
     return (
-      <Form>
-        <label>{label}</label>
-        {this.renderFields(components)}
-      </Form>
+      <div className="component-select">
+        <Form>
+          <label className="component-select-type-label">{label}</label>
+          <div className="component-select-fields-container">
+            {this.renderFields(components)}
+          </div>
+        </Form>
+      </div>
     );
   }
 }

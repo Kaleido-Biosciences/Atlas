@@ -64,7 +64,6 @@
 
 .build-container .build-platemap {
   flex-grow: 1;
-  max-width: 44rem;
   overflow: auto;
 }
 
@@ -99,4 +98,15 @@
 
 .well.selected {
   background-color: #2185d0;
+}
+
+
+.component-select .component-select-type-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: .4em;
+}
+
+.component-select .component-select-fields-container {
+  margin-bottom: 1em;
 }
