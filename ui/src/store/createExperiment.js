@@ -78,10 +78,6 @@ const createExperiment = createSlice({
     setClickMode(state, action) {
       state.clickMode = action.payload;
     },
-    setSelectedComponents(state, action) {
-      const { type, selections } = action.payload;
-      state.selectedComponents[type] = selections;
-    },
     modifyWells(state, action) {
       const { plateMapId, wellIds, values } = action.payload;
       const plateMap = findPlateMapById(plateMapId, state.plateMaps);
@@ -92,6 +88,22 @@ const createExperiment = createSlice({
     },
     setClearMode(state, action) {
       state.clearMode = action.payload;
+    },
+    selectComponents(state, action) {
+      const { componentType, components } = action.payload;
+      components.forEach(component => {
+        if (!state.selectedComponents[componentType].includes(component)) {
+          state.selectedComponents[componentType].push(component);
+        }
+      });
+    },
+    deselectComponents(state, action) {
+      const { componentType, components } = action.payload;
+      const { selectedComponents } = state;
+      components.forEach(component => {
+        const index = selectedComponents[componentType].indexOf(component);
+        selectedComponents[componentType].splice(index, 1);
+      });
     },
   },
 });

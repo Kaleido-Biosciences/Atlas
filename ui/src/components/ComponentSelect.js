@@ -4,19 +4,14 @@ import PropTypes from 'prop-types';
 import { Form, Checkbox } from 'semantic-ui-react';
 
 export class ComponentSelect extends Component {
-  selectedComponents = [];
   handleChange = (e, data) => {
     const { checked, value } = data;
+    const selection = { componentType: this.props.type, components: [value] };
     if (checked) {
-      this.selectedComponents.push(value);
+      this.props.onSelect(selection);
     } else {
-      const index = this.selectedComponents.indexOf(value);
-      this.selectedComponents.splice(index, 1);
+      this.props.onDeselect(selection);
     }
-    this.props.onChange({
-      type: this.props.type,
-      selections: [...this.selectedComponents],
-    });
   };
   renderFields(components) {
     return components.map((component, i) => {
@@ -26,6 +21,7 @@ export class ComponentSelect extends Component {
             label={component}
             value={component}
             onClick={this.handleChange}
+            checked={this.props.selectedComponents.includes(component)}
           />
         </Form.Field>
       );
@@ -50,5 +46,7 @@ ComponentSelect.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   components: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
+  selectedComponents: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onDeselect: PropTypes.func.isRequired,
 };
