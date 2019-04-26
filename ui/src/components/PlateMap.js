@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Segment, Header, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 import { plateMapRowHeaders } from '../constants';
 import { Well } from './Well';
@@ -90,42 +90,24 @@ export class PlateMap extends Component {
     this.props.onDeleteClick(this.props.plateMap.id);
   };
   render() {
-    const { plateMap, numberOfPlateMaps } = this.props;
-    if (plateMap) {
-      return (
-        <div style={{ border: '1px solid black' }}>
-          <div>{plateMap.id}</div>
-          <Button primary onClick={this.handleDelete}>
-            Delete
-          </Button>
-          {this.renderTable(plateMap.data)}
-        </div>
-      );
-    } else if (!numberOfPlateMaps) {
-      return (
-        <Segment placeholder>
-          <Header icon>
-            <Icon name="grid layout" />
-            There are no plate maps in this experiment
-          </Header>
-          <Button primary onClick={this.props.onAddClick}>
-            Add a Plate Map
-          </Button>
-        </Segment>
-      );
-    } else {
-      return <div />;
-    }
+    const { plateMap } = this.props;
+    return (
+      <div style={{ border: '1px solid black' }}>
+        <div>{plateMap.id}</div>
+        <Button primary onClick={this.handleDelete}>
+          Delete
+        </Button>
+        {this.renderTable(plateMap.data)}
+      </div>
+    );
   }
 }
 
 PlateMap.propTypes = {
-  plateMap: PropTypes.object,
-  numberOfPlateMaps: PropTypes.number.isRequired,
+  plateMap: PropTypes.object.isRequired,
   valuesToApply: PropTypes.object.isRequired,
   clickMode: PropTypes.string.isRequired,
   clearMode: PropTypes.string.isRequired,
-  onAddClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   onWellClick: PropTypes.func.isRequired,
   modifyWells: PropTypes.func.isRequired,

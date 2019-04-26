@@ -6,6 +6,7 @@ import { Container } from 'semantic-ui-react';
 import { PlateMapMenu } from '../../components/PlateMapMenu';
 import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar';
+import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
 
 import {
   createExperimentActions,
@@ -30,17 +31,19 @@ class BuildStep extends Component {
             />
           </div>
           <div className="build-platemap">
-            <PlateMap
-              plateMap={activePlateMap}
-              numberOfPlateMaps={plateMaps.length}
-              onAddClick={this.props.createPlateMap}
-              onDeleteClick={this.props.deletePlateMap}
-              onWellClick={this.props.toggleWellSelected}
-              clickMode={this.props.clickMode}
-              valuesToApply={this.props.selectedComponents}
-              modifyWells={this.props.modifyWells}
-              clearMode={this.props.clearMode}
-            />
+            {plateMaps.length ? (
+              <PlateMap
+                plateMap={activePlateMap}
+                onDeleteClick={this.props.deletePlateMap}
+                onWellClick={this.props.toggleWellSelected}
+                clickMode={this.props.clickMode}
+                valuesToApply={this.props.selectedComponents}
+                modifyWells={this.props.modifyWells}
+                clearMode={this.props.clearMode}
+              />
+            ) : (
+              <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
+            )}
           </div>
           <div className="build-sidebar">
             <ComponentToolbar onTabChange={this.handleClickModeChange} />
