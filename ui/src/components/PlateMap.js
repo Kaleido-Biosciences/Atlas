@@ -32,60 +32,12 @@ export class PlateMap extends Component {
       </div>
     );
   }
-  handleWellClick = (well) => {
-    this.props.onClick({plateMapId: this.props.plateMap.id, wellIds: [well.id]})
+  handleWellClick = well => {
+    this.props.onWellsClick({
+      plateMapId: this.props.plateMap.id,
+      wellIds: [well.id],
+    });
   };
-  // handleWellClick = well => {
-  //   const plateMapId = this.props.plateMap.id;
-  //   const wellIds = [well.id];
-  //   switch (this.props.clickMode) {
-  //     case 'apply':
-  //       this.props.modifyWells({
-  //         plateMapId,
-  //         wellIds,
-  //         values: { ...this.props.valuesToApply },
-  //       });
-  //       break;
-  //     case 'select':
-  //       this.props.modifyWells({
-  //         plateMapId,
-  //         wellIds,
-  //         values: { selected: !well.selected },
-  //       });
-  //       break;
-  //     case 'clear':
-  //       var newValues = {};
-  //       switch (this.props.clearMode) {
-  //         case 'all':
-  //           newValues = {
-  //             communities: [],
-  //             compounds: [],
-  //             media: [],
-  //           };
-  //           break;
-  //         case 'communities':
-  //           newValues = {
-  //             communities: [],
-  //           };
-  //           break;
-  //         case 'compounds':
-  //           newValues = {
-  //             compounds: [],
-  //           };
-  //           break;
-  //         case 'media':
-  //           newValues = {
-  //             media: [],
-  //           };
-  //           break;
-  //       }
-  //       this.props.modifyWells({
-  //         plateMapId,
-  //         wellIds,
-  //         values: newValues,
-  //       });
-  //   }
-  // };
   handleDelete = () => {
     this.props.onDeleteClick(this.props.plateMap.id);
   };
@@ -105,10 +57,6 @@ export class PlateMap extends Component {
 
 PlateMap.propTypes = {
   plateMap: PropTypes.object.isRequired,
-  valuesToApply: PropTypes.object.isRequired,
-  clickMode: PropTypes.string.isRequired,
-  clearMode: PropTypes.string.isRequired,
+  onWellsClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
-  onWellClick: PropTypes.func.isRequired,
-  modifyWells: PropTypes.func.isRequired,
 };

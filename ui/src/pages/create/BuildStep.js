@@ -23,15 +23,15 @@ class BuildStep extends Component {
     if (clickMode === 'apply') {
       this.props.applySelectedComponentsToWells(data);
     }
-    if(clickMode === 'clear') {
+    if (clickMode === 'clear') {
       this.props.clearWells(data);
     }
-    if(clickMode === 'select') {
+    if (clickMode === 'select') {
       this.props.toggleWellsSelected(data);
     }
   };
   render() {
-    const { plateMaps, activePlateMap, clickMode } = this.props;
+    const { plateMaps, activePlateMap } = this.props;
     return (
       <Container fluid>
         <div className="build-container">
@@ -46,13 +46,8 @@ class BuildStep extends Component {
             {plateMaps.length ? (
               <PlateMap
                 plateMap={activePlateMap}
+                onWellsClick={this.handlePlateMapClick}
                 onDeleteClick={this.props.deletePlateMap}
-                onWellClick={this.props.toggleWellSelected}
-                clickMode={this.props.clickMode}
-                valuesToApply={this.props.selectedComponents}
-                modifyWells={this.props.modifyWells}
-                clearMode={this.props.clearMode}
-                onClick={this.handlePlateMapClick}
               />
             ) : (
               <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
@@ -71,13 +66,11 @@ BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
   clickMode: PropTypes.string.isRequired,
-  clearMode: PropTypes.string,
   setActivePlateMap: PropTypes.func.isRequired,
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
-  toggleWellSelected: PropTypes.func.isRequired,
+  toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
-  modifyWells: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {

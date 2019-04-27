@@ -66,25 +66,8 @@ const createExperiment = createSlice({
         return plateMap.id !== idToRemove;
       });
     },
-    toggleWellSelected(state, action) {
-      const { plateMapId, wellId } = action.payload;
-      const plateMap = findPlateMapById(plateMapId, state.plateMaps);
-      const rowSize = plateMap.data[0].length;
-      const row = Math.floor(wellId / rowSize);
-      const index = wellId % rowSize;
-      const well = plateMap.data[row][index];
-      well.selected = !well.selected;
-    },
     setClickMode(state, action) {
       state.clickMode = action.payload;
-    },
-    modifyWells(state, action) {
-      const { plateMapId, wellIds, values } = action.payload;
-      const plateMap = findPlateMapById(plateMapId, state.plateMaps);
-      const flattenedData = plateMap.data.flat();
-      wellIds.forEach(wellId => {
-        flattenedData[wellId] = Object.assign(flattenedData[wellId], values);
-      });
     },
     setClearMode(state, action) {
       state.clearMode = action.payload;
