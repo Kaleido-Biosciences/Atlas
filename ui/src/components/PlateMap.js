@@ -32,60 +32,60 @@ export class PlateMap extends Component {
       </div>
     );
   }
-  // handleWellClick = (wellId) => {
-  //   this.props.onWellClick({ plateMapId: this.props.plateMap.id, wellId})
-  // };
-  handleWellClick = well => {
-    const plateMapId = this.props.plateMap.id;
-    const wellIds = [well.id];
-    switch (this.props.clickMode) {
-      case 'apply':
-        this.props.modifyWells({
-          plateMapId,
-          wellIds,
-          values: { ...this.props.valuesToApply },
-        });
-        break;
-      case 'select':
-        this.props.modifyWells({
-          plateMapId,
-          wellIds,
-          values: { selected: !well.selected },
-        });
-        break;
-      case 'clear':
-        var newValues = {};
-        switch (this.props.clearMode) {
-          case 'all':
-            newValues = {
-              communities: [],
-              compounds: [],
-              media: [],
-            };
-            break;
-          case 'communities':
-            newValues = {
-              communities: [],
-            };
-            break;
-          case 'compounds':
-            newValues = {
-              compounds: [],
-            };
-            break;
-          case 'media':
-            newValues = {
-              media: [],
-            };
-            break;
-        }
-        this.props.modifyWells({
-          plateMapId,
-          wellIds,
-          values: newValues,
-        });
-    }
+  handleWellClick = (well) => {
+    this.props.onClick({plateMapId: this.props.plateMap.id, wellIds: [well.id]})
   };
+  // handleWellClick = well => {
+  //   const plateMapId = this.props.plateMap.id;
+  //   const wellIds = [well.id];
+  //   switch (this.props.clickMode) {
+  //     case 'apply':
+  //       this.props.modifyWells({
+  //         plateMapId,
+  //         wellIds,
+  //         values: { ...this.props.valuesToApply },
+  //       });
+  //       break;
+  //     case 'select':
+  //       this.props.modifyWells({
+  //         plateMapId,
+  //         wellIds,
+  //         values: { selected: !well.selected },
+  //       });
+  //       break;
+  //     case 'clear':
+  //       var newValues = {};
+  //       switch (this.props.clearMode) {
+  //         case 'all':
+  //           newValues = {
+  //             communities: [],
+  //             compounds: [],
+  //             media: [],
+  //           };
+  //           break;
+  //         case 'communities':
+  //           newValues = {
+  //             communities: [],
+  //           };
+  //           break;
+  //         case 'compounds':
+  //           newValues = {
+  //             compounds: [],
+  //           };
+  //           break;
+  //         case 'media':
+  //           newValues = {
+  //             media: [],
+  //           };
+  //           break;
+  //       }
+  //       this.props.modifyWells({
+  //         plateMapId,
+  //         wellIds,
+  //         values: newValues,
+  //       });
+  //   }
+  // };
   handleDelete = () => {
     this.props.onDeleteClick(this.props.plateMap.id);
   };

@@ -18,6 +18,12 @@ class BuildStep extends Component {
   handleClickModeChange = clickMode => {
     this.props.setClickMode(clickMode);
   };
+  handlePlateMapClick = data => {
+    const { clickMode } = this.props;
+    if (clickMode === 'apply') {
+      this.props.applySelectedComponentsToWells(data);
+    }
+  };
   render() {
     const { plateMaps, activePlateMap, clickMode } = this.props;
     return (
@@ -40,6 +46,7 @@ class BuildStep extends Component {
                 valuesToApply={this.props.selectedComponents}
                 modifyWells={this.props.modifyWells}
                 clearMode={this.props.clearMode}
+                onClick={this.handlePlateMapClick}
               />
             ) : (
               <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
@@ -57,6 +64,7 @@ class BuildStep extends Component {
 BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
+  clickMode: PropTypes.string.isRequired,
   clearMode: PropTypes.string,
   setActivePlateMap: PropTypes.func.isRequired,
   createPlateMap: PropTypes.func.isRequired,
