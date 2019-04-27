@@ -50,7 +50,18 @@ export class PlateMap extends Component {
     );
   }
   handleHeaderClick = ({ headerType, index }) => {
-    console.log(headerType, index);
+    const { plateMap } = this.props;
+    let wellIds;
+    if (headerType === 'row') {
+      const row = plateMap.data[index];
+      wellIds = row.map(well => well.id);
+    } else {
+      wellIds = plateMap.data.map(row => row[index].id);
+    }
+    this.props.onWellsClick({
+      plateMapId: this.props.plateMap.id,
+      wellIds,
+    });
   };
   handleWellClick = well => {
     this.props.onWellsClick({
