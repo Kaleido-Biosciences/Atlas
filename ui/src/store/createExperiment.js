@@ -122,7 +122,22 @@ const createExperiment = createSlice({
       });
     },
     applySelectedComponentsToSelectedWells(state, action) {},
-    clearWells(state, action) {},
+    clearWells(state, action) {
+      const { plateMapId, wellIds } = action.payload;
+      const { plateMaps, clearMode } = state;
+      const plateMap = findPlateMapById(plateMapId, plateMaps);
+      const flattenedData = plateMap.data.flat();
+      const componentTypes = ['communities', 'compounds', 'media'];
+      wellIds.forEach(wellId => {
+        if (clearMode === 'all') {
+          componentTypes.forEach(type => {
+            flattenedData[wellId][type] = [];
+          });
+        } else {
+          flattenedData[wellId][clearMode] = [];
+        }
+      });
+    },
     clearSelectedWells(state, action) {},
   },
 });
