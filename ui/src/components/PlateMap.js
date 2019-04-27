@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react';
 
 import { plateMapRowHeaders } from '../constants';
 import { Well } from './Well';
+import { PlateMapHeader } from './PlateMapHeader';
 
 export class PlateMap extends Component {
   renderTable(plateMap) {
@@ -15,12 +16,28 @@ export class PlateMap extends Component {
           </td>
         );
       });
-      columns.unshift(<th key={0}>{plateMapRowHeaders[i]}</th>);
+      columns.unshift(
+        <PlateMapHeader
+          headerType="row"
+          label={plateMapRowHeaders[i]}
+          key={0}
+          index={i}
+          onClick={this.handleHeaderClick}
+        />
+      );
       return <tr key={i + 1}>{columns}</tr>;
     });
 
     const topHeaderCells = plateMap[0].map((well, i) => {
-      return <th key={i + 1}>{i + 1}</th>;
+      return (
+        <PlateMapHeader
+          headerType="column"
+          label={i + 1}
+          key={i + 1}
+          index={i}
+          onClick={this.handleHeaderClick}
+        />
+      );
     });
     topHeaderCells.unshift(<td key="blank" />);
     rows.unshift(<tr key="topHeader">{topHeaderCells}</tr>);
@@ -32,6 +49,9 @@ export class PlateMap extends Component {
       </div>
     );
   }
+  handleHeaderClick = ({ headerType, index }) => {
+    console.log(headerType, index);
+  };
   handleWellClick = well => {
     this.props.onWellsClick({
       plateMapId: this.props.plateMap.id,
