@@ -26,6 +26,9 @@ class BuildStep extends Component {
     if(clickMode === 'clear') {
       this.props.clearWells(data);
     }
+    if(clickMode === 'select') {
+      this.props.toggleWellsSelected(data);
+    }
   };
   render() {
     const { plateMaps, activePlateMap, clickMode } = this.props;

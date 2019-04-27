@@ -139,6 +139,29 @@ const createExperiment = createSlice({
       });
     },
     clearSelectedWells(state, action) {},
+    toggleWellsSelected(state, action) {
+      const { plateMapId, wellIds } = action.payload;
+      const { plateMaps } = state;
+      const plateMap = findPlateMapById(plateMapId, plateMaps);
+      const flattenedData = plateMap.data.flat();
+      const status = { selected: false, deselected: false };
+      wellIds.forEach(wellId => {
+        if (flattenedData[wellId].selected) {
+          status.selected = true;
+        } else {
+          status.deselected = true;
+        }
+      });
+      if ((status.selected && status.deselected) || !status.selected) {
+        wellIds.forEach(wellId => {
+          flattenedData[wellId].selected = true;
+        });
+      } else {
+        wellIds.forEach(wellId => {
+          flattenedData[wellId].selected = false;
+        });
+      }
+    },
   },
 });
 
