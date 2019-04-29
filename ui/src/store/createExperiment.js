@@ -31,16 +31,49 @@ const createExperiment = createSlice({
       const {
         experiment,
         plateSize,
-        compounds,
-        communities,
-        media,
+        selectedCompounds,
+        selectedCommunities,
+        selectedMedia,
       } = action.payload;
       state.experiment = experiment;
       if (state.plateSize !== plateSize) {
         state.plateMaps = [];
       }
       state.plateSize = plateSize;
-      state.components = { compounds, communities, media };
+      state.components = { communities: [], compounds: [], media: [] };
+      state.selectedComponents = {
+        communities: [],
+        compounds: [],
+        media: [],
+      };
+      selectedCommunities.forEach(community => {
+        state.components.communities.push(community.name);
+        state.selectedComponents.communities.push({
+          name: community.name,
+          selected: false,
+          concentration: 0.5,
+          editing: false,
+          data: community,
+        });
+      });
+      selectedCompounds.forEach(compound => {
+        state.components.compounds.push(compound.alias);
+        state.selectedComponents.compounds.push({
+          name: compound.alias,
+          selected: false,
+          concentration: 0.5,
+          editing: false,
+          data: compound,
+        });
+      });
+      selectedMedia.forEach(media => {
+        state.components.media.push(media.name);
+        state.selectedComponents.media.push({
+          name: media.name,
+          selected: false,
+          data: media,
+        });
+      });
       state.steps.stepOneCompleted = true;
     },
     addPlateMap(state, action) {

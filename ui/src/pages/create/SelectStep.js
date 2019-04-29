@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchEntityLists } from '../../store/entityLists';
-import { createExperimentActions, initializePlateMaps } from '../../store/createExperiment';
+import {
+  createExperimentActions,
+  initializePlateMaps,
+} from '../../store/createExperiment';
 import { NewExperimentForm } from '../../components/NewExperimentForm';
 
 class SelectStep extends Component {
@@ -14,7 +17,37 @@ class SelectStep extends Component {
   }
 
   handleFormSubmit = formValues => {
-    this.props.setExperimentOptions(formValues);
+    const {
+      experiment,
+      plateSize,
+      communities: formCommunities,
+      compounds: formCompounds,
+      media: formMedia,
+    } = formValues;
+    const { communities, compounds, media } = this.props.selectOptions;
+    const selectedCommunities = formCommunities.map(communityName => {
+      return communities.find(community => {
+        return community.name === communityName;
+      });
+    });
+    const selectedCompounds = formCompounds.map(compoundName => {
+      return compounds.find(compound => {
+        return compound.alias === compoundName;
+      });
+    });
+    const selectedMedia = formMedia.map(mediaName => {
+      return media.find(media => {
+        return media.name === mediaName;
+      });
+    });
+    const experimentOptions = {
+      experiment,
+      plateSize,
+      selectedCommunities,
+      selectedCompounds,
+      selectedMedia,
+    };
+    this.props.setExperimentOptions(experimentOptions);
     this.props.initializePlateMaps();
     this.props.onStepComplete();
   };
