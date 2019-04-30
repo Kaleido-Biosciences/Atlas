@@ -270,6 +270,18 @@ export const selectActivePlateMap = createSelector(
   }
 );
 
+export const selectSelectedWells = createSelector(
+  ['createExperiment.plateMaps'],
+  plateMaps => {
+    if (plateMaps.length) {
+      const activePlateMap = plateMaps.find(plateMap => plateMap.active);
+      const flat = activePlateMap.data.flat();
+      const selectedWells = flat.filter(well => well.selected);
+      return selectedWells;
+    } else return null;
+  }
+);
+
 function findPlateMapById(id, plateMaps) {
   return plateMaps.find((plateMap, i) => {
     return plateMap.id === id;
