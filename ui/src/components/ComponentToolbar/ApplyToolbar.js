@@ -24,6 +24,9 @@ class ApplyToolbar extends Component {
           compounds={compounds}
           onSelect={this.props.onComponentSelect}
           onDeselect={this.props.onComponentDeselect}
+          onConcentrationClick={this.props.onConcentrationClick}
+          onConcentrationBlur={this.props.onConcentrationBlur}
+          onConcentrationSave={this.props.onConcentrationSave}
         />
         <MediaForm
           media={media}
