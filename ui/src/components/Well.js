@@ -7,7 +7,7 @@ export class Well extends Component {
     this.props.onClick(this.props.well);
   };
   render() {
-    const { id, selected } = this.props.well;
+    const { selected } = this.props.well;
     return (
       <div
         onClick={this.handleClick}
