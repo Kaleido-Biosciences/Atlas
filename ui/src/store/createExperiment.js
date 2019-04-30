@@ -50,6 +50,7 @@ const createExperiment = createSlice({
         state.components.communities.push(community.name);
         state.selectedComponents.communities.push({
           name: community.name,
+          type: 'community',
           selected: false,
           concentration: 0.5,
           editing: false,
@@ -60,18 +61,20 @@ const createExperiment = createSlice({
         state.components.compounds.push(compound.alias);
         state.selectedComponents.compounds.push({
           name: compound.alias,
+          type: 'compound',
           selected: false,
           concentration: 0.5,
           editing: false,
           data: compound,
         });
       });
-      selectedMedia.forEach(media => {
-        state.components.media.push(media.name);
+      selectedMedia.forEach(medium => {
+        state.components.media.push(medium.name);
         state.selectedComponents.media.push({
-          name: media.name,
+          name: medium.name,
+          type: 'medium',
           selected: false,
-          data: media,
+          data: medium,
         });
       });
       state.steps.stepOneCompleted = true;
@@ -106,19 +109,15 @@ const createExperiment = createSlice({
       state.clearMode = action.payload;
     },
     selectComponents(state, action) {
-      const { componentType, components } = action.payload;
+      const { components } = action.payload;
       components.forEach(component => {
-        if (!state.selectedComponents[componentType].includes(component)) {
-          state.selectedComponents[componentType].push(component);
-        }
+        setComponentSelected(component, true, state);
       });
     },
     deselectComponents(state, action) {
-      const { componentType, components } = action.payload;
-      const { selectedComponents } = state;
+      const { components } = action.payload;
       components.forEach(component => {
-        const index = selectedComponents[componentType].indexOf(component);
-        selectedComponents[componentType].splice(index, 1);
+        setComponentSelected(component, false, state);
       });
     },
     applySelectedComponentsToWells(state, action) {
@@ -250,4 +249,18 @@ function findPlateMapById(id, plateMaps) {
   return plateMaps.find((plateMap, i) => {
     return plateMap.id === id;
   });
+}
+
+function setComponentSelected(component, selected, state) {
+  const { selectedComponents } = state;
+  let collection;
+  if (component.type === 'community') {
+    collection = selectedComponents.communities;
+  } else if (component.type === 'compound') {
+    collection = selectedComponents.compounds;
+  } else if (component.type === 'medium') {
+    collection = selectedComponents.media;
+  }
+  const stateComponent = collection.find(comp => comp.name === component.name);
+  stateComponent.selected = selected;
 }

@@ -100,13 +100,12 @@
   background-color: #2185d0;
 }
 
-
-.component-select .component-select-type-label {
+.component-form .component-form-name {
   display: block;
   font-weight: 700;
-  margin-bottom: .4em;
+  margin-bottom: 0.4em;
 }
 
-.component-select .component-select-fields-container {
+.component-form .component-form-fields-container {
   margin-bottom: 1em;
 }
