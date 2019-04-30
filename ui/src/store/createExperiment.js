@@ -111,13 +111,15 @@ const createExperiment = createSlice({
     selectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        setComponentSelected(component, true, state);
+        const stateComponent = getComponentFromState(component, state);
+        stateComponent.selected = true;
       });
     },
     deselectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        setComponentSelected(component, false, state);
+        const stateComponent = getComponentFromState(component, state);
+        stateComponent.selected = false;
       });
     },
     applySelectedComponentsToWells(state, action) {
@@ -272,20 +274,6 @@ function findPlateMapById(id, plateMaps) {
   return plateMaps.find((plateMap, i) => {
     return plateMap.id === id;
   });
-}
-
-function setComponentSelected(component, selected, state) {
-  const { selectedComponents } = state;
-  let collection;
-  if (component.type === 'community') {
-    collection = selectedComponents.communities;
-  } else if (component.type === 'compound') {
-    collection = selectedComponents.compounds;
-  } else if (component.type === 'medium') {
-    collection = selectedComponents.media;
-  }
-  const stateComponent = collection.find(comp => comp.name === component.name);
-  stateComponent.selected = selected;
 }
 
 function getComponentFromState(component, state) {
