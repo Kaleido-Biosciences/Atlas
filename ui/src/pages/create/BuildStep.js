@@ -43,13 +43,14 @@ class BuildStep extends Component {
             />
           </div>
           <div className="build-platemap">
-            {plateMaps.length ? (
+            {plateMaps.length > 0 && activePlateMap && (
               <PlateMap
                 plateMap={activePlateMap}
                 onWellsClick={this.handlePlateMapClick}
                 onDeleteClick={this.props.deletePlateMap}
               />
-            ) : (
+            )}
+            {!plateMaps.length && (
               <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
             )}
           </div>
