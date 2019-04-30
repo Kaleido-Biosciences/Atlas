@@ -32,6 +32,14 @@ class ApplyToolbar extends Component {
   }
 }
 
+ApplyToolbar.propTypes = {
+  communities: PropTypes.array.isRequired,
+  compounds: PropTypes.array.isRequired,
+  media: PropTypes.array.isRequired,
+  onComponentSelect: PropTypes.func.isRequired,
+  onComponentDeselect: PropTypes.func.isRequired,
+};
+
 const mapState = (state, props) => {
   const { selectedComponents } = state.createExperiment;
   return {
