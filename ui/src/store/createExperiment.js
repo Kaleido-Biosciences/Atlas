@@ -130,12 +130,19 @@ const createExperiment = createSlice({
         componentTypes.forEach(type => {
           selectedComponents[type].forEach(component => {
             if (component.selected) {
-              const existingComponent = flattenedData[wellId][type].find(
-                comp => comp.name === component.name
-              );
-              if (!existingComponent) {
+              const existingComponentIndex = flattenedData[wellId][
+                type
+              ].findIndex(comp => comp.name === component.name);
+              if (existingComponentIndex === -1) {
                 let { selected, editing, ...wellComponent } = component;
                 flattenedData[wellId][type].push(wellComponent);
+              } else {
+                let { selected, editing, ...wellComponent } = component;
+                flattenedData[wellId][type].splice(
+                  existingComponentIndex,
+                  1,
+                  wellComponent
+                );
               }
             }
           });
@@ -182,6 +189,16 @@ const createExperiment = createSlice({
           flattenedData[wellId].selected = false;
         });
       }
+    },
+    toggleComponentEditing(state, action) {
+      const { component } = action.payload;
+      const stateComponent = getComponentFromState(component, state);
+      stateComponent.editing = !stateComponent.editing;
+    },
+    setComponentConcentration(state, action) {
+      const { component, value } = action.payload;
+      const stateComponent = getComponentFromState(component, state);
+      stateComponent.concentration = value;
     },
   },
 });
@@ -269,4 +286,19 @@ function setComponentSelected(component, selected, state) {
   }
   const stateComponent = collection.find(comp => comp.name === component.name);
   stateComponent.selected = selected;
+}
+
+function getComponentFromState(component, state) {
+  const { type } = component;
+  let collection;
+  if (type === 'community') {
+    collection = state.selectedComponents.communities;
+  } else if (type === 'compound') {
+    collection = state.selectedComponents.compounds;
+  } else if (type === 'medium') {
+    collection = state.selectedComponents.media;
+  }
+  return collection.find(
+    stateComponent => stateComponent.name === component.name
+  );
 }

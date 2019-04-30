@@ -16,6 +16,9 @@ class ApplyToolbar extends Component {
           communities={communities}
           onSelect={this.props.onComponentSelect}
           onDeselect={this.props.onComponentDeselect}
+          onConcentrationClick={this.props.onConcentrationClick}
+          onConcentrationBlur={this.props.onConcentrationBlur}
+          onConcentrationSave={this.props.onConcentrationSave}
         />
         <CompoundsForm
           compounds={compounds}
@@ -38,6 +41,8 @@ ApplyToolbar.propTypes = {
   media: PropTypes.array.isRequired,
   onComponentSelect: PropTypes.func.isRequired,
   onComponentDeselect: PropTypes.func.isRequired,
+  onConcentrationClick: PropTypes.func.isRequired,
+  onConcentrationSave: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -52,6 +57,9 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onComponentSelect: createExperimentActions.selectComponents,
   onComponentDeselect: createExperimentActions.deselectComponents,
+  onConcentrationClick: createExperimentActions.toggleComponentEditing,
+  onConcentrationBlur: createExperimentActions.toggleComponentEditing,
+  onConcentrationSave: createExperimentActions.setComponentConcentration,
 };
 
 const connected = connect(

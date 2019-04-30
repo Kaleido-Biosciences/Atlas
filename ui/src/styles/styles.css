@@ -113,3 +113,8 @@
 .component-form .component-form-fields-container .concentration {
   margin-left: 0.5em;
 }
+
+.component-form .component-form-fields-container .ui.input.concentration-input {
+  width: 4em;
+  margin-left: 1em;
+}

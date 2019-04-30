@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { Form, Checkbox } from 'semantic-ui-react';
+
+import { ConcentrationInput } from './ConcentrationInput';
 
 export class CommunitiesForm extends Component {
   handleChange = (e, data) => {
@@ -27,7 +28,12 @@ export class CommunitiesForm extends Component {
             onClick={this.handleChange}
             checked={community.selected}
           />
-          <span className="concentration">@ {community.concentration}</span>
+          <ConcentrationInput
+            component={community}
+            onClick={this.props.onConcentrationClick}
+            onBlur={this.props.onConcentrationBlur}
+            onSave={this.props.onConcentrationSave}
+          />
         </Form.Field>
       );
     });
@@ -50,4 +56,7 @@ CommunitiesForm.propTypes = {
   communities: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
+  onConcentrationClick: PropTypes.func.isRequired,
+  onConcentrationBlur: PropTypes.func.isRequired,
+  onConcentrationSave: PropTypes.func.isRequired,
 };
