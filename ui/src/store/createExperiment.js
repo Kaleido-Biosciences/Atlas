@@ -129,8 +129,14 @@ const createExperiment = createSlice({
       wellIds.forEach(wellId => {
         componentTypes.forEach(type => {
           selectedComponents[type].forEach(component => {
-            if (!flattenedData[wellId][type].includes(component)) {
-              flattenedData[wellId][type].push(component);
+            if (component.selected) {
+              const existingComponent = flattenedData[wellId][type].find(
+                comp => comp.name === component.name
+              );
+              if (!existingComponent) {
+                let { selected, editing, ...wellComponent } = component;
+                flattenedData[wellId][type].push(wellComponent);
+              }
             }
           });
         });
