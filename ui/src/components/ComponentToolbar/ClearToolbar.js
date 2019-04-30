@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Checkbox } from 'semantic-ui-react';
 
-import { createExperimentActions } from '../store/createExperiment';
+import { createExperimentActions } from '../../store/createExperiment';
 
 class ClearToolbar extends Component {
   handleChange = (e, data) => {

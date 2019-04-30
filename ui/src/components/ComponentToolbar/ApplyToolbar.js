@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { createExperimentActions } from '../store/createExperiment';
+import { createExperimentActions } from '../../store/createExperiment';
 import { CommunitiesForm } from './CommunitiesForm';
 import { CompoundsForm } from './CompoundsForm';
 import { MediaForm } from './MediaForm';

@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react';
 
 import { PlateMapMenu } from '../../components/PlateMapMenu';
 import { PlateMap } from '../../components/PlateMap';
-import { ComponentToolbar } from '../../components/ComponentToolbar';
+import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
 
 import {
