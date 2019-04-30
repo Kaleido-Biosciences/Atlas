@@ -27,6 +27,7 @@ export class CommunitiesForm extends Component {
             onClick={this.handleChange}
             checked={community.selected}
           />
+          <span className="concentration">@ {community.concentration}</span>
         </Form.Field>
       );
     });

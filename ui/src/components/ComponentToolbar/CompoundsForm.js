@@ -27,6 +27,7 @@ export class CompoundsForm extends Component {
             onClick={this.handleChange}
             checked={compound.selected}
           />
+          <span className="concentration">@ {compound.concentration}</span>
         </Form.Field>
       );
     });

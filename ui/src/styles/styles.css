@@ -109,3 +109,7 @@
 .component-form .component-form-fields-container {
   margin-bottom: 1em;
 }
+
+.component-form .component-form-fields-container .concentration {
+  margin-left: 0.5em;
+}
