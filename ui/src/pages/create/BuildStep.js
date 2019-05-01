@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
 
 import { PlateMapMenu } from '../../components/PlateMapMenu';
+import { PlateMapToolbar } from '../../components/PlateMapToolbar';
 import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
@@ -45,10 +46,15 @@ class BuildStep extends Component {
           </div>
           <div className="build-platemap">
             {plateMaps.length > 0 && activePlateMap && (
+              <PlateMapToolbar
+                activePlateMap={activePlateMap}
+                onDeleteClick={this.props.deletePlateMap}
+              />
+            )}
+            {plateMaps.length > 0 && activePlateMap && (
               <PlateMap
                 plateMap={activePlateMap}
                 onWellsClick={this.handlePlateMapClick}
-                onDeleteClick={this.props.deletePlateMap}
               />
             )}
             {!plateMaps.length && (

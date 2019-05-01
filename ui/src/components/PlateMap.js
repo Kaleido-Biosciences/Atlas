@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
 
 import { plateMapRowHeaders } from '../constants';
 import { Well } from './Well';
@@ -71,31 +70,13 @@ export class PlateMap extends Component {
       wellIds: [well.id],
     });
   };
-  handleDelete = () => {
-    this.props.onDeleteClick(this.props.plateMap.id);
-  };
   render() {
     const { plateMap } = this.props;
-    return (
-      <div className="platemap">
-        <div className="platemap-toolbar">
-          <div>
-            <Button
-              compact
-              icon="trash"
-              content="Delete"
-              onClick={this.handleDelete}
-            />
-          </div>
-        </div>
-        {this.renderTable(plateMap.data)}
-      </div>
-    );
+    return <div className="platemap">{this.renderTable(plateMap.data)}</div>;
   }
 }
 
 PlateMap.propTypes = {
   plateMap: PropTypes.object.isRequired,
   onWellsClick: PropTypes.func.isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
 };
