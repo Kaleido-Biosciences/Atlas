@@ -73,15 +73,31 @@ BuildStep.propTypes = {
   deletePlateMap: PropTypes.func.isRequired,
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
+  clearSelectedWells: PropTypes.func.isRequired,
+  applySelectedComponentsToWells: PropTypes.func.isRequired,
+  clearWells: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
   const activePlateMap = selectActivePlateMap(state);
-  return { activePlateMap, ...state.createExperiment };
+  const { plateMaps, clickMode } = state.createExperiment;
+  return { activePlateMap, plateMaps, clickMode };
+};
+
+const mapDispatch = {
+  setActivePlateMap: createExperimentActions.setActivePlateMap,
+  createPlateMap: createPlateMap,
+  deletePlateMap: createExperimentActions.deletePlateMap,
+  toggleWellsSelected: createExperimentActions.toggleWellsSelected,
+  setClickMode: createExperimentActions.setClickMode,
+  clearSelectedWells: createExperimentActions.clearSelectedWells,
+  applySelectedComponentsToWells:
+    createExperimentActions.applySelectedComponentsToWells,
+  clearWells: createExperimentActions.clearWells,
 };
 
 const connected = connect(
   mapState,
-  { ...createExperimentActions, createPlateMap }
+  mapDispatch
 )(BuildStep);
 export { connected as BuildStep };
