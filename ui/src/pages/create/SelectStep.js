@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Loader } from 'semantic-ui-react';
 
 import { fetchEntityLists } from '../../store/entityLists';
 import {
@@ -55,7 +56,11 @@ class SelectStep extends Component {
   render() {
     const { pending, loaded, error, currentValues } = this.props;
     if (pending) {
-      return <div>Loading...</div>;
+      return (
+        <div className="select-loading">
+           <Loader size='massive' active>Loading</Loader>
+        </div>
+      );
     } else if (error) {
       return <div>{error}</div>;
     } else if (loaded) {
