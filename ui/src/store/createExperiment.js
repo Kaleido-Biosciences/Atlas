@@ -153,7 +153,7 @@ const createExperiment = createSlice({
     },
     applySelectedComponentsToSelectedWells(state, action) {
       const { plateMapId } = action.payload;
-      const  { selectedComponents, plateMaps } = state;
+      const { selectedComponents, plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const selectedWells = getSelectedWells(plateMap);
       const wellIds = selectedWells.map(well => well.id);
@@ -175,7 +175,15 @@ const createExperiment = createSlice({
         }
       });
     },
-    clearSelectedWells(state, action) {},
+    clearSelectedWells(state, action) {
+      const { plateMapId } = action.payload;
+      const { plateMaps } = state;
+      const plateMap = findPlateMapById(plateMapId, plateMaps);
+      const flat = plateMap.data.flat();
+      flat.forEach(well => {
+        well.selected = false;
+      });
+    },
     toggleWellsSelected(state, action) {
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps } = state;

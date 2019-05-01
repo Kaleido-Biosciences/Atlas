@@ -17,6 +17,7 @@ import {
 class BuildStep extends Component {
   handleClickModeChange = clickMode => {
     this.props.setClickMode(clickMode);
+    this.props.clearSelectedWells({ plateMapId: this.props.activePlateMap.id });
   };
   handlePlateMapClick = data => {
     const { clickMode } = this.props;
