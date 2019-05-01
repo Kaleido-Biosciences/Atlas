@@ -125,31 +125,8 @@ const createExperiment = createSlice({
     applySelectedComponentsToWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps, selectedComponents } = state;
-      const componentTypes = ['communities', 'compounds', 'media'];
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flattenedData = plateMap.data.flat();
-      wellIds.forEach(wellId => {
-        componentTypes.forEach(type => {
-          selectedComponents[type].forEach(component => {
-            if (component.selected) {
-              const existingComponentIndex = flattenedData[wellId][
-                type
-              ].findIndex(comp => comp.name === component.name);
-              if (existingComponentIndex === -1) {
-                let { selected, editing, ...wellComponent } = component;
-                flattenedData[wellId][type].push(wellComponent);
-              } else {
-                let { selected, editing, ...wellComponent } = component;
-                flattenedData[wellId][type].splice(
-                  existingComponentIndex,
-                  1,
-                  wellComponent
-                );
-              }
-            }
-          });
-        });
-      });
+      applySelectedComponentsToWells(plateMap, wellIds, selectedComponents);
     },
     applySelectedComponentsToSelectedWells(state, action) {
       const { plateMapId } = action.payload;
