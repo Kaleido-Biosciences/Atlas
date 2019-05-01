@@ -59,7 +59,8 @@
 }
 
 .build-container .build-plate-menu {
-  width: 16rem;
+  width: 15rem;
+  margin-right: 1.5rem;
 }
 
 .build-container .build-platemap {
@@ -69,10 +70,19 @@
 
 .build-container .build-sidebar {
   width: 18rem;
+  margin-left: 1.5rem;
 }
 
-.platemap-container {
-  padding: 1em;
+.platemap .platemap-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 0.5em;
+}
+
+.platemap .platemap-container {
+  overflow: auto;
+  height: calc(100vh - 12.5em);
 }
 
 .plate {
@@ -91,13 +101,34 @@
   text-align: center;
 }
 
+.plate th {
+  cursor: pointer;
+}
+
+.plate th.row {
+  padding: 0 0.5em;
+}
+
+plate th.column {
+  padding: 0.5em 0;
+}
+
 .well {
   background-color: #f3f3f3;
   min-width: 2rem;
+  min-height: 2rem;
+  height: 7rem;
+  width: 7rem;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .well.selected {
-  background-color: #2185d0;
+  /* background-color: #2185d0; */
+  background-color: #d3e6f5;
 }
 
 .component-form .component-form-name {

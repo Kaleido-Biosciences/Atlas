@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 
 import { plateMapRowHeaders } from '../constants';
 import { Well } from './Well';
@@ -23,6 +23,7 @@ export class PlateMap extends Component {
           key={0}
           index={i}
           onClick={this.handleHeaderClick}
+          className="row"
         />
       );
       return <tr key={i + 1}>{columns}</tr>;
@@ -36,6 +37,7 @@ export class PlateMap extends Component {
           key={i + 1}
           index={i}
           onClick={this.handleHeaderClick}
+          className="column"
         />
       );
     });
@@ -75,11 +77,17 @@ export class PlateMap extends Component {
   render() {
     const { plateMap } = this.props;
     return (
-      <div style={{ border: '1px solid black' }}>
-        <div>{plateMap.id}</div>
-        <Button primary onClick={this.handleDelete}>
-          Delete
-        </Button>
+      <div className="platemap">
+        <div className="platemap-toolbar">
+          <div>
+            <Button
+              compact
+              icon="trash"
+              content="Delete"
+              onClick={this.handleDelete}
+            />
+          </div>
+        </div>
         {this.renderTable(plateMap.data)}
       </div>
     );

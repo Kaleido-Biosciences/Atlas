@@ -8,7 +8,11 @@ export class PlateMapHeader extends Component {
   };
   render() {
     const { label } = this.props;
-    return <th onClick={this.handleClick}>{label}</th>;
+    return (
+      <th className={this.props.className} onClick={this.handleClick}>
+        {label}
+      </th>
+    );
   }
 }
 
