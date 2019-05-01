@@ -118,3 +118,14 @@
   width: 4em;
   margin-left: 1em;
 }
+
+.select-toolbar .selected-wells-container {
+  margin-bottom: 1.5em;
+}
+
+.select-toolbar .button-container button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5em;
+}

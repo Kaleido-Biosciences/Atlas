@@ -151,7 +151,14 @@ const createExperiment = createSlice({
         });
       });
     },
-    applySelectedComponentsToSelectedWells(state, action) {},
+    applySelectedComponentsToSelectedWells(state, action) {
+      const { plateMapId } = action.payload;
+      const  { selectedComponents, plateMaps } = state;
+      const plateMap = findPlateMapById(plateMapId, plateMaps);
+      const selectedWells = getSelectedWells(plateMap);
+      const wellIds = selectedWells.map(well => well.id);
+      applySelectedComponentsToWells(plateMap, wellIds, selectedComponents);
+    },
     clearWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps, clearMode } = state;
@@ -263,24 +270,52 @@ function getPlateMapArray(size) {
 
 export const selectActivePlateMap = createSelector(
   ['createExperiment.plateMaps'],
+  getActivePlateMap
+);
+
+export const selectSelectedWellsFromActivePlateMap = createSelector(
+  ['createExperiment.plateMaps'],
   plateMaps => {
-    if (plateMaps.length) {
-      return plateMaps.find(plateMap => plateMap.active);
+    const activePlateMap = getActivePlateMap(plateMaps);
+    if (activePlateMap) {
+      return getSelectedWells(activePlateMap);
     } else return null;
   }
 );
 
-export const selectSelectedWells = createSelector(
-  ['createExperiment.plateMaps'],
-  plateMaps => {
-    if (plateMaps.length) {
-      const activePlateMap = plateMaps.find(plateMap => plateMap.active);
-      const flat = activePlateMap.data.flat();
-      const selectedWells = flat.filter(well => well.selected);
-      return selectedWells;
-    } else return null;
-  }
-);
+function applySelectedComponentsToWells(plateMap, wellIds, components) {
+  const componentTypes = ['communities', 'compounds', 'media'];
+  const wells = plateMap.data.flat();
+  wellIds.forEach(wellId => {
+    componentTypes.forEach(type => {
+      components[type].forEach(component => {
+        if (component.selected) {
+          const existingIndex = wells[wellId][type].findIndex(
+            comp => comp.name === component.name
+          );
+          if (existingIndex === -1) {
+            let { selected, editing, ...wellComponent } = component;
+            wells[wellId][type].push(wellComponent);
+          } else {
+            let { selected, editing, ...wellComponent } = component;
+            wells[wellId][type].splice(existingIndex, 1, wellComponent);
+          }
+        }
+      });
+    });
+  });
+}
+
+function getSelectedWells(plateMap) {
+  const flat = plateMap.data.flat();
+  return flat.filter(well => well.selected);
+}
+
+function getActivePlateMap(plateMaps) {
+  if (plateMaps.length > 0) {
+    return plateMaps.find(plateMap => plateMap.active);
+  } else return null;
+}
 
 function findPlateMapById(id, plateMaps) {
   return plateMaps.find((plateMap, i) => {
