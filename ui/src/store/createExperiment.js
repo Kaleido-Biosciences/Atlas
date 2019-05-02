@@ -25,6 +25,7 @@ const createExperiment = createSlice({
       communities: [],
       media: [],
     },
+    highlightedComponents: [],
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -126,7 +127,12 @@ const createExperiment = createSlice({
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps, selectedComponents } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      applySelectedComponentsToWells(plateMap, wellIds, selectedComponents);
+      const updatedWells = applySelectedComponentsToWells(
+        plateMap,
+        wellIds,
+        selectedComponents
+      );
+      setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
     },
     applySelectedComponentsToSelectedWells(state, action) {
       const { plateMapId } = action.payload;
@@ -134,7 +140,12 @@ const createExperiment = createSlice({
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const selectedWells = getSelectedWells(plateMap);
       const wellIds = selectedWells.map(well => well.id);
-      applySelectedComponentsToWells(plateMap, wellIds, selectedComponents);
+      const updatedWells = applySelectedComponentsToWells(
+        plateMap,
+        wellIds,
+        selectedComponents
+      );
+      setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
     },
     clearWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
@@ -142,15 +153,19 @@ const createExperiment = createSlice({
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const flattenedData = plateMap.data.flat();
       const componentTypes = ['communities', 'compounds', 'media'];
+      const wells = [];
       wellIds.forEach(wellId => {
+        const well = flattenedData[wellId];
         if (clearMode === 'all') {
           componentTypes.forEach(type => {
-            flattenedData[wellId][type] = [];
+            well[type] = [];
           });
         } else {
-          flattenedData[wellId][clearMode] = [];
+          well[clearMode] = [];
         }
+        wells.push(well);
       });
+      setWellsHighlightedStatus(wells, state.highlightedComponents);
     },
     clearSelectedWells(state, action) {
       const { plateMapId } = action.payload;
@@ -194,8 +209,48 @@ const createExperiment = createSlice({
       const stateComponent = getComponentFromState(component, state);
       stateComponent.concentration = value;
     },
+    toggleHighlight(state, action) {
+      const { componentType } = action.payload;
+      const { highlightedComponents } = state;
+      const index = highlightedComponents.indexOf(componentType);
+      if (index > -1) {
+        highlightedComponents.splice(index, 1);
+      } else {
+        highlightedComponents.push(componentType);
+      }
+      let wells = [];
+      state.plateMaps.forEach(plateMap => {
+        const flat = plateMap.data.flat();
+        wells = wells.concat(flat);
+      });
+      setWellsHighlightedStatus(wells, highlightedComponents);
+    },
   },
 });
+
+function setWellsHighlightedStatus(wells, highlightedComponents) {
+  const numberOfComponents = highlightedComponents.length;
+  if (!numberOfComponents) {
+    wells.forEach(well => {
+      well.highlighted = false;
+      well.dimmed = false;
+    });
+  } else {
+    wells.forEach(well => {
+      const hasComponent = highlightedComponents.some(type => {
+        return well[type].length > 0;
+      });
+      if (hasComponent) {
+        well.highlighted = true;
+        well.dimmed = false;
+      } else {
+        well.highlighted = false;
+        well.dimmed = true;
+      }
+    });
+  }
+  return wells;
+}
 
 export const {
   actions: createExperimentActions,
@@ -242,6 +297,8 @@ function getPlateMapArray(size) {
         name: `${rowLetter}${i + 1}`,
         selected: false,
         blank: false,
+        highlighted: false,
+        dimmed: false,
         compounds: [],
         communities: [],
         media: [],
@@ -271,7 +328,9 @@ export const selectSelectedWellsFromActivePlateMap = createSelector(
 function applySelectedComponentsToWells(plateMap, wellIds, components) {
   const componentTypes = ['communities', 'compounds', 'media'];
   const wells = plateMap.data.flat();
+  const updatedWells = [];
   wellIds.forEach(wellId => {
+    const well = wells[wellId];
     componentTypes.forEach(type => {
       components[type].forEach(component => {
         if (component.selected) {
@@ -280,15 +339,17 @@ function applySelectedComponentsToWells(plateMap, wellIds, components) {
           );
           if (existingIndex === -1) {
             let { selected, editing, ...wellComponent } = component;
-            wells[wellId][type].push(wellComponent);
+            well[type].push(wellComponent);
           } else {
             let { selected, editing, ...wellComponent } = component;
-            wells[wellId][type].splice(existingIndex, 1, wellComponent);
+            well[type].splice(existingIndex, 1, wellComponent);
           }
         }
       });
     });
+    updatedWells.push(well);
   });
+  return updatedWells;
 }
 
 function getSelectedWells(plateMap) {

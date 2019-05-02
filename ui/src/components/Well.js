@@ -30,11 +30,11 @@ export class Well extends Component {
     });
   }
   render() {
-    const { selected } = this.props.well;
+    const { selected, highlighted, dimmed } = this.props.well;
     return (
       <div
         onClick={this.handleClick}
-        className={classNames('well', { selected })}
+        className={classNames('well', { selected, highlighted, dimmed })}
       >
         <div>{this.renderCommunities()}</div>
         <div>{this.renderCompounds()}</div>

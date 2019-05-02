@@ -33,7 +33,7 @@ class BuildStep extends Component {
     }
   };
   render() {
-    const { plateMaps, activePlateMap } = this.props;
+    const { plateMaps, activePlateMap, highlightedComponents } = this.props;
     return (
       <Container fluid>
         <div className="build-container">
@@ -48,7 +48,9 @@ class BuildStep extends Component {
             {plateMaps.length > 0 && activePlateMap && (
               <PlateMapToolbar
                 activePlateMap={activePlateMap}
+                highlightedComponents={highlightedComponents}
                 onDeleteClick={this.props.deletePlateMap}
+                onHighlightClick={this.props.toggleHighlight}
               />
             )}
             {plateMaps.length > 0 && activePlateMap && (
@@ -74,6 +76,7 @@ BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
   clickMode: PropTypes.string.isRequired,
+  highlightedComponents: PropTypes.array.isRequired,
   setActivePlateMap: PropTypes.func.isRequired,
   createPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
@@ -82,12 +85,17 @@ BuildStep.propTypes = {
   clearSelectedWells: PropTypes.func.isRequired,
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
+  toggleHighlight: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
   const activePlateMap = selectActivePlateMap(state);
-  const { plateMaps, clickMode } = state.createExperiment;
-  return { activePlateMap, plateMaps, clickMode };
+  const {
+    plateMaps,
+    clickMode,
+    highlightedComponents,
+  } = state.createExperiment;
+  return { activePlateMap, plateMaps, clickMode, highlightedComponents };
 };
 
 const mapDispatch = {
@@ -100,6 +108,7 @@ const mapDispatch = {
   applySelectedComponentsToWells:
     createExperimentActions.applySelectedComponentsToWells,
   clearWells: createExperimentActions.clearWells,
+  toggleHighlight: createExperimentActions.toggleHighlight,
 };
 
 const connected = connect(

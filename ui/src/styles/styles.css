@@ -80,8 +80,12 @@
 .platemap-toolbar {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 0.5em;
+}
+
+.platemap-toolbar .highlight {
+  margin-left: 2.1em;
 }
 
 .platemap .platemap-container {
@@ -133,6 +137,10 @@ plate th.column {
 .well.selected {
   /* background-color: #2185d0; */
   background-color: #d3e6f5;
+}
+
+.well.dimmed {
+  opacity: 0.2;
 }
 
 .component-form .component-form-name {
