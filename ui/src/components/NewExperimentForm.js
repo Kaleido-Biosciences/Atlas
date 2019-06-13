@@ -8,13 +8,13 @@ const validate = values => {
   if (!values.experiment) {
     errors.experiment = 'Experiment is required';
   }
-  if (!values.communities) {
+  if (!values.communities || !values.communities.length) {
     errors.communities = 'At least one community is required';
   }
-  if (!values.compounds) {
+  if (!values.compounds || !values.compounds.length) {
     errors.compounds = 'At least one compound is required';
   }
-  if (!values.media) {
+  if (!values.media || !values.media.length) {
     errors.media = 'At least one media is required';
   }
   return errors;
@@ -55,6 +55,15 @@ const renderMultiSelect = field => (
       ((field.meta.error && <span>{field.meta.error}</span>) ||
         (field.meta.warning && <span>{field.meta.warning}</span>))}
   </Form.Field>
+);
+
+const renderRadio = field => (
+  <Form.Radio
+    checked={field.input.value === field.radioValue}
+    label={field.label}
+    name={field.input.name}
+    onChange={(e, { checked }) => field.input.onChange(field.radioValue)}
+  />
 );
 
 class NewExperimentForm extends Component {
@@ -107,7 +116,22 @@ class NewExperimentForm extends Component {
           options={this.media}
         />
         <Form.Group inline>
-          <Form.Button primary>Submit</Form.Button>
+          <label>Plate Size</label>
+          <Field
+            component={renderRadio}
+            label="96 wells"
+            name="plateSize"
+            radioValue={96}
+          />
+          <Field
+            component={renderRadio}
+            label="384 wells"
+            name="plateSize"
+            radioValue={384}
+          />
+        </Form.Group>
+        <Form.Group inline>
+          <Form.Button primary>Next</Form.Button>
         </Form.Group>
       </Form>
     );

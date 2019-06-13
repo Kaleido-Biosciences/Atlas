@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Loader } from 'semantic-ui-react';
 
 import { fetchEntityLists } from '../../store/entityLists';
-import { createExperimentActions } from '../../store/createExperiment';
+import {
+  createExperimentActions,
+  initializePlateMaps,
+} from '../../store/createExperiment';
 import { NewExperimentForm } from '../../components/NewExperimentForm';
 
 class SelectStep extends Component {
@@ -14,14 +18,49 @@ class SelectStep extends Component {
   }
 
   handleFormSubmit = formValues => {
-    this.props.setExperimentOptions(formValues);
+    const {
+      experiment,
+      plateSize,
+      communities: formCommunities,
+      compounds: formCompounds,
+      media: formMedia,
+    } = formValues;
+    const { communities, compounds, media } = this.props.selectOptions;
+    const selectedCommunities = formCommunities.map(communityName => {
+      return communities.find(community => {
+        return community.name === communityName;
+      });
+    });
+    const selectedCompounds = formCompounds.map(compoundName => {
+      return compounds.find(compound => {
+        return compound.alias === compoundName;
+      });
+    });
+    const selectedMedia = formMedia.map(mediaName => {
+      return media.find(media => {
+        return media.name === mediaName;
+      });
+    });
+    const experimentOptions = {
+      experiment,
+      plateSize,
+      selectedCommunities,
+      selectedCompounds,
+      selectedMedia,
+    };
+    this.props.setExperimentOptions(experimentOptions);
+    this.props.initializePlateMaps();
     this.props.onStepComplete();
   };
 
   render() {
     const { pending, loaded, error, currentValues } = this.props;
     if (pending) {
-      return <div>Loading...</div>;
+      return (
+        <div className="select-loading">
+           <Loader size='massive' active>Loading</Loader>
+        </div>
+      );
     } else if (error) {
       return <div>{error}</div>;
     } else if (loaded) {
@@ -32,14 +71,16 @@ class SelectStep extends Component {
         media,
       } = this.props.selectOptions;
       return (
-        <NewExperimentForm
-          onSubmit={this.handleFormSubmit}
-          experiments={experiments}
-          compounds={compounds}
-          communities={communities}
-          media={media}
-          initialValues={currentValues}
-        />
+        <div className="select-container">
+          <NewExperimentForm
+            onSubmit={this.handleFormSubmit}
+            experiments={experiments}
+            compounds={compounds}
+            communities={communities}
+            media={media}
+            initialValues={currentValues}
+          />
+        </div>
       );
     } else return <div />;
   }
@@ -51,7 +92,9 @@ SelectStep.propTypes = {
   error: PropTypes.string.isRequired,
   selectOptions: PropTypes.object.isRequired,
   currentValues: PropTypes.object,
+  fetchEntityLists: PropTypes.func.isRequired,
   setExperimentOptions: PropTypes.func.isRequired,
+  initializePlateMaps: PropTypes.func.isRequired,
   onStepComplete: PropTypes.func.isRequired,
 };
 
@@ -64,6 +107,7 @@ const mapState = (state, props) => {
     selectOptions,
     currentValues: {
       experiment: state.createExperiment.experiment,
+      plateSize: state.createExperiment.plateSize,
       ...state.createExperiment.components,
     },
   };
@@ -71,6 +115,6 @@ const mapState = (state, props) => {
 
 const connected = connect(
   mapState,
-  { fetchEntityLists, ...createExperimentActions }
+  { fetchEntityLists, initializePlateMaps, ...createExperimentActions }
 )(SelectStep);
 export { connected as SelectStep };
