@@ -2,4 +2,30 @@ include:
     template: SAST.gitlab-ci.yml
 
 stages: 
+  - build
   - test
+
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - ui/node_modules/
+
+install_dependencies:
+  image: node:latest
+  stage: build
+  script:
+    - cd ui
+    - npm install
+    - ls -al
+    - ls -al node_modules/
+  artifacts:
+    paths:
+      - ui/node_modules/
+    expire_in: 90 day
+
+ui_node_test:
+  image: node:latest
+  stage: test
+  script: 
+    - cd ui
+    - npm test
