@@ -7,11 +7,19 @@ const entityLists = createSlice({
     pending: false,
     loaded: false,
     error: '',
-    values: {
+    lists: {
       communities: [],
       compounds: [],
       experiments: [],
       media: [],
+      supplements: [],
+    },
+    selectOptions: {
+      communities: [],
+      compounds: [],
+      experiments: [],
+      media: [],
+      supplements: [],
     },
   },
   reducers: {
@@ -27,12 +35,29 @@ const entityLists = createSlice({
       state.error = action.payload;
     },
 
-    setValues(state, action) {
-      const { communities, compounds, experiments, media } = action.payload;
+    setLists(state, action) {
+      const {
+        communities,
+        compounds,
+        experiments,
+        media,
+        supplements,
+      } = action.payload;
       state.pending = false;
       state.loaded = true;
       state.error = '';
-      state.values = { communities, compounds, experiments, media };
+      state.lists = {
+        communities,
+        compounds,
+        experiments,
+        media,
+        supplements,
+      };
+      state.selectOptions.experiments = experiments.map(mapExperimentToOption);
+      state.selectOptions.communities = communities.map(mapCommunityToOption);
+      state.selectOptions.compounds = compounds.map(mapCompoundToOption);
+      state.selectOptions.media = media.map(mapMediumToOption);
+      state.selectOptions.supplements = supplements.map(mapSupplementToOption);
     },
   },
 });
@@ -42,7 +67,7 @@ export const {
   reducer: entityListsReducer,
 } = entityLists;
 
-const { setPending, setError, setValues } = entityListActions;
+const { setPending, setError, setLists } = entityListActions;
 
 export function fetchEntityLists() {
   return async (dispatch, getState) => {
@@ -50,19 +75,53 @@ export function fetchEntityLists() {
     try {
       const results = await Promise.all([
         axios.get('/api/communities'),
-        axios.get('/api/compounds'),
+        axios.get('/api/batches'),
         axios.get('/api/experiments'),
         axios.get('/api/media'),
+        axios.get('/api/supplements'),
       ]);
       const payload = {
         communities: results[0].data,
         compounds: results[1].data,
         experiments: results[2].data,
         media: results[3].data,
+        supplements: results[4].data,
       };
-      dispatch(setValues(payload));
+      dispatch(setLists(payload));
     } catch (err) {
       dispatch(setError(err.message));
     }
   };
+}
+
+function mapExperimentToOption(exp, i) {
+  const { id, name } = exp;
+  const scientist = exp.scientist
+    ? ` - ${exp.scientist.lastName}, ${exp.scientist.firstName}`
+    : '';
+  const description = exp.description ? ` - ${exp.description}` : '';
+  return { key: i, text: name + scientist + description, value: id };
+}
+
+function mapCommunityToOption(comm, i) {
+  return { key: i, text: comm.name, value: comm.id };
+}
+
+function mapCompoundToOption(comp, i) {
+  const { id, name } = comp;
+  const notes = comp.notes ? ` - ${comp.notes}` : '';
+  return { key: i, text: name + notes, value: id };
+}
+
+function mapMediumToOption(medium, i) {
+  const { id, name } = medium;
+  const description = medium.description ? ` - ${medium.description}` : '';
+  return { key: i, text: name + description, value: id };
+}
+
+function mapSupplementToOption(supplement, i) {
+  const { id, name } = supplement;
+  const label = name.label;
+  const definition = name.definition ? ` - ${name.definition}` : '';
+  return { key: i, text: label + definition, value: id };
 }

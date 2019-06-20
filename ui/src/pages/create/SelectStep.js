@@ -24,22 +24,21 @@ class SelectStep extends Component {
       communities: formCommunities,
       compounds: formCompounds,
       media: formMedia,
+      supplements: formSupplements,
     } = formValues;
-    const { communities, compounds, media } = this.props.selectOptions;
-    const selectedCommunities = formCommunities.map(communityName => {
-      return communities.find(community => {
-        return community.name === communityName;
-      });
+    const { communities, compounds, media, supplements } = this.props.lists;
+    const findById = (id, list) => list.find(entity => entity.id === id);
+    const selectedCommunities = formCommunities.map(id => {
+      return findById(id, communities);
     });
-    const selectedCompounds = formCompounds.map(compoundName => {
-      return compounds.find(compound => {
-        return compound.alias === compoundName;
-      });
+    const selectedCompounds = formCompounds.map(id => {
+      return findById(id, compounds);
     });
-    const selectedMedia = formMedia.map(mediaName => {
-      return media.find(media => {
-        return media.name === mediaName;
-      });
+    const selectedMedia = formMedia.map(id => {
+      return findById(id, media);
+    });
+    const selectedSupplements = formSupplements.map(id => {
+      return findById(id, supplements);
     });
     const experimentOptions = {
       experiment,
@@ -47,6 +46,7 @@ class SelectStep extends Component {
       selectedCommunities,
       selectedCompounds,
       selectedMedia,
+      selectedSupplements,
     };
     this.props.setExperimentOptions(experimentOptions);
     this.props.initializePlateMaps();
@@ -58,7 +58,9 @@ class SelectStep extends Component {
     if (pending) {
       return (
         <div className="select-loading">
-           <Loader size='massive' active>Loading</Loader>
+          <Loader size="massive" active>
+            Loading
+          </Loader>
         </div>
       );
     } else if (error) {
@@ -69,15 +71,17 @@ class SelectStep extends Component {
         compounds,
         communities,
         media,
+        supplements,
       } = this.props.selectOptions;
       return (
         <div className="select-container">
           <NewExperimentForm
             onSubmit={this.handleFormSubmit}
-            experiments={experiments}
-            compounds={compounds}
-            communities={communities}
-            media={media}
+            experimentOptions={experiments}
+            compoundOptions={compounds}
+            communityOptions={communities}
+            mediumOptions={media}
+            supplementOptions={supplements}
             initialValues={currentValues}
           />
         </div>
@@ -99,11 +103,12 @@ SelectStep.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { pending, loaded, error, values: selectOptions } = state.entityLists;
+  const { pending, loaded, error, lists, selectOptions } = state.entityLists;
   return {
     pending,
     loaded,
     error,
+    lists,
     selectOptions,
     currentValues: {
       experiment: state.createExperiment.experiment,

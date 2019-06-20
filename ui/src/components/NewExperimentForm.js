@@ -15,7 +15,7 @@ const validate = values => {
     errors.compounds = 'At least one compound is required';
   }
   if (!values.media || !values.media.length) {
-    errors.media = 'At least one media is required';
+    errors.media = 'At least one medium is required';
   }
   return errors;
 };
@@ -67,24 +67,15 @@ const renderRadio = field => (
 );
 
 class NewExperimentForm extends Component {
-  constructor(props) {
-    super(props);
-    this.experiments = props.experiments.slice(0, 50).map((exp, i) => {
-      return { key: i, text: exp.name, value: exp.name };
-    });
-    this.communities = props.communities.slice(0, 50).map((comm, i) => {
-      return { key: i, text: comm.name, value: comm.name };
-    });
-    this.compounds = props.compounds.slice(0, 50).map((comp, i) => {
-      return { key: i, text: comp.alias, value: comp.alias };
-    });
-    this.media = props.media.slice(0, 50).map((media, i) => {
-      return { key: i, text: media.name, value: media.name };
-    });
-  }
-
   render() {
-    const { handleSubmit } = this.props;
+    const {
+      handleSubmit,
+      experimentOptions,
+      communityOptions,
+      compoundOptions,
+      mediumOptions,
+      supplementOptions,
+    } = this.props;
     return (
       <Form onSubmit={handleSubmit}>
         <Field
@@ -92,28 +83,35 @@ class NewExperimentForm extends Component {
           label="Experiment"
           name="experiment"
           placeholder="Experiment"
-          options={this.experiments}
+          options={experimentOptions}
         />
         <Field
           component={renderMultiSelect}
           label="Communities"
           name="communities"
           placeholder="Communities"
-          options={this.communities}
+          options={communityOptions}
         />
         <Field
           component={renderMultiSelect}
           label="Compounds"
           name="compounds"
           placeholder="Compounds"
-          options={this.compounds}
+          options={compoundOptions}
         />
         <Field
           component={renderMultiSelect}
           label="Media"
           name="media"
           placeholder="Media"
-          options={this.media}
+          options={mediumOptions}
+        />
+        <Field
+          component={renderMultiSelect}
+          label="Supplements"
+          name="supplements"
+          placeholder="Supplements"
+          options={supplementOptions}
         />
         <Form.Group inline>
           <label>Plate Size</label>
@@ -139,10 +137,11 @@ class NewExperimentForm extends Component {
 }
 
 NewExperimentForm.propTypes = {
-  experiments: PropTypes.array.isRequired,
-  communities: PropTypes.array.isRequired,
-  compounds: PropTypes.array.isRequired,
-  media: PropTypes.array.isRequired,
+  experimentOptions: PropTypes.array.isRequired,
+  communityOptions: PropTypes.array.isRequired,
+  compoundOptions: PropTypes.array.isRequired,
+  mediumOptions: PropTypes.array.isRequired,
+  supplementOptions: PropTypes.array.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 

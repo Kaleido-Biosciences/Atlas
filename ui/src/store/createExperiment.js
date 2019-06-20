@@ -4,11 +4,11 @@ import { plateMapRowHeaders } from '../constants';
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
-    experiment: 'G064',
+    experiment: '',
     components: {
-      compounds: ['KB10-14', 'KB100-2'],
-      communities: ['057-002', '057-012'],
-      media: ['MM.10', 'MM.11', 'CM.10', 'CM.11'],
+      compounds: [],
+      communities: [],
+      media: [],
     },
     plateSize: 96,
     plateMaps: [],
