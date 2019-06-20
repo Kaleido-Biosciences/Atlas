@@ -21,6 +21,14 @@ const entityLists = createSlice({
       media: [],
       supplements: [],
     },
+    selections: {
+      communities: [],
+      compounds: [],
+      experiment: null,
+      media: [],
+      plateSize: 96,
+      supplements: [],
+    },
   },
   reducers: {
     setPending(state, action) {
@@ -58,6 +66,10 @@ const entityLists = createSlice({
       state.selectOptions.compounds = compounds.map(mapCompoundToOption);
       state.selectOptions.media = media.map(mapMediumToOption);
       state.selectOptions.supplements = supplements.map(mapSupplementToOption);
+    },
+
+    setSelections(state, action) {
+      state.selections = { ...action.payload };
     },
   },
 });

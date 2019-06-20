@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 
-import { fetchEntityLists } from '../../store/entityLists';
+import { entityListActions, fetchEntityLists } from '../../store/entityLists';
 import {
   createExperimentActions,
   initializePlateMaps,
@@ -48,13 +48,14 @@ class SelectStep extends Component {
       selectedMedia,
       selectedSupplements,
     };
+    this.props.setSelections(formValues);
     this.props.setExperimentOptions(experimentOptions);
     this.props.initializePlateMaps();
     this.props.onStepComplete();
   };
 
   render() {
-    const { pending, loaded, error, currentValues } = this.props;
+    const { pending, loaded, error, selections } = this.props;
     if (pending) {
       return (
         <div className="select-loading">
@@ -82,7 +83,7 @@ class SelectStep extends Component {
             communityOptions={communities}
             mediumOptions={media}
             supplementOptions={supplements}
-            initialValues={currentValues}
+            initialValues={selections}
           />
         </div>
       );
@@ -95,31 +96,42 @@ SelectStep.propTypes = {
   loaded: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
   selectOptions: PropTypes.object.isRequired,
-  currentValues: PropTypes.object,
+  selections: PropTypes.object,
   fetchEntityLists: PropTypes.func.isRequired,
+  setSelections: PropTypes.func.isRequired,
   setExperimentOptions: PropTypes.func.isRequired,
   initializePlateMaps: PropTypes.func.isRequired,
   onStepComplete: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
-  const { pending, loaded, error, lists, selectOptions } = state.entityLists;
+  const {
+    pending,
+    loaded,
+    error,
+    lists,
+    selectOptions,
+    selections,
+  } = state.entityLists;
   return {
     pending,
     loaded,
     error,
     lists,
     selectOptions,
-    currentValues: {
-      experiment: state.createExperiment.experiment,
-      plateSize: state.createExperiment.plateSize,
-      ...state.createExperiment.components,
-    },
+    selections,
   };
+};
+
+const mapDispatch = {
+  fetchEntityLists,
+  setSelections: entityListActions.setSelections,
+  setExperimentOptions: createExperimentActions.setExperimentOptions,
+  initializePlateMaps,
 };
 
 const connected = connect(
   mapState,
-  { fetchEntityLists, initializePlateMaps, ...createExperimentActions }
+  mapDispatch
 )(SelectStep);
 export { connected as SelectStep };

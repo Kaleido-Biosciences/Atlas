@@ -5,11 +5,6 @@ const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
     experiment: '',
-    components: {
-      compounds: [],
-      communities: [],
-      media: [],
-    },
     plateSize: 96,
     plateMaps: [],
     nextPlateMapId: 1,
@@ -41,14 +36,12 @@ const createExperiment = createSlice({
         state.plateMaps = [];
       }
       state.plateSize = plateSize;
-      state.components = { communities: [], compounds: [], media: [] };
       state.selectedComponents = {
         communities: [],
         compounds: [],
         media: [],
       };
       selectedCommunities.forEach(community => {
-        state.components.communities.push(community.name);
         state.selectedComponents.communities.push({
           name: community.name,
           type: 'community',
@@ -59,7 +52,6 @@ const createExperiment = createSlice({
         });
       });
       selectedCompounds.forEach(compound => {
-        state.components.compounds.push(compound.alias);
         state.selectedComponents.compounds.push({
           name: compound.alias,
           type: 'compound',
@@ -70,7 +62,6 @@ const createExperiment = createSlice({
         });
       });
       selectedMedia.forEach(medium => {
-        state.components.media.push(medium.name);
         state.selectedComponents.media.push({
           name: medium.name,
           type: 'medium',
