@@ -30,6 +30,7 @@ const createExperiment = createSlice({
         selectedCompounds,
         selectedCommunities,
         selectedMedia,
+        selectedSupplements,
       } = action.payload;
       state.experiment = experiment;
       if (state.plateSize !== plateSize) {
@@ -40,9 +41,11 @@ const createExperiment = createSlice({
         communities: [],
         compounds: [],
         media: [],
+        supplements: [],
       };
       selectedCommunities.forEach(community => {
         state.selectedComponents.communities.push({
+          id: community.id,
           name: community.name,
           type: 'community',
           selected: false,
@@ -53,7 +56,8 @@ const createExperiment = createSlice({
       });
       selectedCompounds.forEach(compound => {
         state.selectedComponents.compounds.push({
-          name: compound.alias,
+          id: compound.id,
+          name: compound.name,
           type: 'compound',
           selected: false,
           concentration: 0.5,
@@ -63,10 +67,20 @@ const createExperiment = createSlice({
       });
       selectedMedia.forEach(medium => {
         state.selectedComponents.media.push({
+          id: medium.id,
           name: medium.name,
           type: 'medium',
           selected: false,
           data: medium,
+        });
+      });
+      selectedSupplements.forEach(supplement => {
+        state.selectedComponents.supplements.push({
+          id: supplement.id,
+          name: supplement.name.label,
+          type: 'supplement',
+          selected: false,
+          data: supplement,
         });
       });
       state.steps.stepOneCompleted = true;
