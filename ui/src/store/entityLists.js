@@ -1,6 +1,8 @@
 import { createSlice } from 'redux-starter-kit';
 import axios from 'axios';
 
+import { API_URL } from '../config';
+
 const entityLists = createSlice({
   slice: 'entityLists',
   initialState: {
@@ -86,11 +88,11 @@ export function fetchEntityLists() {
     dispatch(setPending());
     try {
       const results = await Promise.all([
-        axios.get('/api/communities'),
-        axios.get('/api/batches'),
-        axios.get('/api/experiments'),
-        axios.get('/api/media'),
-        axios.get('/api/supplements'),
+        axios.get(API_URL + '/api/communities'),
+        axios.get(API_URL + '/api/batches'),
+        axios.get(API_URL + '/api/experiments'),
+        axios.get(API_URL + '/api/media'),
+        axios.get(API_URL + '/api/supplements'),
       ]);
       const payload = {
         communities: results[0].data,
