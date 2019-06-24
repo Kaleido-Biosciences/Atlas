@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: __CI_PROJ_NAME__-__CI_ENVIRONMENT_SLUG__
+  namespace: __CI_PROJ_NAME__
+  labels:
+    app: __CI_ENVIRONMENT_SLUG__
+    ref: __CI_ENVIRONMENT_SLUG__
+    track: stable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: __CI_ENVIRONMENT_SLUG__
+      ref: __CI_ENVIRONMENT_SLUG__
+  template:
+    metadata:
+        annotations:
+          ad.datadoghq.com/app.logs: '[{"source": "__CI_PROJECT_NAME__", "service": "__URL__", "log_processing_rules": [{"type": "multi_line", "name": "log_start_with_date", "pattern" : ".*-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])"}]}]'
+        labels:
+          app: __CI_ENVIRONMENT_SLUG__
+          ref: __CI_ENVIRONMENT_SLUG__
+          track: stable
+    spec:
+      imagePullSecrets:
+        - name: regsecret
+      containers:
+      - name: app
+        image: gitlab.kaleidobio.com:5005/__CI_PROJECT_NAMESPACE__/__CI_PROJECT_NAME__:__VERSION__
+        imagePullPolicy: Always
+        env:
+        - name: db_password
+          value: __DB_PASSWORD__
+        - name: email_password
+          value: __EMAIL_PASSWORD__
+        - name: db_url
+          value: __DB_URL__
+        - name: elasticsearch_url
+          value: __ELASTICSEARCH_URL__
+        - name: MANAGEMENT_METRICS_EXPORT_DATADOG_ENABLED
+          value: __DATADOG_ENABLED__
+        - name: MANAGEMENT_METRICS_EXPORT_DATADOG_API-KEY
+          value: __DATADOG_API_KEY__
+        - name: MANAGEMENT_METRICS_EXPORT_DATADOG_APPLICATION-KEY
+          value: __DATADOG_APPLICATION_KEY__
+        ports:
+        - containerPort: __SERVER_PORT__
+        - name: http
+          protocol: TCP
+          containerPort: __SERVER_PORT__
