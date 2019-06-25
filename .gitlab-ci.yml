@@ -44,7 +44,7 @@ setup_environment:
     - kubectl version
 
     # Setting up the namespace & permissions
-    - cd gitlab-ci/
+    - cd ui/gitlab-ci/
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" namespace.yaml rbac.yaml
     - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" namespace.yaml rbac.yaml
     - sed -i "s/__CI_PROJ_NAME__/${CI_PROJECT_NAME}/" namespace.yaml rbac.yaml
@@ -71,7 +71,7 @@ teardown_staging:
         - kubectl version
 
         # Build the manifests
-        - cd manifests/
+        - cd ui/manifests/
         - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml service.yaml
         - sed -i "s/__SERVER_PORT__/80/" deployment.yaml service.yaml
         - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml service.yaml
@@ -101,7 +101,7 @@ deploy_staging:
         - kubectl version
 
         # Build the manifests
-        - cd manifests/
+        - cd ui/manifests/
         - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__SERVER_PORT__/80/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
