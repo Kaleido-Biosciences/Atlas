@@ -32,5 +32,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "https://kapture-staging.apps.kaleidobio.com"
+  "proxy": "https://kapture-staging.apps.kaleidobio.com/api"
 }

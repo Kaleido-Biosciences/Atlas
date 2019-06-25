@@ -88,11 +88,11 @@ export function fetchEntityLists() {
     dispatch(setPending());
     try {
       const results = await Promise.all([
-        axios.get(API_URL + '/api/communities'),
-        axios.get(API_URL + '/api/batches'),
-        axios.get(API_URL + '/api/experiments'),
-        axios.get(API_URL + '/api/media'),
-        axios.get(API_URL + '/api/supplements'),
+        axios.get(API_URL + '/communities'),
+        axios.get(API_URL + '/batches'),
+        axios.get(API_URL + '/experiments'),
+        axios.get(API_URL + '/media'),
+        axios.get(API_URL + '/supplements'),
       ]);
       const payload = {
         communities: results[0].data,
