@@ -45,19 +45,6 @@
   /* font-size: 2.5em; */
 }
 
-.select-loading .ui.loader {
-  top: 40%;
-}
-
-.select-container {
-  margin-top: 2em;
-}
-
-.select-container .ui.form {
-  margin: auto;
-  max-width: 40em;
-}
-
 .build-container {
   display: flex;
 }
