@@ -1,7 +1,4 @@
 import { createSlice } from 'redux-starter-kit';
-import axios from 'axios';
-
-import { API_URL } from '../config';
 
 const selectStep = createSlice({
   slice: 'selectStep',
