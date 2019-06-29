@@ -6,3 +6,33 @@
   margin: auto;
   max-width: 40em;
 }
+
+.select-step-header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.select-step-header-container .ui.header {
+  margin: 0;
+}
+
+.select-step-header-step {
+  width: 2em;
+  background: #000;
+  color: #fff;
+  border-radius: 1em;
+  height: 2em;
+  padding: 0.5em;
+  line-height: 1em;
+  text-align: center;
+  margin-right: 1em;
+}
+
+.select-step-header-step.completed {
+  background: #21ba45;
+}
+
+.select-step-experiment {
+  margin-bottom: 4em;
+}
