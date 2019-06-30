@@ -9,19 +9,16 @@ import { PlateSizeForm } from '../../components/PlateSizeForm';
 import './SelectStep.css';
 
 class SelectStep extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      experiment: null,
-      plateSize: null,
-    };
-  }
+  state = {
+    experiment: null,
+    plateSize: null,
+  };
 
   handleExperimentSelect = experiment => {
     this.setState({ experiment });
   };
 
-  handlePlateSizeSelect = dimensions => {
+  handlePlateSizeChange = dimensions => {
     this.setState({ plateSize: dimensions });
   };
 
@@ -58,7 +55,7 @@ class SelectStep extends Component {
                 </div>
                 <Header as="h3">Select Plate Size</Header>
               </div>
-              <PlateSizeForm onChange={this.handlePlateSizeSelect} />
+              <PlateSizeForm onChange={this.handlePlateSizeChange} />
             </div>
           </div>
         </div>
