@@ -71,33 +71,35 @@ export class PlateSizeForm extends Component {
       <div className="plate-size-form">
         <div className="plate-size-form-radios">
           <Form>
-            <Form.Field>
-              <Radio
-                label="96 wells"
-                name="plateSize"
-                value="96"
-                onChange={this.handleChange}
-                checked={this.state.value === '96'}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Radio
-                label="384 wells"
-                name="plateSize"
-                value="384"
-                onChange={this.handleChange}
-                checked={this.state.value === '384'}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Radio
-                label="Custom size"
-                name="plateSize"
-                value="custom"
-                onChange={this.handleChange}
-                checked={this.state.value === 'custom'}
-              />
-            </Form.Field>
+            <Form.Group inline>
+              <Form.Field>
+                <Radio
+                  label="96 wells"
+                  name="plateSize"
+                  value="96"
+                  onChange={this.handleChange}
+                  checked={this.state.value === '96'}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label="384 wells"
+                  name="plateSize"
+                  value="384"
+                  onChange={this.handleChange}
+                  checked={this.state.value === '384'}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label="Custom size"
+                  name="plateSize"
+                  value="custom"
+                  onChange={this.handleChange}
+                  checked={this.state.value === 'custom'}
+                />
+              </Form.Field>
+            </Form.Group>
           </Form>
         </div>
         {showPlate ? (
@@ -120,7 +122,9 @@ export class PlateSizeForm extends Component {
                           tabIndex="2"
                         />
                       ) : (
-                        <div className="plate-size-form-plate-columns-text">{columns ? `${columns} columns` : ''}</div>
+                        <div className="plate-size-form-plate-columns-text">
+                          {columns ? `${columns} columns` : ''}
+                        </div>
                       )}
                     </div>
                   </td>
@@ -138,9 +142,10 @@ export class PlateSizeForm extends Component {
                           placeholder="Rows"
                           tabIndex="1"
                           autoFocus
+                          className="plate-size-form-row-input"
                         />
                       ) : (
-                        <div>{rows ? `${rows} rows` : ''}</div>
+                        <div className="plate-size-form-row-text">{rows ? `${rows} rows` : ''}</div>
                       )}
                     </div>
                   </td>

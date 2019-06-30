@@ -50,14 +50,16 @@ class SelectStep extends Component {
             <ExperimentSearch onSelect={this.handleExperimentSelect} />
             {experiment && <ExperimentCard experiment={experiment} />}
           </div>
-          <div className="select-step-plate-size">
-            <div className="select-step-header-container">
-              <div className={plateSizeStepClass}>
-                {plateSizeComplete ? <Icon name="check" /> : '2'}
+          <div className="select-step-plate-size-container">
+            <div className="select-step-plate-size">
+              <div className="select-step-header-container">
+                <div className={plateSizeStepClass}>
+                  {plateSizeComplete ? <Icon name="check" /> : '2'}
+                </div>
+                <Header as="h3">Select Plate Size</Header>
               </div>
-              <Header as="h3">Select Plate Size</Header>
+              <PlateSizeForm onChange={this.handlePlateSizeSelect} />
             </div>
-            <PlateSizeForm onChange={this.handlePlateSizeSelect} />
           </div>
         </div>
       </div>
