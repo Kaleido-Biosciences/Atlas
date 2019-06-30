@@ -13,11 +13,15 @@ export class PlateSizeForm extends Component {
   }
 
   handleChange = (e, { value }) => {
-    this.setState({ value, rows: '', columns: '' });
     if (value === '96') {
+      this.setState({ value, rows: 8, columns: 12 });
       this.onChange({ rows: 8, columns: 12 });
     } else if (value === '384') {
+      this.setState({ value, rows: 16, columns: 24 });
       this.onChange({ rows: 16, columns: 24 });
+    } else if (value === 'custom') {
+      this.setState({ value, rows: '', columns: '' });
+      this.onChange(null);
     }
   };
 
@@ -37,24 +41,36 @@ export class PlateSizeForm extends Component {
 
   onChange = dimensions => {
     if (this.props.onChange) {
-      const parsedRows = parseInt(dimensions.rows);
-      const parsedColumns = parseInt(dimensions.columns);
-      if (parsedRows && parsedColumns) {
-        const parsedDimensions = {
-          rows: parsedRows,
-          columns: parsedColumns,
-        };
-        this.props.onChange(parsedDimensions);
+      if (dimensions) {
+        const parsedRows = parseInt(dimensions.rows);
+        const parsedColumns = parseInt(dimensions.columns);
+        if (parsedRows && parsedColumns) {
+          const parsedDimensions = {
+            rows: parsedRows,
+            columns: parsedColumns,
+          };
+          this.props.onChange(parsedDimensions);
+        } else {
+          this.props.onChange(null);
+        }
+      } else {
+        this.props.onChange(null);
       }
     }
   };
 
   render() {
     const { rows, columns } = this.state;
+    let wells;
+    if (rows && columns) {
+      wells = rows * columns;
+    }
+    const showPlate = (rows && columns) || this.state.value === 'custom';
+
     return (
-      <div>
-        <Form>
-          <Form.Group inline>
+      <div className="plate-size-form">
+        <div className="plate-size-form-radios">
+          <Form>
             <Form.Field>
               <Radio
                 label="96 wells"
@@ -82,28 +98,63 @@ export class PlateSizeForm extends Component {
                 checked={this.state.value === 'custom'}
               />
             </Form.Field>
-          </Form.Group>
-          {this.state.value === 'custom' && (
-            <Form.Group>
-              <Form.Input
-                label="Rows"
-                name="rows"
-                value={rows}
-                type="number"
-                onChange={this.handleCustomChange}
-                placeholder="# of rows"
-              />
-              <Form.Input
-                label="Columns"
-                name="columns"
-                value={columns}
-                type="number"
-                onChange={this.handleCustomChange}
-                placeholder="# of columns"
-              />
-            </Form.Group>
-          )}
-        </Form>
+          </Form>
+        </div>
+        {showPlate ? (
+          <div className="plate-size-form-plate">
+            <table cellPadding="0" cellSpacing="0">
+              <tbody>
+                <tr>
+                  <td />
+                  <td>
+                    <div className="plate-size-form-plate-columns">
+                      {this.state.value === 'custom' ? (
+                        <Form.Input
+                          fluid
+                          name="columns"
+                          value={columns}
+                          type="number"
+                          onChange={this.handleCustomChange}
+                          placeholder="Columns"
+                          className="plate-size-form-plate-columns-input"
+                          tabIndex="2"
+                        />
+                      ) : (
+                        <div className="plate-size-form-plate-columns-text">{columns ? `${columns} columns` : ''}</div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="plate-size-form-plate-rows">
+                      {this.state.value === 'custom' ? (
+                        <Form.Input
+                          fluid
+                          name="rows"
+                          value={rows}
+                          type="number"
+                          onChange={this.handleCustomChange}
+                          placeholder="Rows"
+                          tabIndex="1"
+                          autoFocus
+                        />
+                      ) : (
+                        <div>{rows ? `${rows} rows` : ''}</div>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    {' '}
+                    <div className="plate">
+                      <div>{wells ? `${wells} wells` : ''}</div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        ) : null}
       </div>
     );
   }

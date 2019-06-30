@@ -29,6 +29,10 @@
   margin-right: 1em;
 }
 
+.select-step-header-step .icon{
+  margin-left: -1px;
+}
+
 .select-step-header-step.completed {
   background: #21ba45;
 }
@@ -36,3 +40,53 @@
 .select-step-experiment {
   margin-bottom: 4em;
 }
+
+.plate-size-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.plate-size-form-radios {
+  margin-right: 2em;
+  margin-left: 0.5em;
+}
+
+.plate-size-form-plate {
+  color: rgba(0,0,0,.68);
+  font-weight: bold;
+}
+
+.plate-size-form-plate-rows {
+  width: 8em;
+  text-align: right;
+  margin-right: 0.5em;
+}
+
+.plate-size-form-plate-columns {
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.plate-size-form-plate-columns-text {
+  line-height: 0.8em;
+}
+
+.plate-size-form-plate .plate {
+  height: 10em;
+  width: 15em;
+  background: #f3f4f5;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  display: flex;
+}
+
+.plate-size-form-plate .plate div {
+  margin: auto;
+}
+
+.plate-size-form-plate-columns-input {
+  width: 8em;
+}
+
