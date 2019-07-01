@@ -75,6 +75,7 @@ class SelectStep extends Component {
     const plateSizeStepClass = classNames(styles.headerStep, {
       [styles.completed]: plateSizeComplete,
     });
+    const experimentDefaultValue = experiment ? experiment.name : '';
     return (
       <div>
         <div className={styles.columnsContainer}>
@@ -86,7 +87,10 @@ class SelectStep extends Component {
                 stepNumber: '1',
                 headerText: 'Select an Experiment',
               })}
-              <ExperimentSearch onSelect={this.handleExperimentSelect} />
+              <ExperimentSearch
+                defaultValue={experimentDefaultValue}
+                onSelect={this.handleExperimentSelect}
+              />
               {experiment && <ExperimentCard experiment={experiment} />}
             </div>
             <div className={styles.plateSizeFormContainer}>
