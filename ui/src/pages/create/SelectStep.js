@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Header, Icon } from 'semantic-ui-react';
+import { Header, Icon, Button, Message } from 'semantic-ui-react';
 import classNames from 'classnames';
 
 import { ExperimentSearch } from '../../components/ExperimentSearch';
@@ -24,18 +24,40 @@ class SelectStep extends Component {
   state = {
     experiment: null,
     plateSize: null,
+    submissionAttemped: false,
+    showValidationMessage: false,
   };
 
   handleExperimentSelect = experiment => {
-    this.setState({ experiment });
+    const isValid = this.validateSelections(experiment, this.state.plateSize);
+    this.setState({ experiment, showValidationMessage: !isValid });
   };
 
   handlePlateSizeChange = dimensions => {
-    this.setState({ plateSize: dimensions });
+    const isValid = this.validateSelections(this.state.experiment, dimensions);
+    this.setState({ plateSize: dimensions, showValidationMessage: !isValid });
+  };
+
+  validateSelections = (experiment, dimensions) => {
+    return experiment && dimensions && dimensions.rows && dimensions.columns;
+  };
+
+  handleButtonClick = () => {
+    const { experiment, plateSize } = this.state;
+    if (this.validateSelections(experiment, plateSize)) {
+      console.log('valid');
+    } else {
+      this.setState({ submissionAttempted: true, showValidationMessage: true });
+    }
   };
 
   render() {
-    const { experiment, plateSize } = this.state;
+    const {
+      experiment,
+      plateSize,
+      submissionAttempted,
+      showValidationMessage,
+    } = this.state;
     const experimentComplete = experiment;
     const plateSizeComplete = plateSize && plateSize.rows && plateSize.columns;
     const experimentStepClass = classNames(styles.headerStep, {
@@ -45,27 +67,43 @@ class SelectStep extends Component {
       [styles.completed]: plateSizeComplete,
     });
     return (
-      <div className={styles.container}>
-        <div className={styles.columns}>
-          <div className={styles.experimentSearch}>
-            {renderHeader({
-              stepClass: experimentStepClass,
-              complete: experimentComplete,
-              stepNumber: '1',
-              headerText: 'Select an Experiment',
-            })}
-            <ExperimentSearch onSelect={this.handleExperimentSelect} />
-            {experiment && <ExperimentCard experiment={experiment} />}
-          </div>
-          <div className={styles.plateSizeFormContainer}>
-            <div>
+      <div>
+        <div className={styles.columnsContainer}>
+          <div className={styles.columns}>
+            <div className={styles.experimentSearch}>
               {renderHeader({
-                stepClass: plateSizeStepClass,
-                complete: plateSizeComplete,
-                stepNumber: '2',
-                headerText: 'Select Plate Size',
+                stepClass: experimentStepClass,
+                complete: experimentComplete,
+                stepNumber: '1',
+                headerText: 'Select an Experiment',
               })}
-              <PlateSizeForm onChange={this.handlePlateSizeChange} />
+              <ExperimentSearch onSelect={this.handleExperimentSelect} />
+              {experiment && <ExperimentCard experiment={experiment} />}
+            </div>
+            <div className={styles.plateSizeFormContainer}>
+              <div>
+                {renderHeader({
+                  stepClass: plateSizeStepClass,
+                  complete: plateSizeComplete,
+                  stepNumber: '2',
+                  headerText: 'Select Plate Size',
+                })}
+                <PlateSizeForm onChange={this.handlePlateSizeChange} />
+              </div>
+            </div>
+          </div>
+          <div className={styles.submissionContainer}>
+            {submissionAttempted && showValidationMessage ? (
+              <div className={styles.messageContainer}>
+                <Message negative>
+                  Please select an experiment and a plate size.
+                </Message>
+              </div>
+            ) : null}
+            <div className={styles.buttonContainer}>
+              <Button primary onClick={this.handleButtonClick}>
+                Done
+              </Button>
             </div>
           </div>
         </div>
