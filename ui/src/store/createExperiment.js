@@ -24,67 +24,76 @@ const createExperiment = createSlice({
   },
   reducers: {
     setExperimentOptions(state, action) {
-      const {
-        experiment,
-        plateSize,
-        selectedCompounds,
-        selectedCommunities,
-        selectedMedia,
-        selectedSupplements,
-      } = action.payload;
+      const { experiment, plateSize } = action.payload;
       state.experiment = experiment;
-      if (state.plateSize !== plateSize) {
+      if(state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns) {
         state.plateMaps = [];
       }
       state.plateSize = plateSize;
-      state.selectedComponents = {
-        communities: [],
-        compounds: [],
-        media: [],
-        supplements: [],
-      };
-      selectedCommunities.forEach(community => {
-        state.selectedComponents.communities.push({
-          id: community.id,
-          name: community.name,
-          type: 'community',
-          selected: false,
-          concentration: 0.5,
-          editing: false,
-          data: community,
-        });
-      });
-      selectedCompounds.forEach(compound => {
-        state.selectedComponents.compounds.push({
-          id: compound.id,
-          name: compound.name,
-          type: 'compound',
-          selected: false,
-          concentration: 0.5,
-          editing: false,
-          data: compound,
-        });
-      });
-      selectedMedia.forEach(medium => {
-        state.selectedComponents.media.push({
-          id: medium.id,
-          name: medium.name,
-          type: 'medium',
-          selected: false,
-          data: medium,
-        });
-      });
-      selectedSupplements.forEach(supplement => {
-        state.selectedComponents.supplements.push({
-          id: supplement.id,
-          name: supplement.name.label,
-          type: 'supplement',
-          selected: false,
-          data: supplement,
-        });
-      });
       state.steps.stepOneCompleted = true;
     },
+    // setExperimentOptions(state, action) {
+    //   const {
+    //     experiment,
+    //     plateSize,
+    //     selectedCompounds,
+    //     selectedCommunities,
+    //     selectedMedia,
+    //     selectedSupplements,
+    //   } = action.payload;
+    //   state.experiment = experiment;
+    //   if (state.plateSize !== plateSize) {
+    //     state.plateMaps = [];
+    //   }
+    //   state.plateSize = plateSize;
+    //   state.selectedComponents = {
+    //     communities: [],
+    //     compounds: [],
+    //     media: [],
+    //     supplements: [],
+    //   };
+    //   selectedCommunities.forEach(community => {
+    //     state.selectedComponents.communities.push({
+    //       id: community.id,
+    //       name: community.name,
+    //       type: 'community',
+    //       selected: false,
+    //       concentration: 0.5,
+    //       editing: false,
+    //       data: community,
+    //     });
+    //   });
+    //   selectedCompounds.forEach(compound => {
+    //     state.selectedComponents.compounds.push({
+    //       id: compound.id,
+    //       name: compound.name,
+    //       type: 'compound',
+    //       selected: false,
+    //       concentration: 0.5,
+    //       editing: false,
+    //       data: compound,
+    //     });
+    //   });
+    //   selectedMedia.forEach(medium => {
+    //     state.selectedComponents.media.push({
+    //       id: medium.id,
+    //       name: medium.name,
+    //       type: 'medium',
+    //       selected: false,
+    //       data: medium,
+    //     });
+    //   });
+    //   selectedSupplements.forEach(supplement => {
+    //     state.selectedComponents.supplements.push({
+    //       id: supplement.id,
+    //       name: supplement.name.label,
+    //       type: 'supplement',
+    //       selected: false,
+    //       data: supplement,
+    //     });
+    //   });
+    //   state.steps.stepOneCompleted = true;
+    // },
     addPlateMap(state, action) {
       const plateMap = action.payload;
       plateMap.id = state.nextPlateMapId;
@@ -288,11 +297,10 @@ export function createPlateMap() {
   };
 }
 
-function getPlateMapArray(size) {
+function getPlateMapArray(dimensions) {
+  const { rows, columns } = dimensions;
   const plateMap = [];
   let wellCount = 0;
-  const rows = size === 96 ? 8 : 16;
-  const columns = size === 96 ? 12 : 24;
   for (let i = 0; i < rows; i++) {
     const row = [];
     const rowLetter = plateMapRowHeaders[i];

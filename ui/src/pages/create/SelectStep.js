@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Header, Icon, Button, Message } from 'semantic-ui-react';
 import classNames from 'classnames';
 
+import {
+  createExperimentActions,
+  initializePlateMaps,
+} from '../../store/createExperiment';
 import { ExperimentSearch } from '../../components/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm';
@@ -45,7 +50,11 @@ class SelectStep extends Component {
   handleButtonClick = () => {
     const { experiment, plateSize } = this.state;
     if (this.validateSelections(experiment, plateSize)) {
-      console.log('valid');
+      this.props.setExperimentOptions({ experiment, plateSize });
+      this.props.initializePlateMaps();
+      if(this.props.onComplete) {
+        this.props.onComplete();
+      }
     } else {
       this.setState({ submissionAttempted: true, showValidationMessage: true });
     }
@@ -112,13 +121,18 @@ class SelectStep extends Component {
   }
 }
 
-SelectStep.propTypes = {};
+SelectStep.propTypes = {
+  onComplete: PropTypes.func,
+};
 
 const mapState = (state, props) => {
   return state;
 };
 
-const mapDispatch = {};
+const mapDispatch = {
+  setExperimentOptions: createExperimentActions.setExperimentOptions,
+  initializePlateMaps,
+};
 
 const connected = connect(
   mapState,
