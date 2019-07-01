@@ -54,15 +54,18 @@ export class PlateSizeForm extends Component {
   handleCustomChange = (e, { name, value }) => {
     let rows, columns;
     if (name === 'rows') {
-      this.setState({ rows: value });
-      rows = value;
-      columns = this.state.columns;
+      if (value < 27) {
+        this.setState({ rows: value });
+        rows = value;
+        columns = this.state.columns;
+        this.onChange({ rows, columns });
+      }
     } else {
       this.setState({ columns: value });
       rows = this.state.rows;
       columns = value;
+      this.onChange({ rows, columns });
     }
-    this.onChange({ rows, columns });
   };
 
   onChange = dimensions => {
@@ -152,6 +155,7 @@ export class PlateSizeForm extends Component {
                           tabIndex: '1',
                           autoFocus: true,
                           className: styles.rowInput,
+                          max: '26',
                         })
                       ) : (
                         <div className={styles.rowText}>
