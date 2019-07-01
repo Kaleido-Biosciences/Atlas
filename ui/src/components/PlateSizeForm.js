@@ -18,11 +18,25 @@ const renderInput = options => {
 };
 
 export class PlateSizeForm extends Component {
-  state = {
-    value: '',
-    rows: '',
-    columns: '',
-  };
+  constructor(props) {
+    super(props);
+    const { defaultDimensions: dimensions } = props;
+    let value = '',
+      rows = '',
+      columns = '';
+    if (dimensions && dimensions.rows && dimensions.columns) {
+      if (dimensions.rows === 8 && dimensions.columns === 12) {
+        value = '96';
+      } else if (dimensions.rows === 16 && dimensions.columns === 24) {
+        value = '384';
+      } else {
+        value = 'custom';
+      }
+      rows = dimensions.rows;
+      columns = dimensions.columns;
+    }
+    this.state = { value, rows, columns };
+  }
 
   handleChange = (e, { value }) => {
     if (value === '96') {
@@ -165,5 +179,6 @@ export class PlateSizeForm extends Component {
 }
 
 PlateSizeForm.propTypes = {
+  defaultDimensions: PropTypes.object,
   onChange: PropTypes.func,
 };

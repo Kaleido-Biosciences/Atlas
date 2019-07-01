@@ -4,8 +4,8 @@ import { plateMapRowHeaders } from '../constants';
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
-    experiment: '',
-    plateSize: 96,
+    experiment: null,
+    plateSize: null,
     plateMaps: [],
     nextPlateMapId: 1,
     steps: {
@@ -26,7 +26,11 @@ const createExperiment = createSlice({
     setExperimentOptions(state, action) {
       const { experiment, plateSize } = action.payload;
       state.experiment = experiment;
-      if(state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns) {
+      if (
+        state.plateSize &&
+        (state.plateSize.rows !== plateSize.rows ||
+          state.plateSize.columns !== plateSize.columns)
+      ) {
         state.plateMaps = [];
       }
       state.plateSize = plateSize;

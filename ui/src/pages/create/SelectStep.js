@@ -27,8 +27,8 @@ const renderHeader = options => {
 
 class SelectStep extends Component {
   state = {
-    experiment: null,
-    plateSize: null,
+    experiment: this.props.experiment,
+    plateSize: this.props.plateSize,
     submissionAttemped: false,
     showValidationMessage: false,
   };
@@ -52,7 +52,7 @@ class SelectStep extends Component {
     if (this.validateSelections(experiment, plateSize)) {
       this.props.setExperimentOptions({ experiment, plateSize });
       this.props.initializePlateMaps();
-      if(this.props.onComplete) {
+      if (this.props.onComplete) {
         this.props.onComplete();
       }
     } else {
@@ -97,7 +97,10 @@ class SelectStep extends Component {
                   stepNumber: '2',
                   headerText: 'Select Plate Size',
                 })}
-                <PlateSizeForm onChange={this.handlePlateSizeChange} />
+                <PlateSizeForm
+                  onChange={this.handlePlateSizeChange}
+                  defaultDimensions={plateSize}
+                />
               </div>
             </div>
           </div>
@@ -122,11 +125,14 @@ class SelectStep extends Component {
 }
 
 SelectStep.propTypes = {
+  experiment: PropTypes.object,
+  plateSize: PropTypes.object,
   onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  return state;
+  const { experiment, plateSize } = state.createExperiment;
+  return { experiment, plateSize };
 };
 
 const mapDispatch = {
