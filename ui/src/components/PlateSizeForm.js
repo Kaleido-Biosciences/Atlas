@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Radio } from 'semantic-ui-react';
 
+import styles from './PlateSizeForm.module.css';
+
 const renderRadio = options => {
   const { stateValue, ...rest } = options;
   return (
@@ -74,8 +76,8 @@ export class PlateSizeForm extends Component {
     const wells = rows && columns ? rows * columns : null;
     const showPlate = (rows && columns) || value === 'custom';
     return (
-      <div className="plate-size-form">
-        <div className="plate-size-form-radios">
+      <div>
+        <div className={styles.radioContainer}>
           <Form>
             <Form.Group inline>
               {renderRadio({
@@ -100,13 +102,13 @@ export class PlateSizeForm extends Component {
           </Form>
         </div>
         {showPlate ? (
-          <div className="plate-size-form-plate">
+          <div className={styles.plate}>
             <table cellPadding="0" cellSpacing="0">
               <tbody>
                 <tr>
                   <td />
                   <td>
-                    <div className="plate-size-form-plate-columns">
+                    <div className={styles.columns}>
                       {value === 'custom' ? (
                         renderInput({
                           name: 'columns',
@@ -114,10 +116,10 @@ export class PlateSizeForm extends Component {
                           onChange: this.handleCustomChange,
                           placeholder: 'Columns',
                           tabIndex: '2',
-                          className: 'plate-size-form-plate-columns-input',
+                          className: styles.columnsInput,
                         })
                       ) : (
-                        <div className="plate-size-form-plate-columns-text">
+                        <div className={styles.columnsText}>
                           {columns ? `${columns} columns` : ''}
                         </div>
                       )}
@@ -126,7 +128,7 @@ export class PlateSizeForm extends Component {
                 </tr>
                 <tr>
                   <td>
-                    <div className="plate-size-form-plate-rows">
+                    <div className={styles.rows}>
                       {value === 'custom' ? (
                         renderInput({
                           name: 'rows',
@@ -135,10 +137,10 @@ export class PlateSizeForm extends Component {
                           placeholder: 'Rows',
                           tabIndex: '1',
                           autoFocus: true,
-                          className: 'plate-size-form-row-input',
+                          className: styles.rowInput,
                         })
                       ) : (
-                        <div className="plate-size-form-row-text">
+                        <div className={styles.rowText}>
                           {rows ? `${rows} rows` : ''}
                         </div>
                       )}
@@ -146,8 +148,10 @@ export class PlateSizeForm extends Component {
                   </td>
                   <td>
                     {' '}
-                    <div className="plate">
-                      <div>{wells ? `${wells} wells` : ''}</div>
+                    <div className={styles.rectangle}>
+                      <div className={styles.wellCount}>
+                        {wells ? `${wells} wells` : ''}
+                      </div>
                     </div>
                   </td>
                 </tr>
