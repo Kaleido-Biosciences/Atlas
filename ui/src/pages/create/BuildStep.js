@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
 
-import { PlateMapMenu } from '../../components/PlateMapMenu';
+// import { PlateMapMenu } from '../../components/PlateMapMenu';
 import { PlateMapToolbar } from '../../components/PlateMapToolbar';
 import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
@@ -37,20 +37,23 @@ class BuildStep extends Component {
     return (
       <Container fluid>
         <div className="build-container">
-          <div className="build-plate-menu">
+          {/* <div className="build-plate-menu">
             <PlateMapMenu
               plateMaps={plateMaps}
               onMenuItemClick={this.props.setActivePlateMap}
               onAddClick={this.props.createPlateMap}
             />
-          </div>
+          </div> */}
           <div className="build-platemap">
             {plateMaps.length > 0 && activePlateMap && (
               <PlateMapToolbar
+                plateMaps={plateMaps}
                 activePlateMap={activePlateMap}
                 highlightedComponents={highlightedComponents}
                 onDeleteClick={this.props.deletePlateMap}
                 onHighlightClick={this.props.toggleHighlight}
+                onAddClick={this.props.createPlateMap}
+                onPlateMapChange={this.props.setActivePlateMap}
               />
             )}
             {plateMaps.length > 0 && activePlateMap && (

@@ -49,10 +49,10 @@
   display: flex;
 }
 
-.build-container .build-plate-menu {
+/* .build-container .build-plate-menu {
   width: 15rem;
   margin-right: 1.5rem;
-}
+} */
 
 .build-container .build-platemap {
   flex-grow: 1;
@@ -62,17 +62,6 @@
 .build-container .build-sidebar {
   width: 18rem;
   margin-left: 1.5rem;
-}
-
-.platemap-toolbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 0.5em;
-}
-
-.platemap-toolbar .highlight {
-  margin-left: 2.1em;
 }
 
 .platemap .platemap-container {

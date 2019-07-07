@@ -5,7 +5,7 @@ const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
     experiment: null,
-    plateSize: null,
+    plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
     steps: {
@@ -120,6 +120,15 @@ const createExperiment = createSlice({
       state.plateMaps = state.plateMaps.filter((plateMap, i) => {
         return plateMap.id !== idToRemove;
       });
+      // TODO might want to move this to a thunk
+      // and maybe select the plate immediately 
+      // before the deleted one.
+      if (state.plateMaps.length) {
+        state.plateMaps.forEach(plateMap => {
+          plateMap.active = false;
+        });
+        state.plateMaps[0].active = true;
+      }
     },
     setClickMode(state, action) {
       state.clickMode = action.payload;
