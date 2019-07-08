@@ -33,6 +33,9 @@ class BuildStep extends Component {
       this.props.toggleWellsSelected(data);
     }
   };
+  handleAddComponent = data => {
+    console.log(data);
+  };
   render() {
     const { plateMaps, activePlateMap, highlightedComponents } = this.props;
     const showPlateMap = plateMaps.length > 0 && activePlateMap;
@@ -62,6 +65,7 @@ class BuildStep extends Component {
                         <h4>Components</h4>
                       </div>
                       <ComponentToolbar
+                        onAddComponent={this.handleAddComponent}
                         onTabChange={this.handleClickModeChange}
                       />
                     </Segment>

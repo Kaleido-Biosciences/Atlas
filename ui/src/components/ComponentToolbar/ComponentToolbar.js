@@ -5,6 +5,8 @@ import { Tab } from 'semantic-ui-react';
 import { ApplyToolbar } from './ApplyToolbar';
 import { SelectToolbar } from './SelectToolbar';
 import { ClearToolbar } from './ClearToolbar';
+import { ComponentSearch } from './ComponentSearch';
+import styles from './ComponentToolbar.module.css';
 
 const panes = [
   {
@@ -43,8 +45,12 @@ export class ComponentToolbar extends Component {
     this.props.onTabChange(modeName);
   };
   render() {
+    const { onAddComponent } = this.props;
     return (
       <div className="component-toolbar">
+        <div className={styles.componentSearchContainer}>
+          <ComponentSearch onSelect={onAddComponent} />
+        </div>
         <Tab
           onTabChange={this.handleTabChange}
           defaultActiveIndex={0}
@@ -57,5 +63,6 @@ export class ComponentToolbar extends Component {
 }
 
 ComponentToolbar.propTypes = {
+  onAddComponent: PropTypes.func.isRequired,
   onTabChange: PropTypes.func.isRequired,
 };
