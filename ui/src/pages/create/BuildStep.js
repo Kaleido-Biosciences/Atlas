@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
+import Draggable from 'react-draggable';
 
-// import { PlateMapMenu } from '../../components/PlateMapMenu';
 import { PlateMapToolbar } from '../../components/PlateMapToolbar';
 import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
+import styles from './BuildStep.module.css';
 
 import {
   createExperimentActions,
@@ -34,18 +35,12 @@ class BuildStep extends Component {
   };
   render() {
     const { plateMaps, activePlateMap, highlightedComponents } = this.props;
+    const showPlateMap = plateMaps.length > 0 && activePlateMap;
     return (
-      <Container fluid>
-        <div className="build-container">
-          {/* <div className="build-plate-menu">
-            <PlateMapMenu
-              plateMaps={plateMaps}
-              onMenuItemClick={this.props.setActivePlateMap}
-              onAddClick={this.props.createPlateMap}
-            />
-          </div> */}
-          <div className="build-platemap">
-            {plateMaps.length > 0 && activePlateMap && (
+      <div className={styles.container}>
+        <div className={styles.plateMap}>
+          {showPlateMap && (
+            <React.Fragment>
               <PlateMapToolbar
                 plateMaps={plateMaps}
                 activePlateMap={activePlateMap}
@@ -55,22 +50,35 @@ class BuildStep extends Component {
                 onAddClick={this.props.createPlateMap}
                 onPlateMapChange={this.props.setActivePlateMap}
               />
-            )}
-            {plateMaps.length > 0 && activePlateMap && (
-              <PlateMap
-                plateMap={activePlateMap}
-                onWellsClick={this.handlePlateMapClick}
-              />
-            )}
-            {!plateMaps.length && (
-              <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
-            )}
-          </div>
-          <div className="build-sidebar">
-            <ComponentToolbar onTabChange={this.handleClickModeChange} />
-          </div>
+              <div className={styles.plateMapContainer}>
+                <Draggable
+                  handle={`.${styles.dragHandle}`}
+                  position={null}
+                  scale={1}
+                >
+                  <div className={styles.componentToolbar}>
+                    <Segment>
+                      <div className={styles.dragHandle}>
+                        <h4>Components</h4>
+                      </div>
+                      <ComponentToolbar
+                        onTabChange={this.handleClickModeChange}
+                      />
+                    </Segment>
+                  </div>
+                </Draggable>
+                <PlateMap
+                  plateMap={activePlateMap}
+                  onWellsClick={this.handlePlateMapClick}
+                />
+              </div>
+            </React.Fragment>
+          )}
+          {!showPlateMap && (
+            <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
+          )}
         </div>
-      </Container>
+      </div>
     );
   }
 }

@@ -45,25 +45,6 @@
   /* font-size: 2.5em; */
 }
 
-.build-container {
-  display: flex;
-}
-
-/* .build-container .build-plate-menu {
-  width: 15rem;
-  margin-right: 1.5rem;
-} */
-
-.build-container .build-platemap {
-  flex-grow: 1;
-  overflow: auto;
-}
-
-.build-container .build-sidebar {
-  width: 18rem;
-  margin-left: 1.5rem;
-}
-
 .platemap .platemap-container {
   overflow: auto;
   height: calc(100vh - 12.5em);
