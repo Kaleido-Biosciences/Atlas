@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 
-import { fetchEntityLists } from '../../store/entityLists';
+import { entityListActions, fetchEntityLists } from '../../store/entityLists';
 import {
   createExperimentActions,
   initializePlateMaps,
@@ -24,22 +24,21 @@ class SelectStep extends Component {
       communities: formCommunities,
       compounds: formCompounds,
       media: formMedia,
+      supplements: formSupplements,
     } = formValues;
-    const { communities, compounds, media } = this.props.selectOptions;
-    const selectedCommunities = formCommunities.map(communityName => {
-      return communities.find(community => {
-        return community.name === communityName;
-      });
+    const { communities, compounds, media, supplements } = this.props.lists;
+    const findById = (id, list) => list.find(entity => entity.id === id);
+    const selectedCommunities = formCommunities.map(id => {
+      return findById(id, communities);
     });
-    const selectedCompounds = formCompounds.map(compoundName => {
-      return compounds.find(compound => {
-        return compound.alias === compoundName;
-      });
+    const selectedCompounds = formCompounds.map(id => {
+      return findById(id, compounds);
     });
-    const selectedMedia = formMedia.map(mediaName => {
-      return media.find(media => {
-        return media.name === mediaName;
-      });
+    const selectedMedia = formMedia.map(id => {
+      return findById(id, media);
+    });
+    const selectedSupplements = formSupplements.map(id => {
+      return findById(id, supplements);
     });
     const experimentOptions = {
       experiment,
@@ -47,18 +46,22 @@ class SelectStep extends Component {
       selectedCommunities,
       selectedCompounds,
       selectedMedia,
+      selectedSupplements,
     };
+    this.props.setSelections(formValues);
     this.props.setExperimentOptions(experimentOptions);
     this.props.initializePlateMaps();
     this.props.onStepComplete();
   };
 
   render() {
-    const { pending, loaded, error, currentValues } = this.props;
+    const { pending, loaded, error, selections } = this.props;
     if (pending) {
       return (
         <div className="select-loading">
-           <Loader size='massive' active>Loading</Loader>
+          <Loader size="massive" active>
+            Loading
+          </Loader>
         </div>
       );
     } else if (error) {
@@ -69,16 +72,18 @@ class SelectStep extends Component {
         compounds,
         communities,
         media,
+        supplements,
       } = this.props.selectOptions;
       return (
         <div className="select-container">
           <NewExperimentForm
             onSubmit={this.handleFormSubmit}
-            experiments={experiments}
-            compounds={compounds}
-            communities={communities}
-            media={media}
-            initialValues={currentValues}
+            experimentOptions={experiments}
+            compoundOptions={compounds}
+            communityOptions={communities}
+            mediumOptions={media}
+            supplementOptions={supplements}
+            initialValues={selections}
           />
         </div>
       );
@@ -91,30 +96,42 @@ SelectStep.propTypes = {
   loaded: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
   selectOptions: PropTypes.object.isRequired,
-  currentValues: PropTypes.object,
+  selections: PropTypes.object,
   fetchEntityLists: PropTypes.func.isRequired,
+  setSelections: PropTypes.func.isRequired,
   setExperimentOptions: PropTypes.func.isRequired,
   initializePlateMaps: PropTypes.func.isRequired,
   onStepComplete: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
-  const { pending, loaded, error, values: selectOptions } = state.entityLists;
+  const {
+    pending,
+    loaded,
+    error,
+    lists,
+    selectOptions,
+    selections,
+  } = state.entityLists;
   return {
     pending,
     loaded,
     error,
+    lists,
     selectOptions,
-    currentValues: {
-      experiment: state.createExperiment.experiment,
-      plateSize: state.createExperiment.plateSize,
-      ...state.createExperiment.components,
-    },
+    selections,
   };
+};
+
+const mapDispatch = {
+  fetchEntityLists,
+  setSelections: entityListActions.setSelections,
+  setExperimentOptions: createExperimentActions.setExperimentOptions,
+  initializePlateMaps,
 };
 
 const connected = connect(
   mapState,
-  { fetchEntityLists, initializePlateMaps, ...createExperimentActions }
+  mapDispatch
 )(SelectStep);
 export { connected as SelectStep };

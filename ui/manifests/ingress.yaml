@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      ingress.kubernetes.io/force-ssl-redirect: "true"
+  name: __CI_PROJECT_NAME__-__CI_ENVIRONMENT_SLUG__
+  namespace: __CI_PROJECT_NAME__
+  labels:
+    app: __CI_ENVIRONMENT_SLUG__
+    ref: __CI_ENVIRONMENT_SLUG__
+
+spec:
+  rules:
+  - host: __URL__.apps.kaleidobio.com
+    http:
+      paths:
+      - backend:
+          serviceName: __CI_PROJECT_NAME__-__CI_ENVIRONMENT_SLUG__
+          servicePort: __SERVER_PORT__
+        path: /

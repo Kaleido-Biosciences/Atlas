@@ -1,0 +1,16 @@
+# base image
+FROM node:12.2.0-alpine
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+ENV REACT_APP_API_URL https://kapture-staging.apps.kaleidobio.com/api
+
+# install and cache app dependencies
+COPY package.json /app/package.json
+RUN npm install --silent
+
+# start app
+CMD ["npm", "start"]

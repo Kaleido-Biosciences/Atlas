@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: atlas
+  # Change this to the namespace the Prometheus instance is running in
+  namespace: atlas-monitoring
+  labels:
+    app: atlas
+    prometheus: kaleido-apl
+spec:
+  selector:
+    matchLabels:
+      app: atlas
+  namespaceSelector:
+    matchNames:
+    - atlas
+  endpoints:
+  - port: http-metrics
+    interval: 15s

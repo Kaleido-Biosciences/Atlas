@@ -4,12 +4,7 @@ import { plateMapRowHeaders } from '../constants';
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
-    experiment: 'G064',
-    components: {
-      compounds: ['KB10-14', 'KB100-2'],
-      communities: ['057-002', '057-012'],
-      media: ['MM.10', 'MM.11', 'CM.10', 'CM.11'],
-    },
+    experiment: '',
     plateSize: 96,
     plateMaps: [],
     nextPlateMapId: 1,
@@ -35,21 +30,22 @@ const createExperiment = createSlice({
         selectedCompounds,
         selectedCommunities,
         selectedMedia,
+        selectedSupplements,
       } = action.payload;
       state.experiment = experiment;
       if (state.plateSize !== plateSize) {
         state.plateMaps = [];
       }
       state.plateSize = plateSize;
-      state.components = { communities: [], compounds: [], media: [] };
       state.selectedComponents = {
         communities: [],
         compounds: [],
         media: [],
+        supplements: [],
       };
       selectedCommunities.forEach(community => {
-        state.components.communities.push(community.name);
         state.selectedComponents.communities.push({
+          id: community.id,
           name: community.name,
           type: 'community',
           selected: false,
@@ -59,9 +55,9 @@ const createExperiment = createSlice({
         });
       });
       selectedCompounds.forEach(compound => {
-        state.components.compounds.push(compound.alias);
         state.selectedComponents.compounds.push({
-          name: compound.alias,
+          id: compound.id,
+          name: compound.name,
           type: 'compound',
           selected: false,
           concentration: 0.5,
@@ -70,12 +66,21 @@ const createExperiment = createSlice({
         });
       });
       selectedMedia.forEach(medium => {
-        state.components.media.push(medium.name);
         state.selectedComponents.media.push({
+          id: medium.id,
           name: medium.name,
           type: 'medium',
           selected: false,
           data: medium,
+        });
+      });
+      selectedSupplements.forEach(supplement => {
+        state.selectedComponents.supplements.push({
+          id: supplement.id,
+          name: supplement.name.label,
+          type: 'supplement',
+          selected: false,
+          data: supplement,
         });
       });
       state.steps.stepOneCompleted = true;
