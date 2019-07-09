@@ -47,7 +47,7 @@ setup_environment:
     - cd ui/gitlab-ci/
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" namespace.yaml rbac.yaml
     - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" namespace.yaml rbac.yaml
-    - sed -i "s/__CI_PROJ_NAME__/${CI_PROJECT_NAME}/" namespace.yaml rbac.yaml
+    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" namespace.yaml rbac.yaml
     - kubectl apply -f namespace.yaml
     - kubectl apply -f rbac.yaml
 
@@ -75,9 +75,8 @@ teardown_staging:
         - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml service.yaml
         - sed -i "s/__SERVER_PORT__/80/" deployment.yaml service.yaml
         - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml service.yaml
-        - sed -i "s/__CI_PROJ_NAME__/${CI_PROJECT_NAME}/" deployment.yaml service.yaml
         - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml
-        - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml
+        - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__URL__/${CI_PROJECT_NAME}-staging/" ingress.yaml deployment.yaml
         - cat deployment.yaml
         - cat service.yaml
@@ -105,9 +104,8 @@ deploy_staging:
         - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__SERVER_PORT__/80/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
-        - sed -i "s/__CI_PROJ_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml
-        - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml
+        - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__URL__/${CI_PROJECT_NAME}-staging/" ingress.yaml deployment.yaml
         - cat deployment.yaml
         - cat ingress.yaml
@@ -119,3 +117,66 @@ deploy_staging:
         - kubectl apply -f ingress.yaml
         - kubectl rollout status -f deployment.yaml
         - kubectl get all,ing -l ref=${CI_ENVIRONMENT_SLUG}
+
+teardown_prod:
+  image: ryarnyah/kubectl-aws
+  stage: cleanup
+  allow_failure: true
+  environment:
+    name: live
+    url: https://$CI_PROJECT_NAME.apps.kaleidobio.com
+  only:
+    - master
+  before_script:
+    - ls
+  script:
+
+    - kubectl version
+
+    # Build the manifests
+    - cd ui/manifests/
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml service.yaml
+    - sed -i "s/__SERVER_PORT__/80/" deployment.yaml service.yaml
+    - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml service.yaml
+    - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml
+    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__URL__/${CI_PROJECT_NAME}/" ingress.yaml deployment.yaml
+    - cat deployment.yaml
+    - cat service.yaml
+
+    # Cleanup old services to make sure new docker containers are pulled
+    - kubectl delete -f deployment.yaml
+    - kubectl delete -f service.yaml
+
+deploy_prod:
+  image: ryarnyah/kubectl-aws
+  stage: deploy
+  environment:
+    name: live
+    url: https://$CI_PROJECT_NAME.apps.kaleidobio.com
+  only:
+    - master
+  before_script:
+    - ls
+  script:
+
+    - kubectl version
+
+    # Build the manifests
+    - cd ui/manifests/
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__SERVER_PORT__/80/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__VERSION__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml
+    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__URL__/${CI_PROJECT_NAME}/" ingress.yaml deployment.yaml
+    - cat deployment.yaml
+    - cat ingress.yaml
+    - cat service.yaml
+
+    # Prepare for liftoff
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
+    - kubectl apply -f ingress.yaml
+    - kubectl rollout status -f deployment.yaml
+    - kubectl get all,ing -l ref=${CI_ENVIRONMENT_SLUG}
