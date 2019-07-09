@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: __CI_PROJ_NAME__-__CI_ENVIRONMENT_SLUG__
-  namespace: __CI_PROJ_NAME__
+  name: __CI_PROJECT_NAME__-__CI_ENVIRONMENT_SLUG__
+  namespace: __CI_PROJECT_NAME__
   labels:
     app: __CI_ENVIRONMENT_SLUG__
     ref: __CI_ENVIRONMENT_SLUG__
