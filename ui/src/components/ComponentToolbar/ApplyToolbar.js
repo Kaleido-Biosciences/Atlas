@@ -51,9 +51,12 @@ ApplyToolbar.propTypes = {
 const mapState = (state, props) => {
   const { selectedComponents } = state.createExperiment;
   return {
-    communities: selectedComponents.communities,
-    compounds: selectedComponents.compounds,
-    media: selectedComponents.media,
+    communities: [],
+    compounds: [],
+    media: [],
+    // communities: selectedComponents.communities,
+    // compounds: selectedComponents.compounds,
+    // media: selectedComponents.media,
   };
 };
 

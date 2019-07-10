@@ -15,10 +15,11 @@ const createExperiment = createSlice({
     },
     clickMode: 'apply',
     clearMode: 'all',
-    selectedComponents: {
+    components: {
       compounds: [],
       communities: [],
       media: [],
+      supplements: [],
     },
     highlightedComponents: [],
   },
@@ -121,7 +122,7 @@ const createExperiment = createSlice({
         return plateMap.id !== idToRemove;
       });
       // TODO might want to move this to a thunk
-      // and maybe select the plate immediately 
+      // and maybe select the plate immediately
       // before the deleted one.
       if (state.plateMaps.length) {
         state.plateMaps.forEach(plateMap => {
@@ -135,6 +136,38 @@ const createExperiment = createSlice({
     },
     setClearMode(state, action) {
       state.clearMode = action.payload;
+    },
+    addComponents(state, action) {
+      const {
+        communities = [],
+        compounds = [],
+        media = [],
+        supplements = [],
+      } = action.payload;
+      const { components } = state;
+      const createComponent = (id, displayName, type, data) => {
+        return { id, displayName, type, data, selected: false, editing: false };
+      };
+      communities.forEach(comm => {
+        components.communities.push(
+          createComponent(comm.id, comm.name, 'community', comm)
+        );
+      });
+      compounds.forEach(comp => {
+        components.compounds.push(
+          createComponent(comp.id, comp.name, 'compound', comp)
+        );
+      });
+      media.forEach(media => {
+        components.media.push(
+          createComponent(media.id, media.name, 'medium', media)
+        );
+      });
+      supplements.forEach(supp => {
+        components.supplements.push(
+          createComponent(supp.id, supp.name.label, 'supplement', supp)
+        );
+      });
     },
     selectComponents(state, action) {
       const { components } = action.payload;

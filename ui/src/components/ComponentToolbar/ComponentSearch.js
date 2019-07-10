@@ -94,12 +94,16 @@ export class ComponentSearch extends Component {
   };
 
   handleResultSelect = (e, { result }) => {
+    const keys = {
+      community: 'communities',
+      compound: 'compounds',
+      medium: 'media',
+      supplement: 'supplements',
+    };
     this.setState({ value: '', results: [], showNoResults: false });
     if (this.props.onSelect) {
-      this.props.onSelect({
-        type: result.type,
-        component: result.data,
-      });
+      const payload = { [keys[result.type]]: [result.data] };
+      this.props.onSelect(payload);
     }
   };
 
