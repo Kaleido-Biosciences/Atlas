@@ -8,18 +8,13 @@ const createExperiment = createSlice({
     plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
+    components: [],
+    clickMode: 'apply',
+    clearMode: 'all',
     steps: {
       stepOneCompleted: false,
       stepTwoCompleted: false,
       stepthreeCompleted: false,
-    },
-    clickMode: 'apply',
-    clearMode: 'all',
-    components: {
-      compounds: [],
-      communities: [],
-      media: [],
-      supplements: [],
     },
     highlightedComponents: [],
   },
@@ -37,68 +32,6 @@ const createExperiment = createSlice({
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
-    // setExperimentOptions(state, action) {
-    //   const {
-    //     experiment,
-    //     plateSize,
-    //     selectedCompounds,
-    //     selectedCommunities,
-    //     selectedMedia,
-    //     selectedSupplements,
-    //   } = action.payload;
-    //   state.experiment = experiment;
-    //   if (state.plateSize !== plateSize) {
-    //     state.plateMaps = [];
-    //   }
-    //   state.plateSize = plateSize;
-    //   state.selectedComponents = {
-    //     communities: [],
-    //     compounds: [],
-    //     media: [],
-    //     supplements: [],
-    //   };
-    //   selectedCommunities.forEach(community => {
-    //     state.selectedComponents.communities.push({
-    //       id: community.id,
-    //       name: community.name,
-    //       type: 'community',
-    //       selected: false,
-    //       concentration: 0.5,
-    //       editing: false,
-    //       data: community,
-    //     });
-    //   });
-    //   selectedCompounds.forEach(compound => {
-    //     state.selectedComponents.compounds.push({
-    //       id: compound.id,
-    //       name: compound.name,
-    //       type: 'compound',
-    //       selected: false,
-    //       concentration: 0.5,
-    //       editing: false,
-    //       data: compound,
-    //     });
-    //   });
-    //   selectedMedia.forEach(medium => {
-    //     state.selectedComponents.media.push({
-    //       id: medium.id,
-    //       name: medium.name,
-    //       type: 'medium',
-    //       selected: false,
-    //       data: medium,
-    //     });
-    //   });
-    //   selectedSupplements.forEach(supplement => {
-    //     state.selectedComponents.supplements.push({
-    //       id: supplement.id,
-    //       name: supplement.name.label,
-    //       type: 'supplement',
-    //       selected: false,
-    //       data: supplement,
-    //     });
-    //   });
-    //   state.steps.stepOneCompleted = true;
-    // },
     addPlateMap(state, action) {
       const plateMap = action.payload;
       plateMap.id = state.nextPlateMapId;
@@ -145,28 +78,36 @@ const createExperiment = createSlice({
         supplements = [],
       } = action.payload;
       const { components } = state;
-      const createComponent = (id, displayName, type, data) => {
-        return { id, displayName, type, data, selected: false, editing: false };
+      const createComponent = (id, displayName, type, data, timepoints) => {
+        components.push({
+          id,
+          displayName,
+          type,
+          data,
+          selected: false,
+          editing: false,
+          timepoints,
+        });
       };
       communities.forEach(comm => {
-        components.communities.push(
-          createComponent(comm.id, comm.name, 'community', comm)
-        );
+        createComponent(comm.id, comm.name, 'community', comm, [
+          { time: 0, concentration: 0.5 },
+        ]);
       });
       compounds.forEach(comp => {
-        components.compounds.push(
-          createComponent(comp.id, comp.name, 'compound', comp)
-        );
+        createComponent(comp.id, comp.name, 'compound', comp, [
+          { time: 0, concentration: 0.5 },
+        ]);
       });
-      media.forEach(media => {
-        components.media.push(
-          createComponent(media.id, media.name, 'medium', media)
-        );
+      media.forEach(medium => {
+        createComponent(medium.id, medium.name, 'medium', medium, [
+          { time: 0, concentration: null },
+        ]);
       });
       supplements.forEach(supp => {
-        components.supplements.push(
-          createComponent(supp.id, supp.name.label, 'supplement', supp)
-        );
+        createComponent(supp.id, supp.name.label, 'supplement', supp, [
+          { time: 0, concentration: 0.5 },
+        ]);
       });
     },
     selectComponents(state, action) {
@@ -429,16 +370,7 @@ function findPlateMapById(id, plateMaps) {
 }
 
 function getComponentFromState(component, state) {
-  const { type } = component;
-  let collection;
-  if (type === 'community') {
-    collection = state.selectedComponents.communities;
-  } else if (type === 'compound') {
-    collection = state.selectedComponents.compounds;
-  } else if (type === 'medium') {
-    collection = state.selectedComponents.media;
-  }
-  return collection.find(
-    stateComponent => stateComponent.name === component.name
+  return state.components.find(
+    stateComponent => stateComponent.id === component.id
   );
 }

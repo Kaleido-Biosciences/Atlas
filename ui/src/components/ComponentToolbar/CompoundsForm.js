@@ -8,7 +8,7 @@ export class CompoundsForm extends Component {
   handleChange = (e, data) => {
     const { checked, value } = data;
     const compound = this.props.compounds.find(
-      compound => compound.name === value
+      compound => compound.id === value
     );
     const selection = { components: [compound] };
     if (checked) {
@@ -21,10 +21,10 @@ export class CompoundsForm extends Component {
     const { compounds } = this.props;
     return compounds.map((compound, i) => {
       return (
-        <Form.Field key={compound.name}>
+        <Form.Field key={i}>
           <Checkbox
-            label={compound.name}
-            value={compound.name}
+            label={compound.displayName}
+            value={compound.id}
             onClick={this.handleChange}
             checked={compound.selected}
           />
