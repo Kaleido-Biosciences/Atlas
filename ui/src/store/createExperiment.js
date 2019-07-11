@@ -79,15 +79,18 @@ const createExperiment = createSlice({
       } = action.payload;
       const { components } = state;
       const createComponent = (id, displayName, type, data, timepoints) => {
-        components.push({
-          id,
-          displayName,
-          type,
-          data,
-          selected: false,
-          editing: false,
-          timepoints,
-        });
+        const existingComponent = components.find(comp => comp.id === id);
+        if (!existingComponent) {
+          components.push({
+            id,
+            displayName,
+            type,
+            data,
+            selected: false,
+            editing: false,
+            timepoints,
+          });
+        }
       };
       communities.forEach(comm => {
         createComponent(comm.id, comm.name, 'community', comm, [
