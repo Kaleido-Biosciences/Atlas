@@ -129,12 +129,12 @@ const createExperiment = createSlice({
     },
     applySelectedComponentsToWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
-      const { plateMaps, selectedComponents } = state;
+      const { plateMaps, components } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const updatedWells = applySelectedComponentsToWells(
         plateMap,
         wellIds,
-        selectedComponents
+        components
       );
       setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
     },
@@ -302,9 +302,7 @@ function getPlateMapArray(dimensions) {
         blank: false,
         highlighted: false,
         dimmed: false,
-        compounds: [],
-        communities: [],
-        media: [],
+        components: [],
       });
       wellCount++;
     }
@@ -329,31 +327,54 @@ export const selectSelectedWellsFromActivePlateMap = createSelector(
 );
 
 function applySelectedComponentsToWells(plateMap, wellIds, components) {
-  const componentTypes = ['communities', 'compounds', 'media'];
   const wells = plateMap.data.flat();
   const updatedWells = [];
   wellIds.forEach(wellId => {
     const well = wells[wellId];
-    componentTypes.forEach(type => {
-      components[type].forEach(component => {
-        if (component.selected) {
-          const existingIndex = wells[wellId][type].findIndex(
-            comp => comp.name === component.name
-          );
-          if (existingIndex === -1) {
-            let { selected, editing, ...wellComponent } = component;
-            well[type].push(wellComponent);
-          } else {
-            let { selected, editing, ...wellComponent } = component;
-            well[type].splice(existingIndex, 1, wellComponent);
-          }
+    components.forEach(component => {
+      if (component.selected) {
+        const existingIndex = well.components.findIndex(
+          comp => comp.id === component.id
+        );
+        const { selected, editing, ...wellComponent } = component;
+        if (existingIndex === -1) {
+          well.components.push(wellComponent);
+        } else {
+          well.components.splice(existingIndex, 1, wellComponent);
         }
-      });
+      }
     });
     updatedWells.push(well);
   });
   return updatedWells;
 }
+
+// function applySelectedComponentsToWells(plateMap, wellIds, components) {
+//   const componentTypes = ['communities', 'compounds', 'media'];
+//   const wells = plateMap.data.flat();
+//   const updatedWells = [];
+//   wellIds.forEach(wellId => {
+//     const well = wells[wellId];
+//     componentTypes.forEach(type => {
+//       components[type].forEach(component => {
+//         if (component.selected) {
+//           const existingIndex = wells[wellId][type].findIndex(
+//             comp => comp.name === component.name
+//           );
+//           if (existingIndex === -1) {
+//             let { selected, editing, ...wellComponent } = component;
+//             well[type].push(wellComponent);
+//           } else {
+//             let { selected, editing, ...wellComponent } = component;
+//             well[type].splice(existingIndex, 1, wellComponent);
+//           }
+//         }
+//       });
+//     });
+//     updatedWells.push(well);
+//   });
+//   return updatedWells;
+// }
 
 function getSelectedWells(plateMap) {
   const flat = plateMap.data.flat();
