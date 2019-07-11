@@ -1,39 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import memoize from 'memoize-one';
 
 import { createExperimentActions } from '../../store/createExperiment';
 import { CommunitiesForm } from './CommunitiesForm';
 import { CompoundsForm } from './CompoundsForm';
 import { MediaForm } from './MediaForm';
-
-const groupComponents = components => {
-  const groups = {
-    communities: [],
-    compounds: [],
-    media: [],
-    supplements: [],
-  };
-  components.forEach(component => {
-    let key;
-    if (component.type === 'community') {
-      key = 'communities';
-    } else if (component.type === 'compound') {
-      key = 'compounds';
-    } else if (component.type === 'medium') {
-      key = 'media';
-    } else if (component.type === 'supplement') {
-      key = 'supplements';
-    }
-    groups[key].push(component);
-  });
-  return groups;
-};
+import { groupComponents } from '../../util';
 
 class ApplyToolbar extends Component {
+  group = memoize(groupComponents);
   render() {
     const { components } = this.props;
-    const { communities, compounds, media, supplements } = groupComponents(
+    const { communities, compounds, media, supplements } = this.group(
       components
     );
     return (
