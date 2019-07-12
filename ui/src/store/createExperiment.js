@@ -86,7 +86,7 @@ const createExperiment = createSlice({
             displayName,
             type,
             data,
-            selected: false,
+            selected: true,
             editing: false,
             timepoints,
           });
