@@ -113,6 +113,12 @@ const createExperiment = createSlice({
         ]);
       });
     },
+    removeComponents(state, action) {
+      const componentsToRemove = action.payload.components;
+      const { components } = state;
+      const idsToRemove = componentsToRemove.map(component => component.id);
+      state.components = components.filter(component => !idsToRemove.includes(component.id));
+    },
     selectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {

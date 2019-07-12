@@ -14,6 +14,11 @@ export class ToolbarComponent extends Component {
       this.props.onDeselect(selection);
     }
   };
+  handleRemoveClick = (e, data) => {
+    if (this.props.onRemoveClick) {
+      this.props.onRemoveClick({ components: [this.props.component] });
+    }
+  };
   handleAddTimepoint = () => {};
   renderTimepoints = () => {
     const { timepoints } = this.props.component;
@@ -48,7 +53,7 @@ export class ToolbarComponent extends Component {
             onClick={this.handleCheckboxClick}
             checked={component.selected}
           />
-          <Icon name="remove circle" />
+          <Icon name="remove circle" onClick={this.handleRemoveClick} />
         </div>
         <div>
           {showTimepoints && this.renderTimepoints()}

@@ -13,7 +13,12 @@ import { groupComponents } from '../../util';
 class ApplyToolbar extends Component {
   group = memoize(groupComponents);
   render() {
-    const { components, onComponentSelect, onComponentDeselect } = this.props;
+    const {
+      components,
+      onComponentSelect,
+      onComponentDeselect,
+      onComponentRemoveClick,
+    } = this.props;
     const groupedComponents = this.group(components);
     const { communities, compounds, media, supplements } = groupedComponents;
     const showMessage = components.length === 0;
@@ -33,6 +38,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 showConcentration={true}
+                onRemoveClick={onComponentRemoveClick}
               />
             )}
             {compounds.length > 0 && (
@@ -43,6 +49,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={false}
                 showConcentration={true}
+                onRemoveClick={onComponentRemoveClick}
               />
             )}
             {media.length > 0 && (
@@ -53,6 +60,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={false}
                 showConcentration={false}
+                onRemoveClick={onComponentRemoveClick}
               />
             )}
             {supplements.length > 0 && (
@@ -63,6 +71,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 showConcentration={true}
+                onRemoveClick={onComponentRemoveClick}
               />
             )}
           </div>
@@ -99,6 +108,7 @@ ApplyToolbar.propTypes = {
   onComponentDeselect: PropTypes.func.isRequired,
   onConcentrationClick: PropTypes.func.isRequired,
   onConcentrationSave: PropTypes.func.isRequired,
+  onComponentRemoveClick: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -114,6 +124,7 @@ const mapDispatch = {
   onConcentrationClick: createExperimentActions.toggleComponentEditing,
   onConcentrationBlur: createExperimentActions.toggleComponentEditing,
   onConcentrationSave: createExperimentActions.setComponentConcentration,
+  onComponentRemoveClick: createExperimentActions.removeComponents,
 };
 
 const connected = connect(
