@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Checkbox, Icon } from 'semantic-ui-react';
 
+import styles from './ToolbarComponent.module.css';
+
 export class ToolbarComponent extends Component {
   handleCheckboxClick = (e, data) => {
     const { checked } = data;
@@ -38,17 +40,20 @@ export class ToolbarComponent extends Component {
   render() {
     const { component, showTimepoints, showConcentration } = this.props;
     return (
-      <div>
-        <Form>
+      <div className={styles.component}>
+        <div className={styles.header}>
           <Checkbox
             label={component.displayName}
             value={component.id}
             onClick={this.handleCheckboxClick}
             checked={component.selected}
           />
+          <Icon name="remove circle" />
+        </div>
+        <div>
           {showTimepoints && this.renderTimepoints()}
           {!showTimepoints && showConcentration && this.renderConcentration()}
-        </Form>
+        </div>
       </div>
     );
   }
