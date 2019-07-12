@@ -4,21 +4,70 @@ import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 
 import { createExperimentActions } from '../../store/createExperiment';
-import { CommunitiesForm } from './CommunitiesForm';
-import { CompoundsForm } from './CompoundsForm';
-import { MediaForm } from './MediaForm';
+import { ComponentSection } from './ComponentSection';
+// import { CommunitiesForm } from './CommunitiesForm';
+// import { CompoundsForm } from './CompoundsForm';
+// import { MediaForm } from './MediaForm';
 import { groupComponents } from '../../util';
 
 class ApplyToolbar extends Component {
   group = memoize(groupComponents);
   render() {
-    const { components } = this.props;
-    const { communities, compounds, media, supplements } = this.group(
-      components
-    );
+    const { components, onComponentSelect, onComponentDeselect } = this.props;
+    const groupedComponents = this.group(components);
+    const { communities, compounds, media, supplements } = groupedComponents;
+    const showMessage = components.length === 0;
     return (
       <div className="apply-toolbar">
-        <CommunitiesForm
+        {showMessage ? (
+          <div className="no-components-message">
+            Get started by searching for some components.
+          </div>
+        ) : (
+          <div className="components-container">
+            {communities.length > 0 && (
+              <ComponentSection
+                label="Communities"
+                components={communities}
+                onSelect={onComponentSelect}
+                onDeselect={onComponentDeselect}
+                showTimepoints={true}
+                showConcentration={true}
+              />
+            )}
+            {compounds.length > 0 && (
+              <ComponentSection
+                label="Compounds"
+                components={compounds}
+                onSelect={onComponentSelect}
+                onDeselect={onComponentDeselect}
+                showTimepoints={false}
+                showConcentration={true}
+              />
+            )}
+            {media.length > 0 && (
+              <ComponentSection
+                label="Media"
+                components={media}
+                onSelect={onComponentSelect}
+                onDeselect={onComponentDeselect}
+                showTimepoints={false}
+                showConcentration={false}
+              />
+            )}
+            {supplements.length > 0 && (
+              <ComponentSection
+                label="Supplement"
+                components={supplements}
+                onSelect={onComponentSelect}
+                onDeselect={onComponentDeselect}
+                showTimepoints={true}
+                showConcentration={true}
+              />
+            )}
+          </div>
+        )}
+        {/* <CommunitiesForm
           communities={communities}
           onSelect={this.props.onComponentSelect}
           onDeselect={this.props.onComponentDeselect}
@@ -38,7 +87,7 @@ class ApplyToolbar extends Component {
           media={media}
           onSelect={this.props.onComponentSelect}
           onDeselect={this.props.onComponentDeselect}
-        />
+        /> */}
       </div>
     );
   }
