@@ -1,5 +1,10 @@
 import { createSlice, createSelector } from 'redux-starter-kit';
-import { plateMapRowHeaders } from '../constants';
+import {
+  PLATEMAP_ROW_HEADERS,
+  DEFAULT_TIMEPOINT_TIME,
+  DEFAULT_TIMEPOINT_CONCENTRATION,
+  DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
+} from '../constants';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
@@ -94,22 +99,22 @@ const createExperiment = createSlice({
       };
       communities.forEach(comm => {
         createComponent(comm.id, comm.name, 'community', comm, [
-          { time: 0, concentration: 0.5 },
+          createNewTimepoint(),
         ]);
       });
       compounds.forEach(comp => {
         createComponent(comp.id, comp.name, 'compound', comp, [
-          { time: 0, concentration: 0.5 },
+          createNewTimepoint(),
         ]);
       });
       media.forEach(medium => {
         createComponent(medium.id, medium.name, 'medium', medium, [
-          { time: 0, concentration: null },
+          createNewTimepoint(undefined, DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION),
         ]);
       });
       supplements.forEach(supp => {
         createComponent(supp.id, supp.name.label, 'supplement', supp, [
-          { time: 0, concentration: 0.5 },
+          createNewTimepoint(),
         ]);
       });
     },
@@ -117,7 +122,9 @@ const createExperiment = createSlice({
       const componentsToRemove = action.payload.components;
       const { components } = state;
       const idsToRemove = componentsToRemove.map(component => component.id);
-      state.components = components.filter(component => !idsToRemove.includes(component.id));
+      state.components = components.filter(
+        component => !idsToRemove.includes(component.id)
+      );
     },
     selectComponents(state, action) {
       const { components } = action.payload;
@@ -132,6 +139,11 @@ const createExperiment = createSlice({
         const stateComponent = getComponentFromState(component, state);
         stateComponent.selected = false;
       });
+    },
+    addTimepointToComponent(state, action) {
+      const { component } = action.payload;
+      const stateComponent = getComponentFromState(component, state);
+      stateComponent.timepoints.push(createNewTimepoint());
     },
     applySelectedComponentsToWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
@@ -299,7 +311,7 @@ function getPlateMapArray(dimensions) {
   let wellCount = 0;
   for (let i = 0; i < rows; i++) {
     const row = [];
-    const rowLetter = plateMapRowHeaders[i];
+    const rowLetter = PLATEMAP_ROW_HEADERS[i];
     for (let i = 0; i < columns; i++) {
       row.push({
         id: wellCount,
@@ -403,4 +415,11 @@ function getComponentFromState(component, state) {
   return state.components.find(
     stateComponent => stateComponent.id === component.id
   );
+}
+
+function createNewTimepoint(
+  time = DEFAULT_TIMEPOINT_TIME,
+  concentration = DEFAULT_TIMEPOINT_CONCENTRATION
+) {
+  return { time, concentration };
 }

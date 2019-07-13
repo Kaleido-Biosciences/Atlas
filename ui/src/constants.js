@@ -1,4 +1,4 @@
-export const plateMapRowHeaders = [
+export const PLATEMAP_ROW_HEADERS = [
   'A',
   'B',
   'C',
@@ -26,3 +26,7 @@ export const plateMapRowHeaders = [
   'Y',
   'Z',
 ];
+
+export const DEFAULT_TIMEPOINT_TIME = 0;
+export const DEFAULT_TIMEPOINT_CONCENTRATION = 0.5;
+export const DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION = null;

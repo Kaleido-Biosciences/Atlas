@@ -19,6 +19,12 @@ export class ToolbarComponent extends Component {
       this.props.onRemoveClick({ components: [this.props.component] });
     }
   };
+  handleAddTimepointClick = () => {
+    if (this.props.onAddTimepointClick) {
+      const { component } = this.props;
+      this.props.onAddTimepointClick({ component });
+    }
+  };
   handleAddTimepoint = () => {};
   renderTimepoints = () => {
     const { timepoints } = this.props.component;
@@ -32,7 +38,7 @@ export class ToolbarComponent extends Component {
           );
         })}
         <div className="add-timepoint">
-          <Icon name="plus circle" onClick={this.handleAddTimepoint} /> Add
+          <Icon name="plus circle" onClick={this.handleAddTimepointClick} /> Add
           Timepoint
         </div>
       </div>

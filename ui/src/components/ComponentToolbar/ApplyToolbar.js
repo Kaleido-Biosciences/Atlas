@@ -18,6 +18,7 @@ class ApplyToolbar extends Component {
       onComponentSelect,
       onComponentDeselect,
       onComponentRemoveClick,
+      onComponentAddTimepointClick,
     } = this.props;
     const groupedComponents = this.group(components);
     const { communities, compounds, media, supplements } = groupedComponents;
@@ -39,6 +40,7 @@ class ApplyToolbar extends Component {
                 showTimepoints={true}
                 showConcentration={true}
                 onRemoveClick={onComponentRemoveClick}
+                onComponentAddTimepointClick={onComponentAddTimepointClick}
               />
             )}
             {compounds.length > 0 && (
@@ -50,6 +52,7 @@ class ApplyToolbar extends Component {
                 showTimepoints={false}
                 showConcentration={true}
                 onRemoveClick={onComponentRemoveClick}
+                onComponentAddTimepointClick={onComponentAddTimepointClick}
               />
             )}
             {media.length > 0 && (
@@ -61,6 +64,7 @@ class ApplyToolbar extends Component {
                 showTimepoints={false}
                 showConcentration={false}
                 onRemoveClick={onComponentRemoveClick}
+                onComponentAddTimepointClick={onComponentAddTimepointClick}
               />
             )}
             {supplements.length > 0 && (
@@ -72,6 +76,7 @@ class ApplyToolbar extends Component {
                 showTimepoints={true}
                 showConcentration={true}
                 onRemoveClick={onComponentRemoveClick}
+                onComponentAddTimepointClick={onComponentAddTimepointClick}
               />
             )}
           </div>
@@ -109,6 +114,7 @@ ApplyToolbar.propTypes = {
   onConcentrationClick: PropTypes.func.isRequired,
   onConcentrationSave: PropTypes.func.isRequired,
   onComponentRemoveClick: PropTypes.func.isRequired,
+  onComponentAddTimepointClick: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -125,6 +131,7 @@ const mapDispatch = {
   onConcentrationBlur: createExperimentActions.toggleComponentEditing,
   onConcentrationSave: createExperimentActions.setComponentConcentration,
   onComponentRemoveClick: createExperimentActions.removeComponents,
+  onComponentAddTimepointClick: createExperimentActions.addTimepointToComponent,
 };
 
 const connected = connect(
