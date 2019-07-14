@@ -10,6 +10,7 @@ export class ComponentSection extends Component {
       showConcentration,
       onRemoveClick,
       onComponentAddTimepointClick,
+      onComponentTimepointChange,
     } = this.props;
     return (
       <React.Fragment>
@@ -24,6 +25,7 @@ export class ComponentSection extends Component {
               showConcentration={showConcentration}
               onRemoveClick={onRemoveClick}
               onAddTimepointClick={onComponentAddTimepointClick}
+              onTimepointChange={onComponentTimepointChange}
             />
           );
         })}

@@ -19,6 +19,7 @@ class ApplyToolbar extends Component {
       onComponentDeselect,
       onComponentRemoveClick,
       onComponentAddTimepointClick,
+      onComponentTimepointChange,
     } = this.props;
     const groupedComponents = this.group(components);
     const { communities, compounds, media, supplements } = groupedComponents;
@@ -41,6 +42,7 @@ class ApplyToolbar extends Component {
                 showConcentration={true}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
+                onComponentTimepointChange={onComponentTimepointChange}
               />
             )}
             {compounds.length > 0 && (
@@ -53,6 +55,7 @@ class ApplyToolbar extends Component {
                 showConcentration={true}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
+                onComponentTimepointChange={onComponentTimepointChange}
               />
             )}
             {media.length > 0 && (
@@ -65,6 +68,7 @@ class ApplyToolbar extends Component {
                 showConcentration={false}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
+                onComponentTimepointChange={onComponentTimepointChange}
               />
             )}
             {supplements.length > 0 && (
@@ -77,6 +81,7 @@ class ApplyToolbar extends Component {
                 showConcentration={true}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
+                onComponentTimepointChange={onComponentTimepointChange}
               />
             )}
           </div>
@@ -115,6 +120,7 @@ ApplyToolbar.propTypes = {
   onConcentrationSave: PropTypes.func.isRequired,
   onComponentRemoveClick: PropTypes.func.isRequired,
   onComponentAddTimepointClick: PropTypes.func.isRequired,
+  onComponentTimepointChange: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -132,6 +138,7 @@ const mapDispatch = {
   onConcentrationSave: createExperimentActions.setComponentConcentration,
   onComponentRemoveClick: createExperimentActions.removeComponents,
   onComponentAddTimepointClick: createExperimentActions.addTimepointToComponent,
+  onComponentTimepointChange: createExperimentActions.updateTimepoint,
 };
 
 const connected = connect(

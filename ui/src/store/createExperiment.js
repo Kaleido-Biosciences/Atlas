@@ -145,6 +145,12 @@ const createExperiment = createSlice({
       const stateComponent = getComponentFromState(component, state);
       stateComponent.timepoints.push(createNewTimepoint());
     },
+    updateTimepoint(state, action) {
+      const { component, name, value, index } = action.payload;
+      const stateComponent = getComponentFromState(component, state);
+      const timepoint = stateComponent.timepoints[index];
+      timepoint[name] = value;
+    },
     applySelectedComponentsToWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps, components } = state;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Checkbox, Icon } from 'semantic-ui-react';
 
+import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
 
 export class ToolbarComponent extends Component {
@@ -25,16 +26,24 @@ export class ToolbarComponent extends Component {
       this.props.onAddTimepointClick({ component });
     }
   };
-  handleAddTimepoint = () => {};
+  handleTimepointChange = data => {
+    if (this.props.onTimepointChange) {
+      const { component } = this.props;
+      this.props.onTimepointChange({ component, ...data });
+    }
+  };
   renderTimepoints = () => {
     const { timepoints } = this.props.component;
     return (
       <div className="timepoints">
         {timepoints.map((timepoint, i) => {
           return (
-            <div className="timepoint" key={i}>
-              {timepoint.time} {timepoint.concentration}
-            </div>
+            <Timepoint
+              timepoint={timepoint}
+              index={i}
+              key={i}
+              onChange={this.handleTimepointChange}
+            />
           );
         })}
         <div className="add-timepoint">
