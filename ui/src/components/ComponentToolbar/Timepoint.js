@@ -22,16 +22,20 @@ export class Timepoint extends Component {
     }
   };
   render() {
-    const { timepoint, allowDelete } = this.props;
+    const { timepoint, allowDelete, allowTimeChange } = this.props;
     return (
       <div className="timepoint">
-        <Icon name="clock" />
-        <Input
-          name="time"
-          type="number"
-          value={timepoint.time}
-          onChange={this.handleChange}
-        />
+        {allowTimeChange && (
+          <React.Fragment>
+            <Icon name="clock" />
+            <Input
+              name="time"
+              type="number"
+              value={timepoint.time}
+              onChange={this.handleChange}
+            />
+          </React.Fragment>
+        )}
         <Icon name="percent" />
         <Input
           name="concentration"

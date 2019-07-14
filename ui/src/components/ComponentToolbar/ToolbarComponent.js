@@ -39,7 +39,8 @@ export class ToolbarComponent extends Component {
     }
   };
   renderTimepoints = () => {
-    const { timepoints } = this.props.component;
+    const { component, allowTimepointTimeChange } = this.props;
+    const { timepoints } = component;
     return (
       <div className="timepoints">
         {timepoints.map((timepoint, i) => {
@@ -51,6 +52,7 @@ export class ToolbarComponent extends Component {
               onChange={this.handleTimepointChange}
               allowDelete={i > 0}
               onDeleteClick={this.handleTimepointDeleteClick}
+              allowTimeChange={allowTimepointTimeChange}
             />
           );
         })}
@@ -66,7 +68,7 @@ export class ToolbarComponent extends Component {
     return <div className="concentration">{concentration}</div>;
   };
   render() {
-    const { component, showTimepoints, showConcentration } = this.props;
+    const { component, showTimepoints } = this.props;
     return (
       <div className={styles.component}>
         <div className={styles.header}>
@@ -78,10 +80,7 @@ export class ToolbarComponent extends Component {
           />
           <Icon name="remove circle" onClick={this.handleRemoveClick} />
         </div>
-        <div>
-          {showTimepoints && this.renderTimepoints()}
-          {!showTimepoints && showConcentration && this.renderConcentration()}
-        </div>
+        <div>{showTimepoints && this.renderTimepoints()}</div>
       </div>
     );
   }
