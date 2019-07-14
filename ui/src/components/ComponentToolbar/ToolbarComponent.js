@@ -32,6 +32,12 @@ export class ToolbarComponent extends Component {
       this.props.onTimepointChange({ component, ...data });
     }
   };
+  handleTimepointDeleteClick = data => {
+    if (this.props.onTimepointDeleteClick) {
+      const { component } = this.props;
+      this.props.onTimepointDeleteClick({ component, ...data });
+    }
+  };
   renderTimepoints = () => {
     const { timepoints } = this.props.component;
     return (
@@ -43,6 +49,8 @@ export class ToolbarComponent extends Component {
               index={i}
               key={i}
               onChange={this.handleTimepointChange}
+              allowDelete={i > 0}
+              onDeleteClick={this.handleTimepointDeleteClick}
             />
           );
         })}

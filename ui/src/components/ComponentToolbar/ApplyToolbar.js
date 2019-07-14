@@ -20,6 +20,7 @@ class ApplyToolbar extends Component {
       onComponentRemoveClick,
       onComponentAddTimepointClick,
       onComponentTimepointChange,
+      onComponentTimepointDeleteClick,
     } = this.props;
     const groupedComponents = this.group(components);
     const { communities, compounds, media, supplements } = groupedComponents;
@@ -43,6 +44,9 @@ class ApplyToolbar extends Component {
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
+                onComponentTimepointDeleteClick={
+                  onComponentTimepointDeleteClick
+                }
               />
             )}
             {compounds.length > 0 && (
@@ -56,6 +60,9 @@ class ApplyToolbar extends Component {
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
+                onComponentTimepointDeleteClick={
+                  onComponentTimepointDeleteClick
+                }
               />
             )}
             {media.length > 0 && (
@@ -69,6 +76,9 @@ class ApplyToolbar extends Component {
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
+                onComponentTimepointDeleteClick={
+                  onComponentTimepointDeleteClick
+                }
               />
             )}
             {supplements.length > 0 && (
@@ -82,6 +92,9 @@ class ApplyToolbar extends Component {
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
+                onComponentTimepointDeleteClick={
+                  onComponentTimepointDeleteClick
+                }
               />
             )}
           </div>
@@ -121,6 +134,7 @@ ApplyToolbar.propTypes = {
   onComponentRemoveClick: PropTypes.func.isRequired,
   onComponentAddTimepointClick: PropTypes.func.isRequired,
   onComponentTimepointChange: PropTypes.func.isRequired,
+  onComponentTimepointDeleteClick: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -139,6 +153,7 @@ const mapDispatch = {
   onComponentRemoveClick: createExperimentActions.removeComponents,
   onComponentAddTimepointClick: createExperimentActions.addTimepointToComponent,
   onComponentTimepointChange: createExperimentActions.updateTimepoint,
+  onComponentTimepointDeleteClick: createExperimentActions.deleteTimepoint,
 };
 
 const connected = connect(

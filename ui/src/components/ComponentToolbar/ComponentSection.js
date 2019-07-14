@@ -11,6 +11,7 @@ export class ComponentSection extends Component {
       onRemoveClick,
       onComponentAddTimepointClick,
       onComponentTimepointChange,
+      onComponentTimepointDeleteClick
     } = this.props;
     return (
       <React.Fragment>
@@ -26,6 +27,7 @@ export class ComponentSection extends Component {
               onRemoveClick={onRemoveClick}
               onAddTimepointClick={onComponentAddTimepointClick}
               onTimepointChange={onComponentTimepointChange}
+              onTimepointDeleteClick={onComponentTimepointDeleteClick}
             />
           );
         })}

@@ -15,8 +15,14 @@ export class Timepoint extends Component {
       }
     }
   };
+  handleDeleteClick = () => {
+    const { index, onDeleteClick } = this.props;
+    if (onDeleteClick) {
+      onDeleteClick({ index });
+    }
+  };
   render() {
-    const { timepoint } = this.props;
+    const { timepoint, allowDelete } = this.props;
     return (
       <div className="timepoint">
         <Icon name="clock" />
@@ -33,6 +39,9 @@ export class Timepoint extends Component {
           value={timepoint.concentration}
           onChange={this.handleChange}
         />
+        {allowDelete && (
+          <Icon name="minus circle" onClick={this.handleDeleteClick} />
+        )}
       </div>
     );
   }
