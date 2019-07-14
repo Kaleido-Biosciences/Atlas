@@ -27,7 +27,7 @@ export class Well extends Component {
   }
   render() {
     const { selected, highlighted, dimmed, components } = this.props.well;
-    const { communities, compounds, media, supplements } = this.group(components);
+    const { communities, compounds, media } = this.group(components);
     return (
       <div
         onClick={this.handleClick}

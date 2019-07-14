@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox, Icon } from 'semantic-ui-react';
 
 import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
