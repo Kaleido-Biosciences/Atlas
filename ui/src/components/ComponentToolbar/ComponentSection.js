@@ -8,6 +8,7 @@ export class ComponentSection extends Component {
       onDeselect,
       showTimepoints,
       allowTimepointTimeChange,
+      allowAddTimepoint,
       onRemoveClick,
       onComponentAddTimepointClick,
       onComponentTimepointChange,
@@ -24,6 +25,7 @@ export class ComponentSection extends Component {
               onDeselect={onDeselect}
               showTimepoints={showTimepoints}
               allowTimepointTimeChange={allowTimepointTimeChange}
+              allowAddTimepoint={allowAddTimepoint}
               onRemoveClick={onRemoveClick}
               onAddTimepointClick={onComponentAddTimepointClick}
               onTimepointChange={onComponentTimepointChange}

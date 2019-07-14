@@ -39,7 +39,11 @@ export class ToolbarComponent extends Component {
     }
   };
   renderTimepoints = () => {
-    const { component, allowTimepointTimeChange } = this.props;
+    const {
+      component,
+      allowTimepointTimeChange,
+      allowAddTimepoint,
+    } = this.props;
     const { timepoints } = component;
     return (
       <div className="timepoints">
@@ -56,10 +60,12 @@ export class ToolbarComponent extends Component {
             />
           );
         })}
-        <div className="add-timepoint">
-          <Icon name="plus circle" onClick={this.handleAddTimepointClick} /> Add
-          Timepoint
-        </div>
+        {allowAddTimepoint && (
+          <div className="add-timepoint">
+            <Icon name="plus circle" onClick={this.handleAddTimepointClick} />{' '}
+            Add Timepoint
+          </div>
+        )}
       </div>
     );
   };

@@ -41,6 +41,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 allowTimepointTimeChange={true}
+                allowAddTimepoint={true}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
@@ -57,6 +58,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 allowTimepointTimeChange={false}
+                allowAddTimepoint={false}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
@@ -88,6 +90,7 @@ class ApplyToolbar extends Component {
                 onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 allowTimepointTimeChange={true}
+                allowAddTimepoint={true}
                 onRemoveClick={onComponentRemoveClick}
                 onComponentAddTimepointClick={onComponentAddTimepointClick}
                 onComponentTimepointChange={onComponentTimepointChange}
