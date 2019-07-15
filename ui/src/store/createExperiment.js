@@ -82,40 +82,23 @@ const createExperiment = createSlice({
         media = [],
         supplements = [],
       } = action.payload;
-      const { components } = state;
-      const createComponent = (id, displayName, type, data, timepoints) => {
-        const existingComponent = components.find(comp => comp.id === id);
+      const createIfNotExists = (data, type) => {
+        const existingComponent = getComponentFromState(data.id, state);
         if (!existingComponent) {
-          components.push({
-            id,
-            displayName,
-            type,
-            data,
-            selected: true,
-            editing: false,
-            timepoints,
-          });
+          state.components.push(createComponent(data, type));
         }
       };
       communities.forEach(comm => {
-        createComponent(comm.id, comm.name, 'community', comm, [
-          createNewTimepoint(),
-        ]);
+        createIfNotExists(comm, 'community');
       });
       compounds.forEach(comp => {
-        createComponent(comp.id, comp.name, 'compound', comp, [
-          createNewTimepoint(),
-        ]);
+        createIfNotExists(comp, 'compound');
       });
       media.forEach(medium => {
-        createComponent(medium.id, medium.name, 'medium', medium, [
-          createNewTimepoint(undefined, DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION),
-        ]);
+        createIfNotExists(medium, 'medium');
       });
       supplements.forEach(supp => {
-        createComponent(supp.id, supp.name.label, 'supplement', supp, [
-          createNewTimepoint(),
-        ]);
+        createIfNotExists(supp, 'supplement');
       });
     },
     removeComponents(state, action) {
@@ -129,20 +112,20 @@ const createExperiment = createSlice({
     selectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        const stateComponent = getComponentFromState(component, state);
+        const stateComponent = getComponentFromState(component.id, state);
         stateComponent.selected = true;
       });
     },
     deselectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        const stateComponent = getComponentFromState(component, state);
+        const stateComponent = getComponentFromState(component.id, state);
         stateComponent.selected = false;
       });
     },
     addTimepointToComponent(state, action) {
       const { component } = action.payload;
-      const stateComponent = getComponentFromState(component, state);
+      const stateComponent = getComponentFromState(component.id, state);
       const { timepoints } = stateComponent;
       let time;
       if (timepoints.length > 0) {
@@ -151,18 +134,18 @@ const createExperiment = createSlice({
         }, 0);
         time = max + 24;
       }
-      timepoints.push(createNewTimepoint(time));
+      timepoints.push(createTimepoint(time));
     },
     updateTimepoint(state, action) {
       const { component, name, value, index } = action.payload;
-      const stateComponent = getComponentFromState(component, state);
+      const stateComponent = getComponentFromState(component.id, state);
       const timepoint = stateComponent.timepoints[index];
       timepoint[name] = value;
     },
     deleteTimepoint(state, action) {
       const { component, index } = action.payload;
       if (index > 0) {
-        const stateComponent = getComponentFromState(component, state);
+        const stateComponent = getComponentFromState(component.id, state);
         stateComponent.timepoints.splice(index, 1);
       }
     },
@@ -244,12 +227,12 @@ const createExperiment = createSlice({
     },
     toggleComponentEditing(state, action) {
       const { component } = action.payload;
-      const stateComponent = getComponentFromState(component, state);
+      const stateComponent = getComponentFromState(component.id, state);
       stateComponent.editing = !stateComponent.editing;
     },
     setComponentConcentration(state, action) {
       const { component, value } = action.payload;
-      const stateComponent = getComponentFromState(component, state);
+      const stateComponent = getComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
     toggleHighlight(state, action) {
@@ -432,13 +415,40 @@ function findPlateMapById(id, plateMaps) {
   });
 }
 
-function getComponentFromState(component, state) {
+function getComponentFromState(componentId, state) {
   return state.components.find(
-    stateComponent => stateComponent.id === component.id
+    stateComponent => stateComponent.id === componentId
   );
 }
 
-function createNewTimepoint(
+function createComponent(data, type) {
+  const id = data.id;
+  let displayName, initialTimepoint;
+  if (type === 'community') {
+    displayName = data.name;
+    initialTimepoint = createTimepoint();
+  } else if (type === 'compound') {
+    displayName = data.name;
+    initialTimepoint = createTimepoint();
+  } else if (type === 'medium') {
+    displayName = data.name;
+    createTimepoint(undefined, DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION);
+  } else if (type === 'supplement') {
+    displayName = data.name.label;
+    initialTimepoint = createTimepoint();
+  }
+  return {
+    id,
+    displayName,
+    type,
+    data,
+    selected: true,
+    valid: true,
+    timepoints: [initialTimepoint],
+  };
+}
+
+function createTimepoint(
   time = DEFAULT_TIMEPOINT_TIME,
   concentration = DEFAULT_TIMEPOINT_CONCENTRATION
 ) {
