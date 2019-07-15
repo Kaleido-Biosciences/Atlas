@@ -143,7 +143,15 @@ const createExperiment = createSlice({
     addTimepointToComponent(state, action) {
       const { component } = action.payload;
       const stateComponent = getComponentFromState(component, state);
-      stateComponent.timepoints.push(createNewTimepoint());
+      const { timepoints } = stateComponent;
+      let time;
+      if (timepoints.length > 0) {
+        const max = timepoints.reduce((highest, current) => {
+          return current.time > highest ? current.time : highest;
+        }, 0);
+        time = max + 24;
+      }
+      timepoints.push(createNewTimepoint(time));
     },
     updateTimepoint(state, action) {
       const { component, name, value, index } = action.payload;
