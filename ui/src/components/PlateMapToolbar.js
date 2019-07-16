@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Checkbox, Button } from 'semantic-ui-react';
 
+import { PlateMapDropdown } from './PlateMapDropdown';
+import styles from './PlateMapToolbar.module.css';
+
 export class PlateMapToolbar extends Component {
   handleDelete = () => {
     this.props.onDeleteClick(this.props.activePlateMap.id);
@@ -10,10 +13,30 @@ export class PlateMapToolbar extends Component {
     this.props.onHighlightClick({ componentType: value });
   };
   render() {
-    const { highlightedComponents } = this.props;
+    const { plateMaps, activePlateMap, highlightedComponents } = this.props;
     return (
-      <div className="platemap-toolbar">
-        <div className="highlight">
+      <div className={styles.toolbar}>
+        <div>
+          <PlateMapDropdown
+            plateMaps={plateMaps}
+            activePlateMap={activePlateMap}
+            onChange={this.props.onPlateMapChange}
+          />
+        </div>
+        <div>
+          <Button
+            primary
+            icon="plus circle"
+            content="Add Plate Map"
+            onClick={this.props.onAddClick}
+          />
+          <Button
+            icon="trash"
+            content="Delete Plate Map"
+            onClick={this.handleDelete}
+          />
+        </div>
+        <div className={styles.highlight}>
           <Form>
             <Form.Group inline>
               <label>Highlight wells containing:</label>
@@ -44,22 +67,16 @@ export class PlateMapToolbar extends Component {
             </Form.Group>
           </Form>
         </div>
-        <div className="actions">
-          <Button
-            compact
-            icon="trash"
-            content="Delete"
-            onClick={this.handleDelete}
-          />
-        </div>
       </div>
     );
   }
 }
 
 PlateMapToolbar.propTypes = {
+  plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object.isRequired,
   highlightedComponents: PropTypes.array.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   onHighlightClick: PropTypes.func.isRequired,
+  onAddClick: PropTypes.func.isRequired,
 };

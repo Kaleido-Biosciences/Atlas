@@ -1,0 +1,8 @@
+.component {
+  margin-bottom: .5em;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

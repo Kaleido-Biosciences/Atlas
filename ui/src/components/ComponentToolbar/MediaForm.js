@@ -6,7 +6,7 @@ import { Form, Checkbox } from 'semantic-ui-react';
 export class MediaForm extends Component {
   handleChange = (e, data) => {
     const { checked, value } = data;
-    const medium = this.props.media.find(medium => medium.name === value);
+    const medium = this.props.media.find(medium => medium.id === value);
     const selection = { components: [medium] };
     if (checked) {
       this.props.onSelect(selection);
@@ -18,10 +18,10 @@ export class MediaForm extends Component {
     const { media } = this.props;
     return media.map((medium, i) => {
       return (
-        <Form.Field key={medium.name}>
+        <Form.Field key={i}>
           <Checkbox
-            label={medium.name}
-            value={medium.name}
+            label={medium.displayName}
+            value={medium.id}
             onClick={this.handleChange}
             checked={medium.selected}
           />

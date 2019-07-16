@@ -1,0 +1,15 @@
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.highlight :global(.ui.form .inline.fields) {
+  margin: 0;
+}
+
+.highlight :global(.ui.form .fields) {
+  margin: 0;
+}

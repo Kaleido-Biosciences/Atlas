@@ -48,7 +48,7 @@ class CreateNew extends Component {
           <Route
             path={`${match.path}/select`}
             render={() => (
-              <SelectStep onStepComplete={this.selectStepComplete} />
+              <SelectStep onComplete={this.selectStepComplete} />
             )}
           />
           <Route path={`${match.path}/build`} component={BuildStep} />

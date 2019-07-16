@@ -8,7 +8,7 @@ export class CommunitiesForm extends Component {
   handleChange = (e, data) => {
     const { checked, value } = data;
     const community = this.props.communities.find(
-      community => community.name === value
+      community => community.id === value
     );
     const selection = { components: [community] };
     if (checked) {
@@ -21,10 +21,10 @@ export class CommunitiesForm extends Component {
     const { communities } = this.props;
     return communities.map((community, i) => {
       return (
-        <Form.Field key={community.name}>
+        <Form.Field key={i}>
           <Checkbox
-            label={community.name}
-            value={community.name}
+            label={community.displayName}
+            value={community.id}
             onClick={this.handleChange}
             checked={community.selected}
           />

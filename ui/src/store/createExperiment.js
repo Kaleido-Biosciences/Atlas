@@ -1,88 +1,42 @@
 import { createSlice, createSelector } from 'redux-starter-kit';
-import { plateMapRowHeaders } from '../constants';
+import validate from 'validate.js';
+
+import {
+  PLATEMAP_ROW_HEADERS,
+  DEFAULT_TIMEPOINT_TIME,
+  DEFAULT_TIMEPOINT_CONCENTRATION,
+  DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
+} from '../constants';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
-    experiment: '',
-    plateSize: 96,
+    experiment: null,
+    plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
+    components: [],
+    clickMode: 'apply',
+    clearMode: 'all',
     steps: {
       stepOneCompleted: false,
       stepTwoCompleted: false,
       stepthreeCompleted: false,
     },
-    clickMode: 'apply',
-    clearMode: 'all',
-    selectedComponents: {
-      compounds: [],
-      communities: [],
-      media: [],
-    },
     highlightedComponents: [],
   },
   reducers: {
     setExperimentOptions(state, action) {
-      const {
-        experiment,
-        plateSize,
-        selectedCompounds,
-        selectedCommunities,
-        selectedMedia,
-        selectedSupplements,
-      } = action.payload;
+      const { experiment, plateSize } = action.payload;
       state.experiment = experiment;
-      if (state.plateSize !== plateSize) {
+      if (
+        state.plateSize &&
+        (state.plateSize.rows !== plateSize.rows ||
+          state.plateSize.columns !== plateSize.columns)
+      ) {
         state.plateMaps = [];
       }
       state.plateSize = plateSize;
-      state.selectedComponents = {
-        communities: [],
-        compounds: [],
-        media: [],
-        supplements: [],
-      };
-      selectedCommunities.forEach(community => {
-        state.selectedComponents.communities.push({
-          id: community.id,
-          name: community.name,
-          type: 'community',
-          selected: false,
-          concentration: 0.5,
-          editing: false,
-          data: community,
-        });
-      });
-      selectedCompounds.forEach(compound => {
-        state.selectedComponents.compounds.push({
-          id: compound.id,
-          name: compound.name,
-          type: 'compound',
-          selected: false,
-          concentration: 0.5,
-          editing: false,
-          data: compound,
-        });
-      });
-      selectedMedia.forEach(medium => {
-        state.selectedComponents.media.push({
-          id: medium.id,
-          name: medium.name,
-          type: 'medium',
-          selected: false,
-          data: medium,
-        });
-      });
-      selectedSupplements.forEach(supplement => {
-        state.selectedComponents.supplements.push({
-          id: supplement.id,
-          name: supplement.name.label,
-          type: 'supplement',
-          selected: false,
-          data: supplement,
-        });
-      });
       state.steps.stepOneCompleted = true;
     },
     addPlateMap(state, action) {
@@ -107,6 +61,15 @@ const createExperiment = createSlice({
       state.plateMaps = state.plateMaps.filter((plateMap, i) => {
         return plateMap.id !== idToRemove;
       });
+      // TODO might want to move this to a thunk
+      // and maybe select the plate immediately
+      // before the deleted one.
+      if (state.plateMaps.length) {
+        state.plateMaps.forEach(plateMap => {
+          plateMap.active = false;
+        });
+        state.plateMaps[0].active = true;
+      }
     },
     setClickMode(state, action) {
       state.clickMode = action.payload;
@@ -114,28 +77,101 @@ const createExperiment = createSlice({
     setClearMode(state, action) {
       state.clearMode = action.payload;
     },
+    addComponents(state, action) {
+      const {
+        communities = [],
+        compounds = [],
+        media = [],
+        supplements = [],
+      } = action.payload;
+      const createIfNotExists = (data, type) => {
+        const existingComponent = getComponentFromState(data.id, state);
+        if (!existingComponent) {
+          state.components.push(createComponent(data, type));
+        }
+      };
+      communities.forEach(comm => {
+        createIfNotExists(comm, 'community');
+      });
+      compounds.forEach(comp => {
+        createIfNotExists(comp, 'compound');
+      });
+      media.forEach(medium => {
+        createIfNotExists(medium, 'medium');
+      });
+      supplements.forEach(supp => {
+        createIfNotExists(supp, 'supplement');
+      });
+    },
+    removeComponents(state, action) {
+      const componentsToRemove = action.payload.components;
+      const { components } = state;
+      const idsToRemove = componentsToRemove.map(component => component.id);
+      state.components = components.filter(
+        component => !idsToRemove.includes(component.id)
+      );
+    },
     selectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        const stateComponent = getComponentFromState(component, state);
+        const stateComponent = getComponentFromState(component.id, state);
         stateComponent.selected = true;
       });
     },
     deselectComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        const stateComponent = getComponentFromState(component, state);
+        const stateComponent = getComponentFromState(component.id, state);
         stateComponent.selected = false;
       });
     },
+    addTimepointToComponent(state, action) {
+      const { component } = action.payload;
+      const stateComponent = getComponentFromState(component.id, state);
+      const { timepoints } = stateComponent;
+      let time;
+      if (timepoints.length > 0) {
+        const max = timepoints.reduce((highest, current) => {
+          return current.time > highest ? current.time : highest;
+        }, 0);
+        time = max + 24;
+      }
+      timepoints.push(createTimepoint(time));
+    },
+    updateTimepoint(state, action) {
+      const { component, name, value, index } = action.payload;
+      const stateComponent = getComponentFromState(component.id, state);
+      const { timepoints } = stateComponent;
+      const timepoint = timepoints[index];
+      timepoint[name] = value;
+      const errors = validate.single(
+        timepoints,
+        { timepoints: true },
+        { fullMessages: false }
+      );
+      if (!errors) {
+        stateComponent.isValid = true;
+        stateComponent.errors = [];
+      } else {
+        stateComponent.isValid = false;
+        stateComponent.errors = errors;
+      }
+    },
+    deleteTimepoint(state, action) {
+      const { component, index } = action.payload;
+      if (index > 0) {
+        const stateComponent = getComponentFromState(component.id, state);
+        stateComponent.timepoints.splice(index, 1);
+      }
+    },
     applySelectedComponentsToWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
-      const { plateMaps, selectedComponents } = state;
+      const { plateMaps, components } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const updatedWells = applySelectedComponentsToWells(
         plateMap,
         wellIds,
-        selectedComponents
+        components
       );
       setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
     },
@@ -206,12 +242,12 @@ const createExperiment = createSlice({
     },
     toggleComponentEditing(state, action) {
       const { component } = action.payload;
-      const stateComponent = getComponentFromState(component, state);
+      const stateComponent = getComponentFromState(component.id, state);
       stateComponent.editing = !stateComponent.editing;
     },
     setComponentConcentration(state, action) {
       const { component, value } = action.payload;
-      const stateComponent = getComponentFromState(component, state);
+      const stateComponent = getComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
     toggleHighlight(state, action) {
@@ -288,14 +324,13 @@ export function createPlateMap() {
   };
 }
 
-function getPlateMapArray(size) {
+function getPlateMapArray(dimensions) {
+  const { rows, columns } = dimensions;
   const plateMap = [];
   let wellCount = 0;
-  const rows = size === 96 ? 8 : 16;
-  const columns = size === 96 ? 12 : 24;
   for (let i = 0; i < rows; i++) {
     const row = [];
-    const rowLetter = plateMapRowHeaders[i];
+    const rowLetter = PLATEMAP_ROW_HEADERS[i];
     for (let i = 0; i < columns; i++) {
       row.push({
         id: wellCount,
@@ -304,9 +339,7 @@ function getPlateMapArray(size) {
         blank: false,
         highlighted: false,
         dimmed: false,
-        compounds: [],
-        communities: [],
-        media: [],
+        components: [],
       });
       wellCount++;
     }
@@ -331,31 +364,54 @@ export const selectSelectedWellsFromActivePlateMap = createSelector(
 );
 
 function applySelectedComponentsToWells(plateMap, wellIds, components) {
-  const componentTypes = ['communities', 'compounds', 'media'];
   const wells = plateMap.data.flat();
   const updatedWells = [];
   wellIds.forEach(wellId => {
     const well = wells[wellId];
-    componentTypes.forEach(type => {
-      components[type].forEach(component => {
-        if (component.selected) {
-          const existingIndex = wells[wellId][type].findIndex(
-            comp => comp.name === component.name
-          );
-          if (existingIndex === -1) {
-            let { selected, editing, ...wellComponent } = component;
-            well[type].push(wellComponent);
-          } else {
-            let { selected, editing, ...wellComponent } = component;
-            well[type].splice(existingIndex, 1, wellComponent);
-          }
+    components.forEach(component => {
+      if (component.selected) {
+        const existingIndex = well.components.findIndex(
+          comp => comp.id === component.id
+        );
+        const { selected, editing, ...wellComponent } = component;
+        if (existingIndex === -1) {
+          well.components.push(wellComponent);
+        } else {
+          well.components.splice(existingIndex, 1, wellComponent);
         }
-      });
+      }
     });
     updatedWells.push(well);
   });
   return updatedWells;
 }
+
+// function applySelectedComponentsToWells(plateMap, wellIds, components) {
+//   const componentTypes = ['communities', 'compounds', 'media'];
+//   const wells = plateMap.data.flat();
+//   const updatedWells = [];
+//   wellIds.forEach(wellId => {
+//     const well = wells[wellId];
+//     componentTypes.forEach(type => {
+//       components[type].forEach(component => {
+//         if (component.selected) {
+//           const existingIndex = wells[wellId][type].findIndex(
+//             comp => comp.name === component.name
+//           );
+//           if (existingIndex === -1) {
+//             let { selected, editing, ...wellComponent } = component;
+//             well[type].push(wellComponent);
+//           } else {
+//             let { selected, editing, ...wellComponent } = component;
+//             well[type].splice(existingIndex, 1, wellComponent);
+//           }
+//         }
+//       });
+//     });
+//     updatedWells.push(well);
+//   });
+//   return updatedWells;
+// }
 
 function getSelectedWells(plateMap) {
   const flat = plateMap.data.flat();
@@ -374,17 +430,88 @@ function findPlateMapById(id, plateMaps) {
   });
 }
 
-function getComponentFromState(component, state) {
-  const { type } = component;
-  let collection;
-  if (type === 'community') {
-    collection = state.selectedComponents.communities;
-  } else if (type === 'compound') {
-    collection = state.selectedComponents.compounds;
-  } else if (type === 'medium') {
-    collection = state.selectedComponents.media;
-  }
-  return collection.find(
-    stateComponent => stateComponent.name === component.name
+function getComponentFromState(componentId, state) {
+  return state.components.find(
+    stateComponent => stateComponent.id === componentId
   );
 }
+
+function createComponent(data, type) {
+  const id = data.id;
+  let displayName, initialTimepoint;
+  if (type === 'community') {
+    displayName = data.name;
+    initialTimepoint = createTimepoint();
+  } else if (type === 'compound') {
+    displayName = data.name;
+    initialTimepoint = createTimepoint();
+  } else if (type === 'medium') {
+    displayName = data.name;
+    createTimepoint(undefined, DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION);
+  } else if (type === 'supplement') {
+    displayName = data.name.label;
+    initialTimepoint = createTimepoint();
+  }
+  return {
+    id,
+    displayName,
+    type,
+    data,
+    selected: true,
+    isValid: true,
+    timepoints: [initialTimepoint],
+  };
+}
+
+function createTimepoint(
+  time = DEFAULT_TIMEPOINT_TIME,
+  concentration = DEFAULT_TIMEPOINT_CONCENTRATION
+) {
+  return { time, concentration };
+}
+
+validate.validators.timepoints = function(timepoints) {
+  const messages = [];
+  let emptyTime = false,
+    invalidTime = false,
+    emptyConcentration = false,
+    invalidConcentration = false,
+    duplicateTime = false;
+  const times = [];
+  timepoints.forEach(timepoint => {
+    const { time, concentration } = timepoint;
+    if (validate.isEmpty(time)) {
+      emptyTime = true;
+    }
+    if (!validate.isNumber(time)) {
+      invalidTime = true;
+    }
+    if (validate.isEmpty(concentration)) {
+      emptyConcentration = true;
+    }
+    if (!validate.isNumber(concentration) || !(concentration > 0)) {
+      invalidConcentration = true;
+    }
+    if (times.includes(timepoint.time)) {
+      duplicateTime = true;
+    } else {
+      times.push(timepoint.time);
+    }
+  });
+  if (emptyTime) {
+    messages.push('Time must be specified.');
+  }
+  if (invalidTime) {
+    messages.push('Time must be a number.');
+  }
+  if (emptyConcentration) {
+    messages.push('Concentration must be specified.');
+  }
+  if (invalidConcentration) {
+    messages.push('Concentration must be a number > 0.');
+  }
+  if (duplicateTime) {
+    messages.push('Times must be unique.');
+  }
+  return messages;
+};

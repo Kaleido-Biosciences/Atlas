@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+  padding: 0 1em;
+}
+
+.plateMapContainer {
+  position: relative;
+}
+
+.dragHandle {
+  cursor: move;
+  padding-bottom: 1em;
+}
+
+.componentToolbar {
+  position: absolute;
+  top: 4em;
+  right: 2em;
+  width: 18rem;
+  max-width: 18rem;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { plateMapRowHeaders } from '../constants';
+import { PLATEMAP_ROW_HEADERS } from '../constants';
 import { Well } from './Well';
 import { PlateMapHeader } from './PlateMapHeader';
 
@@ -18,7 +18,7 @@ export class PlateMap extends Component {
       columns.unshift(
         <PlateMapHeader
           headerType="row"
-          label={plateMapRowHeaders[i]}
+          label={PLATEMAP_ROW_HEADERS[i]}
           key={0}
           index={i}
           onClick={this.handleHeaderClick}

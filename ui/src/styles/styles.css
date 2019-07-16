@@ -45,49 +45,6 @@
   /* font-size: 2.5em; */
 }
 
-.select-loading .ui.loader {
-  top: 40%;
-}
-
-.select-container {
-  margin-top: 2em;
-}
-
-.select-container .ui.form {
-  margin: auto;
-  max-width: 40em;
-}
-
-.build-container {
-  display: flex;
-}
-
-.build-container .build-plate-menu {
-  width: 15rem;
-  margin-right: 1.5rem;
-}
-
-.build-container .build-platemap {
-  flex-grow: 1;
-  overflow: auto;
-}
-
-.build-container .build-sidebar {
-  width: 18rem;
-  margin-left: 1.5rem;
-}
-
-.platemap-toolbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 0.5em;
-}
-
-.platemap-toolbar .highlight {
-  margin-left: 2.1em;
-}
-
 .platemap .platemap-container {
   overflow: auto;
   height: calc(100vh - 12.5em);
