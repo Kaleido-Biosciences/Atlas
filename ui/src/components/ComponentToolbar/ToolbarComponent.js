@@ -69,6 +69,11 @@ export class ToolbarComponent extends Component {
       </div>
     );
   };
+  renderValidationErrors = errors => {
+    return errors.map((error, i) => {
+      return <div key={i}>{error}</div>;
+    });
+  };
   renderConcentration = () => {
     const concentration = this.props.component.timepoints[0].concentration;
     return <div className="concentration">{concentration}</div>;
@@ -87,6 +92,9 @@ export class ToolbarComponent extends Component {
           <Icon name="remove circle" onClick={this.handleRemoveClick} />
         </div>
         <div>{showTimepoints && this.renderTimepoints()}</div>
+        <div className="validationErrors">
+          {!component.isValid && this.renderValidationErrors(component.errors)}
+        </div>
       </div>
     );
   }
