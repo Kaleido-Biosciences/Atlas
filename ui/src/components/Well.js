@@ -23,7 +23,7 @@ export class Well extends Component {
   }
   renderMedia(media) {
     return media.map(medium => {
-      return <WellComponent key={media.id} component={medium} />;
+      return <WellComponent key={medium.id} component={medium} />;
     });
   }
   renderSupplements(supplements) {
