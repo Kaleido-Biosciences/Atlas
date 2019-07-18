@@ -1,6 +1,6 @@
 .component {
   margin-bottom: 0.5em;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .component:global(.selected) {
@@ -25,14 +25,14 @@
   margin-top: 1em;
 }
 
-.addTimepointIcon {
-  color: #2185d0;
+.removeIcon {
+  color: rgb(0, 0, 0, 0.4);
+  margin: 0 !important;
+  transition: color 0.1s ease !important;
 }
 
-.removeIcon {
-  color: #db2828;
-  cursor: pointer;
-  margin: 0 !important;
+.removeIcon:hover {
+  color: rgb(0, 0, 0, 0.87);
 }
 
 .validationErrors {

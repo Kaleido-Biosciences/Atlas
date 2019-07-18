@@ -53,7 +53,7 @@ export class Timepoint extends Component {
             />
           </div>
           {allowDelete && (
-            <Icon className={styles.removeIcon} name="minus circle" onClick={this.handleDeleteClick} />
+            <Icon link color="red" className={styles.removeIcon} name="minus circle" onClick={this.handleDeleteClick} />
           )}
         </div>
       </div>
