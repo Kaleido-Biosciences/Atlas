@@ -5,57 +5,53 @@ import { Tab } from 'semantic-ui-react';
 import { ApplyToolbar } from './ApplyToolbar';
 import { SelectToolbar } from './SelectToolbar';
 import { ClearToolbar } from './ClearToolbar';
-import { ComponentSearch } from './ComponentSearch';
 import styles from './ComponentToolbar.module.css';
 
-const panes = [
-  {
-    menuItem: 'Apply',
-    render: () => (
-      <Tab.Pane attached={false}>
-        <ApplyToolbar />
-      </Tab.Pane>
-    ),
-    modeName: 'apply',
-  },
-  {
-    menuItem: 'Select',
-    render: () => (
-      <Tab.Pane attached={false}>
-        <SelectToolbar />
-      </Tab.Pane>
-    ),
-    modeName: 'select',
-  },
-  {
-    menuItem: 'Clear',
-    render: () => (
-      <Tab.Pane attached={false}>
-        <ClearToolbar />
-      </Tab.Pane>
-    ),
-    modeName: 'clear',
-  },
-];
-
 export class ComponentToolbar extends Component {
+  getPanes = () => {
+    return [
+      {
+        menuItem: 'Apply',
+        render: () => (
+          <Tab.Pane attached={false}>
+            <ApplyToolbar onAddComponent={this.props.onAddComponent} />
+          </Tab.Pane>
+        ),
+        modeName: 'apply',
+      },
+      {
+        menuItem: 'Select',
+        render: () => (
+          <Tab.Pane attached={false}>
+            <SelectToolbar />
+          </Tab.Pane>
+        ),
+        modeName: 'select',
+      },
+      {
+        menuItem: 'Clear',
+        render: () => (
+          <Tab.Pane attached={false}>
+            <ClearToolbar />
+          </Tab.Pane>
+        ),
+        modeName: 'clear',
+      },
+    ];
+  };
   handleTabChange = (e, data) => {
     const { activeIndex, panes } = data;
     const modeName = panes[activeIndex].modeName;
     this.props.onTabChange(modeName);
   };
   render() {
-    const { onAddComponent } = this.props;
     return (
-      <div className="component-toolbar">
-        <div className={styles.componentSearchContainer}>
-          <ComponentSearch onSelect={onAddComponent} />
-        </div>
+      <div className={styles.componentToolbar}>
         <Tab
           onTabChange={this.handleTabChange}
           defaultActiveIndex={0}
           menu={{ pointing: true }}
-          panes={panes}
+          panes={this.getPanes()}
         />
       </div>
     );

@@ -1,8 +1,41 @@
 .component {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
+  opacity: 0.3;
+}
+
+.component:global(.selected) {
+  opacity: 1;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
+}
+
+.header label {
+  font-weight: bold;
+}
+
+.timepoints {
+  margin-top: 1em;
+}
+
+.addTimepoint {
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.removeIcon {
+  color: rgb(0, 0, 0, 0.4);
+  margin: 0 !important;
+  transition: color 0.1s ease !important;
+}
+
+.removeIcon:hover {
+  color: rgb(0, 0, 0, 0.87);
+}
+
+.validationErrors {
+  color: #db2828;
+  margin-top: 0.5em;
 }

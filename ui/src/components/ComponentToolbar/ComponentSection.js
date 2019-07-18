@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import { ToolbarComponent } from './ToolbarComponent';
+import styles from './ComponentSection.module.css';
 
 export class ComponentSection extends Component {
   renderComponents = components => {
@@ -39,8 +41,8 @@ export class ComponentSection extends Component {
   render() {
     const { label, components } = this.props;
     return (
-      <div className="component-section">
-        <label className="component-label">{label}</label>
+      <div className={styles.componentSection}>
+        <h4>{label}</h4>
         <div className="components">{this.renderComponents(components)}</div>
       </div>
     );

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Icon } from 'semantic-ui-react';
 
+import styles from './Timepoint.module.css';
+
 export class Timepoint extends Component {
   handleChange = (e, { name, value }) => {
     const { index, onChange } = this.props;
@@ -24,28 +26,36 @@ export class Timepoint extends Component {
   render() {
     const { timepoint, allowDelete, allowTimeChange } = this.props;
     return (
-      <div className="timepoint">
+      <div className={styles.timepoint}>
         {allowTimeChange && (
-          <React.Fragment>
-            <Icon name="clock" />
+          <div className={styles.timeField}>
+            <Icon className={styles.fieldIcon} name="clock" />
+            <div className={styles.timeInputContainer}>
+              <Input
+                fluid
+                name="time"
+                type="number"
+                value={timepoint.time}
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+        )}
+        <div className={styles.concField}>
+          <Icon className={styles.fieldIcon} name="percent" />
+          <div className={styles.concInputContainer}>
             <Input
-              name="time"
+              fluid
+              name="concentration"
               type="number"
-              value={timepoint.time}
+              value={timepoint.concentration}
               onChange={this.handleChange}
             />
-          </React.Fragment>
-        )}
-        <Icon name="percent" />
-        <Input
-          name="concentration"
-          type="number"
-          value={timepoint.concentration}
-          onChange={this.handleChange}
-        />
-        {allowDelete && (
-          <Icon name="minus circle" onClick={this.handleDeleteClick} />
-        )}
+          </div>
+          {allowDelete && (
+            <Icon link color="red" className={styles.removeIcon} name="minus circle" onClick={this.handleDeleteClick} />
+          )}
+        </div>
       </div>
     );
   }

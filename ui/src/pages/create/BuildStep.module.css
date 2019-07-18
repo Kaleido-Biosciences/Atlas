@@ -9,13 +9,17 @@
 
 .dragHandle {
   cursor: move;
-  padding-bottom: 1em;
+  height: 1em;
 }
 
 .componentToolbar {
   position: absolute;
   top: 4em;
   right: 2em;
-  width: 18rem;
-  max-width: 18rem;
+  width: 22rem;
+  max-width: 22rem;
+}
+
+.componentToolbar > :global(.segment) {
+  padding-top: 0 !important;
 }
