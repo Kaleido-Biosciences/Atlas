@@ -452,6 +452,7 @@ function createComponent(data, type) {
     displayName = data.name.label;
     initialTimepoint = createTimepoint();
   }
+  const timepoints = initialTimepoint ? [initialTimepoint] : [];
   return {
     id,
     displayName,
@@ -459,7 +460,7 @@ function createComponent(data, type) {
     data,
     selected: true,
     isValid: true,
-    timepoints: [initialTimepoint],
+    timepoints,
   };
 }
 
