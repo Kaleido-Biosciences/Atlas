@@ -68,8 +68,14 @@ export class ToolbarComponent extends Component {
             className={styles.addTimepoint}
             onClick={this.handleAddTimepointClick}
           >
-            <Icon link color="blue" className={styles.addTimepointIcon} name="plus circle" /> Add
-            Timepoint
+            <Icon
+              title="Add timepoint"
+              link
+              color="blue"
+              className={styles.addTimepointIcon}
+              name="plus circle"
+            />{' '}
+            Add Timepoint
           </div>
         )}
       </React.Fragment>
@@ -100,6 +106,7 @@ export class ToolbarComponent extends Component {
               checked={component.selected}
             />
             <Icon
+              title="Remove component"
               link
               className={styles.removeIcon}
               name="remove"
