@@ -1,3 +1,10 @@
+.componentToolbar :global(.ui.tab) {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
 .componentSearchContainer {
   margin-bottom: 1em;
 }

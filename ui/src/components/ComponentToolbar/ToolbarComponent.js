@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Checkbox, Icon } from 'semantic-ui-react';
+import { Checkbox, Icon, Segment } from 'semantic-ui-react';
+import classNames from 'classnames';
 
 import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
@@ -46,27 +47,32 @@ export class ToolbarComponent extends Component {
     } = this.props;
     const { timepoints } = component;
     return (
-      <div className="timepoints">
-        {timepoints.map((timepoint, i) => {
-          return (
-            <Timepoint
-              timepoint={timepoint}
-              index={i}
-              key={i}
-              onChange={this.handleTimepointChange}
-              allowDelete={i > 0}
-              onDeleteClick={this.handleTimepointDeleteClick}
-              allowTimeChange={allowTimepointTimeChange}
-            />
-          );
-        })}
+      <React.Fragment>
+        <div className={styles.timepoints}>
+          {timepoints.map((timepoint, i) => {
+            return (
+              <Timepoint
+                timepoint={timepoint}
+                index={i}
+                key={i}
+                onChange={this.handleTimepointChange}
+                allowDelete={i > 0}
+                onDeleteClick={this.handleTimepointDeleteClick}
+                allowTimeChange={allowTimepointTimeChange}
+              />
+            );
+          })}
+        </div>
         {allowAddTimepoint && (
-          <div className="add-timepoint">
-            <Icon name="plus circle" onClick={this.handleAddTimepointClick} />{' '}
-            Add Timepoint
+          <div
+            className={styles.addTimepoint}
+            onClick={this.handleAddTimepointClick}
+          >
+            <Icon className={styles.addTimepointIcon} name="plus circle" /> Add
+            Timepoint
           </div>
         )}
-      </div>
+      </React.Fragment>
     );
   };
   renderValidationErrors = errors => {
@@ -80,21 +86,32 @@ export class ToolbarComponent extends Component {
   };
   render() {
     const { component, showTimepoints } = this.props;
+    const componentClass = classNames(styles.component, {
+      selected: component.selected,
+    });
     return (
-      <div className={styles.component}>
-        <div className={styles.header}>
-          <Checkbox
-            label={component.displayName}
-            value={component.id}
-            onClick={this.handleCheckboxClick}
-            checked={component.selected}
-          />
-          <Icon name="remove circle" onClick={this.handleRemoveClick} />
-        </div>
-        <div>{showTimepoints && this.renderTimepoints()}</div>
-        <div className="validationErrors">
-          {!component.isValid && this.renderValidationErrors(component.errors)}
-        </div>
+      <div className={componentClass}>
+        <Segment>
+          <div className={styles.header}>
+            <Checkbox
+              label={component.displayName}
+              value={component.id}
+              onClick={this.handleCheckboxClick}
+              checked={component.selected}
+            />
+            <Icon
+              className={styles.removeIcon}
+              name="remove"
+              onClick={this.handleRemoveClick}
+            />
+          </div>
+          {showTimepoints && this.renderTimepoints()}
+          {!component.isValid && (
+            <div className={styles.validationErrors}>
+              {this.renderValidationErrors(component.errors)}
+            </div>
+          )}
+        </Segment>
       </div>
     );
   }

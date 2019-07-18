@@ -47,7 +47,7 @@ export class ComponentToolbar extends Component {
   render() {
     const { onAddComponent } = this.props;
     return (
-      <div className="component-toolbar">
+      <div className={styles.componentToolbar}>
         <div className={styles.componentSearchContainer}>
           <ComponentSearch onSelect={onAddComponent} />
         </div>
