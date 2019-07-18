@@ -61,9 +61,7 @@ class BuildStep extends Component {
                 >
                   <div className={styles.componentToolbar}>
                     <Segment>
-                      <div className={styles.dragHandle}>
-                        <h4>Components</h4>
-                      </div>
+                      <div className={styles.dragHandle} />
                       <ComponentToolbar
                         onAddComponent={this.handleAddComponents}
                         onTabChange={this.handleClickModeChange}

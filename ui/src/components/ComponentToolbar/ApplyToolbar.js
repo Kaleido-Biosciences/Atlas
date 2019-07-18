@@ -5,10 +5,12 @@ import memoize from 'memoize-one';
 
 import { createExperimentActions } from '../../store/createExperiment';
 import { ComponentSection } from './ComponentSection';
+import { ComponentSearch } from './ComponentSearch';
 // import { CommunitiesForm } from './CommunitiesForm';
 // import { CompoundsForm } from './CompoundsForm';
 // import { MediaForm } from './MediaForm';
 import { groupComponents } from '../../util';
+import styles from './ApplyToolbar.module.css';
 
 class ApplyToolbar extends Component {
   group = memoize(groupComponents);
@@ -21,15 +23,19 @@ class ApplyToolbar extends Component {
       onComponentAddTimepointClick,
       onComponentTimepointChange,
       onComponentTimepointDeleteClick,
+      onAddComponent,
     } = this.props;
     const groupedComponents = this.group(components);
     const { communities, compounds, media, supplements } = groupedComponents;
     const showMessage = components.length === 0;
     return (
       <div className="apply-toolbar">
+        <div className={styles.componentSearchContainer}>
+          <ComponentSearch onSelect={onAddComponent} />
+        </div>
         {showMessage ? (
-          <div className="no-components-message">
-            Get started by searching for some components.
+          <div className={styles.noComponentsMessage}>
+            Get started by searching for some components above.
           </div>
         ) : (
           <div className="components-container">
