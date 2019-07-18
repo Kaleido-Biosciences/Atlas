@@ -193,16 +193,22 @@ const createExperiment = createSlice({
       const { plateMaps, clearMode } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const flattenedData = plateMap.data.flat();
-      const componentTypes = ['communities', 'compounds', 'media'];
+      const componentTypes = {
+        communities: 'community',
+        compounds: 'compound',
+        media: 'medium',
+        supplements: 'supplement',
+      };
       const wells = [];
       wellIds.forEach(wellId => {
         const well = flattenedData[wellId];
         if (clearMode === 'all') {
-          componentTypes.forEach(type => {
-            well[type] = [];
-          });
+          well.components = [];
         } else {
-          well[clearMode] = [];
+          const componentType = componentTypes[clearMode];
+          well.components = well.components.filter(component => {
+            return component.type !== componentType;
+          });
         }
         wells.push(well);
       });

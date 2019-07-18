@@ -53,6 +53,16 @@ class ClearToolbar extends Component {
               onChange={this.handleChange}
             />
           </Form.Field>
+          <Form.Field>
+            <Checkbox
+              radio
+              label="Supplements"
+              name="clearRadioGroup"
+              value="supplements"
+              checked={this.props.clearMode === 'supplements'}
+              onChange={this.handleChange}
+            />
+          </Form.Field>
         </Form>
       </div>
     );
