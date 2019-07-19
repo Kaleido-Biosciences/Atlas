@@ -33,9 +33,6 @@ class BuildStep extends Component {
       this.props.toggleWellsSelected(data);
     }
   };
-  handleAddComponents = components => {
-    this.props.addComponents(components);
-  };
   render() {
     const { plateMaps, activePlateMap, highlightedComponents } = this.props;
     const showPlateMap = plateMaps.length > 0 && activePlateMap;
@@ -63,7 +60,6 @@ class BuildStep extends Component {
                     <Segment>
                       <div className={styles.dragHandle} />
                       <ComponentToolbar
-                        onAddComponent={this.handleAddComponents}
                         onTabChange={this.handleClickModeChange}
                       />
                     </Segment>
@@ -99,7 +95,6 @@ BuildStep.propTypes = {
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
   toggleHighlight: PropTypes.func.isRequired,
-  addComponents: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -123,7 +118,6 @@ const mapDispatch = {
     createExperimentActions.applySelectedComponentsToWells,
   clearWells: createExperimentActions.clearWells,
   toggleHighlight: createExperimentActions.toggleHighlight,
-  addComponents: createExperimentActions.addComponents,
 };
 
 const connected = connect(

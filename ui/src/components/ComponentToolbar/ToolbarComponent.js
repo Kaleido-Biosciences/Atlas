@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Checkbox, Icon, Segment } from 'semantic-ui-react';
 import classNames from 'classnames';
 
+import { createExperimentActions } from '../../store/createExperiment';
 import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
 
-export class ToolbarComponent extends Component {
+class ToolbarComponent extends Component {
   handleCheckboxClick = (e, data) => {
     const { checked } = data;
     const { component } = this.props;
@@ -124,3 +127,31 @@ export class ToolbarComponent extends Component {
     );
   }
 }
+
+ToolbarComponent.propTypes = {
+  component: PropTypes.object,
+  showTimepoints: PropTypes.bool,
+  allowTimeChange: PropTypes.bool,
+  allowAddTimepoint: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onDeselect: PropTypes.func,
+  onRemoveClick: PropTypes.func,
+  onAddTimepointClick: PropTypes.func,
+  onTimepointChange: PropTypes.func,
+  onTimepointDeleteClick: PropTypes.func,
+};
+
+const mapDispatch = {
+  onSelect: createExperimentActions.selectComponents,
+  onDeselect: createExperimentActions.deselectComponents,
+  onRemoveClick: createExperimentActions.removeComponents,
+  onAddTimepointClick: createExperimentActions.addTimepointToComponent,
+  onTimepointChange: createExperimentActions.updateTimepoint,
+  onTimepointDeleteClick: createExperimentActions.deleteTimepoint,
+};
+
+const connected = connect(
+  null,
+  mapDispatch
+)(ToolbarComponent);
+export { connected as ToolbarComponent };
