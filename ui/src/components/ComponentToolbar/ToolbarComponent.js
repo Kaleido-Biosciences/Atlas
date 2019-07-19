@@ -9,7 +9,11 @@ import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
 
 class ToolbarComponent extends Component {
+  state = {
+    collapsed: true,
+  };
   handleCheckboxClick = (e, data) => {
+    e.stopPropagation();
     const { checked } = data;
     const { component } = this.props;
     const selection = { components: [component] };
@@ -20,6 +24,7 @@ class ToolbarComponent extends Component {
     }
   };
   handleRemoveClick = (e, data) => {
+    e.stopPropagation();
     if (this.props.onRemoveClick) {
       this.props.onRemoveClick({ components: [this.props.component] });
     }
@@ -41,6 +46,9 @@ class ToolbarComponent extends Component {
       const { component } = this.props;
       this.props.onTimepointDeleteClick({ component, ...data });
     }
+  };
+  handleToggle = () => {
+    this.setState({ collapsed: !this.state.collapsed });
   };
   renderTimepoints = () => {
     const {
@@ -95,19 +103,25 @@ class ToolbarComponent extends Component {
   };
   render() {
     const { component, showTimepoints } = this.props;
+    const { collapsed } = this.state;
     const componentClass = classNames(styles.component, {
-      selected: component.selected,
+      [styles.selected]: component.selected,
+    });
+    const headerClass = classNames(styles.header, {
+      [styles.expandable]: showTimepoints,
     });
     return (
       <div className={componentClass}>
-        <Segment>
-          <div className={styles.header}>
-            <Checkbox
-              label={component.displayName}
-              value={component.id}
-              onClick={this.handleCheckboxClick}
-              checked={component.selected}
-            />
+        <Segment className={styles.segment}>
+          <div className={headerClass} onClick={this.handleToggle}>
+            <div className={styles.nameContainer}>
+              <Checkbox
+                value={component.id}
+                onClick={this.handleCheckboxClick}
+                checked={component.selected}
+              />
+              <span className={styles.name}>{component.displayName}</span>
+            </div>
             <Icon
               title="Remove component"
               link
@@ -116,12 +130,16 @@ class ToolbarComponent extends Component {
               onClick={this.handleRemoveClick}
             />
           </div>
-          {showTimepoints && this.renderTimepoints()}
-          {!component.isValid && (
-            <div className={styles.validationErrors}>
-              {this.renderValidationErrors(component.errors)}
+          {!collapsed && showTimepoints ? (
+            <div className={styles.body}>
+              {showTimepoints && this.renderTimepoints()}
+              {!component.isValid && (
+                <div className={styles.validationErrors}>
+                  {this.renderValidationErrors(component.errors)}
+                </div>
+              )}
             </div>
-          )}
+          ) : null}
         </Segment>
       </div>
     );

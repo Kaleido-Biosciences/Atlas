@@ -1,23 +1,40 @@
+.segment {
+  padding: 0 1em !important;
+}
 .component {
   margin-bottom: 0.5em;
   opacity: 0.3;
+  transition: opacity 0.1s ease;
 }
 
-.component:global(.selected) {
+.selected {
   opacity: 1;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
-.header label {
+.expandable {
+  cursor: pointer;
+}
+
+.name {
   font-weight: bold;
+  margin-left: 0.65em;
 }
 
-.timepoints {
-  margin-top: 1em;
+.nameContainer {
+  display: flex;
+  align-items: center;
+  line-height: 17px;
+}
+
+.body {
+  padding-bottom: 1em;
 }
 
 .addTimepoint {
