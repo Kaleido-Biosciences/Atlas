@@ -1,6 +1,7 @@
 .timepoint {
   display: flex;
   margin-top: 0.5em;
+  align-items: center;
 }
 
 .timepoint:first-child {
@@ -14,11 +15,11 @@
 
 .timeField {
   composes: field;
-  margin-right: 1em;
 }
 
 .concField {
   composes: field;
+  margin-right: 1em;
 }
 
 .timeInputContainer {

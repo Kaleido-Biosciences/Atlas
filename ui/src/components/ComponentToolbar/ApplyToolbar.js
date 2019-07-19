@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 
 import { createExperimentActions } from '../../store/createExperiment';
 import { ComponentSection } from './ComponentSection';
 import { ComponentSearch } from './ComponentSearch';
-// import { CommunitiesForm } from './CommunitiesForm';
-// import { CompoundsForm } from './CompoundsForm';
-// import { MediaForm } from './MediaForm';
 import { groupComponents } from '../../util';
 import styles from './ApplyToolbar.module.css';
 
 class ApplyToolbar extends Component {
-  group = memoize(groupComponents);
+  groupComponents = memoize(groupComponents);
   render() {
-    const {
-      components,
-      onComponentSelect,
-      onComponentDeselect,
-      onComponentRemoveClick,
-      onComponentAddTimepointClick,
-      onComponentTimepointChange,
-      onComponentTimepointDeleteClick,
-      onAddComponent,
-    } = this.props;
-    const groupedComponents = this.group(components);
+    const { components, onAddComponent } = this.props;
+    const groupedComponents = this.groupComponents(components);
     const { communities, compounds, media, supplements } = groupedComponents;
     const showMessage = components.length === 0;
     return (
@@ -43,91 +31,40 @@ class ApplyToolbar extends Component {
               <ComponentSection
                 label="Communities"
                 components={communities}
-                onSelect={onComponentSelect}
-                onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 allowTimepointTimeChange={true}
                 allowAddTimepoint={true}
-                onRemoveClick={onComponentRemoveClick}
-                onComponentAddTimepointClick={onComponentAddTimepointClick}
-                onComponentTimepointChange={onComponentTimepointChange}
-                onComponentTimepointDeleteClick={
-                  onComponentTimepointDeleteClick
-                }
               />
             )}
             {compounds.length > 0 && (
               <ComponentSection
                 label="Compounds"
                 components={compounds}
-                onSelect={onComponentSelect}
-                onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 allowTimepointTimeChange={false}
                 allowAddTimepoint={false}
-                onRemoveClick={onComponentRemoveClick}
-                onComponentAddTimepointClick={onComponentAddTimepointClick}
-                onComponentTimepointChange={onComponentTimepointChange}
-                onComponentTimepointDeleteClick={
-                  onComponentTimepointDeleteClick
-                }
               />
             )}
             {media.length > 0 && (
               <ComponentSection
                 label="Media"
                 components={media}
-                onSelect={onComponentSelect}
-                onDeselect={onComponentDeselect}
                 showTimepoints={false}
-                onRemoveClick={onComponentRemoveClick}
-                onComponentAddTimepointClick={onComponentAddTimepointClick}
-                onComponentTimepointChange={onComponentTimepointChange}
-                onComponentTimepointDeleteClick={
-                  onComponentTimepointDeleteClick
-                }
+                allowTimepointTimeChange={false}
+                allowAddTimepoint={false}
               />
             )}
             {supplements.length > 0 && (
               <ComponentSection
                 label="Supplement"
                 components={supplements}
-                onSelect={onComponentSelect}
-                onDeselect={onComponentDeselect}
                 showTimepoints={true}
                 allowTimepointTimeChange={true}
                 allowAddTimepoint={true}
-                onRemoveClick={onComponentRemoveClick}
-                onComponentAddTimepointClick={onComponentAddTimepointClick}
-                onComponentTimepointChange={onComponentTimepointChange}
-                onComponentTimepointDeleteClick={
-                  onComponentTimepointDeleteClick
-                }
               />
             )}
           </div>
         )}
-        {/* <CommunitiesForm
-          communities={communities}
-          onSelect={this.props.onComponentSelect}
-          onDeselect={this.props.onComponentDeselect}
-          onConcentrationClick={this.props.onConcentrationClick}
-          onConcentrationBlur={this.props.onConcentrationBlur}
-          onConcentrationSave={this.props.onConcentrationSave}
-        />
-        <CompoundsForm
-          compounds={compounds}
-          onSelect={this.props.onComponentSelect}
-          onDeselect={this.props.onComponentDeselect}
-          onConcentrationClick={this.props.onConcentrationClick}
-          onConcentrationBlur={this.props.onConcentrationBlur}
-          onConcentrationSave={this.props.onConcentrationSave}
-        />
-        <MediaForm
-          media={media}
-          onSelect={this.props.onComponentSelect}
-          onDeselect={this.props.onComponentDeselect}
-        /> */}
       </div>
     );
   }
@@ -135,14 +72,7 @@ class ApplyToolbar extends Component {
 
 ApplyToolbar.propTypes = {
   components: PropTypes.array.isRequired,
-  onComponentSelect: PropTypes.func.isRequired,
-  onComponentDeselect: PropTypes.func.isRequired,
-  onConcentrationClick: PropTypes.func.isRequired,
-  onConcentrationSave: PropTypes.func.isRequired,
-  onComponentRemoveClick: PropTypes.func.isRequired,
-  onComponentAddTimepointClick: PropTypes.func.isRequired,
-  onComponentTimepointChange: PropTypes.func.isRequired,
-  onComponentTimepointDeleteClick: PropTypes.func.isRequired,
+  onAddComponent: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -153,15 +83,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onComponentSelect: createExperimentActions.selectComponents,
-  onComponentDeselect: createExperimentActions.deselectComponents,
-  onConcentrationClick: createExperimentActions.toggleComponentEditing,
-  onConcentrationBlur: createExperimentActions.toggleComponentEditing,
-  onConcentrationSave: createExperimentActions.setComponentConcentration,
-  onComponentRemoveClick: createExperimentActions.removeComponents,
-  onComponentAddTimepointClick: createExperimentActions.addTimepointToComponent,
-  onComponentTimepointChange: createExperimentActions.updateTimepoint,
-  onComponentTimepointDeleteClick: createExperimentActions.deleteTimepoint,
+  onAddComponent: createExperimentActions.addComponents,
 };
 
 const connected = connect(

@@ -27,9 +27,29 @@ export class Timepoint extends Component {
     const { timepoint, allowDelete, allowTimeChange } = this.props;
     return (
       <div className={styles.timepoint}>
+        <div className={styles.concField}>
+          <Icon
+            className={styles.fieldIcon}
+            name="percent"
+            title="Concentration"
+          />
+          <div className={styles.concInputContainer}>
+            <Input
+              fluid
+              name="concentration"
+              type="number"
+              value={timepoint.concentration}
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
         {allowTimeChange && (
           <div className={styles.timeField}>
-            <Icon className={styles.fieldIcon} name="clock" />
+            <Icon
+              className={styles.fieldIcon}
+              name="clock"
+              title="Time in hours"
+            />
             <div className={styles.timeInputContainer}>
               <Input
                 fluid
@@ -41,21 +61,16 @@ export class Timepoint extends Component {
             </div>
           </div>
         )}
-        <div className={styles.concField}>
-          <Icon className={styles.fieldIcon} name="percent" />
-          <div className={styles.concInputContainer}>
-            <Input
-              fluid
-              name="concentration"
-              type="number"
-              value={timepoint.concentration}
-              onChange={this.handleChange}
-            />
-          </div>
-          {allowDelete && (
-            <Icon link color="red" className={styles.removeIcon} name="minus circle" onClick={this.handleDeleteClick} />
-          )}
-        </div>
+        {allowDelete && (
+          <Icon
+            link
+            color="red"
+            className={styles.removeIcon}
+            name="minus circle"
+            onClick={this.handleDeleteClick}
+            title="Remove timepoint"
+          />
+        )}
       </div>
     );
   }

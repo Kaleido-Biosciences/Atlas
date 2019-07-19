@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Checkbox, Icon, Segment } from 'semantic-ui-react';
 import classNames from 'classnames';
 
+import { createExperimentActions } from '../../store/createExperiment';
 import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
 
-export class ToolbarComponent extends Component {
+class ToolbarComponent extends Component {
+  state = {
+    collapsed: true,
+  };
   handleCheckboxClick = (e, data) => {
+    e.stopPropagation();
     const { checked } = data;
     const { component } = this.props;
     const selection = { components: [component] };
@@ -17,6 +24,7 @@ export class ToolbarComponent extends Component {
     }
   };
   handleRemoveClick = (e, data) => {
+    e.stopPropagation();
     if (this.props.onRemoveClick) {
       this.props.onRemoveClick({ components: [this.props.component] });
     }
@@ -38,6 +46,9 @@ export class ToolbarComponent extends Component {
       const { component } = this.props;
       this.props.onTimepointDeleteClick({ component, ...data });
     }
+  };
+  handleToggle = () => {
+    this.setState({ collapsed: !this.state.collapsed });
   };
   renderTimepoints = () => {
     const {
@@ -68,8 +79,14 @@ export class ToolbarComponent extends Component {
             className={styles.addTimepoint}
             onClick={this.handleAddTimepointClick}
           >
-            <Icon link color="blue" className={styles.addTimepointIcon} name="plus circle" /> Add
-            Timepoint
+            <Icon
+              title="Add timepoint"
+              link
+              color="blue"
+              className={styles.addTimepointIcon}
+              name="plus circle"
+            />{' '}
+            Add Timepoint
           </div>
         )}
       </React.Fragment>
@@ -86,34 +103,73 @@ export class ToolbarComponent extends Component {
   };
   render() {
     const { component, showTimepoints } = this.props;
+    const { collapsed } = this.state;
     const componentClass = classNames(styles.component, {
-      selected: component.selected,
+      [styles.selected]: component.selected,
+    });
+    const headerClass = classNames(styles.header, {
+      [styles.expandable]: showTimepoints,
     });
     return (
       <div className={componentClass}>
-        <Segment>
-          <div className={styles.header}>
-            <Checkbox
-              label={component.displayName}
-              value={component.id}
-              onClick={this.handleCheckboxClick}
-              checked={component.selected}
-            />
+        <Segment className={styles.segment}>
+          <div className={headerClass} onClick={this.handleToggle}>
+            <div className={styles.nameContainer}>
+              <Checkbox
+                value={component.id}
+                onClick={this.handleCheckboxClick}
+                checked={component.selected}
+              />
+              <span className={styles.name}>{component.displayName}</span>
+            </div>
             <Icon
+              title="Remove component"
               link
               className={styles.removeIcon}
               name="remove"
               onClick={this.handleRemoveClick}
             />
           </div>
-          {showTimepoints && this.renderTimepoints()}
-          {!component.isValid && (
-            <div className={styles.validationErrors}>
-              {this.renderValidationErrors(component.errors)}
+          {!collapsed && showTimepoints ? (
+            <div className={styles.body}>
+              {showTimepoints && this.renderTimepoints()}
+              {!component.isValid && (
+                <div className={styles.validationErrors}>
+                  {this.renderValidationErrors(component.errors)}
+                </div>
+              )}
             </div>
-          )}
+          ) : null}
         </Segment>
       </div>
     );
   }
 }
+
+ToolbarComponent.propTypes = {
+  component: PropTypes.object,
+  showTimepoints: PropTypes.bool,
+  allowTimeChange: PropTypes.bool,
+  allowAddTimepoint: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onDeselect: PropTypes.func,
+  onRemoveClick: PropTypes.func,
+  onAddTimepointClick: PropTypes.func,
+  onTimepointChange: PropTypes.func,
+  onTimepointDeleteClick: PropTypes.func,
+};
+
+const mapDispatch = {
+  onSelect: createExperimentActions.selectComponents,
+  onDeselect: createExperimentActions.deselectComponents,
+  onRemoveClick: createExperimentActions.removeComponents,
+  onAddTimepointClick: createExperimentActions.addTimepointToComponent,
+  onTimepointChange: createExperimentActions.updateTimepoint,
+  onTimepointDeleteClick: createExperimentActions.deleteTimepoint,
+};
+
+const connected = connect(
+  null,
+  mapDispatch
+)(ToolbarComponent);
+export { connected as ToolbarComponent };
