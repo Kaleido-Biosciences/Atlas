@@ -6,9 +6,6 @@ import memoize from 'memoize-one';
 import { createExperimentActions } from '../../store/createExperiment';
 import { ComponentSection } from './ComponentSection';
 import { ComponentSearch } from './ComponentSearch';
-// import { CommunitiesForm } from './CommunitiesForm';
-// import { CompoundsForm } from './CompoundsForm';
-// import { MediaForm } from './MediaForm';
 import { groupComponents } from '../../util';
 import styles from './ApplyToolbar.module.css';
 
@@ -107,27 +104,6 @@ class ApplyToolbar extends Component {
             )}
           </div>
         )}
-        {/* <CommunitiesForm
-          communities={communities}
-          onSelect={this.props.onComponentSelect}
-          onDeselect={this.props.onComponentDeselect}
-          onConcentrationClick={this.props.onConcentrationClick}
-          onConcentrationBlur={this.props.onConcentrationBlur}
-          onConcentrationSave={this.props.onConcentrationSave}
-        />
-        <CompoundsForm
-          compounds={compounds}
-          onSelect={this.props.onComponentSelect}
-          onDeselect={this.props.onComponentDeselect}
-          onConcentrationClick={this.props.onConcentrationClick}
-          onConcentrationBlur={this.props.onConcentrationBlur}
-          onConcentrationSave={this.props.onConcentrationSave}
-        />
-        <MediaForm
-          media={media}
-          onSelect={this.props.onComponentSelect}
-          onDeselect={this.props.onComponentDeselect}
-        /> */}
       </div>
     );
   }
