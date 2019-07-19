@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { ToolbarComponent } from './ToolbarComponent';
-import styles from './ComponentSection.module.css';
+import { ToolbarComponent } from '../ToolbarComponent';
+import styles from './ComponentsSection.module.css';
 
-export class ComponentSection extends Component {
+export class ComponentsSection extends Component {
   render() {
     const {
       label,
@@ -14,7 +14,7 @@ export class ComponentSection extends Component {
       allowAddTimepoint,
     } = this.props;
     return (
-      <div className={styles.componentSection}>
+      <div className={styles.componentsSection}>
         <h4>{label}</h4>
         <div className="components">
           {components.map(component => {
@@ -34,7 +34,7 @@ export class ComponentSection extends Component {
   }
 }
 
-ComponentSection.propTypes = {
+ComponentsSection.propTypes = {
   label: PropTypes.string,
   components: PropTypes.array,
   showTimepoints: PropTypes.bool,

@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 
 import { createExperimentActions } from '../../store/createExperiment';
-import { ComponentSection } from './ComponentSection';
 import { ComponentSearch } from './ComponentSearch';
+import { CommunitiesSection } from './sections/CommunitiesSection';
+import { CompoundsSection } from './sections/CompoundsSection';
+import { MediaSection } from './sections/MediaSection';
+import { SupplementsSection } from './sections/SupplementsSection';
 import { groupComponents } from '../../util';
 import styles from './ApplyToolbar.module.css';
 
@@ -28,40 +31,12 @@ class ApplyToolbar extends Component {
         ) : (
           <div className="components-container">
             {communities.length > 0 && (
-              <ComponentSection
-                label="Communities"
-                components={communities}
-                showTimepoints={true}
-                allowTimepointTimeChange={true}
-                allowAddTimepoint={true}
-              />
+              <CommunitiesSection communities={communities} />
             )}
-            {compounds.length > 0 && (
-              <ComponentSection
-                label="Compounds"
-                components={compounds}
-                showTimepoints={true}
-                allowTimepointTimeChange={false}
-                allowAddTimepoint={false}
-              />
-            )}
-            {media.length > 0 && (
-              <ComponentSection
-                label="Media"
-                components={media}
-                showTimepoints={false}
-                allowTimepointTimeChange={false}
-                allowAddTimepoint={false}
-              />
-            )}
+            {compounds.length > 0 && <CompoundsSection compounds={compounds} />}
+            {media.length > 0 && <MediaSection media={media} />}
             {supplements.length > 0 && (
-              <ComponentSection
-                label="Supplement"
-                components={supplements}
-                showTimepoints={true}
-                allowTimepointTimeChange={true}
-                allowAddTimepoint={true}
-              />
+              <SupplementsSection supplements={supplements} />
             )}
           </div>
         )}
@@ -77,9 +52,7 @@ ApplyToolbar.propTypes = {
 
 const mapState = (state, props) => {
   const { components } = state.createExperiment;
-  return {
-    components,
-  };
+  return { components };
 };
 
 const mapDispatch = {
