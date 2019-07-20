@@ -107,12 +107,15 @@ class ToolbarComponent extends Component {
     const componentClass = classNames(styles.component, {
       [styles.selected]: component.selected,
     });
+    const segmentClass = classNames(styles.segment, {
+      'red': !component.isValid,
+    });
     const headerClass = classNames(styles.header, {
       [styles.expandable]: showTimepoints,
     });
     return (
       <div className={componentClass}>
-        <Segment className={styles.segment}>
+        <Segment className={segmentClass}>
           <div className={headerClass} onClick={this.handleToggle}>
             <div className={styles.nameContainer}>
               <Checkbox
