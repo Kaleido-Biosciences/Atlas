@@ -44,7 +44,12 @@ class ApplyToolbar extends Component {
     }
   }
   render() {
-    const { components, selectedWells, onAddComponent } = this.props;
+    const {
+      components,
+      componentsValid,
+      selectedWells,
+      onAddComponent,
+    } = this.props;
     const groupedComponents = this.groupComponents(components);
     const { communities, compounds, media, supplements } = groupedComponents;
     const showComponents = components.length > 0;
@@ -78,7 +83,11 @@ class ApplyToolbar extends Component {
             {this.renderSelectedWells()}
             {showComponents ? (
               <div className={styles.applyButtonContainer}>
-                <Button primary onClick={this.handleApplyClick}>
+                <Button
+                  disabled={!componentsValid}
+                  primary
+                  onClick={this.handleApplyClick}
+                >
                   Apply to {selectedWells.length} wells
                 </Button>
               </div>
@@ -92,6 +101,7 @@ class ApplyToolbar extends Component {
 
 ApplyToolbar.propTypes = {
   components: PropTypes.array.isRequired,
+  componentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
   onAddComponent: PropTypes.func,
@@ -99,10 +109,10 @@ ApplyToolbar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { components } = state.createExperiment;
+  const { components, componentsValid } = state.createExperiment;
   const selectedWells = selectSelectedWellsFromActivePlateMap(state);
   const activePlateMap = selectActivePlateMap(state);
-  return { components, selectedWells, activePlateMap };
+  return { components, componentsValid, selectedWells, activePlateMap };
 };
 
 const mapDispatch = {

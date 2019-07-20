@@ -16,6 +16,7 @@ const createExperiment = createSlice({
     plateMaps: [],
     nextPlateMapId: 1,
     components: [],
+    componentsValid: true,
     clickMode: 'apply',
     clearMode: 'all',
     steps: {
@@ -152,9 +153,11 @@ const createExperiment = createSlice({
       if (!errors) {
         stateComponent.isValid = true;
         stateComponent.errors = [];
+        state.componentsValid = true;
       } else {
         stateComponent.isValid = false;
         stateComponent.errors = errors;
+        state.componentsValid = false;
       }
     },
     deleteTimepoint(state, action) {
@@ -165,28 +168,32 @@ const createExperiment = createSlice({
       }
     },
     applySelectedComponentsToWells(state, action) {
-      const { plateMapId, wellIds } = action.payload;
-      const { plateMaps, components } = state;
-      const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const updatedWells = applySelectedComponentsToWells(
-        plateMap,
-        wellIds,
-        components
-      );
-      setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+      if (state.componentsValid) {
+        const { plateMapId, wellIds } = action.payload;
+        const { plateMaps, components } = state;
+        const plateMap = findPlateMapById(plateMapId, plateMaps);
+        const updatedWells = applySelectedComponentsToWells(
+          plateMap,
+          wellIds,
+          components
+        );
+        setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+      }
     },
     applySelectedComponentsToSelectedWells(state, action) {
-      const { plateMapId } = action.payload;
-      const { components, plateMaps } = state;
-      const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const selectedWells = getSelectedWells(plateMap);
-      const wellIds = selectedWells.map(well => well.id);
-      const updatedWells = applySelectedComponentsToWells(
-        plateMap,
-        wellIds,
-        components
-      );
-      setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+      if (state.componentsValid) {
+        const { plateMapId } = action.payload;
+        const { components, plateMaps } = state;
+        const plateMap = findPlateMapById(plateMapId, plateMaps);
+        const selectedWells = getSelectedWells(plateMap);
+        const wellIds = selectedWells.map(well => well.id);
+        const updatedWells = applySelectedComponentsToWells(
+          plateMap,
+          wellIds,
+          components
+        );
+        setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+      }
     },
     clearWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
