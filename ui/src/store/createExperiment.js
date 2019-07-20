@@ -177,14 +177,14 @@ const createExperiment = createSlice({
     },
     applySelectedComponentsToSelectedWells(state, action) {
       const { plateMapId } = action.payload;
-      const { selectedComponents, plateMaps } = state;
+      const { components, plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
       const selectedWells = getSelectedWells(plateMap);
       const wellIds = selectedWells.map(well => well.id);
       const updatedWells = applySelectedComponentsToWells(
         plateMap,
         wellIds,
-        selectedComponents
+        components
       );
       setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
     },
