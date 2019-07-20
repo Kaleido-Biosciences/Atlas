@@ -7,7 +7,7 @@ export class SupplementsSection extends Component {
     const { supplements } = this.props;
     return (
       <ComponentsSection
-        label="Supplement"
+        label="Supplements"
         components={supplements}
         showTimepoints={true}
         allowTimepointTimeChange={true}
