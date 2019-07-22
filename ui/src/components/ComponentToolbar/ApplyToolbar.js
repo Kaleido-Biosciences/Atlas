@@ -2,69 +2,98 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
+import { Header, Button } from 'semantic-ui-react';
 
-import { createExperimentActions } from '../../store/createExperiment';
-import { ComponentSection } from './ComponentSection';
+import {
+  createExperimentActions,
+  selectActivePlateMap,
+  selectSelectedWellsFromActivePlateMap,
+} from '../../store/createExperiment';
 import { ComponentSearch } from './ComponentSearch';
+import { CommunitiesSection } from './sections/CommunitiesSection';
+import { CompoundsSection } from './sections/CompoundsSection';
+import { MediaSection } from './sections/MediaSection';
+import { SupplementsSection } from './sections/SupplementsSection';
 import { groupComponents } from '../../util';
 import styles from './ApplyToolbar.module.css';
 
 class ApplyToolbar extends Component {
   groupComponents = memoize(groupComponents);
+  handleApplyClick = () => {
+    const { activePlateMap } = this.props;
+    this.props.onApplyClick({ plateMapId: activePlateMap.id });
+  };
+  renderSelectedWells() {
+    const { selectedWells } = this.props;
+    if (selectedWells) {
+      let wellString = null,
+        headerText;
+      if (selectedWells.length > 0) {
+        const wellNames = selectedWells.map(well => well.name);
+        wellString = wellNames.join(', ');
+        headerText = 'Selected Wells:';
+      } else {
+        headerText = 'No wells selected.';
+      }
+      return (
+        <div>
+          <Header size="tiny">{headerText}</Header>
+          {wellString}
+        </div>
+      );
+    }
+  }
   render() {
-    const { components, onAddComponent } = this.props;
+    const {
+      components,
+      componentsValid,
+      selectedWells,
+      onAddComponent,
+    } = this.props;
     const groupedComponents = this.groupComponents(components);
     const { communities, compounds, media, supplements } = groupedComponents;
-    const showMessage = components.length === 0;
+    const showComponents = components.length > 0;
     return (
       <div className="apply-toolbar">
         <div className={styles.componentSearchContainer}>
           <ComponentSearch onSelect={onAddComponent} />
         </div>
-        {showMessage ? (
-          <div className={styles.noComponentsMessage}>
-            Get started by searching for some components above.
+        <div>
+          {showComponents ? (
+            <div className="components-container">
+              {communities.length > 0 && (
+                <CommunitiesSection communities={communities} />
+              )}
+              {compounds.length > 0 && (
+                <CompoundsSection compounds={compounds} />
+              )}
+              {media.length > 0 && <MediaSection media={media} />}
+              {supplements.length > 0 && (
+                <SupplementsSection supplements={supplements} />
+              )}
+            </div>
+          ) : (
+            <div className={styles.noComponentsMessage}>
+              Get started by searching for some components above.
+            </div>
+          )}
+        </div>
+        {selectedWells && selectedWells.length > 0 ? (
+          <div className={styles.selectedWellsContainer}>
+            {this.renderSelectedWells()}
+            {showComponents ? (
+              <div className={styles.applyButtonContainer}>
+                <Button
+                  disabled={!componentsValid}
+                  primary
+                  onClick={this.handleApplyClick}
+                >
+                  Apply to {selectedWells.length} wells
+                </Button>
+              </div>
+            ) : null}
           </div>
-        ) : (
-          <div className="components-container">
-            {communities.length > 0 && (
-              <ComponentSection
-                label="Communities"
-                components={communities}
-                showTimepoints={true}
-                allowTimepointTimeChange={true}
-                allowAddTimepoint={true}
-              />
-            )}
-            {compounds.length > 0 && (
-              <ComponentSection
-                label="Compounds"
-                components={compounds}
-                showTimepoints={true}
-                allowTimepointTimeChange={false}
-                allowAddTimepoint={false}
-              />
-            )}
-            {media.length > 0 && (
-              <ComponentSection
-                label="Media"
-                components={media}
-                showTimepoints={false}
-                allowTimepointTimeChange={false}
-                allowAddTimepoint={false}
-              />
-            )}
-            {supplements.length > 0 && (
-              <ComponentSection
-                label="Supplement"
-                components={supplements}
-                showTimepoints={true}
-                allowTimepointTimeChange={true}
-                allowAddTimepoint={true}
-              />
-            )}
-          </div>
-        )}
+        ) : null}
       </div>
     );
   }
@@ -72,18 +101,23 @@ class ApplyToolbar extends Component {
 
 ApplyToolbar.propTypes = {
   components: PropTypes.array.isRequired,
+  componentsValid: PropTypes.bool.isRequired,
+  selectedWells: PropTypes.array.isRequired,
+  activePlateMap: PropTypes.object,
   onAddComponent: PropTypes.func,
+  onApplyClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const { components } = state.createExperiment;
-  return {
-    components,
-  };
+  const { components, componentsValid } = state.createExperiment;
+  const selectedWells = selectSelectedWellsFromActivePlateMap(state);
+  const activePlateMap = selectActivePlateMap(state);
+  return { components, componentsValid, selectedWells, activePlateMap };
 };
 
 const mapDispatch = {
   onAddComponent: createExperimentActions.addComponents,
+  onApplyClick: createExperimentActions.applySelectedComponentsToSelectedWells,
 };
 
 const connected = connect(
