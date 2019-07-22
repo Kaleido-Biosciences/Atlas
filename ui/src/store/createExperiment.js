@@ -395,10 +395,9 @@ function applySelectedComponentsToWells(plateMap, wellIds, components) {
             const index = existingTimepoints.findIndex(
               eTimepoint => eTimepoint.time === newTimepoint.time
             );
-            if(index > -1) {
+            if (index > -1) {
               existingTimepoints.splice(index, 1, newTimepoint);
-            }
-            else {
+            } else {
               existingTimepoints.push(newTimepoint);
             }
           });
@@ -409,33 +408,6 @@ function applySelectedComponentsToWells(plateMap, wellIds, components) {
   });
   return updatedWells;
 }
-
-// function applySelectedComponentsToWells(plateMap, wellIds, components) {
-//   const componentTypes = ['communities', 'compounds', 'media'];
-//   const wells = plateMap.data.flat();
-//   const updatedWells = [];
-//   wellIds.forEach(wellId => {
-//     const well = wells[wellId];
-//     componentTypes.forEach(type => {
-//       components[type].forEach(component => {
-//         if (component.selected) {
-//           const existingIndex = wells[wellId][type].findIndex(
-//             comp => comp.name === component.name
-//           );
-//           if (existingIndex === -1) {
-//             let { selected, editing, ...wellComponent } = component;
-//             well[type].push(wellComponent);
-//           } else {
-//             let { selected, editing, ...wellComponent } = component;
-//             well[type].splice(existingIndex, 1, wellComponent);
-//           }
-//         }
-//       });
-//     });
-//     updatedWells.push(well);
-//   });
-//   return updatedWells;
-// }
 
 function getSelectedWells(plateMap) {
   const flat = plateMap.data.flat();
