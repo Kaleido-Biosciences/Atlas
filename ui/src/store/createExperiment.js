@@ -383,14 +383,25 @@ function applySelectedComponentsToWells(plateMap, wellIds, components) {
     const well = wells[wellId];
     components.forEach(component => {
       if (component.selected) {
-        const existingIndex = well.components.findIndex(
+        const existingComponent = well.components.find(
           comp => comp.id === component.id
         );
         const { selected, editing, ...wellComponent } = component;
-        if (existingIndex === -1) {
+        if (!existingComponent) {
           well.components.push(wellComponent);
         } else {
-          well.components.splice(existingIndex, 1, wellComponent);
+          const existingTimepoints = existingComponent.timepoints;
+          wellComponent.timepoints.forEach(newTimepoint => {
+            const index = existingTimepoints.findIndex(
+              eTimepoint => eTimepoint.time === newTimepoint.time
+            );
+            if(index > -1) {
+              existingTimepoints.splice(index, 1, newTimepoint);
+            }
+            else {
+              existingTimepoints.push(newTimepoint);
+            }
+          });
         }
       }
     });
