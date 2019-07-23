@@ -16,14 +16,14 @@ export class PlateMapToolbar extends Component {
     const { plateMaps, activePlateMap, highlightedComponents } = this.props;
     return (
       <div className={styles.toolbar}>
-        <div>
+        <div className={styles.dropdownContainer}>
           <PlateMapDropdown
             plateMaps={plateMaps}
             activePlateMap={activePlateMap}
             onChange={this.props.onPlateMapChange}
           />
         </div>
-        <div>
+        <div classname={styles.buttonsContainer}>
           <Button
             primary
             icon="plus circle"
@@ -36,7 +36,7 @@ export class PlateMapToolbar extends Component {
             onClick={this.handleDelete}
           />
         </div>
-        <div className={styles.highlight}>
+        {/* <div className={styles.highlight}>
           <Form>
             <Form.Group inline>
               <label>Highlight wells containing:</label>
@@ -66,7 +66,7 @@ export class PlateMapToolbar extends Component {
               </Form.Field>
             </Form.Group>
           </Form>
-        </div>
+        </div> */}
       </div>
     );
   }
