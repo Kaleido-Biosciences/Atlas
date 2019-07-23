@@ -27,12 +27,12 @@ export class PlateMapToolbar extends Component {
           <Button
             primary
             icon="plus circle"
-            content="Add Plate Map"
+            content="Add Plate"
             onClick={this.props.onAddClick}
           />
           <Button
             icon="trash"
-            content="Delete Plate Map"
+            content="Delete Plate"
             onClick={this.handleDelete}
           />
         </div>
