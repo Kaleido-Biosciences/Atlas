@@ -46,6 +46,12 @@ const createExperiment = createSlice({
       state.plateMaps.push(plateMap);
       state.nextPlateMapId++;
     },
+    clonePlateMap(state, action) {
+      const { plateMapId, typesToClone } = action.payload;
+      const plateMap = findPlateMapById(plateMapId, state.plateMaps);
+      console.log(JSON.stringify(typesToClone));
+      console.log(JSON.stringify(plateMap));
+    },
     setActivePlateMap(state, action) {
       const plateMapId = action.payload;
       const { plateMaps } = state;

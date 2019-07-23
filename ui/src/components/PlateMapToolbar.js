@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Checkbox, Button } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 
 import { PlateMapDropdown } from './PlateMapDropdown';
 import styles from './PlateMapToolbar.module.css';
+import { ClonePlateForm } from './ClonePlateForm';
 
 export class PlateMapToolbar extends Component {
   handleDelete = () => {
@@ -12,8 +13,16 @@ export class PlateMapToolbar extends Component {
   handleHighlight = (e, { value }) => {
     this.props.onHighlightClick({ componentType: value });
   };
+  handleCloneSubmit = ({ typesToClone }) => {
+    if (this.props.onCloneSubmit) {
+      this.props.onCloneSubmit({
+        plateMapId: this.props.activePlateMap.id,
+        typesToClone,
+      });
+    }
+  };
   render() {
-    const { plateMaps, activePlateMap, highlightedComponents } = this.props;
+    const { plateMaps, activePlateMap } = this.props;
     return (
       <div className={styles.toolbar}>
         <div className={styles.dropdownContainer}>
@@ -23,7 +32,7 @@ export class PlateMapToolbar extends Component {
             onChange={this.props.onPlateMapChange}
           />
         </div>
-        <div classname={styles.buttonsContainer}>
+        <div className={styles.buttonsContainer}>
           <Button
             primary
             icon="plus circle"
@@ -35,6 +44,13 @@ export class PlateMapToolbar extends Component {
             content="Delete Plate"
             onClick={this.handleDelete}
           />
+          <Popup
+            trigger={<Button icon="clone" content="Clone Plate" />}
+            on="click"
+            position="bottom left"
+          >
+            <ClonePlateForm onSubmit={this.handleCloneSubmit} />
+          </Popup>
         </div>
         {/* <div className={styles.highlight}>
           <Form>
@@ -79,4 +95,5 @@ PlateMapToolbar.propTypes = {
   onDeleteClick: PropTypes.func.isRequired,
   onHighlightClick: PropTypes.func.isRequired,
   onAddClick: PropTypes.func.isRequired,
+  onCloneSubmit: PropTypes.func,
 };

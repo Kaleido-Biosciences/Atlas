@@ -49,6 +49,7 @@ class BuildStep extends Component {
                 onHighlightClick={this.props.toggleHighlight}
                 onAddClick={this.props.createPlateMap}
                 onPlateMapChange={this.props.setActivePlateMap}
+                onCloneSubmit={this.props.clonePlateMap}
               />
               <div className={styles.plateMapContainer}>
                 <Draggable
@@ -95,6 +96,7 @@ BuildStep.propTypes = {
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
   toggleHighlight: PropTypes.func.isRequired,
+  clonePlateMap: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -118,6 +120,7 @@ const mapDispatch = {
     createExperimentActions.applySelectedComponentsToWells,
   clearWells: createExperimentActions.clearWells,
   toggleHighlight: createExperimentActions.toggleHighlight,
+  clonePlateMap: createExperimentActions.clonePlateMap,
 };
 
 const connected = connect(
