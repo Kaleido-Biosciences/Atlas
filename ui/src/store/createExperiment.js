@@ -311,54 +311,40 @@ export const {
   reducer: createExperimentReducer,
 } = createExperiment;
 
-const { addPlateMap, setActivePlateMap } = createExperimentActions;
+const { addPlateMap } = createExperimentActions;
 
 export function initializePlateMaps() {
   return (dispatch, getState) => {
     let { plateMaps } = getState().createExperiment;
     if (!plateMaps.length) {
-      dispatch(createPlateMap());
-      let { plateMaps } = getState().createExperiment;
-      dispatch(setActivePlateMap(plateMaps[0].id));
+      dispatch(addNewPlateMap());
     }
   };
 }
 
-export function createPlateMap() {
+export function addNewPlateMap() {
   return (dispatch, getState) => {
     const { plateSize, plateMaps } = getState().createExperiment;
-    const plateMap = {
-      selected: false,
-      active: false,
-    };
-    plateMap.data = getPlateMapArray(plateSize);
+    const plateMap = createPlateMapWithDimensions(plateSize);
     if (!plateMaps.length) plateMap.active = true;
     dispatch(addPlateMap(plateMap));
   };
 }
 
-function getPlateMapArray(dimensions) {
-  const { rows, columns } = dimensions;
-  const plateMap = [];
-  let wellCount = 0;
-  for (let i = 0; i < rows; i++) {
-    const row = [];
-    const rowLetter = PLATEMAP_ROW_HEADERS[i];
-    for (let i = 0; i < columns; i++) {
-      row.push({
-        id: wellCount,
-        name: `${rowLetter}${i + 1}`,
-        selected: false,
-        blank: false,
-        highlighted: false,
-        dimmed: false,
-        components: [],
+export function clonePlateMap(plateMapId, typesToClone) {
+  return (dispatch, getState) => {
+    const { plateMaps } = getState().createExperiment;
+    const plateMap = findPlateMapById(plateMapId, plateMaps);
+    const data = plateMap.data.map(row => {
+      return row.map(well => {
+        const components = well.components.filter(component => {
+          return typesToClone.includes(component.type);
+        });
+        return createWell(well.id, well.name, components);
       });
-      wellCount++;
-    }
-    plateMap.push(row);
-  }
-  return plateMap;
+    });
+    dispatch(addPlateMap(createPlateMap(data)));
+  };
 }
 
 export const selectActivePlateMap = createSelector(
@@ -430,6 +416,46 @@ function getComponentFromState(componentId, state) {
   return state.components.find(
     stateComponent => stateComponent.id === componentId
   );
+}
+
+function createPlateMap(data) {
+  return {
+    selected: false,
+    active: false,
+    data,
+  };
+}
+
+function createPlateMapWithDimensions(dimensions) {
+  return createPlateMap(createPlateMapData(dimensions));
+}
+
+function createPlateMapData(dimensions) {
+  const { rows, columns } = dimensions;
+  const data = [];
+  let wellCount = 0;
+  for (let i = 0; i < rows; i++) {
+    const row = [];
+    const rowLetter = PLATEMAP_ROW_HEADERS[i];
+    for (let i = 0; i < columns; i++) {
+      row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
+      wellCount++;
+    }
+    data.push(row);
+  }
+  return data;
+}
+
+function createWell(id, name, components = []) {
+  return {
+    id,
+    name,
+    components,
+    selected: false,
+    blank: false,
+    highlighted: false,
+    dimmed: false,
+  };
 }
 
 function createComponent(data, type) {

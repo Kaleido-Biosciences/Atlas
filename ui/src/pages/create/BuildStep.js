@@ -12,7 +12,7 @@ import styles from './BuildStep.module.css';
 
 import {
   createExperimentActions,
-  createPlateMap,
+  addNewPlateMap,
   selectActivePlateMap,
 } from '../../store/createExperiment';
 
@@ -34,22 +34,14 @@ class BuildStep extends Component {
     }
   };
   render() {
-    const { plateMaps, activePlateMap, highlightedComponents } = this.props;
+    const { plateMaps, activePlateMap } = this.props;
     const showPlateMap = plateMaps.length > 0 && activePlateMap;
     return (
       <div className={styles.container}>
         <div className={styles.plateMap}>
           {showPlateMap && (
             <React.Fragment>
-              <PlateMapToolbar
-                plateMaps={plateMaps}
-                activePlateMap={activePlateMap}
-                highlightedComponents={highlightedComponents}
-                onDeleteClick={this.props.deletePlateMap}
-                onHighlightClick={this.props.toggleHighlight}
-                onAddClick={this.props.createPlateMap}
-                onPlateMapChange={this.props.setActivePlateMap}
-              />
+              <PlateMapToolbar />
               <div className={styles.plateMapContainer}>
                 <Draggable
                   handle={`.${styles.dragHandle}`}
@@ -73,7 +65,7 @@ class BuildStep extends Component {
             </React.Fragment>
           )}
           {!showPlateMap && (
-            <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
+            <NoPlateMapsMessage onAddClick={this.props.addNewPlateMap} />
           )}
         </div>
       </div>
@@ -85,39 +77,28 @@ BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
   clickMode: PropTypes.string.isRequired,
-  highlightedComponents: PropTypes.array.isRequired,
-  setActivePlateMap: PropTypes.func.isRequired,
-  createPlateMap: PropTypes.func.isRequired,
-  deletePlateMap: PropTypes.func.isRequired,
+  addNewPlateMap: PropTypes.func.isRequired,
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
   clearSelectedWells: PropTypes.func.isRequired,
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
-  toggleHighlight: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
   const activePlateMap = selectActivePlateMap(state);
-  const {
-    plateMaps,
-    clickMode,
-    highlightedComponents,
-  } = state.createExperiment;
-  return { activePlateMap, plateMaps, clickMode, highlightedComponents };
+  const { plateMaps, clickMode } = state.createExperiment;
+  return { activePlateMap, plateMaps, clickMode };
 };
 
 const mapDispatch = {
-  setActivePlateMap: createExperimentActions.setActivePlateMap,
-  createPlateMap: createPlateMap,
-  deletePlateMap: createExperimentActions.deletePlateMap,
+  addNewPlateMap,
   toggleWellsSelected: createExperimentActions.toggleWellsSelected,
   setClickMode: createExperimentActions.setClickMode,
   clearSelectedWells: createExperimentActions.clearSelectedWells,
   applySelectedComponentsToWells:
     createExperimentActions.applySelectedComponentsToWells,
   clearWells: createExperimentActions.clearWells,
-  toggleHighlight: createExperimentActions.toggleHighlight,
 };
 
 const connected = connect(
