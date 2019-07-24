@@ -13,7 +13,6 @@ import styles from './BuildStep.module.css';
 import {
   createExperimentActions,
   addNewPlateMap,
-  clonePlateMap,
   selectActivePlateMap,
 } from '../../store/createExperiment';
 
@@ -35,23 +34,14 @@ class BuildStep extends Component {
     }
   };
   render() {
-    const { plateMaps, activePlateMap, highlightedComponents } = this.props;
+    const { plateMaps, activePlateMap } = this.props;
     const showPlateMap = plateMaps.length > 0 && activePlateMap;
     return (
       <div className={styles.container}>
         <div className={styles.plateMap}>
           {showPlateMap && (
             <React.Fragment>
-              <PlateMapToolbar
-                plateMaps={plateMaps}
-                activePlateMap={activePlateMap}
-                highlightedComponents={highlightedComponents}
-                onDeleteClick={this.props.deletePlateMap}
-                onHighlightClick={this.props.toggleHighlight}
-                onAddClick={this.props.addNewPlateMap}
-                onPlateMapChange={this.props.setActivePlateMap}
-                onCloneSubmit={this.props.clonePlateMap}
-              />
+              <PlateMapToolbar />
               <div className={styles.plateMapContainer}>
                 <Draggable
                   handle={`.${styles.dragHandle}`}
@@ -87,41 +77,28 @@ BuildStep.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
   clickMode: PropTypes.string.isRequired,
-  highlightedComponents: PropTypes.array.isRequired,
-  setActivePlateMap: PropTypes.func.isRequired,
   addNewPlateMap: PropTypes.func.isRequired,
-  deletePlateMap: PropTypes.func.isRequired,
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
   clearSelectedWells: PropTypes.func.isRequired,
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
-  toggleHighlight: PropTypes.func.isRequired,
-  clonePlateMap: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
   const activePlateMap = selectActivePlateMap(state);
-  const {
-    plateMaps,
-    clickMode,
-    highlightedComponents,
-  } = state.createExperiment;
-  return { activePlateMap, plateMaps, clickMode, highlightedComponents };
+  const { plateMaps, clickMode } = state.createExperiment;
+  return { activePlateMap, plateMaps, clickMode };
 };
 
 const mapDispatch = {
-  setActivePlateMap: createExperimentActions.setActivePlateMap,
   addNewPlateMap,
-  deletePlateMap: createExperimentActions.deletePlateMap,
   toggleWellsSelected: createExperimentActions.toggleWellsSelected,
   setClickMode: createExperimentActions.setClickMode,
   clearSelectedWells: createExperimentActions.clearSelectedWells,
   applySelectedComponentsToWells:
     createExperimentActions.applySelectedComponentsToWells,
   clearWells: createExperimentActions.clearWells,
-  toggleHighlight: createExperimentActions.toggleHighlight,
-  clonePlateMap,
 };
 
 const connected = connect(

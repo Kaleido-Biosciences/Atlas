@@ -1,32 +1,48 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Button, Popup } from 'semantic-ui-react';
 
+import {
+  createExperimentActions,
+  addNewPlateMap,
+  clonePlateMap,
+  selectActivePlateMap,
+} from '../store/createExperiment';
 import { PlateMapDropdown } from './PlateMapDropdown';
 import styles from './PlateMapToolbar.module.css';
 import { ClonePlateForm } from './ClonePlateForm';
 
-export class PlateMapToolbar extends Component {
+class PlateMapToolbar extends Component {
   state = {
     clonePopupOpen: false,
   };
-  handleDelete = () => {
-    this.props.onDeleteClick(this.props.activePlateMap.id);
+  handleAddClick = () => {
+    if (this.props.onAddClick) {
+      this.props.onAddClick();
+    }
+  };
+  handleDeleteClick = () => {
+    if (this.props.onDeleteClick) {
+      this.props.onDeleteClick(this.props.activePlateMap.id);
+    }
   };
   handleHighlight = (e, { value }) => {
-    this.props.onHighlightClick({ componentType: value });
-  };
-  handleClonePopupOpen = () => {
-    this.setState({ clonePopupOpen: true });
-  };
-  handleClonePopupClose = () => {
-    this.setState({ clonePopupOpen: false });
+    if (this.props.onHighlightClick) {
+      this.props.onHighlightClick({ componentType: value });
+    }
   };
   handleCloneSubmit = ({ typesToClone }) => {
     if (this.props.onCloneSubmit) {
       this.props.onCloneSubmit(this.props.activePlateMap.id, typesToClone);
     }
     this.handleClonePopupClose();
+  };
+  handleClonePopupOpen = () => {
+    this.setState({ clonePopupOpen: true });
+  };
+  handleClonePopupClose = () => {
+    this.setState({ clonePopupOpen: false });
   };
   render() {
     const { plateMaps, activePlateMap } = this.props;
@@ -44,12 +60,12 @@ export class PlateMapToolbar extends Component {
             primary
             icon="plus circle"
             content="Add Plate"
-            onClick={this.props.onAddClick}
+            onClick={this.handleAddClick}
           />
           <Button
             icon="trash"
             content="Delete Plate"
-            onClick={this.handleDelete}
+            onClick={this.handleDeleteClick}
           />
           <Popup
             trigger={<Button icon="clone" content="Clone Plate" />}
@@ -102,8 +118,29 @@ PlateMapToolbar.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object.isRequired,
   highlightedComponents: PropTypes.array.isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
-  onHighlightClick: PropTypes.func.isRequired,
-  onAddClick: PropTypes.func.isRequired,
+  onPlateMapChange: PropTypes.func,
+  onDeleteClick: PropTypes.func,
+  onHighlightClick: PropTypes.func,
+  onAddClick: PropTypes.func,
   onCloneSubmit: PropTypes.func,
 };
+
+const mapState = (state, props) => {
+  const { plateMaps, highlightedComponents } = state.createExperiment;
+  const activePlateMap = selectActivePlateMap(state);
+  return { plateMaps, highlightedComponents, activePlateMap };
+};
+
+const mapDispatch = {
+  onPlateMapChange: createExperimentActions.setActivePlateMap,
+  onDeleteClick: createExperimentActions.deletePlateMap,
+  onHighlightClick: createExperimentActions.toggleHighlight,
+  onAddClick: addNewPlateMap,
+  onCloneSubmit: clonePlateMap,
+};
+
+const connected = connect(
+  mapState,
+  mapDispatch
+)(PlateMapToolbar);
+export { connected as PlateMapToolbar };
