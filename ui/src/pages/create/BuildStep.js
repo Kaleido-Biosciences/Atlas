@@ -12,7 +12,8 @@ import styles from './BuildStep.module.css';
 
 import {
   createExperimentActions,
-  createPlateMap,
+  addNewPlateMap,
+  clonePlateMap,
   selectActivePlateMap,
 } from '../../store/createExperiment';
 
@@ -47,7 +48,7 @@ class BuildStep extends Component {
                 highlightedComponents={highlightedComponents}
                 onDeleteClick={this.props.deletePlateMap}
                 onHighlightClick={this.props.toggleHighlight}
-                onAddClick={this.props.createPlateMap}
+                onAddClick={this.props.addNewPlateMap}
                 onPlateMapChange={this.props.setActivePlateMap}
                 onCloneSubmit={this.props.clonePlateMap}
               />
@@ -74,7 +75,7 @@ class BuildStep extends Component {
             </React.Fragment>
           )}
           {!showPlateMap && (
-            <NoPlateMapsMessage onAddClick={this.props.createPlateMap} />
+            <NoPlateMapsMessage onAddClick={this.props.addNewPlateMap} />
           )}
         </div>
       </div>
@@ -88,7 +89,7 @@ BuildStep.propTypes = {
   clickMode: PropTypes.string.isRequired,
   highlightedComponents: PropTypes.array.isRequired,
   setActivePlateMap: PropTypes.func.isRequired,
-  createPlateMap: PropTypes.func.isRequired,
+  addNewPlateMap: PropTypes.func.isRequired,
   deletePlateMap: PropTypes.func.isRequired,
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
@@ -111,7 +112,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   setActivePlateMap: createExperimentActions.setActivePlateMap,
-  createPlateMap: createPlateMap,
+  addNewPlateMap,
   deletePlateMap: createExperimentActions.deletePlateMap,
   toggleWellsSelected: createExperimentActions.toggleWellsSelected,
   setClickMode: createExperimentActions.setClickMode,
@@ -120,7 +121,7 @@ const mapDispatch = {
     createExperimentActions.applySelectedComponentsToWells,
   clearWells: createExperimentActions.clearWells,
   toggleHighlight: createExperimentActions.toggleHighlight,
-  clonePlateMap: createExperimentActions.clonePlateMap,
+  clonePlateMap,
 };
 
 const connected = connect(

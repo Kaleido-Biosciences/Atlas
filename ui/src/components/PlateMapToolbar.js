@@ -7,19 +7,26 @@ import styles from './PlateMapToolbar.module.css';
 import { ClonePlateForm } from './ClonePlateForm';
 
 export class PlateMapToolbar extends Component {
+  state = {
+    clonePopupOpen: false,
+  };
   handleDelete = () => {
     this.props.onDeleteClick(this.props.activePlateMap.id);
   };
   handleHighlight = (e, { value }) => {
     this.props.onHighlightClick({ componentType: value });
   };
+  handleClonePopupOpen = () => {
+    this.setState({ clonePopupOpen: true });
+  };
+  handleClonePopupClose = () => {
+    this.setState({ clonePopupOpen: false });
+  };
   handleCloneSubmit = ({ typesToClone }) => {
     if (this.props.onCloneSubmit) {
-      this.props.onCloneSubmit({
-        plateMapId: this.props.activePlateMap.id,
-        typesToClone,
-      });
+      this.props.onCloneSubmit(this.props.activePlateMap.id, typesToClone);
     }
+    this.handleClonePopupClose();
   };
   render() {
     const { plateMaps, activePlateMap } = this.props;
@@ -47,7 +54,10 @@ export class PlateMapToolbar extends Component {
           <Popup
             trigger={<Button icon="clone" content="Clone Plate" />}
             on="click"
+            open={this.state.clonePopupOpen}
             position="bottom left"
+            onClose={this.handleClonePopupClose}
+            onOpen={this.handleClonePopupOpen}
           >
             <ClonePlateForm onSubmit={this.handleCloneSubmit} />
           </Popup>
