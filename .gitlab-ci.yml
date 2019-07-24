@@ -10,14 +10,14 @@ stages:
 
 
 image_build:
-  image: gitlab:dind
+  image: docker:git
   stage: package
   only:
     - master
     - develop
     #- feature/fullcicd
   services:
-    - docker:dind
+    - docker:18.09-dind
   script:
     - cd ui/
     - ls
