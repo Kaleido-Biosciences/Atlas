@@ -10,7 +10,7 @@ stages:
 
 
 image_build:
-  image: docker:git
+  image: gitlab:dind
   stage: package
   only:
     - master
