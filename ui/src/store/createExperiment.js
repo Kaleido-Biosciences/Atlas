@@ -5,6 +5,7 @@ import {
   PLATEMAP_ROW_HEADERS,
   DEFAULT_TIMEPOINT_TIME,
   DEFAULT_TIMEPOINT_CONCENTRATION,
+  DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
 } from '../constants';
 
@@ -463,7 +464,10 @@ function createComponent(data, type) {
   let displayName, initialTimepoint;
   if (type === 'community') {
     displayName = data.name;
-    initialTimepoint = createTimepoint();
+    initialTimepoint = createTimepoint(
+      undefined,
+      DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION
+    );
   } else if (type === 'compound') {
     displayName = data.name;
     initialTimepoint = createTimepoint();
