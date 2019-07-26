@@ -172,7 +172,7 @@ const createExperiment = createSlice({
         }, 0);
         time = max + 24;
       }
-      timepoints.push(createTimepoint(time));
+      timepoints.push(createTimepoint(component.type, time));
     },
     updateTimepoint(state, action) {
       const { component, name, value, index } = action.payload;
@@ -495,24 +495,17 @@ function createWell(id, name, components = []) {
 
 function createComponent(data, type) {
   const id = data.id;
-  let displayName, initialTimepoint;
+  let displayName;
   if (type === 'community') {
     displayName = data.name;
-    initialTimepoint = createTimepoint(
-      undefined,
-      DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION
-    );
   } else if (type === 'compound') {
     displayName = data.name;
-    initialTimepoint = createTimepoint();
   } else if (type === 'medium') {
     displayName = data.name;
-    createTimepoint(undefined, DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION);
   } else if (type === 'supplement') {
     displayName = data.name.label;
-    initialTimepoint = createTimepoint();
   }
-  const timepoints = initialTimepoint ? [initialTimepoint] : [];
+  const timepoints = [createTimepoint(type)];
   return {
     id,
     displayName,
@@ -525,9 +518,21 @@ function createComponent(data, type) {
 }
 
 function createTimepoint(
+  componentType,
   time = DEFAULT_TIMEPOINT_TIME,
-  concentration = DEFAULT_TIMEPOINT_CONCENTRATION
+  concentration
 ) {
+  if (!concentration && componentType) {
+    if (componentType === 'community') {
+      concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
+    } else if (componentType === 'medium') {
+      concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
+    } else {
+      concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+    }
+  } else if (!concentration) {
+    concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+  }
   return { time, concentration };
 }
 
