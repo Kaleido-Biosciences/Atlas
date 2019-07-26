@@ -17,7 +17,7 @@ image_build:
     - develop
     #- feature/fullcicd
   services:
-    - docker:18.09-dind
+    - docker:dind
   script:
     - cd ui/
     - ls
