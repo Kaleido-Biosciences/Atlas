@@ -10,6 +10,7 @@ import {
   selectSelectedWellsFromActivePlateMap,
 } from '../../store/createExperiment';
 import { ComponentSearch } from './ComponentSearch';
+import { RecentComponents } from './RecentComponents';
 import { CommunitiesSection } from './sections/CommunitiesSection';
 import { CompoundsSection } from './sections/CompoundsSection';
 import { MediaSection } from './sections/MediaSection';
@@ -48,7 +49,10 @@ class ApplyToolbar extends Component {
       components,
       componentsValid,
       selectedWells,
+      recentComponents,
       onAddComponent,
+      onRecentComponentClick,
+      onRecentComponentRemoveClick,
     } = this.props;
     const groupedComponents = this.groupComponents(components);
     const { communities, compounds, media, supplements } = groupedComponents;
@@ -58,9 +62,18 @@ class ApplyToolbar extends Component {
         <div className={styles.componentSearchContainer}>
           <ComponentSearch onSelect={onAddComponent} />
         </div>
-        <div>
+        {recentComponents.length > 0 ? (
+          <div className={styles.recentComponentsContainer}>
+            <RecentComponents
+              components={recentComponents}
+              onComponentClick={onRecentComponentClick}
+              onComponentRemoveClick={onRecentComponentRemoveClick}
+            />
+          </div>
+        ) : null}
+        <div className={styles.componentsContainer}>
           {showComponents ? (
-            <div className="components-container">
+            <React.Fragment>
               {communities.length > 0 && (
                 <CommunitiesSection communities={communities} />
               )}
@@ -71,7 +84,7 @@ class ApplyToolbar extends Component {
               {supplements.length > 0 && (
                 <SupplementsSection supplements={supplements} />
               )}
-            </div>
+            </React.Fragment>
           ) : (
             <div className={styles.noComponentsMessage}>
               Get started by searching for some components above.
@@ -104,20 +117,36 @@ ApplyToolbar.propTypes = {
   componentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object,
+  recentComponents: PropTypes.array,
   onAddComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
+  onRecentComponentClick: PropTypes.func,
+  onRecentComponentRemoveClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const { components, componentsValid } = state.createExperiment;
+  const {
+    components,
+    componentsValid,
+    recentComponents,
+  } = state.createExperiment;
   const selectedWells = selectSelectedWellsFromActivePlateMap(state);
   const activePlateMap = selectActivePlateMap(state);
-  return { components, componentsValid, selectedWells, activePlateMap };
+  return {
+    components,
+    componentsValid,
+    selectedWells,
+    activePlateMap,
+    recentComponents,
+  };
 };
 
 const mapDispatch = {
   onAddComponent: createExperimentActions.addComponents,
   onApplyClick: createExperimentActions.applySelectedComponentsToSelectedWells,
+  onRecentComponentClick:
+    createExperimentActions.moveRecentComponentsToComponents,
+  onRecentComponentRemoveClick: createExperimentActions.removeRecentComponents,
 };
 
 const connected = connect(
