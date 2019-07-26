@@ -1,0 +1,14 @@
+.recentComponents {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header {
+  margin: 0 0.5em 0 0 !important;
+  font-size: 0.8em !important;
+}
+
+.component {
+  margin: 0.14285714em !important;
+}

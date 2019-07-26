@@ -15,7 +15,7 @@ export class ComponentsSection extends Component {
     } = this.props;
     return (
       <div className={styles.componentsSection}>
-        <h4>{label}</h4>
+        <h5 className={styles.header}>{label}</h5>
         <div className="components">
           {components.map(component => {
             return (
