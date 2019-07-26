@@ -28,15 +28,13 @@ const createExperiment = createSlice({
   },
   reducers: {
     setExperimentOptions(state, action) {
-      const { experiment, plateSize } = action.payload;
+      const { experiment, plateSize, plateMaps } = action.payload;
       state.experiment = experiment;
-      if (
-        state.plateSize &&
-        (state.plateSize.rows !== plateSize.rows ||
-          state.plateSize.columns !== plateSize.columns)
-      ) {
-        state.plateMaps = [];
-      }
+      state.plateMaps = (
+          !plateMaps
+          && state.plateSize
+          && (state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns)
+      ) ? [] : plateMaps;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
