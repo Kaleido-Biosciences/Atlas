@@ -17,7 +17,8 @@ export class ClonePlateForm extends Component {
       [value]: checked,
     });
   };
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     if (this.props.onSubmit) {
       const entries = Object.entries(this.state);
       const selections = [];
