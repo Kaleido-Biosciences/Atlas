@@ -31,9 +31,9 @@ const createExperiment = createSlice({
       const { experiment, plateSize, plateMaps } = action.payload;
       state.experiment = experiment;
       state.plateMaps = (
-          !plateMaps
-          && state.plateSize
-          && (state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns)
+          !plateMaps &&
+          state.plateSize &&
+          (state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns)
       ) ? [] : plateMaps;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
