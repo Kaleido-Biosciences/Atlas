@@ -346,7 +346,7 @@ export const {
   reducer: createExperimentReducer,
 } = createExperiment;
 
-const { addPlateMap } = createExperimentActions;
+const { addPlateMap, setActivePlateMap } = createExperimentActions;
 
 export function initializePlateMaps() {
   return (dispatch, getState) => {
@@ -368,7 +368,7 @@ export function addNewPlateMap() {
 
 export function clonePlateMap(plateMapId, typesToClone) {
   return (dispatch, getState) => {
-    const { plateMaps } = getState().createExperiment;
+    let plateMaps = getState().createExperiment.plateMaps;
     const plateMap = findPlateMapById(plateMapId, plateMaps);
     const data = plateMap.data.map(row => {
       return row.map(well => {
@@ -379,6 +379,9 @@ export function clonePlateMap(plateMapId, typesToClone) {
       });
     });
     dispatch(addPlateMap(createPlateMap(data)));
+    plateMaps = getState().createExperiment.plateMaps;
+    const newPlateMap = plateMaps[plateMaps.length - 1];
+    dispatch(setActivePlateMap(newPlateMap.id));
   };
 }
 
