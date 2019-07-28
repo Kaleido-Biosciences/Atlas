@@ -27,7 +27,7 @@ const createExperiment = createSlice({
     steps: {
       stepOneCompleted: false,
       stepTwoCompleted: false,
-      stepthreeCompleted: false,
+      stepThreeCompleted: false,
     },
     highlightedComponents: [],
   },
@@ -319,6 +319,7 @@ const createExperiment = createSlice({
     },
     setCompletedStatus(state, action) {
       state.status = STATUS_COMPLETED;
+      state.steps.stepTwoCompleted = true;
     },
   },
 });

@@ -48,6 +48,9 @@ class PlateMapToolbar extends Component {
   handleMarkCompletedClick = () => {
     if (this.props.onMarkCompletedClick) {
       this.props.onMarkCompletedClick();
+      if (this.props.onComplete) {
+        this.props.onComplete();
+      }
     }
   };
   render() {
@@ -140,6 +143,7 @@ PlateMapToolbar.propTypes = {
   onAddClick: PropTypes.func,
   onCloneSubmit: PropTypes.func,
   onMarkCompletedClick: PropTypes.func,
+  onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
