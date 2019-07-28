@@ -7,12 +7,15 @@ import {
   DEFAULT_TIMEPOINT_CONCENTRATION,
   DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
+  STATUS_IN_PROGRESS,
+  STATUS_COMPLETED,
 } from '../constants';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
     experiment: null,
+    status: STATUS_IN_PROGRESS,
     plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
@@ -313,6 +316,9 @@ const createExperiment = createSlice({
         wells = wells.concat(flat);
       });
       setWellsHighlightedStatus(wells, highlightedComponents);
+    },
+    setCompletedStatus(state, action) {
+      state.status = STATUS_COMPLETED;
     },
   },
 });
