@@ -31,9 +31,9 @@ const createExperiment = createSlice({
       const { experiment, plateSize, plateMaps } = action.payload;
       state.experiment = experiment;
       state.plateMaps = (
-          !plateMaps &&
-          state.plateSize &&
-          (state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns)
+          !plateMaps ||
+          (state.plateSize &&
+          (state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns))
       ) ? [] : plateMaps;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
@@ -43,6 +43,9 @@ const createExperiment = createSlice({
       plateMap.id = state.nextPlateMapId;
       state.plateMaps.push(plateMap);
       state.nextPlateMapId++;
+    },
+    updateNextPlateMapId(state, action) {
+      state.nextPlateMapId = action.payload;
     },
     setActivePlateMap(state, action) {
       const plateMapId = action.payload;
@@ -309,7 +312,7 @@ export const {
   reducer: createExperimentReducer,
 } = createExperiment;
 
-const { addPlateMap, setActivePlateMap } = createExperimentActions;
+const { addPlateMap, setActivePlateMap, updateNextPlateMapId } = createExperimentActions;
 
 export function initializePlateMaps() {
   return (dispatch, getState) => {
@@ -320,7 +323,7 @@ export function initializePlateMaps() {
       dispatch(setActivePlateMap(plateMaps[0].id));
     }
     else {
-      state.nextPlateMapId = plateMaps.length++;
+      dispatch(updateNextPlateMapId(plateMaps.length + 1));
     }
   };
 }
