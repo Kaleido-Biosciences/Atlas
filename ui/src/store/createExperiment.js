@@ -319,6 +319,9 @@ export function initializePlateMaps() {
       let { plateMaps } = getState().createExperiment;
       dispatch(setActivePlateMap(plateMaps[0].id));
     }
+    else {
+      state.nextPlateMapId = plateMaps.length++;
+    }
   };
 }
 

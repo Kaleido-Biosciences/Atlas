@@ -37,8 +37,8 @@ class SelectStep extends Component {
   handleExperimentSelect = experiment => {
     fetchPlateMaps(experiment.name).then(plateMaps => {
       let plateSize = !plateMaps ? this.state.plateSize : {
-        rows: plateMaps.length,
-        columns: plateMaps[0].length
+        rows: plateMaps[0].data.length,
+        columns: plateMaps[0].data[0].length
       };
       const isValid = this.validateSelections(experiment, plateSize);
       this.setState({experiment, showValidationMessage: !isValid});
