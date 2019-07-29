@@ -8,11 +8,11 @@ import {
   addNewPlateMap,
   clonePlateMap,
   selectActivePlateMap,
-} from '../store/createExperiment';
+} from '../../store/createExperiment';
 import { PlateMapDropdown } from './PlateMapDropdown';
 import styles from './PlateMapToolbar.module.css';
 import { ClonePlateForm } from './ClonePlateForm';
-import { STATUS_COMPLETED } from '../constants';
+import { STATUS_COMPLETED } from '../../constants';
 
 class PlateMapToolbar extends Component {
   state = {
