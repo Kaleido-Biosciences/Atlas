@@ -15,8 +15,8 @@ export class DeletePlateMapButton extends Component {
     this.setState({ popupOpen: false });
   };
   handleDeleteClick = () => {
-    if (this.props.onDelete) {
-      this.props.onDelete();
+    if (this.props.onDeleteClick) {
+      this.props.onDeleteClick();
     }
     this.handlePopupClose();
   };
@@ -44,5 +44,5 @@ export class DeletePlateMapButton extends Component {
 }
 
 DeletePlateMapButton.propTypes = {
-  onDelete: PropTypes.func,
+  onDeleteClick: PropTypes.func,
 };

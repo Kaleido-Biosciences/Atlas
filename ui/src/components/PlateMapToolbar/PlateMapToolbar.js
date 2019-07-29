@@ -62,7 +62,7 @@ class PlateMapToolbar extends Component {
             content="Add Plate"
             onClick={this.handleAddClick}
           />
-          <DeletePlateMapButton onDelete={this.handleDeleteClick} />
+          <DeletePlateMapButton onDeleteClick={this.handleDeleteClick} />
           <ClonePlateMapButton onSubmit={this.handleCloneSubmit} />
         </div>
         <div>
