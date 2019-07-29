@@ -1,5 +1,9 @@
-.componentSearchContainer {
-  margin-bottom: 1em;
+.recentComponentsContainer {
+  margin-top: 0.2em;
+}
+
+.componentsContainer {
+  margin-top: 1.2em;
 }
 
 .noComponentsMessage {

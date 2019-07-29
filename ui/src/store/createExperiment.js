@@ -5,24 +5,29 @@ import {
   PLATEMAP_ROW_HEADERS,
   DEFAULT_TIMEPOINT_TIME,
   DEFAULT_TIMEPOINT_CONCENTRATION,
+  DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
+  STATUS_IN_PROGRESS,
+  STATUS_COMPLETED,
 } from '../constants';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
     experiment: null,
+    status: STATUS_IN_PROGRESS,
     plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
     components: [],
+    recentComponents: [],
     componentsValid: true,
     clickMode: 'apply',
     clearMode: 'all',
     steps: {
       stepOneCompleted: false,
       stepTwoCompleted: false,
-      stepthreeCompleted: false,
+      stepThreeCompleted: false,
     },
     highlightedComponents: [],
   },
@@ -89,7 +94,7 @@ const createExperiment = createSlice({
       const createIfNotExists = (data, type) => {
         const existingComponent = getComponentFromState(data.id, state);
         if (!existingComponent) {
-          state.components.push(createComponent(data, type));
+          state.components.unshift(createComponent(data, type));
         }
       };
       communities.forEach(comm => {
@@ -109,8 +114,41 @@ const createExperiment = createSlice({
       const componentsToRemove = action.payload.components;
       const { components } = state;
       const idsToRemove = componentsToRemove.map(component => component.id);
-      state.components = components.filter(
-        component => !idsToRemove.includes(component.id)
+      let addToRecent = [];
+      idsToRemove.forEach(id => {
+        const index = components.findIndex(component => component.id === id);
+        if (index > -1) {
+          addToRecent = addToRecent.concat(components.splice(index, 1));
+        }
+      });
+      state.recentComponents = state.recentComponents.concat(addToRecent);
+    },
+    moveRecentComponentsToComponents(state, action) {
+      const componentsToMove = action.payload.components;
+      const { recentComponents } = state;
+      const idsToMove = componentsToMove.map(component => component.id);
+      let addToComponents = [];
+      idsToMove.forEach(id => {
+        const index = recentComponents.findIndex(
+          component => component.id === id
+        );
+        if (index > -1) {
+          addToComponents = addToComponents.concat(
+            recentComponents.splice(index, 1)
+          );
+        }
+      });
+      const newComponents = addToComponents.map(component => {
+        return createComponent(component.data, component.type);
+      });
+      state.components = newComponents.concat(state.components);
+    },
+    removeRecentComponents(state, action) {
+      const componentsToRemove = action.payload.components;
+      const { recentComponents } = state;
+      const idsToDelete = componentsToRemove.map(component => component.id);
+      state.recentComponents = recentComponents.filter(
+        component => !idsToDelete.includes(component.id)
       );
     },
     selectComponents(state, action) {
@@ -138,7 +176,7 @@ const createExperiment = createSlice({
         }, 0);
         time = max + 24;
       }
-      timepoints.push(createTimepoint(time));
+      timepoints.push(createTimepoint(component.type, time));
     },
     updateTimepoint(state, action) {
       const { component, name, value, index } = action.payload;
@@ -280,6 +318,10 @@ const createExperiment = createSlice({
       });
       setWellsHighlightedStatus(wells, highlightedComponents);
     },
+    setCompletedStatus(state, action) {
+      state.status = STATUS_COMPLETED;
+      state.steps.stepTwoCompleted = true;
+    },
   },
 });
 
@@ -318,9 +360,7 @@ export function initializePlateMaps() {
   return (dispatch, getState) => {
     let { plateMaps } = getState().createExperiment;
     if (!plateMaps.length) {
-      dispatch(createPlateMap());
-      let { plateMaps } = getState().createExperiment;
-      dispatch(setActivePlateMap(plateMaps[0].id));
+      dispatch(addNewPlateMap());
     }
     else {
       dispatch(updateNextPlateMapId(plateMaps.length + 1));
@@ -328,41 +368,32 @@ export function initializePlateMaps() {
   };
 }
 
-export function createPlateMap() {
+export function addNewPlateMap() {
   return (dispatch, getState) => {
     const { plateSize, plateMaps } = getState().createExperiment;
-    const plateMap = {
-      selected: false,
-      active: false,
-    };
-    plateMap.data = getPlateMapArray(plateSize);
+    const plateMap = createPlateMapWithDimensions(plateSize);
     if (!plateMaps.length) plateMap.active = true;
     dispatch(addPlateMap(plateMap));
   };
 }
 
-function getPlateMapArray(dimensions) {
-  const { rows, columns } = dimensions;
-  const plateMap = [];
-  let wellCount = 0;
-  for (let i = 0; i < rows; i++) {
-    const row = [];
-    const rowLetter = PLATEMAP_ROW_HEADERS[i];
-    for (let i = 0; i < columns; i++) {
-      row.push({
-        id: wellCount,
-        name: `${rowLetter}${i + 1}`,
-        selected: false,
-        blank: false,
-        highlighted: false,
-        dimmed: false,
-        components: [],
+export function clonePlateMap(plateMapId, typesToClone) {
+  return (dispatch, getState) => {
+    let plateMaps = getState().createExperiment.plateMaps;
+    const plateMap = findPlateMapById(plateMapId, plateMaps);
+    const data = plateMap.data.map(row => {
+      return row.map(well => {
+        const components = well.components.filter(component => {
+          return typesToClone.includes(component.type);
+        });
+        return createWell(well.id, well.name, components);
       });
-      wellCount++;
-    }
-    plateMap.push(row);
-  }
-  return plateMap;
+    });
+    dispatch(addPlateMap(createPlateMap(data)));
+    plateMaps = getState().createExperiment.plateMaps;
+    const newPlateMap = plateMaps[plateMaps.length - 1];
+    dispatch(setActivePlateMap(newPlateMap.id));
+  };
 }
 
 export const selectActivePlateMap = createSelector(
@@ -436,23 +467,59 @@ function getComponentFromState(componentId, state) {
   );
 }
 
+function createPlateMap(data) {
+  return {
+    selected: false,
+    active: false,
+    data,
+  };
+}
+
+function createPlateMapWithDimensions(dimensions) {
+  return createPlateMap(createPlateMapData(dimensions));
+}
+
+function createPlateMapData(dimensions) {
+  const { rows, columns } = dimensions;
+  const data = [];
+  let wellCount = 0;
+  for (let i = 0; i < rows; i++) {
+    const row = [];
+    const rowLetter = PLATEMAP_ROW_HEADERS[i];
+    for (let i = 0; i < columns; i++) {
+      row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
+      wellCount++;
+    }
+    data.push(row);
+  }
+  return data;
+}
+
+function createWell(id, name, components = []) {
+  return {
+    id,
+    name,
+    components,
+    selected: false,
+    blank: false,
+    highlighted: false,
+    dimmed: false,
+  };
+}
+
 function createComponent(data, type) {
   const id = data.id;
-  let displayName, initialTimepoint;
+  let displayName;
   if (type === 'community') {
     displayName = data.name;
-    initialTimepoint = createTimepoint();
   } else if (type === 'compound') {
     displayName = data.name;
-    initialTimepoint = createTimepoint();
   } else if (type === 'medium') {
     displayName = data.name;
-    createTimepoint(undefined, DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION);
   } else if (type === 'supplement') {
     displayName = data.name.label;
-    initialTimepoint = createTimepoint();
   }
-  const timepoints = initialTimepoint ? [initialTimepoint] : [];
+  const timepoints = [createTimepoint(type)];
   return {
     id,
     displayName,
@@ -465,9 +532,21 @@ function createComponent(data, type) {
 }
 
 function createTimepoint(
+  componentType,
   time = DEFAULT_TIMEPOINT_TIME,
-  concentration = DEFAULT_TIMEPOINT_CONCENTRATION
+  concentration
 ) {
+  if (!concentration && componentType) {
+    if (componentType === 'community') {
+      concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
+    } else if (componentType === 'medium') {
+      concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
+    } else {
+      concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+    }
+  } else if (!concentration) {
+    concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+  }
   return { time, concentration };
 }
 

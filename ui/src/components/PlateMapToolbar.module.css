@@ -1,9 +1,12 @@
 .toolbar {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5em;
+}
+
+.dropdownContainer {
+  margin-right: 1em;
 }
 
 .highlight :global(.ui.form .inline.fields) {
