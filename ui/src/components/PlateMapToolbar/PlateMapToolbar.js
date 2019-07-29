@@ -10,9 +10,10 @@ import {
   selectActivePlateMap,
 } from '../../store/createExperiment';
 import { PlateMapDropdown } from './PlateMapDropdown';
-import styles from './PlateMapToolbar.module.css';
+import { DeletePlateMapButton } from './DeletePlateMapButton';
 import { ClonePlateForm } from './ClonePlateForm';
 import { STATUS_COMPLETED } from '../../constants';
+import styles from './PlateMapToolbar.module.css';
 
 class PlateMapToolbar extends Component {
   state = {
@@ -71,11 +72,7 @@ class PlateMapToolbar extends Component {
             content="Add Plate"
             onClick={this.handleAddClick}
           />
-          <Button
-            icon="trash"
-            content="Delete Plate"
-            onClick={this.handleDeleteClick}
-          />
+          <DeletePlateMapButton onDelete={this.handleDeleteClick} />
           <Popup
             trigger={<Button icon="clone" content="Clone Plate" />}
             on="click"
