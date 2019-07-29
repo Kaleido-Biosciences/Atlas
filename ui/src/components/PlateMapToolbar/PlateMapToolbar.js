@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Popup } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 import {
   createExperimentActions,
@@ -11,14 +11,11 @@ import {
 } from '../../store/createExperiment';
 import { PlateMapDropdown } from './PlateMapDropdown';
 import { DeletePlateMapButton } from './DeletePlateMapButton';
-import { ClonePlateForm } from './ClonePlateForm';
+import { ClonePlateMapButton } from './ClonePlateMapButton';
 import { STATUS_COMPLETED } from '../../constants';
 import styles from './PlateMapToolbar.module.css';
 
 class PlateMapToolbar extends Component {
-  state = {
-    clonePopupOpen: false,
-  };
   handleAddClick = () => {
     if (this.props.onAddClick) {
       this.props.onAddClick();
@@ -38,13 +35,6 @@ class PlateMapToolbar extends Component {
     if (this.props.onCloneSubmit) {
       this.props.onCloneSubmit(this.props.activePlateMap.id, typesToClone);
     }
-    this.handleClonePopupClose();
-  };
-  handleClonePopupOpen = () => {
-    this.setState({ clonePopupOpen: true });
-  };
-  handleClonePopupClose = () => {
-    this.setState({ clonePopupOpen: false });
   };
   handleMarkCompletedClick = () => {
     if (this.props.onMarkCompletedClick) {
@@ -73,16 +63,7 @@ class PlateMapToolbar extends Component {
             onClick={this.handleAddClick}
           />
           <DeletePlateMapButton onDelete={this.handleDeleteClick} />
-          <Popup
-            trigger={<Button icon="clone" content="Clone Plate" />}
-            on="click"
-            open={this.state.clonePopupOpen}
-            position="bottom left"
-            onClose={this.handleClonePopupClose}
-            onOpen={this.handleClonePopupOpen}
-          >
-            <ClonePlateForm onSubmit={this.handleCloneSubmit} />
-          </Popup>
+          <ClonePlateMapButton onSubmit={this.handleCloneSubmit} />
         </div>
         <div>
           <Button
