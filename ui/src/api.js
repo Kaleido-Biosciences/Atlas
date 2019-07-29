@@ -11,7 +11,7 @@ AWS.config.update({
 });
 
 let docClient = new AWS.DynamoDB.DocumentClient();
-let table = "atlas-production3";
+let table = "atlas-production";
 
 export function fetchExperiments(page, size, nameContains, descContains) {
   let queryString = '';
@@ -81,3 +81,4 @@ export function fetchPlateMaps(experimentId) {
     });
    });
 }
+
