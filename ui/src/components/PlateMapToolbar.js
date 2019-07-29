@@ -12,6 +12,7 @@ import {
 import { PlateMapDropdown } from './PlateMapDropdown';
 import styles from './PlateMapToolbar.module.css';
 import { ClonePlateForm } from './ClonePlateForm';
+import { STATUS_COMPLETED } from '../constants';
 
 class PlateMapToolbar extends Component {
   state = {
@@ -44,8 +45,16 @@ class PlateMapToolbar extends Component {
   handleClonePopupClose = () => {
     this.setState({ clonePopupOpen: false });
   };
+  handleMarkCompletedClick = () => {
+    if (this.props.onMarkCompletedClick) {
+      this.props.onMarkCompletedClick();
+      if (this.props.onComplete) {
+        this.props.onComplete();
+      }
+    }
+  };
   render() {
-    const { plateMaps, activePlateMap } = this.props;
+    const { plateMaps, activePlateMap, status } = this.props;
     return (
       <div className={styles.toolbar}>
         <div className={styles.dropdownContainer}>
@@ -77,6 +86,15 @@ class PlateMapToolbar extends Component {
           >
             <ClonePlateForm onSubmit={this.handleCloneSubmit} />
           </Popup>
+        </div>
+        <div>
+          <Button
+            color="green"
+            icon="clipboard check"
+            content="Mark as Completed"
+            disabled={status === STATUS_COMPLETED}
+            onClick={this.handleMarkCompletedClick}
+          />
         </div>
         {/* <div className={styles.highlight}>
           <Form>
@@ -118,17 +136,20 @@ PlateMapToolbar.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object.isRequired,
   highlightedComponents: PropTypes.array.isRequired,
+  status: PropTypes.string.isRequired,
   onPlateMapChange: PropTypes.func,
   onDeleteClick: PropTypes.func,
   onHighlightClick: PropTypes.func,
   onAddClick: PropTypes.func,
   onCloneSubmit: PropTypes.func,
+  onMarkCompletedClick: PropTypes.func,
+  onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const { plateMaps, highlightedComponents } = state.createExperiment;
+  const { plateMaps, highlightedComponents, status } = state.createExperiment;
   const activePlateMap = selectActivePlateMap(state);
-  return { plateMaps, highlightedComponents, activePlateMap };
+  return { plateMaps, highlightedComponents, activePlateMap, status };
 };
 
 const mapDispatch = {
@@ -137,6 +158,7 @@ const mapDispatch = {
   onHighlightClick: createExperimentActions.toggleHighlight,
   onAddClick: addNewPlateMap,
   onCloneSubmit: clonePlateMap,
+  onMarkCompletedClick: createExperimentActions.setCompletedStatus,
 };
 
 const connected = connect(

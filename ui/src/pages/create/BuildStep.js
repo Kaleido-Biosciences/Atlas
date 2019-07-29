@@ -41,7 +41,7 @@ class BuildStep extends Component {
         <div className={styles.plateMap}>
           {showPlateMap && (
             <React.Fragment>
-              <PlateMapToolbar />
+              <PlateMapToolbar onComplete={this.props.onComplete} />
               <div className={styles.plateMapContainer}>
                 <Draggable
                   handle={`.${styles.dragHandle}`}
@@ -83,6 +83,7 @@ BuildStep.propTypes = {
   clearSelectedWells: PropTypes.func.isRequired,
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
+  onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {

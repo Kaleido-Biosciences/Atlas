@@ -6,17 +6,19 @@ import { Step } from 'semantic-ui-react';
 
 import { SelectStep } from './SelectStep';
 import { BuildStep } from './BuildStep';
-import { ConfirmStep } from './ConfirmStep';
+import { PrintStep } from './PrintStep';
 
 class CreateNew extends Component {
   selectStepComplete = () => {
     this.props.history.push('build');
   };
-
+  buildStepComplete = () => {
+    this.props.history.push('print');
+  };
   render() {
     const { match } = this.props;
     const { pathname } = this.props.location;
-    const { stepOneCompleted } = this.props.steps;
+    const { stepOneCompleted, stepTwoCompleted } = this.props.steps;
     return (
       <React.Fragment>
         <div className="step-container">
@@ -30,16 +32,19 @@ class CreateNew extends Component {
                 <Step.Description>experiment options</Step.Description>
               </Step.Content>
             </Step>
-            <Step active={pathname.endsWith('build')}>
+            <Step
+              active={pathname.endsWith('build')}
+              completed={stepTwoCompleted}
+            >
               <Step.Content>
                 <Step.Title>Build</Step.Title>
                 <Step.Description>plate maps</Step.Description>
               </Step.Content>
             </Step>
-            <Step>
+            <Step active={pathname.endsWith('print')}>
               <Step.Content>
-                <Step.Title>Confirm</Step.Title>
-                <Step.Description>and print</Step.Description>
+                <Step.Title>Print</Step.Title>
+                <Step.Description>plate maps</Step.Description>
               </Step.Content>
             </Step>
           </Step.Group>
@@ -47,12 +52,13 @@ class CreateNew extends Component {
         <Switch>
           <Route
             path={`${match.path}/select`}
-            render={() => (
-              <SelectStep onComplete={this.selectStepComplete} />
-            )}
+            render={() => <SelectStep onComplete={this.selectStepComplete} />}
           />
-          <Route path={`${match.path}/build`} component={BuildStep} />
-          <Route path={`${match.path}/confirm`} component={ConfirmStep} />
+          <Route
+            path={`${match.path}/build`}
+            render={() => <BuildStep onComplete={this.buildStepComplete} />}
+          />
+          <Route path={`${match.path}/print`} component={PrintStep} />
           <Route render={() => <Redirect to={`${match.path}/select`} />} />
         </Switch>
       </React.Fragment>
