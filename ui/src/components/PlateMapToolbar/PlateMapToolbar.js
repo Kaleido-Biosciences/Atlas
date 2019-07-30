@@ -12,6 +12,7 @@ import {
 import { PlateMapDropdown } from './PlateMapDropdown';
 import { DeletePlateMapButton } from './DeletePlateMapButton';
 import { ClonePlateMapButton } from './ClonePlateMapButton';
+import { MarkAsCompletedButton } from './MarkAsCompletedButton';
 import { STATUS_COMPLETED } from '../../constants';
 import styles from './PlateMapToolbar.module.css';
 
@@ -36,9 +37,9 @@ class PlateMapToolbar extends Component {
       this.props.onCloneSubmit(this.props.activePlateMap.id, typesToClone);
     }
   };
-  handleMarkCompletedClick = () => {
-    if (this.props.onMarkCompletedClick) {
-      this.props.onMarkCompletedClick();
+  handleMarkAsCompleted = () => {
+    if (this.props.onMarkAsCompleted) {
+      this.props.onMarkAsCompleted();
       if (this.props.onComplete) {
         this.props.onComplete();
       }
@@ -64,15 +65,7 @@ class PlateMapToolbar extends Component {
           />
           <DeletePlateMapButton onDeleteClick={this.handleDeleteClick} />
           <ClonePlateMapButton onSubmit={this.handleCloneSubmit} />
-        </div>
-        <div>
-          <Button
-            color="green"
-            icon="clipboard check"
-            content="Mark as Completed"
-            disabled={status === STATUS_COMPLETED}
-            onClick={this.handleMarkCompletedClick}
-          />
+          <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
         {/* <div className={styles.highlight}>
           <Form>
@@ -120,7 +113,7 @@ PlateMapToolbar.propTypes = {
   onHighlightClick: PropTypes.func,
   onAddClick: PropTypes.func,
   onCloneSubmit: PropTypes.func,
-  onMarkCompletedClick: PropTypes.func,
+  onMarkAsCompleted: PropTypes.func,
   onComplete: PropTypes.func,
 };
 
@@ -136,7 +129,7 @@ const mapDispatch = {
   onHighlightClick: createExperimentActions.toggleHighlight,
   onAddClick: addNewPlateMap,
   onCloneSubmit: clonePlateMap,
-  onMarkCompletedClick: createExperimentActions.setCompletedStatus,
+  onMarkAsCompleted: createExperimentActions.setCompletedStatus,
 };
 
 const connected = connect(
