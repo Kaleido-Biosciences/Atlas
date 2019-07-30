@@ -10,7 +10,10 @@ import {
   STATUS_IN_PROGRESS,
   STATUS_COMPLETED,
 } from '../constants';
-import { getSelectedWells } from './plateFunctions';
+import {
+  getSelectedWells,
+  applySelectedComponentsToWells,
+} from './plateFunctions';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
@@ -260,7 +263,7 @@ const createExperiment = createSlice({
       });
       setWellsHighlightedStatus(wells, state.highlightedComponents);
     },
-    clearSelectedWells(state, action) {
+    deselectAllWells(state, action) {
       const { plateMapId } = action.payload;
       const { plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
@@ -392,39 +395,6 @@ export function clonePlateMap(plateMapId, typesToClone) {
     const newPlateMap = plateMaps[plateMaps.length - 1];
     dispatch(setActivePlateMap(newPlateMap.id));
   };
-}
-
-function applySelectedComponentsToWells(plateMap, wellIds, components) {
-  const wells = plateMap.data.flat();
-  const updatedWells = [];
-  wellIds.forEach(wellId => {
-    const well = wells[wellId];
-    components.forEach(component => {
-      if (component.selected) {
-        const existingComponent = well.components.find(
-          comp => comp.id === component.id
-        );
-        const { selected, editing, ...wellComponent } = component;
-        if (!existingComponent) {
-          well.components.push(wellComponent);
-        } else {
-          const existingTimepoints = existingComponent.timepoints;
-          wellComponent.timepoints.forEach(newTimepoint => {
-            const index = existingTimepoints.findIndex(
-              eTimepoint => eTimepoint.time === newTimepoint.time
-            );
-            if (index > -1) {
-              existingTimepoints.splice(index, 1, newTimepoint);
-            } else {
-              existingTimepoints.push(newTimepoint);
-            }
-          });
-        }
-      }
-    });
-    updatedWells.push(well);
-  });
-  return updatedWells;
 }
 
 function findPlateMapById(id, plateMaps) {

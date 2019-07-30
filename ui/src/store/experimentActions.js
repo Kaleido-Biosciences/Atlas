@@ -17,7 +17,12 @@ function wrapActionWithSave(fn) {
   };
 }
 
-export const { setExperimentOptions } = createExperimentActions;
+export const {
+  setExperimentOptions,
+  toggleWellsSelected,
+  setClickMode,
+  deselectAllWells,
+} = createExperimentActions;
 
 export const initializePlateMaps = wrapActionWithSave(() => {
   return (dispatch, getState) => {
@@ -29,3 +34,11 @@ export const initializePlateMaps = wrapActionWithSave(() => {
 });
 
 export const addNewPlateMap = wrapActionWithSave(_addNewPlateMap);
+
+export const applySelectedComponentsToWells = wrapActionWithSave(
+  createExperimentActions.applySelectedComponentsToWells
+);
+
+export const clearWells = wrapActionWithSave(
+  createExperimentActions.clearWells
+);
