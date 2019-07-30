@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popup, Button, Message } from 'semantic-ui-react';
+import { Popup, Button } from 'semantic-ui-react';
 
 export class PopupButton extends Component {
   state = {

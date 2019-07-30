@@ -13,7 +13,6 @@ import { PlateMapDropdown } from './PlateMapDropdown';
 import { DeletePlateMapButton } from './DeletePlateMapButton';
 import { ClonePlateMapButton } from './ClonePlateMapButton';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
-import { STATUS_COMPLETED } from '../../constants';
 import styles from './PlateMapToolbar.module.css';
 
 class PlateMapToolbar extends Component {
@@ -46,7 +45,7 @@ class PlateMapToolbar extends Component {
     }
   };
   render() {
-    const { plateMaps, activePlateMap, status } = this.props;
+    const { plateMaps, activePlateMap } = this.props;
     return (
       <div className={styles.toolbar}>
         <div className={styles.dropdownContainer}>

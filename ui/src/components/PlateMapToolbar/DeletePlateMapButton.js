@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popup, Button, Message } from 'semantic-ui-react';
+import { Button, Message } from 'semantic-ui-react';
 
 import { PopupButton } from './PopupButton';
 import styles from './DeletePlateMapButton.module.css';
