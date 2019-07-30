@@ -74,7 +74,7 @@ export function fetchPlateMaps(experimentId) {
         reject(err);
       } else {
         if (data.Items.length > 0) {
-          plateMaps = JSON.parse(data.Items[0].plateMaps);
+          plateMaps = data.Items[0].plateMaps;
         }
         resolve(plateMaps);
       }
@@ -82,3 +82,42 @@ export function fetchPlateMaps(experimentId) {
    });
 }
 
+// https://itsolutionstuff.com/post/how-to-remove-empty-and-null-values-from-json-object-in-jqueryexample.html
+const removeEmptyOrNull = (obj) => {
+  Object.keys(obj).forEach(k =>
+    (obj[k] && typeof obj[k] === 'object') && removeEmptyOrNull(obj[k]) ||
+    (!obj[k] && obj[k] !== undefined) && delete obj[k]
+  );
+  return obj;
+};
+
+export function saveExperimentPlateMaps(experimentId, status, plateMaps) {
+  return new Promise((resolve, reject) => {
+    // clone plateMaps and remove any null and empty string before saving
+    let plateMapsToSave = removeEmptyOrNull(JSON.parse(JSON.stringify(plateMaps)));
+
+    let params = {
+      TableName:table,
+      Key:{
+        "experiment": experimentId,
+        "status": status,
+      },
+      UpdateExpression: "set plateMaps=:p",
+      ExpressionAttributeValues:{
+        ":p": plateMapsToSave,
+      },
+      ReturnValues:"UPDATED_NEW"
+    };
+
+
+    docClient.update(params, function(err, data) {
+      if (err) {
+        reject(err);
+        console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+        resolve({ experimentId, status, plateMaps } );
+        console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+      }
+    });
+  });
+}
