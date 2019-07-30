@@ -6,10 +6,12 @@ import { PopupButton } from '../PopupButton';
 import styles from './MarkAsCompletedButton.module.css';
 
 export class MarkAsCompletedButton extends Component {
+  popupRef = React.createRef();
   handleClick = () => {
     if (this.props.onConfirm) {
       this.props.onConfirm();
     }
+    this.popupRef.current.handlePopupClose();
   };
   render() {
     return (
@@ -17,6 +19,7 @@ export class MarkAsCompletedButton extends Component {
         buttonIcon="clipboard check"
         buttonContent="Mark as completed"
         buttonColor="green"
+        ref={this.popupRef}
       >
         <div className={styles.popupBody}>
           <Message size="tiny" className={styles.message}>
