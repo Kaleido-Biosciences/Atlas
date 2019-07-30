@@ -10,9 +10,9 @@ import {
   selectActivePlateMap,
 } from '../../store/createExperiment';
 import { PlateMapDropdown } from './PlateMapDropdown';
-import { DeletePlateMapButton } from './DeletePlateMapButton';
-import { ClonePlateMapButton } from './ClonePlateMapButton';
-import { MarkAsCompletedButton } from './MarkAsCompletedButton';
+import { DeletePlateMapButton } from './DeletePlateMapButton/DeletePlateMapButton';
+import { ClonePlateMapButton } from './ClonePlateMapButton/ClonePlateMapButton';
+import { MarkAsCompletedButton } from './MarkAsCompletedButton/MarkAsCompletedButton';
 import styles from './PlateMapToolbar.module.css';
 
 class PlateMapToolbar extends Component {

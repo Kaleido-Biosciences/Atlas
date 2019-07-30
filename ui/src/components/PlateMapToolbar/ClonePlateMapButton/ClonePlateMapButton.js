@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { PopupButton } from './PopupButton';
+import { PopupButton } from '../PopupButton';
 import { ClonePlateMapForm } from './ClonePlateMapForm';
 
 export class ClonePlateMapButton extends Component {
