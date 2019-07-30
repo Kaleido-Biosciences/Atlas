@@ -5,9 +5,9 @@ import { Header, Icon, Button, Message } from 'semantic-ui-react';
 import classNames from 'classnames';
 
 import {
-  createExperimentActions,
+  setExperimentOptions,
   initializePlateMaps,
-} from '../../store/createExperiment';
+} from '../../store/experimentActions';
 import { ExperimentSearch } from '../../components/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm';
@@ -131,6 +131,8 @@ class SelectStep extends Component {
 SelectStep.propTypes = {
   experiment: PropTypes.object,
   plateSize: PropTypes.object,
+  setExperimentOptions: PropTypes.func,
+  initializePlateMaps: PropTypes.func,
   onComplete: PropTypes.func,
 };
 
@@ -140,7 +142,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  setExperimentOptions: createExperimentActions.setExperimentOptions,
+  setExperimentOptions,
   initializePlateMaps,
 };
 

@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
 import {
@@ -7,15 +7,19 @@ import {
   DEFAULT_TIMEPOINT_CONCENTRATION,
   DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
-  STATUS_IN_PROGRESS,
+  STATUS_DRAFT,
   STATUS_COMPLETED,
 } from '../constants';
+import {
+  getSelectedWells,
+  applySelectedComponentsToWells,
+} from './plateFunctions';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
     experiment: null,
-    status: STATUS_IN_PROGRESS,
+    status: STATUS_DRAFT,
     plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
@@ -259,7 +263,7 @@ const createExperiment = createSlice({
       });
       setWellsHighlightedStatus(wells, state.highlightedComponents);
     },
-    clearSelectedWells(state, action) {
+    deselectAllWells(state, action) {
       const { plateMapId } = action.payload;
       const { plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
@@ -355,14 +359,15 @@ export const {
 
 const { addPlateMap, setActivePlateMap } = createExperimentActions;
 
-export function initializePlateMaps() {
-  return (dispatch, getState) => {
-    let { plateMaps } = getState().createExperiment;
-    if (!plateMaps.length) {
-      dispatch(addNewPlateMap());
-    }
-  };
-}
+// Moved to experimentActions
+// export function initializePlateMaps() {
+//   return (dispatch, getState) => {
+//     let { plateMaps } = getState().createExperiment;
+//     if (!plateMaps.length) {
+//       dispatch(addNewPlateMap());
+//     }
+//   };
+// }
 
 export function addNewPlateMap() {
   return (dispatch, getState) => {
@@ -390,65 +395,6 @@ export function clonePlateMap(plateMapId, typesToClone) {
     const newPlateMap = plateMaps[plateMaps.length - 1];
     dispatch(setActivePlateMap(newPlateMap.id));
   };
-}
-
-export const selectActivePlateMap = createSelector(
-  ['createExperiment.plateMaps'],
-  getActivePlateMap
-);
-
-export const selectSelectedWellsFromActivePlateMap = createSelector(
-  ['createExperiment.plateMaps'],
-  plateMaps => {
-    const activePlateMap = getActivePlateMap(plateMaps);
-    if (activePlateMap) {
-      return getSelectedWells(activePlateMap);
-    } else return null;
-  }
-);
-
-function applySelectedComponentsToWells(plateMap, wellIds, components) {
-  const wells = plateMap.data.flat();
-  const updatedWells = [];
-  wellIds.forEach(wellId => {
-    const well = wells[wellId];
-    components.forEach(component => {
-      if (component.selected) {
-        const existingComponent = well.components.find(
-          comp => comp.id === component.id
-        );
-        const { selected, editing, ...wellComponent } = component;
-        if (!existingComponent) {
-          well.components.push(wellComponent);
-        } else {
-          const existingTimepoints = existingComponent.timepoints;
-          wellComponent.timepoints.forEach(newTimepoint => {
-            const index = existingTimepoints.findIndex(
-              eTimepoint => eTimepoint.time === newTimepoint.time
-            );
-            if (index > -1) {
-              existingTimepoints.splice(index, 1, newTimepoint);
-            } else {
-              existingTimepoints.push(newTimepoint);
-            }
-          });
-        }
-      }
-    });
-    updatedWells.push(well);
-  });
-  return updatedWells;
-}
-
-function getSelectedWells(plateMap) {
-  const flat = plateMap.data.flat();
-  return flat.filter(well => well.selected);
-}
-
-function getActivePlateMap(plateMaps) {
-  if (plateMaps.length > 0) {
-    return plateMaps.find(plateMap => plateMap.active);
-  } else return null;
 }
 
 function findPlateMapById(id, plateMaps) {
