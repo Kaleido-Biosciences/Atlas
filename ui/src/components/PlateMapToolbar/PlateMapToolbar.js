@@ -16,19 +16,14 @@ import { MarkAsCompletedButton } from './MarkAsCompletedButton/MarkAsCompletedBu
 import styles from './PlateMapToolbar.module.css';
 
 class PlateMapToolbar extends Component {
-  handleAddClick = () => {
-    if (this.props.onAddClick) {
-      this.props.onAddClick();
+  handleAdd = () => {
+    if (this.props.onAdd) {
+      this.props.onAdd();
     }
   };
   handleDelete = () => {
     if (this.props.onDelete) {
       this.props.onDelete(this.props.activePlateMap.id);
-    }
-  };
-  handleHighlight = (e, { value }) => {
-    if (this.props.onHighlightClick) {
-      this.props.onHighlightClick({ componentType: value });
     }
   };
   handleClone = ({ typesToClone }) => {
@@ -59,43 +54,12 @@ class PlateMapToolbar extends Component {
           <Button
             icon="plus circle"
             content="Add plate"
-            onClick={this.handleAddClick}
+            onClick={this.handleAdd}
           />
           <DeletePlateMapButton onConfirm={this.handleDelete} />
           <ClonePlateMapButton onSubmit={this.handleClone} />
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
-        {/* <div className={styles.highlight}>
-          <Form>
-            <Form.Group inline>
-              <label>Highlight wells containing:</label>
-              <Form.Field>
-                <Checkbox
-                  label="Communities"
-                  value="communities"
-                  onClick={this.handleHighlight}
-                  checked={highlightedComponents.includes('communities')}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox
-                  label="Compounds"
-                  value="compounds"
-                  onClick={this.handleHighlight}
-                  checked={highlightedComponents.includes('compounds')}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox
-                  label="Media"
-                  value="media"
-                  onClick={this.handleHighlight}
-                  checked={highlightedComponents.includes('media')}
-                />
-              </Form.Field>
-            </Form.Group>
-          </Form>
-        </div> */}
       </div>
     );
   }
@@ -104,28 +68,24 @@ class PlateMapToolbar extends Component {
 PlateMapToolbar.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object.isRequired,
-  highlightedComponents: PropTypes.array.isRequired,
-  status: PropTypes.string.isRequired,
   onPlateMapChange: PropTypes.func,
   onDelete: PropTypes.func,
-  onHighlightClick: PropTypes.func,
-  onAddClick: PropTypes.func,
+  onAdd: PropTypes.func,
   onClone: PropTypes.func,
   onMarkAsCompleted: PropTypes.func,
   onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const { plateMaps, highlightedComponents, status } = state.createExperiment;
+  const { plateMaps } = state.createExperiment;
   const activePlateMap = selectActivePlateMap(state);
-  return { plateMaps, highlightedComponents, activePlateMap, status };
+  return { plateMaps, activePlateMap };
 };
 
 const mapDispatch = {
   onPlateMapChange: createExperimentActions.setActivePlateMap,
   onDelete: createExperimentActions.deletePlateMap,
-  onHighlightClick: createExperimentActions.toggleHighlight,
-  onAddClick: addNewPlateMap,
+  onAdd: addNewPlateMap,
   onClone: clonePlateMap,
   onMarkAsCompleted: createExperimentActions.setCompletedStatus,
 };
