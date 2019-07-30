@@ -2,9 +2,11 @@ import {
   createExperimentActions,
   addNewPlateMap as _addNewPlateMap,
 } from './createExperiment';
+import { saveExperimentPlateMaps } from '../api'
 
 const handleChange = experimentData => {
   console.log(experimentData);
+  saveExperimentPlateMaps(experimentData.experiment.name, experimentData.status, experimentData.plateMaps)
 };
 
 function wrapActionWithSave(fn) {

@@ -12,6 +12,7 @@ import { ExperimentSearch } from '../../components/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm';
 import styles from './SelectStep.module.css';
+import { fetchPlateMaps } from "../../api";
 
 const renderHeader = options => {
   const { stepClass, complete, stepNumber, headerText } = options;
@@ -34,8 +35,17 @@ class SelectStep extends Component {
   };
 
   handleExperimentSelect = experiment => {
-    const isValid = this.validateSelections(experiment, this.state.plateSize);
-    this.setState({ experiment, showValidationMessage: !isValid });
+    fetchPlateMaps(experiment.name).then(plateMaps => {
+      let plateSize = ( !plateMaps || plateMaps.length === 0 ) ? this.state.plateSize : {
+        rows: plateMaps[0].data.length,
+        columns: plateMaps[0].data[0].length
+      };
+      const isValid = this.validateSelections(experiment, plateSize);
+      this.setState({experiment, showValidationMessage: !isValid});
+      if (plateMaps) {
+        this.setState({plateMaps, plateSize});
+      }
+    });
   };
 
   handlePlateSizeChange = dimensions => {
@@ -48,9 +58,9 @@ class SelectStep extends Component {
   };
 
   handleButtonClick = () => {
-    const { experiment, plateSize } = this.state;
+    const { experiment, plateSize, plateMaps } = this.state;
     if (this.validateSelections(experiment, plateSize)) {
-      this.props.setExperimentOptions({ experiment, plateSize });
+      this.props.setExperimentOptions({ experiment, plateSize, plateMaps });
       this.props.initializePlateMaps();
       if (this.props.onComplete) {
         this.props.onComplete();

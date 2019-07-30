@@ -1,6 +1,17 @@
 import axios from 'axios';
+import AWS from 'aws-sdk';
 
-import { API_URL } from './config';
+import { API_URL, DYNAMODB_ACCESS_KEY_ID , DYNAMODB_SECRET_ACCESS_KEY } from './config';
+
+AWS.config.update({
+  region: "us-east-1",
+  endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
+  accessKeyId: DYNAMODB_ACCESS_KEY_ID,
+  secretAccessKey: DYNAMODB_SECRET_ACCESS_KEY
+});
+
+let docClient = new AWS.DynamoDB.DocumentClient();
+let table = "atlas-production";
 
 export function fetchExperiments(page, size, nameContains, descContains) {
   let queryString = '';
@@ -39,4 +50,73 @@ export function fetchComponents(page, size, nameContains, descContains) {
       };
     }
   );
+}
+
+export function fetchPlateMaps(experimentId) {
+  return new Promise((resolve, reject) => {
+    let plateMaps;
+    let params = {
+      TableName: table,
+      KeyConditionExpression: "#e = :eeee",
+      ExpressionAttributeNames: {
+        "#e": "experiment"
+      },
+      ExpressionAttributeValues: {
+        ":eeee": experimentId
+      },
+      ScanIndexForward: false,
+      ConsistentRead: false,
+      Limit: 1,
+    };
+
+    docClient.query(params, function (err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        if (data.Items.length > 0) {
+          plateMaps = JSON.parse(data.Items[0].plateMaps);
+        }
+        resolve(plateMaps);
+      }
+    });
+   });
+}
+
+// https://itsolutionstuff.com/post/how-to-remove-empty-and-null-values-from-json-object-in-jqueryexample.html
+const removeEmptyOrNull = (obj) => {
+  Object.keys(obj).forEach(k =>
+    ((obj[k] && typeof obj[k] === 'object') && removeEmptyOrNull(obj[k])) ||
+    ((!obj[k] && obj[k] !== undefined) && delete obj[k])
+  );
+  return obj;
+};
+
+export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
+  return new Promise((resolve, reject) => {
+    // clone plateMaps and remove any null and empty string before saving
+    let plateMapsToSave = JSON.stringify(plateMaps);
+
+    let params = {
+      TableName:table,
+      Key:{
+        "experiment": experimentName,
+        "status": status,
+      },
+      UpdateExpression: "set plateMaps=:p",
+      ExpressionAttributeValues:{
+        ":p": plateMapsToSave,
+      },
+      ReturnValues:"UPDATED_NEW"
+    };
+
+
+    docClient.update(params, function(err, data) {
+      if (err) {
+        reject(err);
+        console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+        resolve({ data } );
+      }
+    });
+  });
 }
