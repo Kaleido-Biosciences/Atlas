@@ -11,11 +11,12 @@ AWS.config.update({
   secretAccessKey: 'SECRET_ACCESS_KEY'
 });
 
+var tableName = "atlas-staging-can-be-deleted";
 var dynamodb = new AWS.DynamoDB();
 var docClient = new AWS.DynamoDB.DocumentClient();
 function createAtlas() {
     var params = {
-        TableName : "atlas-staging-can-be-deleted",
+        TableName : tableName,
         KeySchema: [
             { AttributeName: "experiment", KeyType: "HASH"},
             { AttributeName: "status", KeyType: "RANGE" }
@@ -41,7 +42,7 @@ function createAtlas() {
 
 function deleteAtlas() {
     var params = {
-        TableName : "atlas-production2"
+        TableName : tableName
     };
 
     dynamodb.deleteTable(params, function(err, data) {
@@ -67,7 +68,7 @@ function listAtlas() {
 
 function createItem() {
     var params = {
-        TableName :"atlas-production2",
+        TableName : tableName,
         Item:{
             "experiment": "G314",
             "status": "DRAFT",
@@ -85,9 +86,9 @@ function createItem() {
 }
 
 function readItem() {
-    var table = "atlas-production2";
+    var table = tableName ;
     var experiment = "G314";
-    var status = "draft";
+    var status = "DRAFT";
 
     var params = {
         TableName: table,
@@ -106,7 +107,7 @@ function readItem() {
 }
 
 function updateItem() {
-    var table = "atlas-production2";
+    var table = tableName;
     var experiment = "G314";
     var status = "DRAFT";
 
@@ -133,9 +134,9 @@ function updateItem() {
 }
 
 function deleteItem() {
-    var table = "atlas-production2";
-    var experiment = "D001";
-    var status = "1";
+    var table = tableName;
+    var experiment = "G314";
+    var status = "DRAFT";
 
     var params = {
         TableName:table,
@@ -156,7 +157,7 @@ function deleteItem() {
 function queryData() {
     document.getElementById('textarea').innerHTML = "";
     document.getElementById('textarea').innerHTML += "Querying for items";
-    var table = "atlas-production2";
+    var table = tableName;
     var experiment = "G314";
 
     var params = {
@@ -187,7 +188,7 @@ function scanData() {
     document.getElementById('textarea').innerHTML += "Scanning table atlas-production2" + "\n";
 
     var params = {
-        TableName: "atlas-production2",
+        TableName: tableName,
         ProjectionExpression: "#expr, status, plateMaps",
         FilterExpression: "#expr between :a and :b",
         ExpressionAttributeNames: {
