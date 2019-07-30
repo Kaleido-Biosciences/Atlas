@@ -355,14 +355,15 @@ export const {
 
 const { addPlateMap, setActivePlateMap } = createExperimentActions;
 
-export function initializePlateMaps() {
-  return (dispatch, getState) => {
-    let { plateMaps } = getState().createExperiment;
-    if (!plateMaps.length) {
-      dispatch(addNewPlateMap());
-    }
-  };
-}
+// Moved to experimentActions
+// export function initializePlateMaps() {
+//   return (dispatch, getState) => {
+//     let { plateMaps } = getState().createExperiment;
+//     if (!plateMaps.length) {
+//       dispatch(addNewPlateMap());
+//     }
+//   };
+// }
 
 export function addNewPlateMap() {
   return (dispatch, getState) => {
