@@ -116,7 +116,6 @@ export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
         console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
       } else {
         resolve({ data } );
-        console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
       }
     });
   });

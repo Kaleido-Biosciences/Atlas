@@ -9,6 +9,7 @@ import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
 import styles from './BuildStep.module.css';
+import { saveExperimentPlateMaps } from '../../api';
 
 import {
   createExperimentActions,
@@ -88,7 +89,10 @@ BuildStep.propTypes = {
 
 const mapState = (state, props) => {
   const activePlateMap = selectActivePlateMap(state);
-  const { plateMaps, clickMode } = state.createExperiment;
+  const { plateMaps, clickMode, experiment, status } = state.createExperiment;
+  if ( plateMaps && plateMaps.length > 0 ) {
+    saveExperimentPlateMaps(experiment.name, status, plateMaps);
+  }
   return { activePlateMap, plateMaps, clickMode };
 };
 
