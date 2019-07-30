@@ -7,7 +7,7 @@ import {
   DEFAULT_TIMEPOINT_CONCENTRATION,
   DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
-  STATUS_IN_PROGRESS,
+  STATUS_DRAFT,
   STATUS_COMPLETED,
 } from '../constants';
 import {
@@ -19,7 +19,7 @@ const createExperiment = createSlice({
   slice: 'createExperiment',
   initialState: {
     experiment: null,
-    status: STATUS_IN_PROGRESS,
+    status: STATUS_DRAFT,
     plateSize: { rows: 8, columns: 12 },
     plateMaps: [],
     nextPlateMapId: 1,
