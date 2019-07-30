@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import Draggable from 'react-draggable';
 
-import { PlateMapToolbar } from '../../components/PlateMapToolbar';
+import { PlateMapToolbar } from '../../components/PlateMapToolbar/PlateMapToolbar';
 import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
