@@ -13,8 +13,8 @@ import styles from './BuildStep.module.css';
 import {
   createExperimentActions,
   addNewPlateMap,
-  selectActivePlateMap,
 } from '../../store/createExperiment';
+import { selectActivePlateMap } from '../../store/selectors';
 
 class BuildStep extends Component {
   handleClickModeChange = clickMode => {

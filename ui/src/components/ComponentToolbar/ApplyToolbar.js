@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
 
+import { createExperimentActions } from '../../store/createExperiment';
 import {
-  createExperimentActions,
   selectActivePlateMap,
   selectSelectedWellsFromActivePlateMap,
-} from '../../store/createExperiment';
+} from '../../store/selectors';
 import { ComponentSearch } from './ComponentSearch';
 import { RecentComponents } from './RecentComponents';
 import { CommunitiesSection } from './sections/CommunitiesSection';

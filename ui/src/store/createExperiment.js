@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
 import {
@@ -10,6 +10,7 @@ import {
   STATUS_IN_PROGRESS,
   STATUS_COMPLETED,
 } from '../constants';
+import { getSelectedWells } from './plateFunctions';
 
 const createExperiment = createSlice({
   slice: 'createExperiment',
@@ -393,21 +394,6 @@ export function clonePlateMap(plateMapId, typesToClone) {
   };
 }
 
-export const selectActivePlateMap = createSelector(
-  ['createExperiment.plateMaps'],
-  getActivePlateMap
-);
-
-export const selectSelectedWellsFromActivePlateMap = createSelector(
-  ['createExperiment.plateMaps'],
-  plateMaps => {
-    const activePlateMap = getActivePlateMap(plateMaps);
-    if (activePlateMap) {
-      return getSelectedWells(activePlateMap);
-    } else return null;
-  }
-);
-
 function applySelectedComponentsToWells(plateMap, wellIds, components) {
   const wells = plateMap.data.flat();
   const updatedWells = [];
@@ -439,17 +425,6 @@ function applySelectedComponentsToWells(plateMap, wellIds, components) {
     updatedWells.push(well);
   });
   return updatedWells;
-}
-
-function getSelectedWells(plateMap) {
-  const flat = plateMap.data.flat();
-  return flat.filter(well => well.selected);
-}
-
-function getActivePlateMap(plateMaps) {
-  if (plateMaps.length > 0) {
-    return plateMaps.find(plateMap => plateMap.active);
-  } else return null;
 }
 
 function findPlateMapById(id, plateMaps) {

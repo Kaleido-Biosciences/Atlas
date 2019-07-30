@@ -7,8 +7,8 @@ import {
   createExperimentActions,
   addNewPlateMap,
   clonePlateMap,
-  selectActivePlateMap,
 } from '../../store/createExperiment';
+import { selectActivePlateMap } from '../../store/selectors';
 import { PlateMapDropdown } from './PlateMapDropdown';
 import { DeletePlateMapButton } from './DeletePlateMapButton/DeletePlateMapButton';
 import { ClonePlateMapButton } from './ClonePlateMapButton/ClonePlateMapButton';
