@@ -32,9 +32,9 @@ class PlateMapToolbar extends Component {
       this.props.onHighlightClick({ componentType: value });
     }
   };
-  handleCloneSubmit = ({ typesToClone }) => {
-    if (this.props.onCloneSubmit) {
-      this.props.onCloneSubmit(this.props.activePlateMap.id, typesToClone);
+  handleClone = ({ typesToClone }) => {
+    if (this.props.onClone) {
+      this.props.onClone(this.props.activePlateMap.id, typesToClone);
     }
   };
   handleMarkAsCompleted = () => {
@@ -64,7 +64,7 @@ class PlateMapToolbar extends Component {
             onClick={this.handleAddClick}
           />
           <DeletePlateMapButton onConfirm={this.handleDelete} />
-          <ClonePlateMapButton onSubmit={this.handleCloneSubmit} />
+          <ClonePlateMapButton onSubmit={this.handleClone} />
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
         {/* <div className={styles.highlight}>
@@ -112,7 +112,7 @@ PlateMapToolbar.propTypes = {
   onDelete: PropTypes.func,
   onHighlightClick: PropTypes.func,
   onAddClick: PropTypes.func,
-  onCloneSubmit: PropTypes.func,
+  onClone: PropTypes.func,
   onMarkAsCompleted: PropTypes.func,
   onComplete: PropTypes.func,
 };
@@ -128,7 +128,7 @@ const mapDispatch = {
   onDelete: createExperimentActions.deletePlateMap,
   onHighlightClick: createExperimentActions.toggleHighlight,
   onAddClick: addNewPlateMap,
-  onCloneSubmit: clonePlateMap,
+  onClone: clonePlateMap,
   onMarkAsCompleted: createExperimentActions.setCompletedStatus,
 };
 
