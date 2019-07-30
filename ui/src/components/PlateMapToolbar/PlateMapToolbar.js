@@ -22,9 +22,9 @@ class PlateMapToolbar extends Component {
       this.props.onAddClick();
     }
   };
-  handleDeleteClick = () => {
-    if (this.props.onDeleteClick) {
-      this.props.onDeleteClick(this.props.activePlateMap.id);
+  handleDelete = () => {
+    if (this.props.onDelete) {
+      this.props.onDelete(this.props.activePlateMap.id);
     }
   };
   handleHighlight = (e, { value }) => {
@@ -63,7 +63,7 @@ class PlateMapToolbar extends Component {
             content="Add Plate"
             onClick={this.handleAddClick}
           />
-          <DeletePlateMapButton onDeleteClick={this.handleDeleteClick} />
+          <DeletePlateMapButton onConfirm={this.handleDelete} />
           <ClonePlateMapButton onSubmit={this.handleCloneSubmit} />
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
@@ -109,7 +109,7 @@ PlateMapToolbar.propTypes = {
   highlightedComponents: PropTypes.array.isRequired,
   status: PropTypes.string.isRequired,
   onPlateMapChange: PropTypes.func,
-  onDeleteClick: PropTypes.func,
+  onDelete: PropTypes.func,
   onHighlightClick: PropTypes.func,
   onAddClick: PropTypes.func,
   onCloneSubmit: PropTypes.func,
@@ -125,7 +125,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onPlateMapChange: createExperimentActions.setActivePlateMap,
-  onDeleteClick: createExperimentActions.deletePlateMap,
+  onDelete: createExperimentActions.deletePlateMap,
   onHighlightClick: createExperimentActions.toggleHighlight,
   onAddClick: addNewPlateMap,
   onCloneSubmit: clonePlateMap,

@@ -2,33 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Popup, Button, Message } from 'semantic-ui-react';
 
+import { PopupButton } from './PopupButton';
 import styles from './DeletePlateMapButton.module.css';
 
 export class DeletePlateMapButton extends Component {
-  state = {
-    popupOpen: false,
-  };
-  handlePopupOpen = () => {
-    this.setState({ popupOpen: true });
-  };
-  handlePopupClose = () => {
-    this.setState({ popupOpen: false });
-  };
+  popupRef = React.createRef();
   handleDeleteClick = () => {
-    if (this.props.onDeleteClick) {
-      this.props.onDeleteClick();
+    if (this.props.onConfirm) {
+      this.props.onConfirm();
     }
-    this.handlePopupClose();
+    this.popupRef.current.handlePopupClose();
   };
   render() {
     return (
-      <Popup
-        trigger={<Button icon="trash" content="Delete Plate" />}
-        on="click"
-        position="bottom left"
-        open={this.state.popupOpen}
-        onOpen={this.handlePopupOpen}
-        onClose={this.handlePopupClose}
+      <PopupButton
+        buttonIcon="trash"
+        buttonContent="Delete Plate"
+        ref={this.popupRef}
       >
         <div className={styles.popupBody}>
           <Message size="tiny" className={styles.message}>
@@ -38,11 +28,11 @@ export class DeletePlateMapButton extends Component {
             Yes, delete plate
           </Button>
         </div>
-      </Popup>
+      </PopupButton>
     );
   }
 }
 
 DeletePlateMapButton.propTypes = {
-  onDeleteClick: PropTypes.func,
+  onConfirm: PropTypes.func,
 };
