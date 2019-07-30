@@ -74,7 +74,7 @@ export function fetchPlateMaps(experimentId) {
         reject(err);
       } else {
         if (data.Items.length > 0) {
-          plateMaps = data.Items[0].plateMaps;
+          plateMaps = JSON.parse(data.Items[0].plateMaps);
         }
         resolve(plateMaps);
       }
@@ -94,7 +94,7 @@ const removeEmptyOrNull = (obj) => {
 export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     // clone plateMaps and remove any null and empty string before saving
-    let plateMapsToSave = removeEmptyOrNull(JSON.parse(JSON.stringify(plateMaps)));
+    let plateMapsToSave = JSON.stringify(plateMaps);
 
     let params = {
       TableName:table,
