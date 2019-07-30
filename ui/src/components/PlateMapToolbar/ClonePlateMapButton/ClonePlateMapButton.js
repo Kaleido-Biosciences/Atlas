@@ -16,7 +16,7 @@ export class ClonePlateMapButton extends Component {
     return (
       <PopupButton
         buttonIcon="clone"
-        buttonContent="Clone Plate"
+        buttonContent="Clone plate"
         ref={this.popupRef}
       >
         <ClonePlateMapForm onSubmit={this.handleSubmit} />

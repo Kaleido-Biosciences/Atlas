@@ -17,7 +17,7 @@ export class DeletePlateMapButton extends Component {
     return (
       <PopupButton
         buttonIcon="trash"
-        buttonContent="Delete Plate"
+        buttonContent="Delete plate"
         ref={this.popupRef}
       >
         <div className={styles.popupBody}>

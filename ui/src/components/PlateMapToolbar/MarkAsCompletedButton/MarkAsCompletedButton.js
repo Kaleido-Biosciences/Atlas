@@ -15,7 +15,7 @@ export class MarkAsCompletedButton extends Component {
     return (
       <PopupButton
         buttonIcon="clipboard check"
-        buttonContent="Mark as Completed"
+        buttonContent="Mark as completed"
         buttonColor="green"
       >
         <div className={styles.popupBody}>
