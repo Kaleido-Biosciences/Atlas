@@ -85,8 +85,8 @@ export function fetchPlateMaps(experimentId) {
 // https://itsolutionstuff.com/post/how-to-remove-empty-and-null-values-from-json-object-in-jqueryexample.html
 const removeEmptyOrNull = (obj) => {
   Object.keys(obj).forEach(k =>
-    (obj[k] && typeof obj[k] === 'object') && removeEmptyOrNull(obj[k]) ||
-    (!obj[k] && obj[k] !== undefined) && delete obj[k]
+    ((obj[k] && typeof obj[k] === 'object') && removeEmptyOrNull(obj[k])) ||
+    ((!obj[k] && obj[k] !== undefined) && delete obj[k])
   );
   return obj;
 };
