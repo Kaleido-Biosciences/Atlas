@@ -57,7 +57,6 @@ class PlateMapToolbar extends Component {
         </div>
         <div className={styles.buttonsContainer}>
           <Button
-            primary
             icon="plus circle"
             content="Add Plate"
             onClick={this.handleAddClick}
