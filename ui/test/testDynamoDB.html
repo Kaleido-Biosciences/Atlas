@@ -7,39 +7,22 @@ AWS.config.update({
   region: "us-east-1",
   // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
   endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
-  /*
-    accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
-    For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
-  */
-  accessKeyId: 'KEY',
-  secretAccessKey: 'SECRET'
+  accessKeyId: 'ACCESS_KEY_ID',
+  secretAccessKey: 'SECRET_ACCESS_KEY'
 });
-
-  /* 
-     Uncomment the following code to configure Amazon Cognito and make sure to 
-     remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
-     Make sure Cognito is available in the DynamoDB web service region (specified above).
-     Finally, modify the IdentityPoolId and the RoleArn with your own.
-  */
-
-// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-//     IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
-//     RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
-// });
-//
 
 var dynamodb = new AWS.DynamoDB();
 var docClient = new AWS.DynamoDB.DocumentClient();
 function createAtlas() {
     var params = {
-        TableName : "atlas-production2",
+        TableName : "atlas-staging-can-be-deleted",
         KeySchema: [
             { AttributeName: "experiment", KeyType: "HASH"},
-            { AttributeName: "version", KeyType: "RANGE" }
+            { AttributeName: "status", KeyType: "RANGE" }
         ],
         AttributeDefinitions: [       
             { AttributeName: "experiment", AttributeType: "S" },
-            { AttributeName: "version", AttributeType: "S" }
+            { AttributeName: "status", AttributeType: "S" }
         ],
         ProvisionedThroughput: {       
             ReadCapacityUnits: 5,
@@ -86,8 +69,8 @@ function createItem() {
     var params = {
         TableName :"atlas-production2",
         Item:{
-            "experiment": "D006",
-            "version": "2",
+            "experiment": "G314",
+            "status": "DRAFT",
             "scientist": "AA",
             "plateMaps": ["a","b","c"]
         }
@@ -104,13 +87,13 @@ function createItem() {
 function readItem() {
     var table = "atlas-production2";
     var experiment = "G314";
-    var version = "draft";
+    var status = "draft";
 
     var params = {
         TableName: table,
         Key:{
             "experiment": experiment,
-            "version": version,
+            "status": status,
         }
     };
     docClient.get(params, function(err, data) {
@@ -125,17 +108,17 @@ function readItem() {
 function updateItem() {
     var table = "atlas-production2";
     var experiment = "G314";
-    var version = "draft";
+    var status = "DRAFT";
 
     var params = {
         TableName:table,
         Key:{
             "experiment": experiment,
-            "version": version,
+            "status": status,
         },
         UpdateExpression: "set plateMaps=:p",
         ExpressionAttributeValues:{
-            ":p":["a1", "b1", "c1"],
+            ":p":["a1", "b1", "c1", "d1"],
         },
         ReturnValues:"UPDATED_NEW"
     };
@@ -152,13 +135,13 @@ function updateItem() {
 function deleteItem() {
     var table = "atlas-production2";
     var experiment = "D001";
-    var version = "1";
+    var status = "1";
 
     var params = {
         TableName:table,
         Key:{
             "experiment": experiment,
-            "version": version,
+            "status": status,
         }
     };
     docClient.delete(params, function(err, data) {
@@ -192,7 +175,7 @@ function queryData() {
             document.getElementById('textarea').innerHTML += "Unable to query. Error: " + "\n" + JSON.stringify(err, undefined, 2);
         } else {
             data.Items.forEach(function(item) {
-                document.getElementById('textarea').innerHTML += "\n" + item.experiment + ": " + item.version + ", " + item.plateMaps;
+                document.getElementById('textarea').innerHTML += "\n" + item.experiment + ": " + item.status + ", " + item.plateMaps;
             });
 
         }
@@ -205,7 +188,7 @@ function scanData() {
 
     var params = {
         TableName: "atlas-production2",
-        ProjectionExpression: "#expr, version, plateMaps",
+        ProjectionExpression: "#expr, status, plateMaps",
         FilterExpression: "#expr between :a and :b",
         ExpressionAttributeNames: {
             "#expr": "experiment"
@@ -225,7 +208,7 @@ function scanData() {
             // Print all the items
             document.getElementById('textarea').innerHTML += "Scan succeeded: " + "\n";
             data.Items.forEach(function(item) {
-                document.getElementById('textarea').innerHTML += item.experiment + ": " + item.version + ", " + item.plateMaps+ "\n";
+                document.getElementById('textarea').innerHTML += item.experiment + ": " + item.status + ", " + item.plateMaps+ "\n";
             });
 
             // Continue scanning if we have more items (per scan 1MB limitation)
@@ -254,7 +237,7 @@ function processFile(evt) {
                     TableName: "atlas-production2",
                     Item: {
                         "experiment": item.experiment,
-                        "version": item.version,
+                        "status": item.status,
                         "plateMaps": item.plateMaps
                     }
                 };

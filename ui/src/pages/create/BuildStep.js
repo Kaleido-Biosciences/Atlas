@@ -4,22 +4,26 @@ import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import Draggable from 'react-draggable';
 
-import { PlateMapToolbar } from '../../components/PlateMapToolbar';
+import { PlateMapToolbar } from '../../components/PlateMapToolbar/PlateMapToolbar';
 import { PlateMap } from '../../components/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
 import styles from './BuildStep.module.css';
 
 import {
-  createExperimentActions,
   addNewPlateMap,
-  selectActivePlateMap,
-} from '../../store/createExperiment';
+  toggleWellsSelected,
+  setClickMode,
+  deselectAllWells,
+  applySelectedComponentsToWells,
+  clearWells,
+} from '../../store/experimentActions';
+import { selectActivePlateMap } from '../../store/selectors';
 
 class BuildStep extends Component {
   handleClickModeChange = clickMode => {
     this.props.setClickMode(clickMode);
-    this.props.clearSelectedWells({ plateMapId: this.props.activePlateMap.id });
+    this.props.deselectAllWells({ plateMapId: this.props.activePlateMap.id });
   };
   handlePlateMapClick = data => {
     const { clickMode } = this.props;
@@ -80,7 +84,7 @@ BuildStep.propTypes = {
   addNewPlateMap: PropTypes.func.isRequired,
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
-  clearSelectedWells: PropTypes.func.isRequired,
+  deselectAllWells: PropTypes.func.isRequired,
   applySelectedComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
   onComplete: PropTypes.func,
@@ -94,12 +98,11 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   addNewPlateMap,
-  toggleWellsSelected: createExperimentActions.toggleWellsSelected,
-  setClickMode: createExperimentActions.setClickMode,
-  clearSelectedWells: createExperimentActions.clearSelectedWells,
-  applySelectedComponentsToWells:
-    createExperimentActions.applySelectedComponentsToWells,
-  clearWells: createExperimentActions.clearWells,
+  toggleWellsSelected,
+  setClickMode,
+  deselectAllWells,
+  applySelectedComponentsToWells,
+  clearWells,
 };
 
 const connected = connect(
