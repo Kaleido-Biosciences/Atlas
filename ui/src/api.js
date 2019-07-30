@@ -91,7 +91,7 @@ const removeEmptyOrNull = (obj) => {
   return obj;
 };
 
-export function saveExperimentPlateMaps(experimentId, status, plateMaps) {
+export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     // clone plateMaps and remove any null and empty string before saving
     let plateMapsToSave = removeEmptyOrNull(JSON.parse(JSON.stringify(plateMaps)));
@@ -99,7 +99,7 @@ export function saveExperimentPlateMaps(experimentId, status, plateMaps) {
     let params = {
       TableName:table,
       Key:{
-        "experiment": experimentId,
+        "experiment": experimentName,
         "status": status,
       },
       UpdateExpression: "set plateMaps=:p",
@@ -115,7 +115,7 @@ export function saveExperimentPlateMaps(experimentId, status, plateMaps) {
         reject(err);
         console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
       } else {
-        resolve({ experimentId, status, plateMaps } );
+        resolve({ data } );
         console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
       }
     });
