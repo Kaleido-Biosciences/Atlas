@@ -1,0 +1,22 @@
+.recentComponentsContainer {
+  margin-top: 0.2em;
+}
+
+.componentsContainer {
+  margin-top: 1.2em;
+}
+
+.noComponentsMessage {
+  text-align: center;
+}
+
+.selectedWellsContainer {
+  margin-top: 2em;
+  text-align: center;
+}
+
+.applyButtonContainer {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}

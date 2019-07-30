@@ -1,0 +1,67 @@
+.columnsContainer {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1em;
+  width: 90%;
+  max-width: 80em;
+}
+
+.experimentSearch {
+  margin-bottom: 4em;
+  flex: 0 0 48%;
+}
+
+.plateSizeFormContainer {
+  flex: 0 0 48%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.headerContainer :global(.ui.header) {
+  margin: 0;
+}
+
+.headerStep {
+  width: 2em;
+  background: #000;
+  color: #fff;
+  border-radius: 1em;
+  height: 2em;
+  padding: 0.5em;
+  line-height: 1em;
+  text-align: center;
+  margin-right: 1em;
+}
+
+.headerStep :global(.icon) {
+  margin-left: -1px;
+}
+
+.completed {
+  background: #21ba45;
+}
+
+.submissionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.messageContainer {
+  width: 24em;
+  margin-bottom: 1em;
+}

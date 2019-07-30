@@ -1,132 +1,148 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Loader } from 'semantic-ui-react';
+import { Header, Icon, Button, Message } from 'semantic-ui-react';
+import classNames from 'classnames';
 
-import { entityListActions, fetchEntityLists } from '../../store/entityLists';
 import {
-  createExperimentActions,
+  setExperimentOptions,
   initializePlateMaps,
-} from '../../store/createExperiment';
-import { NewExperimentForm } from '../../components/NewExperimentForm';
+} from '../../store/experimentActions';
+import { ExperimentSearch } from '../../components/ExperimentSearch';
+import { ExperimentCard } from '../../components/ExperimentCard';
+import { PlateSizeForm } from '../../components/PlateSizeForm';
+import styles from './SelectStep.module.css';
+
+const renderHeader = options => {
+  const { stepClass, complete, stepNumber, headerText } = options;
+  return (
+    <div className={styles.headerContainer}>
+      <div className={stepClass}>
+        {complete ? <Icon name="check" /> : stepNumber}
+      </div>
+      <Header as="h3">{headerText}</Header>
+    </div>
+  );
+};
 
 class SelectStep extends Component {
-  componentDidMount() {
-    if (!this.props.loaded && !this.props.pending) {
-      this.props.fetchEntityLists();
-    }
-  }
+  state = {
+    experiment: this.props.experiment,
+    plateSize: this.props.plateSize,
+    submissionAttemped: false,
+    showValidationMessage: false,
+  };
 
-  handleFormSubmit = formValues => {
-    const {
-      experiment,
-      plateSize,
-      communities: formCommunities,
-      compounds: formCompounds,
-      media: formMedia,
-      supplements: formSupplements,
-    } = formValues;
-    const { communities, compounds, media, supplements } = this.props.lists;
-    const findById = (id, list) => list.find(entity => entity.id === id);
-    const selectedCommunities = formCommunities.map(id => {
-      return findById(id, communities);
-    });
-    const selectedCompounds = formCompounds.map(id => {
-      return findById(id, compounds);
-    });
-    const selectedMedia = formMedia.map(id => {
-      return findById(id, media);
-    });
-    const selectedSupplements = formSupplements.map(id => {
-      return findById(id, supplements);
-    });
-    const experimentOptions = {
-      experiment,
-      plateSize,
-      selectedCommunities,
-      selectedCompounds,
-      selectedMedia,
-      selectedSupplements,
-    };
-    this.props.setSelections(formValues);
-    this.props.setExperimentOptions(experimentOptions);
-    this.props.initializePlateMaps();
-    this.props.onStepComplete();
+  handleExperimentSelect = experiment => {
+    const isValid = this.validateSelections(experiment, this.state.plateSize);
+    this.setState({ experiment, showValidationMessage: !isValid });
+  };
+
+  handlePlateSizeChange = dimensions => {
+    const isValid = this.validateSelections(this.state.experiment, dimensions);
+    this.setState({ plateSize: dimensions, showValidationMessage: !isValid });
+  };
+
+  validateSelections = (experiment, dimensions) => {
+    return experiment && dimensions && dimensions.rows && dimensions.columns;
+  };
+
+  handleButtonClick = () => {
+    const { experiment, plateSize } = this.state;
+    if (this.validateSelections(experiment, plateSize)) {
+      this.props.setExperimentOptions({ experiment, plateSize });
+      this.props.initializePlateMaps();
+      if (this.props.onComplete) {
+        this.props.onComplete();
+      }
+    } else {
+      this.setState({ submissionAttempted: true, showValidationMessage: true });
+    }
   };
 
   render() {
-    const { pending, loaded, error, selections } = this.props;
-    if (pending) {
-      return (
-        <div className="select-loading">
-          <Loader size="massive" active>
-            Loading
-          </Loader>
+    const {
+      experiment,
+      plateSize,
+      submissionAttempted,
+      showValidationMessage,
+    } = this.state;
+    const experimentComplete = experiment;
+    const plateSizeComplete = plateSize && plateSize.rows && plateSize.columns;
+    const experimentStepClass = classNames(styles.headerStep, {
+      [styles.completed]: experimentComplete,
+    });
+    const plateSizeStepClass = classNames(styles.headerStep, {
+      [styles.completed]: plateSizeComplete,
+    });
+    const experimentDefaultValue = experiment ? experiment.name : '';
+    return (
+      <div>
+        <div className={styles.columnsContainer}>
+          <div className={styles.columns}>
+            <div className={styles.experimentSearch}>
+              {renderHeader({
+                stepClass: experimentStepClass,
+                complete: experimentComplete,
+                stepNumber: '1',
+                headerText: 'Select an Experiment',
+              })}
+              <ExperimentSearch
+                defaultValue={experimentDefaultValue}
+                onSelect={this.handleExperimentSelect}
+              />
+              {experiment && <ExperimentCard experiment={experiment} />}
+            </div>
+            <div className={styles.plateSizeFormContainer}>
+              <div>
+                {renderHeader({
+                  stepClass: plateSizeStepClass,
+                  complete: plateSizeComplete,
+                  stepNumber: '2',
+                  headerText: 'Select Plate Size',
+                })}
+                <PlateSizeForm
+                  onChange={this.handlePlateSizeChange}
+                  defaultDimensions={plateSize}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.submissionContainer}>
+            {submissionAttempted && showValidationMessage ? (
+              <div className={styles.messageContainer}>
+                <Message negative>
+                  Please select an experiment and a plate size.
+                </Message>
+              </div>
+            ) : null}
+            <div className={styles.buttonContainer}>
+              <Button primary onClick={this.handleButtonClick}>
+                Done
+              </Button>
+            </div>
+          </div>
         </div>
-      );
-    } else if (error) {
-      return <div>{error}</div>;
-    } else if (loaded) {
-      const {
-        experiments,
-        compounds,
-        communities,
-        media,
-        supplements,
-      } = this.props.selectOptions;
-      return (
-        <div className="select-container">
-          <NewExperimentForm
-            onSubmit={this.handleFormSubmit}
-            experimentOptions={experiments}
-            compoundOptions={compounds}
-            communityOptions={communities}
-            mediumOptions={media}
-            supplementOptions={supplements}
-            initialValues={selections}
-          />
-        </div>
-      );
-    } else return <div />;
+      </div>
+    );
   }
 }
 
 SelectStep.propTypes = {
-  pending: PropTypes.bool.isRequired,
-  loaded: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
-  selectOptions: PropTypes.object.isRequired,
-  selections: PropTypes.object,
-  fetchEntityLists: PropTypes.func.isRequired,
-  setSelections: PropTypes.func.isRequired,
-  setExperimentOptions: PropTypes.func.isRequired,
-  initializePlateMaps: PropTypes.func.isRequired,
-  onStepComplete: PropTypes.func.isRequired,
+  experiment: PropTypes.object,
+  plateSize: PropTypes.object,
+  setExperimentOptions: PropTypes.func,
+  initializePlateMaps: PropTypes.func,
+  onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const {
-    pending,
-    loaded,
-    error,
-    lists,
-    selectOptions,
-    selections,
-  } = state.entityLists;
-  return {
-    pending,
-    loaded,
-    error,
-    lists,
-    selectOptions,
-    selections,
-  };
+  const { experiment, plateSize } = state.createExperiment;
+  return { experiment, plateSize };
 };
 
 const mapDispatch = {
-  fetchEntityLists,
-  setSelections: entityListActions.setSelections,
-  setExperimentOptions: createExperimentActions.setExperimentOptions,
+  setExperimentOptions,
   initializePlateMaps,
 };
 
@@ -134,4 +150,5 @@ const connected = connect(
   mapState,
   mapDispatch
 )(SelectStep);
+
 export { connected as SelectStep };

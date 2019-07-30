@@ -1,44 +1,50 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import memoize from 'memoize-one';
+
+import { groupComponents } from '../util';
+import { WellComponent } from './WellComponent';
 
 export class Well extends Component {
+  group = memoize(groupComponents);
   handleClick = () => {
     this.props.onClick(this.props.well);
   };
-  renderCommunities() {
-    return this.props.well.communities.map(community => {
-      return (
-        <div key={community.name}>{`${community.name} @ ${
-          community.concentration
-        } %`}</div>
-      );
+  renderCommunities(communities) {
+    return communities.map(community => {
+      return <WellComponent key={community.id} component={community} />;
     });
   }
-  renderCompounds() {
-    return this.props.well.compounds.map(compound => {
-      return (
-        <div key={compound.name}>{`${compound.name} @ ${
-          compound.concentration
-        } %`}</div>
-      );
+  renderCompounds(compounds) {
+    return compounds.map(compound => {
+      return <WellComponent key={compound.id} component={compound} />;
     });
   }
-  renderMedia() {
-    return this.props.well.media.map(medium => {
-      return <div key={medium.name}>{`${medium.name}`}</div>;
+  renderMedia(media) {
+    return media.map(medium => {
+      return <WellComponent key={medium.id} component={medium} />;
+    });
+  }
+  renderSupplements(supplements) {
+    return supplements.map(supplement => {
+      return <WellComponent key={supplement.id} component={supplement} />;
     });
   }
   render() {
-    const { selected, highlighted, dimmed } = this.props.well;
+    const { selected, highlighted, dimmed, components } = this.props.well;
+    const { communities, compounds, media, supplements } = this.group(
+      components
+    );
     return (
       <div
         onClick={this.handleClick}
         className={classNames('well', { selected, highlighted, dimmed })}
       >
-        <div>{this.renderCommunities()}</div>
-        <div>{this.renderCompounds()}</div>
-        <div>{this.renderMedia()}</div>
+        <div>{this.renderCommunities(communities)}</div>
+        <div>{this.renderCompounds(compounds)}</div>
+        <div>{this.renderMedia(media)}</div>
+        <div>{this.renderSupplements(supplements)}</div>
       </div>
     );
   }

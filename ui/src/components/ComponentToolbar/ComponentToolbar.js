@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Tab } from 'semantic-ui-react';
 
 import { ApplyToolbar } from './ApplyToolbar';
-import { SelectToolbar } from './SelectToolbar';
 import { ClearToolbar } from './ClearToolbar';
+import styles from './ComponentToolbar.module.css';
 
 const panes = [
   {
@@ -20,7 +20,7 @@ const panes = [
     menuItem: 'Select',
     render: () => (
       <Tab.Pane attached={false}>
-        <SelectToolbar />
+        <ApplyToolbar />
       </Tab.Pane>
     ),
     modeName: 'select',
@@ -44,7 +44,7 @@ export class ComponentToolbar extends Component {
   };
   render() {
     return (
-      <div className="component-toolbar">
+      <div className={styles.componentToolbar}>
         <Tab
           onTabChange={this.handleTabChange}
           defaultActiveIndex={0}

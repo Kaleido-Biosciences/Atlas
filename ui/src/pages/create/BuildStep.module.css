@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  padding: 0 1em;
+}
+
+.plateMapContainer {
+  position: relative;
+}
+
+.dragHandle {
+  cursor: move;
+  height: 1em;
+}
+
+.componentToolbar {
+  position: absolute;
+  top: 4em;
+  right: 2em;
+  width: 22rem;
+  max-width: 22rem;
+}
+
+.componentToolbar > :global(.segment) {
+  padding-top: 0 !important;
+}
