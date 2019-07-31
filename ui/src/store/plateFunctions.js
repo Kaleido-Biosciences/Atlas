@@ -138,3 +138,20 @@ export function createTimepoint(
   }
   return { time, concentration };
 }
+
+export function exportPlateMaps(plateMaps) {
+  return plateMaps.map(plateMap => {
+    const plateMapObj = {};
+    const flat = plateMap.data.flat();
+    flat.forEach(well => {
+      plateMapObj[well.name] = well.components.map(component => {
+        return {
+          type: component.type,
+          id: component.data.id,
+          timepoints: component.timepoints,
+        };
+      });
+    });
+    return plateMapObj;
+  });
+}
