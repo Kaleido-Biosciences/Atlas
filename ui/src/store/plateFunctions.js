@@ -19,9 +19,11 @@ export function getSelectedWells(plateMap) {
 
 export function applySelectedComponentsToWells(plateMap, wellIds, components) {
   const wells = plateMap.data.flat();
+  const filteredWells = wells.filter(well => {
+    return wellIds.includes(well.id)
+  });
   const updatedWells = [];
-  wellIds.forEach(wellId => {
-    const well = wells[wellId];
+  filteredWells.forEach(well => {
     components.forEach(component => {
       if (component.selected) {
         const existingComponent = well.components.find(
@@ -56,10 +58,11 @@ export function findPlateMapById(id, plateMaps) {
   });
 }
 
-export function createWell(id, name, components = []) {
+export function createWell(id, name, index, components = []) {
   return {
     id,
     name,
+    index,
     components,
     selected: false,
     blank: false,
@@ -88,7 +91,8 @@ export function createPlateMapData(dimensions) {
     const row = [];
     const rowLetter = PLATEMAP_ROW_HEADERS[i];
     for (let i = 0; i < columns; i++) {
-      row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
+      const id = `${rowLetter}${i + 1}`;
+      row.push(createWell(id, id, wellCount));
       wellCount++;
     }
     data.push(row);
@@ -144,7 +148,7 @@ export function exportPlateMaps(plateMaps) {
     const plateMapObj = {};
     const flat = plateMap.data.flat();
     flat.forEach(well => {
-      plateMapObj[well.name] = well.components.map(component => {
+      plateMapObj[well.id] = well.components.map(component => {
         return {
           type: component.type,
           id: component.data.id,

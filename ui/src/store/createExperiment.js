@@ -212,12 +212,8 @@ const createExperiment = createSlice({
         const { plateMapId, wellIds } = action.payload;
         const { plateMaps, components } = state;
         const plateMap = findPlateMapById(plateMapId, plateMaps);
-        const updatedWells = applySelectedComponentsToWells(
-          plateMap,
-          wellIds,
-          components
-        );
-        setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+        applySelectedComponentsToWells(plateMap, wellIds, components);
+        //setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
       }
     },
     applySelectedComponentsToSelectedWells(state, action) {
@@ -227,28 +223,24 @@ const createExperiment = createSlice({
         const plateMap = findPlateMapById(plateMapId, plateMaps);
         const selectedWells = getSelectedWells(plateMap);
         const wellIds = selectedWells.map(well => well.id);
-        const updatedWells = applySelectedComponentsToWells(
-          plateMap,
-          wellIds,
-          components
-        );
-        setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+        applySelectedComponentsToWells(plateMap, wellIds, components);
+        //setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
       }
     },
     clearWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps, clearMode } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flattenedData = plateMap.data.flat();
+      const wells = plateMap.data.flat();
       const componentTypes = {
         communities: 'community',
         compounds: 'compound',
         media: 'medium',
         supplements: 'supplement',
       };
-      const wells = [];
-      wellIds.forEach(wellId => {
-        const well = flattenedData[wellId];
+      const updatedWells = [];
+      const filteredWells = wells.filter(well => wellIds.includes(well.id));
+      filteredWells.forEach(well => {
         if (clearMode === 'all') {
           well.components = [];
         } else {
@@ -257,16 +249,16 @@ const createExperiment = createSlice({
             return component.type !== componentType;
           });
         }
-        wells.push(well);
+        updatedWells.push(well);
       });
-      setWellsHighlightedStatus(wells, state.highlightedComponents);
+      //setWellsHighlightedStatus(wells, state.highlightedComponents);
     },
     deselectAllWells(state, action) {
       const { plateMapId } = action.payload;
       const { plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flat = plateMap.data.flat();
-      flat.forEach(well => {
+      const wells = plateMap.data.flat();
+      wells.forEach(well => {
         well.selected = false;
       });
     },
@@ -274,22 +266,23 @@ const createExperiment = createSlice({
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flattenedData = plateMap.data.flat();
+      const wells = plateMap.data.flat();
+      const filteredWells = wells.filter(well => wellIds.includes(well.id));
       const status = { selected: false, deselected: false };
-      wellIds.forEach(wellId => {
-        if (flattenedData[wellId].selected) {
+      filteredWells.forEach(well => {
+        if (well.selected) {
           status.selected = true;
         } else {
           status.deselected = true;
         }
       });
       if ((status.selected && status.deselected) || !status.selected) {
-        wellIds.forEach(wellId => {
-          flattenedData[wellId].selected = true;
+        filteredWells.forEach(well => {
+          well.selected = true;
         });
       } else {
-        wellIds.forEach(wellId => {
-          flattenedData[wellId].selected = false;
+        filteredWells.forEach(well => {
+          well.selected = false;
         });
       }
     },
@@ -303,22 +296,22 @@ const createExperiment = createSlice({
       const stateComponent = getComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
-    toggleHighlight(state, action) {
-      const { componentType } = action.payload;
-      const { highlightedComponents } = state;
-      const index = highlightedComponents.indexOf(componentType);
-      if (index > -1) {
-        highlightedComponents.splice(index, 1);
-      } else {
-        highlightedComponents.push(componentType);
-      }
-      let wells = [];
-      state.plateMaps.forEach(plateMap => {
-        const flat = plateMap.data.flat();
-        wells = wells.concat(flat);
-      });
-      setWellsHighlightedStatus(wells, highlightedComponents);
-    },
+    // toggleHighlight(state, action) {
+    //   const { componentType } = action.payload;
+    //   const { highlightedComponents } = state;
+    //   const index = highlightedComponents.indexOf(componentType);
+    //   if (index > -1) {
+    //     highlightedComponents.splice(index, 1);
+    //   } else {
+    //     highlightedComponents.push(componentType);
+    //   }
+    //   let wells = [];
+    //   state.plateMaps.forEach(plateMap => {
+    //     const flat = plateMap.data.flat();
+    //     wells = wells.concat(flat);
+    //   });
+    //   //setWellsHighlightedStatus(wells, highlightedComponents);
+    // },
     setCompletedStatus(state, action) {
       state.status = STATUS_COMPLETED;
       state.steps.stepTwoCompleted = true;
@@ -337,29 +330,29 @@ function getComponentFromState(componentId, state) {
   );
 }
 
-function setWellsHighlightedStatus(wells, highlightedComponents) {
-  const numberOfComponents = highlightedComponents.length;
-  if (!numberOfComponents) {
-    wells.forEach(well => {
-      well.highlighted = false;
-      well.dimmed = false;
-    });
-  } else {
-    wells.forEach(well => {
-      const hasComponent = highlightedComponents.some(type => {
-        return well[type].length > 0;
-      });
-      if (hasComponent) {
-        well.highlighted = true;
-        well.dimmed = false;
-      } else {
-        well.highlighted = false;
-        well.dimmed = true;
-      }
-    });
-  }
-  return wells;
-}
+// function setWellsHighlightedStatus(wells, highlightedComponents) {
+//   const numberOfComponents = highlightedComponents.length;
+//   if (!numberOfComponents) {
+//     wells.forEach(well => {
+//       well.highlighted = false;
+//       well.dimmed = false;
+//     });
+//   } else {
+//     wells.forEach(well => {
+//       const hasComponent = highlightedComponents.some(type => {
+//         return well[type].length > 0;
+//       });
+//       if (hasComponent) {
+//         well.highlighted = true;
+//         well.dimmed = false;
+//       } else {
+//         well.highlighted = false;
+//         well.dimmed = true;
+//       }
+//     });
+//   }
+//   return wells;
+// }
 
 validate.validators.timepoints = function(timepoints) {
   const messages = [];

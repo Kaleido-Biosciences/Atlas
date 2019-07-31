@@ -91,7 +91,7 @@ export const clonePlateMap = wrapWithChangeHandler(
           const components = well.components.filter(component => {
             return typesToClone.includes(component.type);
           });
-          return createWell(well.id, well.name, components);
+          return createWell(well.id, well.name, well.index, components);
         });
       });
       dispatch(_addPlateMap(createPlateMap(data)));
