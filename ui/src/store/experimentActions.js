@@ -18,7 +18,12 @@ const {
 } = createExperimentActions;
 
 const handleChange = experimentData => {
-  console.log(experimentData);
+  console.log(
+    'SAVE',
+    experimentData.experiment.name,
+    experimentData.status,
+    experimentData.plateMaps
+  );
   saveExperimentPlateMaps(
     experimentData.experiment.name,
     experimentData.status,
