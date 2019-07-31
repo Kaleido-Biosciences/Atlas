@@ -2,7 +2,7 @@ include:
     template: SAST.gitlab-ci.yml
 
 stages:
-  - test
+#  - test
   - package
   - setup
   - cleanup
