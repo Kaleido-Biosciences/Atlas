@@ -15,6 +15,7 @@ const {
   deletePlateMap: _deletePlateMap,
   setCompletedStatus: _setCompletedStatus,
   applySelectedComponentsToSelectedWells: _applySelectedComponentsToSelectedWells,
+  updateNextPlateMapId: _updateNextPlateMapId,
 } = createExperimentActions;
 
 const handleChange = experimentData => {
@@ -65,7 +66,6 @@ export const {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
-  updateNextPlateMapId,
 } = createExperimentActions;
 
 export const initializePlateMaps = wrapWithChangeHandler(() => {
@@ -73,11 +73,9 @@ export const initializePlateMaps = wrapWithChangeHandler(() => {
     let { plateMaps } = getState().createExperiment;
     if (!plateMaps.length) {
       dispatch(_addNewPlateMap());
+    } else {
+      dispatch(_updateNextPlateMapId(plateMaps.length + 1));
     }
-    else {
-      dispatch(updateNextPlateMapId(plateMaps.length + 1));
-    }
-
   };
 });
 
