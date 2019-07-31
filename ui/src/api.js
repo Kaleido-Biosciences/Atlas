@@ -1,17 +1,21 @@
 import axios from 'axios';
 import AWS from 'aws-sdk';
 
-import { API_URL, DYNAMODB_ACCESS_KEY_ID , DYNAMODB_SECRET_ACCESS_KEY } from './config';
+import {
+  API_URL,
+  DYNAMODB_ACCESS_KEY_ID,
+  DYNAMODB_SECRET_ACCESS_KEY,
+} from './config';
 
 AWS.config.update({
-  region: "us-east-1",
+  region: 'us-east-1',
   endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
   accessKeyId: DYNAMODB_ACCESS_KEY_ID,
-  secretAccessKey: DYNAMODB_SECRET_ACCESS_KEY
+  secretAccessKey: DYNAMODB_SECRET_ACCESS_KEY,
 });
 
 let docClient = new AWS.DynamoDB.DocumentClient();
-let table = "atlas-production";
+let table = 'atlas-production';
 
 export function fetchExperiments(page, size, nameContains, descContains) {
   let queryString = '';
@@ -57,21 +61,21 @@ export function fetchPlateMaps(experimentId, status) {
     let plateMaps;
     let params = {
       TableName: table,
-      KeyConditionExpression: "#e = :eeee and #s = :ssss",
+      KeyConditionExpression: '#e = :eeee and #s = :ssss',
       ExpressionAttributeNames: {
-        "#e": "experiment",
-        "#s": "status"
+        '#e': 'experiment',
+        '#s': 'status',
       },
       ExpressionAttributeValues: {
-        ":eeee": experimentId,
-        ":ssss": status
+        ':eeee': experimentId,
+        ':ssss': status,
       },
       ScanIndexForward: false,
       ConsistentRead: false,
       Limit: 1,
     };
 
-    docClient.query(params, function (err, data) {
+    docClient.query(params, function(err, data) {
       if (err) {
         reject(err);
       } else {
@@ -81,7 +85,7 @@ export function fetchPlateMaps(experimentId, status) {
         resolve(plateMaps);
       }
     });
-   });
+  });
 }
 
 export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
@@ -89,26 +93,44 @@ export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
     let plateMapsToSave = JSON.stringify(plateMaps);
 
     let params = {
-      TableName:table,
-      Key:{
-        "experiment": experimentName,
-        "status": status,
+      TableName: table,
+      Key: {
+        experiment: experimentName,
+        status: status,
       },
-      UpdateExpression: "set plateMaps=:p",
-      ExpressionAttributeValues:{
-        ":p": plateMapsToSave,
+      UpdateExpression: 'set plateMaps=:p',
+      ExpressionAttributeValues: {
+        ':p': plateMapsToSave,
       },
-      ReturnValues:"UPDATED_NEW"
+      ReturnValues: 'UPDATED_NEW',
     };
-
 
     docClient.update(params, function(err, data) {
       if (err) {
         reject(err);
-        console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+        console.error(
+          'Unable to update item. Error JSON:',
+          JSON.stringify(err, null, 2)
+        );
       } else {
-        resolve({ data } );
+        resolve({ data });
       }
     });
   });
+}
+
+export function fetchCommunity(id) {
+  return axios.get(API_URL + '/communities/' + id);
+}
+
+export function fetchCompound(id) {
+  return axios.get(API_URL + '/batches/' + id);
+}
+
+export function fetchMedium(id) {
+  return axios.get(API_URL + '/media/' + id);
+}
+
+export function fetchSupplement(id) {
+  return axios.get(API_URL + '/supplements/' + id);
 }

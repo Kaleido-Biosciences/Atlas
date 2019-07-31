@@ -8,11 +8,12 @@ import {
   setExperimentOptions,
   initializePlateMaps,
 } from '../../store/experimentActions';
+import { importPlateMaps } from '../../store/plateFunctions';
 import { ExperimentSearch } from '../../components/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm';
 import styles from './SelectStep.module.css';
-import { fetchPlateMaps } from "../../api";
+import { fetchPlateMaps } from '../../api';
 
 const renderHeader = options => {
   const { stepClass, complete, stepNumber, headerText } = options;
@@ -34,18 +35,21 @@ class SelectStep extends Component {
     showValidationMessage: false,
   };
 
-  handleExperimentSelect = experiment => {
-    fetchPlateMaps(experiment.name, "DRAFT").then(plateMaps => {
-      let plateSize = ( !plateMaps || plateMaps.length === 0 ) ? this.state.plateSize : {
-        rows: plateMaps[0].data.length,
-        columns: plateMaps[0].data[0].length
-      };
-      const isValid = this.validateSelections(experiment, plateSize);
-      this.setState({experiment, showValidationMessage: !isValid});
-      if (plateMaps) {
-        this.setState({plateMaps, plateSize});
-      }
-    });
+  handleExperimentSelect = async experiment => {
+    const savedData = await fetchPlateMaps(experiment.name, 'DRAFT');
+    const plateMaps = await importPlateMaps(savedData);
+    let plateSize =
+      !plateMaps || plateMaps.length === 0
+        ? this.state.plateSize
+        : {
+            rows: plateMaps[0].data.length,
+            columns: plateMaps[0].data[0].length,
+          };
+    const isValid = this.validateSelections(experiment, plateSize);
+    this.setState({ experiment, showValidationMessage: !isValid });
+    if (plateMaps) {
+      this.setState({ plateMaps, plateSize });
+    }
   };
 
   handlePlateSizeChange = dimensions => {
