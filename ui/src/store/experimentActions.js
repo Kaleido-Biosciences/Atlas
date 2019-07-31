@@ -65,6 +65,7 @@ export const {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
+  updateNextPlateMapId,
 } = createExperimentActions;
 
 export const initializePlateMaps = wrapWithChangeHandler(() => {
@@ -73,6 +74,10 @@ export const initializePlateMaps = wrapWithChangeHandler(() => {
     if (!plateMaps.length) {
       dispatch(_addNewPlateMap());
     }
+    else {
+      dispatch(updateNextPlateMapId(plateMaps.length + 1));
+    }
+
   };
 });
 
