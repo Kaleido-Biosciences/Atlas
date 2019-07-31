@@ -107,6 +107,8 @@ deploy_staging:
         - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml
         - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
         - sed -i "s/__URL__/${CI_PROJECT_NAME}-staging/" ingress.yaml deployment.yaml
+        - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" deployment.yaml
+        - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" deployment.yaml
         - cat deployment.yaml
         - cat ingress.yaml
         - cat service.yaml
@@ -170,6 +172,8 @@ deploy_prod:
     - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml
     - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
     - sed -i "s/__URL__/${CI_PROJECT_NAME}/" ingress.yaml deployment.yaml
+    - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" deployment.yaml
+    - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" deployment.yaml
     - cat deployment.yaml
     - cat ingress.yaml
     - cat service.yaml

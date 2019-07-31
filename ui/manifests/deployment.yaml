@@ -29,20 +29,14 @@ spec:
         image: gitlab.kaleidobio.com:5005/__CI_PROJECT_NAMESPACE__/__CI_PROJECT_NAME__:__VERSION__
         imagePullPolicy: Always
         env:
-        - name: db_password
-          value: __DB_PASSWORD__
-        - name: email_password
-          value: __EMAIL_PASSWORD__
-        - name: db_url
-          value: __DB_URL__
-        - name: elasticsearch_url
-          value: __ELASTICSEARCH_URL__
-        - name: MANAGEMENT_METRICS_EXPORT_DATADOG_ENABLED
-          value: __DATADOG_ENABLED__
-        - name: MANAGEMENT_METRICS_EXPORT_DATADOG_API-KEY
-          value: __DATADOG_API_KEY__
-        - name: MANAGEMENT_METRICS_EXPORT_DATADOG_APPLICATION-KEY
-          value: __DATADOG_APPLICATION_KEY__
+        - name: REACT_APP_DYNAMODB_ACCESS_KEY_ID
+          value: __REACT_APP_DYNAMODB_ACCESS_KEY_ID__
+        - name: REACT_APP_DYNAMODB_SECRET_ACCESS_KEY
+          value: __REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__
+        - name: PATH
+          value: '/app/node_modules/.bin:$PATH'
+        - name: REACT_APP_API_URL
+          value: 'https://kapture-staging.apps.kaleidobio.com/api'
         ports:
         - containerPort: __SERVER_PORT__
         - name: http
