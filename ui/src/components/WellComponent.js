@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const renderTimepoints = timepoints => {
   return timepoints.reduce((displayString, timepoint) => {
     if (timepoint.concentration) {
-      return `${displayString}(${timepoint.concentration.toFixed(1)}@${
+      return `${displayString}(${timepoint.concentration.toFixed(2)}@${
         timepoint.time
       }h)`;
     } else return displayString;
