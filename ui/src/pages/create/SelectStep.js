@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Header, Icon, Button, Message } from 'semantic-ui-react';
+import { Header, Icon, Button, Message, Loader } from 'semantic-ui-react';
 import classNames from 'classnames';
 
 import {
@@ -33,11 +33,14 @@ class SelectStep extends Component {
     plateSize: this.props.plateSize,
     submissionAttemped: false,
     showValidationMessage: false,
+    fetchingPlateMaps: false,
   };
 
   handleExperimentSelect = async experiment => {
+    this.setState({ fetchingPlateMaps: true });
     const savedData = await fetchPlateMaps(experiment.name, 'DRAFT');
     const plateMaps = await importPlateMaps(savedData);
+    this.setState({ fetchingPlateMaps: false });
     let plateSize =
       !plateMaps || plateMaps.length === 0
         ? this.state.plateSize
@@ -80,6 +83,7 @@ class SelectStep extends Component {
       plateSize,
       submissionAttempted,
       showValidationMessage,
+      fetchingPlateMaps,
     } = this.state;
     const experimentComplete = experiment;
     const plateSizeComplete = plateSize && plateSize.rows && plateSize.columns;
@@ -105,6 +109,13 @@ class SelectStep extends Component {
                 defaultValue={experimentDefaultValue}
                 onSelect={this.handleExperimentSelect}
               />
+              {fetchingPlateMaps && (
+                <div className={styles.loader}>
+                  <Loader active inline="centered">
+                    Loading
+                  </Loader>
+                </div>
+              )}
               {experiment && <ExperimentCard experiment={experiment} />}
             </div>
             <div className={styles.plateSizeFormContainer}>
@@ -131,7 +142,11 @@ class SelectStep extends Component {
               </div>
             ) : null}
             <div className={styles.buttonContainer}>
-              <Button primary onClick={this.handleButtonClick}>
+              <Button
+                primary
+                disabled={fetchingPlateMaps}
+                onClick={this.handleButtonClick}
+              >
                 Done
               </Button>
             </div>
