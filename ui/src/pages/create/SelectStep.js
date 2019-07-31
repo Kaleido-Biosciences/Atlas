@@ -35,7 +35,7 @@ class SelectStep extends Component {
   };
 
   handleExperimentSelect = experiment => {
-    fetchPlateMaps(experiment.name).then(plateMaps => {
+    fetchPlateMaps(experiment.name, "DRAFT").then(plateMaps => {
       let plateSize = ( !plateMaps || plateMaps.length === 0 ) ? this.state.plateSize : {
         rows: plateMaps[0].data.length,
         columns: plateMaps[0].data[0].length

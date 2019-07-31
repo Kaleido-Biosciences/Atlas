@@ -52,17 +52,19 @@ export function fetchComponents(page, size, nameContains, descContains) {
   );
 }
 
-export function fetchPlateMaps(experimentId) {
+export function fetchPlateMaps(experimentId, status) {
   return new Promise((resolve, reject) => {
     let plateMaps;
     let params = {
       TableName: table,
-      KeyConditionExpression: "#e = :eeee",
+      KeyConditionExpression: "#e = :eeee and #s = :ssss",
       ExpressionAttributeNames: {
-        "#e": "experiment"
+        "#e": "experiment",
+        "#s": "status"
       },
       ExpressionAttributeValues: {
-        ":eeee": experimentId
+        ":eeee": experimentId,
+        ":ssss": status
       },
       ScanIndexForward: false,
       ConsistentRead: false,
