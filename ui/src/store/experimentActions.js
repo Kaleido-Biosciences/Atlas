@@ -19,11 +19,11 @@ const {
 
 const handleChange = experimentData => {
   console.log(experimentData);
-  // saveExperimentPlateMaps(
-  //   experimentData.experiment.name,
-  //   experimentData.status,
-  //   experimentData.plateMaps
-  // );
+  saveExperimentPlateMaps(
+    experimentData.experiment.name,
+    experimentData.status,
+    experimentData.plateMaps
+  );
 };
 
 function wrapWithChangeHandler(fn) {
