@@ -9,13 +9,11 @@ stages:
   - deploy
 
 
-image_build:
+image_build_staging:
   image: docker:git
   stage: package
   only:
-    - master
     - develop
-    #- feature/fullcicd
   services:
     - docker:dind
   script:
@@ -25,6 +23,27 @@ image_build:
     - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
     - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" Dockerfile Dockerfile-prod
     - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" Dockerfile Dockerfile-prod
+    - sed -i "s/__KAPTURE_URL__/kapture-staging/" Dockerfile Dockerfile-prod
+    - docker build -f Dockerfile-prod -t "${CI_REGISTRY_IMAGE}:latest" .
+    - docker tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
+    - test ! -z "${CI_COMMIT_TAG}" && docker push "${CI_REGISTRY_IMAGE}:latest"
+    - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
+
+image_build_prod:
+  image: docker:git
+  stage: package
+  only:
+    - master
+  services:
+    - docker:dind
+  script:
+    - cd ui/
+    - ls
+    - docker info
+    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" Dockerfile Dockerfile-prod
+    - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" Dockerfile Dockerfile-prod
+    - sed -i "s/__KAPTURE_URL__/kapture/" Dockerfile Dockerfile-prod
     - docker build -f Dockerfile-prod -t "${CI_REGISTRY_IMAGE}:latest" .
     - docker tag "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
     - test ! -z "${CI_COMMIT_TAG}" && docker push "${CI_REGISTRY_IMAGE}:latest"
