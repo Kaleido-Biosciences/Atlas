@@ -34,7 +34,7 @@ class SelectStep extends Component {
     submissionAttemped: false,
     showValidationMessage: false,
     fetchingPlateMaps: false,
-    plateMaps: null,
+    plateMaps: this.props.plateMaps || null,
   };
 
   handleExperimentSelect = async experiment => {
@@ -174,8 +174,8 @@ SelectStep.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { experiment, plateSize } = state.createExperiment;
-  return { experiment, plateSize };
+  const { experiment, plateSize, plateMaps } = state.createExperiment;
+  return { experiment, plateSize, plateMaps };
 };
 
 const mapDispatch = {
