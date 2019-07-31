@@ -4,7 +4,14 @@ import { connect } from 'react-redux';
 import { Checkbox, Icon, Segment } from 'semantic-ui-react';
 import classNames from 'classnames';
 
-import { createExperimentActions } from '../../store/createExperiment';
+import {
+  selectComponents,
+  deselectComponents,
+  removeComponents,
+  addTimepointToComponent,
+  updateTimepoint,
+  deleteTimepoint,
+} from '../../store/experimentActions';
 import { Timepoint } from './Timepoint';
 import styles from './ToolbarComponent.module.css';
 
@@ -108,7 +115,7 @@ class ToolbarComponent extends Component {
       [styles.selected]: component.selected,
     });
     const segmentClass = classNames(styles.segment, {
-      'red': !component.isValid,
+      red: !component.isValid,
     });
     const headerClass = classNames(styles.header, {
       [styles.expandable]: showTimepoints,
@@ -163,12 +170,12 @@ ToolbarComponent.propTypes = {
 };
 
 const mapDispatch = {
-  onSelect: createExperimentActions.selectComponents,
-  onDeselect: createExperimentActions.deselectComponents,
-  onRemoveClick: createExperimentActions.removeComponents,
-  onAddTimepointClick: createExperimentActions.addTimepointToComponent,
-  onTimepointChange: createExperimentActions.updateTimepoint,
-  onTimepointDeleteClick: createExperimentActions.deleteTimepoint,
+  onSelect: selectComponents,
+  onDeselect: deselectComponents,
+  onRemoveClick: removeComponents,
+  onAddTimepointClick: addTimepointToComponent,
+  onTimepointChange: updateTimepoint,
+  onTimepointDeleteClick: deleteTimepoint,
 };
 
 const connected = connect(

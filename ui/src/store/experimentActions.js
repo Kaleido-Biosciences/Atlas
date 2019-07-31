@@ -14,6 +14,7 @@ const {
   setActivePlateMap: _setActivePlateMap,
   deletePlateMap: _deletePlateMap,
   setCompletedStatus: _setCompletedStatus,
+  applySelectedComponentsToSelectedWells: _applySelectedComponentsToSelectedWells,
 } = createExperimentActions;
 
 const handleChange = experimentData => {
@@ -49,6 +50,16 @@ export const {
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
+  addComponents,
+  moveRecentComponentsToComponents,
+  removeRecentComponents,
+  setClearMode,
+  selectComponents,
+  deselectComponents,
+  removeComponents,
+  addTimepointToComponent,
+  updateTimepoint,
+  deleteTimepoint,
 } = createExperimentActions;
 
 export const initializePlateMaps = wrapWithChangeHandler(() => {
@@ -94,3 +105,7 @@ export const setActivePlateMap = wrapWithChangeHandler(_setActivePlateMap);
 export const deletePlateMap = wrapWithChangeHandler(_deletePlateMap);
 
 export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
+
+export const applySelectedComponentsToSelectedWells = wrapWithChangeHandler(
+  _applySelectedComponentsToSelectedWells
+);
