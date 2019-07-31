@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
 import {
-  createExperimentActions,
+  setActivePlateMap,
   addNewPlateMap,
+  deletePlateMap,
   clonePlateMap,
-} from '../../store/createExperiment';
+  setCompletedStatus,
+} from '../../store/experimentActions';
 import { selectActivePlateMap } from '../../store/selectors';
 import { PlateMapDropdown } from './PlateMapDropdown';
 import { DeletePlateMapButton } from './DeletePlateMapButton/DeletePlateMapButton';
@@ -69,8 +71,8 @@ PlateMapToolbar.propTypes = {
   plateMaps: PropTypes.array.isRequired,
   activePlateMap: PropTypes.object.isRequired,
   onPlateMapChange: PropTypes.func,
-  onDelete: PropTypes.func,
   onAdd: PropTypes.func,
+  onDelete: PropTypes.func,
   onClone: PropTypes.func,
   onMarkAsCompleted: PropTypes.func,
   onComplete: PropTypes.func,
@@ -83,11 +85,11 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onPlateMapChange: createExperimentActions.setActivePlateMap,
-  onDelete: createExperimentActions.deletePlateMap,
+  onPlateMapChange: setActivePlateMap,
   onAdd: addNewPlateMap,
+  onDelete: deletePlateMap,
   onClone: clonePlateMap,
-  onMarkAsCompleted: createExperimentActions.setCompletedStatus,
+  onMarkAsCompleted: setCompletedStatus,
 };
 
 const connected = connect(

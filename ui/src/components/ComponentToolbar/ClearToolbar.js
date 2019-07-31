@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Checkbox } from 'semantic-ui-react';
 
-import { createExperimentActions } from '../../store/createExperiment';
+import { setClearMode } from '../../store/experimentActions';
 
 class ClearToolbar extends Component {
   handleChange = (e, data) => {
@@ -80,6 +80,6 @@ const mapState = (state, props) => {
 
 const connected = connect(
   mapState,
-  { onChange: createExperimentActions.setClearMode }
+  { onChange: setClearMode }
 )(ClearToolbar);
 export { connected as ClearToolbar };
