@@ -1,18 +1,13 @@
 import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
-import {
-  PLATEMAP_ROW_HEADERS,
-  DEFAULT_TIMEPOINT_TIME,
-  DEFAULT_TIMEPOINT_CONCENTRATION,
-  DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
-  DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
-  STATUS_DRAFT,
-  STATUS_COMPLETED,
-} from '../constants';
+import { STATUS_DRAFT, STATUS_COMPLETED } from '../constants';
 import {
   getSelectedWells,
   applySelectedComponentsToWells,
+  findPlateMapById,
+  createComponent,
+  createTimepoint,
 } from './plateFunctions';
 
 const createExperiment = createSlice({
@@ -39,11 +34,13 @@ const createExperiment = createSlice({
     setExperimentOptions(state, action) {
       const { experiment, plateSize, plateMaps } = action.payload;
       state.experiment = experiment;
-      state.plateMaps = (
-          !plateMaps ||
-          (state.plateSize &&
-          (state.plateSize.rows !== plateSize.rows || state.plateSize.columns !== plateSize.columns))
-      ) ? [] : plateMaps;
+      state.plateMaps =
+        !plateMaps ||
+        (state.plateSize &&
+          (state.plateSize.rows !== plateSize.rows ||
+            state.plateSize.columns !== plateSize.columns))
+          ? []
+          : plateMaps;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
@@ -329,6 +326,17 @@ const createExperiment = createSlice({
   },
 });
 
+export const {
+  actions: createExperimentActions,
+  reducer: createExperimentReducer,
+} = createExperiment;
+
+function getComponentFromState(componentId, state) {
+  return state.components.find(
+    stateComponent => stateComponent.id === componentId
+  );
+}
+
 function setWellsHighlightedStatus(wells, highlightedComponents) {
   const numberOfComponents = highlightedComponents.length;
   if (!numberOfComponents) {
@@ -351,146 +359,6 @@ function setWellsHighlightedStatus(wells, highlightedComponents) {
     });
   }
   return wells;
-}
-
-export const {
-  actions: createExperimentActions,
-  reducer: createExperimentReducer,
-} = createExperiment;
-
-const { addPlateMap, setActivePlateMap } = createExperimentActions;
-
-// Moved to experimentActions
-// export function initializePlateMaps() {
-//   return (dispatch, getState) => {
-//     let { plateMaps } = getState().createExperiment;
-//     if (!plateMaps.length) {
-//       dispatch(addNewPlateMap());
-//     }
-//   };
-// }
-
-export function addNewPlateMap() {
-  return (dispatch, getState) => {
-    const { plateSize, plateMaps } = getState().createExperiment;
-    const plateMap = createPlateMapWithDimensions(plateSize);
-    if (!plateMaps.length) plateMap.active = true;
-    dispatch(addPlateMap(plateMap));
-  };
-}
-
-export function clonePlateMap(plateMapId, typesToClone) {
-  return (dispatch, getState) => {
-    let plateMaps = getState().createExperiment.plateMaps;
-    const plateMap = findPlateMapById(plateMapId, plateMaps);
-    const data = plateMap.data.map(row => {
-      return row.map(well => {
-        const components = well.components.filter(component => {
-          return typesToClone.includes(component.type);
-        });
-        return createWell(well.id, well.name, components);
-      });
-    });
-    dispatch(addPlateMap(createPlateMap(data)));
-    plateMaps = getState().createExperiment.plateMaps;
-    const newPlateMap = plateMaps[plateMaps.length - 1];
-    dispatch(setActivePlateMap(newPlateMap.id));
-  };
-}
-
-function findPlateMapById(id, plateMaps) {
-  return plateMaps.find((plateMap, i) => {
-    return plateMap.id === id;
-  });
-}
-
-function getComponentFromState(componentId, state) {
-  return state.components.find(
-    stateComponent => stateComponent.id === componentId
-  );
-}
-
-function createPlateMap(data) {
-  return {
-    selected: false,
-    active: false,
-    data,
-  };
-}
-
-function createPlateMapWithDimensions(dimensions) {
-  return createPlateMap(createPlateMapData(dimensions));
-}
-
-function createPlateMapData(dimensions) {
-  const { rows, columns } = dimensions;
-  const data = [];
-  let wellCount = 0;
-  for (let i = 0; i < rows; i++) {
-    const row = [];
-    const rowLetter = PLATEMAP_ROW_HEADERS[i];
-    for (let i = 0; i < columns; i++) {
-      row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
-      wellCount++;
-    }
-    data.push(row);
-  }
-  return data;
-}
-
-function createWell(id, name, components = []) {
-  return {
-    id,
-    name,
-    components,
-    selected: false,
-    blank: false,
-    highlighted: false,
-    dimmed: false,
-  };
-}
-
-function createComponent(data, type) {
-  const id = data.id;
-  let displayName;
-  if (type === 'community') {
-    displayName = data.name;
-  } else if (type === 'compound') {
-    displayName = data.name;
-  } else if (type === 'medium') {
-    displayName = data.name;
-  } else if (type === 'supplement') {
-    displayName = data.name.label;
-  }
-  const timepoints = [createTimepoint(type)];
-  return {
-    id,
-    displayName,
-    type,
-    data,
-    selected: true,
-    isValid: true,
-    timepoints,
-  };
-}
-
-function createTimepoint(
-  componentType,
-  time = DEFAULT_TIMEPOINT_TIME,
-  concentration
-) {
-  if (!concentration && componentType) {
-    if (componentType === 'community') {
-      concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
-    } else if (componentType === 'medium') {
-      concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
-    } else {
-      concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-    }
-  } else if (!concentration) {
-    concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-  }
-  return { time, concentration };
 }
 
 validate.validators.timepoints = function(timepoints) {
@@ -538,3 +406,130 @@ validate.validators.timepoints = function(timepoints) {
   }
   return messages;
 };
+
+// Moved to experimentActions
+// export function initializePlateMaps() {
+//   return (dispatch, getState) => {
+//     let { plateMaps } = getState().createExperiment;
+//     if (!plateMaps.length) {
+//       dispatch(addNewPlateMap());
+//     }
+//   };
+// }
+
+// export function addNewPlateMap() {
+//   return (dispatch, getState) => {
+//     const { plateSize, plateMaps } = getState().createExperiment;
+//     const plateMap = createPlateMapWithDimensions(plateSize);
+//     if (!plateMaps.length) plateMap.active = true;
+//     dispatch(addPlateMap(plateMap));
+//   };
+// }
+
+// export function clonePlateMap(plateMapId, typesToClone) {
+//   return (dispatch, getState) => {
+//     let plateMaps = getState().createExperiment.plateMaps;
+//     const plateMap = findPlateMapById(plateMapId, plateMaps);
+//     const data = plateMap.data.map(row => {
+//       return row.map(well => {
+//         const components = well.components.filter(component => {
+//           return typesToClone.includes(component.type);
+//         });
+//         return createWell(well.id, well.name, components);
+//       });
+//     });
+//     dispatch(addPlateMap(createPlateMap(data)));
+//     plateMaps = getState().createExperiment.plateMaps;
+//     const newPlateMap = plateMaps[plateMaps.length - 1];
+//     dispatch(setActivePlateMap(newPlateMap.id));
+//   };
+// }
+
+// function findPlateMapById(id, plateMaps) {
+//   return plateMaps.find((plateMap, i) => {
+//     return plateMap.id === id;
+//   });
+// }
+
+// function createPlateMap(data) {
+//   return {
+//     selected: false,
+//     active: false,
+//     data,
+//   };
+// }
+
+// function createPlateMapWithDimensions(dimensions) {
+//   return createPlateMap(createPlateMapData(dimensions));
+// }
+
+// function createPlateMapData(dimensions) {
+//   const { rows, columns } = dimensions;
+//   const data = [];
+//   let wellCount = 0;
+//   for (let i = 0; i < rows; i++) {
+//     const row = [];
+//     const rowLetter = PLATEMAP_ROW_HEADERS[i];
+//     for (let i = 0; i < columns; i++) {
+//       row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
+//       wellCount++;
+//     }
+//     data.push(row);
+//   }
+//   return data;
+// }
+
+// function createWell(id, name, components = []) {
+//   return {
+//     id,
+//     name,
+//     components,
+//     selected: false,
+//     blank: false,
+//     highlighted: false,
+//     dimmed: false,
+//   };
+// }
+
+// function createComponent(data, type) {
+//   const id = data.id;
+//   let displayName;
+//   if (type === 'community') {
+//     displayName = data.name;
+//   } else if (type === 'compound') {
+//     displayName = data.name;
+//   } else if (type === 'medium') {
+//     displayName = data.name;
+//   } else if (type === 'supplement') {
+//     displayName = data.name.label;
+//   }
+//   const timepoints = [createTimepoint(type)];
+//   return {
+//     id,
+//     displayName,
+//     type,
+//     data,
+//     selected: true,
+//     isValid: true,
+//     timepoints,
+//   };
+// }
+
+// function createTimepoint(
+//   componentType,
+//   time = DEFAULT_TIMEPOINT_TIME,
+//   concentration
+// ) {
+//   if (!concentration && componentType) {
+//     if (componentType === 'community') {
+//       concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
+//     } else if (componentType === 'medium') {
+//       concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
+//     } else {
+//       concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+//     }
+//   } else if (!concentration) {
+//     concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+//   }
+//   return { time, concentration };
+// }
