@@ -33,8 +33,6 @@ spec:
           value: __REACT_APP_DYNAMODB_ACCESS_KEY_ID__
         - name: REACT_APP_DYNAMODB_SECRET_ACCESS_KEY
           value: __REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__
-        - name: PATH
-          value: '/app/node_modules/.bin:$PATH'
         - name: REACT_APP_API_URL
           value: 'https://kapture-staging.apps.kaleidobio.com/api'
         ports:
