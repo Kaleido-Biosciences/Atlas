@@ -1,0 +1,3 @@
+.labelContainer :global(.ui.label) {
+  margin: 0 0.4em 0.4em 0;
+}

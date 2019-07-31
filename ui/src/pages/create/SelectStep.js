@@ -34,10 +34,11 @@ class SelectStep extends Component {
     submissionAttemped: false,
     showValidationMessage: false,
     fetchingPlateMaps: false,
+    plateMaps: null,
   };
 
   handleExperimentSelect = async experiment => {
-    this.setState({ fetchingPlateMaps: true });
+    this.setState({ fetchingPlateMaps: true, plateMaps: null });
     const savedData = await fetchPlateMaps(experiment.name, 'DRAFT');
     const plateMaps = await importPlateMaps(savedData);
     this.setState({ fetchingPlateMaps: false });
@@ -84,6 +85,7 @@ class SelectStep extends Component {
       submissionAttempted,
       showValidationMessage,
       fetchingPlateMaps,
+      plateMaps,
     } = this.state;
     const experimentComplete = experiment;
     const plateSizeComplete = plateSize && plateSize.rows && plateSize.columns;
@@ -116,7 +118,13 @@ class SelectStep extends Component {
                   </Loader>
                 </div>
               )}
-              {experiment && <ExperimentCard experiment={experiment} />}
+              {experiment && (
+                <ExperimentCard
+                  experiment={experiment}
+                  plateMaps={plateMaps}
+                  plateSize={plateSize}
+                />
+              )}
             </div>
             <div className={styles.plateSizeFormContainer}>
               <div>
