@@ -316,6 +316,9 @@ const createExperiment = createSlice({
       state.status = STATUS_COMPLETED;
       state.steps.stepTwoCompleted = true;
     },
+    setStepThreeComplete(state, action) {
+      state.steps.stepThreeCompleted = true;
+    },
   },
 });
 

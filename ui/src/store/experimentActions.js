@@ -67,6 +67,7 @@ export const {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
+  setStepThreeComplete,
 } = createExperimentActions;
 
 export const initializePlateMaps = wrapWithChangeHandler(() => {
