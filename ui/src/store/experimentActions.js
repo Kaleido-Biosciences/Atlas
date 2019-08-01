@@ -75,7 +75,11 @@ export const initializePlateMaps = wrapWithChangeHandler(() => {
     if (!plateMaps.length) {
       dispatch(_addNewPlateMap());
     } else {
-      dispatch(_updateNextPlateMapId(plateMaps.length + 1));
+      const highestId = plateMaps.reduce((highestId, plateMap) => {
+        if (plateMap.id > highestId) return plateMap.id;
+        else return highestId;
+      }, 0);
+      dispatch(_updateNextPlateMapId(highestId + 1));
     }
   };
 });
