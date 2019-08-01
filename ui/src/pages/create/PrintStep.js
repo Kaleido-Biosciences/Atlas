@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { Button, Icon } from 'semantic-ui-react';
 
+import { Printout } from '../../components/Printout/Printout';
 import styles from './PrintStep.module.css';
 
 class PrintStep extends Component {
   render() {
     const { experiment, plateMaps } = this.props;
     return (
-      <div className={styles.printStep}>
-        <h4>Experiment</h4>
-        <div>{JSON.stringify(experiment)}</div>
-        <h4>Plate Maps</h4>
-        <div>{JSON.stringify(plateMaps)}</div>
+      <div>
+        <ReactToPrint
+          trigger={() => (
+            <Button className={styles.printButton}>
+              <Icon name="print" />
+              Print
+            </Button>
+          )}
+          content={() => this.componentRef}
+        />
+        <Printout
+          experiment={experiment}
+          plateMaps={plateMaps}
+          ref={el => (this.componentRef = el)}
+        />
       </div>
     );
   }
