@@ -1,18 +1,13 @@
 import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
-import {
-  PLATEMAP_ROW_HEADERS,
-  DEFAULT_TIMEPOINT_TIME,
-  DEFAULT_TIMEPOINT_CONCENTRATION,
-  DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
-  DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
-  STATUS_DRAFT,
-  STATUS_COMPLETED,
-} from '../constants';
+import { STATUS_DRAFT, STATUS_COMPLETED } from '../constants';
 import {
   getSelectedWells,
   applySelectedComponentsToWells,
+  findPlateMapById,
+  createComponent,
+  createTimepoint,
 } from './plateFunctions';
 
 const createExperiment = createSlice({
@@ -37,15 +32,15 @@ const createExperiment = createSlice({
   },
   reducers: {
     setExperimentOptions(state, action) {
-      const { experiment, plateSize } = action.payload;
+      const { experiment, plateSize, plateMaps } = action.payload;
       state.experiment = experiment;
-      if (
-        state.plateSize &&
-        (state.plateSize.rows !== plateSize.rows ||
-          state.plateSize.columns !== plateSize.columns)
-      ) {
-        state.plateMaps = [];
-      }
+      state.plateMaps =
+        !plateMaps ||
+        (state.plateSize &&
+          (state.plateSize.rows !== plateSize.rows ||
+            state.plateSize.columns !== plateSize.columns))
+          ? []
+          : plateMaps;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
@@ -54,6 +49,9 @@ const createExperiment = createSlice({
       plateMap.id = state.nextPlateMapId;
       state.plateMaps.push(plateMap);
       state.nextPlateMapId++;
+    },
+    updateNextPlateMapId(state, action) {
+      state.nextPlateMapId = action.payload;
     },
     setActivePlateMap(state, action) {
       const plateMapId = action.payload;
@@ -214,12 +212,8 @@ const createExperiment = createSlice({
         const { plateMapId, wellIds } = action.payload;
         const { plateMaps, components } = state;
         const plateMap = findPlateMapById(plateMapId, plateMaps);
-        const updatedWells = applySelectedComponentsToWells(
-          plateMap,
-          wellIds,
-          components
-        );
-        setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+        applySelectedComponentsToWells(plateMap, wellIds, components);
+        //setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
       }
     },
     applySelectedComponentsToSelectedWells(state, action) {
@@ -229,28 +223,24 @@ const createExperiment = createSlice({
         const plateMap = findPlateMapById(plateMapId, plateMaps);
         const selectedWells = getSelectedWells(plateMap);
         const wellIds = selectedWells.map(well => well.id);
-        const updatedWells = applySelectedComponentsToWells(
-          plateMap,
-          wellIds,
-          components
-        );
-        setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
+        applySelectedComponentsToWells(plateMap, wellIds, components);
+        //setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
       }
     },
     clearWells(state, action) {
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps, clearMode } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flattenedData = plateMap.data.flat();
+      const wells = plateMap.data.flat();
       const componentTypes = {
         communities: 'community',
         compounds: 'compound',
         media: 'medium',
         supplements: 'supplement',
       };
-      const wells = [];
-      wellIds.forEach(wellId => {
-        const well = flattenedData[wellId];
+      const updatedWells = [];
+      const filteredWells = wells.filter(well => wellIds.includes(well.id));
+      filteredWells.forEach(well => {
         if (clearMode === 'all') {
           well.components = [];
         } else {
@@ -259,16 +249,16 @@ const createExperiment = createSlice({
             return component.type !== componentType;
           });
         }
-        wells.push(well);
+        updatedWells.push(well);
       });
-      setWellsHighlightedStatus(wells, state.highlightedComponents);
+      //setWellsHighlightedStatus(wells, state.highlightedComponents);
     },
     deselectAllWells(state, action) {
       const { plateMapId } = action.payload;
       const { plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flat = plateMap.data.flat();
-      flat.forEach(well => {
+      const wells = plateMap.data.flat();
+      wells.forEach(well => {
         well.selected = false;
       });
     },
@@ -276,22 +266,23 @@ const createExperiment = createSlice({
       const { plateMapId, wellIds } = action.payload;
       const { plateMaps } = state;
       const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const flattenedData = plateMap.data.flat();
+      const wells = plateMap.data.flat();
+      const filteredWells = wells.filter(well => wellIds.includes(well.id));
       const status = { selected: false, deselected: false };
-      wellIds.forEach(wellId => {
-        if (flattenedData[wellId].selected) {
+      filteredWells.forEach(well => {
+        if (well.selected) {
           status.selected = true;
         } else {
           status.deselected = true;
         }
       });
       if ((status.selected && status.deselected) || !status.selected) {
-        wellIds.forEach(wellId => {
-          flattenedData[wellId].selected = true;
+        filteredWells.forEach(well => {
+          well.selected = true;
         });
       } else {
-        wellIds.forEach(wellId => {
-          flattenedData[wellId].selected = false;
+        filteredWells.forEach(well => {
+          well.selected = false;
         });
       }
     },
@@ -305,103 +296,36 @@ const createExperiment = createSlice({
       const stateComponent = getComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
-    toggleHighlight(state, action) {
-      const { componentType } = action.payload;
-      const { highlightedComponents } = state;
-      const index = highlightedComponents.indexOf(componentType);
-      if (index > -1) {
-        highlightedComponents.splice(index, 1);
-      } else {
-        highlightedComponents.push(componentType);
-      }
-      let wells = [];
-      state.plateMaps.forEach(plateMap => {
-        const flat = plateMap.data.flat();
-        wells = wells.concat(flat);
-      });
-      setWellsHighlightedStatus(wells, highlightedComponents);
-    },
+    // toggleHighlight(state, action) {
+    //   const { componentType } = action.payload;
+    //   const { highlightedComponents } = state;
+    //   const index = highlightedComponents.indexOf(componentType);
+    //   if (index > -1) {
+    //     highlightedComponents.splice(index, 1);
+    //   } else {
+    //     highlightedComponents.push(componentType);
+    //   }
+    //   let wells = [];
+    //   state.plateMaps.forEach(plateMap => {
+    //     const flat = plateMap.data.flat();
+    //     wells = wells.concat(flat);
+    //   });
+    //   //setWellsHighlightedStatus(wells, highlightedComponents);
+    // },
     setCompletedStatus(state, action) {
       state.status = STATUS_COMPLETED;
       state.steps.stepTwoCompleted = true;
     },
+    setStepThreeComplete(state, action) {
+      state.steps.stepThreeCompleted = true;
+    },
   },
 });
-
-function setWellsHighlightedStatus(wells, highlightedComponents) {
-  const numberOfComponents = highlightedComponents.length;
-  if (!numberOfComponents) {
-    wells.forEach(well => {
-      well.highlighted = false;
-      well.dimmed = false;
-    });
-  } else {
-    wells.forEach(well => {
-      const hasComponent = highlightedComponents.some(type => {
-        return well[type].length > 0;
-      });
-      if (hasComponent) {
-        well.highlighted = true;
-        well.dimmed = false;
-      } else {
-        well.highlighted = false;
-        well.dimmed = true;
-      }
-    });
-  }
-  return wells;
-}
 
 export const {
   actions: createExperimentActions,
   reducer: createExperimentReducer,
 } = createExperiment;
-
-const { addPlateMap, setActivePlateMap } = createExperimentActions;
-
-// Moved to experimentActions
-// export function initializePlateMaps() {
-//   return (dispatch, getState) => {
-//     let { plateMaps } = getState().createExperiment;
-//     if (!plateMaps.length) {
-//       dispatch(addNewPlateMap());
-//     }
-//   };
-// }
-
-export function addNewPlateMap() {
-  return (dispatch, getState) => {
-    const { plateSize, plateMaps } = getState().createExperiment;
-    const plateMap = createPlateMapWithDimensions(plateSize);
-    if (!plateMaps.length) plateMap.active = true;
-    dispatch(addPlateMap(plateMap));
-  };
-}
-
-export function clonePlateMap(plateMapId, typesToClone) {
-  return (dispatch, getState) => {
-    let plateMaps = getState().createExperiment.plateMaps;
-    const plateMap = findPlateMapById(plateMapId, plateMaps);
-    const data = plateMap.data.map(row => {
-      return row.map(well => {
-        const components = well.components.filter(component => {
-          return typesToClone.includes(component.type);
-        });
-        return createWell(well.id, well.name, components);
-      });
-    });
-    dispatch(addPlateMap(createPlateMap(data)));
-    plateMaps = getState().createExperiment.plateMaps;
-    const newPlateMap = plateMaps[plateMaps.length - 1];
-    dispatch(setActivePlateMap(newPlateMap.id));
-  };
-}
-
-function findPlateMapById(id, plateMaps) {
-  return plateMaps.find((plateMap, i) => {
-    return plateMap.id === id;
-  });
-}
 
 function getComponentFromState(componentId, state) {
   return state.components.find(
@@ -409,88 +333,29 @@ function getComponentFromState(componentId, state) {
   );
 }
 
-function createPlateMap(data) {
-  return {
-    selected: false,
-    active: false,
-    data,
-  };
-}
-
-function createPlateMapWithDimensions(dimensions) {
-  return createPlateMap(createPlateMapData(dimensions));
-}
-
-function createPlateMapData(dimensions) {
-  const { rows, columns } = dimensions;
-  const data = [];
-  let wellCount = 0;
-  for (let i = 0; i < rows; i++) {
-    const row = [];
-    const rowLetter = PLATEMAP_ROW_HEADERS[i];
-    for (let i = 0; i < columns; i++) {
-      row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
-      wellCount++;
-    }
-    data.push(row);
-  }
-  return data;
-}
-
-function createWell(id, name, components = []) {
-  return {
-    id,
-    name,
-    components,
-    selected: false,
-    blank: false,
-    highlighted: false,
-    dimmed: false,
-  };
-}
-
-function createComponent(data, type) {
-  const id = data.id;
-  let displayName;
-  if (type === 'community') {
-    displayName = data.name;
-  } else if (type === 'compound') {
-    displayName = data.name;
-  } else if (type === 'medium') {
-    displayName = data.name;
-  } else if (type === 'supplement') {
-    displayName = data.name.label;
-  }
-  const timepoints = [createTimepoint(type)];
-  return {
-    id,
-    displayName,
-    type,
-    data,
-    selected: true,
-    isValid: true,
-    timepoints,
-  };
-}
-
-function createTimepoint(
-  componentType,
-  time = DEFAULT_TIMEPOINT_TIME,
-  concentration
-) {
-  if (!concentration && componentType) {
-    if (componentType === 'community') {
-      concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
-    } else if (componentType === 'medium') {
-      concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
-    } else {
-      concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-    }
-  } else if (!concentration) {
-    concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-  }
-  return { time, concentration };
-}
+// function setWellsHighlightedStatus(wells, highlightedComponents) {
+//   const numberOfComponents = highlightedComponents.length;
+//   if (!numberOfComponents) {
+//     wells.forEach(well => {
+//       well.highlighted = false;
+//       well.dimmed = false;
+//     });
+//   } else {
+//     wells.forEach(well => {
+//       const hasComponent = highlightedComponents.some(type => {
+//         return well[type].length > 0;
+//       });
+//       if (hasComponent) {
+//         well.highlighted = true;
+//         well.dimmed = false;
+//       } else {
+//         well.highlighted = false;
+//         well.dimmed = true;
+//       }
+//     });
+//   }
+//   return wells;
+// }
 
 validate.validators.timepoints = function(timepoints) {
   const messages = [];
@@ -537,3 +402,130 @@ validate.validators.timepoints = function(timepoints) {
   }
   return messages;
 };
+
+// Moved to experimentActions
+// export function initializePlateMaps() {
+//   return (dispatch, getState) => {
+//     let { plateMaps } = getState().createExperiment;
+//     if (!plateMaps.length) {
+//       dispatch(addNewPlateMap());
+//     }
+//   };
+// }
+
+// export function addNewPlateMap() {
+//   return (dispatch, getState) => {
+//     const { plateSize, plateMaps } = getState().createExperiment;
+//     const plateMap = createPlateMapWithDimensions(plateSize);
+//     if (!plateMaps.length) plateMap.active = true;
+//     dispatch(addPlateMap(plateMap));
+//   };
+// }
+
+// export function clonePlateMap(plateMapId, typesToClone) {
+//   return (dispatch, getState) => {
+//     let plateMaps = getState().createExperiment.plateMaps;
+//     const plateMap = findPlateMapById(plateMapId, plateMaps);
+//     const data = plateMap.data.map(row => {
+//       return row.map(well => {
+//         const components = well.components.filter(component => {
+//           return typesToClone.includes(component.type);
+//         });
+//         return createWell(well.id, well.name, components);
+//       });
+//     });
+//     dispatch(addPlateMap(createPlateMap(data)));
+//     plateMaps = getState().createExperiment.plateMaps;
+//     const newPlateMap = plateMaps[plateMaps.length - 1];
+//     dispatch(setActivePlateMap(newPlateMap.id));
+//   };
+// }
+
+// function findPlateMapById(id, plateMaps) {
+//   return plateMaps.find((plateMap, i) => {
+//     return plateMap.id === id;
+//   });
+// }
+
+// function createPlateMap(data) {
+//   return {
+//     selected: false,
+//     active: false,
+//     data,
+//   };
+// }
+
+// function createPlateMapWithDimensions(dimensions) {
+//   return createPlateMap(createPlateMapData(dimensions));
+// }
+
+// function createPlateMapData(dimensions) {
+//   const { rows, columns } = dimensions;
+//   const data = [];
+//   let wellCount = 0;
+//   for (let i = 0; i < rows; i++) {
+//     const row = [];
+//     const rowLetter = PLATEMAP_ROW_HEADERS[i];
+//     for (let i = 0; i < columns; i++) {
+//       row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
+//       wellCount++;
+//     }
+//     data.push(row);
+//   }
+//   return data;
+// }
+
+// function createWell(id, name, components = []) {
+//   return {
+//     id,
+//     name,
+//     components,
+//     selected: false,
+//     blank: false,
+//     highlighted: false,
+//     dimmed: false,
+//   };
+// }
+
+// function createComponent(data, type) {
+//   const id = data.id;
+//   let displayName;
+//   if (type === 'community') {
+//     displayName = data.name;
+//   } else if (type === 'compound') {
+//     displayName = data.name;
+//   } else if (type === 'medium') {
+//     displayName = data.name;
+//   } else if (type === 'supplement') {
+//     displayName = data.name.label;
+//   }
+//   const timepoints = [createTimepoint(type)];
+//   return {
+//     id,
+//     displayName,
+//     type,
+//     data,
+//     selected: true,
+//     isValid: true,
+//     timepoints,
+//   };
+// }
+
+// function createTimepoint(
+//   componentType,
+//   time = DEFAULT_TIMEPOINT_TIME,
+//   concentration
+// ) {
+//   if (!concentration && componentType) {
+//     if (componentType === 'community') {
+//       concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
+//     } else if (componentType === 'medium') {
+//       concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
+//     } else {
+//       concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+//     }
+//   } else if (!concentration) {
+//     concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+//   }
+//   return { time, concentration };
+// }

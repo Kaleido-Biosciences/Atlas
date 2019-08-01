@@ -18,6 +18,10 @@
   flex: 0 0 48%;
 }
 
+.loader {
+  margin-top: 1em;
+}
+
 .plateSizeFormContainer {
   flex: 0 0 48%;
   display: flex;

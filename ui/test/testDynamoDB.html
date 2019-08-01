@@ -1,0 +1,317 @@
+<html>
+<head>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+
+<script type="text/javascript">
+AWS.config.update({
+  region: "us-east-1",
+  // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
+  endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
+  accessKeyId: 'ACCESS_KEY_ID',
+  secretAccessKey: 'SECRET_ACCESS_KEY'
+});
+
+var tableName = "atlas-staging-can-be-deleted";
+var dynamodb = new AWS.DynamoDB();
+var docClient = new AWS.DynamoDB.DocumentClient();
+function createAtlas() {
+    var params = {
+        TableName : tableName,
+        KeySchema: [
+            { AttributeName: "experiment", KeyType: "HASH"},
+            { AttributeName: "status", KeyType: "RANGE" }
+        ],
+        AttributeDefinitions: [       
+            { AttributeName: "experiment", AttributeType: "S" },
+            { AttributeName: "status", AttributeType: "S" }
+        ],
+        ProvisionedThroughput: {       
+            ReadCapacityUnits: 5,
+            WriteCapacityUnits: 5
+        }
+    };
+
+    dynamodb.createTable(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML = "Unable to create table: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            document.getElementById('textarea').innerHTML = "Created table: " + "\n" + JSON.stringify(data, undefined, 2);
+        }
+    });
+}
+
+function deleteAtlas() {
+    var params = {
+        TableName : tableName
+    };
+
+    dynamodb.deleteTable(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML = "Unable to delete table: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            document.getElementById('textarea').innerHTML = "Table deleted.";
+        }
+    });
+}
+
+function listAtlas() {
+    var params = {};
+    dynamodb.listTables(params, function(err, data) {
+    if (err){
+        document.getElementById('textarea').innerHTML = "Unable to list tables: " + "\n" + JSON.stringify(err, undefined, 2);
+    }
+    else{
+     document.getElementById('textarea').innerHTML = "List of tables: " + "\n" + JSON.stringify(data, undefined, 2);
+    }
+});
+}
+
+function createItem() {
+    var params = {
+        TableName : tableName,
+        Item:{
+            "experiment": "G314",
+            "status": "DRAFT",
+            "scientist": "AA",
+            "plateMaps": ["a","b","c"]
+        }
+    };
+    docClient.put(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML = "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            document.getElementById('textarea').innerHTML = "PutItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2);
+        }
+    });
+}
+
+function readItem() {
+    var table = tableName ;
+    var experiment = "G314";
+    var status = "DRAFT";
+
+    var params = {
+        TableName: table,
+        Key:{
+            "experiment": experiment,
+            "status": status,
+        }
+    };
+    docClient.get(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML = "Unable to read item: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            document.getElementById('textarea').innerHTML = "GetItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2);
+        }
+    });
+}
+
+function updateItem() {
+    var table = tableName;
+    var experiment = "G314";
+    var status = "DRAFT";
+
+    var params = {
+        TableName:table,
+        Key:{
+            "experiment": experiment,
+            "status": status,
+        },
+        UpdateExpression: "set plateMaps=:p",
+        ExpressionAttributeValues:{
+            ":p":["a1", "b1", "c1", "d1"],
+        },
+        ReturnValues:"UPDATED_NEW"
+    };
+
+    docClient.update(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML = "Unable to update item: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            document.getElementById('textarea').innerHTML = "UpdateItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2);
+        }
+    });
+}
+
+function deleteItem() {
+    var table = tableName;
+    var experiment = "G314";
+    var status = "DRAFT";
+
+    var params = {
+        TableName:table,
+        Key:{
+            "experiment": experiment,
+            "status": status,
+        }
+    };
+    docClient.delete(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML = "Unable to delete item: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            document.getElementById('textarea').innerHTML = "DeleteItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2);
+        }
+    });
+}
+
+function queryData() {
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('textarea').innerHTML += "Querying for items";
+    var table = tableName;
+    var experiment = "G314";
+
+    var params = {
+        TableName : table,
+        KeyConditionExpression: "#e = :eeee",
+        ExpressionAttributeNames:{
+            "#e": "experiment"
+        },
+        ExpressionAttributeValues: {
+            ":eeee": experiment
+        }
+    };
+
+    docClient.query(params, function(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML += "Unable to query. Error: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            data.Items.forEach(function(item) {
+                document.getElementById('textarea').innerHTML += "\n" + item.experiment + ": " + item.status + ", " + item.plateMaps;
+            });
+
+        }
+    });
+}
+
+function scanData() {
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('textarea').innerHTML += "Scanning table atlas-production2" + "\n";
+
+    var params = {
+        TableName: tableName,
+        ProjectionExpression: "#expr, status, plateMaps",
+        FilterExpression: "#expr between :a and :b",
+        ExpressionAttributeNames: {
+            "#expr": "experiment"
+        },
+        ExpressionAttributeValues: {
+            ":a": "D001",
+            ":b": "D006"
+        }
+    };
+
+    docClient.scan(params, onScan);
+
+    function onScan(err, data) {
+        if (err) {
+            document.getElementById('textarea').innerHTML += "Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            // Print all the items
+            document.getElementById('textarea').innerHTML += "Scan succeeded: " + "\n";
+            data.Items.forEach(function(item) {
+                document.getElementById('textarea').innerHTML += item.experiment + ": " + item.status + ", " + item.plateMaps+ "\n";
+            });
+
+            // Continue scanning if we have more items (per scan 1MB limitation)
+            document.getElementById('textarea').innerHTML += "Scanning for more..." + "\n";
+            params.ExclusiveStartKey = data.LastEvaluatedKey;
+            docClient.scan(params, onScan);
+        }
+    }
+}
+
+function processFile(evt) {
+    var itemsProcessed = 0;
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('textarea').innerHTML += "Importing items into DynamoDB. Please wait..." + "\n";
+    var file = evt.target.files[0];
+    if (file) {
+        var r = new FileReader();
+
+        r.onload = function(e) {
+            var contents = e.target.result;
+            var allAtlas = JSON.parse(contents);
+
+            allAtlas.forEach(function (item) {
+
+                var params = {
+                    TableName: "atlas-production2",
+                    Item: {
+                        "experiment": item.experiment,
+                        "status": item.status,
+                        "plateMaps": item.plateMaps
+                    }
+                };
+                docClient.put(params, function (err, data) {
+                    ++itemsProcessed;
+                    if (err) {
+                        console.log("Unable to add item: " + item.title + "\n");
+                    } else {
+                        switch(itemsProcessed) {
+                            case 2501:
+                                document.getElementById('textarea').innerHTML += "_______________" + "\n";
+                                document.getElementById('textarea').innerHTML += "Halfway done..." + "\n";
+                                document.getElementById('textarea').innerHTML += "_______________" + "\n";
+                                break;
+                            case 3751:
+                                document.getElementById('textarea').innerHTML += "______________" + "\n";
+                                document.getElementById('textarea').innerHTML += "Almost done..." + "\n";
+                                document.getElementById('textarea').innerHTML += "______________" + "\n";
+                                break;
+                            case 5001:
+                                document.getElementById('textarea').innerHTML += "______________________" + "\n";
+                                document.getElementById('textarea').innerHTML += "Finished processing!" + "\n";
+                                document.getElementById('textarea').innerHTML += "______________________" + "\n";
+                                break;
+                            default: document.getElementById('textarea').innerHTML += "Added: " + item.experiment + "\n";
+                        }
+                        textarea.scrollTop = textarea.scrollHeight;
+                    }
+                });
+            });
+    };
+        r.readAsText(file);
+    } else {
+        alert("Could not read data file");
+    }
+}
+
+</script>
+</head>
+
+<body>
+<table border = 1>
+    <td>
+        <table border = 1>
+        <caption>Table Operations</caption>
+        <td><input id="createTableButton" type="button" value="Create Table" onclick="createAtlas();" /></td><td><input id="deleteTableButton" type="button" value="Delete Table" onclick="deleteAtlas();" /></td><td><input id="listTablebutton" type="button" value="List Tables" onclick="listAtlas();" /></td>
+        </table>
+    </td>
+    <td>
+        <table border = 1>
+            <caption>CRUD Operations</caption>
+            <td><input id="createItem" type="button" value="Create Item" onclick="createItem();" /></td><td><input id="readItem" type="button" value="Read Item" onclick="readItem();" /></td><td><input id="updateItem" type="button" value="Update Item" onclick="updateItem();" /><td><input id="deleteItem" type="button" value="Delete Item" onclick="deleteItem();" /></td></td>
+        </table>
+    </td>
+    <td>
+        <table border = 1>
+            <caption>Query and Scan</caption>
+            <td><input id="queryData" type="button" value="Query" onclick="queryData();" /></td><td><input id="scanData" type="button" value="Scan" onclick="scanData();" /></td>
+        </table>
+    </td>
+    <td>
+        <table border = 1>
+            <caption>Import JSON</caption>
+            <td><input type="file" id="fileinput" accept='application/json'/></td>
+        </table>
+    </td>
+</table>
+
+<br>
+<textarea readonly id= "textarea" style="width:400px; height:800px"></textarea>
+
+<script>
+    document.getElementById('fileinput').addEventListener('change', processFile, false);
+</script>
+</body>
+</html>

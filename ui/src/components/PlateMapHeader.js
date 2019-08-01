@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 export class PlateMapHeader extends Component {
   handleClick = () => {
     const { headerType, index } = this.props;
-    this.props.onClick({ headerType, index });
+    if (this.props.onClick) {
+      this.props.onClick({ headerType, index });
+    }
   };
   render() {
     const { label } = this.props;
@@ -20,5 +22,5 @@ PlateMapHeader.propTypes = {
   headerType: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };

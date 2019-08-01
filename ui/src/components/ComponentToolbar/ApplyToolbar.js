@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
 
-import { createExperimentActions } from '../../store/createExperiment';
+import {
+  addComponents,
+  applySelectedComponentsToSelectedWells,
+  moveRecentComponentsToComponents,
+  removeRecentComponents,
+} from '../../store/experimentActions';
 import {
   selectActivePlateMap,
   selectSelectedWellsFromActivePlateMap,
@@ -142,11 +147,10 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddComponent: createExperimentActions.addComponents,
-  onApplyClick: createExperimentActions.applySelectedComponentsToSelectedWells,
-  onRecentComponentClick:
-    createExperimentActions.moveRecentComponentsToComponents,
-  onRecentComponentRemoveClick: createExperimentActions.removeRecentComponents,
+  onAddComponent: addComponents,
+  onApplyClick: applySelectedComponentsToSelectedWells,
+  onRecentComponentClick: moveRecentComponentsToComponents,
+  onRecentComponentRemoveClick: removeRecentComponents,
 };
 
 const connected = connect(
