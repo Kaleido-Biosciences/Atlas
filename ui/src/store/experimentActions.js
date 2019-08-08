@@ -4,6 +4,7 @@ import {
   createWell,
   createPlateMap,
   createPlateMapWithDimensions,
+  exportPlateMaps,
 } from './plateFunctions';
 import { saveExperimentPlateMaps } from '../api';
 
@@ -28,7 +29,7 @@ const handleChange = experimentData => {
   saveExperimentPlateMaps(
     experimentData.experiment.name,
     experimentData.status,
-    experimentData.plateMaps
+    exportPlateMaps(experimentData.plateMaps)
   );
 };
 
@@ -66,6 +67,7 @@ export const {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
+  setStepThreeComplete,
 } = createExperimentActions;
 
 export const initializePlateMaps = wrapWithChangeHandler(() => {
@@ -74,7 +76,11 @@ export const initializePlateMaps = wrapWithChangeHandler(() => {
     if (!plateMaps.length) {
       dispatch(_addNewPlateMap());
     } else {
-      dispatch(_updateNextPlateMapId(plateMaps.length + 1));
+      const highestId = plateMaps.reduce((highestId, plateMap) => {
+        if (plateMap.id > highestId) return plateMap.id;
+        else return highestId;
+      }, 0);
+      dispatch(_updateNextPlateMapId(highestId + 1));
     }
   };
 });
@@ -89,7 +95,7 @@ export const clonePlateMap = wrapWithChangeHandler(
           const components = well.components.filter(component => {
             return typesToClone.includes(component.type);
           });
-          return createWell(well.id, well.name, components);
+          return createWell(well.id, well.name, well.index, components);
         });
       });
       dispatch(_addPlateMap(createPlateMap(data)));

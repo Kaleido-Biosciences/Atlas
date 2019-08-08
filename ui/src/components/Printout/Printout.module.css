@@ -1,0 +1,30 @@
+.printout {
+  width: 100%;
+}
+
+.plateMap {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+.plateMapsContainer {
+  padding: 1em;
+}
+
+.plateMap th,
+.plateMap td {
+  border: 1px solid black;
+}
+
+.container {
+  margin-bottom: 4em;
+}
+
+.header {
+  padding: 1em;
+}
+
+.header h4 {
+  margin-bottom: 0;
+}

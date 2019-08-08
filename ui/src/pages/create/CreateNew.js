@@ -18,7 +18,11 @@ class CreateNew extends Component {
   render() {
     const { match } = this.props;
     const { pathname } = this.props.location;
-    const { stepOneCompleted, stepTwoCompleted } = this.props.steps;
+    const {
+      stepOneCompleted,
+      stepTwoCompleted,
+      stepThreeCompleted,
+    } = this.props.steps;
     return (
       <React.Fragment>
         <div className="step-container">
@@ -41,7 +45,10 @@ class CreateNew extends Component {
                 <Step.Description>plate maps</Step.Description>
               </Step.Content>
             </Step>
-            <Step active={pathname.endsWith('print')}>
+            <Step
+              active={pathname.endsWith('print')}
+              completed={stepThreeCompleted}
+            >
               <Step.Content>
                 <Step.Title>Print</Step.Title>
                 <Step.Description>plate maps</Step.Description>

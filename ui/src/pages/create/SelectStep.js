@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Header, Icon, Button, Message } from 'semantic-ui-react';
+import { Header, Icon, Button, Message, Loader } from 'semantic-ui-react';
 import classNames from 'classnames';
 
 import {
   setExperimentOptions,
   initializePlateMaps,
 } from '../../store/experimentActions';
+import { importPlateMaps } from '../../store/plateFunctions';
 import { ExperimentSearch } from '../../components/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm';
 import styles from './SelectStep.module.css';
-import { fetchPlateMaps } from "../../api";
+import { fetchPlateMaps } from '../../api';
 
 const renderHeader = options => {
   const { stepClass, complete, stepNumber, headerText } = options;
@@ -32,20 +33,27 @@ class SelectStep extends Component {
     plateSize: this.props.plateSize,
     submissionAttemped: false,
     showValidationMessage: false,
+    fetchingPlateMaps: false,
+    plateMaps: this.props.plateMaps || null,
   };
 
-  handleExperimentSelect = experiment => {
-    fetchPlateMaps(experiment.name, "DRAFT").then(plateMaps => {
-      let plateSize = ( !plateMaps || plateMaps.length === 0 ) ? this.state.plateSize : {
-        rows: plateMaps[0].data.length,
-        columns: plateMaps[0].data[0].length
-      };
-      const isValid = this.validateSelections(experiment, plateSize);
-      this.setState({experiment, showValidationMessage: !isValid});
-      if (plateMaps) {
-        this.setState({plateMaps, plateSize});
-      }
-    });
+  handleExperimentSelect = async experiment => {
+    this.setState({ fetchingPlateMaps: true, plateMaps: null });
+    const savedData = await fetchPlateMaps(experiment.name, 'DRAFT');
+    const plateMaps = await importPlateMaps(savedData);
+    this.setState({ fetchingPlateMaps: false });
+    let plateSize =
+      !plateMaps || plateMaps.length === 0
+        ? this.state.plateSize
+        : {
+            rows: plateMaps[0].data.length,
+            columns: plateMaps[0].data[0].length,
+          };
+    const isValid = this.validateSelections(experiment, plateSize);
+    this.setState({ experiment, showValidationMessage: !isValid });
+    if (plateMaps) {
+      this.setState({ plateMaps, plateSize });
+    }
   };
 
   handlePlateSizeChange = dimensions => {
@@ -76,6 +84,8 @@ class SelectStep extends Component {
       plateSize,
       submissionAttempted,
       showValidationMessage,
+      fetchingPlateMaps,
+      plateMaps,
     } = this.state;
     const experimentComplete = experiment;
     const plateSizeComplete = plateSize && plateSize.rows && plateSize.columns;
@@ -101,7 +111,20 @@ class SelectStep extends Component {
                 defaultValue={experimentDefaultValue}
                 onSelect={this.handleExperimentSelect}
               />
-              {experiment && <ExperimentCard experiment={experiment} />}
+              {fetchingPlateMaps && (
+                <div className={styles.loader}>
+                  <Loader active inline="centered">
+                    Loading
+                  </Loader>
+                </div>
+              )}
+              {experiment && (
+                <ExperimentCard
+                  experiment={experiment}
+                  plateMaps={plateMaps}
+                  plateSize={plateSize}
+                />
+              )}
             </div>
             <div className={styles.plateSizeFormContainer}>
               <div>
@@ -127,7 +150,11 @@ class SelectStep extends Component {
               </div>
             ) : null}
             <div className={styles.buttonContainer}>
-              <Button primary onClick={this.handleButtonClick}>
+              <Button
+                primary
+                disabled={fetchingPlateMaps}
+                onClick={this.handleButtonClick}
+              >
                 Done
               </Button>
             </div>
@@ -147,8 +174,8 @@ SelectStep.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { experiment, plateSize } = state.createExperiment;
-  return { experiment, plateSize };
+  const { experiment, plateSize, plateMaps } = state.createExperiment;
+  return { experiment, plateSize, plateMaps };
 };
 
 const mapDispatch = {
