@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import logger from 'redux-logger';
 import { reducer as formReducer } from 'redux-form';
 
+import './validators';
 import { selectStepReducer } from './selectStep';
 import { createExperimentReducer } from './createExperiment';
 

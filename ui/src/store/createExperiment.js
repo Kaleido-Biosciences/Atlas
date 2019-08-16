@@ -213,7 +213,6 @@ const createExperiment = createSlice({
         const { plateMaps, components } = state;
         const plateMap = findPlateMapById(plateMapId, plateMaps);
         applySelectedComponentsToWells(plateMap, wellIds, components);
-        //setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
       }
     },
     applySelectedComponentsToSelectedWells(state, action) {
@@ -224,7 +223,6 @@ const createExperiment = createSlice({
         const selectedWells = getSelectedWells(plateMap);
         const wellIds = selectedWells.map(well => well.id);
         applySelectedComponentsToWells(plateMap, wellIds, components);
-        //setWellsHighlightedStatus(updatedWells, state.highlightedComponents);
       }
     },
     clearWells(state, action) {
@@ -251,7 +249,6 @@ const createExperiment = createSlice({
         }
         updatedWells.push(well);
       });
-      //setWellsHighlightedStatus(wells, state.highlightedComponents);
     },
     deselectAllWells(state, action) {
       const { plateMapId } = action.payload;
@@ -296,22 +293,6 @@ const createExperiment = createSlice({
       const stateComponent = getComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
-    // toggleHighlight(state, action) {
-    //   const { componentType } = action.payload;
-    //   const { highlightedComponents } = state;
-    //   const index = highlightedComponents.indexOf(componentType);
-    //   if (index > -1) {
-    //     highlightedComponents.splice(index, 1);
-    //   } else {
-    //     highlightedComponents.push(componentType);
-    //   }
-    //   let wells = [];
-    //   state.plateMaps.forEach(plateMap => {
-    //     const flat = plateMap.data.flat();
-    //     wells = wells.concat(flat);
-    //   });
-    //   //setWellsHighlightedStatus(wells, highlightedComponents);
-    // },
     setCompletedStatus(state, action) {
       state.status = STATUS_COMPLETED;
       state.steps.stepTwoCompleted = true;
@@ -332,200 +313,3 @@ function getComponentFromState(componentId, state) {
     stateComponent => stateComponent.id === componentId
   );
 }
-
-// function setWellsHighlightedStatus(wells, highlightedComponents) {
-//   const numberOfComponents = highlightedComponents.length;
-//   if (!numberOfComponents) {
-//     wells.forEach(well => {
-//       well.highlighted = false;
-//       well.dimmed = false;
-//     });
-//   } else {
-//     wells.forEach(well => {
-//       const hasComponent = highlightedComponents.some(type => {
-//         return well[type].length > 0;
-//       });
-//       if (hasComponent) {
-//         well.highlighted = true;
-//         well.dimmed = false;
-//       } else {
-//         well.highlighted = false;
-//         well.dimmed = true;
-//       }
-//     });
-//   }
-//   return wells;
-// }
-
-validate.validators.timepoints = function(timepoints) {
-  const messages = [];
-  let emptyTime = false,
-    invalidTime = false,
-    emptyConcentration = false,
-    invalidConcentration = false,
-    duplicateTime = false;
-  const times = [];
-  timepoints.forEach(timepoint => {
-    const { time, concentration } = timepoint;
-    if (validate.isEmpty(time)) {
-      emptyTime = true;
-    }
-    if (!validate.isNumber(time)) {
-      invalidTime = true;
-    }
-    if (validate.isEmpty(concentration)) {
-      emptyConcentration = true;
-    }
-    if (!validate.isNumber(concentration) || !(concentration > 0)) {
-      invalidConcentration = true;
-    }
-    if (times.includes(timepoint.time)) {
-      duplicateTime = true;
-    } else {
-      times.push(timepoint.time);
-    }
-  });
-  if (emptyTime) {
-    messages.push('Time must be specified.');
-  }
-  if (invalidTime) {
-    messages.push('Time must be a number.');
-  }
-  if (emptyConcentration) {
-    messages.push('Concentration must be specified.');
-  }
-  if (invalidConcentration) {
-    messages.push('Concentration must be a number > 0.');
-  }
-  if (duplicateTime) {
-    messages.push('Times must be unique.');
-  }
-  return messages;
-};
-
-// Moved to experimentActions
-// export function initializePlateMaps() {
-//   return (dispatch, getState) => {
-//     let { plateMaps } = getState().createExperiment;
-//     if (!plateMaps.length) {
-//       dispatch(addNewPlateMap());
-//     }
-//   };
-// }
-
-// export function addNewPlateMap() {
-//   return (dispatch, getState) => {
-//     const { plateSize, plateMaps } = getState().createExperiment;
-//     const plateMap = createPlateMapWithDimensions(plateSize);
-//     if (!plateMaps.length) plateMap.active = true;
-//     dispatch(addPlateMap(plateMap));
-//   };
-// }
-
-// export function clonePlateMap(plateMapId, typesToClone) {
-//   return (dispatch, getState) => {
-//     let plateMaps = getState().createExperiment.plateMaps;
-//     const plateMap = findPlateMapById(plateMapId, plateMaps);
-//     const data = plateMap.data.map(row => {
-//       return row.map(well => {
-//         const components = well.components.filter(component => {
-//           return typesToClone.includes(component.type);
-//         });
-//         return createWell(well.id, well.name, components);
-//       });
-//     });
-//     dispatch(addPlateMap(createPlateMap(data)));
-//     plateMaps = getState().createExperiment.plateMaps;
-//     const newPlateMap = plateMaps[plateMaps.length - 1];
-//     dispatch(setActivePlateMap(newPlateMap.id));
-//   };
-// }
-
-// function findPlateMapById(id, plateMaps) {
-//   return plateMaps.find((plateMap, i) => {
-//     return plateMap.id === id;
-//   });
-// }
-
-// function createPlateMap(data) {
-//   return {
-//     selected: false,
-//     active: false,
-//     data,
-//   };
-// }
-
-// function createPlateMapWithDimensions(dimensions) {
-//   return createPlateMap(createPlateMapData(dimensions));
-// }
-
-// function createPlateMapData(dimensions) {
-//   const { rows, columns } = dimensions;
-//   const data = [];
-//   let wellCount = 0;
-//   for (let i = 0; i < rows; i++) {
-//     const row = [];
-//     const rowLetter = PLATEMAP_ROW_HEADERS[i];
-//     for (let i = 0; i < columns; i++) {
-//       row.push(createWell(wellCount, `${rowLetter}${i + 1}`));
-//       wellCount++;
-//     }
-//     data.push(row);
-//   }
-//   return data;
-// }
-
-// function createWell(id, name, components = []) {
-//   return {
-//     id,
-//     name,
-//     components,
-//     selected: false,
-//     blank: false,
-//     highlighted: false,
-//     dimmed: false,
-//   };
-// }
-
-// function createComponent(data, type) {
-//   const id = data.id;
-//   let displayName;
-//   if (type === 'community') {
-//     displayName = data.name;
-//   } else if (type === 'compound') {
-//     displayName = data.name;
-//   } else if (type === 'medium') {
-//     displayName = data.name;
-//   } else if (type === 'supplement') {
-//     displayName = data.name.label;
-//   }
-//   const timepoints = [createTimepoint(type)];
-//   return {
-//     id,
-//     displayName,
-//     type,
-//     data,
-//     selected: true,
-//     isValid: true,
-//     timepoints,
-//   };
-// }
-
-// function createTimepoint(
-//   componentType,
-//   time = DEFAULT_TIMEPOINT_TIME,
-//   concentration
-// ) {
-//   if (!concentration && componentType) {
-//     if (componentType === 'community') {
-//       concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
-//     } else if (componentType === 'medium') {
-//       concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
-//     } else {
-//       concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-//     }
-//   } else if (!concentration) {
-//     concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-//   }
-//   return { time, concentration };
-// }

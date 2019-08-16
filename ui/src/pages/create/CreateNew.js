@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Step } from 'semantic-ui-react';
 
 import { SelectStep } from './SelectStep';
 import { BuildStep } from './BuildStep';
 import { PrintStep } from './PrintStep';
+import { Steps } from '../../components/Steps/Steps';
 
 class CreateNew extends Component {
   selectStepComplete = () => {
@@ -18,44 +18,9 @@ class CreateNew extends Component {
   render() {
     const { match } = this.props;
     const { pathname } = this.props.location;
-    const {
-      stepOneCompleted,
-      stepTwoCompleted,
-      stepThreeCompleted,
-    } = this.props.steps;
     return (
       <React.Fragment>
-        <div className="step-container">
-          <Step.Group unstackable ordered>
-            <Step
-              active={pathname.endsWith('select')}
-              completed={stepOneCompleted}
-            >
-              <Step.Content>
-                <Step.Title>Select</Step.Title>
-                <Step.Description>experiment options</Step.Description>
-              </Step.Content>
-            </Step>
-            <Step
-              active={pathname.endsWith('build')}
-              completed={stepTwoCompleted}
-            >
-              <Step.Content>
-                <Step.Title>Build</Step.Title>
-                <Step.Description>plate maps</Step.Description>
-              </Step.Content>
-            </Step>
-            <Step
-              active={pathname.endsWith('print')}
-              completed={stepThreeCompleted}
-            >
-              <Step.Content>
-                <Step.Title>Print</Step.Title>
-                <Step.Description>plate maps</Step.Description>
-              </Step.Content>
-            </Step>
-          </Step.Group>
-        </div>
+        <Steps pathName={pathname} steps={this.props.steps} />
         <Switch>
           <Route
             path={`${match.path}/select`}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Search } from 'semantic-ui-react';
 import _ from 'lodash';
 
-import { fetchExperiments } from '../api';
+import { fetchExperiments } from '../../api';
 
 export class ExperimentSearch extends Component {
   constructor(props) {

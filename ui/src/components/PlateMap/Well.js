@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import memoize from 'memoize-one';
 
-import { groupComponents } from '../util';
+import { groupComponents } from '../../util';
 import { WellComponent } from './WellComponent';
+import styles from './Well.module.css';
 
 export class Well extends Component {
   group = memoize(groupComponents);
@@ -39,7 +40,7 @@ export class Well extends Component {
     return (
       <div
         onClick={this.handleClick}
-        className={classNames('well', { selected, highlighted, dimmed })}
+        className={classNames(styles.well, { selected, highlighted, dimmed })}
       >
         <div>{this.renderCommunities(communities)}</div>
         <div>{this.renderCompounds(compounds)}</div>
