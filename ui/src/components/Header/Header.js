@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { Menu, Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
+import styles from './Header.module.css';
+
 export class Header extends Component {
   render() {
     const { logo } = this.props;
     return (
-      <Menu fixed="top" inverted>
+      <Menu fixed="top" inverted className={styles.header}>
         <Menu.Item header>
-          <Image
-            size="mini"
-            src={logo}
-            style={{ marginRight: '1.5em', height: '1.5em', width: '1.5em' }}
-          />
+          <Image size="mini" src={logo} className={styles.logo} />
           Atlas
         </Menu.Item>
       </Menu>

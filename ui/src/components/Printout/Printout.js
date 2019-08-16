@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { PLATEMAP_ROW_HEADERS } from '../../constants';
 import { PrintoutWell } from './PrintoutWell';
-import { PlateMapHeader } from '../PlateMapHeader';
+import { PlateMapHeader } from '../PlateMap/PlateMapHeader';
 import styles from './Printout.module.css';
 
 export class Printout extends Component {

@@ -5,9 +5,9 @@ import { Segment } from 'semantic-ui-react';
 import Draggable from 'react-draggable';
 
 import { PlateMapToolbar } from '../../components/PlateMapToolbar/PlateMapToolbar';
-import { PlateMap } from '../../components/PlateMap';
+import { PlateMap } from '../../components/PlateMap/PlateMap';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
-import { NoPlateMapsMessage } from '../../components/NoPlateMapsMessage';
+import { NoPlateMapsMessage } from '../../components/PlateMap/NoPlateMapsMessage';
 import styles from './BuildStep.module.css';
 
 import {

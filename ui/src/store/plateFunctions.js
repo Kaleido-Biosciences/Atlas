@@ -83,7 +83,7 @@ export function createPlateMap(data, id) {
     selected: false,
     active: false,
     data,
-    id: id ? id : null,
+    id: id || null,
   };
 }
 

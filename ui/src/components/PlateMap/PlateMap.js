@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { PLATEMAP_ROW_HEADERS } from '../constants';
+import { PLATEMAP_ROW_HEADERS } from '../../constants';
 import { Well } from './Well';
 import { PlateMapHeader } from './PlateMapHeader';
+import styles from './PlateMap.module.css';
 
 export class PlateMap extends Component {
   renderTable(plateMap) {
@@ -43,8 +44,8 @@ export class PlateMap extends Component {
     topHeaderCells.unshift(<td key="blank" />);
     rows.unshift(<tr key="topHeader">{topHeaderCells}</tr>);
     return (
-      <div className="platemap-container">
-        <table className="plate">
+      <div className={styles.container}>
+        <table className={styles.plate}>
           <tbody>{rows}</tbody>
         </table>
       </div>

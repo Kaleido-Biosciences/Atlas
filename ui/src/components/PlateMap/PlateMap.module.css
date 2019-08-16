@@ -1,0 +1,25 @@
+.container {
+  overflow: auto;
+  height: calc(100vh - 12.5em);
+}
+
+.plate {
+  width: 100%;
+}
+
+.plate td,
+.plate th {
+  text-align: center;
+}
+
+.plate th {
+  cursor: pointer;
+}
+
+.plate th.row {
+  padding: 0 0.5em;
+}
+
+plate th.column {
+  padding: 0.5em 0;
+}

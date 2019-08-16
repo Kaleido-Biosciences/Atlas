@@ -9,9 +9,9 @@ import {
   initializePlateMaps,
 } from '../../store/experimentActions';
 import { importPlateMaps } from '../../store/plateFunctions';
-import { ExperimentSearch } from '../../components/ExperimentSearch';
-import { ExperimentCard } from '../../components/ExperimentCard';
-import { PlateSizeForm } from '../../components/PlateSizeForm';
+import { ExperimentSearch } from '../../components/ExperimentSearch/ExperimentSearch';
+import { ExperimentCard } from '../../components/ExperimentSearch/ExperimentCard';
+import { PlateSizeForm } from '../../components/PlateSizeForm/PlateSizeForm';
 import styles from './SelectStep.module.css';
 import { fetchPlateMaps } from '../../api';
 
