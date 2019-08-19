@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Search } from 'semantic-ui-react';
 import _ from 'lodash';
 
-import { fetchExperiments } from '../../api';
+import { api } from '../../api';
 
 export class ExperimentSearch extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export class ExperimentSearch extends Component {
     if (value) {
       try {
         this.setState({ loading: true, showNoResults: false });
-        const response = await fetchExperiments(0, 5, value);
+        const response = await api.kapture.fetchExperiments(0, 5, value);
         const results = response.data.map(exp => {
           return { title: exp.name, description: exp.description, data: exp };
         });
