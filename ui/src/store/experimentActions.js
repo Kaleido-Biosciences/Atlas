@@ -6,7 +6,7 @@ import {
   createPlateMapWithDimensions,
   exportPlateMaps,
 } from './plateFunctions';
-import { saveExperimentPlateMaps } from '../api';
+import { aws } from '../api';
 
 const {
   addPlateMap: _addPlateMap,
@@ -26,7 +26,7 @@ const handleChange = experimentData => {
     experimentData.status,
     experimentData.plateMaps
   );
-  saveExperimentPlateMaps(
+  aws.saveExperimentPlateMaps(
     experimentData.experiment.name,
     experimentData.status,
     exportPlateMaps(experimentData.plateMaps)

@@ -6,12 +6,13 @@ import {
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
 } from '../constants';
 
-import {
+import { api } from '../api';
+const {
   fetchCommunity,
   fetchCompound,
   fetchMedium,
   fetchSupplement,
-} from '../api';
+} = api.kapture;
 
 export function getActivePlateMap(plateMaps) {
   if (plateMaps.length > 0) {

@@ -13,7 +13,7 @@ import { ExperimentSearch } from '../../components/ExperimentSearch/ExperimentSe
 import { ExperimentCard } from '../../components/ExperimentSearch/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm/PlateSizeForm';
 import styles from './SelectStep.module.css';
-import { fetchPlateMaps } from '../../api';
+import { api } from '../../api';
 
 const renderHeader = options => {
   const { stepClass, complete, stepNumber, headerText } = options;
@@ -39,7 +39,7 @@ class SelectStep extends Component {
 
   handleExperimentSelect = async experiment => {
     this.setState({ fetchingPlateMaps: true, plateMaps: null });
-    const savedData = await fetchPlateMaps(experiment.name, 'DRAFT');
+    const savedData = await api.aws.fetchPlateMaps(experiment.name, 'DRAFT');
     const plateMaps = await importPlateMaps(savedData);
     this.setState({ fetchingPlateMaps: false });
     let plateSize =
