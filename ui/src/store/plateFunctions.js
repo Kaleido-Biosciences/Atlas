@@ -110,19 +110,16 @@ export function createPlateMapData(dimensions) {
 }
 
 export function createComponent(data, type) {
-  let id, displayName;
+  let id;
+  const displayName = data.name;
   if (type === 'community') {
     id = `COMMUNITY_${data.id}`;
-    displayName = data.name;
   } else if (type === 'compound') {
     id = `COMPOUND_${data.id}`;
-    displayName = data.name;
   } else if (type === 'medium') {
     id = `MEDIUM_${data.id}`;
-    displayName = data.name;
   } else if (type === 'supplement') {
     id = `SUPPLEMENT_${data.id}`;
-    displayName = data.name.label;
   }
   const timepoints = [createTimepoint(type)];
   return {
