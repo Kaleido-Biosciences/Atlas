@@ -66,7 +66,7 @@ export class ComponentSearch extends Component {
           name: 'Supplements',
           results: responses.supplements.map(supp => {
             return {
-              title: supp.name.label,
+              title: supp.name,
               data: supp,
               type: 'supplement',
             };

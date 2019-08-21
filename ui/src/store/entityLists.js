@@ -135,7 +135,6 @@ function mapMediumToOption(medium, i) {
 
 function mapSupplementToOption(supplement, i) {
   const { id, name } = supplement;
-  const label = name.label;
   const definition = name.definition ? ` - ${name.definition}` : '';
-  return { key: i, text: label + definition, value: id };
+  return { key: i, text: name + definition, value: id };
 }
