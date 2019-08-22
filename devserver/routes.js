@@ -10,7 +10,7 @@ const router = new Router();
 
 router.get('/communities', (req, res) => {
   axios
-    .get('https://kapture-staging.apps.kaleidobio.com/api/communities')
+    .get(API_URL +'/communities')
     .then(response => {
       res.send(response.data);
     });
@@ -18,7 +18,7 @@ router.get('/communities', (req, res) => {
 
 router.get('/batches', (req, res) => {
   axios
-    .get('https://kapture-staging.apps.kaleidobio.com/api/batches')
+    .get(API_URL +'/batches')
     .then(response => {
       res.send(response.data);
     });
@@ -26,7 +26,7 @@ router.get('/batches', (req, res) => {
 
 router.get('/experiments', (req, res) => {
   axios
-    .get('https://kapture-staging.apps.kaleidobio.com/api/experiments')
+    .get(API_URL +'/experiments')
     .then(response => {
       res.send(response.data);
     });
@@ -34,7 +34,7 @@ router.get('/experiments', (req, res) => {
 
 router.get('/media', (req, res) => {
   axios
-    .get('https://kapture-staging.apps.kaleidobio.com/api/media')
+    .get(API_URL +'/media')
     .then(response => {
       res.send(response.data);
     });
@@ -42,7 +42,7 @@ router.get('/media', (req, res) => {
 
 router.get('/supplements', (req, res) => {
   axios
-    .get('https://kapture-staging.apps.kaleidobio.com/api/supplements')
+    .get(API_URL +'/supplements')
     .then(response => {
       res.send(response.data);
     });
