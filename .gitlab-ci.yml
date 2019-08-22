@@ -133,7 +133,7 @@ deploy_staging:
         - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" deployment.yaml
         - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" deployment.yaml
         - sed -i "s/__REACT_APP_DYNAMODB_TABLE__/${REACT_APP_DYNAMODB_TABLE}/" deployment.yaml
-        - sed -i "s/__REACT_APP_API_URL__/${REACT_APP_API_URL/" deployment.yaml
+        - sed -i "s/__REACT_APP_API_URL__/${REACT_APP_API_URL}/" deployment.yaml
         - cat deployment.yaml
         - cat ingress.yaml
         - cat service.yaml
@@ -200,7 +200,7 @@ deploy_prod:
     - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" deployment.yaml
     - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" deployment.yaml
     - sed -i "s/__REACT_APP_DYNAMODB_TABLE__/${REACT_APP_DYNAMODB_TABLE}/" deployment.yaml
-    - sed -i "s/__REACT_APP_API_URL__/${REACT_APP_API_URL/" deployment.yaml
+    - sed -i "s/__REACT_APP_API_URL__/${REACT_APP_API_URL}/" deployment.yaml
     - cat deployment.yaml
     - cat ingress.yaml
     - cat service.yaml
