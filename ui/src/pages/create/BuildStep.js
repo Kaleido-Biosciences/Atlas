@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import Draggable from 'react-draggable';
+import { Resizable } from 're-resizable';
 
 import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
 import { Plate } from '../../components/Plate/Plate';
@@ -53,12 +54,29 @@ class BuildStep extends Component {
                   scale={1}
                 >
                   <div className={styles.componentToolbar}>
-                    <Segment>
-                      <div className={styles.dragHandle} />
-                      <ComponentToolbar
-                        onTabChange={this.handleClickModeChange}
-                      />
-                    </Segment>
+                    <Resizable
+                      enable={{
+                        bottom: true,
+                        bottomLeft: false,
+                        bottomRight: true,
+                        left: false,
+                        right: true,
+                        top: false,
+                        topLeft: false,
+                        topRight: false,
+                      }}
+                      handleStyles={{
+                        right: { cursor: 'e-resize' },
+                        bottom: { cursor: 's-resize' },
+                      }}
+                    >
+                      <Segment className={styles.resizeContainer}>
+                        <div className={styles.dragHandle} />
+                        <ComponentToolbar
+                          onTabChange={this.handleClickModeChange}
+                        />
+                      </Segment>
+                    </Resizable>
                   </div>
                 </Draggable>
                 <Plate
