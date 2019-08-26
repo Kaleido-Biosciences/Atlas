@@ -45,7 +45,7 @@ CreateNew.propTypes = {
 };
 
 const mapState = (state, props) => {
-  return { steps: state.createExperiment.steps };
+  return { steps: state.designExperiment.steps };
 };
 
 const connected = connect(mapState)(CreateNew);

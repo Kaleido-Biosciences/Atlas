@@ -16,7 +16,7 @@ AWS.config.update({
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
 
-export function fetchPlateMaps(experimentId, status) {
+export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
     let plateMaps;
     let params = {
@@ -48,7 +48,7 @@ export function fetchPlateMaps(experimentId, status) {
   });
 }
 
-export function saveExperimentPlateMaps(experimentName, status, plateMaps) {
+export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = JSON.stringify(plateMaps);
 

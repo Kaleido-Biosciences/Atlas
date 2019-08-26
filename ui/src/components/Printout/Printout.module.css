@@ -8,27 +8,27 @@ body {
   width: 100%;
 }
 
-.plateMap {
+.plate {
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px solid black;
 }
 
-.plateMapsContainer {
+.platesContainer {
   padding: 1em;
 }
 
-.plateMap th {
-  border: 1px solid black;
-  font-size: 14px;
+.plate th {
+    border: 1px solid black;
+    font-size: 14px;
 }
 
-.plateMap td {
-  border: 1px solid black;
-  font-size: 8px;
-  line-height: 1;
-  width: 75px;
-  height: 58px;
+.plate td {
+    border: 1px solid black;
+    font-size: 8px;
+    line-height: 1;
+    width: 75px;
+    height: 58px;
 }
 
 .container {

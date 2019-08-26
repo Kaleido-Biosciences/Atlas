@@ -5,19 +5,19 @@ import { STATUS_DRAFT, STATUS_COMPLETED } from '../constants';
 import {
   getSelectedWells,
   applySelectedComponentsToWells,
-  findPlateMapById,
+  findPlateById,
   createComponent,
   createTimepoint,
 } from './plateFunctions';
 
-const createExperiment = createSlice({
-  slice: 'createExperiment',
+const designExperiment = createSlice({
+  slice: 'designExperiment',
   initialState: {
     experiment: null,
     status: STATUS_DRAFT,
     plateSize: { rows: 8, columns: 12 },
-    plateMaps: [],
-    nextPlateMapId: 1,
+    plates: [],
+    nextPlateId: 1,
     components: [],
     recentComponents: [],
     componentsValid: true,
@@ -28,55 +28,54 @@ const createExperiment = createSlice({
       stepTwoCompleted: false,
       stepThreeCompleted: false,
     },
-    highlightedComponents: [],
   },
   reducers: {
     setExperimentOptions(state, action) {
-      const { experiment, plateSize, plateMaps } = action.payload;
+      const { experiment, plateSize, plates } = action.payload;
       state.experiment = experiment;
-      state.plateMaps =
-        !plateMaps ||
+      state.plates =
+        !plates ||
         (state.plateSize &&
           (state.plateSize.rows !== plateSize.rows ||
             state.plateSize.columns !== plateSize.columns))
           ? []
-          : plateMaps;
+          : plates;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
-    addPlateMap(state, action) {
-      const plateMap = action.payload;
-      plateMap.id = state.nextPlateMapId;
-      state.plateMaps.push(plateMap);
-      state.nextPlateMapId++;
+    addPlate(state, action) {
+      const plate = action.payload;
+      plate.id = state.nextPlateId;
+      state.plates.push(plate);
+      state.nextPlateId++;
     },
-    updateNextPlateMapId(state, action) {
-      state.nextPlateMapId = action.payload;
+    updateNextPlateId(state, action) {
+      state.nextPlateId = action.payload;
     },
-    setActivePlateMap(state, action) {
-      const plateMapId = action.payload;
-      const { plateMaps } = state;
-      plateMaps.forEach(plateMap => {
-        if (plateMap.id === plateMapId) {
-          plateMap.active = true;
-        } else if (plateMap.active) {
-          plateMap.active = false;
+    setActivePlate(state, action) {
+      const plateId = action.payload;
+      const { plates } = state;
+      plates.forEach(plate => {
+        if (plate.id === plateId) {
+          plate.active = true;
+        } else if (plate.active) {
+          plate.active = false;
         }
       });
     },
-    deletePlateMap(state, action) {
+    deletePlate(state, action) {
       const idToRemove = action.payload;
-      state.plateMaps = state.plateMaps.filter((plateMap, i) => {
-        return plateMap.id !== idToRemove;
+      state.plates = state.plates.filter((plate, i) => {
+        return plate.id !== idToRemove;
       });
       // TODO might want to move this to a thunk
       // and maybe select the plate immediately
       // before the deleted one.
-      if (state.plateMaps.length) {
-        state.plateMaps.forEach(plateMap => {
-          plateMap.active = false;
+      if (state.plates.length) {
+        state.plates.forEach(plate => {
+          plate.active = false;
         });
-        state.plateMaps[0].active = true;
+        state.plates[0].active = true;
       }
     },
     setClickMode(state, action) {
@@ -209,27 +208,27 @@ const createExperiment = createSlice({
     },
     applySelectedComponentsToWells(state, action) {
       if (state.componentsValid) {
-        const { plateMapId, wellIds } = action.payload;
-        const { plateMaps, components } = state;
-        const plateMap = findPlateMapById(plateMapId, plateMaps);
-        applySelectedComponentsToWells(plateMap, wellIds, components);
+        const { plateId, wellIds } = action.payload;
+        const { plates, components } = state;
+        const plate = findPlateById(plateId, plates);
+        applySelectedComponentsToWells(plate, wellIds, components);
       }
     },
     applySelectedComponentsToSelectedWells(state, action) {
       if (state.componentsValid) {
-        const { plateMapId } = action.payload;
-        const { components, plateMaps } = state;
-        const plateMap = findPlateMapById(plateMapId, plateMaps);
-        const selectedWells = getSelectedWells(plateMap);
+        const { plateId } = action.payload;
+        const { components, plates } = state;
+        const plate = findPlateById(plateId, plates);
+        const selectedWells = getSelectedWells(plate);
         const wellIds = selectedWells.map(well => well.id);
-        applySelectedComponentsToWells(plateMap, wellIds, components);
+        applySelectedComponentsToWells(plate, wellIds, components);
       }
     },
     clearWells(state, action) {
-      const { plateMapId, wellIds } = action.payload;
-      const { plateMaps, clearMode } = state;
-      const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const wells = plateMap.data.flat();
+      const { plateId, wellIds } = action.payload;
+      const { plates, clearMode } = state;
+      const plate = findPlateById(plateId, plates);
+      const wells = plate.wells.flat();
       const componentTypes = {
         communities: 'community',
         compounds: 'compound',
@@ -251,19 +250,19 @@ const createExperiment = createSlice({
       });
     },
     deselectAllWells(state, action) {
-      const { plateMapId } = action.payload;
-      const { plateMaps } = state;
-      const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const wells = plateMap.data.flat();
+      const { plateId } = action.payload;
+      const { plates } = state;
+      const plate = findPlateById(plateId, plates);
+      const wells = plate.wells.flat();
       wells.forEach(well => {
         well.selected = false;
       });
     },
     toggleWellsSelected(state, action) {
-      const { plateMapId, wellIds } = action.payload;
-      const { plateMaps } = state;
-      const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const wells = plateMap.data.flat();
+      const { plateId, wellIds } = action.payload;
+      const { plates } = state;
+      const plate = findPlateById(plateId, plates);
+      const wells = plate.wells.flat();
       const filteredWells = wells.filter(well => wellIds.includes(well.id));
       const status = { selected: false, deselected: false };
       filteredWells.forEach(well => {
@@ -304,9 +303,9 @@ const createExperiment = createSlice({
 });
 
 export const {
-  actions: createExperimentActions,
-  reducer: createExperimentReducer,
-} = createExperiment;
+  actions: designExperimentActions,
+  reducer: designExperimentReducer,
+} = designExperiment;
 
 function getComponentFromState(componentId, state) {
   return state.components.find(

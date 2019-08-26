@@ -1,17 +1,17 @@
 import { createSelector } from 'redux-starter-kit';
-import { getActivePlateMap, getSelectedWells } from './plateFunctions';
+import { getActivePlate, getSelectedWells } from './plateFunctions';
 
-export const selectActivePlateMap = createSelector(
-  ['createExperiment.plateMaps'],
-  getActivePlateMap
+export const selectActivePlate = createSelector(
+  ['designExperiment.plates'],
+  getActivePlate
 );
 
-export const selectSelectedWellsFromActivePlateMap = createSelector(
-  ['createExperiment.plateMaps'],
-  plateMaps => {
-    const activePlateMap = getActivePlateMap(plateMaps);
-    if (activePlateMap) {
-      return getSelectedWells(activePlateMap);
+export const selectSelectedWellsFromActivePlate = createSelector(
+  ['designExperiment.plates'],
+  plates => {
+    const activePlate = getActivePlate(plates);
+    if (activePlate) {
+      return getSelectedWells(activePlate);
     } else return null;
   }
 );

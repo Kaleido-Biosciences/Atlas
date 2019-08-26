@@ -9,7 +9,7 @@ import styles from './PrintStep.module.css';
 
 class PrintStep extends Component {
   render() {
-    const { experiment, plateMaps } = this.props;
+    const { experiment, plates } = this.props;
     return (
       <div>
         <ReactToPrint
@@ -24,7 +24,7 @@ class PrintStep extends Component {
         />
         <Printout
           experiment={experiment}
-          plateMaps={plateMaps}
+          plates={plates}
           ref={el => (this.componentRef = el)}
         />
       </div>
@@ -33,10 +33,10 @@ class PrintStep extends Component {
 }
 
 const mapState = (state, props) => {
-  const { experiment, plateMaps } = state.createExperiment;
+  const { experiment, plates } = state.designExperiment;
   return {
     experiment,
-    plateMaps,
+    plates,
   };
 };
 

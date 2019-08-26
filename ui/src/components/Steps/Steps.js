@@ -17,7 +17,7 @@ export class Steps extends Component {
           >
             <Step.Content>
               <Step.Title>Select</Step.Title>
-              <Step.Description>experiment options</Step.Description>
+              <Step.Description>options</Step.Description>
             </Step.Content>
           </Step>
           <Step
@@ -25,8 +25,8 @@ export class Steps extends Component {
             completed={stepTwoCompleted}
           >
             <Step.Content>
-              <Step.Title>Build</Step.Title>
-              <Step.Description>plate maps</Step.Description>
+              <Step.Title>Design</Step.Title>
+              <Step.Description>experiment</Step.Description>
             </Step.Content>
           </Step>
           <Step
@@ -35,7 +35,7 @@ export class Steps extends Component {
           >
             <Step.Content>
               <Step.Title>Print</Step.Title>
-              <Step.Description>plate maps</Step.Description>
+              <Step.Description>maps</Step.Description>
             </Step.Content>
           </Step>
         </Step.Group>
