@@ -1,3 +1,9 @@
+body {
+  color: #000000;
+  background-color: #FFFFFF;
+  font-family: Verdana, Arial, serif;
+}
+
 .printout {
   width: 100%;
 }
@@ -12,19 +18,26 @@
   padding: 1em;
 }
 
-.plate th,
+.plate th {
+    border: 1px solid black;
+    font-size: 14px;
+}
+
 .plate td {
-  border: 1px solid black;
+    border: 1px solid black;
+    font-size: 8px;
+    line-height: 1;
+    width: 75px;
+    height: 58px;
 }
 
 .container {
-  margin-bottom: 4em;
+}
+
+.content {
+  margin: 1em 1em 1em 2em;
 }
 
 .header {
-  padding: 1em;
-}
-
-.header h4 {
-  margin-bottom: 0;
+  margin: 1em 1em 1em 1em;
 }
