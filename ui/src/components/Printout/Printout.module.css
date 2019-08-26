@@ -25,24 +25,19 @@ body {
 
 .plateMap td {
   border: 1px solid black;
-  font-size: 7px;
-  line-height: 100%;
+  font-size: 8px;
+  line-height: 1;
   width: 75px;
-  height: 38px;
+  height: 58px;
 }
 
 .container {
-  margin-bottom: 0em;
+}
+
+.content {
+  margin: 1em 1em 1em 2em;
 }
 
 .header {
-  padding: 1em;
-}
-.content {
-  margin-left: 2em;
-  margin-bottom: 0em;
-}
-
-.header h4 {
-  margin-bottom: 0;
+  margin: 1em 1em 1em 1em;
 }

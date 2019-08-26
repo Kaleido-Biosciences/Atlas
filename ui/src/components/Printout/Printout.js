@@ -60,8 +60,8 @@ export class Printout extends Component {
             return (
               <div key={plateMap.id} className={styles.container}>
                 <div className={styles.header}>
-                  {i % 2 === 0 ? <h4>{experiment.name}</h4>: null}
-                  {i % 2 === 0 ? <div>{experiment.description}</div> : null}
+                  <h4>{experiment.name}: </h4>
+                  {experiment.description}
                 </div>
                 <div className={styles.content}>
                   <h5>{`Plate ${i + 1}`}</h5>
