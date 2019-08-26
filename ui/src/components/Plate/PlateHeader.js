@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class PlateMapHeader extends Component {
+export class PlateHeader extends Component {
   handleClick = () => {
     const { headerType, index } = this.props;
     if (this.props.onClick) {
@@ -18,7 +18,7 @@ export class PlateMapHeader extends Component {
   }
 }
 
-PlateMapHeader.propTypes = {
+PlateHeader.propTypes = {
   headerType: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

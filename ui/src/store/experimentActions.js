@@ -1,35 +1,35 @@
-import { createExperimentActions } from './createExperiment';
+import { designExperimentActions } from './designExperiment';
 import {
-  findPlateMapById,
+  findPlateById,
   createWell,
-  createPlateMap,
-  createPlateMapWithDimensions,
-  exportPlateMaps,
+  createPlate,
+  createPlateWithDimensions,
+  exportPlates,
 } from './plateFunctions';
 import { aws } from '../api';
 
 const {
-  addPlateMap: _addPlateMap,
+  addPlate: _addPlate,
   applySelectedComponentsToWells: _applySelectedComponentsToWells,
   clearWells: _clearWells,
-  setActivePlateMap: _setActivePlateMap,
-  deletePlateMap: _deletePlateMap,
+  setActivePlate: _setActivePlate,
+  deletePlate: _deletePlate,
   setCompletedStatus: _setCompletedStatus,
   applySelectedComponentsToSelectedWells: _applySelectedComponentsToSelectedWells,
-  updateNextPlateMapId: _updateNextPlateMapId,
-} = createExperimentActions;
+  updateNextPlateId: _updateNextPlateId,
+} = designExperimentActions;
 
 const handleChange = experimentData => {
   console.log(
     'SAVE',
     experimentData.experiment.name,
     experimentData.status,
-    experimentData.plateMaps
+    experimentData.plates
   );
-  aws.saveExperimentPlateMaps(
+  aws.saveExperimentPlates(
     experimentData.experiment.name,
     experimentData.status,
-    exportPlateMaps(experimentData.plateMaps)
+    exportPlates(experimentData.plates)
   );
 };
 
@@ -37,18 +37,18 @@ function wrapWithChangeHandler(fn) {
   return function() {
     return (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      const experimentData = getState().createExperiment;
+      const experimentData = getState().designExperiment;
       handleChange(experimentData);
     };
   };
 }
 
-function _addNewPlateMap() {
+function _addNewPlate() {
   return (dispatch, getState) => {
-    const { plateSize, plateMaps } = getState().createExperiment;
-    const plateMap = createPlateMapWithDimensions(plateSize);
-    if (!plateMaps.length) plateMap.active = true;
-    dispatch(_addPlateMap(plateMap));
+    const { plateSize, plates } = getState().designExperiment;
+    const plate = createPlateWithDimensions(plateSize);
+    if (!plates.length) plate.active = true;
+    dispatch(_addPlate(plate));
   };
 }
 
@@ -68,45 +68,43 @@ export const {
   updateTimepoint,
   deleteTimepoint,
   setStepThreeComplete,
-} = createExperimentActions;
+} = designExperimentActions;
 
-export const initializePlateMaps = wrapWithChangeHandler(() => {
+export const initializePlates = wrapWithChangeHandler(() => {
   return (dispatch, getState) => {
-    let { plateMaps } = getState().createExperiment;
-    if (!plateMaps.length) {
-      dispatch(_addNewPlateMap());
+    let { plates } = getState().designExperiment;
+    if (!plates.length) {
+      dispatch(_addNewPlate());
     } else {
-      const highestId = plateMaps.reduce((highestId, plateMap) => {
-        if (plateMap.id > highestId) return plateMap.id;
+      const highestId = plates.reduce((highestId, plate) => {
+        if (plate.id > highestId) return plate.id;
         else return highestId;
       }, 0);
-      dispatch(_updateNextPlateMapId(highestId + 1));
+      dispatch(_updateNextPlateId(highestId + 1));
     }
   };
 });
 
-export const clonePlateMap = wrapWithChangeHandler(
-  (plateMapId, typesToClone) => {
-    return (dispatch, getState) => {
-      let plateMaps = getState().createExperiment.plateMaps;
-      const plateMap = findPlateMapById(plateMapId, plateMaps);
-      const data = plateMap.data.map(row => {
-        return row.map(well => {
-          const components = well.components.filter(component => {
-            return typesToClone.includes(component.type);
-          });
-          return createWell(well.id, well.name, well.index, components);
+export const clonePlate = wrapWithChangeHandler((plateId, typesToClone) => {
+  return (dispatch, getState) => {
+    let plates = getState().designExperiment.plates;
+    const plate = findPlateById(plateId, plates);
+    const wells = plate.wells.map(row => {
+      return row.map(well => {
+        const components = well.components.filter(component => {
+          return typesToClone.includes(component.type);
         });
+        return createWell(well.id, well.name, well.index, components);
       });
-      dispatch(_addPlateMap(createPlateMap(data)));
-      plateMaps = getState().createExperiment.plateMaps;
-      const newPlateMap = plateMaps[plateMaps.length - 1];
-      dispatch(_setActivePlateMap(newPlateMap.id));
-    };
-  }
-);
+    });
+    dispatch(_addPlate(createPlate(wells)));
+    plates = getState().designExperiment.plates;
+    const newPlate = plates[plates.length - 1];
+    dispatch(_setActivePlate(newPlate.id));
+  };
+});
 
-export const addNewPlateMap = wrapWithChangeHandler(_addNewPlateMap);
+export const addNewPlate = wrapWithChangeHandler(_addNewPlate);
 
 export const applySelectedComponentsToWells = wrapWithChangeHandler(
   _applySelectedComponentsToWells
@@ -114,9 +112,9 @@ export const applySelectedComponentsToWells = wrapWithChangeHandler(
 
 export const clearWells = wrapWithChangeHandler(_clearWells);
 
-export const setActivePlateMap = wrapWithChangeHandler(_setActivePlateMap);
+export const setActivePlate = wrapWithChangeHandler(_setActivePlate);
 
-export const deletePlateMap = wrapWithChangeHandler(_deletePlateMap);
+export const deletePlate = wrapWithChangeHandler(_deletePlate);
 
 export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
 

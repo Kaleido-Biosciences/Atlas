@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Checkbox, Button, Message } from 'semantic-ui-react';
 
-import styles from './ClonePlateMapForm.module.css';
+import styles from './ClonePlateForm.module.css';
 
-export class ClonePlateMapForm extends Component {
+export class ClonePlateForm extends Component {
   state = {
     community: false,
     compound: false,
@@ -87,6 +87,6 @@ export class ClonePlateMapForm extends Component {
   }
 }
 
-ClonePlateMapForm.propTypes = {
+ClonePlateForm.propTypes = {
   onSubmit: PropTypes.func,
 };

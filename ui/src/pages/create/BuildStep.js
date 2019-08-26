@@ -4,28 +4,28 @@ import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
 import Draggable from 'react-draggable';
 
-import { PlateMapToolbar } from '../../components/PlateMapToolbar/PlateMapToolbar';
-import { PlateMap } from '../../components/PlateMap/PlateMap';
+import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
+import { Plate } from '../../components/Plate/Plate';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
-import { NoPlateMapsMessage } from '../../components/PlateMap/NoPlateMapsMessage';
+import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
 import styles from './BuildStep.module.css';
 
 import {
-  addNewPlateMap,
+  addNewPlate,
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
   applySelectedComponentsToWells,
   clearWells,
 } from '../../store/experimentActions';
-import { selectActivePlateMap } from '../../store/selectors';
+import { selectActivePlate } from '../../store/selectors';
 
 class BuildStep extends Component {
   handleClickModeChange = clickMode => {
     this.props.setClickMode(clickMode);
-    this.props.deselectAllWells({ plateMapId: this.props.activePlateMap.id });
+    this.props.deselectAllWells({ plateId: this.props.activePlate.id });
   };
-  handlePlateMapClick = data => {
+  handlePlateClick = data => {
     const { clickMode } = this.props;
     if (clickMode === 'apply') {
       this.props.applySelectedComponentsToWells(data);
@@ -38,15 +38,15 @@ class BuildStep extends Component {
     }
   };
   render() {
-    const { plateMaps, activePlateMap } = this.props;
-    const showPlateMap = plateMaps.length > 0 && activePlateMap;
+    const { plates, activePlate } = this.props;
+    const showPlate = plates.length > 0 && activePlate;
     return (
       <div className={styles.container}>
-        <div className={styles.plateMap}>
-          {showPlateMap && (
+        <div className={styles.plate}>
+          {showPlate && (
             <React.Fragment>
-              <PlateMapToolbar onComplete={this.props.onComplete} />
-              <div className={styles.plateMapContainer}>
+              <PlateToolbar onComplete={this.props.onComplete} />
+              <div className={styles.plateContainer}>
                 <Draggable
                   handle={`.${styles.dragHandle}`}
                   position={null}
@@ -61,15 +61,15 @@ class BuildStep extends Component {
                     </Segment>
                   </div>
                 </Draggable>
-                <PlateMap
-                  plateMap={activePlateMap}
-                  onWellsClick={this.handlePlateMapClick}
+                <Plate
+                  plate={activePlate}
+                  onWellsClick={this.handlePlateClick}
                 />
               </div>
             </React.Fragment>
           )}
-          {!showPlateMap && (
-            <NoPlateMapsMessage onAddClick={this.props.addNewPlateMap} />
+          {!showPlate && (
+            <NoPlatesMessage onAddClick={this.props.addNewPlate} />
           )}
         </div>
       </div>
@@ -78,10 +78,10 @@ class BuildStep extends Component {
 }
 
 BuildStep.propTypes = {
-  plateMaps: PropTypes.array.isRequired,
-  activePlateMap: PropTypes.object,
+  plates: PropTypes.array.isRequired,
+  activePlate: PropTypes.object,
   clickMode: PropTypes.string.isRequired,
-  addNewPlateMap: PropTypes.func.isRequired,
+  addNewPlate: PropTypes.func.isRequired,
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
   deselectAllWells: PropTypes.func.isRequired,
@@ -91,13 +91,13 @@ BuildStep.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const activePlateMap = selectActivePlateMap(state);
-  const { plateMaps, clickMode } = state.createExperiment;
-  return { activePlateMap, plateMaps, clickMode };
+  const activePlate = selectActivePlate(state);
+  const { plates, clickMode } = state.designExperiment;
+  return { activePlate, plates, clickMode };
 };
 
 const mapDispatch = {
-  addNewPlateMap,
+  addNewPlate,
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,

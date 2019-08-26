@@ -4,20 +4,20 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
 import {
-  setActivePlateMap,
-  addNewPlateMap,
-  deletePlateMap,
-  clonePlateMap,
+  setActivePlate,
+  addNewPlate,
+  deletePlate,
+  clonePlate,
   setCompletedStatus,
 } from '../../store/experimentActions';
-import { selectActivePlateMap } from '../../store/selectors';
-import { PlateMapDropdown } from './PlateMapDropdown';
-import { DeletePlateMapButton } from './DeletePlateMapButton/DeletePlateMapButton';
-import { ClonePlateMapButton } from './ClonePlateMapButton/ClonePlateMapButton';
+import { selectActivePlate } from '../../store/selectors';
+import { PlateDropdown } from './PlateDropdown';
+import { DeletePlateButton } from './DeletePlateButton/DeletePlateButton';
+import { ClonePlateButton } from './ClonePlateButton/ClonePlateButton';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton/MarkAsCompletedButton';
-import styles from './PlateMapToolbar.module.css';
+import styles from './PlateToolbar.module.css';
 
-class PlateMapToolbar extends Component {
+class PlateToolbar extends Component {
   handleAdd = () => {
     if (this.props.onAdd) {
       this.props.onAdd();
@@ -25,12 +25,12 @@ class PlateMapToolbar extends Component {
   };
   handleDelete = () => {
     if (this.props.onDelete) {
-      this.props.onDelete(this.props.activePlateMap.id);
+      this.props.onDelete(this.props.activePlate.id);
     }
   };
   handleClone = ({ typesToClone }) => {
     if (this.props.onClone) {
-      this.props.onClone(this.props.activePlateMap.id, typesToClone);
+      this.props.onClone(this.props.activePlate.id, typesToClone);
     }
   };
   handleMarkAsCompleted = () => {
@@ -42,14 +42,14 @@ class PlateMapToolbar extends Component {
     }
   };
   render() {
-    const { plateMaps, activePlateMap } = this.props;
+    const { plates, activePlate } = this.props;
     return (
       <div className={styles.toolbar}>
         <div className={styles.dropdownContainer}>
-          <PlateMapDropdown
-            plateMaps={plateMaps}
-            activePlateMap={activePlateMap}
-            onChange={this.props.onPlateMapChange}
+          <PlateDropdown
+            plates={plates}
+            activePlate={activePlate}
+            onChange={this.props.onPlateChange}
           />
         </div>
         <div className={styles.buttonsContainer}>
@@ -58,8 +58,8 @@ class PlateMapToolbar extends Component {
             content="Add plate"
             onClick={this.handleAdd}
           />
-          <DeletePlateMapButton onConfirm={this.handleDelete} />
-          <ClonePlateMapButton onSubmit={this.handleClone} />
+          <DeletePlateButton onConfirm={this.handleDelete} />
+          <ClonePlateButton onSubmit={this.handleClone} />
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
       </div>
@@ -67,10 +67,10 @@ class PlateMapToolbar extends Component {
   }
 }
 
-PlateMapToolbar.propTypes = {
-  plateMaps: PropTypes.array.isRequired,
-  activePlateMap: PropTypes.object.isRequired,
-  onPlateMapChange: PropTypes.func,
+PlateToolbar.propTypes = {
+  plates: PropTypes.array.isRequired,
+  activePlate: PropTypes.object.isRequired,
+  onPlateChange: PropTypes.func,
   onAdd: PropTypes.func,
   onDelete: PropTypes.func,
   onClone: PropTypes.func,
@@ -79,21 +79,21 @@ PlateMapToolbar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { plateMaps } = state.createExperiment;
-  const activePlateMap = selectActivePlateMap(state);
-  return { plateMaps, activePlateMap };
+  const { plates } = state.designExperiment;
+  const activePlate = selectActivePlate(state);
+  return { plates, activePlate };
 };
 
 const mapDispatch = {
-  onPlateMapChange: setActivePlateMap,
-  onAdd: addNewPlateMap,
-  onDelete: deletePlateMap,
-  onClone: clonePlateMap,
+  onPlateChange: setActivePlate,
+  onAdd: addNewPlate,
+  onDelete: deletePlate,
+  onClone: clonePlate,
   onMarkAsCompleted: setCompletedStatus,
 };
 
 const connected = connect(
   mapState,
   mapDispatch
-)(PlateMapToolbar);
-export { connected as PlateMapToolbar };
+)(PlateToolbar);
+export { connected as PlateToolbar };

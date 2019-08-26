@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 
 import { groupComponents } from '../../util';
-import { WellComponent } from '../PlateMap/WellComponent';
+import { WellComponent } from './PrintoutWellComponent';
 
 export class PrintoutWell extends Component {
   group = memoize(groupComponents);
