@@ -1,3 +1,9 @@
+body {
+  color: #000000;
+  background-color: #FFFFFF;
+  font-family: Verdana, Arial, serif;
+}
+
 .printout {
   width: 100%;
 }
@@ -12,17 +18,29 @@
   padding: 1em;
 }
 
-.plateMap th,
+.plateMap th {
+  border: 1px solid black;
+  font-size: 14px;
+}
+
 .plateMap td {
   border: 1px solid black;
+  font-size: 7px;
+  line-height: 100%;
+  width: 75px;
+  height: 38px;
 }
 
 .container {
-  margin-bottom: 4em;
+  margin-bottom: 0em;
 }
 
 .header {
   padding: 1em;
+}
+.content {
+  margin-left: 2em;
+  margin-bottom: 0em;
 }
 
 .header h4 {

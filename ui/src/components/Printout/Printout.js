@@ -56,20 +56,20 @@ export class Printout extends Component {
     if (experiment && plateMaps) {
       return (
         <div className={styles.printout}>
-          <div className={styles.header}>
-            <h4>{experiment.name}</h4>
-            <div>{experiment.description}</div>
-          </div>
-          <div className={styles.plateMapsContainer}>
-            {plateMaps.map((plateMap, i) => {
-              return (
-                <div key={plateMap.id} className={styles.container}>
-                  <h5>{`Plate ${i+1}`}</h5>
+          {plateMaps.map((plateMap, i) => {
+            return (
+              <div key={plateMap.id} className={styles.container}>
+                <div className={styles.header}>
+                  {i % 2 === 0 ? <h4>{experiment.name}</h4>: null}
+                  {i % 2 === 0 ? <div>{experiment.description}</div> : null}
+                </div>
+                <div className={styles.content}>
+                  <h5>{`Plate ${i + 1}`}</h5>
                   {this.renderTable(plateMap.data)}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       );
     } else return null;
