@@ -11,8 +11,8 @@ import {
   removeRecentComponents,
 } from '../../store/experimentActions';
 import {
-  selectActivePlateMap,
-  selectSelectedWellsFromActivePlateMap,
+  selectActivePlate,
+  selectSelectedWellsFromActivePlate,
 } from '../../store/selectors';
 import { ComponentSearch } from './ComponentSearch';
 import { RecentComponents } from './RecentComponents';
@@ -26,8 +26,8 @@ import styles from './ApplyToolbar.module.css';
 class ApplyToolbar extends Component {
   groupComponents = memoize(groupComponents);
   handleApplyClick = () => {
-    const { activePlateMap } = this.props;
-    this.props.onApplyClick({ plateMapId: activePlateMap.id });
+    const { activePlate } = this.props;
+    this.props.onApplyClick({ plateId: activePlate.id });
   };
   renderSelectedWells() {
     const { selectedWells } = this.props;
@@ -121,7 +121,7 @@ ApplyToolbar.propTypes = {
   components: PropTypes.array.isRequired,
   componentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
-  activePlateMap: PropTypes.object,
+  activePlate: PropTypes.object,
   recentComponents: PropTypes.array,
   onAddComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
@@ -134,14 +134,14 @@ const mapState = (state, props) => {
     components,
     componentsValid,
     recentComponents,
-  } = state.createExperiment;
-  const selectedWells = selectSelectedWellsFromActivePlateMap(state);
-  const activePlateMap = selectActivePlateMap(state);
+  } = state.designExperiment;
+  const selectedWells = selectSelectedWellsFromActivePlate(state);
+  const activePlate = selectActivePlate(state);
   return {
     components,
     componentsValid,
     selectedWells,
-    activePlateMap,
+    activePlate,
     recentComponents,
   };
 };

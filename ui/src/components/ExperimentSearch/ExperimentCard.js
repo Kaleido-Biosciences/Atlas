@@ -6,7 +6,7 @@ import styles from './ExperimentCard.module.css';
 
 export class ExperimentCard extends Component {
   render() {
-    const { experiment, plateMaps, plateSize } = this.props;
+    const { experiment, plates, plateSize } = this.props;
     const scientistName = experiment.scientist
       ? `${experiment.scientist.lastName}, ${experiment.scientist.firstName}`
       : '';
@@ -14,7 +14,7 @@ export class ExperimentCard extends Component {
       columns,
       numberOfWells,
       displayPlateInfo = false;
-    if (plateMaps && plateMaps.length > 0) {
+    if (plates && plates.length > 0) {
       displayPlateInfo = true;
       rows = plateSize.rows;
       columns = plateSize.columns;
@@ -38,7 +38,7 @@ export class ExperimentCard extends Component {
           {displayPlateInfo && (
             <Label>
               Plates
-              <Label.Detail>{plateMaps.length}</Label.Detail>
+              <Label.Detail>{plates.length}</Label.Detail>
             </Label>
           )}
           {displayPlateInfo && (
@@ -55,6 +55,6 @@ export class ExperimentCard extends Component {
 
 ExperimentCard.propTypes = {
   experiment: PropTypes.object.isRequired,
-  plateMaps: PropTypes.array,
+  plates: PropTypes.array,
   plateSize: PropTypes.object,
 };

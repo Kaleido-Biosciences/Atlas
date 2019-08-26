@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Search } from 'semantic-ui-react';
 import _ from 'lodash';
 
-import { fetchComponents } from '../../api';
+import { api } from '../../api';
 
 export class ComponentSearch extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export class ComponentSearch extends Component {
     if (value) {
       try {
         this.setState({ loading: true, showNoResults: false });
-        const responses = await fetchComponents(0, 2, value);
+        const responses = await api.kapture.fetchComponents(0, 2, value);
         const results = {};
         results.communities = {
           name: 'Communities',
@@ -66,7 +66,7 @@ export class ComponentSearch extends Component {
           name: 'Supplements',
           results: responses.supplements.map(supp => {
             return {
-              title: supp.name.label,
+              title: supp.name,
               data: supp,
               type: 'supplement',
             };

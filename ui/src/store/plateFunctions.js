@@ -1,31 +1,32 @@
 import {
-  PLATEMAP_ROW_HEADERS,
+  PLATE_ROW_HEADERS,
   DEFAULT_TIMEPOINT_TIME,
   DEFAULT_TIMEPOINT_CONCENTRATION,
   DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
 } from '../constants';
 
-import {
+import { api } from '../api';
+const {
   fetchCommunity,
   fetchCompound,
   fetchMedium,
   fetchSupplement,
-} from '../api';
+} = api.kapture;
 
-export function getActivePlateMap(plateMaps) {
-  if (plateMaps.length > 0) {
-    return plateMaps.find(plateMap => plateMap.active);
+export function getActivePlate(plates) {
+  if (plates.length > 0) {
+    return plates.find(plate => plate.active);
   } else return null;
 }
 
-export function getSelectedWells(plateMap) {
-  const flat = plateMap.data.flat();
-  return flat.filter(well => well.selected);
+export function getSelectedWells(plate) {
+  const wells = plate.wells.flat();
+  return wells.filter(well => well.selected);
 }
 
-export function applySelectedComponentsToWells(plateMap, wellIds, components) {
-  const wells = plateMap.data.flat();
+export function applySelectedComponentsToWells(plate, wellIds, components) {
+  const wells = plate.wells.flat();
   const filteredWells = wells.filter(well => {
     return wellIds.includes(well.id);
   });
@@ -59,9 +60,9 @@ export function applySelectedComponentsToWells(plateMap, wellIds, components) {
   return updatedWells;
 }
 
-export function findPlateMapById(id, plateMaps) {
-  return plateMaps.find((plateMap, i) => {
-    return plateMap.id === id;
+export function findPlateById(id, plates) {
+  return plates.find((plate, i) => {
+    return plate.id === id;
   });
 }
 
@@ -72,56 +73,49 @@ export function createWell(id, name, index, components = []) {
     index,
     components,
     selected: false,
-    blank: false,
-    highlighted: false,
-    dimmed: false,
   };
 }
 
-export function createPlateMap(data, id) {
+export function createPlate(wells, id) {
   return {
-    selected: false,
     active: false,
-    data,
-    id: id ? id : null,
+    wells,
+    id: id || null,
   };
 }
 
-export function createPlateMapWithDimensions(dimensions) {
-  return createPlateMap(createPlateMapData(dimensions));
+export function createPlateWithDimensions(dimensions) {
+  return createPlate(createPlateWells(dimensions));
 }
 
-export function createPlateMapData(dimensions) {
+export function createPlateWells(dimensions) {
   const { rows, columns } = dimensions;
-  const data = [];
+  const wells = [];
   let wellCount = 0;
   for (let i = 0; i < rows; i++) {
     const row = [];
-    const rowLetter = PLATEMAP_ROW_HEADERS[i];
+    const rowLetter = PLATE_ROW_HEADERS[i];
     for (let i = 0; i < columns; i++) {
       const id = `${rowLetter}${i + 1}`;
       row.push(createWell(id, id, wellCount));
       wellCount++;
     }
-    data.push(row);
+    wells.push(row);
   }
-  return data;
+  return wells;
 }
 
 export function createComponent(data, type) {
-  let id, displayName;
+  let id;
+  const displayName = data.name;
   if (type === 'community') {
     id = `COMMUNITY_${data.id}`;
-    displayName = data.name;
   } else if (type === 'compound') {
     id = `COMPOUND_${data.id}`;
-    displayName = data.name;
   } else if (type === 'medium') {
     id = `MEDIUM_${data.id}`;
-    displayName = data.name;
   } else if (type === 'supplement') {
     id = `SUPPLEMENT_${data.id}`;
-    displayName = data.name.label;
   }
   const timepoints = [createTimepoint(type)];
   return {
@@ -154,11 +148,11 @@ export function createTimepoint(
   return { time, concentration };
 }
 
-export function exportPlateMaps(plateMaps) {
-  return plateMaps.map(plateMap => {
+export function exportPlates(plates) {
+  return plates.map(plate => {
     return {
-      id: plateMap.id,
-      data: plateMap.data.map(row => {
+      id: plate.id,
+      data: plate.wells.map(row => {
         return row.map(col => {
           const well = col;
           return {
@@ -177,12 +171,12 @@ export function exportPlateMaps(plateMaps) {
   });
 }
 
-export async function importPlateMaps(plateMaps) {
-  if (plateMaps) {
-    const components = await fetchComponentsForPlateMaps(plateMaps);
-    const stateMaps = plateMaps.map(plateMap => {
+export async function importPlates(plates) {
+  if (plates) {
+    const components = await fetchComponentsForPlates(plates);
+    const statePlates = plates.map(plate => {
       let wellIndex = 0;
-      const stateData = plateMap.data.map(rows => {
+      const stateWells = plate.data.map(rows => {
         return rows.map(well => {
           const stateComponents = well.components.map(component => {
             const lookup = components[component.type];
@@ -201,24 +195,24 @@ export async function importPlateMaps(plateMaps) {
           return stateWell;
         });
       });
-      return createPlateMap(stateData, plateMap.id);
+      return createPlate(stateWells, plate.id);
     });
-    if (stateMaps.length) {
-      stateMaps[0].active = true;
+    if (statePlates.length) {
+      statePlates[0].active = true;
     }
-    return stateMaps;
+    return statePlates;
   } else return null;
 }
 
-async function fetchComponentsForPlateMaps(plateMaps) {
+async function fetchComponentsForPlates(plates) {
   const components = {
     community: [],
     compound: [],
     medium: [],
     supplement: [],
   };
-  plateMaps.forEach(plateMap => {
-    const wells = plateMap.data.flat();
+  plates.forEach(plate => {
+    const wells = plate.data.flat();
     wells.forEach(well => {
       well.components.forEach(component => {
         const cType = component.type;

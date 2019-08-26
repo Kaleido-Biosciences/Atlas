@@ -33,8 +33,10 @@ spec:
           value: __REACT_APP_DYNAMODB_ACCESS_KEY_ID__
         - name: REACT_APP_DYNAMODB_SECRET_ACCESS_KEY
           value: __REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__
-        - name: REACT_APP_API_URL
-          value: 'https://kapture.apps.kaleidobio.com/api'
+        - name: REACT_APP_DYNAMODB_TABLE
+          value: __REACT_APP_DYNAMODB_TABLE__
+        - name: KAPTURE_URL
+          value: __KAPTURE_URL__
         ports:
         - containerPort: __SERVER_PORT__
         - name: http

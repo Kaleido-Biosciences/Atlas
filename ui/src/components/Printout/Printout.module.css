@@ -1,30 +1,44 @@
+body {
+  color: #000000;
+  background-color: #FFFFFF;
+  font-family: Verdana, Arial, serif;
+}
+
 .printout {
   width: 100%;
 }
 
-.plateMap {
+.plate {
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px solid black;
 }
 
-.plateMapsContainer {
+.platesContainer {
   padding: 1em;
 }
 
-.plateMap th,
-.plateMap td {
-  border: 1px solid black;
+.plate th {
+    border: 1px solid black;
+    font-size: 14px;
+}
+
+.plate td {
+    border: 1px solid black;
+    font-size: 8px;
+    line-height: 1;
+    width: 75px;
+    height: 58px;
 }
 
 .container {
-  margin-bottom: 4em;
+    page-break-after: always;
+}
+
+.content {
+  margin: 1em 1em 1em 2em;
 }
 
 .header {
-  padding: 1em;
-}
-
-.header h4 {
-  margin-bottom: 0;
+  margin: 1em 1em 1em 1em;
 }

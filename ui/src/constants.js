@@ -1,4 +1,4 @@
-export const PLATEMAP_ROW_HEADERS = [
+export const PLATE_ROW_HEADERS = [
   'A',
   'B',
   'C',

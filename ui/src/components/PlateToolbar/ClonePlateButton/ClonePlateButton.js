@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { PopupButton } from '../PopupButton';
-import { ClonePlateMapForm } from './ClonePlateMapForm';
+import { ClonePlateForm } from './ClonePlateForm';
 
-export class ClonePlateMapButton extends Component {
+export class ClonePlateButton extends Component {
   popupRef = React.createRef();
   handleSubmit = data => {
     if (this.props.onSubmit) {
@@ -19,12 +19,12 @@ export class ClonePlateMapButton extends Component {
         buttonContent="Clone plate"
         ref={this.popupRef}
       >
-        <ClonePlateMapForm onSubmit={this.handleSubmit} />
+        <ClonePlateForm onSubmit={this.handleSubmit} />
       </PopupButton>
     );
   }
 }
 
-ClonePlateMapButton.propTypes = {
+ClonePlateButton.propTypes = {
   onSubmit: PropTypes.func,
 };

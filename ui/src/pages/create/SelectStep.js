@@ -6,14 +6,14 @@ import classNames from 'classnames';
 
 import {
   setExperimentOptions,
-  initializePlateMaps,
+  initializePlates,
 } from '../../store/experimentActions';
-import { importPlateMaps } from '../../store/plateFunctions';
-import { ExperimentSearch } from '../../components/ExperimentSearch';
-import { ExperimentCard } from '../../components/ExperimentCard';
-import { PlateSizeForm } from '../../components/PlateSizeForm';
+import { importPlates } from '../../store/plateFunctions';
+import { ExperimentSearch } from '../../components/ExperimentSearch/ExperimentSearch';
+import { ExperimentCard } from '../../components/ExperimentSearch/ExperimentCard';
+import { PlateSizeForm } from '../../components/PlateSizeForm/PlateSizeForm';
 import styles from './SelectStep.module.css';
-import { fetchPlateMaps } from '../../api';
+import { api } from '../../api';
 
 const renderHeader = options => {
   const { stepClass, complete, stepNumber, headerText } = options;
@@ -33,26 +33,26 @@ class SelectStep extends Component {
     plateSize: this.props.plateSize,
     submissionAttemped: false,
     showValidationMessage: false,
-    fetchingPlateMaps: false,
-    plateMaps: this.props.plateMaps || null,
+    fetchingPlates: false,
+    plates: this.props.plates || null,
   };
 
   handleExperimentSelect = async experiment => {
-    this.setState({ fetchingPlateMaps: true, plateMaps: null });
-    const savedData = await fetchPlateMaps(experiment.name, 'DRAFT');
-    const plateMaps = await importPlateMaps(savedData);
-    this.setState({ fetchingPlateMaps: false });
+    this.setState({ fetchingPlates: true, plates: null });
+    const savedData = await api.aws.fetchPlates(experiment.name, 'DRAFT');
+    const plates = await importPlates(savedData);
+    this.setState({ fetchingPlates: false });
     let plateSize =
-      !plateMaps || plateMaps.length === 0
+      !plates || plates.length === 0
         ? this.state.plateSize
         : {
-            rows: plateMaps[0].data.length,
-            columns: plateMaps[0].data[0].length,
+            rows: plates[0].wells.length,
+            columns: plates[0].wells[0].length,
           };
     const isValid = this.validateSelections(experiment, plateSize);
     this.setState({ experiment, showValidationMessage: !isValid });
-    if (plateMaps) {
-      this.setState({ plateMaps, plateSize });
+    if (plates) {
+      this.setState({ plates, plateSize });
     }
   };
 
@@ -66,10 +66,10 @@ class SelectStep extends Component {
   };
 
   handleButtonClick = () => {
-    const { experiment, plateSize, plateMaps } = this.state;
+    const { experiment, plateSize, plates } = this.state;
     if (this.validateSelections(experiment, plateSize)) {
-      this.props.setExperimentOptions({ experiment, plateSize, plateMaps });
-      this.props.initializePlateMaps();
+      this.props.setExperimentOptions({ experiment, plateSize, plates });
+      this.props.initializePlates();
       if (this.props.onComplete) {
         this.props.onComplete();
       }
@@ -84,8 +84,8 @@ class SelectStep extends Component {
       plateSize,
       submissionAttempted,
       showValidationMessage,
-      fetchingPlateMaps,
-      plateMaps,
+      fetchingPlates,
+      plates,
     } = this.state;
     const experimentComplete = experiment;
     const plateSizeComplete = plateSize && plateSize.rows && plateSize.columns;
@@ -111,7 +111,7 @@ class SelectStep extends Component {
                 defaultValue={experimentDefaultValue}
                 onSelect={this.handleExperimentSelect}
               />
-              {fetchingPlateMaps && (
+              {fetchingPlates && (
                 <div className={styles.loader}>
                   <Loader active inline="centered">
                     Loading
@@ -121,7 +121,7 @@ class SelectStep extends Component {
               {experiment && (
                 <ExperimentCard
                   experiment={experiment}
-                  plateMaps={plateMaps}
+                  plates={plates}
                   plateSize={plateSize}
                 />
               )}
@@ -152,7 +152,7 @@ class SelectStep extends Component {
             <div className={styles.buttonContainer}>
               <Button
                 primary
-                disabled={fetchingPlateMaps}
+                disabled={fetchingPlates}
                 onClick={this.handleButtonClick}
               >
                 Done
@@ -169,18 +169,18 @@ SelectStep.propTypes = {
   experiment: PropTypes.object,
   plateSize: PropTypes.object,
   setExperimentOptions: PropTypes.func,
-  initializePlateMaps: PropTypes.func,
+  initializePlates: PropTypes.func,
   onComplete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const { experiment, plateSize, plateMaps } = state.createExperiment;
-  return { experiment, plateSize, plateMaps };
+  const { experiment, plateSize, plates } = state.designExperiment;
+  return { experiment, plateSize, plates };
 };
 
 const mapDispatch = {
   setExperimentOptions,
-  initializePlateMaps,
+  initializePlates,
 };
 
 const connected = connect(

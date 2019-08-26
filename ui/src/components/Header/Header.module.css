@@ -1,0 +1,14 @@
+.header {
+  height: 3em;
+  min-height: 3em;
+}
+
+.header :global(.item:before) {
+  display: none;
+}
+
+.logo {
+  margin-right: 1.5em;
+  height: 1.5em !important;
+  width: 1.5em !important;
+}
