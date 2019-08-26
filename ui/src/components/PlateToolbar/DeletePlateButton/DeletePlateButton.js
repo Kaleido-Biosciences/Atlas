@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Button, Message } from 'semantic-ui-react';
 
 import { PopupButton } from '../PopupButton';
-import styles from './DeletePlateMapButton.module.css';
+import styles from './DeletePlateButton.module.css';
 
-export class DeletePlateMapButton extends Component {
+export class DeletePlateButton extends Component {
   popupRef = React.createRef();
   handleDeleteClick = () => {
     if (this.props.onConfirm) {
@@ -33,6 +33,6 @@ export class DeletePlateMapButton extends Component {
   }
 }
 
-DeletePlateMapButton.propTypes = {
+DeletePlateButton.propTypes = {
   onConfirm: PropTypes.func,
 };

@@ -3,8 +3,7 @@ import logger from 'redux-logger';
 import { reducer as formReducer } from 'redux-form';
 
 import './validators';
-import { selectStepReducer } from './selectStep';
-import { createExperimentReducer } from './createExperiment';
+import { designExperimentReducer } from './designExperiment';
 
 const middleware = getDefaultMiddleware();
 if (process.env.NODE_ENV === `development`) {
@@ -13,8 +12,7 @@ if (process.env.NODE_ENV === `development`) {
 
 export const store = configureStore({
   reducer: {
-    selectStep: selectStepReducer,
-    createExperiment: createExperimentReducer,
+    designExperiment: designExperimentReducer,
     form: formReducer,
   },
   middleware,

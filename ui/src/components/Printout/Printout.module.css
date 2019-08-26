@@ -2,18 +2,18 @@
   width: 100%;
 }
 
-.plateMap {
+.plate {
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px solid black;
 }
 
-.plateMapsContainer {
+.platesContainer {
   padding: 1em;
 }
 
-.plateMap th,
-.plateMap td {
+.plate th,
+.plate td {
   border: 1px solid black;
 }
 

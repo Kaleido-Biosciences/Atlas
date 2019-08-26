@@ -75,7 +75,7 @@ ClearToolbar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  return { clearMode: state.createExperiment.clearMode };
+  return { clearMode: state.designExperiment.clearMode };
 };
 
 const connected = connect(
