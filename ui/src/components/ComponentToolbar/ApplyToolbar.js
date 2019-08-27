@@ -14,6 +14,7 @@ import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
 } from '../../store/selectors';
+import { ComponentList } from './ComponentList';
 import { ComponentSearch } from './ComponentSearch';
 import { RecentComponents } from './RecentComponents';
 import { CommunitiesSection } from './sections/CommunitiesSection';
@@ -64,6 +65,9 @@ class ApplyToolbar extends Component {
     const showComponents = components.length > 0;
     return (
       <div className="apply-toolbar">
+        <div className={styles.componentListContainer}>
+          <ComponentList />
+        </div>
         <div className={styles.componentSearchContainer}>
           <ComponentSearch onSelect={onAddComponent} />
         </div>
