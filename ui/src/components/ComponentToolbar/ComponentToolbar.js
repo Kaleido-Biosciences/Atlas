@@ -48,7 +48,7 @@ export class ComponentToolbar extends Component {
         <Tab
           onTabChange={this.handleTabChange}
           defaultActiveIndex={0}
-          menu={{ pointing: true }}
+          menu={{ secondary: true, pointing: true }}
           panes={panes}
         />
       </div>
