@@ -34,13 +34,29 @@ class SelectStep extends Component {
     submissionAttemped: false,
     showValidationMessage: false,
     fetchingPlates: false,
+    fetchError: false,
+    importError: false,
     plates: this.props.plates || null,
   };
 
   handleExperimentSelect = async experiment => {
-    this.setState({ fetchingPlates: true, plates: null });
-    const savedData = await api.aws.fetchPlates(experiment.name, 'DRAFT');
-    const plates = await importPlates(savedData);
+    let savedData, plates;
+    this.setState({
+      fetchingPlates: true,
+      plates: null,
+      fetchError: false,
+      importError: false,
+    });
+    try {
+      savedData = await api.aws.fetchPlates(experiment.name, 'DRAFT');
+    } catch (err) {
+      this.setState({ fetchingPlates: false, fetchError: true });
+    }
+    try {
+      plates = await importPlates(savedData);
+    } catch (err) {
+      this.setState({ fetchingPlates: false, importError: true });
+    }
     this.setState({ fetchingPlates: false });
     let plateSize =
       !plates || plates.length === 0
@@ -85,6 +101,8 @@ class SelectStep extends Component {
       submissionAttempted,
       showValidationMessage,
       fetchingPlates,
+      fetchError,
+      importError,
       plates,
     } = this.state;
     const experimentComplete = experiment;
@@ -125,6 +143,16 @@ class SelectStep extends Component {
                   plateSize={plateSize}
                 />
               )}
+              {fetchError && (
+                <Message warning>
+                  An error occurred while retrieving plate data.
+                </Message>
+              )}
+              {importError && (
+                <Message warning>
+                  An error occurred while importing plate data.
+                </Message>
+              )}
             </div>
             <div className={styles.plateSizeFormContainer}>
               <div>
@@ -152,7 +180,7 @@ class SelectStep extends Component {
             <div className={styles.buttonContainer}>
               <Button
                 primary
-                disabled={fetchingPlates}
+                disabled={fetchingPlates || fetchError || importError}
                 onClick={this.handleButtonClick}
               >
                 Done
