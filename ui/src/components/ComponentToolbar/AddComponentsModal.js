@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, TextArea, Modal } from 'semantic-ui-react';
+import { Modal, Tab } from 'semantic-ui-react';
+
+import { ImportComponents } from './ImportComponents';
+import styles from './AddComponentsModal.module.css';
+
+const panes = [
+  {
+    menuItem: 'Import',
+    render: () => (
+      <Tab.Pane attached={false}>
+        <ImportComponents />
+      </Tab.Pane>
+    ),
+  },
+  {
+    menuItem: 'Search',
+    render: () => <Tab.Pane attached={false}>Search here.</Tab.Pane>,
+  },
+];
 
 export class AddComponentsModal extends Component {
   handleClose = () => {
@@ -8,21 +26,19 @@ export class AddComponentsModal extends Component {
       this.props.onClose();
     }
   };
-  handleChange = (e, data) => {
-    console.log(data.value.trim().split(/\r|\n/));
-  };
   render() {
     const { open } = this.props;
     return (
-      <Modal dimmer="inverted" open={open} onClose={this.handleClose}>
+      <Modal
+        dimmer="inverted"
+        size="small"
+        open={open}
+        onClose={this.handleClose}
+        className={styles.addComponentModal}
+      >
         <Modal.Header>Add Components</Modal.Header>
         <Modal.Content>
-          <Form>
-            <TextArea
-              placeholder="Enter components"
-              onChange={this.handleChange}
-            />
-          </Form>
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
         </Modal.Content>
       </Modal>
     );

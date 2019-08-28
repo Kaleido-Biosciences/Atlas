@@ -1,0 +1,6 @@
+.addComponentModal :global(.ui.tab) {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
