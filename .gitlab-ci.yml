@@ -21,6 +21,8 @@ image_build_staging:
     - ls
     - docker info
     - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - echo ${REACT_APP_DYNAMODB_TABLE}
+    - echo ${KAPTURE_URL}
     - sed -i "s/__REACT_APP_DYNAMODB_ACCESS_KEY_ID__/${REACT_APP_DYNAMODB_ACCESS_KEY_ID}/" Dockerfile Dockerfile-prod
     - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" Dockerfile Dockerfile-prod
     - sed -i "s/__REACT_APP_DYNAMODB_TABLE__/${REACT_APP_DYNAMODB_TABLE}/" Dockerfile  Dockerfile-prod
