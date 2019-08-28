@@ -12,6 +12,9 @@ stages:
 image_build_staging:
   image: docker:git
   stage: package
+  environment:
+    name: staging
+    url: https://$CI_PROJECT_NAME-staging.apps.kaleidobio.com
   only:
     - develop
   services:
@@ -33,6 +36,9 @@ image_build_staging:
 image_build_prod:
   image: docker:git
   stage: package
+  environment:
+    name: live
+    url: http://$CI_PROJECT_NAME.apps.kaleidobio.com
   only:
     - master
   services:
