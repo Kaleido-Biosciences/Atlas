@@ -1,4 +1,4 @@
-.addComponentModal :global(.ui.tab) {
+.addComponentsPanel :global(.ui.tab) {
   border: none;
   box-shadow: none;
   padding: 0;
