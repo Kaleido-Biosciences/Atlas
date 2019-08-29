@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Form, TextArea, Button, Progress } from 'semantic-ui-react';
 
 import { api } from '../../api';
+import { ImportTextArea } from './ImportTextArea';
 import styles from './ImportComponents.module.css';
 
 export class ImportComponents extends Component {
@@ -11,10 +11,10 @@ export class ImportComponents extends Component {
     found: [],
     notFound: [],
   };
-  handleChange = (e, data) => {
-    const searchTerms = data.value.trim().split(/\r|\n/);
-    this.setState({ searchTerms, found: [], notFound: [] });
-  };
+  // handleChange = (e, data) => {
+  //   const searchTerms = data.value.trim().split(/\r|\n/);
+  //   this.setState({ searchTerms, found: [], notFound: [] });
+  // };
   searchNext = async () => {
     const index = this.currentSearchIndex;
     const result = await api.kapture.findComponent(
@@ -35,21 +35,16 @@ export class ImportComponents extends Component {
     this.currentSearchIndex = 0;
     this.searchNext();
   };
+  handleImport = (componentNames) => {
+    
+  }
   render() {
     const { searchTerms } = this.state;
     const currentSearch = this.currentSearchIndex + 1;
     return (
-      <div className={styles.importComponents}>
-        <div>
-          <Form>
-            <TextArea
-              placeholder="Enter components"
-              onChange={this.handleChange}
-            />
-          </Form>
-        </div>
-        <div>
-          <Button onClick={this.import}>Import Components</Button>
+      <div>
+        <ImportTextArea onImport={this.handleImport} />
+        {/* <div>
           <Progress
             value={currentSearch}
             total={searchTerms.length}
@@ -69,7 +64,7 @@ export class ImportComponents extends Component {
               })}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
