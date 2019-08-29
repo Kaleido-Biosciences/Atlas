@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Label } from 'semantic-ui-react';
 
+import { getPlateSize } from '../../store/plateFunctions';
 import styles from './ExperimentCard.module.css';
 
 export class ExperimentCard extends Component {
   render() {
-    const { experiment, plates, plateSize } = this.props;
+    const { experiment, plates } = this.props;
     const scientistName = experiment.scientist
       ? `${experiment.scientist.lastName}, ${experiment.scientist.firstName}`
       : '';
@@ -15,9 +16,10 @@ export class ExperimentCard extends Component {
       numberOfWells,
       displayPlateInfo = false;
     if (plates && plates.length > 0) {
+      const dimensions = getPlateSize(plates[0]);
       displayPlateInfo = true;
-      rows = plateSize.rows;
-      columns = plateSize.columns;
+      rows = dimensions.rows;
+      columns = dimensions.columns;
       numberOfWells = rows * columns;
     }
     return (
@@ -56,5 +58,4 @@ export class ExperimentCard extends Component {
 ExperimentCard.propTypes = {
   experiment: PropTypes.object.isRequired,
   plates: PropTypes.array,
-  plateSize: PropTypes.object,
 };

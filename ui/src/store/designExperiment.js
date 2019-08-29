@@ -32,14 +32,17 @@ const designExperiment = createSlice({
   reducers: {
     setExperimentOptions(state, action) {
       const { experiment, plateSize, plates } = action.payload;
+      if (state.experiment && state.experiment.id === experiment.id) {
+        if (
+          state.plateSize.rows !== plateSize.rows ||
+          state.plateSize.columns !== plateSize.columns
+        ) {
+          state.plates = [];
+        }
+      } else {
+        state.plates = plates || [];
+      }
       state.experiment = experiment;
-      state.plates =
-        !plates ||
-        (state.plateSize &&
-          (state.plateSize.rows !== plateSize.rows ||
-            state.plateSize.columns !== plateSize.columns))
-          ? []
-          : plates;
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
@@ -48,6 +51,9 @@ const designExperiment = createSlice({
       plate.id = state.nextPlateId;
       state.plates.push(plate);
       state.nextPlateId++;
+    },
+    resetNextPlateId(state, action) {
+      state.nextPlateId = 1;
     },
     updateNextPlateId(state, action) {
       state.nextPlateId = action.payload;

@@ -16,6 +16,7 @@ const {
   deletePlate: _deletePlate,
   setCompletedStatus: _setCompletedStatus,
   applySelectedComponentsToSelectedWells: _applySelectedComponentsToSelectedWells,
+  resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
 } = designExperimentActions;
 
@@ -74,6 +75,7 @@ export const initializePlates = wrapWithChangeHandler(() => {
   return (dispatch, getState) => {
     let { plates } = getState().designExperiment;
     if (!plates.length) {
+      dispatch(_resetNextPlateId());
       dispatch(_addNewPlate());
     } else {
       const highestId = plates.reduce((highestId, plate) => {
