@@ -1,0 +1,11 @@
+.dragHandle {
+  cursor: move;
+  height: 1em;
+}
+
+.resizeContainer {
+  height: 100%;
+  width: 100%;
+  margin: 0 !important;
+  padding-top: 0 !important;
+}

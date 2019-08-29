@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react';
-import Draggable from 'react-draggable';
-import { Resizable } from 're-resizable';
 
 import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
 import { Plate } from '../../components/Plate/Plate';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
+import { Panel } from '../../components/Panel/Panel';
+import { AddComponentsPanel } from '../../components/AddComponentsPanel/AddComponentsPanel';
 import styles from './BuildStep.module.css';
 
 import {
@@ -48,37 +47,12 @@ class BuildStep extends Component {
             <React.Fragment>
               <PlateToolbar onComplete={this.props.onComplete} />
               <div className={styles.plateContainer}>
-                <Draggable
-                  handle={`.${styles.dragHandle}`}
-                  position={null}
-                  scale={1}
-                >
-                  <div className={styles.componentToolbar}>
-                    <Resizable
-                      enable={{
-                        bottom: true,
-                        bottomLeft: false,
-                        bottomRight: true,
-                        left: false,
-                        right: true,
-                        top: false,
-                        topLeft: false,
-                        topRight: false,
-                      }}
-                      handleStyles={{
-                        right: { cursor: 'e-resize' },
-                        bottom: { cursor: 's-resize' },
-                      }}
-                    >
-                      <Segment className={styles.resizeContainer}>
-                        <div className={styles.dragHandle} />
-                        <ComponentToolbar
-                          onTabChange={this.handleClickModeChange}
-                        />
-                      </Segment>
-                    </Resizable>
-                  </div>
-                </Draggable>
+                <Panel containerClass={styles.componentToolbar}>
+                  <ComponentToolbar onTabChange={this.handleClickModeChange} />
+                </Panel>
+                <Panel containerClass={styles.addComponentsPanel}>
+                  <AddComponentsPanel />
+                </Panel>
                 <Plate
                   plate={activePlate}
                   onWellsClick={this.handlePlateClick}
