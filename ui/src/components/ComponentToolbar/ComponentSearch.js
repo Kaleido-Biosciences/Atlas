@@ -30,13 +30,13 @@ export class ComponentSearch extends Component {
     if (value) {
       try {
         this.setState({ loading: true, showNoResults: false });
-        const responses = await api.kapture.fetchComponents(0, 2, value);
+        const responses = await api.kapture.fetchComponents(0, 4, value);
         const results = {};
         results.communities = {
           name: 'Communities',
           results: responses.communities.map(comm => {
             return {
-              title: comm.name,
+              title: comm.name + ":" + comm.alias,
               data: comm,
               type: 'community',
             };

@@ -8,7 +8,7 @@ import {
   setExperimentOptions,
   initializePlates,
 } from '../../store/experimentActions';
-import { importPlates } from '../../store/plateFunctions';
+import { importPlates, getPlateSize } from '../../store/plateFunctions';
 import { ExperimentSearch } from '../../components/ExperimentSearch/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentSearch/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm/PlateSizeForm';
@@ -34,25 +34,49 @@ class SelectStep extends Component {
     submissionAttemped: false,
     showValidationMessage: false,
     fetchingPlates: false,
+    fetchError: false,
+    importError: false,
     plates: this.props.plates || null,
   };
 
   handleExperimentSelect = async experiment => {
-    this.setState({ fetchingPlates: true, plates: null });
-    const savedData = await api.aws.fetchPlates(experiment.name, 'DRAFT');
-    const plates = await importPlates(savedData);
-    this.setState({ fetchingPlates: false });
+    let savedData, plates;
+    this.setState({
+      experiment: null,
+      fetchingPlates: true,
+      plates: null,
+      fetchError: false,
+      importError: false,
+    });
+    try {
+      savedData = await api.aws.fetchPlates(experiment.name, 'DRAFT');
+    } catch (err) {
+      this.setState({ fetchingPlates: false, fetchError: true });
+    }
+    try {
+      plates = await importPlates(savedData);
+    } catch (err) {
+      this.setState({ fetchingPlates: false, importError: true });
+    }
     let plateSize =
       !plates || plates.length === 0
         ? this.state.plateSize
-        : {
-            rows: plates[0].wells.length,
-            columns: plates[0].wells[0].length,
-          };
+        : getPlateSize(plates[0]);
     const isValid = this.validateSelections(experiment, plateSize);
-    this.setState({ experiment, showValidationMessage: !isValid });
     if (plates) {
-      this.setState({ plates, plateSize });
+      this.setState({
+        plates,
+        plateSize,
+        experiment,
+        showValidationMessage: !isValid,
+        fetchingPlates: false,
+      });
+    } else {
+      this.setState({
+        experiment,
+        showValidationMessage: !isValid,
+        fetchingPlates: false,
+      });
     }
   };
 
@@ -85,6 +109,8 @@ class SelectStep extends Component {
       submissionAttempted,
       showValidationMessage,
       fetchingPlates,
+      fetchError,
+      importError,
       plates,
     } = this.state;
     const experimentComplete = experiment;
@@ -119,11 +145,17 @@ class SelectStep extends Component {
                 </div>
               )}
               {experiment && (
-                <ExperimentCard
-                  experiment={experiment}
-                  plates={plates}
-                  plateSize={plateSize}
-                />
+                <ExperimentCard experiment={experiment} plates={plates} />
+              )}
+              {fetchError && (
+                <Message warning>
+                  An error occurred while retrieving plate data.
+                </Message>
+              )}
+              {importError && (
+                <Message warning>
+                  An error occurred while importing plate data.
+                </Message>
               )}
             </div>
             <div className={styles.plateSizeFormContainer}>
@@ -137,6 +169,7 @@ class SelectStep extends Component {
                 <PlateSizeForm
                   onChange={this.handlePlateSizeChange}
                   defaultDimensions={plateSize}
+                  key={experimentDefaultValue}
                 />
               </div>
             </div>
@@ -152,7 +185,7 @@ class SelectStep extends Component {
             <div className={styles.buttonContainer}>
               <Button
                 primary
-                disabled={fetchingPlates}
+                disabled={fetchingPlates || fetchError || importError}
                 onClick={this.handleButtonClick}
               >
                 Done

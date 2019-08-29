@@ -259,3 +259,10 @@ async function fetchComponentsForPlates(plates) {
   });
   return response;
 }
+
+export function getPlateSize(plate) {
+  return {
+    rows: plate.wells.length,
+    columns: plate.wells[0].length,
+  };
+}

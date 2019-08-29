@@ -37,14 +37,14 @@ export function fetchComponents(page, size, nameContains, descContains) {
     const params = [];
     if (page) params.push(`page=${page}`);
     if (size) params.push(`size=${size}`);
-    if (nameContains) params.push(`name.contains=${nameContains}`);
+    if (nameContains) params.push(`query=${nameContains}`);
     if (descContains) params.push(`description.contains=${descContains}`);
     queryString += '?' + params.join('&');
   }
-  const communities = axios.get(API_URL + '/communities' + queryString);
-  const compounds = axios.get(API_URL + '/batches' + queryString);
-  const media = axios.get(API_URL + '/media' + queryString);
-  const supplements = axios.get(API_URL + '/supplements' + queryString);
+  const communities = axios.get(API_URL + '/_search/communities' + queryString);
+  const compounds = axios.get(API_URL + '/_search/batches' + queryString);
+  const media = axios.get(API_URL + '/_search/media' + queryString);
+  const supplements = axios.get(API_URL + '/_search/supplements' + queryString);
   return Promise.all([communities, compounds, media, supplements]).then(
     response => {
       return {
