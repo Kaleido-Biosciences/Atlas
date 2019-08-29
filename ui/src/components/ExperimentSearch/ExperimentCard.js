@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Label } from 'semantic-ui-react';
 
+import { getPlateSize } from '../../store/plateFunctions';
 import styles from './ExperimentCard.module.css';
 
 export class ExperimentCard extends Component {
@@ -15,9 +16,10 @@ export class ExperimentCard extends Component {
       numberOfWells,
       displayPlateInfo = false;
     if (plates && plates.length > 0) {
+      const dimensions = getPlateSize(plates[0]);
       displayPlateInfo = true;
-      rows = plates[0].wells.length
-      columns = plates[0].wells[0].length;
+      rows = dimensions.rows;
+      columns = dimensions.columns;
       numberOfWells = rows * columns;
     }
     return (

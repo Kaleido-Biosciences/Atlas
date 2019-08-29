@@ -8,7 +8,7 @@ import {
   setExperimentOptions,
   initializePlates,
 } from '../../store/experimentActions';
-import { importPlates } from '../../store/plateFunctions';
+import { importPlates, getPlateSize } from '../../store/plateFunctions';
 import { ExperimentSearch } from '../../components/ExperimentSearch/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentSearch/ExperimentCard';
 import { PlateSizeForm } from '../../components/PlateSizeForm/PlateSizeForm';
@@ -61,10 +61,7 @@ class SelectStep extends Component {
     let plateSize =
       !plates || plates.length === 0
         ? this.state.plateSize
-        : {
-            rows: plates[0].wells.length,
-            columns: plates[0].wells[0].length,
-          };
+        : getPlateSize(plates[0]);
     const isValid = this.validateSelections(experiment, plateSize);
     if (plates) {
       this.setState({
@@ -148,10 +145,7 @@ class SelectStep extends Component {
                 </div>
               )}
               {experiment && (
-                <ExperimentCard
-                  experiment={experiment}
-                  plates={plates}
-                />
+                <ExperimentCard experiment={experiment} plates={plates} />
               )}
               {fetchError && (
                 <Message warning>
