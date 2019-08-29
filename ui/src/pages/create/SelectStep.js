@@ -42,6 +42,7 @@ class SelectStep extends Component {
   handleExperimentSelect = async experiment => {
     let savedData, plates;
     this.setState({
+      experiment: null,
       fetchingPlates: true,
       plates: null,
       fetchError: false,
@@ -57,7 +58,6 @@ class SelectStep extends Component {
     } catch (err) {
       this.setState({ fetchingPlates: false, importError: true });
     }
-    this.setState({ fetchingPlates: false });
     let plateSize =
       !plates || plates.length === 0
         ? this.state.plateSize
@@ -66,9 +66,20 @@ class SelectStep extends Component {
             columns: plates[0].wells[0].length,
           };
     const isValid = this.validateSelections(experiment, plateSize);
-    this.setState({ experiment, showValidationMessage: !isValid });
     if (plates) {
-      this.setState({ plates, plateSize });
+      this.setState({
+        plates,
+        plateSize,
+        experiment,
+        showValidationMessage: !isValid,
+        fetchingPlates: false,
+      });
+    } else {
+      this.setState({
+        experiment,
+        showValidationMessage: !isValid,
+        fetchingPlates: false,
+      });
     }
   };
 
@@ -140,7 +151,6 @@ class SelectStep extends Component {
                 <ExperimentCard
                   experiment={experiment}
                   plates={plates}
-                  plateSize={plateSize}
                 />
               )}
               {fetchError && (
@@ -165,6 +175,7 @@ class SelectStep extends Component {
                 <PlateSizeForm
                   onChange={this.handlePlateSizeChange}
                   defaultDimensions={plateSize}
+                  key={experimentDefaultValue}
                 />
               </div>
             </div>
