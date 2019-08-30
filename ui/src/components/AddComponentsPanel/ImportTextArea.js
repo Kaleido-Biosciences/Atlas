@@ -10,9 +10,9 @@ export class ImportTextArea extends Component {
   };
   handleChange = (e, data) => {
     this.setState({ componentNames: data.value.trim().split(/\r|\n/) });
-    // this.setState({ searchTerms, found: [], notFound: [] });
   };
-  handleImport = () => {
+  handleImport = (e) => {
+    e.preventDefault();
     if (this.props.onImport) {
       this.props.onImport({ componentNames: this.state.componentNames });
     }

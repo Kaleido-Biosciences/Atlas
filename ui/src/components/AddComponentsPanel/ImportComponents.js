@@ -2,69 +2,78 @@ import React, { Component } from 'react';
 
 import { api } from '../../api';
 import { ImportTextArea } from './ImportTextArea';
+import { ImportResults } from './ImportResults';
 import styles from './ImportComponents.module.css';
 
+const INITIAL_STATE = {
+  view: 'textarea',
+  found: [],
+  notFound: [],
+  total: null,
+  completed: false,
+};
+
 export class ImportComponents extends Component {
+  componentNames = [];
   currentSearchIndex = 0;
-  state = {
-    searchTerms: [],
-    found: [],
-    notFound: [],
-  };
-  // handleChange = (e, data) => {
-  //   const searchTerms = data.value.trim().split(/\r|\n/);
-  //   this.setState({ searchTerms, found: [], notFound: [] });
-  // };
+  state = INITIAL_STATE;
+
   searchNext = async () => {
     const index = this.currentSearchIndex;
-    const result = await api.kapture.findComponent(
-      this.state.searchTerms[index]
-    );
-    console.log(result);
+    const result = await api.kapture.findComponent(this.componentNames[index]);
     if (result.found) {
-      this.setState({ found: this.state.found.concat(result) });
+      this.setState({ found: [result].concat(this.state.found) });
     } else {
-      this.setState({ notFound: this.state.notFound.concat(result) });
+      this.setState({ notFound: [result].concat(this.state.notFound) });
     }
     this.currentSearchIndex++;
-    if (this.state.searchTerms[this.currentSearchIndex]) {
+    if (this.componentNames[this.currentSearchIndex]) {
       this.searchNext();
+    } else {
+      this.setState({ completed: true });
     }
   };
-  import = () => {
+
+  handleImport = ({ componentNames }) => {
+    this.setState({
+      view: 'results',
+      total: componentNames.length,
+      found: [],
+      notFound: [],
+      completed: false,
+    });
+    this.componentNames = componentNames;
     this.currentSearchIndex = 0;
     this.searchNext();
   };
-  handleImport = (componentNames) => {
-    
-  }
+
+  backToImport = () => {
+    this.setState(INITIAL_STATE);
+  };
+
+  addComponents = () => {
+    const components = this.state.found.map(({ type, data }) => {
+      return { type, data };
+    });
+    console.log(components);
+  };
+
   render() {
-    const { searchTerms } = this.state;
-    const currentSearch = this.currentSearchIndex + 1;
+    const { view, found, notFound, total, completed } = this.state;
     return (
       <div>
-        <ImportTextArea onImport={this.handleImport} />
-        {/* <div>
-          <Progress
-            value={currentSearch}
-            total={searchTerms.length}
-            progress="ratio"
+        {view === 'textarea' ? (
+          <ImportTextArea onImport={this.handleImport} />
+        ) : (
+          <ImportResults
+            found={found}
+            notFound={notFound}
+            total={total}
+            completed={completed}
+            onBack={this.backToImport}
+            onAdd={this.addComponents}
           />
-          <div className={styles.searchResults}>
-            <div className={styles.found}>
-              {this.state.found.length}
-              {this.state.found.map(result => {
-                return <div key={result.name}>{result.name}</div>;
-              })}
-            </div>
-            <div className={styles.notFound}>
-              {this.state.notFound.length}
-              {this.state.notFound.map(result => {
-                return <div key={result.name}>{result.name}</div>;
-              })}
-            </div>
-          </div>
-        </div> */}
+        )}
       </div>
     );
   }

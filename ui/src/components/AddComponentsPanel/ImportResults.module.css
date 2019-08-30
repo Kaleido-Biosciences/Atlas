@@ -1,0 +1,33 @@
+.importResults {
+  display: flex;
+  flex-direction: row;
+}
+
+.found,
+.notFound {
+  flex: 1;
+}
+
+.found {
+  margin-right: 0.4em;
+}
+
+.notFound {
+  margin-left: 0.4em;
+}
+
+.header {
+  margin-bottom: 0;
+}
+
+.results {
+  height: 10em;
+  overflow: auto;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1em;
+}
