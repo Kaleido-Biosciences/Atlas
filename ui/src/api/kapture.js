@@ -85,7 +85,7 @@ export function findComponent(name) {
         result.data = response[2].data[0];
       } else if (response[3].data.length) {
         result.found = true;
-        result.type = 'supplements';
+        result.type = 'supplement';
         result.data = response[3].data[0];
       }
       return result;

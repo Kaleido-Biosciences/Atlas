@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { api } from '../../api';
+import { addKaptureComponentsToComponentsList } from '../../store/experimentActions';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
-import styles from './ImportComponents.module.css';
 
 const INITIAL_STATE = {
   view: 'textarea',
@@ -13,7 +14,7 @@ const INITIAL_STATE = {
   completed: false,
 };
 
-export class ImportComponents extends Component {
+class ImportComponents extends Component {
   componentNames = [];
   currentSearchIndex = 0;
   state = INITIAL_STATE;
@@ -52,10 +53,27 @@ export class ImportComponents extends Component {
   };
 
   addComponents = () => {
-    const components = this.state.found.map(({ type, data }) => {
-      return { type, data };
-    });
-    console.log(components);
+    if (this.props.onAdd) {
+      const components = this.state.found.map(({ type, data }) => {
+        return { type, data };
+      });
+      const kaptureComponents = {
+        communities: [],
+        compounds: [],
+        media: [],
+        supplements: [],
+      };
+      const keys = {
+        community: 'communities',
+        compound: 'compounds',
+        medium: 'media',
+        supplement: 'supplements',
+      };
+      components.forEach(({ type, data }) => {
+        kaptureComponents[keys[type]].push(data);
+      });
+      this.props.onAdd({ kaptureComponents });
+    }
   };
 
   render() {
@@ -78,3 +96,13 @@ export class ImportComponents extends Component {
     );
   }
 }
+
+const mapDispatch = {
+  onAdd: addKaptureComponentsToComponentsList,
+};
+
+const connected = connect(
+  null,
+  mapDispatch
+)(ImportComponents);
+export { connected as ImportComponents };

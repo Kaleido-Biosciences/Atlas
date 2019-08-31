@@ -18,6 +18,7 @@ const designExperiment = createSlice({
     plateSize: { rows: 8, columns: 12 },
     plates: [],
     nextPlateId: 1,
+    componentList: [],
     components: [],
     recentComponents: [],
     componentsValid: true,
@@ -128,6 +129,10 @@ const designExperiment = createSlice({
         }
       });
       state.recentComponents = state.recentComponents.concat(addToRecent);
+    },
+    addKaptureComponentsToComponentsList(state, action) {
+      const { kaptureComponents } = action.payload;
+      addKaptureComponentsToState(kaptureComponents, state.componentList);
     },
     moveRecentComponentsToComponents(state, action) {
       const componentsToMove = action.payload.components;
@@ -317,4 +322,39 @@ function getComponentFromState(componentId, state) {
   return state.components.find(
     stateComponent => stateComponent.id === componentId
   );
+}
+
+function addKaptureComponentsToState(kaptureComponents, componentArray) {
+  const {
+    communities = [],
+    compounds = [],
+    media = [],
+    supplements = [],
+  } = kaptureComponents;
+  const createIfNotExists = (kaptureComponent, type) => {
+    const existingComponent = findInComponentArray(
+      kaptureComponent.id,
+      componentArray
+    );
+    if (!existingComponent) {
+      componentArray.unshift(createComponent(kaptureComponent, type));
+    }
+  };
+  communities.forEach(community => {
+    createIfNotExists(community, 'community');
+  });
+  compounds.forEach(compound => {
+    createIfNotExists(compound, 'compound');
+  });
+  media.forEach(medium => {
+    createIfNotExists(medium, 'medium');
+  });
+  supplements.forEach(supplement => {
+    createIfNotExists(supplement, 'supplement');
+  });
+  return componentArray;
+}
+
+function findInComponentArray(componentId, componentArray) {
+  return componentArray.find(component => component.id === componentId);
 }
