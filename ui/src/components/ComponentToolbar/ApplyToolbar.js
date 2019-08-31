@@ -9,6 +9,7 @@ import {
   applySelectedComponentsToSelectedWells,
   moveRecentComponentsToComponents,
   removeRecentComponents,
+  addComponentToComponents
 } from '../../store/experimentActions';
 import {
   selectActivePlate,
@@ -53,12 +54,14 @@ class ApplyToolbar extends Component {
   render() {
     const {
       components,
+      componentList,
       componentsValid,
       selectedWells,
       recentComponents,
       onAddComponent,
       onRecentComponentClick,
       onRecentComponentRemoveClick,
+      onComponentListClick
     } = this.props;
     const groupedComponents = this.groupComponents(components);
     const { communities, compounds, media, supplements } = groupedComponents;
@@ -66,7 +69,7 @@ class ApplyToolbar extends Component {
     return (
       <div className="apply-toolbar">
         <div className={styles.componentListContainer}>
-          <ComponentList />
+          <ComponentList components={componentList} onClick={onComponentListClick}/>
         </div>
         <div className={styles.componentSearchContainer}>
           <ComponentSearch onSelect={onAddComponent} />
@@ -131,11 +134,13 @@ ApplyToolbar.propTypes = {
   onApplyClick: PropTypes.func,
   onRecentComponentClick: PropTypes.func,
   onRecentComponentRemoveClick: PropTypes.func,
+  onComponentListClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
   const {
     components,
+    componentList,
     componentsValid,
     recentComponents,
   } = state.designExperiment;
@@ -143,6 +148,7 @@ const mapState = (state, props) => {
   const activePlate = selectActivePlate(state);
   return {
     components,
+    componentList,
     componentsValid,
     selectedWells,
     activePlate,
@@ -155,6 +161,7 @@ const mapDispatch = {
   onApplyClick: applySelectedComponentsToSelectedWells,
   onRecentComponentClick: moveRecentComponentsToComponents,
   onRecentComponentRemoveClick: removeRecentComponents,
+  onComponentListClick: addComponentToComponents,
 };
 
 const connected = connect(

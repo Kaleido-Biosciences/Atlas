@@ -134,6 +134,13 @@ const designExperiment = createSlice({
       const { kaptureComponents } = action.payload;
       addKaptureComponentsToState(kaptureComponents, state.componentList);
     },
+    addComponentToComponents(state, action) {
+      const { component } = action.payload;
+      const existingComponent = getComponentFromState(component.id, state);
+      if (!existingComponent) {
+        state.components.unshift(component);
+      }
+    },
     moveRecentComponentsToComponents(state, action) {
       const componentsToMove = action.payload.components;
       const { recentComponents } = state;
@@ -356,5 +363,5 @@ function addKaptureComponentsToState(kaptureComponents, componentArray) {
 }
 
 function findInComponentArray(componentId, componentArray) {
-  return componentArray.find(component => component.id === componentId);
+  return componentArray.find(component => component.data.id === componentId);
 }
