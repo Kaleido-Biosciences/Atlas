@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
+import SplitPane from 'react-split-pane';
 
 import {
   addComponents,
   applySelectedComponentsToSelectedWells,
   moveRecentComponentsToComponents,
   removeRecentComponents,
-  addComponentToComponents
+  addComponentToComponents,
 } from '../../store/experimentActions';
 import {
   selectActivePlate,
@@ -44,7 +45,7 @@ class ApplyToolbar extends Component {
         headerText = 'No wells selected.';
       }
       return (
-        <div>
+        <div className={styles.selectedWells}>
           <Header size="tiny">{headerText}</Header>
           {wellString}
         </div>
@@ -61,16 +62,71 @@ class ApplyToolbar extends Component {
       onAddComponent,
       onRecentComponentClick,
       onRecentComponentRemoveClick,
-      onComponentListClick
+      onComponentListClick,
     } = this.props;
     const groupedComponents = this.groupComponents(components);
     const { communities, compounds, media, supplements } = groupedComponents;
     const showComponents = components.length > 0;
+    const showSelectedWells = selectedWells && selectedWells.length > 0;
+    const splitStyle = showSelectedWells
+      ? {
+          position: 'relative',
+          height: 'calc(100% - 7em)',
+          'min-height': 'calc(100% - 7em)',
+        }
+      : { position: 'relative' };
     return (
-      <div className="apply-toolbar">
-        <div className={styles.componentListContainer}>
-          <ComponentList components={componentList} onClick={onComponentListClick}/>
-        </div>
+      <div className={styles.applyToolbar}>
+        <SplitPane
+          split="horizontal"
+          style={splitStyle}
+          pane1Style={{ marginBottom: '0.4em' }}
+          pane2Style={{ marginTop: '0.4em', overflow: 'auto' }}
+        >
+          <div className={styles.componentListContainer}>
+            <ComponentList
+              components={componentList}
+              onClick={onComponentListClick}
+            />
+          </div>
+          <div className={styles.componentsContainer}>
+            {showComponents ? (
+              <React.Fragment>
+                {communities.length > 0 && (
+                  <CommunitiesSection communities={communities} />
+                )}
+                {compounds.length > 0 && (
+                  <CompoundsSection compounds={compounds} />
+                )}
+                {media.length > 0 && <MediaSection media={media} />}
+                {supplements.length > 0 && (
+                  <SupplementsSection supplements={supplements} />
+                )}
+              </React.Fragment>
+            ) : (
+              <div className={styles.noComponentsMessage}>
+                Get started by searching for some components above.
+              </div>
+            )}
+          </div>
+        </SplitPane>
+        {selectedWells && selectedWells.length > 0 ? (
+          <div className={styles.selectedWellsContainer}>
+            {this.renderSelectedWells()}
+            {showComponents ? (
+              <div className={styles.applyButtonContainer}>
+                <Button
+                  disabled={!componentsValid}
+                  primary
+                  onClick={this.handleApplyClick}
+                >
+                  Apply to {selectedWells.length} wells
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+        {/* 
         <div className={styles.componentSearchContainer}>
           <ComponentSearch onSelect={onAddComponent} />
         </div>
@@ -118,7 +174,7 @@ class ApplyToolbar extends Component {
               </div>
             ) : null}
           </div>
-        ) : null}
+        ) : null} */}
       </div>
     );
   }

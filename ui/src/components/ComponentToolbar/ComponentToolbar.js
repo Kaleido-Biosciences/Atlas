@@ -50,6 +50,7 @@ export class ComponentToolbar extends Component {
           defaultActiveIndex={0}
           menu={{ secondary: true, pointing: true }}
           panes={panes}
+          className={styles.tabContainer}
         />
       </div>
     );
