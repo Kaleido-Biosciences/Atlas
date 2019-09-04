@@ -51,8 +51,12 @@ export function fetchPlates(experimentId, status) {
 export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = JSON.stringify(plateMaps);
-    let version = status === completedStatus? (new Date).getTime(): 0;
-    saveToDB(experimentName, status, version, plateMapsToSave, reject, resolve);
+    if (status === completedStatus) {
+      createNew(experimentName, status, ( new Date().getTime() ), plateMapsToSave, reject, resolve);
+    }
+    else{
+      saveToDB(experimentName, status, 0, plateMapsToSave, reject, resolve);
+    }
   });
 }
 
@@ -82,3 +86,26 @@ function saveToDB(experimentName, status, version, plateMapsToSave, reject, reso
     }
   });
 }
+
+function createNew(experimentName, status, version, plateMapsToSave, reject, resolve) {
+  var params = {
+    TableName : table,
+    Item:{
+      experiment_status: experimentName + "_" + status,
+      version: version,
+      plateMaps: plateMapsToSave
+    }
+  };
+  docClient.put(params, function(err, data) {
+    if (err) {
+      reject(err);
+      console.error(
+          'Unable to update item. Error JSON:',
+          JSON.stringify(err, null, 2)
+      );
+    } else {
+      resolve({data});
+    }
+  });
+}
+
