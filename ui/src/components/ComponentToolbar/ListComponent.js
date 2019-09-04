@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './ListComponent.module.css';
+
 export class ListComponent extends Component {
   handleClick = () => {
     if (this.props.onClick) {
@@ -9,7 +11,7 @@ export class ListComponent extends Component {
   };
   render() {
     const { component } = this.props;
-    return <div onClick={this.handleClick}>{component.displayName}</div>;
+    return <div className={styles.listComponent} onClick={this.handleClick}>{component.displayName}</div>;
   }
 }
 
