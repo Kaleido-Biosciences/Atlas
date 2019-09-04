@@ -74,6 +74,7 @@ class ApplyToolbar extends Component {
           pane2Style={{ marginTop: '0.4em', overflow: 'auto' }}
         >
           <div className={styles.componentListContainer}>
+            <h5 className={styles.toolbarHeader}>Component List</h5>
             <ComponentList
               components={componentList}
               onClick={onComponentListClick}
@@ -82,6 +83,7 @@ class ApplyToolbar extends Component {
           <div className={styles.componentsContainer}>
             {showComponents ? (
               <React.Fragment>
+                <h5 className={styles.toolbarHeader}>Palette</h5>
                 {communities.length > 0 && (
                   <CommunitiesSection communities={communities} />
                 )}
@@ -95,7 +97,7 @@ class ApplyToolbar extends Component {
               </React.Fragment>
             ) : (
               <div className={styles.noComponentsMessage}>
-                Get started by searching for some components above.
+                Get started by adding some components.
               </div>
             )}
           </div>

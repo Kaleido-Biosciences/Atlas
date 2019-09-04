@@ -12,6 +12,7 @@
 }
 
 .noComponentsMessage {
+  margin-top: 1em;
   text-align: center;
 }
 
@@ -86,4 +87,10 @@
 
 .applyToolbar :global(.SplitPane) {
   min-height: calc(100% - 7em) !important;
+}
+
+.toolbarHeader {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: rgb(0, 0, 0, 0.6);
 }
