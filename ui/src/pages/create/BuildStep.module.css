@@ -9,7 +9,7 @@
 
 .componentToolbar {
   position: absolute;
-  top: 4em;
+  top: 3em;
   right: 2em;
   width: 22rem;
   max-width: 22rem;
@@ -17,8 +17,8 @@
 
 .addComponentsPanel {
   position: absolute;
-  top: 4em;
-  right: 30em;
+  top: 3em;
+  right: 26em;
   width: 22rem;
   max-width: 22rem;
 }
