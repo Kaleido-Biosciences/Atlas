@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
+import axios from 'axios';
 
 import {
+  API_URL,
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,
   DYNAMODB_TABLE,
@@ -16,6 +18,7 @@ AWS.config.update({
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
 let completedStatus = 'COMPLETED';
+let WORLD_CLOCK_URL = 'http://worldclockapi.com/api/json/utc/now';
 
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
@@ -52,7 +55,9 @@ export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = JSON.stringify(plateMaps);
     if (status === completedStatus) {
-      createNew(experimentName, status, ( new Date().getTime() ), plateMapsToSave, reject, resolve);
+      axios.get(WORLD_CLOCK_URL).then(function (time) {
+        createNew(experimentName, status, time.data['currentFileTime'], plateMapsToSave, reject, resolve);
+      });
     }
     else{
       saveToDB(experimentName, status, 0, plateMapsToSave, reject, resolve);
@@ -108,4 +113,3 @@ function createNew(experimentName, status, version, plateMapsToSave, reject, res
     }
   });
 }
-
