@@ -51,16 +51,8 @@ export function fetchPlates(experimentId, status) {
 export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = JSON.stringify(plateMaps);
-    let version = 0;
-    if (status === completedStatus){
-      var p1 = readCompletedItem(experimentName);
-      p1.then(function(count){
-        saveToDB(experimentName, status,count + 1, plateMapsToSave, reject, resolve);
-      });
-    }
-    else{
-      saveToDB(experimentName, status, version, plateMapsToSave, reject, resolve);
-    }
+    let version = status === completedStatus? (new Date).getTime(): 0;
+    saveToDB(experimentName, status, version, plateMapsToSave, reject, resolve);
   });
 }
 
@@ -88,27 +80,5 @@ function saveToDB(experimentName, status, version, plateMapsToSave, reject, reso
     } else {
       resolve({data});
     }
-  });
-}
-
-function readCompletedItem(experimentName) {
-  return new Promise(function(resolve, reject) {
-    var params = {
-      TableName : table,
-      KeyConditionExpression: "#e = :eeee",
-      ExpressionAttributeNames:{
-        "#e": "experiment_status"
-      },
-      ExpressionAttributeValues: {
-        ":eeee": experimentName+"_"+completedStatus
-      }
-    };
-    docClient.query(params, function (err, data) {
-      if (err) {
-        resolve(0);
-      } else {
-        resolve(data['Count']);
-      }
-    });
   });
 }
