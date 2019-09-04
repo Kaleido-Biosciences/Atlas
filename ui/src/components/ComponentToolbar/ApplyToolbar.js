@@ -72,7 +72,6 @@ class ApplyToolbar extends Component {
       ? {
           position: 'relative',
           height: 'calc(100% - 7em)',
-          'min-height': 'calc(100% - 7em)',
         }
       : { position: 'relative' };
     return (

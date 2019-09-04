@@ -16,7 +16,7 @@
 }
 
 .selectedWellsContainer {
-  margin-top: 2em;
+  margin-top: 1em;
   text-align: center;
 }
 
@@ -82,4 +82,8 @@
 
 .applyToolbar :global(.Resizer.disabled:hover) {
   border-color: transparent;
+}
+
+.applyToolbar :global(.SplitPane) {
+  min-height: calc(100% - 7em) !important;
 }
