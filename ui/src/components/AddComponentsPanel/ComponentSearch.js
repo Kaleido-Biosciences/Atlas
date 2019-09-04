@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Search, SearchResult } from 'semantic-ui-react';
+import { Search } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import { api } from '../../api';

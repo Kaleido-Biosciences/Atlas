@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
-import { Card, Label } from 'semantic-ui-react';
 
 import { ComponentSearchResult } from './ComponentSearchResult';
 import { COMPONENT_TYPES_PLURAL_TO_SINGULAR } from '../../constants';
@@ -25,13 +24,15 @@ export class ComponentSearchResults extends Component {
       finalArray.sort((a, b) => {
         const aNameContainsTerm = a.data.name.includes(searchTerm);
         const bNameContainsTerm = b.data.name.includes(searchTerm);
+        let value;
         if (aNameContainsTerm && bNameContainsTerm) {
-          return 0;
+          value = 0;
         } else if (aNameContainsTerm && !bNameContainsTerm) {
-          return -1;
+          value = -1;
         } else if (!aNameContainsTerm && bNameContainsTerm) {
-          return 1;
+          value = 1;
         }
+        return value;
       });
       return finalArray;
     } else return null;

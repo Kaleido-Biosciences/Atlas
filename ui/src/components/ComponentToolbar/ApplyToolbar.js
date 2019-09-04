@@ -6,10 +6,7 @@ import { Header, Button } from 'semantic-ui-react';
 import SplitPane from 'react-split-pane';
 
 import {
-  addComponents,
   applySelectedComponentsToSelectedWells,
-  moveRecentComponentsToComponents,
-  removeRecentComponents,
   addComponentToComponents,
 } from '../../store/experimentActions';
 import {
@@ -17,8 +14,6 @@ import {
   selectSelectedWellsFromActivePlate,
 } from '../../store/selectors';
 import { ComponentList } from './ComponentList';
-import { ComponentSearch } from './ComponentSearch';
-import { RecentComponents } from './RecentComponents';
 import { CommunitiesSection } from './sections/CommunitiesSection';
 import { CompoundsSection } from './sections/CompoundsSection';
 import { MediaSection } from './sections/MediaSection';
@@ -58,10 +53,6 @@ class ApplyToolbar extends Component {
       componentList,
       componentsValid,
       selectedWells,
-      recentComponents,
-      onAddComponent,
-      onRecentComponentClick,
-      onRecentComponentRemoveClick,
       onComponentListClick,
     } = this.props;
     const groupedComponents = this.groupComponents(components);
@@ -125,55 +116,6 @@ class ApplyToolbar extends Component {
             ) : null}
           </div>
         ) : null}
-        {/* 
-        <div className={styles.componentSearchContainer}>
-          <ComponentSearch onSelect={onAddComponent} />
-        </div>
-        {recentComponents.length > 0 ? (
-          <div className={styles.recentComponentsContainer}>
-            <RecentComponents
-              components={recentComponents}
-              onComponentClick={onRecentComponentClick}
-              onComponentRemoveClick={onRecentComponentRemoveClick}
-            />
-          </div>
-        ) : null}
-        <div className={styles.componentsContainer}>
-          {showComponents ? (
-            <React.Fragment>
-              {communities.length > 0 && (
-                <CommunitiesSection communities={communities} />
-              )}
-              {compounds.length > 0 && (
-                <CompoundsSection compounds={compounds} />
-              )}
-              {media.length > 0 && <MediaSection media={media} />}
-              {supplements.length > 0 && (
-                <SupplementsSection supplements={supplements} />
-              )}
-            </React.Fragment>
-          ) : (
-            <div className={styles.noComponentsMessage}>
-              Get started by searching for some components above.
-            </div>
-          )}
-        </div>
-        {selectedWells && selectedWells.length > 0 ? (
-          <div className={styles.selectedWellsContainer}>
-            {this.renderSelectedWells()}
-            {showComponents ? (
-              <div className={styles.applyButtonContainer}>
-                <Button
-                  disabled={!componentsValid}
-                  primary
-                  onClick={this.handleApplyClick}
-                >
-                  Apply to {selectedWells.length} wells
-                </Button>
-              </div>
-            ) : null}
-          </div>
-        ) : null} */}
       </div>
     );
   }
@@ -184,21 +126,12 @@ ApplyToolbar.propTypes = {
   componentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
-  recentComponents: PropTypes.array,
-  onAddComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
-  onRecentComponentClick: PropTypes.func,
-  onRecentComponentRemoveClick: PropTypes.func,
   onComponentListClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const {
-    components,
-    componentList,
-    componentsValid,
-    recentComponents,
-  } = state.designExperiment;
+  const { components, componentList, componentsValid } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
@@ -207,15 +140,11 @@ const mapState = (state, props) => {
     componentsValid,
     selectedWells,
     activePlate,
-    recentComponents,
   };
 };
 
 const mapDispatch = {
-  onAddComponent: addComponents,
   onApplyClick: applySelectedComponentsToSelectedWells,
-  onRecentComponentClick: moveRecentComponentsToComponents,
-  onRecentComponentRemoveClick: removeRecentComponents,
   onComponentListClick: addComponentToComponents,
 };
 
