@@ -1,5 +1,4 @@
 .componentSearchResults {
-  max-height: 20em;
   overflow: auto;
   padding: 1em;
   font-size: 0.8em;

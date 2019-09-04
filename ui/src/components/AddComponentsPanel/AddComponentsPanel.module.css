@@ -1,3 +1,15 @@
+.addComponentsPanel {
+  height: 100%;
+}
+
+.tabContainer {
+  height: 100%;
+}
+
+.tabContainer :global(.ui.segment.active.tab) {
+  height: calc(100% - 5em);
+}
+
 .addComponentsPanel :global(.ui.tab) {
   border: none;
   box-shadow: none;

@@ -6,6 +6,8 @@ import { addKaptureComponentsToComponentsList } from '../../store/experimentActi
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 
+import styles from './ImportComponents.module.css';
+
 const INITIAL_STATE = {
   view: 'textarea',
   found: [],
@@ -79,7 +81,7 @@ class ImportComponents extends Component {
   render() {
     const { view, found, notFound, total, completed } = this.state;
     return (
-      <div>
+      <div className={styles.importComponents}>
         {view === 'textarea' ? (
           <ImportTextArea onImport={this.handleImport} />
         ) : (

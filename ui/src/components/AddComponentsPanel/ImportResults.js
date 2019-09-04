@@ -21,7 +21,7 @@ export class ImportResults extends Component {
     const { found, notFound, total, completed } = this.props;
     const progressValue = found.length + notFound.length;
     return (
-      <div>
+      <div className={styles.importResults}>
         <div className={styles.progressContainer}>
           <Progress
             value={progressValue}
@@ -30,7 +30,7 @@ export class ImportResults extends Component {
             autoSuccess
           />
         </div>
-        <div className={styles.importResults}>
+        <div className={styles.resultsContainer}>
           <div className={styles.found}>
             <h5 className={styles.header}>Found: {found.length}</h5>
             <div className={styles.results}>

@@ -50,7 +50,10 @@ class BuildStep extends Component {
                 <Panel containerClass={styles.componentToolbar}>
                   <ComponentToolbar onTabChange={this.handleClickModeChange} />
                 </Panel>
-                <Panel containerClass={styles.addComponentsPanel}>
+                <Panel
+                  containerClass={styles.addComponentsPanel}
+                  defaultSize={{ width: 'auto', height: '250px' }}
+                >
                   <AddComponentsPanel />
                 </Panel>
                 <Plate

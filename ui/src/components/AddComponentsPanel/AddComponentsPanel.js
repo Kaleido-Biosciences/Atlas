@@ -28,7 +28,11 @@ export class AddComponentsPanel extends Component {
   render() {
     return (
       <div className={styles.addComponentsPanel}>
-        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+        <Tab
+          menu={{ secondary: true, pointing: true }}
+          panes={panes}
+          className={styles.tabContainer}
+        />
       </div>
     );
   }

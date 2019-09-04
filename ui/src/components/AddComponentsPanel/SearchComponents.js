@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { addKaptureComponentsToComponentsList } from '../../store/experimentActions';
 import { ComponentSearch } from './ComponentSearch';
 import { ComponentSearchResults } from './ComponentSearchResults';
+import styles from './SearchComponents.module.css';
 
 class SearchComponents extends Component {
   state = {
@@ -31,7 +32,7 @@ class SearchComponents extends Component {
   render() {
     const { searchResult } = this.state;
     return (
-      <div>
+      <div className={styles.searchComponents}>
         <ComponentSearch onSearchComplete={this.handleResultsLoaded} />
         <ComponentSearchResults
           searchResult={searchResult}

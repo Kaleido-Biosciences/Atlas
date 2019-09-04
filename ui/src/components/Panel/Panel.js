@@ -8,6 +8,7 @@ import styles from './Panel.module.css';
 
 export class Panel extends Component {
   render() {
+    const { defaultSize } = this.props;
     return (
       <Draggable handle={`.${styles.dragHandle}`} position={null} scale={1}>
         <div className={this.props.containerClass}>
@@ -26,6 +27,7 @@ export class Panel extends Component {
               right: { cursor: 'e-resize' },
               bottom: { cursor: 's-resize' },
             }}
+            defaultSize={defaultSize}
           >
             <Segment className={styles.resizeContainer}>
               <div className={styles.dragHandle} />
@@ -40,4 +42,5 @@ export class Panel extends Component {
 
 Panel.propTypes = {
   containerClass: PropTypes.string.isRequired,
+  defaultSize: PropTypes.object,
 };
