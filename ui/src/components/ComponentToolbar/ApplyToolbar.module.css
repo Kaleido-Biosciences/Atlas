@@ -1,22 +1,96 @@
+.applyToolbar {
+  height: 100%;
+}
+
+.componentListContainer {
+  width: 100%;
+  overflow: auto;
+}
+
 .recentComponentsContainer {
   margin-top: 0.2em;
 }
 
-.componentsContainer {
-  margin-top: 1.2em;
-}
-
 .noComponentsMessage {
+  margin-top: 1em;
   text-align: center;
 }
 
 .selectedWellsContainer {
-  margin-top: 2em;
+  margin-top: 1em;
   text-align: center;
+}
+
+.selectedWells {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .applyButtonContainer {
   margin-top: 1em;
   display: flex;
   justify-content: center;
+}
+
+.applyToolbar :global(.Resizer) {
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+.applyToolbar :global(.Resizer:hover) {
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
+}
+
+.applyToolbar :global(.Resizer.horizontal) {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.applyToolbar :global(.Resizer.horizontal:hover) {
+  border-top: 5px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.applyToolbar :global(.Resizer.vertical) {
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+.applyToolbar :global(.Resizer.vertical:hover) {
+  border-left: 5px solid rgba(0, 0, 0, 0.5);
+  border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.applyToolbar :global(.Resizer.disabled) {
+  cursor: not-allowed;
+}
+
+.applyToolbar :global(.Resizer.disabled:hover) {
+  border-color: transparent;
+}
+
+.applyToolbar :global(.SplitPane) {
+  min-height: calc(100% - 7em) !important;
+}
+
+.toolbarHeader {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: rgb(0, 0, 0, 0.6);
 }

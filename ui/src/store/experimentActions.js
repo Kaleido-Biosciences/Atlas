@@ -61,6 +61,8 @@ export const {
   addComponents,
   moveRecentComponentsToComponents,
   removeRecentComponents,
+  addKaptureComponentsToComponentsList,
+  addComponentToComponents,
   setClearMode,
   selectComponents,
   deselectComponents,

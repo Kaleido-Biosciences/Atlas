@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react';
-import Draggable from 'react-draggable';
 
 import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
 import { Plate } from '../../components/Plate/Plate';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
+import { Panel } from '../../components/Panel/Panel';
+import { AddComponentsPanel } from '../../components/AddComponentsPanel/AddComponentsPanel';
 import styles from './BuildStep.module.css';
 
 import {
@@ -47,20 +47,15 @@ class BuildStep extends Component {
             <React.Fragment>
               <PlateToolbar onComplete={this.props.onComplete} />
               <div className={styles.plateContainer}>
-                <Draggable
-                  handle={`.${styles.dragHandle}`}
-                  position={null}
-                  scale={1}
+                <Panel containerClass={styles.componentToolbar}>
+                  <ComponentToolbar onTabChange={this.handleClickModeChange} />
+                </Panel>
+                <Panel
+                  containerClass={styles.addComponentsPanel}
+                  defaultSize={{ width: 'auto', height: '250px' }}
                 >
-                  <div className={styles.componentToolbar}>
-                    <Segment>
-                      <div className={styles.dragHandle} />
-                      <ComponentToolbar
-                        onTabChange={this.handleClickModeChange}
-                      />
-                    </Segment>
-                  </div>
-                </Draggable>
+                  <AddComponentsPanel />
+                </Panel>
                 <Plate
                   plate={activePlate}
                   onWellsClick={this.handlePlateClick}
