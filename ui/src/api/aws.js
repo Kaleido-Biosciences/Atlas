@@ -2,7 +2,6 @@ import AWS from 'aws-sdk';
 import axios from 'axios';
 
 import {
-  API_URL,
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,
   DYNAMODB_TABLE,
