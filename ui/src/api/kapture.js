@@ -56,3 +56,66 @@ export function fetchComponents(page, size, nameContains, descContains) {
     }
   );
 }
+
+export async function searchComponents(page, size, query) {
+  if (query) {
+    const params = [];
+    params.push(`query=*${query}*`);
+    if (page) params.push(`page=${page}`);
+    if (size) params.push(`size=${size}`);
+    const queryString = '?' + params.join('&');
+    const getUrl = url => `${API_URL}${url}${queryString}`;
+    const communities = axios.get(getUrl('/_search/communities'));
+    const compounds = axios.get(getUrl('/_search/batches'));
+    const media = axios.get(getUrl('/_search/media'));
+    const supplements = axios.get(getUrl('/_search/supplements'));
+    const response = await Promise.all([
+      communities,
+      compounds,
+      media,
+      supplements,
+    ]);
+    return {
+      communities: response[0].data,
+      compounds: response[1].data,
+      media: response[2].data,
+      supplements: response[3].data,
+    };
+  }
+}
+
+export function findComponent(name) {
+  const queryString = `?name.equals=${name}`;
+  const communities = axios.get(API_URL + '/communities' + queryString);
+  const compounds = axios.get(API_URL + '/batches' + queryString);
+  const media = axios.get(API_URL + '/media' + queryString);
+  const supplements = axios.get(API_URL + '/supplements' + queryString);
+  return Promise.all([communities, compounds, media, supplements]).then(
+    response => {
+      const result = {
+        name,
+        found: false,
+        type: null,
+        data: null,
+      };
+      if (response[0].data.length) {
+        result.found = true;
+        result.type = 'community';
+        result.data = response[0].data[0];
+      } else if (response[1].data.length) {
+        result.found = true;
+        result.type = 'compound';
+        result.data = response[1].data[0];
+      } else if (response[2].data.length) {
+        result.found = true;
+        result.type = 'medium';
+        result.data = response[2].data[0];
+      } else if (response[3].data.length) {
+        result.found = true;
+        result.type = 'supplement';
+        result.data = response[3].data[0];
+      }
+      return result;
+    }
+  );
+}
