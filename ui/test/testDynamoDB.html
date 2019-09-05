@@ -18,12 +18,12 @@ function createAtlas() {
     var params = {
         TableName : tableName,
         KeySchema: [
-            { AttributeName: "experiment", KeyType: "HASH"},
-            { AttributeName: "status", KeyType: "RANGE" }
+            { AttributeName: "experiment_status", KeyType: "HASH"},
+            { AttributeName: "version", KeyType: "RANGE" }
         ],
         AttributeDefinitions: [       
-            { AttributeName: "experiment", AttributeType: "S" },
-            { AttributeName: "status", AttributeType: "S" }
+            { AttributeName: "experiment_status", AttributeType: "S" },
+            { AttributeName: "version", AttributeType: "N" }
         ],
         ProvisionedThroughput: {       
             ReadCapacityUnits: 5,
@@ -70,8 +70,8 @@ function createItem() {
     var params = {
         TableName : tableName,
         Item:{
-            "experiment": "G314",
-            "status": "DRAFT",
+            "experiment_status": "G314_DRAFT",
+            "version": 0,
             "scientist": "AA",
             "plateMaps": ["a","b","c"]
         }
@@ -89,12 +89,13 @@ function readItem() {
     var table = tableName ;
     var experiment = "G314";
     var status = "DRAFT";
+    var version = 0;
 
     var params = {
         TableName: table,
         Key:{
-            "experiment": experiment,
-            "status": status,
+            "experiment_status": experiment+"_"+status,
+            "version": version,
         }
     };
     docClient.get(params, function(err, data) {
@@ -110,12 +111,13 @@ function updateItem() {
     var table = tableName;
     var experiment = "G314";
     var status = "DRAFT";
+    var version = 0;
 
     var params = {
         TableName:table,
         Key:{
-            "experiment": experiment,
-            "status": status,
+            "experiment_status": experiment+"_"+status,
+            "version": version,
         },
         UpdateExpression: "set plateMaps=:p",
         ExpressionAttributeValues:{
@@ -137,12 +139,13 @@ function deleteItem() {
     var table = tableName;
     var experiment = "G314";
     var status = "DRAFT";
+    var version = 0;
 
     var params = {
         TableName:table,
         Key:{
-            "experiment": experiment,
-            "status": status,
+            "experiment_status": experiment+"_"+status,
+            "version": version,
         }
     };
     docClient.delete(params, function(err, data) {
@@ -159,15 +162,16 @@ function queryData() {
     document.getElementById('textarea').innerHTML += "Querying for items";
     var table = tableName;
     var experiment = "G314";
+    var status = "DRAFT";
 
     var params = {
         TableName : table,
         KeyConditionExpression: "#e = :eeee",
         ExpressionAttributeNames:{
-            "#e": "experiment"
+            "#e": "experiment_status"
         },
         ExpressionAttributeValues: {
-            ":eeee": experiment
+            ":eeee": experiment+"_"+status
         }
     };
 
@@ -185,7 +189,7 @@ function queryData() {
 
 function scanData() {
     document.getElementById('textarea').innerHTML = "";
-    document.getElementById('textarea').innerHTML += "Scanning table atlas-production2" + "\n";
+    document.getElementById('textarea').innerHTML += "Scanning table atlas-staging" + "\n";
 
     var params = {
         TableName: tableName,
@@ -234,11 +238,12 @@ function processFile(evt) {
 
             allAtlas.forEach(function (item) {
 
+                var version = item.status==='COMPLETED'?(new Date).getTime():0;
                 var params = {
-                    TableName: "atlas-production2",
+                    TableName: "atlas-staging2\",
                     Item: {
-                        "experiment": item.experiment,
-                        "status": item.status,
+                        "experiment": item.experiment+"_"+item.status,
+                        "version": item.status,
                         "plateMaps": item.plateMaps
                     }
                 };
