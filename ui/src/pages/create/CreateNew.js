@@ -20,7 +20,7 @@ class CreateNew extends Component {
     const { pathname } = this.props.location;
     return (
       <React.Fragment>
-        <Steps pathName={pathname} steps={this.props.steps} />
+        {/* <Steps pathName={pathname} steps={this.props.steps} /> */}
         <Switch>
           <Route
             path={`${match.path}/select`}

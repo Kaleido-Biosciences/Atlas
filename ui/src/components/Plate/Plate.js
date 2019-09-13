@@ -44,11 +44,9 @@ export class Plate extends Component {
     topHeaderCells.unshift(<td key="blank" />);
     rows.unshift(<tr key="topHeader">{topHeaderCells}</tr>);
     return (
-      <div className={styles.container}>
-        <table className={styles.plate}>
-          <tbody>{rows}</tbody>
-        </table>
-      </div>
+      <table className={styles.plateTable}>
+        <tbody>{rows}</tbody>
+      </table>
     );
   }
   handleHeaderClick = ({ headerType, index }) => {
@@ -73,7 +71,9 @@ export class Plate extends Component {
   };
   render() {
     const { plate } = this.props;
-    return <div>{this.renderTable(plate.wells)}</div>;
+    return (
+      <div className={styles.plate}>{this.renderTable(plate.wells)}</div>
+    );
   }
 }
 

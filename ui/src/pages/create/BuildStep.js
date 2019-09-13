@@ -8,6 +8,7 @@ import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToo
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
 import { Panel } from '../../components/Panel/Panel';
 import { AddComponentsPanel } from '../../components/AddComponentsPanel/AddComponentsPanel';
+import SplitPane from 'react-split-pane';
 import styles from './BuildStep.module.css';
 
 import {
@@ -41,13 +42,12 @@ class BuildStep extends Component {
     const { plates, activePlate } = this.props;
     const showPlate = plates.length > 0 && activePlate;
     return (
-      <div className={styles.container}>
-        <div className={styles.plate}>
-          {showPlate && (
-            <React.Fragment>
-              <PlateToolbar onComplete={this.props.onComplete} />
-              <div className={styles.plateContainer}>
-                <Panel containerClass={styles.componentToolbar}>
+      <div className={styles.buildStep}>
+        {showPlate && (
+          <React.Fragment>
+            <PlateToolbar onComplete={this.props.onComplete} />
+            <div className={styles.plateContainer}>
+              {/* <Panel containerClass={styles.componentToolbar}>
                   <ComponentToolbar onTabChange={this.handleClickModeChange} />
                 </Panel>
                 <Panel
@@ -55,18 +55,23 @@ class BuildStep extends Component {
                   defaultSize={{ width: 'auto', height: '250px' }}
                 >
                   <AddComponentsPanel />
-                </Panel>
+                </Panel> */}
+              <SplitPane
+                primary="second"
+                defaultSize={300}
+                minSize={200}
+                pane1Style={{ overflow: 'hidden' }}
+              >
                 <Plate
                   plate={activePlate}
                   onWellsClick={this.handlePlateClick}
                 />
-              </div>
-            </React.Fragment>
-          )}
-          {!showPlate && (
-            <NoPlatesMessage onAddClick={this.props.addNewPlate} />
-          )}
-        </div>
+                <ComponentToolbar onTabChange={this.handleClickModeChange} />
+              </SplitPane>
+            </div>
+          </React.Fragment>
+        )}
+        {!showPlate && <NoPlatesMessage onAddClick={this.props.addNewPlate} />}
       </div>
     );
   }
