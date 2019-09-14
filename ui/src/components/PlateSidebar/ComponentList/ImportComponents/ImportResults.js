@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Progress, Button } from 'semantic-ui-react';
 
-import styles from './ImportResults.module.css';
+import styles from './ImportComponents.module.css';
 
 export class ImportResults extends Component {
   handleBack = () => {
