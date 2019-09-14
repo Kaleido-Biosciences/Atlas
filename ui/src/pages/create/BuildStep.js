@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
+import { PlateSidebar } from '../../components/PlateSidebar';
 import { Plate } from '../../components/Plate/Plate';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
@@ -66,7 +67,7 @@ class BuildStep extends Component {
                   plate={activePlate}
                   onWellsClick={this.handlePlateClick}
                 />
-                <ComponentToolbar onTabChange={this.handleClickModeChange} />
+                <PlateSidebar />
               </SplitPane>
             </div>
           </React.Fragment>
