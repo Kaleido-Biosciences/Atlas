@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addKaptureComponentsToComponentsList } from '../../store/experimentActions';
+import { addKaptureComponentsToComponents } from '../../store/experimentActions';
 import { ComponentSearch } from './ComponentSearch';
 import { ComponentSearchResults } from './ComponentSearchResults';
 import styles from './SearchComponents.module.css';
@@ -44,7 +44,7 @@ class SearchComponents extends Component {
 }
 
 const mapDispatch = {
-  onAdd: addKaptureComponentsToComponentsList,
+  onAdd: addKaptureComponentsToComponents,
 };
 
 const connected = connect(

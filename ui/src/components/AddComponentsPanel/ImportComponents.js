@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { api } from '../../api';
-import { addKaptureComponentsToComponentsList } from '../../store/experimentActions';
+import { addKaptureComponentsToComponents } from '../../store/experimentActions';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 
@@ -100,7 +100,7 @@ class ImportComponents extends Component {
 }
 
 const mapDispatch = {
-  onAdd: addKaptureComponentsToComponentsList,
+  onAdd: addKaptureComponentsToComponents,
 };
 
 const connected = connect(

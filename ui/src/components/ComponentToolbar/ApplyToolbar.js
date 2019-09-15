@@ -6,8 +6,8 @@ import { Header, Button } from 'semantic-ui-react';
 import SplitPane from 'react-split-pane';
 
 import {
-  applySelectedComponentsToSelectedWells,
-  addComponentToComponents,
+  applySelectedToolComponentsToSelectedWells,
+  addComponentToToolComponents,
 } from '../../store/experimentActions';
 import {
   selectActivePlate,
@@ -51,7 +51,7 @@ class ApplyToolbar extends Component {
     const {
       components,
       componentList,
-      componentsValid,
+      toolComponentsValid,
       selectedWells,
       onComponentListClick,
     } = this.props;
@@ -108,7 +108,7 @@ class ApplyToolbar extends Component {
             {showComponents ? (
               <div className={styles.applyButtonContainer}>
                 <Button
-                  disabled={!componentsValid}
+                  disabled={!toolComponentsValid}
                   primary
                   onClick={this.handleApplyClick}
                 >
@@ -125,7 +125,7 @@ class ApplyToolbar extends Component {
 
 ApplyToolbar.propTypes = {
   components: PropTypes.array.isRequired,
-  componentsValid: PropTypes.bool.isRequired,
+  toolComponentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
   onApplyClick: PropTypes.func,
@@ -133,21 +133,21 @@ ApplyToolbar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { components, componentList, componentsValid } = state.designExperiment;
+  const { components, componentList, toolComponentsValid } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
     components,
     componentList,
-    componentsValid,
+    toolComponentsValid,
     selectedWells,
     activePlate,
   };
 };
 
 const mapDispatch = {
-  onApplyClick: applySelectedComponentsToSelectedWells,
-  onComponentListClick: addComponentToComponents,
+  onApplyClick: applySelectedToolComponentsToSelectedWells,
+  onComponentListClick: addComponentToToolComponents,
 };
 
 const connected = connect(

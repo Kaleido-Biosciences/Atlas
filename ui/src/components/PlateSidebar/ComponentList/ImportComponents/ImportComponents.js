@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { api } from '../../../../api';
-import { addKaptureComponentsToComponentsList } from '../../../../store/experimentActions';
+import { addKaptureComponentsToComponents } from '../../../../store/experimentActions';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 
@@ -94,7 +94,7 @@ ImportComponents.propTypes = {
 };
 
 const mapDispatch = {
-  onAdd: addKaptureComponentsToComponentsList,
+  onAdd: addKaptureComponentsToComponents,
 };
 
 const connected = connect(

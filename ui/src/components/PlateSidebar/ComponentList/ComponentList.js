@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { addComponentToComponents } from '../../../store/experimentActions';
+import { addComponentToToolComponents } from '../../../store/experimentActions';
 import { Header } from './Header';
 import { List } from './List';
 
 class ComponentList extends Component {
   render() {
-    const { componentList, componentCounts, onComponentClick } = this.props;
+    const { components, componentCounts, onComponentClick } = this.props;
     return (
       <div>
         <Header />
         <List
-          components={componentList}
+          components={components}
           counts={componentCounts}
           onComponentClick={onComponentClick}
         />
@@ -23,17 +23,17 @@ class ComponentList extends Component {
 }
 
 ComponentList.propTypes = {
-  componentList: PropTypes.array,
+  components: PropTypes.array,
   onComponentClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const { componentList, componentCounts } = state.designExperiment;
-  return { componentList, componentCounts };
+  const { components, componentCounts } = state.designExperiment;
+  return { components, componentCounts };
 };
 
 const mapDispatch = {
-  onComponentClick: addComponentToComponents,
+  onComponentClick: addComponentToToolComponents,
 };
 
 const connected = connect(

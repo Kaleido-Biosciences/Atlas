@@ -17,7 +17,7 @@ import {
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
-  applySelectedComponentsToWells,
+  applySelectedToolComponentsToWells,
   clearWells,
 } from '../../store/experimentActions';
 import { selectActivePlate } from '../../store/selectors';
@@ -30,7 +30,7 @@ class BuildStep extends Component {
   handlePlateClick = data => {
     const { clickMode } = this.props;
     if (clickMode === 'apply') {
-      this.props.applySelectedComponentsToWells(data);
+      this.props.applySelectedToolComponentsToWells(data);
     }
     if (clickMode === 'clear') {
       this.props.clearWells(data);
@@ -67,9 +67,9 @@ class BuildStep extends Component {
                 />
                 <PlateSidebar />
               </SplitPane>
-              <Panel containerClass={styles.componentToolbar}>
+              {/* <Panel containerClass={styles.componentToolbar}>
                 <ComponentToolbar onTabChange={this.handleClickModeChange} />
-              </Panel>
+              </Panel> */}
             </div>
           </React.Fragment>
         )}
@@ -87,7 +87,7 @@ BuildStep.propTypes = {
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
   deselectAllWells: PropTypes.func.isRequired,
-  applySelectedComponentsToWells: PropTypes.func.isRequired,
+  applySelectedToolComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
   onComplete: PropTypes.func,
 };
@@ -103,7 +103,7 @@ const mapDispatch = {
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
-  applySelectedComponentsToWells,
+  applySelectedToolComponentsToWells,
   clearWells,
 };
 
