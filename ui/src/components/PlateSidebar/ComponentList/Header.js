@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Modal, Header as SemanticHeader } from 'semantic-ui-react';
 
 import { ImportComponents } from './ImportComponents';
+import styles from './ComponentList.module.css';
 
 export class Header extends Component {
   state = {
@@ -16,8 +17,9 @@ export class Header extends Component {
   render() {
     const { modalOpen } = this.state;
     return (
-      <div>
-        Components <Icon name="download" onClick={this.openModal} />
+      <div className={styles.header}>
+        <div className={styles.headerContent}>Components</div>
+        <Icon name="download" onClick={this.openModal} link />
         <Modal
           open={modalOpen}
           onClose={this.closeModal}

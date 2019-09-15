@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Component } from './Component';
+import styles from './ComponentList.module.css';
 
 export class List extends React.Component {
   handleComponentClick = ({ component }) => {
@@ -29,7 +30,7 @@ export class List extends React.Component {
         {showComponents ? (
           this.renderComponents(components, counts)
         ) : (
-          <div>No components</div>
+          <div className={styles.noComponentsMessage}>Get started by adding some components.</div>
         )}
       </div>
     );
