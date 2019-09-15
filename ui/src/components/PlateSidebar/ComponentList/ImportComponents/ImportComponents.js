@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { api } from '../../../../api';
@@ -75,6 +76,9 @@ class ImportComponents extends Component {
         kaptureComponents[keys[type]].push(data);
       });
       this.props.onAdd({ kaptureComponents });
+      if (this.props.afterAdd) {
+        this.props.afterAdd();
+      }
     }
   };
 
@@ -98,6 +102,11 @@ class ImportComponents extends Component {
     );
   }
 }
+
+ImportComponents.propTypes = {
+  onAdd: PropTypes.func,
+  afterAdd: PropTypes.func,
+};
 
 const mapDispatch = {
   onAdd: addKaptureComponentsToComponentsList,

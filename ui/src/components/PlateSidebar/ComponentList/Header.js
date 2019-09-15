@@ -28,7 +28,7 @@ export class Header extends Component {
         >
           <SemanticHeader icon="download" content="Import Components" />
           <Modal.Content>
-            <ImportComponents />
+            <ImportComponents afterAdd={this.closeModal} />
           </Modal.Content>
         </Modal>
       </div>
