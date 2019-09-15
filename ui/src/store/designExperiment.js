@@ -21,7 +21,6 @@ const designExperiment = createSlice({
     nextPlateId: 1,
     componentList: [],
     components: [],
-    recentComponents: [],
     componentsValid: true,
     componentCounts: {},
     clickMode: 'apply',
@@ -97,14 +96,12 @@ const designExperiment = createSlice({
       const componentsToRemove = action.payload.components;
       const { components } = state;
       const idsToRemove = componentsToRemove.map(component => component.id);
-      let addToRecent = [];
       idsToRemove.forEach(id => {
         const index = components.findIndex(component => component.id === id);
         if (index > -1) {
-          addToRecent = addToRecent.concat(components.splice(index, 1));
+          components.splice(index, 1);
         }
       });
-      state.recentComponents = state.recentComponents.concat(addToRecent);
     },
     addKaptureComponentsToComponentsList(state, action) {
       const { kaptureComponents } = action.payload;
@@ -125,34 +122,6 @@ const designExperiment = createSlice({
       if (!existingComponent) {
         state.components.unshift(component);
       }
-    },
-    moveRecentComponentsToComponents(state, action) {
-      const componentsToMove = action.payload.components;
-      const { recentComponents } = state;
-      const idsToMove = componentsToMove.map(component => component.id);
-      let addToComponents = [];
-      idsToMove.forEach(id => {
-        const index = recentComponents.findIndex(
-          component => component.id === id
-        );
-        if (index > -1) {
-          addToComponents = addToComponents.concat(
-            recentComponents.splice(index, 1)
-          );
-        }
-      });
-      const newComponents = addToComponents.map(component => {
-        return createComponent(component.data, component.type);
-      });
-      state.components = newComponents.concat(state.components);
-    },
-    removeRecentComponents(state, action) {
-      const componentsToRemove = action.payload.components;
-      const { recentComponents } = state;
-      const idsToDelete = componentsToRemove.map(component => component.id);
-      state.recentComponents = recentComponents.filter(
-        component => !idsToDelete.includes(component.id)
-      );
     },
     selectComponents(state, action) {
       const { components } = action.payload;
