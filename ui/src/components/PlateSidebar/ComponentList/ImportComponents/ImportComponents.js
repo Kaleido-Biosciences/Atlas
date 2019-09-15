@@ -57,23 +57,8 @@ class ImportComponents extends Component {
 
   addComponents = () => {
     if (this.props.onAdd) {
-      const components = this.state.found.map(({ type, data }) => {
+      const kaptureComponents = this.state.found.map(({ type, data }) => {
         return { type, data };
-      });
-      const kaptureComponents = {
-        communities: [],
-        compounds: [],
-        media: [],
-        supplements: [],
-      };
-      const keys = {
-        community: 'communities',
-        compound: 'compounds',
-        medium: 'media',
-        supplement: 'supplements',
-      };
-      components.forEach(({ type, data }) => {
-        kaptureComponents[keys[type]].push(data);
       });
       this.props.onAdd({ kaptureComponents });
       if (this.props.afterAdd) {

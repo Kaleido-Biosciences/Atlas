@@ -93,32 +93,6 @@ const designExperiment = createSlice({
     setClearMode(state, action) {
       state.clearMode = action.payload;
     },
-    addComponents(state, action) {
-      const {
-        communities = [],
-        compounds = [],
-        media = [],
-        supplements = [],
-      } = action.payload;
-      const createIfNotExists = (data, type) => {
-        const existingComponent = getComponentFromState(data.id, state);
-        if (!existingComponent) {
-          state.components.unshift(createComponent(data, type));
-        }
-      };
-      communities.forEach(comm => {
-        createIfNotExists(comm, 'community');
-      });
-      compounds.forEach(comp => {
-        createIfNotExists(comp, 'compound');
-      });
-      media.forEach(medium => {
-        createIfNotExists(medium, 'medium');
-      });
-      supplements.forEach(supp => {
-        createIfNotExists(supp, 'supplement');
-      });
-    },
     removeComponents(state, action) {
       const componentsToRemove = action.payload.components;
       const { components } = state;
@@ -134,7 +108,16 @@ const designExperiment = createSlice({
     },
     addKaptureComponentsToComponentsList(state, action) {
       const { kaptureComponents } = action.payload;
-      addKaptureComponentsToState(kaptureComponents, state.componentList);
+      const { componentList } = state;
+      kaptureComponents.forEach(kaptureComponent => {
+        const { data, type, id } = kaptureComponent;
+        const existingComponent = componentList.find(
+          component => component.data.id === id
+        );
+        if (!existingComponent) {
+          componentList.unshift(createComponent(data, type));
+        }
+      });
     },
     addComponentToComponents(state, action) {
       const { component } = action.payload;
@@ -334,39 +317,4 @@ function getComponentFromState(componentId, state) {
   return state.components.find(
     stateComponent => stateComponent.id === componentId
   );
-}
-
-function addKaptureComponentsToState(kaptureComponents, componentArray) {
-  const {
-    communities = [],
-    compounds = [],
-    media = [],
-    supplements = [],
-  } = kaptureComponents;
-  const createIfNotExists = (kaptureComponent, type) => {
-    const existingComponent = findInComponentArray(
-      kaptureComponent.id,
-      componentArray
-    );
-    if (!existingComponent) {
-      componentArray.unshift(createComponent(kaptureComponent, type));
-    }
-  };
-  communities.forEach(community => {
-    createIfNotExists(community, 'community');
-  });
-  compounds.forEach(compound => {
-    createIfNotExists(compound, 'compound');
-  });
-  media.forEach(medium => {
-    createIfNotExists(medium, 'medium');
-  });
-  supplements.forEach(supplement => {
-    createIfNotExists(supplement, 'supplement');
-  });
-  return componentArray;
-}
-
-function findInComponentArray(componentId, componentArray) {
-  return componentArray.find(component => component.data.id === componentId);
 }
