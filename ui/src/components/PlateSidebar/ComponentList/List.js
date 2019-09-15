@@ -9,24 +9,25 @@ export class List extends React.Component {
       this.props.onComponentClick({ component });
     }
   };
-  renderComponents(components) {
+  renderComponents(components, counts) {
     return components.map(component => {
       return (
         <Component
           key={component.id}
           component={component}
           onClick={this.handleComponentClick}
+          count={counts[component.id]}
         />
       );
     });
   }
   render() {
-    const { components } = this.props;
+    const { components, counts } = this.props;
     const showComponents = components && components.length;
     return (
       <div>
         {showComponents ? (
-          this.renderComponents(components)
+          this.renderComponents(components, counts)
         ) : (
           <div>No components</div>
         )}
@@ -37,5 +38,6 @@ export class List extends React.Component {
 
 List.propTypes = {
   components: PropTypes.array,
+  counts: PropTypes.object,
   onComponentClick: PropTypes.func,
 };

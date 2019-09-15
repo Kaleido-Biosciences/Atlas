@@ -8,12 +8,17 @@ export class Component extends React.Component {
     }
   };
   render() {
-    const { component } = this.props;
-    return <div onClick={this.handleClick}>{component.displayName}</div>;
+    const { component, count } = this.props;
+    return (
+      <div onClick={this.handleClick}>
+        {component.displayName} {count}
+      </div>
+    );
   }
 }
 
 Component.propTypes = {
   component: PropTypes.object.isRequired,
+  count: PropTypes.number,
   onClick: PropTypes.func,
 };

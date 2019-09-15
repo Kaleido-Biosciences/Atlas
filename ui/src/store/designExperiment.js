@@ -8,6 +8,7 @@ import {
   findPlateById,
   createComponent,
   createTimepoint,
+  getComponentCounts,
 } from './plateFunctions';
 
 const designExperiment = createSlice({
@@ -22,6 +23,7 @@ const designExperiment = createSlice({
     components: [],
     recentComponents: [],
     componentsValid: true,
+    componentCounts: {},
     clickMode: 'apply',
     clearMode: 'all',
     steps: {
@@ -230,6 +232,7 @@ const designExperiment = createSlice({
         const { plates, components } = state;
         const plate = findPlateById(plateId, plates);
         applySelectedComponentsToWells(plate, wellIds, components);
+        state.componentCounts = getComponentCounts(state.plates);
       }
     },
     applySelectedComponentsToSelectedWells(state, action) {
@@ -240,6 +243,7 @@ const designExperiment = createSlice({
         const selectedWells = getSelectedWells(plate);
         const wellIds = selectedWells.map(well => well.id);
         applySelectedComponentsToWells(plate, wellIds, components);
+        state.componentCounts = getComponentCounts(state.plates);
       }
     },
     clearWells(state, action) {
@@ -266,6 +270,7 @@ const designExperiment = createSlice({
         }
         updatedWells.push(well);
       });
+      state.componentCounts = getComponentCounts(state.plates);
     },
     deselectAllWells(state, action) {
       const { plateId } = action.payload;

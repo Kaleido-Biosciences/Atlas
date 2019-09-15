@@ -266,3 +266,19 @@ export function getPlateSize(plate) {
     columns: plate.wells[0].length,
   };
 }
+
+export function getComponentCounts(plates) {
+  const counts = {};
+  const allWells = plates
+    .map(plate => {
+      return plate.wells.flat();
+    })
+    .flat();
+  allWells.forEach(well => {
+    well.components.forEach(component => {
+      if (counts[component.id]) counts[component.id]++;
+      else counts[component.id] = 1;
+    });
+  });
+  return counts;
+}
