@@ -17,3 +17,23 @@
   text-align: center;
   width: 100%;
 }
+
+.component {
+  cursor: pointer;
+  transition: all 0.1s ease;
+  padding: 0.2em 1em;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.component:hover {
+  background-color: #e0e1e2;
+}
+
+.notUsed {
+  opacity: 0.8;
+  font-weight: normal;
+}
