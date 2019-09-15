@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { addComponentToComponents } from '../../../store/experimentActions';
 import { Header } from './Header';
 import { List } from './List';
 
 class ComponentList extends Component {
   render() {
-    const { componentList, componentCounts } = this.props;
+    const { componentList, componentCounts, onComponentClick } = this.props;
     return (
       <div>
         <Header />
-        <List components={componentList} counts={componentCounts} />
+        <List
+          components={componentList}
+          counts={componentCounts}
+          onComponentClick={onComponentClick}
+        />
       </div>
     );
   }
@@ -19,6 +24,7 @@ class ComponentList extends Component {
 
 ComponentList.propTypes = {
   componentList: PropTypes.array,
+  onComponentClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -26,7 +32,9 @@ const mapState = (state, props) => {
   return { componentList, componentCounts };
 };
 
-const mapDispatch = {};
+const mapDispatch = {
+  onComponentClick: addComponentToComponents,
+};
 
 const connected = connect(
   mapState,
