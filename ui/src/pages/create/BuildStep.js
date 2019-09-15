@@ -48,9 +48,7 @@ class BuildStep extends Component {
           <React.Fragment>
             <PlateToolbar onComplete={this.props.onComplete} />
             <div className={styles.plateContainer}>
-              {/* <Panel containerClass={styles.componentToolbar}>
-                  <ComponentToolbar onTabChange={this.handleClickModeChange} />
-                </Panel>
+              {/* 
                 <Panel
                   containerClass={styles.addComponentsPanel}
                   defaultSize={{ width: 'auto', height: '250px' }}
@@ -69,6 +67,9 @@ class BuildStep extends Component {
                 />
                 <PlateSidebar />
               </SplitPane>
+              <Panel containerClass={styles.componentToolbar}>
+                <ComponentToolbar onTabChange={this.handleClickModeChange} />
+              </Panel>
             </div>
           </React.Fragment>
         )}
