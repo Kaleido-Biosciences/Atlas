@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+import {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+} from '../constants';
 import { API_URL } from '../config';
 
 export function fetchCommunity(id) {
@@ -100,19 +106,19 @@ export function findComponent(name) {
       };
       if (response[0].data.length) {
         result.found = true;
-        result.type = 'community';
+        result.type = COMPONENT_TYPE_COMMUNITY;
         result.data = response[0].data[0];
       } else if (response[1].data.length) {
         result.found = true;
-        result.type = 'compound';
+        result.type = COMPONENT_TYPE_COMPOUND;
         result.data = response[1].data[0];
       } else if (response[2].data.length) {
         result.found = true;
-        result.type = 'medium';
+        result.type = COMPONENT_TYPE_MEDIUM;
         result.data = response[2].data[0];
       } else if (response[3].data.length) {
         result.found = true;
-        result.type = 'supplement';
+        result.type = COMPONENT_TYPE_SUPPLEMENT;
         result.data = response[3].data[0];
       }
       return result;

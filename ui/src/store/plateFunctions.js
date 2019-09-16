@@ -106,17 +106,8 @@ export function createPlateWells(dimensions) {
 }
 
 export function createComponent(data, type) {
-  let id;
   const displayName = data.name;
-  if (type === 'community') {
-    id = `COMMUNITY_${data.id}`;
-  } else if (type === 'compound') {
-    id = `COMPOUND_${data.id}`;
-  } else if (type === 'medium') {
-    id = `MEDIUM_${data.id}`;
-  } else if (type === 'supplement') {
-    id = `SUPPLEMENT_${data.id}`;
-  }
+  const id = `${type}_${data.id}`;
   const timepoints = [createTimepoint(type)];
   return {
     id,
