@@ -26,7 +26,7 @@ export class List extends React.Component {
     const { components, counts } = this.props;
     const showComponents = components && components.length;
     return (
-      <div>
+      <div className={styles.list}>
         {showComponents ? (
           this.renderComponents(components, counts)
         ) : (

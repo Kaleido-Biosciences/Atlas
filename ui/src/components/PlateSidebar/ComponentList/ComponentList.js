@@ -81,7 +81,7 @@ class ComponentList extends Component {
       value
     );
     return (
-      <div>
+      <div className={styles.componentList}>
         <Header />
         <div className={styles.search}>
           <Search

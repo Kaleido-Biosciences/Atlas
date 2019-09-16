@@ -52,6 +52,7 @@ class BuildStep extends Component {
                 defaultSize={300}
                 minSize={200}
                 pane1Style={{ overflow: 'hidden' }}
+                pane2Style={{ height: '100%'}}
               >
                 <Plate
                   plate={activePlate}
