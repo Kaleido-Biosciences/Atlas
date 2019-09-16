@@ -1,9 +1,0 @@
-.listComponent {
-  cursor: pointer;
-  transition: all 0.1s ease;
-  padding: 0.2em 1em;
-}
-
-.listComponent:hover {
-  background-color: #e0e1e2;
-}
