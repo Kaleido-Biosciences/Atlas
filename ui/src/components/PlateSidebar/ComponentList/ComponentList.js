@@ -73,7 +73,7 @@ class ComponentList extends Component {
     this.props.addComponentToToolComponents({ component });
   };
   render() {
-    const { components, componentCounts, onComponentClick } = this.props;
+    const { components, componentCounts } = this.props;
     const { value, loading, searchComponents } = this.state;
     const filteredComponents = this.getComponentsList(
       components,

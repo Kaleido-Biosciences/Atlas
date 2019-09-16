@@ -50,13 +50,6 @@ class ApplyToolbar extends Component {
     const groupedComponents = this.groupComponents(toolComponents);
     const { communities, compounds, media, supplements } = groupedComponents;
     const showComponents = toolComponents.length > 0;
-    const showSelectedWells = selectedWells && selectedWells.length > 0;
-    const splitStyle = showSelectedWells
-      ? {
-          position: 'relative',
-          height: 'calc(100% - 7em)',
-        }
-      : { position: 'relative' };
     return (
       <div className={styles.applyToolbar}>
         <div className={styles.componentsContainer}>

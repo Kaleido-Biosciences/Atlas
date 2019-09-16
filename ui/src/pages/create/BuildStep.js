@@ -8,7 +8,6 @@ import { Plate } from '../../components/Plate/Plate';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
 import { Panel } from '../../components/Panel/Panel';
-import { AddComponentsPanel } from '../../components/AddComponentsPanel/AddComponentsPanel';
 import SplitPane from 'react-split-pane';
 import styles from './BuildStep.module.css';
 
@@ -48,13 +47,6 @@ class BuildStep extends Component {
           <React.Fragment>
             <PlateToolbar onComplete={this.props.onComplete} />
             <div className={styles.plateContainer}>
-              {/* 
-                <Panel
-                  containerClass={styles.addComponentsPanel}
-                  defaultSize={{ width: 'auto', height: '250px' }}
-                >
-                  <AddComponentsPanel />
-                </Panel> */}
               <SplitPane
                 primary="second"
                 defaultSize={300}
