@@ -19,7 +19,7 @@ export class Header extends Component {
     return (
       <div className={styles.header}>
         <div className={styles.headerContent}>Components</div>
-        <Icon name="download" onClick={this.openModal} link />
+        <Icon name="download" onClick={this.openModal} link title="Import Components"/>
         <Modal
           open={modalOpen}
           onClose={this.closeModal}
