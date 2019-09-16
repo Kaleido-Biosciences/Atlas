@@ -37,3 +37,8 @@
   opacity: 0.8;
   font-weight: normal;
 }
+
+.search {
+  font-size: 0.8em;
+  padding: 0.8em;
+}

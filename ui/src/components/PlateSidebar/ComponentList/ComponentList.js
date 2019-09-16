@@ -12,6 +12,7 @@ import { api } from '../../../api';
 import { Header } from './Header';
 import { Search } from './Search';
 import { List } from './List';
+import styles from './ComponentList.module.css';
 
 class ComponentList extends Component {
   state = {
@@ -82,11 +83,13 @@ class ComponentList extends Component {
     return (
       <div>
         <Header />
-        <Search
-          value={value}
-          loading={loading}
-          onChange={this.handleSearchChange}
-        />
+        <div className={styles.search}>
+          <Search
+            value={value}
+            loading={loading}
+            onChange={this.handleSearchChange}
+          />
+        </div>
         <List
           components={filteredComponents}
           counts={componentCounts}
