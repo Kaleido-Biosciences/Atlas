@@ -7,10 +7,6 @@
   overflow: auto;
 }
 
-.recentComponentsContainer {
-  margin-top: 0.2em;
-}
-
 .noComponentsMessage {
   margin-top: 1em;
   text-align: center;

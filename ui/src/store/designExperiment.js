@@ -8,6 +8,7 @@ import {
   findPlateById,
   createComponent,
   createTimepoint,
+  getComponentCounts,
 } from './plateFunctions';
 
 const designExperiment = createSlice({
@@ -20,8 +21,10 @@ const designExperiment = createSlice({
     nextPlateId: 1,
     componentList: [],
     components: [],
-    recentComponents: [],
-    componentsValid: true,
+    filteredComponents: [],
+    toolComponents: [],
+    toolComponentsValid: true,
+    componentCounts: {},
     clickMode: 'apply',
     clearMode: 'all',
     steps: {
@@ -91,101 +94,64 @@ const designExperiment = createSlice({
     setClearMode(state, action) {
       state.clearMode = action.payload;
     },
-    addComponents(state, action) {
-      const {
-        communities = [],
-        compounds = [],
-        media = [],
-        supplements = [],
-      } = action.payload;
-      const createIfNotExists = (data, type) => {
-        const existingComponent = getComponentFromState(data.id, state);
-        if (!existingComponent) {
-          state.components.unshift(createComponent(data, type));
-        }
-      };
-      communities.forEach(comm => {
-        createIfNotExists(comm, 'community');
-      });
-      compounds.forEach(comp => {
-        createIfNotExists(comp, 'compound');
-      });
-      media.forEach(medium => {
-        createIfNotExists(medium, 'medium');
-      });
-      supplements.forEach(supp => {
-        createIfNotExists(supp, 'supplement');
-      });
-    },
-    removeComponents(state, action) {
+    removeToolComponents(state, action) {
       const componentsToRemove = action.payload.components;
-      const { components } = state;
+      const { toolComponents } = state;
       const idsToRemove = componentsToRemove.map(component => component.id);
-      let addToRecent = [];
       idsToRemove.forEach(id => {
-        const index = components.findIndex(component => component.id === id);
+        const index = toolComponents.findIndex(component => component.id === id);
         if (index > -1) {
-          addToRecent = addToRecent.concat(components.splice(index, 1));
+          toolComponents.splice(index, 1);
         }
       });
-      state.recentComponents = state.recentComponents.concat(addToRecent);
     },
-    addKaptureComponentsToComponentsList(state, action) {
+    addKaptureComponentsToComponents(state, action) {
       const { kaptureComponents } = action.payload;
-      addKaptureComponentsToState(kaptureComponents, state.componentList);
+      const { components } = state;
+      kaptureComponents.forEach(kaptureComponent => {
+        const { data, type, id } = kaptureComponent;
+        const existingComponent = components.find(
+          component => component.data.id === id
+        );
+        if (!existingComponent) {
+          components.unshift(createComponent(data, type));
+        }
+      });
     },
     addComponentToComponents(state, action) {
       const { component } = action.payload;
-      const existingComponent = getComponentFromState(component.id, state);
-      if (!existingComponent) {
-        state.components.unshift(component);
+      const { components } = state;
+      const existingComponent = components.find(
+        comp => comp.id === component.id
+      );
+      if(!existingComponent) {
+        components.unshift(component);
       }
     },
-    moveRecentComponentsToComponents(state, action) {
-      const componentsToMove = action.payload.components;
-      const { recentComponents } = state;
-      const idsToMove = componentsToMove.map(component => component.id);
-      let addToComponents = [];
-      idsToMove.forEach(id => {
-        const index = recentComponents.findIndex(
-          component => component.id === id
-        );
-        if (index > -1) {
-          addToComponents = addToComponents.concat(
-            recentComponents.splice(index, 1)
-          );
-        }
-      });
-      const newComponents = addToComponents.map(component => {
-        return createComponent(component.data, component.type);
-      });
-      state.components = newComponents.concat(state.components);
+    addComponentToToolComponents(state, action) {
+      const { component } = action.payload;
+      const existingComponent = getToolComponentFromState(component.id, state);
+      if (!existingComponent) {
+        state.toolComponents.unshift(component);
+      }
     },
-    removeRecentComponents(state, action) {
-      const componentsToRemove = action.payload.components;
-      const { recentComponents } = state;
-      const idsToDelete = componentsToRemove.map(component => component.id);
-      state.recentComponents = recentComponents.filter(
-        component => !idsToDelete.includes(component.id)
-      );
-    },
-    selectComponents(state, action) {
+    selectToolComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        const stateComponent = getComponentFromState(component.id, state);
+        const stateComponent = getToolComponentFromState(component.id, state);
         stateComponent.selected = true;
       });
     },
-    deselectComponents(state, action) {
+    deselectToolComponents(state, action) {
       const { components } = action.payload;
       components.forEach(component => {
-        const stateComponent = getComponentFromState(component.id, state);
+        const stateComponent = getToolComponentFromState(component.id, state);
         stateComponent.selected = false;
       });
     },
     addTimepointToComponent(state, action) {
       const { component } = action.payload;
-      const stateComponent = getComponentFromState(component.id, state);
+      const stateComponent = getToolComponentFromState(component.id, state);
       const { timepoints } = stateComponent;
       let time;
       if (timepoints.length > 0) {
@@ -198,7 +164,7 @@ const designExperiment = createSlice({
     },
     updateTimepoint(state, action) {
       const { component, name, value, index } = action.payload;
-      const stateComponent = getComponentFromState(component.id, state);
+      const stateComponent = getToolComponentFromState(component.id, state);
       const { timepoints } = stateComponent;
       const timepoint = timepoints[index];
       timepoint[name] = value;
@@ -210,36 +176,38 @@ const designExperiment = createSlice({
       if (!errors) {
         stateComponent.isValid = true;
         stateComponent.errors = [];
-        state.componentsValid = true;
+        state.toolComponentsValid = true;
       } else {
         stateComponent.isValid = false;
         stateComponent.errors = errors;
-        state.componentsValid = false;
+        state.toolComponentsValid = false;
       }
     },
     deleteTimepoint(state, action) {
       const { component, index } = action.payload;
       if (index > 0) {
-        const stateComponent = getComponentFromState(component.id, state);
+        const stateComponent = getToolComponentFromState(component.id, state);
         stateComponent.timepoints.splice(index, 1);
       }
     },
-    applySelectedComponentsToWells(state, action) {
-      if (state.componentsValid) {
+    applySelectedToolComponentsToWells(state, action) {
+      if (state.toolComponentsValid) {
         const { plateId, wellIds } = action.payload;
-        const { plates, components } = state;
+        const { plates, toolComponents } = state;
         const plate = findPlateById(plateId, plates);
-        applySelectedComponentsToWells(plate, wellIds, components);
+        applySelectedComponentsToWells(plate, wellIds, toolComponents);
+        state.componentCounts = getComponentCounts(state.plates);
       }
     },
-    applySelectedComponentsToSelectedWells(state, action) {
-      if (state.componentsValid) {
+    applySelectedToolComponentsToSelectedWells(state, action) {
+      if (state.toolComponentsValid) {
         const { plateId } = action.payload;
-        const { components, plates } = state;
+        const { toolComponents, plates } = state;
         const plate = findPlateById(plateId, plates);
         const selectedWells = getSelectedWells(plate);
         const wellIds = selectedWells.map(well => well.id);
-        applySelectedComponentsToWells(plate, wellIds, components);
+        applySelectedComponentsToWells(plate, wellIds, toolComponents);
+        state.componentCounts = getComponentCounts(state.plates);
       }
     },
     clearWells(state, action) {
@@ -266,6 +234,7 @@ const designExperiment = createSlice({
         }
         updatedWells.push(well);
       });
+      state.componentCounts = getComponentCounts(state.plates);
     },
     deselectAllWells(state, action) {
       const { plateId } = action.payload;
@@ -302,12 +271,12 @@ const designExperiment = createSlice({
     },
     toggleComponentEditing(state, action) {
       const { component } = action.payload;
-      const stateComponent = getComponentFromState(component.id, state);
+      const stateComponent = getToolComponentFromState(component.id, state);
       stateComponent.editing = !stateComponent.editing;
     },
     setComponentConcentration(state, action) {
       const { component, value } = action.payload;
-      const stateComponent = getComponentFromState(component.id, state);
+      const stateComponent = getToolComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
     setCompletedStatus(state, action) {
@@ -325,8 +294,8 @@ export const {
   reducer: designExperimentReducer,
 } = designExperiment;
 
-function getComponentFromState(componentId, state) {
-  return state.components.find(
+function getToolComponentFromState(componentId, state) {
+  return state.toolComponents.find(
     stateComponent => stateComponent.id === componentId
   );
 }

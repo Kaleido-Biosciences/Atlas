@@ -1,9 +1,9 @@
-.container {
+.plate {
   overflow: auto;
-  height: calc(100vh - 12.5em);
+  height: 100%;
 }
 
-.plate {
+.plateTable {
   width: 100%;
 }
 

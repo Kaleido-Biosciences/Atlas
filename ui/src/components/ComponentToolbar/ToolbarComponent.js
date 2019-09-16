@@ -5,9 +5,9 @@ import { Checkbox, Icon, Segment } from 'semantic-ui-react';
 import classNames from 'classnames';
 
 import {
-  selectComponents,
-  deselectComponents,
-  removeComponents,
+  selectToolComponents,
+  deselectToolComponents,
+  removeToolComponents,
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
@@ -170,9 +170,9 @@ ToolbarComponent.propTypes = {
 };
 
 const mapDispatch = {
-  onSelect: selectComponents,
-  onDeselect: deselectComponents,
-  onRemoveClick: removeComponents,
+  onSelect: selectToolComponents,
+  onDeselect: deselectToolComponents,
+  onRemoveClick: removeToolComponents,
   onAddTimepointClick: addTimepointToComponent,
   onTimepointChange: updateTimepoint,
   onTimepointDeleteClick: deleteTimepoint,

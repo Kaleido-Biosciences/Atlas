@@ -1,6 +1,13 @@
 import axios from 'axios';
 
+import {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+} from '../constants';
 import { API_URL } from '../config';
+import { createComponent } from '../store/plateFunctions';
 
 export function fetchCommunity(id) {
   return axios.get(API_URL + '/communities/' + id);
@@ -60,7 +67,7 @@ export function fetchComponents(page, size, nameContains, descContains) {
 export async function searchComponents(page, size, query) {
   if (query) {
     const params = [];
-    params.push(`query=*${query}*`);
+    params.push(`query=${query}`);
     if (page) params.push(`page=${page}`);
     if (size) params.push(`size=${size}`);
     const queryString = '?' + params.join('&');
@@ -75,12 +82,28 @@ export async function searchComponents(page, size, query) {
       media,
       supplements,
     ]);
-    return {
-      communities: response[0].data,
-      compounds: response[1].data,
-      media: response[2].data,
-      supplements: response[3].data,
-    };
+    const components = [];
+    if (response[0].data.length) {
+      response[0].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_COMMUNITY));
+      });
+    }
+    if (response[1].data.length) {
+      response[1].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_COMPOUND));
+      });
+    }
+    if (response[2].data.length) {
+      response[2].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_MEDIUM));
+      });
+    }
+    if (response[3].data.length) {
+      response[3].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_SUPPLEMENT));
+      });
+    }
+    return components;
   }
 }
 
@@ -100,19 +123,19 @@ export function findComponent(name) {
       };
       if (response[0].data.length) {
         result.found = true;
-        result.type = 'community';
+        result.type = COMPONENT_TYPE_COMMUNITY;
         result.data = response[0].data[0];
       } else if (response[1].data.length) {
         result.found = true;
-        result.type = 'compound';
+        result.type = COMPONENT_TYPE_COMPOUND;
         result.data = response[1].data[0];
       } else if (response[2].data.length) {
         result.found = true;
-        result.type = 'medium';
+        result.type = COMPONENT_TYPE_MEDIUM;
         result.data = response[2].data[0];
       } else if (response[3].data.length) {
         result.found = true;
-        result.type = 'supplement';
+        result.type = COMPONENT_TYPE_SUPPLEMENT;
         result.data = response[3].data[0];
       }
       return result;

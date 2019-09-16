@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Form, TextArea, Button } from 'semantic-ui-react';
-import styles from './ImportTextArea.module.css';
+import styles from './ImportComponents.module.css';
 
 export class ImportTextArea extends Component {
   state = {
@@ -26,7 +26,7 @@ export class ImportTextArea extends Component {
     return (
       <div>
         <Form>
-          <div className={styles.container}>
+          <div className={styles.textAreaContainer}>
             <TextArea
               placeholder="Enter components to import. Components should be newline separated."
               onChange={this.handleChange}
@@ -35,7 +35,7 @@ export class ImportTextArea extends Component {
             <Button
               disabled={buttonDisabled}
               onClick={this.handleImport}
-              className={styles.button}
+              className={styles.importButton}
             >
               {buttonText}
             </Button>

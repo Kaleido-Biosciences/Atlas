@@ -9,9 +9,9 @@ import {
 
 export class ComponentTypeCircle extends Component {
   render() {
-    const { componentType, className } = this.props;
-    const color = COMPONENT_TYPE_COLORS[componentType];
-    const letter = COMPONENT_TYPE_ABBREVIATIONS[componentType];
+    const { type, className } = this.props;
+    const color = COMPONENT_TYPE_COLORS[type];
+    const letter = COMPONENT_TYPE_ABBREVIATIONS[type];
     return (
       <Label circular color={color} className={className}>
         {letter}
@@ -21,6 +21,6 @@ export class ComponentTypeCircle extends Component {
 }
 
 ComponentTypeCircle.propTypes = {
-  componentType: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   className: PropTypes.string,
 };

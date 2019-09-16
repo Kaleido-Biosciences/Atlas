@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { api } from '../../api';
-import { addKaptureComponentsToComponentsList } from '../../store/experimentActions';
+import { api } from '../../../../api';
+import { addKaptureComponentsToComponents } from '../../../../store/experimentActions';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 
@@ -56,25 +57,13 @@ class ImportComponents extends Component {
 
   addComponents = () => {
     if (this.props.onAdd) {
-      const components = this.state.found.map(({ type, data }) => {
+      const kaptureComponents = this.state.found.map(({ type, data }) => {
         return { type, data };
       });
-      const kaptureComponents = {
-        communities: [],
-        compounds: [],
-        media: [],
-        supplements: [],
-      };
-      const keys = {
-        community: 'communities',
-        compound: 'compounds',
-        medium: 'media',
-        supplement: 'supplements',
-      };
-      components.forEach(({ type, data }) => {
-        kaptureComponents[keys[type]].push(data);
-      });
       this.props.onAdd({ kaptureComponents });
+      if (this.props.afterAdd) {
+        this.props.afterAdd();
+      }
     }
   };
 
@@ -99,8 +88,13 @@ class ImportComponents extends Component {
   }
 }
 
+ImportComponents.propTypes = {
+  onAdd: PropTypes.func,
+  afterAdd: PropTypes.func,
+};
+
 const mapDispatch = {
-  onAdd: addKaptureComponentsToComponentsList,
+  onAdd: addKaptureComponentsToComponents,
 };
 
 const connected = connect(

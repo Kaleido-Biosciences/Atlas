@@ -6,14 +6,13 @@ import { Header, Button } from 'semantic-ui-react';
 import SplitPane from 'react-split-pane';
 
 import {
-  applySelectedComponentsToSelectedWells,
-  addComponentToComponents,
+  applySelectedToolComponentsToSelectedWells,
+  addComponentToToolComponents,
 } from '../../store/experimentActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
 } from '../../store/selectors';
-import { ComponentList } from './ComponentList';
 import { CommunitiesSection } from './sections/CommunitiesSection';
 import { CompoundsSection } from './sections/CompoundsSection';
 import { MediaSection } from './sections/MediaSection';
@@ -48,67 +47,41 @@ class ApplyToolbar extends Component {
     }
   }
   render() {
-    const {
-      components,
-      componentList,
-      componentsValid,
-      selectedWells,
-      onComponentListClick,
-    } = this.props;
-    const groupedComponents = this.groupComponents(components);
+    const { toolComponents, toolComponentsValid, selectedWells } = this.props;
+    const groupedComponents = this.groupComponents(toolComponents);
     const { communities, compounds, media, supplements } = groupedComponents;
-    const showComponents = components.length > 0;
-    const showSelectedWells = selectedWells && selectedWells.length > 0;
-    const splitStyle = showSelectedWells
-      ? {
-          position: 'relative',
-          height: 'calc(100% - 7em)',
-        }
-      : { position: 'relative' };
+    const showComponents = toolComponents.length > 0;
     return (
       <div className={styles.applyToolbar}>
-        <SplitPane
-          split="horizontal"
-          style={splitStyle}
-          pane1Style={{ marginBottom: '0.4em' }}
-          pane2Style={{ marginTop: '0.4em', overflow: 'auto' }}
-        >
-          <div className={styles.componentListContainer}>
-            <h5 className={styles.toolbarHeader}>Component List</h5>
-            <ComponentList
-              components={componentList}
-              onClick={onComponentListClick}
-            />
-          </div>
-          <div className={styles.componentsContainer}>
-            {showComponents ? (
-              <React.Fragment>
-                <h5 className={styles.toolbarHeader}>Palette</h5>
-                {communities.length > 0 && (
-                  <CommunitiesSection communities={communities} />
-                )}
-                {compounds.length > 0 && (
-                  <CompoundsSection compounds={compounds} />
-                )}
-                {media.length > 0 && <MediaSection media={media} />}
-                {supplements.length > 0 && (
-                  <SupplementsSection supplements={supplements} />
-                )}
-              </React.Fragment>
-            ) : (
-              <div className={styles.noComponentsMessage}>
-                Get started by adding some components.
-              </div>
-            )}
-          </div>
-        </SplitPane>
+        <div className={styles.componentsContainer}>
+          {showComponents ? (
+            <React.Fragment>
+              <h5 className={styles.toolbarHeader}>Palette</h5>
+              {communities.length > 0 && (
+                <CommunitiesSection communities={communities} />
+              )}
+              {compounds.length > 0 && (
+                <CompoundsSection compounds={compounds} />
+              )}
+              {media.length > 0 && <MediaSection media={media} />}
+              {supplements.length > 0 && (
+                <SupplementsSection supplements={supplements} />
+              )}
+            </React.Fragment>
+          ) : (
+            <div className={styles.noComponentsMessage}>
+              Get started by adding some components.
+            </div>
+          )}
+        </div>
+
         {selectedWells && selectedWells.length > 0 ? (
           <div className={styles.selectedWellsContainer}>
             {this.renderSelectedWells()}
             {showComponents ? (
               <div className={styles.applyButtonContainer}>
                 <Button
-                  disabled={!componentsValid}
+                  disabled={!toolComponentsValid}
                   primary
                   onClick={this.handleApplyClick}
                 >
@@ -124,8 +97,8 @@ class ApplyToolbar extends Component {
 }
 
 ApplyToolbar.propTypes = {
-  components: PropTypes.array.isRequired,
-  componentsValid: PropTypes.bool.isRequired,
+  toolComponents: PropTypes.array.isRequired,
+  toolComponentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
   onApplyClick: PropTypes.func,
@@ -133,21 +106,25 @@ ApplyToolbar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { components, componentList, componentsValid } = state.designExperiment;
+  const {
+    toolComponents,
+    componentList,
+    toolComponentsValid,
+  } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
-    components,
+    toolComponents,
     componentList,
-    componentsValid,
+    toolComponentsValid,
     selectedWells,
     activePlate,
   };
 };
 
 const mapDispatch = {
-  onApplyClick: applySelectedComponentsToSelectedWells,
-  onComponentListClick: addComponentToComponents,
+  onApplyClick: applySelectedToolComponentsToSelectedWells,
+  onComponentListClick: addComponentToToolComponents,
 };
 
 const connected = connect(

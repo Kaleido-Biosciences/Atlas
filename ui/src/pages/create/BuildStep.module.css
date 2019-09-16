@@ -1,16 +1,19 @@
-.container {
+.buildStep {
   width: 100%;
-  padding: 0 1em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .plateContainer {
   position: relative;
+  flex: 1;
 }
 
 .componentToolbar {
   position: absolute;
   top: 3em;
-  right: 2em;
+  right: 25em;
   width: 22rem;
   max-width: 22rem;
 }

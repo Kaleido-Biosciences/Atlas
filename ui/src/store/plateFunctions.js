@@ -106,17 +106,8 @@ export function createPlateWells(dimensions) {
 }
 
 export function createComponent(data, type) {
-  let id;
   const displayName = data.name;
-  if (type === 'community') {
-    id = `COMMUNITY_${data.id}`;
-  } else if (type === 'compound') {
-    id = `COMPOUND_${data.id}`;
-  } else if (type === 'medium') {
-    id = `MEDIUM_${data.id}`;
-  } else if (type === 'supplement') {
-    id = `SUPPLEMENT_${data.id}`;
-  }
+  const id = `${type.toUpperCase()}_${data.id}`;
   const timepoints = [createTimepoint(type)];
   return {
     id,
@@ -265,4 +256,20 @@ export function getPlateSize(plate) {
     rows: plate.wells.length,
     columns: plate.wells[0].length,
   };
+}
+
+export function getComponentCounts(plates) {
+  const counts = {};
+  const allWells = plates
+    .map(plate => {
+      return plate.wells.flat();
+    })
+    .flat();
+  allWells.forEach(well => {
+    well.components.forEach(component => {
+      if (counts[component.id]) counts[component.id]++;
+      else counts[component.id] = 1;
+    });
+  });
+  return counts;
 }
