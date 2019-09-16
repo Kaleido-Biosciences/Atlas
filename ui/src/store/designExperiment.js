@@ -117,6 +117,16 @@ const designExperiment = createSlice({
         }
       });
     },
+    addComponentToComponents(state, action) {
+      const { component } = action.payload;
+      const { components } = state;
+      const existingComponent = components.find(
+        comp => comp.id === component.id
+      );
+      if(!existingComponent) {
+        components.unshift(component);
+      }
+    },
     addComponentToToolComponents(state, action) {
       const { component } = action.payload;
       const existingComponent = getToolComponentFromState(component.id, state);

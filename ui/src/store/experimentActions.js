@@ -60,6 +60,7 @@ export const {
   deselectAllWells,
   addKaptureComponentsToComponents,
   addComponentToToolComponents,
+  addComponentToComponents,
   setClearMode,
   selectToolComponents,
   deselectToolComponents,
