@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Label } from 'semantic-ui-react';
+import { ComponentTypeCircle } from '../ComponentTypeCircle';
 
 import styles from './ComponentList.module.css';
 
@@ -17,8 +19,14 @@ export class Component extends React.Component {
     });
     return (
       <div onClick={this.handleClick} className={componentClass}>
-        <div>{component.displayName}</div>
-        {count && <div>{count}</div>}
+        <div>
+          <ComponentTypeCircle
+            type={component.type}
+            className={styles.typeCircle}
+          />
+          {component.displayName}
+        </div>
+        {count && <Label className={styles.componentLabel}>{count}</Label>}
       </div>
     );
   }

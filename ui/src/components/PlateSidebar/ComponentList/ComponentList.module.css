@@ -27,10 +27,11 @@
   flex-direction: row;
   justify-content: space-between;
   font-weight: bold;
+  align-items: center;
 }
 
 .component:hover {
-  background-color: #e0e1e2;
+  background-color: rgba(0,0,0,.03);
 }
 
 .notUsed {
@@ -41,4 +42,12 @@
 .search {
   font-size: 0.8em;
   padding: 0.8em;
+}
+
+.typeCircle {
+  margin-right: 1em !important;
+}
+
+.componentLabel {
+  font-size: 0.8em !important;
 }
