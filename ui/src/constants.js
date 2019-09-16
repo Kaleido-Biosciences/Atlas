@@ -35,10 +35,10 @@ export const DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION = null;
 export const STATUS_DRAFT = 'DRAFT';
 export const STATUS_COMPLETED = 'COMPLETED';
 
-export const COMPONENT_TYPE_COMMUNITY = 'COMMUNITY';
-export const COMPONENT_TYPE_COMPOUND = 'COMPOUND';
-export const COMPONENT_TYPE_MEDIUM = 'MEDIUM';
-export const COMPONENT_TYPE_SUPPLEMENT = 'SUPPLEMENT';
+export const COMPONENT_TYPE_COMMUNITY = 'community';
+export const COMPONENT_TYPE_COMPOUND = 'compound';
+export const COMPONENT_TYPE_MEDIUM = 'medium';
+export const COMPONENT_TYPE_SUPPLEMENT = 'supplement';
 
 export const COMPONENT_TYPES_PLURAL_TO_SINGULAR = {
   communities: 'community',

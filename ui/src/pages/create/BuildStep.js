@@ -67,9 +67,9 @@ class BuildStep extends Component {
                 />
                 <PlateSidebar />
               </SplitPane>
-              {/* <Panel containerClass={styles.componentToolbar}>
+              <Panel containerClass={styles.componentToolbar}>
                 <ComponentToolbar onTabChange={this.handleClickModeChange} />
-              </Panel> */}
+              </Panel>
             </div>
           </React.Fragment>
         )}

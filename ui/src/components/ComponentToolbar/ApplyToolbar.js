@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
-import SplitPane from 'react-split-pane';
 
 import {
   applySelectedToolComponentsToSelectedWells,
@@ -13,7 +12,6 @@ import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
 } from '../../store/selectors';
-import { ComponentList } from './ComponentList';
 import { CommunitiesSection } from './sections/CommunitiesSection';
 import { CompoundsSection } from './sections/CompoundsSection';
 import { MediaSection } from './sections/MediaSection';
@@ -48,16 +46,10 @@ class ApplyToolbar extends Component {
     }
   }
   render() {
-    const {
-      components,
-      componentList,
-      toolComponentsValid,
-      selectedWells,
-      onComponentListClick,
-    } = this.props;
-    const groupedComponents = this.groupComponents(components);
+    const { toolComponents, toolComponentsValid, selectedWells } = this.props;
+    const groupedComponents = this.groupComponents(toolComponents);
     const { communities, compounds, media, supplements } = groupedComponents;
-    const showComponents = components.length > 0;
+    const showComponents = toolComponents.length > 0;
     const showSelectedWells = selectedWells && selectedWells.length > 0;
     const splitStyle = showSelectedWells
       ? {
@@ -67,41 +59,28 @@ class ApplyToolbar extends Component {
       : { position: 'relative' };
     return (
       <div className={styles.applyToolbar}>
-        <SplitPane
-          split="horizontal"
-          style={splitStyle}
-          pane1Style={{ marginBottom: '0.4em' }}
-          pane2Style={{ marginTop: '0.4em', overflow: 'auto' }}
-        >
-          <div className={styles.componentListContainer}>
-            <h5 className={styles.toolbarHeader}>Component List</h5>
-            <ComponentList
-              components={componentList}
-              onClick={onComponentListClick}
-            />
-          </div>
-          <div className={styles.componentsContainer}>
-            {showComponents ? (
-              <React.Fragment>
-                <h5 className={styles.toolbarHeader}>Palette</h5>
-                {communities.length > 0 && (
-                  <CommunitiesSection communities={communities} />
-                )}
-                {compounds.length > 0 && (
-                  <CompoundsSection compounds={compounds} />
-                )}
-                {media.length > 0 && <MediaSection media={media} />}
-                {supplements.length > 0 && (
-                  <SupplementsSection supplements={supplements} />
-                )}
-              </React.Fragment>
-            ) : (
-              <div className={styles.noComponentsMessage}>
-                Get started by adding some components.
-              </div>
-            )}
-          </div>
-        </SplitPane>
+        <div className={styles.componentsContainer}>
+          {showComponents ? (
+            <React.Fragment>
+              <h5 className={styles.toolbarHeader}>Palette</h5>
+              {communities.length > 0 && (
+                <CommunitiesSection communities={communities} />
+              )}
+              {compounds.length > 0 && (
+                <CompoundsSection compounds={compounds} />
+              )}
+              {media.length > 0 && <MediaSection media={media} />}
+              {supplements.length > 0 && (
+                <SupplementsSection supplements={supplements} />
+              )}
+            </React.Fragment>
+          ) : (
+            <div className={styles.noComponentsMessage}>
+              Get started by adding some components.
+            </div>
+          )}
+        </div>
+
         {selectedWells && selectedWells.length > 0 ? (
           <div className={styles.selectedWellsContainer}>
             {this.renderSelectedWells()}
@@ -124,7 +103,7 @@ class ApplyToolbar extends Component {
 }
 
 ApplyToolbar.propTypes = {
-  components: PropTypes.array.isRequired,
+  toolComponents: PropTypes.array.isRequired,
   toolComponentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
@@ -133,11 +112,15 @@ ApplyToolbar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { components, componentList, toolComponentsValid } = state.designExperiment;
+  const {
+    toolComponents,
+    componentList,
+    toolComponentsValid,
+  } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
-    components,
+    toolComponents,
     componentList,
     toolComponentsValid,
     selectedWells,
