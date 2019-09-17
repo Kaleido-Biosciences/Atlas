@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
-import SplitPane from 'react-split-pane';
 
 import {
   applySelectedToolComponentsToSelectedWells,
