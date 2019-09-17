@@ -52,15 +52,32 @@ class ComponentList extends Component {
     this.setState({ value, searchComponents: [], updateComplete: false });
     this.debouncedLoadResults(value);
   };
-  loadResults = async value => {
-    if (value) {
+  loadResults = async searchQuery => {
+    if (searchQuery) {
       try {
         this.setState({ loading: true });
-        const results = await api.kapture.searchComponents(0, 4, value);
+        const results = await api.kapture.searchComponents(0, 4, searchQuery);
+        const searchUpper = searchQuery.toUpperCase();
+        results.sort((a, b) => {
+          const aName = a.data.name.toUpperCase();
+          const bName = b.data.name.toUpperCase();
+          const aNameContainsTerm = aName.includes(searchUpper);
+          const bNameContainsTerm = bName.includes(searchUpper);
+          let value;
+          if (aNameContainsTerm && bNameContainsTerm) {
+            value = 0;
+          } else if (aNameContainsTerm && !bNameContainsTerm) {
+            value = -1;
+          } else if (!aNameContainsTerm && bNameContainsTerm) {
+            value = 1;
+          }
+          return value;
+        });
         this.setState({
           loading: false,
+          searchComponents: results,
+          updateComplete: true,
         });
-        this.setState({ searchComponents: results, updateComplete: true });
       } catch (err) {
         this.setState({
           loading: false,
