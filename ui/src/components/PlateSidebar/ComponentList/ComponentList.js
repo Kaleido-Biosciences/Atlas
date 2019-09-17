@@ -19,6 +19,7 @@ class ComponentList extends Component {
     value: '',
     loading: false,
     searchComponents: [],
+    updateComplete: false,
   };
   debouncedLoadResults = _.debounce(value => {
     this.loadResults(value);
@@ -48,18 +49,35 @@ class ComponentList extends Component {
     return finalArray;
   });
   handleSearchChange = value => {
-    this.setState({ value, searchComponents: [] });
+    this.setState({ value, searchComponents: [], updateComplete: false });
     this.debouncedLoadResults(value);
   };
-  loadResults = async value => {
-    if (value) {
+  loadResults = async searchQuery => {
+    if (searchQuery) {
       try {
         this.setState({ loading: true });
-        const results = await api.kapture.searchComponents(0, 4, value);
+        const results = await api.kapture.searchComponents(0, 4, searchQuery);
+        const searchUpper = searchQuery.toUpperCase();
+        results.sort((a, b) => {
+          const aName = a.data.name.toUpperCase();
+          const bName = b.data.name.toUpperCase();
+          const aNameContainsTerm = aName.includes(searchUpper);
+          const bNameContainsTerm = bName.includes(searchUpper);
+          let value;
+          if (aNameContainsTerm && bNameContainsTerm) {
+            value = 0;
+          } else if (aNameContainsTerm && !bNameContainsTerm) {
+            value = -1;
+          } else if (!aNameContainsTerm && bNameContainsTerm) {
+            value = 1;
+          }
+          return value;
+        });
         this.setState({
           loading: false,
+          searchComponents: results,
+          updateComplete: true,
         });
-        this.setState({ searchComponents: results });
       } catch (err) {
         this.setState({
           loading: false,
@@ -72,14 +90,40 @@ class ComponentList extends Component {
     this.props.addComponentToComponents({ component });
     this.props.addComponentToToolComponents({ component });
   };
-  render() {
+  renderList() {
     const { components, componentCounts } = this.props;
-    const { value, loading, searchComponents } = this.state;
+    const { value, searchComponents, updateComplete } = this.state;
     const filteredComponents = this.getComponentsList(
       components,
       searchComponents,
       value
     );
+    if (filteredComponents.length) {
+      return (
+        <List
+          components={filteredComponents}
+          counts={componentCounts}
+          onComponentClick={this.handleComponentListClick}
+        />
+      );
+    } else {
+      if (value && updateComplete) {
+        return (
+          <div className={styles.noComponentsMessage}>
+            No matching components found.
+          </div>
+        );
+      } else if (!value) {
+        return (
+          <div className={styles.noComponentsMessage}>
+            Get started by adding some components.
+          </div>
+        );
+      }
+    }
+  }
+  render() {
+    const { value, loading } = this.state;
     return (
       <div className={styles.componentList}>
         <Header />
@@ -90,11 +134,7 @@ class ComponentList extends Component {
             onChange={this.handleSearchChange}
           />
         </div>
-        <List
-          components={filteredComponents}
-          counts={componentCounts}
-          onComponentClick={this.handleComponentListClick}
-        />
+        {this.renderList()}
       </div>
     );
   }

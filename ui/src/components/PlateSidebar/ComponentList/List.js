@@ -30,7 +30,7 @@ export class List extends React.Component {
         {showComponents ? (
           this.renderComponents(components, counts)
         ) : (
-          <div className={styles.noComponentsMessage}>Get started by adding some components.</div>
+          <div className={styles.noComponentsMessage}>No components to display.</div>
         )}
       </div>
     );

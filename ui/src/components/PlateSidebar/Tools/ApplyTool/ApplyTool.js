@@ -7,19 +7,19 @@ import { Header, Button } from 'semantic-ui-react';
 import {
   applySelectedToolComponentsToSelectedWells,
   addComponentToToolComponents,
-} from '../../store/experimentActions';
+} from '../../../../store/experimentActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
-} from '../../store/selectors';
-import { CommunitiesSection } from './sections/CommunitiesSection';
-import { CompoundsSection } from './sections/CompoundsSection';
-import { MediaSection } from './sections/MediaSection';
-import { SupplementsSection } from './sections/SupplementsSection';
-import { groupComponents } from '../../util';
-import styles from './ApplyToolbar.module.css';
+} from '../../../../store/selectors';
+import { CommunitiesSection } from './CommunitiesSection';
+import { CompoundsSection } from './CompoundsSection';
+import { MediaSection } from './MediaSection';
+import { SupplementsSection } from './SupplementsSection';
+import { groupComponents } from '../../../../util';
+import styles from './ApplyTool.module.css';
 
-class ApplyToolbar extends Component {
+class ApplyTool extends Component {
   groupComponents = memoize(groupComponents);
   handleApplyClick = () => {
     const { activePlate } = this.props;
@@ -51,11 +51,10 @@ class ApplyToolbar extends Component {
     const { communities, compounds, media, supplements } = groupedComponents;
     const showComponents = toolComponents.length > 0;
     return (
-      <div className={styles.applyToolbar}>
+      <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
           {showComponents ? (
             <React.Fragment>
-              <h5 className={styles.toolbarHeader}>Palette</h5>
               {communities.length > 0 && (
                 <CommunitiesSection communities={communities} />
               )}
@@ -69,7 +68,7 @@ class ApplyToolbar extends Component {
             </React.Fragment>
           ) : (
             <div className={styles.noComponentsMessage}>
-              Get started by adding some components.
+              Add components by clicking on a component in the components list.
             </div>
           )}
         </div>
@@ -83,6 +82,7 @@ class ApplyToolbar extends Component {
                   disabled={!toolComponentsValid}
                   primary
                   onClick={this.handleApplyClick}
+                  size="mini"
                 >
                   Apply to {selectedWells.length} wells
                 </Button>
@@ -95,7 +95,7 @@ class ApplyToolbar extends Component {
   }
 }
 
-ApplyToolbar.propTypes = {
+ApplyTool.propTypes = {
   toolComponents: PropTypes.array.isRequired,
   toolComponentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
@@ -129,5 +129,5 @@ const mapDispatch = {
 const connected = connect(
   mapState,
   mapDispatch
-)(ApplyToolbar);
-export { connected as ApplyToolbar };
+)(ApplyTool);
+export { connected as ApplyTool };
