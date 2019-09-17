@@ -68,7 +68,7 @@ class ApplyTool extends Component {
             </React.Fragment>
           ) : (
             <div className={styles.noComponentsMessage}>
-              Get started by adding some components.
+              Add components by clicking on a component in the components list.
             </div>
           )}
         </div>

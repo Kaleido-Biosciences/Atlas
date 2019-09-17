@@ -19,6 +19,7 @@ class ComponentList extends Component {
     value: '',
     loading: false,
     searchComponents: [],
+    updateComplete: false,
   };
   debouncedLoadResults = _.debounce(value => {
     this.loadResults(value);
@@ -48,7 +49,7 @@ class ComponentList extends Component {
     return finalArray;
   });
   handleSearchChange = value => {
-    this.setState({ value, searchComponents: [] });
+    this.setState({ value, searchComponents: [], updateComplete: false });
     this.debouncedLoadResults(value);
   };
   loadResults = async value => {
@@ -59,7 +60,7 @@ class ComponentList extends Component {
         this.setState({
           loading: false,
         });
-        this.setState({ searchComponents: results });
+        this.setState({ searchComponents: results, updateComplete: true });
       } catch (err) {
         this.setState({
           loading: false,
@@ -72,14 +73,40 @@ class ComponentList extends Component {
     this.props.addComponentToComponents({ component });
     this.props.addComponentToToolComponents({ component });
   };
-  render() {
+  renderList() {
     const { components, componentCounts } = this.props;
-    const { value, loading, searchComponents } = this.state;
+    const { value, searchComponents, updateComplete } = this.state;
     const filteredComponents = this.getComponentsList(
       components,
       searchComponents,
       value
     );
+    if (filteredComponents.length) {
+      return (
+        <List
+          components={filteredComponents}
+          counts={componentCounts}
+          onComponentClick={this.handleComponentListClick}
+        />
+      );
+    } else {
+      if (value && updateComplete) {
+        return (
+          <div className={styles.noComponentsMessage}>
+            No matching components found.
+          </div>
+        );
+      } else if (!value) {
+        return (
+          <div className={styles.noComponentsMessage}>
+            Get started by adding some components.
+          </div>
+        );
+      }
+    }
+  }
+  render() {
+    const { value, loading } = this.state;
     return (
       <div className={styles.componentList}>
         <Header />
@@ -90,11 +117,7 @@ class ComponentList extends Component {
             onChange={this.handleSearchChange}
           />
         </div>
-        <List
-          components={filteredComponents}
-          counts={componentCounts}
-          onComponentClick={this.handleComponentListClick}
-        />
+        {this.renderList()}
       </div>
     );
   }
