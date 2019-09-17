@@ -1,0 +1,19 @@
+.header {
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+  padding: 0.4em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 0 0 0%;
+}
+
+.headerContent {
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.menu {
+  margin-top: 0 !important;
+  border-radius: 0 !important;
+}
