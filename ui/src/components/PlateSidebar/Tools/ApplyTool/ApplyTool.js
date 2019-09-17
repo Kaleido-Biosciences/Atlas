@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
 
-import {
-  applySelectedToolComponentsToSelectedWells,
-  addComponentToToolComponents,
-} from '../../../../store/experimentActions';
+import { applySelectedToolComponentsToSelectedWells } from '../../../../store/experimentActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
@@ -101,20 +98,14 @@ ApplyTool.propTypes = {
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
   onApplyClick: PropTypes.func,
-  onComponentListClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const {
-    toolComponents,
-    componentList,
-    toolComponentsValid,
-  } = state.designExperiment;
+  const { toolComponents, toolComponentsValid } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
     toolComponents,
-    componentList,
     toolComponentsValid,
     selectedWells,
     activePlate,
@@ -123,7 +114,6 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onApplyClick: applySelectedToolComponentsToSelectedWells,
-  onComponentListClick: addComponentToToolComponents,
 };
 
 const connected = connect(
