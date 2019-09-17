@@ -26,24 +26,27 @@ class Tools extends Component {
             name="apply"
             onClick={this.handleToolClick}
             active={clickMode === 'apply'}
+            title="Apply tool"
           >
-            <Icon name="paint brush" title="Apply tool" />
+            <Icon name="paint brush" />
           </Menu.Item>
 
           <Menu.Item
             name="select"
             onClick={this.handleToolClick}
             active={clickMode === 'select'}
+            title="Select tool"
           >
-            <Icon name="expand" title="Select tool" />
+            <Icon name="expand" />
           </Menu.Item>
 
           <Menu.Item
             name="clear"
             onClick={this.handleToolClick}
             active={clickMode === 'clear'}
+            title="Clear tool"
           >
-            <Icon name="eraser" title="Clear tool" />
+            <Icon name="eraser" />
           </Menu.Item>
         </Menu>
       </div>
