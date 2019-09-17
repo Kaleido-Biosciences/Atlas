@@ -1,3 +1,9 @@
+.tools {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   border-top: 1px solid rgba(34, 36, 38, 0.15);
   border-bottom: 1px solid rgba(34, 36, 38, 0.15);
@@ -14,6 +20,7 @@
 }
 
 .menu {
-  margin-top: 0 !important;
+  margin: 0 !important;
   border-radius: 0 !important;
+  flex: 0 0 0%;
 }

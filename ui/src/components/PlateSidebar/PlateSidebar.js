@@ -9,7 +9,11 @@ export class PlateSidebar extends Component {
   render() {
     return (
       <div className={styles.plateSidebar}>
-        <SplitPane split="horizontal" defaultSize={250}>
+        <SplitPane
+          split="horizontal"
+          defaultSize={250}
+          pane2Style={{ height: '100%' }}
+        >
           <ComponentList />
           <Tools />
         </SplitPane>

@@ -9,6 +9,8 @@ import {
 } from '../../../store/experimentActions';
 import { selectActivePlate } from '../../../store/selectors';
 import { Header } from './Header';
+import { ApplyTool } from './ApplyTool';
+import { ClearToolbar } from '../../ComponentToolbar/ClearToolbar';
 import styles from './Tools.module.css';
 
 class Tools extends Component {
@@ -16,10 +18,18 @@ class Tools extends Component {
     this.props.setClickMode(name);
     this.props.deselectAllWells({ plateId: this.props.activePlate.id });
   };
+  renderTool() {
+    const { clickMode } = this.props;
+    if (clickMode === 'apply' || clickMode === 'select') {
+      return <ApplyTool />;
+    } else if (clickMode === 'clear') {
+      return <ClearToolbar />;
+    }
+  }
   render() {
     const { clickMode } = this.props;
     return (
-      <div>
+      <div className={styles.tools}>
         <Header />
         <Menu size="mini" className={styles.menu}>
           <Menu.Item
@@ -49,6 +59,7 @@ class Tools extends Component {
             <Icon name="eraser" />
           </Menu.Item>
         </Menu>
+        {this.renderTool()}
       </div>
     );
   }

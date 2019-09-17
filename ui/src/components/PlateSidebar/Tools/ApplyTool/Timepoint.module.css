@@ -1,0 +1,40 @@
+.timepoint {
+  display: flex;
+  margin-top: 0.5em;
+  align-items: center;
+}
+
+.timepoint:first-child {
+  margin-top: 0;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+}
+
+.timeField {
+  composes: field;
+}
+
+.concField {
+  composes: field;
+  margin-right: 1em;
+}
+
+.timeInputContainer {
+  width: 6em;
+}
+
+.concInputContainer {
+  width: 6em;
+}
+
+.fieldIcon {
+}
+
+.removeIcon {
+  color: #db2828;
+  cursor: pointer;
+  margin-left: 0.5em !important;
+}
