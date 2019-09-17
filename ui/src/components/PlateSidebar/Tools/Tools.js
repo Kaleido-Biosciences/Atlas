@@ -10,7 +10,7 @@ import {
 import { selectActivePlate } from '../../../store/selectors';
 import { Header } from './Header';
 import { ApplyTool } from './ApplyTool';
-import { ClearToolbar } from '../../ComponentToolbar/ClearToolbar';
+import { ClearTool } from './ClearTool';
 import styles from './Tools.module.css';
 
 class Tools extends Component {
@@ -23,7 +23,7 @@ class Tools extends Component {
     if (clickMode === 'apply' || clickMode === 'select') {
       return <ApplyTool />;
     } else if (clickMode === 'clear') {
-      return <ClearToolbar />;
+      return <ClearTool />;
     }
   }
   render() {
