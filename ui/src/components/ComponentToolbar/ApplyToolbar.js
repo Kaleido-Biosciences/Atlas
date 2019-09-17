@@ -5,17 +5,13 @@ import memoize from 'memoize-one';
 import { Header, Button } from 'semantic-ui-react';
 
 import {
-  addComponents,
-  applySelectedComponentsToSelectedWells,
-  moveRecentComponentsToComponents,
-  removeRecentComponents,
+  applySelectedToolComponentsToSelectedWells,
+  addComponentToToolComponents,
 } from '../../store/experimentActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
 } from '../../store/selectors';
-import { ComponentSearch } from './ComponentSearch';
-import { RecentComponents } from './RecentComponents';
 import { CommunitiesSection } from './sections/CommunitiesSection';
 import { CompoundsSection } from './sections/CompoundsSection';
 import { MediaSection } from './sections/MediaSection';
@@ -42,7 +38,7 @@ class ApplyToolbar extends Component {
         headerText = 'No wells selected.';
       }
       return (
-        <div>
+        <div className={styles.selectedWells}>
           <Header size="tiny">{headerText}</Header>
           {wellString}
         </div>
@@ -50,35 +46,16 @@ class ApplyToolbar extends Component {
     }
   }
   render() {
-    const {
-      components,
-      componentsValid,
-      selectedWells,
-      recentComponents,
-      onAddComponent,
-      onRecentComponentClick,
-      onRecentComponentRemoveClick,
-    } = this.props;
-    const groupedComponents = this.groupComponents(components);
+    const { toolComponents, toolComponentsValid, selectedWells } = this.props;
+    const groupedComponents = this.groupComponents(toolComponents);
     const { communities, compounds, media, supplements } = groupedComponents;
-    const showComponents = components.length > 0;
+    const showComponents = toolComponents.length > 0;
     return (
-      <div className="apply-toolbar">
-        <div className={styles.componentSearchContainer}>
-          <ComponentSearch onSelect={onAddComponent} />
-        </div>
-        {recentComponents.length > 0 ? (
-          <div className={styles.recentComponentsContainer}>
-            <RecentComponents
-              components={recentComponents}
-              onComponentClick={onRecentComponentClick}
-              onComponentRemoveClick={onRecentComponentRemoveClick}
-            />
-          </div>
-        ) : null}
+      <div className={styles.applyToolbar}>
         <div className={styles.componentsContainer}>
           {showComponents ? (
             <React.Fragment>
+              <h5 className={styles.toolbarHeader}>Palette</h5>
               {communities.length > 0 && (
                 <CommunitiesSection communities={communities} />
               )}
@@ -92,17 +69,18 @@ class ApplyToolbar extends Component {
             </React.Fragment>
           ) : (
             <div className={styles.noComponentsMessage}>
-              Get started by searching for some components above.
+              Get started by adding some components.
             </div>
           )}
         </div>
+
         {selectedWells && selectedWells.length > 0 ? (
           <div className={styles.selectedWellsContainer}>
             {this.renderSelectedWells()}
             {showComponents ? (
               <div className={styles.applyButtonContainer}>
                 <Button
-                  disabled={!componentsValid}
+                  disabled={!toolComponentsValid}
                   primary
                   onClick={this.handleApplyClick}
                 >
@@ -118,39 +96,34 @@ class ApplyToolbar extends Component {
 }
 
 ApplyToolbar.propTypes = {
-  components: PropTypes.array.isRequired,
-  componentsValid: PropTypes.bool.isRequired,
+  toolComponents: PropTypes.array.isRequired,
+  toolComponentsValid: PropTypes.bool.isRequired,
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
-  recentComponents: PropTypes.array,
-  onAddComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
-  onRecentComponentClick: PropTypes.func,
-  onRecentComponentRemoveClick: PropTypes.func,
+  onComponentListClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
   const {
-    components,
-    componentsValid,
-    recentComponents,
+    toolComponents,
+    componentList,
+    toolComponentsValid,
   } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
-    components,
-    componentsValid,
+    toolComponents,
+    componentList,
+    toolComponentsValid,
     selectedWells,
     activePlate,
-    recentComponents,
   };
 };
 
 const mapDispatch = {
-  onAddComponent: addComponents,
-  onApplyClick: applySelectedComponentsToSelectedWells,
-  onRecentComponentClick: moveRecentComponentsToComponents,
-  onRecentComponentRemoveClick: removeRecentComponents,
+  onApplyClick: applySelectedToolComponentsToSelectedWells,
+  onComponentListClick: addComponentToToolComponents,
 };
 
 const connected = connect(

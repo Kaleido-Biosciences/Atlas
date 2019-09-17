@@ -10,12 +10,12 @@ import { aws } from '../api';
 
 const {
   addPlate: _addPlate,
-  applySelectedComponentsToWells: _applySelectedComponentsToWells,
+  applySelectedToolComponentsToWells: _applySelectedToolComponentsToWells,
   clearWells: _clearWells,
   setActivePlate: _setActivePlate,
   deletePlate: _deletePlate,
   setCompletedStatus: _setCompletedStatus,
-  applySelectedComponentsToSelectedWells: _applySelectedComponentsToSelectedWells,
+  applySelectedToolComponentsToSelectedWells: _applySelectedToolComponentsToSelectedWells,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
 } = designExperimentActions;
@@ -58,13 +58,13 @@ export const {
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
-  addComponents,
-  moveRecentComponentsToComponents,
-  removeRecentComponents,
+  addKaptureComponentsToComponents,
+  addComponentToToolComponents,
+  addComponentToComponents,
   setClearMode,
-  selectComponents,
-  deselectComponents,
-  removeComponents,
+  selectToolComponents,
+  deselectToolComponents,
+  removeToolComponents,
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
@@ -108,8 +108,8 @@ export const clonePlate = wrapWithChangeHandler((plateId, typesToClone) => {
 
 export const addNewPlate = wrapWithChangeHandler(_addNewPlate);
 
-export const applySelectedComponentsToWells = wrapWithChangeHandler(
-  _applySelectedComponentsToWells
+export const applySelectedToolComponentsToWells = wrapWithChangeHandler(
+  _applySelectedToolComponentsToWells
 );
 
 export const clearWells = wrapWithChangeHandler(_clearWells);
@@ -120,6 +120,6 @@ export const deletePlate = wrapWithChangeHandler(_deletePlate);
 
 export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
 
-export const applySelectedComponentsToSelectedWells = wrapWithChangeHandler(
-  _applySelectedComponentsToSelectedWells
+export const applySelectedToolComponentsToSelectedWells = wrapWithChangeHandler(
+  _applySelectedToolComponentsToSelectedWells
 );

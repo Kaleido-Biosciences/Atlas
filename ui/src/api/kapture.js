@@ -1,6 +1,13 @@
 import axios from 'axios';
 
+import {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+} from '../constants';
 import { API_URL } from '../config';
+import { createComponent } from '../store/plateFunctions';
 
 export function fetchCommunity(id) {
   return axios.get(API_URL + '/communities/' + id);
@@ -53,6 +60,85 @@ export function fetchComponents(page, size, nameContains, descContains) {
         media: response[2].data,
         supplements: response[3].data,
       };
+    }
+  );
+}
+
+export async function searchComponents(page, size, query) {
+  if (query) {
+    const params = [];
+    params.push(`query=${query}`);
+    if (page) params.push(`page=${page}`);
+    if (size) params.push(`size=${size}`);
+    const queryString = '?' + params.join('&');
+    const getUrl = url => `${API_URL}${url}${queryString}`;
+    const communities = axios.get(getUrl('/_search/communities'));
+    const compounds = axios.get(getUrl('/_search/batches'));
+    const media = axios.get(getUrl('/_search/media'));
+    const supplements = axios.get(getUrl('/_search/supplements'));
+    const response = await Promise.all([
+      communities,
+      compounds,
+      media,
+      supplements,
+    ]);
+    const components = [];
+    if (response[0].data.length) {
+      response[0].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_COMMUNITY));
+      });
+    }
+    if (response[1].data.length) {
+      response[1].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_COMPOUND));
+      });
+    }
+    if (response[2].data.length) {
+      response[2].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_MEDIUM));
+      });
+    }
+    if (response[3].data.length) {
+      response[3].data.forEach(component => {
+        components.push(createComponent(component, COMPONENT_TYPE_SUPPLEMENT));
+      });
+    }
+    return components;
+  }
+}
+
+export function findComponent(name) {
+  const queryString = `?name.equals=${name}`;
+  const communities = axios.get(API_URL + '/communities' + queryString);
+  const compounds = axios.get(API_URL + '/batches' + queryString);
+  const media = axios.get(API_URL + '/media' + queryString);
+  const supplements = axios.get(API_URL + '/supplements' + queryString);
+  return Promise.all([communities, compounds, media, supplements]).then(
+    response => {
+      const result = {
+        name,
+        found: false,
+        type: null,
+        data: null,
+      };
+      if (response[0].data.length) {
+        result.found = true;
+        result.type = COMPONENT_TYPE_COMMUNITY;
+        result.data = response[0].data[0];
+      } else if (response[1].data.length) {
+        result.found = true;
+        result.type = COMPONENT_TYPE_COMPOUND;
+        result.data = response[1].data[0];
+      } else if (response[2].data.length) {
+        result.found = true;
+        result.type = COMPONENT_TYPE_MEDIUM;
+        result.data = response[2].data[0];
+      } else if (response[3].data.length) {
+        result.found = true;
+        result.type = COMPONENT_TYPE_SUPPLEMENT;
+        result.data = response[3].data[0];
+      }
+      return result;
     }
   );
 }

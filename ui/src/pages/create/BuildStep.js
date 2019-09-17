@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react';
-import Draggable from 'react-draggable';
 
 import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
+import { PlateSidebar } from '../../components/PlateSidebar';
 import { Plate } from '../../components/Plate/Plate';
 import { ComponentToolbar } from '../../components/ComponentToolbar/ComponentToolbar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
+import { Panel } from '../../components/Panel/Panel';
+import SplitPane from 'react-split-pane';
 import styles from './BuildStep.module.css';
 
 import {
@@ -15,7 +16,7 @@ import {
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
-  applySelectedComponentsToWells,
+  applySelectedToolComponentsToWells,
   clearWells,
 } from '../../store/experimentActions';
 import { selectActivePlate } from '../../store/selectors';
@@ -28,7 +29,7 @@ class BuildStep extends Component {
   handlePlateClick = data => {
     const { clickMode } = this.props;
     if (clickMode === 'apply') {
-      this.props.applySelectedComponentsToWells(data);
+      this.props.applySelectedToolComponentsToWells(data);
     }
     if (clickMode === 'clear') {
       this.props.clearWells(data);
@@ -41,37 +42,31 @@ class BuildStep extends Component {
     const { plates, activePlate } = this.props;
     const showPlate = plates.length > 0 && activePlate;
     return (
-      <div className={styles.container}>
-        <div className={styles.plate}>
-          {showPlate && (
-            <React.Fragment>
-              <PlateToolbar onComplete={this.props.onComplete} />
-              <div className={styles.plateContainer}>
-                <Draggable
-                  handle={`.${styles.dragHandle}`}
-                  position={null}
-                  scale={1}
-                >
-                  <div className={styles.componentToolbar}>
-                    <Segment>
-                      <div className={styles.dragHandle} />
-                      <ComponentToolbar
-                        onTabChange={this.handleClickModeChange}
-                      />
-                    </Segment>
-                  </div>
-                </Draggable>
+      <div className={styles.buildStep}>
+        {showPlate && (
+          <React.Fragment>
+            <PlateToolbar onComplete={this.props.onComplete} />
+            <div className={styles.plateContainer}>
+              <SplitPane
+                primary="second"
+                defaultSize={300}
+                minSize={200}
+                pane1Style={{ overflow: 'hidden' }}
+                pane2Style={{ height: '100%'}}
+              >
                 <Plate
                   plate={activePlate}
                   onWellsClick={this.handlePlateClick}
                 />
-              </div>
-            </React.Fragment>
-          )}
-          {!showPlate && (
-            <NoPlatesMessage onAddClick={this.props.addNewPlate} />
-          )}
-        </div>
+                <PlateSidebar />
+              </SplitPane>
+              {/* <Panel containerClass={styles.componentToolbar}>
+                <ComponentToolbar onTabChange={this.handleClickModeChange} />
+              </Panel> */}
+            </div>
+          </React.Fragment>
+        )}
+        {!showPlate && <NoPlatesMessage onAddClick={this.props.addNewPlate} />}
       </div>
     );
   }
@@ -85,7 +80,7 @@ BuildStep.propTypes = {
   toggleWellsSelected: PropTypes.func.isRequired,
   setClickMode: PropTypes.func.isRequired,
   deselectAllWells: PropTypes.func.isRequired,
-  applySelectedComponentsToWells: PropTypes.func.isRequired,
+  applySelectedToolComponentsToWells: PropTypes.func.isRequired,
   clearWells: PropTypes.func.isRequired,
   onComplete: PropTypes.func,
 };
@@ -101,7 +96,7 @@ const mapDispatch = {
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
-  applySelectedComponentsToWells,
+  applySelectedToolComponentsToWells,
   clearWells,
 };
 

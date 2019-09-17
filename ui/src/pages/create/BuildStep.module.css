@@ -1,25 +1,27 @@
-.container {
+.buildStep {
   width: 100%;
-  padding: 0 1em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .plateContainer {
   position: relative;
-}
-
-.dragHandle {
-  cursor: move;
-  height: 1em;
+  flex: 1;
 }
 
 .componentToolbar {
   position: absolute;
-  top: 4em;
-  right: 2em;
+  top: 3em;
+  right: 25em;
   width: 22rem;
   max-width: 22rem;
 }
 
-.componentToolbar > :global(.segment) {
-  padding-top: 0 !important;
+.addComponentsPanel {
+  position: absolute;
+  top: 3em;
+  right: 26em;
+  width: 22rem;
+  max-width: 22rem;
 }

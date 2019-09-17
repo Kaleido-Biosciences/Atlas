@@ -6,7 +6,6 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { SelectStep } from './SelectStep';
 import { BuildStep } from './BuildStep';
 import { PrintStep } from './PrintStep';
-import { Steps } from '../../components/Steps/Steps';
 
 class CreateNew extends Component {
   selectStepComplete = () => {
@@ -17,10 +16,8 @@ class CreateNew extends Component {
   };
   render() {
     const { match } = this.props;
-    const { pathname } = this.props.location;
     return (
       <React.Fragment>
-        <Steps pathName={pathname} steps={this.props.steps} />
         <Switch>
           <Route
             path={`${match.path}/select`}
