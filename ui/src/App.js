@@ -6,7 +6,6 @@ import { store } from './store/store';
 import { Header } from './components/Header/Header';
 import { CreateNew } from './pages/create/CreateNew';
 import styles from './App.module.css';
-import './styles.css';
 
 class App extends Component {
   render() {

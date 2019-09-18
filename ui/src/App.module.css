@@ -8,3 +8,50 @@
   display: inline-block;
   width: 100%;
 }
+
+:global(.Resizer) {
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  box-sizing: border-box;
+  background-clip: padding-box;
+}
+
+:global(.Resizer:hover) {
+  transition: all 0.4s ease;
+}
+
+:global(.Resizer.horizontal) {
+  height: 7px;
+  margin: -3px 0;
+  border-top: 3px solid rgba(255, 255, 255, 0);
+  border-bottom: 3px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+:global(.Resizer.horizontal:hover) {
+  border-top: 3px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+:global(.Resizer.vertical) {
+  width: 7px;
+  margin: 0 -3px;
+  border-left: 3px solid rgba(255, 255, 255, 0);
+  border-right: 3px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+:global(.Resizer.vertical:hover) {
+  border-left: 3px solid rgba(0, 0, 0, 0.4);
+  border-right: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+:global(.Resizer.disabled) {
+  cursor: not-allowed;
+}
+
+:global(.Resizer.disabled:hover) {
+  border-color: transparent;
+}
