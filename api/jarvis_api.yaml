@@ -1,0 +1,105 @@
+swagger: "2.0"
+info:
+  description: "This is a sample of what Atlas is expecting from an endpoint, to fill it with components. This is a sample server Petstore server."
+  version: "1.0.0"
+  title: "Atlas Search Endpoint"
+  contact:
+    email: "dea@kaleido.com"
+host: "api.kaleidobio.com"
+basePath: "/jarvis"
+produces: 
+  - application/json
+tags:
+- name: "components"
+  description: "Components that will be returned to Atlas"
+- name: "authorization"
+  description: "Authorization with OAuth2"
+schemes:
+- "https"
+paths:
+  /components/search:
+    get:
+      tags:
+      - "components"
+      summary: "Finds Components"
+      description: "Text string to match on"
+      operationId: "findComponents"
+      produces:
+      - "application/json"
+      security: 
+      - cognito-authorizer: []
+      parameters:
+      - name: "query"
+        in: query
+        description: "Text string to search on"
+        required: true
+        type: "string"
+      - name: "type"
+        in: query
+        description: "String array of types for filtering the components"
+        type: array
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Component"
+        400:
+          description: "Invalid status value"
+
+securityDefinitions: 
+  cognito-authorizer: 
+    type: apiKey
+    name: Authorization
+    in: header
+    x-amazon-apigateway-authtype: cognito_user_pools
+    x-amazon-apigateway-authorizer:
+      type: cognito_user_pools
+      providerARNs:
+        - arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}
+definitions:
+  Component:
+    type: "object"
+    required: 
+    - id
+    - name
+    - classificationSymbol
+    - allowedUnits
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        description: "Text to display as the name of the component"
+        minLength: 1
+      altName:
+        type: "string"
+        description: "Text to be shown after the Display name to give context"
+      classification:
+        type: "string"
+        description: "The classification of the component, for example: Compound or Community or Strain"
+      classificationSymbol:
+        type: "string"
+        description: "Characters that will be shown next to the name in an icon. Components with the same classification symbol can be considered the same type of component"
+        minLength: 1
+        maxLength: 3
+      tooltip:
+        type: "array"
+        description: "Ordered List of fields to display in a tool tip on hover of the component"
+        items:
+          type: "string"
+      allowedUnits:
+        type: "array"
+        description: "List of units the component can be measured in"
+        items:
+          type: "string"
+    xml:
+      name: "Component"
+externalDocs:
+  description: "Find out more about Atlas"
+  url: "https://gitlab.kaleidobio.com/research/atlas"
