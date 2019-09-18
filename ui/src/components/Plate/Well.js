@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import memoize from 'memoize-one';
 
-import { groupComponents } from '../../util';
+import { groupComponents } from '../../store/plateFunctions';
 import { WellComponent } from './WellComponent';
 import styles from './Well.module.css';
 
