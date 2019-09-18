@@ -7,6 +7,10 @@
   display: none;
 }
 
+.headerLink {
+  display: flex;
+}
+
 .logo {
   margin-right: 1.5em;
   height: 1.5em !important;
