@@ -18,7 +18,7 @@ image_build_staging:
   only:
     - develop
   services:
-    - docker:18.09.7-dind
+    - docker:dind
   script:
     - cd ui/
     - ls
@@ -42,7 +42,7 @@ image_build_prod:
   only:
     - master
   services:
-    - docker:18.09.7-dind
+    - docker:dind
   script:
     - cd ui/
     - ls
