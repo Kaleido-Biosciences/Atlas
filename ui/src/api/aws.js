@@ -7,9 +7,6 @@ import {
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,
   DYNAMODB_TABLE,
-  WORLD_CLOCK_SITE,
-  WORLD_CLOCK_URL,
-  WORLD_CLOCK_KEY
 } from '../config';
 
 AWS.config.update({
@@ -21,6 +18,7 @@ AWS.config.update({
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
+let WORLD_CLOCK_URL = 'http://worldclockapi.com/api/json/utc/now';
 
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
@@ -57,12 +55,7 @@ export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = JSON.stringify(plateMaps);
     if (status === STATUS_COMPLETED) {
-      axios.get(WORLD_CLOCK_URL,{
-        headers: {
-          'x-rapidapi-host': WORLD_CLOCK_SITE,
-          'x-rapidapi-key': WORLD_CLOCK_KEY
-        }
-      }).then(function (time) {
+      axios.get(WORLD_CLOCK_URL).then(function (time) {
         createNew(experimentName, status, time.data['currentFileTime'], plateMapsToSave, reject, resolve);
       });
     }
