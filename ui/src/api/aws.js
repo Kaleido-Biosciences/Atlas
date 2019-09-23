@@ -55,13 +55,40 @@ export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = JSON.stringify(plateMaps);
     if (status === STATUS_COMPLETED) {
-      axios.get(WORLD_CLOCK_URL).then(function (time) {
-        createNew(experimentName, status, time.data['currentFileTime'], plateMapsToSave, reject, resolve);
+      getUTCTime().then(function (time) {
+        createNew(experimentName, status, time, plateMapsToSave, reject, resolve);
       });
     }
     else{
       saveToDB(experimentName, status, 0, plateMapsToSave, reject, resolve);
     }
+  });
+}
+
+/**
+ * This function uses the following api to retrieve a LDAP/Win32 FILETIME time
+ * https://rapidapi.com/theapiguy/api/world-clock
+ * @returns {Promise<any>}
+ */
+export function getUTCTime() {
+  let WORLD_CLOCK_SITE = 'world-clock.p.rapidapi.com';
+  let WORLD_CLOCK_URL = 'https://world-clock.p.rapidapi.com/json/utc/now';
+  let WORLD_CLOCK_KEY = '16adfed3e9msh71bdb95d05818cap103220jsn7319172ab565';
+
+  return new Promise((resolve, reject) => {
+    axios.get(WORLD_CLOCK_URL, {
+      headers: {
+        'x-rapidapi-host': WORLD_CLOCK_SITE,
+        'x-rapidapi-key': WORLD_CLOCK_KEY
+      }
+    })
+      .then(function (response) {
+        resolve(response.data['currentFileTime']);
+      })
+      .catch(function (error) {
+        // convert unix time stamp to LDAP/Win32 Filetime
+        resolve(((Date.now()/1000) +  11644473600) * 10000000)
+      })
   });
 }
 
