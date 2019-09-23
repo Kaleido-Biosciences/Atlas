@@ -10,7 +10,7 @@ stages:
 
 
 image_build_staging:
-  image: docker:git
+  image: docker:18.09.7-dind
   stage: package
   environment:
     name: staging
@@ -42,7 +42,7 @@ image_build_prod:
   only:
     - master
   services:
-    - docker:dind
+    - docker:18.09.7-dind
   script:
     - cd ui/
     - ls
