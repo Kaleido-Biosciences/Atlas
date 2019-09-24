@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import styles from './PlateTabBar.module.css';
 
@@ -12,11 +13,13 @@ export class PlateTab extends Component {
   };
   render() {
     const { plate } = this.props;
+    const tabClass = classNames(styles.plateTab, {
+      [styles.active]: plate.active,
+    });
     return (
-      <div
-        className={styles.plateTab}
-        onClick={this.handleClick}
-      >{`Plate ${plate.id}`}</div>
+      <div className={tabClass} onClick={this.handleClick}>
+        <span>{`Plate ${plate.id}`}</span>
+      </div>
     );
   }
 }

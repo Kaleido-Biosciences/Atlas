@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
-import { Menu } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 
 import { addNewPlate, setActivePlate } from '../../../store/experimentActions';
-import { selectActivePlate } from '../../../store/selectors';
 import { PlateTab } from './PlateTab';
 import styles from './PlateTabBar.module.css';
 
@@ -19,16 +17,16 @@ class PlateTabBar extends Component {
     const { plates, onTabClick } = this.props;
     if (plates && plates.length) {
       return plates.map((plate, i) => {
-        return <PlateTab plate={plate} onClick={onTabClick}/>;
+        return <PlateTab plate={plate} onClick={onTabClick} />;
       });
     }
   }
   render() {
     return (
       <div className={styles.plateTabBar}>
-        <Button icon onClick={this.handleAddClick}>
-          <Icon name="plus circle" />
-        </Button>
+        <div className={styles.addIcon} onClick={this.handleAddClick}>
+          <Icon name="plus circle" link title="Add Plate" />
+        </div>
         {this.renderTabs()}
       </div>
     );
@@ -42,9 +40,8 @@ PlateTabBar.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const activePlate = selectActivePlate(state);
   const { plates } = state.designExperiment;
-  return { activePlate, plates };
+  return { plates };
 };
 
 const mapDispatch = {
