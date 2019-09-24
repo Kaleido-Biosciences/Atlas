@@ -14,6 +14,7 @@ import { ExperimentHeader } from '../../components/Design/ExperimentHeader';
 import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
 import { PlateSidebar } from '../../components/PlateSidebar';
 import { Plate } from '../../components/Plate/Plate';
+import { PlateTabBar } from '../../components/Design/PlateTabBar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
 import styles from './BuildStep.module.css';
 
@@ -39,7 +40,7 @@ class BuildStep extends Component {
           <React.Fragment>
             {/* <PlateToolbar onComplete={onComplete} /> */}
             <ExperimentHeader onComplete={onComplete} />
-            <div className={styles.plateContainer}>
+            <div className={styles.container}>
               <SplitPane
                 primary="second"
                 defaultSize={300}
@@ -47,10 +48,13 @@ class BuildStep extends Component {
                 pane1Style={{ overflow: 'hidden' }}
                 pane2Style={{ height: '100%' }}
               >
-                <Plate
-                  plate={activePlate}
-                  onWellsClick={this.handlePlateClick}
-                />
+                <div className={styles.plateContainer}>
+                  <Plate
+                    plate={activePlate}
+                    onWellsClick={this.handlePlateClick}
+                  />
+                  <PlateTabBar />
+                </div>
                 <PlateSidebar />
               </SplitPane>
             </div>

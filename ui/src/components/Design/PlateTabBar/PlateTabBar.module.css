@@ -1,0 +1,10 @@
+.plateTabBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.plateTab {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
