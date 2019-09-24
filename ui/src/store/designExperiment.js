@@ -49,7 +49,11 @@ const designExperiment = createSlice({
       state.steps.stepOneCompleted = true;
     },
     addPlate(state, action) {
+      state.plates.forEach((plate) => {
+           plate.active = false;
+      });
       const plate = action.payload;
+      plate.active = true;
       plate.id = state.nextPlateId;
       state.plates.push(plate);
       state.nextPlateId++;
@@ -73,18 +77,26 @@ const designExperiment = createSlice({
     },
     deletePlate(state, action) {
       const idToRemove = action.payload;
-      state.plates = state.plates.filter((plate, i) => {
-        return plate.id !== idToRemove;
-      });
-      // TODO might want to move this to a thunk
-      // and maybe select the plate immediately
-      // before the deleted one.
-      if (state.plates.length) {
-        state.plates.forEach(plate => {
+      let tempPlates = [];
+      let count = 1;
+      state.plates.forEach((plate) => {
+        if (plate.id !== idToRemove){
+          plate.id = count;
           plate.active = false;
-        });
-        state.plates[0].active = true;
+          tempPlates.push(plate);
+          count++;
+        }
+      });
+      // if the deleted plate is #5, the new #5 (old #6) is the active plate
+      if (tempPlates.length > 0) {
+        if (tempPlates.length < idToRemove) {
+          tempPlates[tempPlates.length - 1].active = true;
+        } else {
+          tempPlates[idToRemove - 1].active = true;
+        }
       }
+      state.plates = tempPlates;
+      state.nextPlateId = tempPlates.length + 1;
     },
     setClickMode(state, action) {
       state.clickMode = action.payload;

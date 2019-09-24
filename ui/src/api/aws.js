@@ -18,7 +18,6 @@ AWS.config.update({
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
-let WORLD_CLOCK_URL = 'http://worldclockapi.com/api/json/utc/now';
 
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
