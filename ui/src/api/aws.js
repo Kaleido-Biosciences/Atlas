@@ -18,7 +18,6 @@ AWS.config.update({
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
-let WORLD_CLOCK_URL = 'http://worldclockapi.com/api/json/utc/now';
 
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
@@ -75,7 +74,7 @@ export function getUTCTime() {
   let WORLD_CLOCK_URL = 'https://world-clock.p.rapidapi.com/json/utc/now';
   let WORLD_CLOCK_KEY = '16adfed3e9msh71bdb95d05818cap103220jsn7319172ab565';
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     axios.get(WORLD_CLOCK_URL, {
       headers: {
         'x-rapidapi-host': WORLD_CLOCK_SITE,
