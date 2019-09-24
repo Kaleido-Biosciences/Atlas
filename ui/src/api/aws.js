@@ -74,7 +74,7 @@ export function getUTCTime() {
   let WORLD_CLOCK_URL = 'https://world-clock.p.rapidapi.com/json/utc/now';
   let WORLD_CLOCK_KEY = '16adfed3e9msh71bdb95d05818cap103220jsn7319172ab565';
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     axios.get(WORLD_CLOCK_URL, {
       headers: {
         'x-rapidapi-host': WORLD_CLOCK_SITE,
