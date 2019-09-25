@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Dropdown } from 'semantic-ui-react';
 
 import styles from './PlateTabBar.module.css';
 
 export class PlateTab extends Component {
+  state = {
+    dropdownOpen: false,
+  };
   handleClick = () => {
     const { plate } = this.props;
     if (this.props.onClick) {
       this.props.onClick(plate.id);
     }
+  };
+  handleDropdownClick = e => {
+    e.stopPropagation();
+    const { plate } = this.props;
+    if (plate.active) {
+      this.setState({ dropdownOpen: !this.state.dropdownOpen });
+    } else {
+      this.handleClick();
+    }
+  };
+  handleDropdownBlur = () => {
+    this.setState({ dropdownOpen: false });
+  };
+  handleItemClick = (e, data) => {
+    console.log('item', e, data.name);
   };
   render() {
     const { plate } = this.props;
@@ -19,6 +38,26 @@ export class PlateTab extends Component {
     return (
       <div className={tabClass} onClick={this.handleClick}>
         <span>{`Plate ${plate.id}`}</span>
+        <Dropdown
+          open={this.state.dropdownOpen}
+          onClick={this.handleDropdownClick}
+          onBlur={this.handleDropdownBlur}
+        >
+          <Dropdown.Menu>
+            <Dropdown.Item
+              onClick={this.handleItemClick}
+              icon="clone outline"
+              text="Clone..."
+              name="clone"
+            />
+            <Dropdown.Item
+              onClick={this.handleItemClick}
+              icon="trash"
+              text="Delete..."
+              name="delete"
+            />
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     );
   }
