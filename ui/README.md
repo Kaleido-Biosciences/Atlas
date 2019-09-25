@@ -4,6 +4,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### Running Locally
+You will need to have a file `.env` in the /ui/ folder
+```
+# Set the DynamoDb Access here
+REACT_APP_DYNAMODB_ACCESS_KEY_ID=somekey
+REACT_APP_DYNAMODB_SECRET_ACCESS_KEY=anotherkey
+REACT_APP_DYNAMODB_TABLE=atlas-staging
+# Set kapture api
+REACT_APP_API_URL=https://kapture-staging.apps.kaleidobio.com/api
+#AWS_COGNITO_REDIRECT=https://kaleido-apps.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=****INSERTCLIENTID****&redirect_uri=https://atlas-staging.apps.kaleidobio.com/callback
+AWS_COGNITO_REDIRECT=https://kaleido-apps.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=****INSERTCLIENTID****&redirect_uri=http://localhost:3000/callback
+```
+
 ### `npm start`
 
 Runs the app in the development mode.<br>

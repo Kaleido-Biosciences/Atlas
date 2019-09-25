@@ -9,19 +9,3 @@
   position: relative;
   flex: 1;
 }
-
-.componentToolbar {
-  position: absolute;
-  top: 3em;
-  right: 25em;
-  width: 22rem;
-  max-width: 22rem;
-}
-
-.addComponentsPanel {
-  position: absolute;
-  top: 3em;
-  right: 26em;
-  width: 22rem;
-  max-width: 22rem;
-}

@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
-import { Header, Button } from 'semantic-ui-react';
 
-import {
-  applySelectedToolComponentsToSelectedWells,
-  addComponentToToolComponents,
-} from '../../../../store/experimentActions';
+import { applySelectedToolComponentsToSelectedWells } from '../../../../store/experimentActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
@@ -16,7 +12,8 @@ import { CommunitiesSection } from './CommunitiesSection';
 import { CompoundsSection } from './CompoundsSection';
 import { MediaSection } from './MediaSection';
 import { SupplementsSection } from './SupplementsSection';
-import { groupComponents } from '../../../../util';
+import { groupComponents } from '../../../../store/plateFunctions';
+import { SelectedWells } from './SelectedWells';
 import styles from './ApplyTool.module.css';
 
 class ApplyTool extends Component {
@@ -25,26 +22,6 @@ class ApplyTool extends Component {
     const { activePlate } = this.props;
     this.props.onApplyClick({ plateId: activePlate.id });
   };
-  renderSelectedWells() {
-    const { selectedWells } = this.props;
-    if (selectedWells) {
-      let wellString = null,
-        headerText;
-      if (selectedWells.length > 0) {
-        const wellNames = selectedWells.map(well => well.name);
-        wellString = wellNames.join(', ');
-        headerText = 'Selected Wells:';
-      } else {
-        headerText = 'No wells selected.';
-      }
-      return (
-        <div className={styles.selectedWells}>
-          <Header size="tiny">{headerText}</Header>
-          {wellString}
-        </div>
-      );
-    }
-  }
   render() {
     const { toolComponents, toolComponentsValid, selectedWells } = this.props;
     const groupedComponents = this.groupComponents(toolComponents);
@@ -72,22 +49,14 @@ class ApplyTool extends Component {
             </div>
           )}
         </div>
-
         {selectedWells && selectedWells.length > 0 ? (
           <div className={styles.selectedWellsContainer}>
-            {this.renderSelectedWells()}
-            {showComponents ? (
-              <div className={styles.applyButtonContainer}>
-                <Button
-                  disabled={!toolComponentsValid}
-                  primary
-                  onClick={this.handleApplyClick}
-                  size="mini"
-                >
-                  Apply to {selectedWells.length} wells
-                </Button>
-              </div>
-            ) : null}
+            <SelectedWells
+              selectedWells={selectedWells}
+              showButton={showComponents}
+              buttonDisabled={!toolComponentsValid}
+              onApplyClick={this.handleApplyClick}
+            />
           </div>
         ) : null}
       </div>
@@ -101,20 +70,14 @@ ApplyTool.propTypes = {
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
   onApplyClick: PropTypes.func,
-  onComponentListClick: PropTypes.func,
 };
 
 const mapState = (state, props) => {
-  const {
-    toolComponents,
-    componentList,
-    toolComponentsValid,
-  } = state.designExperiment;
+  const { toolComponents, toolComponentsValid } = state.designExperiment;
   const selectedWells = selectSelectedWellsFromActivePlate(state);
   const activePlate = selectActivePlate(state);
   return {
     toolComponents,
-    componentList,
     toolComponentsValid,
     selectedWells,
     activePlate,
@@ -123,7 +86,6 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onApplyClick: applySelectedToolComponentsToSelectedWells,
-  onComponentListClick: addComponentToToolComponents,
 };
 
 const connected = connect(

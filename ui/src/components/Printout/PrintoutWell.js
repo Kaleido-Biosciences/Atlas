@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 
-import { groupComponents } from '../../util';
+import { groupComponents } from '../../store/plateFunctions';
 import { WellComponent } from './PrintoutWellComponent';
 
 export class PrintoutWell extends Component {

@@ -4,6 +4,10 @@ import {
   DEFAULT_TIMEPOINT_CONCENTRATION,
   DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
 } from '../constants';
 
 import { api } from '../api';
@@ -106,7 +110,7 @@ export function createPlateWells(dimensions) {
 }
 
 export function createComponent(data, type) {
-  const displayName = data.name;
+  const displayName = getDisplayName(data);
   const id = `${type.toUpperCase()}_${data.id}`;
   const timepoints = [createTimepoint(type)];
   return {
@@ -118,6 +122,23 @@ export function createComponent(data, type) {
     isValid: true,
     timepoints,
   };
+}
+
+/**
+ * This function is designed to get the display name. Ultimately this logic will be handled by the search endpoint
+ * @param data The component/data object
+ * @returns {*}
+ */
+export function getDisplayName(data) {
+  let displayName = data.name;
+
+  if("alias" in data && data.alias) { //For communities
+    displayName =  displayName + ' : (' + data.alias + ")";
+  } else if ("aliases" in data && data.aliases.length > 0) { //This is for compounds
+    data.aliases.forEach(aliasElement => displayName = displayName + ' : (' + aliasElement.alias + ')');
+  }
+
+  return displayName;
 }
 
 export function createTimepoint(
@@ -273,3 +294,26 @@ export function getComponentCounts(plates) {
   });
   return counts;
 }
+
+export const groupComponents = components => {
+  const groups = {
+    communities: [],
+    compounds: [],
+    media: [],
+    supplements: [],
+  };
+  components.forEach(component => {
+    let key;
+    if (component.type === COMPONENT_TYPE_COMMUNITY) {
+      key = 'communities';
+    } else if (component.type === COMPONENT_TYPE_COMPOUND) {
+      key = 'compounds';
+    } else if (component.type === COMPONENT_TYPE_MEDIUM) {
+      key = 'media';
+    } else if (component.type === COMPONENT_TYPE_SUPPLEMENT) {
+      key = 'supplements';
+    }
+    groups[key].push(component);
+  });
+  return groups;
+};
