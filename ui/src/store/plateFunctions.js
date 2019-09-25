@@ -124,6 +124,23 @@ export function createComponent(data, type) {
   };
 }
 
+/**
+ * This function is designed to get the display name. Ultimately this logic will be handled by the search endpoint
+ * @param data The component/data object
+ * @returns {*}
+ */
+export function getDisplayName(data) {
+  let displayName = data.name;
+
+  if("alias" in data && data.alias) { //For communities
+    displayName =  displayName + ':' + data.alias;
+  } else if ("aliases" in data && data.aliases.length < 0) { //This is for compounds
+    data.aliases.forEach(alias => displayName + ':' + alias.alias);
+  }
+
+  return displayName;
+}
+
 export function createTimepoint(
   componentType,
   time = DEFAULT_TIMEPOINT_TIME,
