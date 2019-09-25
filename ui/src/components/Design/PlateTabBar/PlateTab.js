@@ -28,7 +28,11 @@ export class PlateTab extends Component {
     this.setState({ dropdownOpen: false });
   };
   handleItemClick = (e, data) => {
-    console.log('item', e, data.name);
+    if (data.name === 'clone') {
+      if (this.props.onCloneMenuItemClick) {
+        this.props.onCloneMenuItemClick();
+      }
+    }
   };
   render() {
     const { plate } = this.props;
@@ -66,4 +70,5 @@ export class PlateTab extends Component {
 PlateTab.propTypes = {
   plate: PropTypes.object.isRequired,
   onClick: PropTypes.func,
+  onCloneMenuItemClick: PropTypes.func,
 };
