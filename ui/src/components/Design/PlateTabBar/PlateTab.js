@@ -32,6 +32,10 @@ export class PlateTab extends Component {
       if (this.props.onCloneMenuItemClick) {
         this.props.onCloneMenuItemClick();
       }
+    } else if (data.name === 'delete') {
+      if (this.props.onDeleteMenuItemClick) {
+        this.props.onDeleteMenuItemClick();
+      }
     }
   };
   render() {
@@ -71,4 +75,5 @@ PlateTab.propTypes = {
   plate: PropTypes.object.isRequired,
   onClick: PropTypes.func,
   onCloneMenuItemClick: PropTypes.func,
+  onDeleteMenuItemClick: PropTypes.func,
 };

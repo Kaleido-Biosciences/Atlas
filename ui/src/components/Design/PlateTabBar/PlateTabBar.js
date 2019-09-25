@@ -7,21 +7,30 @@ import {
   addNewPlate,
   setActivePlate,
   clonePlate,
+  deletePlate,
 } from '../../../store/experimentActions';
 import { selectActivePlate } from '../../../store/selectors';
 import { PlateTab } from './PlateTab';
 import styles from './PlateTabBar.module.css';
 import { ClonePlateForm } from './ClonePlateForm';
+import { DeletePlateConfirmation } from './DeletePlateConfirmation';
 
 class PlateTabBar extends Component {
   state = {
     cloneModalOpen: false,
+    deleteModalOpen: false,
   };
   openCloneModal = () => {
     this.setState({ cloneModalOpen: true });
   };
   closeCloneModal = () => {
     this.setState({ cloneModalOpen: false });
+  };
+  openDeleteModal = () => {
+    this.setState({ deleteModalOpen: true });
+  };
+  closeDeleteModal = () => {
+    this.setState({ deleteModalOpen: false });
   };
   handleAddClick = () => {
     if (this.props.onAddClick) {
@@ -34,6 +43,12 @@ class PlateTabBar extends Component {
       this.closeCloneModal();
     }
   };
+  handleDeleteSubmit = () => {
+    if (this.props.onDelete) {
+      this.props.onDelete(this.props.activePlate.id);
+      this.closeDeleteModal();
+    }
+  };
   renderTabs() {
     const { plates, onTabClick } = this.props;
     if (plates && plates.length) {
@@ -43,13 +58,14 @@ class PlateTabBar extends Component {
             plate={plate}
             onClick={onTabClick}
             onCloneMenuItemClick={this.openCloneModal}
+            onDeleteMenuItemClick={this.openDeleteModal}
           />
         );
       });
     }
   }
   render() {
-    const { cloneModalOpen } = this.state;
+    const { cloneModalOpen, deleteModalOpen } = this.state;
     return (
       <div className={styles.plateTabBar}>
         <div className={styles.addIcon} onClick={this.handleAddClick}>
@@ -60,6 +76,16 @@ class PlateTabBar extends Component {
           <Header icon="clone outline" content="Clone Plate" />
           <Modal.Content>
             <ClonePlateForm onSubmit={this.handleCloneSubmit} />
+          </Modal.Content>
+        </Modal>
+        <Modal
+          size="mini"
+          open={deleteModalOpen}
+          onClose={this.closeDeleteModal}
+        >
+          <Header icon="trash" content="Delete Plate" />
+          <Modal.Content>
+            <DeletePlateConfirmation onConfirmClick={this.handleDeleteSubmit} />
           </Modal.Content>
         </Modal>
       </div>
@@ -73,6 +99,7 @@ PlateTabBar.propTypes = {
   onAddClick: PropTypes.func,
   onTabClick: PropTypes.func,
   onClone: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -85,6 +112,7 @@ const mapDispatch = {
   onAddClick: addNewPlate,
   onTabClick: setActivePlate,
   onClone: clonePlate,
+  onDelete: deletePlate,
 };
 
 const connected = connect(
