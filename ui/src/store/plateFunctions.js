@@ -133,9 +133,9 @@ export function getDisplayName(data) {
   let displayName = data.name;
 
   if("alias" in data && data.alias) { //For communities
-    displayName =  displayName + ':' + data.alias;
-  } else if ("aliases" in data && data.aliases.length < 0) { //This is for compounds
-    data.aliases.forEach(alias => displayName + ':' + alias.alias);
+    displayName =  displayName + ' : (' + data.alias + ")";
+  } else if ("aliases" in data && data.aliases.length > 0) { //This is for compounds
+    data.aliases.forEach(aliasElement => displayName = displayName + ' : (' + aliasElement.alias + ')');
   }
 
   return displayName;
