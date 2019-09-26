@@ -11,7 +11,6 @@ import {
 } from '../../store/experimentActions';
 import { selectActivePlate } from '../../store/selectors';
 import { ExperimentHeader } from '../../components/Design/ExperimentHeader';
-import { PlateToolbar } from '../../components/PlateToolbar/PlateToolbar';
 import { PlateSidebar } from '../../components/PlateSidebar';
 import { Plate } from '../../components/Plate/Plate';
 import { PlateTabBar } from '../../components/Design/PlateTabBar';
@@ -38,7 +37,6 @@ class BuildStep extends Component {
       <div className={styles.buildStep}>
         {showPlate && (
           <React.Fragment>
-            {/* <PlateToolbar onComplete={onComplete} /> */}
             <ExperimentHeader onComplete={onComplete} />
             <div className={styles.container}>
               <SplitPane
