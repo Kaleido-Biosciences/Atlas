@@ -3,8 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import memoize from 'memoize-one';
+import classNames from 'classnames';
+import { Icon } from 'semantic-ui-react';
 
 import { setCompletedStatus } from '../../../store/experimentActions';
+import {
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+  REQUEST_ERROR,
+} from '../../../constants';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
 import styles from './ExperimentHeader.module.css';
 
@@ -13,19 +20,27 @@ class ExperimentHeader extends Component {
     const saveTime = moment(lastSaveTime);
     let message;
     switch (saveStatus) {
-      case 'PENDING':
+      case REQUEST_PENDING:
         message = 'Saving experiment...';
         break;
-      case 'SUCCESS':
+      case REQUEST_SUCCESS:
         message = `Autosaved at ${saveTime.format('LT')}`;
         break;
-      case 'ERROR':
+      case REQUEST_ERROR:
         message = 'An error occurred while saving. Changes may not be saved.';
         break;
       default:
         message = '';
     }
-    return <div>{message}</div>;
+    const saveClass = classNames(styles.lastSave, {
+      [styles.error]: saveStatus === REQUEST_ERROR,
+    });
+    return (
+      <div className={saveClass}>
+        {saveStatus === REQUEST_ERROR ? <Icon name="warning sign" /> : null}
+        {message}
+      </div>
+    );
   });
   handleMarkAsCompleted = () => {
     if (this.props.onMarkAsCompleted) {
@@ -43,9 +58,7 @@ class ExperimentHeader extends Component {
           {experiment ? `Experiment ${experiment.name}` : null}
         </div>
         <div className={styles.container}>
-          <div className={styles.lastSave}>
-            {this.renderSaveInfo(saveStatus, lastSaveTime)}
-          </div>
+          <div>{this.renderSaveInfo(saveStatus, lastSaveTime)}</div>
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
       </div>
