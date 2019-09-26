@@ -168,7 +168,7 @@ export function createTimepoint(
 export function exportPlates(plates) {
   return plates.map((plate, i) => {
     return {
-      id: i,
+      id: i + 1,
       data: plate.wells.map(row => {
         return row.map(col => {
           const well = col;
