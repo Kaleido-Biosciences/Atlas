@@ -30,11 +30,11 @@ export class AddAttributeComponent extends Component {
   };
 
   setValue = (event, data) => {
-    if (this.state.value_type === 'Integer' && ! Number.isInteger(data.value)){
-      alert('value not an integer');
+    if (data.value && this.state.value_type === 'Integer' && Number.isNaN(parseInt(data.value))){
+      alert('are you kidding me? value not an integer');
     }
-    else if (this.state.value_type === 'Float' && ! Number.isNaN(data.value)){
-      alert('value not a float');
+    else if (data.value && this.state.value_type === 'Float' && Number.isNaN(parseFloat(data.value))){
+      alert('are you kidding me? value not a float');
     }
     else {
       this.setState({ value: data.value });
