@@ -13,7 +13,7 @@ export class PopupButton extends Component {
     this.setState({ popupOpen: false });
   };
   render() {
-    const { buttonIcon, buttonContent, buttonColor } = this.props;
+    const { buttonIcon, buttonContent, buttonColor, buttonSize } = this.props;
     return (
       <Popup
         trigger={
@@ -21,6 +21,7 @@ export class PopupButton extends Component {
             icon={buttonIcon}
             content={buttonContent}
             color={buttonColor}
+            size={buttonSize}
           />
         }
         on="click"
@@ -35,8 +36,13 @@ export class PopupButton extends Component {
   }
 }
 
+PopupButton.defaultProps = {
+  buttonSize: 'mini',
+};
+
 PopupButton.propTypes = {
   buttonIcon: PropTypes.string,
   buttonContent: PropTypes.string,
   buttonColor: PropTypes.string,
+  buttonSize: PropTypes.string,
 };
