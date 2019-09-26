@@ -60,3 +60,7 @@ export const COMPONENT_TYPE_COLORS = {
   medium: 'orange',
   supplement: 'black',
 };
+
+export const REQUEST_PENDING = 'PENDING';
+export const REQUEST_SUCCESS = 'SUCCESS';
+export const REQUEST_ERROR = 'ERROR';

@@ -30,6 +30,8 @@ const designExperiment = createSlice({
       stepTwoCompleted: false,
       stepThreeCompleted: false,
     },
+    saveStatus: null,
+    lastSaveTime: null,
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -292,6 +294,13 @@ const designExperiment = createSlice({
     },
     setStepThreeComplete(state, action) {
       state.steps.stepThreeCompleted = true;
+    },
+    setSaveStatus(state, action) {
+      const { saveStatus } = action.payload;
+      state.saveStatus = saveStatus;
+      if (saveStatus === 'SUCCESS') {
+        state.lastSaveTime = Date.now();
+      }
     },
   },
 });
