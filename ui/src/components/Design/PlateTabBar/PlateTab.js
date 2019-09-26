@@ -60,7 +60,7 @@ export class PlateTab extends Component {
             />
             <Dropdown.Item
               onClick={this.handleItemClick}
-              icon="trash"
+              icon="trash alternate outline"
               text="Delete..."
               name="delete"
             />

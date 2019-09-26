@@ -69,7 +69,7 @@ class PlateTabBar extends Component {
     return (
       <div className={styles.plateTabBar}>
         <div className={styles.addIcon} onClick={this.handleAddClick}>
-          <Icon name="plus circle" link title="Add Plate" />
+          <Icon name="plus circle" link title="Add Plate" size="large"/>
         </div>
         {this.renderTabs()}
         <Modal size="mini" open={cloneModalOpen} onClose={this.closeCloneModal}>
@@ -83,7 +83,7 @@ class PlateTabBar extends Component {
           open={deleteModalOpen}
           onClose={this.closeDeleteModal}
         >
-          <Header icon="trash" content="Delete Plate" />
+          <Header icon="trash alternate outline" content="Delete Plate" />
           <Modal.Content>
             <DeletePlateConfirmation onConfirmClick={this.handleDeleteSubmit} />
           </Modal.Content>
