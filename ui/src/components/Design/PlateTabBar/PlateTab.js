@@ -74,7 +74,7 @@ export class PlateTab extends Component {
 
 PlateTab.propTypes = {
   plate: PropTypes.object.isRequired,
-  plateIndex: PropTypes.object.isRequired,
+  plateIndex: PropTypes.number.isRequired,
   onClick: PropTypes.func,
   onCloneMenuItemClick: PropTypes.func,
   onDeleteMenuItemClick: PropTypes.func,
