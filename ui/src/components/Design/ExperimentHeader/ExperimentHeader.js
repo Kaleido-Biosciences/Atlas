@@ -2,22 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import memoize from 'memoize-one';
 
 import { setCompletedStatus } from '../../../store/experimentActions';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
 import styles from './ExperimentHeader.module.css';
 
 class ExperimentHeader extends Component {
-  handleMarkAsCompleted = () => {
-    if (this.props.onMarkAsCompleted) {
-      this.props.onMarkAsCompleted();
-      if (this.props.onComplete) {
-        this.props.onComplete();
-      }
-    }
-  };
-  renderSaveInfo() {
-    const { saveStatus, lastSaveTime } = this.props;
+  renderSaveInfo = memoize((saveStatus, lastSaveTime) => {
     const saveTime = moment(lastSaveTime);
     let message;
     switch (saveStatus) {
@@ -34,16 +26,26 @@ class ExperimentHeader extends Component {
         message = '';
     }
     return <div>{message}</div>;
-  }
+  });
+  handleMarkAsCompleted = () => {
+    if (this.props.onMarkAsCompleted) {
+      this.props.onMarkAsCompleted();
+      if (this.props.onComplete) {
+        this.props.onComplete();
+      }
+    }
+  };
   render() {
-    const { experiment } = this.props;
+    const { experiment, saveStatus, lastSaveTime } = this.props;
     return (
       <div className={styles.experimentHeader}>
         <div className={styles.experimentName}>
           {experiment ? `Experiment ${experiment.name}` : null}
         </div>
         <div className={styles.container}>
-          <div className={styles.lastSave}>{this.renderSaveInfo()}</div>
+          <div className={styles.lastSave}>
+            {this.renderSaveInfo(saveStatus, lastSaveTime)}
+          </div>
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
       </div>
