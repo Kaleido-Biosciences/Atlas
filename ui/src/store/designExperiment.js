@@ -49,8 +49,8 @@ const designExperiment = createSlice({
       state.steps.stepOneCompleted = true;
     },
     addPlate(state, action) {
-      state.plates.forEach((plate) => {
-           plate.active = false;
+      state.plates.forEach(plate => {
+        plate.active = false;
       });
       const plate = action.payload;
       plate.active = true;
@@ -76,27 +76,22 @@ const designExperiment = createSlice({
       });
     },
     deletePlate(state, action) {
-      const idToRemove = action.payload;
-      let tempPlates = [];
-      let count = 1;
-      state.plates.forEach((plate) => {
-        if (plate.id !== idToRemove){
-          plate.id = count;
-          plate.active = false;
-          tempPlates.push(plate);
-          count++;
+      const { plateId: idToRemove } = action.payload;
+      let indexToRemove;
+      state.plates.forEach((plate, i) => {
+        plate.active = false;
+        if (plate.id === idToRemove) {
+          indexToRemove = i;
         }
       });
-      // if the deleted plate is #5, the new #5 (old #6) is the active plate
-      if (tempPlates.length > 0) {
-        if (tempPlates.length < idToRemove) {
-          tempPlates[tempPlates.length - 1].active = true;
+      state.plates.splice(indexToRemove, 1);
+      if (state.plates.length) {
+        if (state.plates[indexToRemove]) {
+          state.plates[indexToRemove].active = true;
         } else {
-          tempPlates[idToRemove - 1].active = true;
+          state.plates[indexToRemove - 1].active = true;
         }
       }
-      state.plates = tempPlates;
-      state.nextPlateId = tempPlates.length + 1;
     },
     setClickMode(state, action) {
       state.clickMode = action.payload;
@@ -109,7 +104,9 @@ const designExperiment = createSlice({
       const { toolComponents } = state;
       const idsToRemove = componentsToRemove.map(component => component.id);
       idsToRemove.forEach(id => {
-        const index = toolComponents.findIndex(component => component.id === id);
+        const index = toolComponents.findIndex(
+          component => component.id === id
+        );
         if (index > -1) {
           toolComponents.splice(index, 1);
         }
@@ -134,7 +131,7 @@ const designExperiment = createSlice({
       const existingComponent = components.find(
         comp => comp.id === component.id
       );
-      if(!existingComponent) {
+      if (!existingComponent) {
         components.unshift(component);
       }
     },

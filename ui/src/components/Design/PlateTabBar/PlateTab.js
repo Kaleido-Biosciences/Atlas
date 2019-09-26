@@ -39,13 +39,14 @@ export class PlateTab extends Component {
     }
   };
   render() {
-    const { plate } = this.props;
+    const { plate, plateIndex } = this.props;
     const tabClass = classNames(styles.plateTab, {
       [styles.active]: plate.active,
     });
+    const plateNumber = plateIndex + 1;
     return (
       <div className={tabClass} onClick={this.handleClick}>
-        <span>{`Plate ${plate.id}`}</span>
+        <span>{`Plate ${plateNumber}`}</span>
         <Dropdown
           open={this.state.dropdownOpen}
           onClick={this.handleDropdownClick}
@@ -73,6 +74,7 @@ export class PlateTab extends Component {
 
 PlateTab.propTypes = {
   plate: PropTypes.object.isRequired,
+  plateIndex: PropTypes.object.isRequired,
   onClick: PropTypes.func,
   onCloneMenuItemClick: PropTypes.func,
   onDeleteMenuItemClick: PropTypes.func,

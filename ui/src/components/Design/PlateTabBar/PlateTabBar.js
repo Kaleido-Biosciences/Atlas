@@ -45,7 +45,7 @@ class PlateTabBar extends Component {
   };
   handleDeleteSubmit = () => {
     if (this.props.onDelete) {
-      this.props.onDelete(this.props.activePlate.id);
+      this.props.onDelete({ plateId: this.props.activePlate.id });
       this.closeDeleteModal();
     }
   };
@@ -55,7 +55,9 @@ class PlateTabBar extends Component {
       return plates.map((plate, i) => {
         return (
           <PlateTab
+            key={plate.id}
             plate={plate}
+            plateIndex={i}
             onClick={onTabClick}
             onCloneMenuItemClick={this.openCloneModal}
             onDeleteMenuItemClick={this.openDeleteModal}
@@ -69,7 +71,7 @@ class PlateTabBar extends Component {
     return (
       <div className={styles.plateTabBar}>
         <div className={styles.addIcon} onClick={this.handleAddClick}>
-          <Icon name="plus circle" link title="Add Plate" size="large"/>
+          <Icon name="plus circle" link title="Add Plate" size="large" />
         </div>
         {this.renderTabs()}
         <Modal size="mini" open={cloneModalOpen} onClose={this.closeCloneModal}>
