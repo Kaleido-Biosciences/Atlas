@@ -132,10 +132,15 @@ export function createComponent(data, type) {
 export function getDisplayName(data) {
   let displayName = data.name;
 
-  if("alias" in data && data.alias) { //For communities
-    displayName =  displayName + ' : (' + data.alias + ")";
-  } else if ("aliases" in data && data.aliases.length > 0) { //This is for compounds
-    data.aliases.forEach(aliasElement => displayName = displayName + ' : (' + aliasElement.alias + ')');
+  if ('alias' in data && data.alias) {
+    //For communities
+    displayName = displayName + ' : (' + data.alias + ')';
+  } else if ('aliases' in data && data.aliases.length > 0) {
+    //This is for compounds
+    data.aliases.forEach(
+      aliasElement =>
+        (displayName = displayName + ' : (' + aliasElement.alias + ')')
+    );
   }
 
   return displayName;
@@ -161,9 +166,9 @@ export function createTimepoint(
 }
 
 export function exportPlates(plates) {
-  return plates.map(plate => {
+  return plates.map((plate, i) => {
     return {
-      id: plate.id,
+      id: i,
       data: plate.wells.map(row => {
         return row.map(col => {
           const well = col;
