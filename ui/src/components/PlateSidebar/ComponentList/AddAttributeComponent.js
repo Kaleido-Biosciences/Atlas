@@ -7,10 +7,10 @@ export class AddAttributeComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      key: null,
-      value: null,
+      key: '',
+      value: '',
       value_type: 'String',
-      value_unit: null,
+      value_unit: '',
     };
   }
 
@@ -19,8 +19,8 @@ export class AddAttributeComponent extends Component {
     event.preventDefault();
   };
 
-  setValueType = (event, data) => {
-    this.setState({ value_type: data.value });
+  changeValueType = (event, data) => {
+    this.setState({ value_type: data.value, value:'', value_unit:''});
     event.preventDefault();
   };
 
@@ -30,11 +30,14 @@ export class AddAttributeComponent extends Component {
   };
 
   setValue = (event, data) => {
-    if (data.value && this.state.value_type === 'Integer' && Number.isNaN(parseInt(data.value))){
+    const { value_type } = this.state;
+    if (data.value && value_type === 'Integer' && Number.isNaN(parseInt(data.value))){
       alert('Value is not an integer.');
+      this.setState({value: ''})
     }
-    else if (data.value && this.state.value_type === 'Float' && Number.isNaN(parseFloat(data.value))){
+    else if (data.value && value_type === 'Float' && Number.isNaN(parseFloat(data.value))){
       alert('Value is not numeric.');
+      this.setState({value: ''})
     }
     else {
       this.setState({ value: data.value });
@@ -61,13 +64,13 @@ export class AddAttributeComponent extends Component {
       data: { id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit }
     };
     this.props.onAddClick({ component });
-    this.setState({ key: '', value: null, value_type: 'String', value_unit: null });
+    this.setState({ key: '', value: '', value_type: 'String', value_unit: '' });
     event.preventDefault();
   };
 
   renderOtherInput = () => {
     const {key, value_type} = this.state;
-    if (key && value_type) {
+    if (key && key.length > 0 && value_type) {
       return (
         <Grid.Row>
           {this.renderValueComponent()}
@@ -115,7 +118,7 @@ export class AddAttributeComponent extends Component {
     else{
       return(
         <Grid.Column width={6}>
-          <Input fluid size='small' title='value' placeholder='Value' onChange={this.setValue}/>
+          <Input fluid size='small' title='value' placeholder='Value' value={value} onChange={this.setValue}/>
         </Grid.Column>
       )
     }
@@ -140,7 +143,7 @@ export class AddAttributeComponent extends Component {
               <Select
                 fluid
                 placeholder='Value Type'
-                onChange={this.setValueType}
+                onChange={this.changeValueType}
                 options={typeOptions}
                 defaultValue={value_type}
                 value={value_type}
