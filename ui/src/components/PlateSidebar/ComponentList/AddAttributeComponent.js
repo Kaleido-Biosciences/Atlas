@@ -49,19 +49,16 @@ export class AddAttributeComponent extends Component {
 
   handleAddClick = (event) => {
     const { key, value, value_type, value_unit } = this.state;
-    let id = (key + "_"+value).replace(/ /g, "_");
-    let displayName = key+ ": "+ value;
+    let id = (key + '_' + value).replace(/ /g, '_');
+    let unit = value_unit ? value_unit : '';
+    let displayName = key + ": " + value + unit;
     let component = {
       id: 'ATTRIBUTE_' + id,
       type: "attribute",
       displayName: displayName,
       isValid: true,
       selected: true,
-      data: {
-        id: displayName, name: key, key: key,
-        value: value, value_type: value_type,
-        value_unit: value_unit
-      },
+      data: { id: displayName, name: key, key: key, value: value, value_type: value_type, value_unit: value_unit }
     };
     this.props.onAddClick({ component });
     event.preventDefault();
