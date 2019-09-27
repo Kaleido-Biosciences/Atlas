@@ -35,11 +35,8 @@ class ApplyTool extends Component {
     return (
       <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
-          {attributes.length > 0 && (
-            <AttributesSection attributes={attributes} />
-          )}
+          <AttributesSection attributes={attributes} />
           <AddAttributeComponent onAddClick={this.props.addComponentToToolComponents} />
-
           {showComponents ? (
             <React.Fragment>
               {communities.length > 0 && (

@@ -55,6 +55,8 @@ export class AddAttributeComponent extends Component {
       id: 'ATTRIBUTE_' + id,
       type: "attribute",
       displayName: displayName,
+      isValid: true,
+      selected: true,
       data: {
         id: displayName, name: key, key: key,
         value: value, value_type: value_type,
