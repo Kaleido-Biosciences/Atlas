@@ -230,6 +230,7 @@ const designExperiment = createSlice({
         compounds: 'compound',
         media: 'medium',
         supplements: 'supplement',
+        attributes: 'attribute',
       };
       const updatedWells = [];
       const filteredWells = wells.filter(well => wellIds.includes(well.id));
