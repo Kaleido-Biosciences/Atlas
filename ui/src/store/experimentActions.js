@@ -7,6 +7,7 @@ import {
   exportPlates,
 } from './plateFunctions';
 import { aws } from '../api';
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
 
 const {
   addPlate: _addPlate,
@@ -18,6 +19,7 @@ const {
   applySelectedToolComponentsToSelectedWells: _applySelectedToolComponentsToSelectedWells,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
+  setSaveStatus: _setSaveStatus,
 } = designExperimentActions;
 
 const handleChange = experimentData => {
@@ -27,7 +29,7 @@ const handleChange = experimentData => {
     experimentData.status,
     experimentData.plates
   );
-  aws.saveExperimentPlates(
+  return aws.saveExperimentPlates(
     experimentData.experiment.name,
     experimentData.status,
     exportPlates(experimentData.plates)
@@ -39,7 +41,14 @@ function wrapWithChangeHandler(fn) {
     return (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
       const experimentData = getState().designExperiment;
-      handleChange(experimentData);
+      dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
+      handleChange(experimentData)
+        .then(() => {
+          dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+        })
+        .catch(() => {
+          dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+        });
     };
   };
 }

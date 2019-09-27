@@ -64,3 +64,7 @@ export const COMPONENT_TYPE_COLORS = {
   supplement: 'black',
   attribute: 'red',
 };
+
+export const REQUEST_PENDING = 'PENDING';
+export const REQUEST_SUCCESS = 'SUCCESS';
+export const REQUEST_ERROR = 'ERROR';
