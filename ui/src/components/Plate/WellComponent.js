@@ -10,13 +10,6 @@ const renderTimepoints = timepoints => {
   }, '');
 };
 
-const renderAttribute = (data) => {
-  if (data && data.value){
-    return (data.value_unit ? '_' + data.value + data.value_unit : '_' + data.value);
-  }
-  return '';
-};
-
 export class WellComponent extends Component {
   render() {
     const { component } = this.props;
@@ -24,7 +17,7 @@ export class WellComponent extends Component {
     if (component.type === 'attribute'){
       return (
         <div>
-          {`${component.displayName}`} {renderAttribute(component.data)}
+          {`${component.displayName}`}
         </div>
       )
     }

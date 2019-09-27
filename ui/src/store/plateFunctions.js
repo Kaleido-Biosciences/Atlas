@@ -111,7 +111,7 @@ export function createPlateWells(dimensions) {
 }
 
 export function createComponent(data, type) {
-  const displayName = data.name;
+  let displayName = data.name;
   const id = `${type.toUpperCase()}_${data.id}`;
   const timepoints = [createTimepoint(type)];
   return {

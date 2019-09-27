@@ -58,7 +58,7 @@ export class AddAttributeComponent extends Component {
       displayName: displayName,
       isValid: true,
       selected: true,
-      data: { id: displayName, name: key, key: key, value: value, value_type: value_type, value_unit: value_unit }
+      data: { id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit }
     };
     this.props.onAddClick({ component });
     event.preventDefault();
