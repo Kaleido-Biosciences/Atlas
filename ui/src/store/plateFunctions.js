@@ -8,6 +8,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
 } from '../constants';
 
 import { api } from '../api';
@@ -175,11 +176,20 @@ export function exportPlates(plates) {
           return {
             id: well.id,
             components: well.components.map(component => {
-              return {
-                type: component.type,
-                id: component.data.id,
-                timepoints: component.timepoints,
-              };
+              if (component.type === 'attribute'){
+                return {
+                  type: component.type,
+                  id: component.data.id,
+                  attributeValues: component.data,
+                };
+              }
+              else {
+                return {
+                  type: component.type,
+                  id: component.data.id,
+                  timepoints: component.timepoints,
+                };
+              }
             }),
           };
         });
@@ -227,24 +237,29 @@ async function fetchComponentsForPlates(plates) {
     compound: [],
     medium: [],
     supplement: [],
+    attribute: [],
+  };
+  const response = {
+    community: [],
+    compound: [],
+    medium: [],
+    supplement: [],
+    attribute: [],
   };
   plates.forEach(plate => {
     const wells = plate.data.flat();
     wells.forEach(well => {
       well.components.forEach(component => {
         const cType = component.type;
-        if (!components[cType].includes(component.id)) {
+        if (cType === 'attribute'){
+          response.attribute.push(component.attributeValues);
+        }
+        else if (!components[cType].includes(component.id)) {
           components[cType].push(component.id);
         }
       });
     });
   });
-  const response = {
-    community: [],
-    compound: [],
-    medium: [],
-    supplement: [],
-  };
   let promises, results;
   promises = components.community.map(id => {
     return fetchCommunity(id);
@@ -306,6 +321,7 @@ export const groupComponents = components => {
     compounds: [],
     media: [],
     supplements: [],
+    attributes: [],
   };
   components.forEach(component => {
     let key;
@@ -317,6 +333,8 @@ export const groupComponents = components => {
       key = 'media';
     } else if (component.type === COMPONENT_TYPE_SUPPLEMENT) {
       key = 'supplements';
+    } else if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
+      key = 'attributes';
     }
     groups[key].push(component);
   });
