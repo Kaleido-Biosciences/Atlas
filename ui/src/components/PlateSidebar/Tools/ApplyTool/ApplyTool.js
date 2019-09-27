@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import memoize from 'memoize-one';
 
-import { applySelectedToolComponentsToSelectedWells } from '../../../../store/experimentActions';
+import {
+  applySelectedToolComponentsToSelectedWells,
+  addComponentToToolComponents
+} from '../../../../store/experimentActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,
@@ -12,6 +15,8 @@ import { CommunitiesSection } from './CommunitiesSection';
 import { CompoundsSection } from './CompoundsSection';
 import { MediaSection } from './MediaSection';
 import { SupplementsSection } from './SupplementsSection';
+import { AttributesSection } from './AttributesSection';
+import { AddAttributeComponent } from "../../ComponentList/AddAttributeComponent";
 import { groupComponents } from '../../../../store/plateFunctions';
 import { SelectedWells } from './SelectedWells';
 import styles from './ApplyTool.module.css';
@@ -25,11 +30,16 @@ class ApplyTool extends Component {
   render() {
     const { toolComponents, toolComponentsValid, selectedWells } = this.props;
     const groupedComponents = this.groupComponents(toolComponents);
-    const { communities, compounds, media, supplements } = groupedComponents;
+    const { communities, compounds, media, supplements, attributes } = groupedComponents;
     const showComponents = toolComponents.length > 0;
     return (
       <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
+          {attributes.length > 0 && (
+            <AttributesSection attributes={attributes} />
+          )}
+          <AddAttributeComponent onAddClick={this.props.addComponentToToolComponents} />
+
           {showComponents ? (
             <React.Fragment>
               {communities.length > 0 && (
@@ -70,6 +80,7 @@ ApplyTool.propTypes = {
   selectedWells: PropTypes.array.isRequired,
   activePlate: PropTypes.object,
   onApplyClick: PropTypes.func,
+  addComponentToToolComponents: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -86,6 +97,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onApplyClick: applySelectedToolComponentsToSelectedWells,
+  addComponentToToolComponents: addComponentToToolComponents,
 };
 
 const connected = connect(

@@ -71,6 +71,14 @@ export class ClonePlateForm extends Component {
               checked={this.state.supplement}
             />
           </Form.Field>
+          <Form.Field>
+            <Checkbox
+              value="attribute"
+              label="Attributes"
+              onClick={this.handleCheckboxClick}
+              checked={this.state.attribute}
+            />
+          </Form.Field>
           <div className={styles.buttonContainer}>
             <Button
               className={styles.submitButton}

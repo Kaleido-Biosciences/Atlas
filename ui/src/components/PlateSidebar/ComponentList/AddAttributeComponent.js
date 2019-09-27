@@ -48,8 +48,21 @@ export class AddAttributeComponent extends Component {
   };
 
   handleAddClick = (event) => {
-    const {key, value, value_type, value_unit } = this.state;
-    console.log(key)
+    const { key, value, value_type, value_unit } = this.state;
+    let id = (key + "_"+value).replace(/ /g, "_");
+    let displayName = key+ ": "+ value;
+    let component = {
+      id: 'ATTRIBUTE_' + id,
+      type: "attribute",
+      displayName: displayName,
+      data: {
+        id: displayName, name: key, key: key,
+        value: value, value_type: value_type,
+        value_unit: value_unit
+      },
+    };
+    this.props.onAddClick({ component });
+    event.preventDefault();
   };
 
   renderOtherInput = () => {
@@ -104,7 +117,6 @@ export class AddAttributeComponent extends Component {
       { key: 'Integer', value: 'Integer', text: 'Integer'},
       { key: 'String', value: 'String', text: 'String'},
     ];
-    const { value_type } = this.state;
     return (
       <Segment>
         <Grid>

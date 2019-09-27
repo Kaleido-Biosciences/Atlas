@@ -64,6 +64,16 @@ class ClearTool extends Component {
               onChange={this.handleChange}
             />
           </Form.Field>
+          <Form.Field>
+            <Checkbox
+              radio
+              label="Attributes"
+              name="clearRadioGroup"
+              value="attributes"
+              checked={this.props.clearMode === 'attributes'}
+              onChange={this.handleChange}
+            />
+          </Form.Field>
         </Form>
       </div>
     );

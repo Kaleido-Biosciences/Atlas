@@ -8,6 +8,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
 } from '../constants';
 
 import { api } from '../api';
@@ -205,6 +206,7 @@ async function fetchComponentsForPlates(plates) {
     compound: [],
     medium: [],
     supplement: [],
+    attribute: [],
   };
   plates.forEach(plate => {
     const wells = plate.data.flat();
@@ -222,6 +224,7 @@ async function fetchComponentsForPlates(plates) {
     compound: [],
     medium: [],
     supplement: [],
+    attribute: [],
   };
   let promises, results;
   promises = components.community.map(id => {
@@ -284,6 +287,7 @@ export const groupComponents = components => {
     compounds: [],
     media: [],
     supplements: [],
+    attributes: [],
   };
   components.forEach(component => {
     let key;
@@ -295,6 +299,8 @@ export const groupComponents = components => {
       key = 'media';
     } else if (component.type === COMPONENT_TYPE_SUPPLEMENT) {
       key = 'supplements';
+    } else if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
+      key = 'attributes';
     }
     groups[key].push(component);
   });

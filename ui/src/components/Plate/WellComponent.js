@@ -10,9 +10,25 @@ const renderTimepoints = timepoints => {
   }, '');
 };
 
+const renderAttribute = (data) => {
+  if (data && data.value){
+    return (data.unit ? data.value + data.unit : data.value);
+  }
+  return "";
+};
+
 export class WellComponent extends Component {
   render() {
     const { component } = this.props;
+    // attribute is a special component
+    if (component.type === "attribute"){
+      return (
+        <div>
+          {`${component.displayName}`} {renderAttribute(component.data)}
+        </div>
+      )
+    }
+    // for rendering of component other than attribute
     return (
       <div>
         {`${component.displayName}`} {renderTimepoints(component.timepoints)}
