@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-bootstrap'
 import { Grid, Icon, Input, Segment, Select } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -62,12 +61,13 @@ export class AddAttributeComponent extends Component {
       data: { id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit }
     };
     this.props.onAddClick({ component });
-    this.setState({ key: null, value: null, value_type: 'String', value_unit: null });
+    this.setState({ key: '', value: null, value_type: 'String', value_unit: null });
     event.preventDefault();
   };
 
   renderOtherInput = () => {
-    if (this.state.key && this.state.value_type) {
+    const {key, value_type} = this.state;
+    if (key && value_type) {
       return (
         <Grid.Row>
           {this.renderValueComponent()}
@@ -84,18 +84,18 @@ export class AddAttributeComponent extends Component {
   };
 
   renderValueUnitComponent = () => {
-    const {value_type} = this.state;
+    const {value_type, value_unit} = this.state;
     if (value_type !== 'Boolean'){
       return (
         <Grid.Column width={6}>
-          <Input fluid size='small' title='value_unit' placeholder='Unit' onChange={this.setValueUnit}/>
+          <Input fluid size='small' title='value_unit' placeholder='Unit' value={value_unit} onChange={this.setValueUnit}/>
         </Grid.Column>
       )
     }
   };
 
   renderValueComponent = () => {
-    const { value_type } = this.state;
+    const { value, value_type } = this.state;
     const booleanOptions = [
       { key: 'True',  value: 'True', text: 'True'},
       { key: 'False', value: 'False', text: 'False'},
@@ -107,6 +107,7 @@ export class AddAttributeComponent extends Component {
                   placeholder='Value'
                   onChange={this.setValueSelection}
                   options={booleanOptions}
+                  value={value}
           />
         </Grid.Column>
       )
@@ -127,12 +128,13 @@ export class AddAttributeComponent extends Component {
       { key: 'Integer', value: 'Integer', text: 'Integer'},
       { key: 'String', value: 'String', text: 'String'},
     ];
+    const { key, value_type } = this.state;
     return (
       <Segment>
         <Grid>
           <Grid.Row>
             <Grid.Column width={6}>
-              <Input fluid size='small' title='key' placeholder='Name' onChange={this.setKey} />
+              <Input fluid size='small' title='key' placeholder='Name' value={key} onChange={this.setKey} />
             </Grid.Column>
             <Grid.Column width={10}>
               <Select
@@ -140,7 +142,8 @@ export class AddAttributeComponent extends Component {
                 placeholder='Value Type'
                 onChange={this.setValueType}
                 options={typeOptions}
-                defaultValue={this.state.value_type}
+                defaultValue={value_type}
+                value={value_type}
               />
             </Grid.Column>
           </Grid.Row>
