@@ -13,6 +13,15 @@ const renderTimepoints = timepoints => {
 export class WellComponent extends Component {
   render() {
     const { component } = this.props;
+    // attribute is a special component
+    if (component.type === 'attribute'){
+      return (
+        <div>
+          {`${component.displayName}`}
+        </div>
+      )
+    }
+    // for rendering of component other than attribute
     return (
       <div>
         {`${component.displayName}`} {renderTimepoints(component.timepoints)}
