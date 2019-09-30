@@ -196,10 +196,11 @@ export class Analytics extends Component {
       const { experiment_status: name } = experiment;
       const trueString = 'Y';
       const falseString = 'N';
+      rows.push(<tr><td colSpan={12}><strong>{`${name} (${plateStats.length})`}</strong></td></tr>);
       plateStats.forEach((stats, i) => {
         rows.push(
           <tr>
-            <td>{`${name} ${i + 1}`}</td>
+            <td>{`Plate ${i + 1}`}</td>
             <td>{stats.empty ? trueString : falseString}</td>
             <td>{stats.emptyBorders ? trueString : falseString}</td>
             <td>{stats.full ? trueString : falseString}</td>
