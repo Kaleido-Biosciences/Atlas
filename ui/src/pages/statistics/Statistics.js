@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Statistic } from 'semantic-ui-react';
+import { Header, Statistic } from 'semantic-ui-react';
 
 import { aws } from '../../api';
 import { getPlateStatistics } from '../../store/plateFunctions';
