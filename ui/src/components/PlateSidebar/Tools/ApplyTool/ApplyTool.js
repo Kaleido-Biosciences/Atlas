@@ -31,12 +31,11 @@ class ApplyTool extends Component {
     const { toolComponents, toolComponentsValid, selectedWells } = this.props;
     const groupedComponents = this.groupComponents(toolComponents);
     const { communities, compounds, media, supplements, attributes } = groupedComponents;
-    const showComponents = toolComponents.length > 0;
+    const showComponents = toolComponents.filter(x => x.type!=='attribute').length > 0;
     return (
       <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
-          <AttributesSection attributes={attributes} />
-          <AddAttributeComponent onAddClick={this.props.addComponentToToolComponents} />
+
           {showComponents ? (
             <React.Fragment>
               {communities.length > 0 && (
@@ -55,6 +54,8 @@ class ApplyTool extends Component {
               Add components by clicking on a component in the components list.
             </div>
           )}
+          <AttributesSection attributes={attributes} addAttribute={this.props.addComponentToToolComponents} />
+
         </div>
         {selectedWells && selectedWells.length > 0 ? (
           <div className={styles.selectedWellsContainer}>

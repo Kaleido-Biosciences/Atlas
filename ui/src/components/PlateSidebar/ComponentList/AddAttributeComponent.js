@@ -9,7 +9,7 @@ export class AddAttributeComponent extends Component {
     this.state = {
       key: '',
       value: '',
-      value_type: 'String',
+      value_type: this.props.defaultValueType,
       value_unit: '',
     };
   }
@@ -64,7 +64,7 @@ export class AddAttributeComponent extends Component {
       data: { id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit }
     };
     this.props.onAddClick({ component });
-    this.setState({ key: '', value: '', value_type: 'String', value_unit: '' });
+    this.setState({ key: '', value: '', value_type: this.props.defaultValueType, value_unit: '' });
     event.preventDefault();
   };
 
@@ -126,10 +126,10 @@ export class AddAttributeComponent extends Component {
 
   render() {
     const typeOptions = [
-      { key: 'Boolean',  value: 'Boolean', text: 'Boolean'},
-      { key: 'Float', value: 'Float', text: 'Float'},
+      { key: 'True/False',  value: 'Boolean', text: 'Boolean'},
+      { key: 'Decimal', value: 'Float', text: 'Float'},
       { key: 'Integer', value: 'Integer', text: 'Integer'},
-      { key: 'String', value: 'String', text: 'String'},
+      { key: 'Text', value: 'String', text: 'String'},
     ];
     const { key, value_type } = this.state;
     return (
@@ -159,4 +159,5 @@ export class AddAttributeComponent extends Component {
 
 AddAttributeComponent.propTypes = {
   onAddClick: PropTypes.func,
+  defaultValueType: PropTypes.string,
 };
