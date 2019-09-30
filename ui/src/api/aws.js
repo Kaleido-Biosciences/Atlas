@@ -139,3 +139,34 @@ function createNew(experimentName, status, version, plateMapsToSave, reject, res
     }
   });
 }
+
+export function scanTable() {
+  return new Promise((resolve, reject) => {
+    const params = {
+      TableName: 'atlas-production2',
+    };
+    const experiments = [];
+    docClient.scan(params, onScan);
+
+    function onScan(err, data) {
+      if (err) {
+        console.error(
+          'Unable to scan the table. Error JSON:',
+          JSON.stringify(err, null, 2)
+        );
+      } else {
+        data.Items.forEach(function(item) {
+          const { plateMaps, ...rest } = item;
+          experiments.push({ plateMaps: JSON.parse(plateMaps), ...rest });
+        });
+        if (typeof data.LastEvaluatedKey != 'undefined') {
+          params.ExclusiveStartKey = data.LastEvaluatedKey;
+          docClient.scan(params, onScan);
+        }
+        else {
+          resolve(experiments);
+        }
+      }
+    }
+  });
+}

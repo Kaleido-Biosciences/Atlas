@@ -176,14 +176,13 @@ export function exportPlates(plates) {
           return {
             id: well.id,
             components: well.components.map(component => {
-              if (component.type === 'attribute'){
+              if (component.type === 'attribute') {
                 return {
                   type: component.type,
                   id: component.data.id,
                   attributeValues: component.data,
                 };
-              }
-              else {
+              } else {
                 return {
                   type: component.type,
                   id: component.data.id,
@@ -251,10 +250,9 @@ async function fetchComponentsForPlates(plates) {
     wells.forEach(well => {
       well.components.forEach(component => {
         const cType = component.type;
-        if (cType === 'attribute'){
+        if (cType === 'attribute') {
           response.attribute.push(component.attributeValues);
-        }
-        else if (!components[cType].includes(component.id)) {
+        } else if (!components[cType].includes(component.id)) {
           components[cType].push(component.id);
         }
       });
@@ -340,3 +338,55 @@ export const groupComponents = components => {
   });
   return groups;
 };
+
+export function getPlateStatistics(plate) {
+  const statistics = {
+    emptyBorders: true,
+    empty: true,
+    full: false,
+    numberOfWells: 0,
+    numberOfEmptyWells: 0,
+    numberOfFilledWells: 0,
+    maxComponentsInWell: 0,
+  };
+  const index = {
+    community: [],
+    compound: [],
+    medium: [],
+    supplement: [],
+  };
+  plate.data.forEach((row, i) => {
+    row.forEach((well, j) => {
+      statistics.numberOfWells++;
+      if (well.components.length) {
+        statistics.empty = false;
+        statistics.numberOfFilledWells++;
+        const componentCount = well.components.length;
+        if (componentCount > statistics.maxComponentsInWell) {
+          statistics.maxComponentsInWell = componentCount;
+        }
+        if (i === 0 || i === plate.data.length - 1) {
+          statistics.emptyBorders = false;
+        } else if (j === 0 || j === row.length - 1) {
+          statistics.emptyBorders = false;
+        }
+        well.components.forEach(component => {
+          const typeArray = index[component.type];
+          if (!typeArray.includes(component.id)) {
+            typeArray.push(component.id);
+          }
+        });
+      } else {
+        statistics.numberOfEmptyWells++;
+      }
+    });
+  });
+  if (statistics.numberOfWells === statistics.numberOfFilledWells) {
+    statistics.full = true;
+  }
+  statistics.numberOfDistinctCommunities = index.community.length;
+  statistics.numberOfDistinctCompounds = index.compound.length;
+  statistics.numberOfDistinctMedia = index.medium.length;
+  statistics.numberOfDistinctSupplements = index.supplement.length;
+  return statistics;
+}
