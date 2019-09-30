@@ -35,7 +35,6 @@ class ApplyTool extends Component {
     return (
       <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
-
           {showComponents ? (
             <React.Fragment>
               {communities.length > 0 && (
@@ -55,7 +54,6 @@ class ApplyTool extends Component {
             </div>
           )}
           <AttributesSection attributes={attributes} addAttribute={this.props.addComponentToToolComponents} />
-
         </div>
         {selectedWells && selectedWells.length > 0 ? (
           <div className={styles.selectedWellsContainer}>

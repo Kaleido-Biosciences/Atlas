@@ -75,14 +75,23 @@ export class AddAttributeComponent extends Component {
         <Grid.Row>
           {this.renderValueComponent()}
           {this.renderValueUnitComponent()}
-          <Grid.Column width={4}>
-            <Icon title='Add Attribute' link color='blue' size='large' name='plus circle'
-                  onClick={this.handleAddClick}/>
-          </Grid.Column>
+          {this.renderAddIcon()}
         </Grid.Row>
       );
     } else {
       return "";
+    }
+  };
+
+  renderAddIcon = () => {
+    const {key, value, value_type} = this.state;
+    if (value_type && value && key){
+      return (
+        <Grid.Column width={4}>
+          <Icon title='Add Attribute' link color='blue' size='large' name='plus circle'
+                onClick={this.handleAddClick}/>
+        </Grid.Column>
+      )
     }
   };
 
@@ -145,7 +154,6 @@ export class AddAttributeComponent extends Component {
                 placeholder='Value Type'
                 onChange={this.changeValueType}
                 options={typeOptions}
-                defaultValue={value_type}
                 value={value_type}
               />
             </Grid.Column>
