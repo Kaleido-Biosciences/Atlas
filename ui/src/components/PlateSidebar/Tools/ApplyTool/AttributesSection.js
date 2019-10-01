@@ -10,7 +10,7 @@ export class AttributesSection extends Component {
       <div>
       <ComponentsSection
         label={'Attribute'}
-        info={'Exploratory meta data'}
+        labelDescription={'Exploratory meta data'}
         components={attributes}
         showTimepoints={false}
         allowTimepointTimeChange={false}

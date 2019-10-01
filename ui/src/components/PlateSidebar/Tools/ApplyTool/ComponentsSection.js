@@ -7,10 +7,10 @@ import {Popup} from 'semantic-ui-react';
 
 export class ComponentsSection extends Component {
 
-  renderLabel(label, info){
-    if (info){
+  renderLabel(label, labelDescription){
+    if (labelDescription){
       return (
-        <Popup content={info} trigger={<h5 className={styles.header}>{label}</h5>} />
+        <Popup content={labelDescription} trigger={<h5 className={styles.header}>{label}</h5>} />
       );
     }
     else{
@@ -21,7 +21,7 @@ export class ComponentsSection extends Component {
   render() {
     const {
       label,
-      info,
+      labelDescription,
       components,
       showTimepoints,
       allowTimepointTimeChange,
@@ -29,7 +29,7 @@ export class ComponentsSection extends Component {
     } = this.props;
     return (
       <div className={styles.componentsSection}>
-        {this.renderLabel(label, info)}
+        {this.renderLabel(label, labelDescription)}
         <div className="components">
           {components.map(component => {
             return (
@@ -50,7 +50,7 @@ export class ComponentsSection extends Component {
 
 ComponentsSection.propTypes = {
   label: PropTypes.string,
-  info: PropTypes.string,
+  labelDescription: PropTypes.string,
   components: PropTypes.array,
   showTimepoints: PropTypes.bool,
   allowTimepointTimeChange: PropTypes.bool,
