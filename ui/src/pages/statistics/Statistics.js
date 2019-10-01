@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Header, Statistic } from 'semantic-ui-react';
+import { Header, Statistic } from 'semantic-ui-react';
 
 import { aws } from '../../api';
 import { getPlateStatistics } from '../../store/plateFunctions';
-import styles from './Analytics.module.css';
+import styles from './Statistics.module.css';
 
-export class Analytics extends Component {
+export class Statistics extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -196,10 +196,11 @@ export class Analytics extends Component {
       const { experiment_status: name } = experiment;
       const trueString = 'Y';
       const falseString = 'N';
+      rows.push(<tr><td colSpan={12}><strong>{`${name} (${plateStats.length})`}</strong></td></tr>);
       plateStats.forEach((stats, i) => {
         rows.push(
           <tr>
-            <td>{`${name} ${i + 1}`}</td>
+            <td>{`Plate ${i + 1}`}</td>
             <td>{stats.empty ? trueString : falseString}</td>
             <td>{stats.emptyBorders ? trueString : falseString}</td>
             <td>{stats.full ? trueString : falseString}</td>
@@ -221,8 +222,8 @@ export class Analytics extends Component {
     const { experiments } = this.state;
     return (
       <div className={styles.container}>
-        <Header>Analytics</Header>
-        {experiments && experiments.length && this.renderStatistics()}
+        <Header>Statistics</Header>
+        {experiments && !!experiments.length && this.renderStatistics()}
       </div>
     );
   }
