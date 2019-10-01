@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
+import lzutf8 from 'lzutf8';
 import { STATUS_COMPLETED } from '../constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
@@ -19,7 +20,7 @@ let table = DYNAMODB_TABLE;
 
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
-    let plateMaps;
+    let plateMaps = [];
     let params = {
       TableName: table,
       KeyConditionExpression: '#e = :eeee and #s = :ssss',
@@ -34,13 +35,12 @@ export function fetchPlates(experimentId, status) {
       ScanIndexForward: false,
       ConsistentRead: false,
     };
-
-    docClient.query(params, function(err, data) {
+    docClient.query(params, function(err, response) {
       if (err) {
         reject(err);
       } else {
-        if (data.Items.length > 0) {
-          plateMaps = JSON.parse(data.Items[data.Items.length - 1].plateMaps);
+        if (response.Count > 0){
+          plateMaps = JSON.parse(lzutf8.decompress(response.Items[0].plateMaps, {inputEncoding:"Base64"} ));
         }
         resolve(plateMaps);
       }
@@ -50,7 +50,7 @@ export function fetchPlates(experimentId, status) {
 
 export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
-    let plateMapsToSave = JSON.stringify(plateMaps);
+    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {outputEncoding:"Base64"});
     if (status === STATUS_COMPLETED) {
       getUTCTime().then(function(time) {
         createNew(

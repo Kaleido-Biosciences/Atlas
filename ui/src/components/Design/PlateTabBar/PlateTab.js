@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Portal, Icon } from 'semantic-ui-react';
 
 import styles from './PlateTabBar.module.css';
 
 export class PlateTab extends Component {
   state = {
-    dropdownOpen: false,
+    styles: {},
   };
   handleClick = () => {
     const { plate } = this.props;
     if (this.props.onClick) {
       this.props.onClick(plate.id);
     }
-  };
-  handleDropdownClick = e => {
-    e.stopPropagation();
-    const { plate } = this.props;
-    if (plate.active) {
-      this.setState({ dropdownOpen: !this.state.dropdownOpen });
-    } else {
-      this.handleClick();
-    }
-  };
-  handleDropdownBlur = () => {
-    this.setState({ dropdownOpen: false });
   };
   handleItemClick = (e, data) => {
     if (data.name === 'clone') {
@@ -38,6 +26,14 @@ export class PlateTab extends Component {
       }
     }
   };
+  handleOpen = (e, data) => {
+    this.setState({
+      styles: {
+        top: e.nativeEvent.pageY - 110 + 'px',
+        left: e.nativeEvent.pageX + 'px',
+      },
+    });
+  };
   render() {
     const { plate, plateIndex } = this.props;
     const tabClass = classNames(styles.plateTab, {
@@ -47,26 +43,34 @@ export class PlateTab extends Component {
     return (
       <div className={tabClass} onClick={this.handleClick}>
         <span>{`Plate ${plateNumber}`}</span>
-        <Dropdown
-          open={this.state.dropdownOpen}
-          onClick={this.handleDropdownClick}
-          onBlur={this.handleDropdownBlur}
+        <Portal
+          closeOnTriggerClick
+          openOnTriggerClick
+          trigger={<Icon name="caret down" />}
+          onOpen={this.handleOpen}
         >
-          <Dropdown.Menu>
-            <Dropdown.Item
-              onClick={this.handleItemClick}
-              icon="clone outline"
-              text="Clone..."
-              name="clone"
-            />
-            <Dropdown.Item
-              onClick={this.handleItemClick}
-              icon="trash alternate outline"
-              text="Delete..."
-              name="delete"
-            />
-          </Dropdown.Menu>
-        </Dropdown>
+          <Dropdown
+            open={true}
+            icon={false}
+            className={styles.dropdown}
+            style={this.state.styles}
+          >
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={this.handleItemClick}
+                icon="clone outline"
+                text="Clone..."
+                name="clone"
+              />
+              <Dropdown.Item
+                onClick={this.handleItemClick}
+                icon="trash alternate outline"
+                text="Delete..."
+                name="delete"
+              />
+            </Dropdown.Menu>
+          </Dropdown>
+        </Portal>
       </div>
     );
   }

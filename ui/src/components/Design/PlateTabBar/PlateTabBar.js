@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Modal, Header } from 'semantic-ui-react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import {
   addNewPlate,
@@ -73,7 +74,11 @@ class PlateTabBar extends Component {
         <div className={styles.addIcon} onClick={this.handleAddClick}>
           <Icon name="plus circle" link title="Add Plate" size="large" />
         </div>
-        {this.renderTabs()}
+        <div className={styles.scrollContainer}>
+          <Scrollbars style={{ height: '100%', width: '100%' }}>
+            <div className={styles.tabContainer}>{this.renderTabs()}</div>
+          </Scrollbars>
+        </div>
         <Modal size="mini" open={cloneModalOpen} onClose={this.closeCloneModal}>
           <Header icon="clone outline" content="Clone Plate" />
           <Modal.Content>
