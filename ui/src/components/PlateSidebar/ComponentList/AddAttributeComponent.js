@@ -32,15 +32,14 @@ export class AddAttributeComponent extends Component {
   };
 
   validValueWithType = () => {
-    const { value_type } = this.state;
-    let { value } = this.state;
+    const { value_type, value} = this.state;
     let isValid = true;
     switch(value_type) {
       case 'Integer':
-        isValid = validate.isInteger(parseInt(value));
+        isValid = validate.isInteger(Number(value));
         break;
       case 'Float':
-        isValid = validate.isNumber(parseFloat(value));
+        isValid = validate.isNumber(Number(value));
         break;
     }
     return (isValid);
