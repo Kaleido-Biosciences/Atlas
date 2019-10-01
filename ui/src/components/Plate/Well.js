@@ -32,9 +32,14 @@ export class Well extends Component {
       return <WellComponent key={supplement.id} component={supplement} />;
     });
   }
+  renderAttributes(attributes) {
+    return attributes.map(attribute => {
+      return <WellComponent key={attribute.id} component={attribute} />;
+    });
+  }
   render() {
     const { selected, highlighted, dimmed, components } = this.props.well;
-    const { communities, compounds, media, supplements } = this.group(
+    const { communities, compounds, media, supplements, attributes } = this.group(
       components
     );
     return (
@@ -46,6 +51,7 @@ export class Well extends Component {
         <div>{this.renderCompounds(compounds)}</div>
         <div>{this.renderMedia(media)}</div>
         <div>{this.renderSupplements(supplements)}</div>
+        <div>{this.renderAttributes(attributes)}</div>
       </div>
     );
   }
