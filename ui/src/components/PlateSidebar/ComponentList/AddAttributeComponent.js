@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Icon, Input, Segment, Select } from 'semantic-ui-react';
+import { Grid, Icon, Form, Segment, Select, Message} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 export class AddAttributeComponent extends Component {
@@ -11,6 +11,7 @@ export class AddAttributeComponent extends Component {
       value: '',
       value_type: this.props.defaultValueType,
       value_unit: '',
+      errorMessage: null,
     };
   }
 
@@ -31,16 +32,17 @@ export class AddAttributeComponent extends Component {
 
   setValue = (event, data) => {
     const { value_type } = this.state;
-    if (data.value && value_type === 'Integer' && Number.isNaN(parseInt(data.value))){
-      alert('Value is not an integer.');
+    if (value_type === 'Integer' && Number.isNaN(parseInt(data.value))){
+      this.setState({ errorMessage: 'Value is not an integer.'});
       this.setState({value: ''})
     }
-    else if (data.value && value_type === 'Float' && Number.isNaN(parseFloat(data.value))){
-      alert('Value is not numeric.');
+    else if (value_type === 'Float' && Number.isNaN(parseFloat(data.value))){
+      this.setState({ errorMessage: 'Value is not numeric.'});
       this.setState({value: ''})
     }
     else {
       this.setState({ value: data.value });
+      this.setState({ errorMessage: null});
     }
     event.preventDefault();
   };
@@ -48,6 +50,11 @@ export class AddAttributeComponent extends Component {
   setValueUnit = (event, data) => {
     this.setState({ value_unit: data.value });
     event.preventDefault();
+  };
+
+  renderMessage = () => {
+    const { errorMessage } = this.state;
+    return (errorMessage? <Message error content={errorMessage} /> : '');
   };
 
   handleAddClick = (event) => {
@@ -100,7 +107,7 @@ export class AddAttributeComponent extends Component {
     if (value_type !== 'Boolean'){
       return (
         <Grid.Column width={6}>
-          <Input fluid size='small' title='value_unit' placeholder='Unit' value={value_unit} onChange={this.setValueUnit}/>
+          <Form.Input fluid size='small' title='value_unit' placeholder='Unit' value={value_unit} onChange={this.setValueUnit}/>
         </Grid.Column>
       )
     }
@@ -115,7 +122,7 @@ export class AddAttributeComponent extends Component {
     if (value_type === 'Boolean'){
       return (
         <Grid.Column width={10}>
-          <Select fluid
+          <Form.Select fluid
                   placeholder='Value'
                   onChange={this.setValueSelection}
                   options={booleanOptions}
@@ -127,7 +134,7 @@ export class AddAttributeComponent extends Component {
     else{
       return(
         <Grid.Column width={6}>
-          <Input fluid size='small' title='value' placeholder='Value' value={value} onChange={this.setValue}/>
+          <Form.Input fluid size='small' title='value' placeholder='Value' value={value} onChange={this.setValue}/>
         </Grid.Column>
       )
     }
@@ -140,16 +147,16 @@ export class AddAttributeComponent extends Component {
       { text: 'Text', value: 'String', key: 'String'},
       { text: 'True/False',  value: 'Boolean', key: 'Boolean'},
     ];
-    const { key, value_type } = this.state;
+    const { key, value_type} = this.state;
     return (
       <Segment>
         <Grid>
           <Grid.Row>
             <Grid.Column width={6}>
-              <Input fluid size='small' title='key' placeholder='Name' value={key} onChange={this.setKey} />
+              <Form.Input fluid size='small' title='key' placeholder='Name' value={key} onChange={this.setKey} />
             </Grid.Column>
             <Grid.Column width={10}>
-              <Select
+              <Form.Select
                 fluid
                 placeholder='Value Type'
                 onChange={this.changeValueType}
@@ -159,6 +166,7 @@ export class AddAttributeComponent extends Component {
             </Grid.Column>
           </Grid.Row>
           {this.renderOtherInput()}
+          {this.renderMessage()}
         </Grid>
       </Segment>
     );
