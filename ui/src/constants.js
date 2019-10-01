@@ -39,12 +39,14 @@ export const COMPONENT_TYPE_COMMUNITY = 'community';
 export const COMPONENT_TYPE_COMPOUND = 'compound';
 export const COMPONENT_TYPE_MEDIUM = 'medium';
 export const COMPONENT_TYPE_SUPPLEMENT = 'supplement';
+export const COMPONENT_TYPE_ATTRIBUTE = 'attribute';
 
 export const COMPONENT_TYPES_PLURAL_TO_SINGULAR = {
   communities: 'community',
   compounds: 'compound',
   media: 'medium',
   supplements: 'supplement',
+  attributes: 'attribute',
 };
 
 export const COMPONENT_TYPE_ABBREVIATIONS = {
@@ -52,6 +54,7 @@ export const COMPONENT_TYPE_ABBREVIATIONS = {
   compound: 'B',
   medium: 'M',
   supplement: 'S',
+  attribute: 'A',
 };
 
 export const COMPONENT_TYPE_COLORS = {
@@ -59,4 +62,9 @@ export const COMPONENT_TYPE_COLORS = {
   compound: 'blue',
   medium: 'orange',
   supplement: 'black',
+  attribute: 'red',
 };
+
+export const REQUEST_PENDING = 'PENDING';
+export const REQUEST_SUCCESS = 'SUCCESS';
+export const REQUEST_ERROR = 'ERROR';

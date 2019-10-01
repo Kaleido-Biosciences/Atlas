@@ -1,0 +1,15 @@
+.container {
+  padding: 1em;
+}
+
+.table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-top: 1em;
+}
+
+.table td,
+.table th {
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: .4em
+}

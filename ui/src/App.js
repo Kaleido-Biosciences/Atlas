@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { store } from './store/store';
 import { Header } from './components/Header/Header';
 import { CreateNew } from './pages/create/CreateNew';
+import { Statistics } from './pages/statistics';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
             <div className={styles.mainContainer}>
               <Switch>
                 <Route path="/create" component={CreateNew} />
+                <Route path="/statistics" component={Statistics} />
                 <Route render={() => <Redirect to="/create/select" />} />
               </Switch>
             </div>

@@ -8,6 +8,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
 } from '../constants';
 
 import { api } from '../api';
@@ -46,16 +47,18 @@ export function applySelectedComponentsToWells(plate, wellIds, components) {
           well.components.push(wellComponent);
         } else {
           const existingTimepoints = existingComponent.timepoints;
-          wellComponent.timepoints.forEach(newTimepoint => {
-            const index = existingTimepoints.findIndex(
-              eTimepoint => eTimepoint.time === newTimepoint.time
-            );
-            if (index > -1) {
-              existingTimepoints.splice(index, 1, newTimepoint);
-            } else {
-              existingTimepoints.push(newTimepoint);
-            }
-          });
+          if (wellComponent.timepoints) {
+            wellComponent.timepoints.forEach(newTimepoint => {
+              const index = existingTimepoints.findIndex(
+                eTimepoint => eTimepoint.time === newTimepoint.time
+              );
+              if (index > -1) {
+                existingTimepoints.splice(index, 1, newTimepoint);
+              } else {
+                existingTimepoints.push(newTimepoint);
+              }
+            });
+          }
         }
       }
     });
@@ -132,10 +135,15 @@ export function createComponent(data, type) {
 export function getDisplayName(data) {
   let displayName = data.name;
 
-  if("alias" in data && data.alias) { //For communities
-    displayName =  displayName + ' : (' + data.alias + ")";
-  } else if ("aliases" in data && data.aliases.length > 0) { //This is for compounds
-    data.aliases.forEach(aliasElement => displayName = displayName + ' : (' + aliasElement.alias + ')');
+  if ('alias' in data && data.alias) {
+    //For communities
+    displayName = displayName + ' : (' + data.alias + ')';
+  } else if ('aliases' in data && data.aliases.length > 0) {
+    //This is for compounds
+    data.aliases.forEach(
+      aliasElement =>
+        (displayName = displayName + ' : (' + aliasElement.alias + ')')
+    );
   }
 
   return displayName;
@@ -161,20 +169,28 @@ export function createTimepoint(
 }
 
 export function exportPlates(plates) {
-  return plates.map(plate => {
+  return plates.map((plate, i) => {
     return {
-      id: plate.id,
+      id: i + 1,
       data: plate.wells.map(row => {
         return row.map(col => {
           const well = col;
           return {
             id: well.id,
             components: well.components.map(component => {
-              return {
-                type: component.type,
-                id: component.data.id,
-                timepoints: component.timepoints,
-              };
+              if (component.type === 'attribute') {
+                return {
+                  type: component.type,
+                  id: component.data.id,
+                  attributeValues: component.data,
+                };
+              } else {
+                return {
+                  type: component.type,
+                  id: component.data.id,
+                  timepoints: component.timepoints,
+                };
+              }
             }),
           };
         });
@@ -222,24 +238,28 @@ async function fetchComponentsForPlates(plates) {
     compound: [],
     medium: [],
     supplement: [],
+    attribute: [],
+  };
+  const response = {
+    community: [],
+    compound: [],
+    medium: [],
+    supplement: [],
+    attribute: [],
   };
   plates.forEach(plate => {
     const wells = plate.data.flat();
     wells.forEach(well => {
       well.components.forEach(component => {
         const cType = component.type;
-        if (!components[cType].includes(component.id)) {
+        if (cType === 'attribute') {
+          response.attribute.push(component.attributeValues);
+        } else if (!components[cType].includes(component.id)) {
           components[cType].push(component.id);
         }
       });
     });
   });
-  const response = {
-    community: [],
-    compound: [],
-    medium: [],
-    supplement: [],
-  };
   let promises, results;
   promises = components.community.map(id => {
     return fetchCommunity(id);
@@ -301,6 +321,7 @@ export const groupComponents = components => {
     compounds: [],
     media: [],
     supplements: [],
+    attributes: [],
   };
   components.forEach(component => {
     let key;
@@ -312,8 +333,62 @@ export const groupComponents = components => {
       key = 'media';
     } else if (component.type === COMPONENT_TYPE_SUPPLEMENT) {
       key = 'supplements';
+    } else if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
+      key = 'attributes';
     }
     groups[key].push(component);
   });
   return groups;
 };
+
+export function getPlateStatistics(plate) {
+  const statistics = {
+    emptyBorders: true,
+    empty: true,
+    full: false,
+    numberOfWells: 0,
+    numberOfEmptyWells: 0,
+    numberOfFilledWells: 0,
+    maxComponentsInWell: 0,
+  };
+  const index = {
+    community: [],
+    compound: [],
+    medium: [],
+    supplement: [],
+  };
+  plate.data.forEach((row, i) => {
+    row.forEach((well, j) => {
+      statistics.numberOfWells++;
+      if (well.components.length) {
+        statistics.empty = false;
+        statistics.numberOfFilledWells++;
+        const componentCount = well.components.length;
+        if (componentCount > statistics.maxComponentsInWell) {
+          statistics.maxComponentsInWell = componentCount;
+        }
+        if (i === 0 || i === plate.data.length - 1) {
+          statistics.emptyBorders = false;
+        } else if (j === 0 || j === row.length - 1) {
+          statistics.emptyBorders = false;
+        }
+        well.components.forEach(component => {
+          const typeArray = index[component.type];
+          if (!typeArray.includes(component.id)) {
+            typeArray.push(component.id);
+          }
+        });
+      } else {
+        statistics.numberOfEmptyWells++;
+      }
+    });
+  });
+  if (statistics.numberOfWells === statistics.numberOfFilledWells) {
+    statistics.full = true;
+  }
+  statistics.numberOfDistinctCommunities = index.community.length;
+  statistics.numberOfDistinctCompounds = index.compound.length;
+  statistics.numberOfDistinctMedia = index.medium.length;
+  statistics.numberOfDistinctSupplements = index.supplement.length;
+  return statistics;
+}
