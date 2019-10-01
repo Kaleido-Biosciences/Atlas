@@ -9,14 +9,14 @@ export class AttributesSection extends Component {
     return (
       <React.Fragment>
         <ComponentsSection
-          label={'Attribute'}
-          labelDescription={'Use attribute to include exploratory meta data'}
+          label={'Attributes'}
+          labelDescription={'Use attributes to include additional smaple meta data'}
           components={attributes}
           showTimepoints={false}
           allowTimepointTimeChange={false}
           allowAddTimepoint={false}
         />
-        <AddAttributeComponent onAddClick={this.props.addAttribute} defaultValueType={'Boolean'}/>
+        <AddAttributeComponent onAddClick={this.props.addAttribute} />
       </React.Fragment>
     );
   }

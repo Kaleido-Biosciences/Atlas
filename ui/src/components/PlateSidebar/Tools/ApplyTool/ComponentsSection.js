@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 import { ToolComponent } from './ToolComponent';
 import styles from './ComponentsSection.module.css';
-import { Popup } from 'semantic-ui-react';
+import { Popup,  Icon } from 'semantic-ui-react';
 
 export class ComponentsSection extends Component {
 
-  renderLabel(label, labelDescription){
+  renderLabel(labelDescription){
     if (labelDescription){
       return (
-        <Popup content={labelDescription} trigger={<h5 className={styles.header}>{label}</h5>} />
+        <Popup content={labelDescription} trigger={<Icon cname={'circle info'} color={'green'} size={'small'}/>} />
       );
     }
     else{
-      return (<h5 className={styles.header}>{label}</h5>);
+      return ('');
     }
   }
 
@@ -29,7 +29,7 @@ export class ComponentsSection extends Component {
     } = this.props;
     return (
       <div className={styles.componentsSection}>
-        {this.renderLabel(label, labelDescription)}
+        <h5 className={styles.header}>{label} {this.renderLabel(labelDescription)}</h5>
         <div className="components">
           {components.map(component => {
             return (

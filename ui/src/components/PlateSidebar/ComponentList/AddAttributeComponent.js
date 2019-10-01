@@ -10,7 +10,7 @@ export class AddAttributeComponent extends Component {
     this.state = {
       key: '',
       value: '',
-      value_type: this.props.defaultValueType,
+      value_type: '',
       value_unit: '',
       errorMessage: null,
     };
@@ -43,6 +43,8 @@ export class AddAttributeComponent extends Component {
         break;
       case 'Boolean':
         isValid = value.toLowerCase() === 'true' || value.toLowerCase() === 'false';
+        break;
+      default:
         break;
     }
     return (isValid);
@@ -84,7 +86,7 @@ export class AddAttributeComponent extends Component {
         data: {id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit}
       };
       this.props.onAddClick({component});
-      this.setState({key: '', value: '', value_type: this.props.defaultValueType, value_unit: '', errorMessage: ''});
+      this.setState({key: '', value: '', value_type: '', value_unit: '', errorMessage: ''});
     }
     event.preventDefault();
   };
@@ -167,10 +169,10 @@ export class AddAttributeComponent extends Component {
       <Segment>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={6}>
-              <Form.Input fluid size='small' title='key' placeholder='Name' value={key} onChange={this.setKey} />
+            <Grid.Column width={8}>
+              <Form.Input fluid size='small' title='key' placeholder='Enter Name' value={key} onChange={this.setKey} />
             </Grid.Column>
-            <Grid.Column width={10}>
+            <Grid.Column width={8}>
               <Form.Select
                 fluid
                 placeholder='Value Type'
@@ -190,5 +192,4 @@ export class AddAttributeComponent extends Component {
 
 AddAttributeComponent.propTypes = {
   onAddClick: PropTypes.func,
-  defaultValueType: PropTypes.string,
 };
