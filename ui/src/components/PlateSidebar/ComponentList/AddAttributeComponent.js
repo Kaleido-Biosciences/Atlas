@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Grid, Icon, Form, Segment, Select, Message} from 'semantic-ui-react';
+import { Grid, Icon, Form, Segment, Message} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import validate from 'validate.js';
 
 export class AddAttributeComponent extends Component {
 
@@ -30,20 +31,27 @@ export class AddAttributeComponent extends Component {
     event.preventDefault();
   };
 
-  setValue = (event, data) => {
+  validValueWithType = () => {
     const { value_type } = this.state;
-    if (value_type === 'Integer' && Number.isNaN(parseInt(data.value))){
-      this.setState({ errorMessage: 'Value is not an integer.'});
-      this.setState({value: ''})
+    let { value } = this.state;
+    let isValid = true;
+    switch(value_type) {
+      case 'Integer':
+        isValid = validate.isInteger(parseInt(value));
+        break;
+      case 'Float':
+        isValid = validate.isNumber(parseFloat(value));
+        break;
     }
-    else if (value_type === 'Float' && Number.isNaN(parseFloat(data.value))){
-      this.setState({ errorMessage: 'Value is not numeric.'});
-      this.setState({value: ''})
-    }
-    else {
-      this.setState({ value: data.value });
-      this.setState({ errorMessage: null});
-    }
+    return (isValid);
+  };
+
+  setNewValue = (value) => {
+    this.setState({ value});
+  };
+
+  setValue = (event, data) => {
+    this.setState({ value: data.value});
     event.preventDefault();
   };
 
@@ -58,20 +66,28 @@ export class AddAttributeComponent extends Component {
   };
 
   handleAddClick = (event) => {
-    const { key, value, value_type, value_unit } = this.state;
-    let id = value ? (key + '_' + value).replace(/ /g, '_') : key;
-    let unit = value ? (value_unit ? value_unit : '' ): '';
-    let displayName = value ? key + "(" + value + unit + ")" : key;
-    let component = {
-      id: 'ATTRIBUTE_' + id,
-      type: "attribute",
-      displayName: displayName,
-      isValid: true,
-      selected: true,
-      data: { id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit }
-    };
-    this.props.onAddClick({ component });
-    this.setState({ key: '', value: '', value_type: this.props.defaultValueType, value_unit: '' });
+    if (!this.validValueWithType()) {
+      this.setState({errorMessage: 'Input value does not match with selected type'});
+    }
+    else{
+      let { key, value, value_type, value_unit } = this.state;
+      if (value_type === 'Integer'){
+        value = parseInt(value);
+      }
+      let id = value ? (key + '_' + value).replace(/ /g, '_') : key;
+      let unit = value ? (value_unit ? value_unit : '') : '';
+      let displayName = value ? key + "(" + value + unit + ")" : key;
+      let component = {
+        id: 'ATTRIBUTE_' + id,
+        type: "attribute",
+        displayName: displayName,
+        isValid: true,
+        selected: true,
+        data: {id: id, name: displayName, key: key, value: value, value_type: value_type, value_unit: value_unit}
+      };
+      this.props.onAddClick({component});
+      this.setState({key: '', value: '', value_type: this.props.defaultValueType, value_unit: '', errorMessage: ''});
+    }
     event.preventDefault();
   };
 
@@ -91,8 +107,8 @@ export class AddAttributeComponent extends Component {
   };
 
   renderAddIcon = () => {
-    const {key, value, value_type} = this.state;
-    if (value_type && value && key){
+    const {key, value_type} = this.state;
+    if (value_type && key){
       return (
         <Grid.Column width={4}>
           <Icon title='Add Attribute' link color='blue' size='large' name='plus circle'
