@@ -45,10 +45,6 @@ export class AddAttributeComponent extends Component {
     return (isValid);
   };
 
-  setNewValue = (value) => {
-    this.setState({ value});
-  };
-
   setValue = (event, data) => {
     this.setState({ value: data.value});
     event.preventDefault();
