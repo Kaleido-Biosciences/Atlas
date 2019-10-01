@@ -54,7 +54,7 @@ export class AddAttributeComponent extends Component {
     const { key, value, value_type, value_unit } = this.state;
     let id = value ? (key + '_' + value).replace(/ /g, '_') : key;
     let unit = value ? (value_unit ? value_unit : '' ): '';
-    let displayName = value ? key + ": " + value + unit : key;
+    let displayName = value ? key + "(" + value + unit + ")" : key;
     let component = {
       id: 'ATTRIBUTE_' + id,
       type: "attribute",

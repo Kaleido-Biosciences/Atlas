@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ToolComponent } from './ToolComponent';
 import styles from './ComponentsSection.module.css';
-import {Popup} from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 
 export class ComponentsSection extends Component {
 
