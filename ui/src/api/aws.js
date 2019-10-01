@@ -35,19 +35,6 @@ export function fetchPlates(experimentId, status) {
       ScanIndexForward: false,
       ConsistentRead: false,
     };
-
-  //   docClient.query(params, function(err, data) {
-  //     if (err) {
-  //       reject(err);
-  //     } else {
-  //       if (data.Items.length > 0) {
-  //         plateMaps = JSON.parse(data.Items[data.Items.length - 1].plateMaps);
-  //       }
-  //       resolve(plateMaps);
-  //     }
-  //   });
-  // });
-
     docClient.query(params, function(err, response) {
       if (err) {
         reject(err);
