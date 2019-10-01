@@ -47,16 +47,18 @@ export function applySelectedComponentsToWells(plate, wellIds, components) {
           well.components.push(wellComponent);
         } else {
           const existingTimepoints = existingComponent.timepoints;
-          wellComponent.timepoints.forEach(newTimepoint => {
-            const index = existingTimepoints.findIndex(
-              eTimepoint => eTimepoint.time === newTimepoint.time
-            );
-            if (index > -1) {
-              existingTimepoints.splice(index, 1, newTimepoint);
-            } else {
-              existingTimepoints.push(newTimepoint);
-            }
-          });
+          if (wellComponent.timepoints) {
+            wellComponent.timepoints.forEach(newTimepoint => {
+              const index = existingTimepoints.findIndex(
+                eTimepoint => eTimepoint.time === newTimepoint.time
+              );
+              if (index > -1) {
+                existingTimepoints.splice(index, 1, newTimepoint);
+              } else {
+                existingTimepoints.push(newTimepoint);
+              }
+            });
+          }
         }
       }
     });
