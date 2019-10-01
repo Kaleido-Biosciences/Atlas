@@ -135,10 +135,10 @@ export class AddAttributeComponent extends Component {
 
   render() {
     const typeOptions = [
-      { text: 'True/False',  value: 'Boolean', key: 'Boolean'},
       { text: 'Decimal', value: 'Float', key: 'Float'},
       { text: 'Integer', value: 'Integer', key: 'Integer'},
       { text: 'Text', value: 'String', key: 'String'},
+      { text: 'True/False',  value: 'Boolean', key: 'Boolean'},
     ];
     const { key, value_type } = this.state;
     return (
