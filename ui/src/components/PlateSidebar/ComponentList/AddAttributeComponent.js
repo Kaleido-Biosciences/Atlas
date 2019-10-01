@@ -41,6 +41,9 @@ export class AddAttributeComponent extends Component {
       case 'Float':
         isValid = validate.isNumber(Number(value));
         break;
+      case 'Boolean':
+        isValid = value.toLowerCase() === 'true' || value.toLowerCase() === 'false';
+        break;
     }
     return (isValid);
   };
@@ -133,11 +136,12 @@ export class AddAttributeComponent extends Component {
     if (value_type === 'Boolean'){
       return (
         <Grid.Column width={10}>
-          <Form.Select fluid
-                  placeholder='Value'
-                  onChange={this.setValueSelection}
-                  options={booleanOptions}
-                  value={value}
+          <Form.Select
+            fluid
+            placeholder='Value'
+            onChange={this.setValueSelection}
+            options={booleanOptions}
+            value={value}
           />
         </Grid.Column>
       )
