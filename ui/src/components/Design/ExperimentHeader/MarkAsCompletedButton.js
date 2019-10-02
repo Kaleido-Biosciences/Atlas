@@ -23,8 +23,7 @@ export class MarkAsCompletedButton extends Component {
       >
         <div className={styles.popupBody}>
           <Message size="tiny" className={styles.message}>
-            Are you sure? You will no longer be able to edit plates in this
-            experiment.
+            This will write a snapshot of the current plates to Kapture. Plates will be editable after.
           </Message>
           <Button onClick={this.handleClick} color="green">
             Yes, mark as completed
