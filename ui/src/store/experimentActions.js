@@ -13,7 +13,6 @@ const {
   addPlate: _addPlate,
   applySelectedToolComponentsToWells: _applySelectedToolComponentsToWells,
   clearWells: _clearWells,
-  setActivePlate: _setActivePlate,
   deletePlate: _deletePlate,
   setCompletedStatus: _setCompletedStatus,
   applySelectedToolComponentsToSelectedWells: _applySelectedToolComponentsToSelectedWells,
@@ -64,6 +63,7 @@ function _addNewPlate() {
 
 export const {
   setExperimentOptions,
+  setActivePlate,
   toggleWellsSelected,
   setClickMode,
   deselectAllWells,
@@ -80,7 +80,7 @@ export const {
   setStepThreeComplete,
 } = designExperimentActions;
 
-export const initializePlates = wrapWithChangeHandler(() => {
+export const initializePlates = () => {
   return (dispatch, getState) => {
     let { plates } = getState().designExperiment;
     if (!plates.length) {
@@ -94,7 +94,7 @@ export const initializePlates = wrapWithChangeHandler(() => {
       dispatch(_updateNextPlateId(highestId + 1));
     }
   };
-});
+};
 
 export const clonePlate = wrapWithChangeHandler((plateId, typesToClone) => {
   return (dispatch, getState) => {
@@ -111,7 +111,7 @@ export const clonePlate = wrapWithChangeHandler((plateId, typesToClone) => {
     dispatch(_addPlate(createPlate(wells)));
     plates = getState().designExperiment.plates;
     const newPlate = plates[plates.length - 1];
-    dispatch(_setActivePlate(newPlate.id));
+    dispatch(setActivePlate(newPlate.id));
   };
 });
 
@@ -121,14 +121,12 @@ export const applySelectedToolComponentsToWells = wrapWithChangeHandler(
   _applySelectedToolComponentsToWells
 );
 
-export const clearWells = wrapWithChangeHandler(_clearWells);
+export const applySelectedToolComponentsToSelectedWells = wrapWithChangeHandler(
+  _applySelectedToolComponentsToSelectedWells
+);
 
-export const setActivePlate = wrapWithChangeHandler(_setActivePlate);
+export const clearWells = wrapWithChangeHandler(_clearWells);
 
 export const deletePlate = wrapWithChangeHandler(_deletePlate);
 
 export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
-
-export const applySelectedToolComponentsToSelectedWells = wrapWithChangeHandler(
-  _applySelectedToolComponentsToSelectedWells
-);
