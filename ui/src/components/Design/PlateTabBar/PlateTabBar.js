@@ -20,6 +20,10 @@ class PlateTabBar extends Component {
   state = {
     cloneModalOpen: false,
     deleteModalOpen: false,
+    plateAdded: false,
+  };
+  setScrollbarsRef = ref => {
+    this.scrollbars = ref;
   };
   openCloneModal = () => {
     this.setState({ cloneModalOpen: true });
@@ -36,6 +40,7 @@ class PlateTabBar extends Component {
   handleAddClick = () => {
     if (this.props.onAddClick) {
       this.props.onAddClick();
+      this.setState({ plateAdded: true });
     }
   };
   handleCloneSubmit = ({ typesToClone }) => {
@@ -50,6 +55,12 @@ class PlateTabBar extends Component {
       this.closeDeleteModal();
     }
   };
+  componentDidUpdate() {
+    if (this.state.plateAdded) {
+      this.scrollbars.scrollLeft(this.scrollbars.getScrollWidth());
+      this.setState({ plateAdded: false });
+    }
+  }
   renderTabs() {
     const { plates, onTabClick } = this.props;
     if (plates && plates.length) {
@@ -75,7 +86,10 @@ class PlateTabBar extends Component {
           <Icon name="plus circle" link title="Add Plate" size="large" />
         </div>
         <div className={styles.scrollContainer}>
-          <Scrollbars style={{ height: '100%', width: '100%' }}>
+          <Scrollbars
+            ref={this.setScrollbarsRef}
+            style={{ height: '100%', width: '100%' }}
+          >
             <div className={styles.tabContainer}>{this.renderTabs()}</div>
           </Scrollbars>
         </div>
