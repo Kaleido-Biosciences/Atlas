@@ -39,8 +39,12 @@ export function fetchPlates(experimentId, status) {
       if (err) {
         reject(err);
       } else {
-        if (response.Count > 0){
-          plateMaps = JSON.parse(lzutf8.decompress(response.Items[0].plateMaps, {inputEncoding:"Base64"} ));
+        if (response.Count > 0) {
+          plateMaps = JSON.parse(
+            lzutf8.decompress(response.Items[0].plateMaps, {
+              inputEncoding: 'Base64',
+            })
+          );
         }
         resolve(plateMaps);
       }
@@ -50,7 +54,9 @@ export function fetchPlates(experimentId, status) {
 
 export function saveExperimentPlates(experimentName, status, plateMaps) {
   return new Promise((resolve, reject) => {
-    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {outputEncoding:"Base64"});
+    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
+      outputEncoding: 'Base64',
+    });
     if (status === STATUS_COMPLETED) {
       getUTCTime().then(function(time) {
         createNew(
@@ -176,7 +182,12 @@ export function scanTable() {
       } else {
         data.Items.forEach(function(item) {
           const { plateMaps, ...rest } = item;
-          experiments.push({ plateMaps: JSON.parse(plateMaps), ...rest });
+          experiments.push({
+            plateMaps: JSON.parse(lzutf8.decompress(plateMaps, {
+              inputEncoding: 'Base64',
+            })),
+            ...rest,
+          });
         });
         if (typeof data.LastEvaluatedKey != 'undefined') {
           params.ExclusiveStartKey = data.LastEvaluatedKey;

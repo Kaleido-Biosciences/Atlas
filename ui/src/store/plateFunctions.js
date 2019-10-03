@@ -356,6 +356,7 @@ export function getPlateStatistics(plate) {
     compound: [],
     medium: [],
     supplement: [],
+    attribute: [],
   };
   plate.data.forEach((row, i) => {
     row.forEach((well, j) => {
@@ -390,5 +391,6 @@ export function getPlateStatistics(plate) {
   statistics.numberOfDistinctCompounds = index.compound.length;
   statistics.numberOfDistinctMedia = index.medium.length;
   statistics.numberOfDistinctSupplements = index.supplement.length;
+  statistics.numberOfDistinctAttributes = index.attribute.length;
   return statistics;
 }
