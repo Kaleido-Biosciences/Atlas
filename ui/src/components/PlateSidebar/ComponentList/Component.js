@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {Icon, Label, Popup, List} from 'semantic-ui-react';
+import {Label, Popup, List} from 'semantic-ui-react';
 import { ComponentTypeCircle } from '../ComponentTypeCircle';
 
 import styles from './ComponentList.module.css';
@@ -57,7 +57,7 @@ export class Component extends React.Component {
         return(
           <List>
             {component.data.registrationDate ?
-              <List.Item><List.Header>Registration date</List.Header>{component.data.registrationDate}</List.Item> :''
+              <List.Item><List.Header>Registration date</List.Header>{this.formatDate(component.data.registrationDate)}</List.Item> :''
             }
             {component.data.source ?
               <List.Item><List.Header>Source</List.Header>{component.data.source}</List.Item> :''
@@ -93,14 +93,13 @@ export class Component extends React.Component {
   }
 
   render() {
-    const { component, count } = this.props;
+    const { count } = this.props;
     const componentClass = classNames(styles.component, {
       [styles.notUsed]: !count,
     });
     return (
       <div onClick={this.handleClick} className={componentClass}>
         {this.renderComponentDetails()}
-
           {count && <Label className={styles.componentLabel}>{count}</Label>}
       </div>
     );
