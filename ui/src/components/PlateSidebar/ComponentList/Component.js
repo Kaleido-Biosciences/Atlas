@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {Label, Popup, List} from 'semantic-ui-react';
+import {Label, Popup} from 'semantic-ui-react';
 import { ComponentTypeCircle } from '../ComponentTypeCircle';
 import { getToolTip } from "../../componentToolTipFunction";
 
