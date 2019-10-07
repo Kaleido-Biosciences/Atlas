@@ -72,7 +72,7 @@ export class AddAttributeComponent extends Component {
     else{
       let { key, value, value_type, value_unit } = this.state;
       if (value_type === 'Integer'){
-        value = parseInt(value);
+        value = Number(value)+''; // in case value is 0
       }
       let id = value ? (key + '_' + value).replace(/ /g, '_') : key;
       let unit = value ? (value_unit ? value_unit : '') : '';
