@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Popup} from "semantic-ui-react";
+import {getToolTip} from "../componentToolTipFunction";
 
 const renderTimepoints = timepoints => {
   return timepoints.reduce((displayString, timepoint) => {
@@ -22,10 +24,24 @@ export class WellComponent extends Component {
       )
     }
     // for rendering of component other than attribute
-    return (
-      <div>
-        {`${component.displayName}`} {renderTimepoints(component.timepoints)}
-      </div>
-    );
+    else if (component.type === 'compound' || component.type === 'supplement') {
+      return (
+        <Popup
+          position='top center'
+          trigger={
+            <div>
+              {`${component.displayName}`} {renderTimepoints(component.timepoints)}
+            </div>
+          }>
+          <Popup.Content> {getToolTip(component)} </Popup.Content>
+        </Popup>
+      )
+    } else {
+      return (
+        <div>
+          {`${component.displayName}`} {renderTimepoints(component.timepoints)}
+        </div>
+      )
+    }
   }
 }
