@@ -179,6 +179,7 @@ export class Statistics extends Component {
               <th>Distinct Compounds</th>
               <th>Distinct Media</th>
               <th>Distinct Supplements</th>
+              <th>Distinct Attributes</th>
               <th># empty wells</th>
               <th># filled wells</th>
               <th># wells</th>
@@ -209,6 +210,7 @@ export class Statistics extends Component {
             <td>{stats.numberOfDistinctCompounds}</td>
             <td>{stats.numberOfDistinctMedia}</td>
             <td>{stats.numberOfDistinctSupplements}</td>
+            <td>{stats.numberOfDistinctAttributes}</td>
             <td>{stats.numberOfEmptyWells}</td>
             <td>{stats.numberOfFilledWells}</td>
             <td>{stats.numberOfWells}</td>
