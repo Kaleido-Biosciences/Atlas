@@ -1,11 +1,11 @@
 #! /bin/bash
 
 aws dynamodb create-table \
-   --table-name atlas-production \
-   --attribute-definitions AttributeName=experiment,AttributeType=S AttributeName=status,AttributeType=S \
-   --key-schema AttributeName=experiment,KeyType=HASH AttributeName=status,KeyType=RANGE \
+   --table-name atlas-production2 \
+   --attribute-definitions AttributeName=experiment_status,AttributeType=S AttributeName=version,AttributeType=N \
+   --key-schema AttributeName=experiment_status,KeyType=HASH AttributeName=version,KeyType=RANGE \
 
 aws dynamodb create-table \
-   --table-name atlas-development \
-   --attribute-definitions AttributeName=experiment,AttributeType=S AttributeName=status,AttributeType=S \
-   --key-schema AttributeName=experiment,KeyType=HASH AttributeName=status,KeyType=RANGE \
+   --table-name atlas-staging \
+   --attribute-definitions AttributeName=experiment_status,AttributeType=S AttributeName=version,AttributeType=N \
+   --key-schema AttributeName=experiment_status,KeyType=HASH AttributeName=version,KeyType=RANGE \
