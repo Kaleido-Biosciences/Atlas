@@ -28,11 +28,11 @@ export default class Auth {
 
   // Sets user details in localStorage
   setSession = (authResult) => {
-    // Set the time that the access token will expire at
+    // Set the time that the access token will expire in one hour
     let expiresAt = JSON.stringify((authResult.expires_in * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.access_token);
-    localStorage.setItem('id_token', authResult.id_token);
     localStorage.setItem('refresh_token', authResult.refresh_token);
+    localStorage.setItem('id_token', authResult.id_token);
     localStorage.setItem('expires_at', expiresAt);
   };
 
@@ -40,8 +40,8 @@ export default class Auth {
   logout = () => {
     // Clear access token and ID token from local storage
     localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
     history.replace('/home');
@@ -57,7 +57,6 @@ export default class Auth {
 
 
   awsCallTokenEndpoint = async (grantType, accessToken) =>  {
-    console.log(accessToken);
     const data = {
       grant_type: grantType,
       client_id: `${COGNITO_CLIENT_ID}`,
@@ -74,9 +73,9 @@ export default class Auth {
         password: `${COGNITO_SECRET}`,
       },
     };
-    console.log(`AWS oauth2/token request parameters: ${JSON.stringify(p)}`);
+    // console.log(`AWS oauth2/token request parameters: ${JSON.stringify(p)}`);
     const awsResponse = await axios(p);
-    console.log(`AWS oauth2/token response : ${JSON.stringify(awsResponse.data)}`);
+    // console.log(`AWS oauth2/token response : ${JSON.stringify(awsResponse.data)}`);
     return awsResponse;
   };
 

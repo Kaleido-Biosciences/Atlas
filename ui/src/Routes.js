@@ -10,12 +10,10 @@ const auth = new Auth();
 const handleAuthentication = (nextState, replace) => {
   if (/\?code=/.test(nextState.location.search)) {
     let query = nextState.location.search;
-    console.log(query);
     query = query.substring(0, query.indexOf('&'));
     let code = query.replace('?code=', '');
     let p = auth.awsCallTokenEndpoint('authorization_code', code);
     p.then((response)=> {
-      console.log(response);
       auth.setSession(response.data);
       history.replace('/home');
     })
