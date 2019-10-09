@@ -1,7 +1,8 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 import axios from 'axios';
-import qs from 'qs'
+import qs from 'qs';
+import Cookies from 'js-cookie';
 import {
   COGNITO_DOMAIN,
   COGNITO_CLIENT_ID,
@@ -43,18 +44,8 @@ export default class Auth {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-
-    await axios.get('https://'+COGNITO_DOMAIN+'/logout',{
-      params: {
-        client_id: `${COGNITO_CLIENT_ID}`,
-        logout_uri: `${COGNITO_CALLBACK_URL}`,
-      }
-    }).then(function (response) {
-      console.log(response);
-    })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const keys = Object.keys(Cookies.get());
+    keys.forEach(x => Cookies.remove(x));
     // navigate to the home route
     history.replace('/home');
   };
