@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "auth0-js": "^9.11.3",
     "aws-sdk": "^2.499.0",
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
