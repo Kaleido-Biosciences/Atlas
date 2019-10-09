@@ -154,7 +154,7 @@ deploy_staging:
         - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" deployment.yaml
         - sed -i "s/__REACT_APP_DYNAMODB_TABLE__/${REACT_APP_DYNAMODB_TABLE}/" deployment.yaml
         - sed -i "s/__KAPTURE_URL__/${KAPTURE_URL}/" deployment.yaml
-        - sed -i "s/__ATLAS_URL__/${ATLAS_URL}/" Dockerfile Dockerfile-prod
+        - sed -i "s/__ATLAS_URL__/${ATLAS_URL}/" Dockerfile deployment.yaml
         - sed -i "s/__REACT_APP_COGNITO_CLIENT_ID__/${REACT_APP_COGNITO_CLIENT_ID}/" deployment.yaml
         - sed -i "s/__REACT_APP_COGNITO_SECRET__/${REACT_APP_COGNITO_SECRET}/" deployment.yaml
         - sed -i "s/__REACT_APP_COGNITO_DOMAIN__/${REACT_APP_COGNITO_DOMAIN}/" deployment.yaml
@@ -228,7 +228,7 @@ deploy_prod:
     - sed -i "s/__REACT_APP_DYNAMODB_SECRET_ACCESS_KEY__/${REACT_APP_DYNAMODB_SECRET_ACCESS_KEY}/" deployment.yaml
     - sed -i "s/__REACT_APP_DYNAMODB_TABLE__/${REACT_APP_DYNAMODB_TABLE}/" deployment.yaml
     - sed -i "s/__KAPTURE_URL__/${KAPTURE_URL}/" deployment.yaml
-    - sed -i "s/__ATLAS_URL__/${ATLAS_URL}/" Dockerfile Dockerfile-prod
+    - sed -i "s/__ATLAS_URL__/${ATLAS_URL}/" deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_CLIENT_ID__/${REACT_APP_COGNITO_CLIENT_ID}/" deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_SECRET__/${REACT_APP_COGNITO_SECRET}/" Dockerfile  deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_DOMAIN__/${REACT_APP_COGNITO_DOMAIN}/" Dockerfile  deployment.yaml
