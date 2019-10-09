@@ -37,6 +37,8 @@ spec:
           value: __REACT_APP_DYNAMODB_TABLE__
         - name: KAPTURE_URL
           value: __KAPTURE_URL__
+        - name: ATLAS_URL
+          value: __ATLAS_URL__
         - name: REACT_APP_COGNITO_CLIENT_ID
           value: __REACT_APP_COGNITO_CLIENT_ID__
         - name: REACT_APP_COGNITO_SECRET
