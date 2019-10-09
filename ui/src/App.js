@@ -14,7 +14,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <React.Fragment>
-            <Header />
+            <Header auth={this.props.auth}/>
             <div className={styles.mainContainer}>
               <Switch>
                 <Route path="/create" component={CreateNew} />
