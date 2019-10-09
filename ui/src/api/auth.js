@@ -8,7 +8,7 @@ import {
   COGNITO_CALLBACK_URL,
   COGNITO_SECRET,
   COGNITO_USERINFO_ENDPOINT,
-  COGNITO_TOKEN_ENDPOINT
+  COGNITO_TOKEN_ENDPOINT,
 } from "../config";
 
 export default class Auth {
@@ -37,12 +37,24 @@ export default class Auth {
   };
 
   // removes user details from localStorage
-  logout = () => {
+  logout = async () => {
     // Clear access token and ID token from local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+
+    await axios.get('https://'+COGNITO_DOMAIN+'/logout',{
+      params: {
+        client_id: `${COGNITO_CLIENT_ID}`,
+        logout_uri: `${COGNITO_CALLBACK_URL}`,
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (error) {
+        console.log(error);
+      });
     // navigate to the home route
     history.replace('/home');
   };
