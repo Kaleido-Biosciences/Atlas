@@ -22,14 +22,14 @@ export class Header extends Component {
             Atlas
           </Link>
         </Menu.Item>
-        <Menu.Item>
-          Welcome! You are logged in as {Header.getUserInfo()}.
-        </Menu.Item>
-        <Menu.Item position={'right'}
-            onClick={this.props.auth.logout}
-          >
-            Log Out
-        </Menu.Item>
+        {/*<Menu.Item>*/}
+        {/*  Welcome! You are logged in as {Header.getUserInfo()}.*/}
+        {/*</Menu.Item>*/}
+        {/*<Menu.Item position={'right'}*/}
+        {/*    onClick={this.props.auth.logout}*/}
+        {/*  >*/}
+        {/*    Log Out*/}
+        {/*</Menu.Item>*/}
       </Menu>
     );
   }
