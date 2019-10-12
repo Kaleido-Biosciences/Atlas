@@ -1,9 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
-
 ### Running Locally
 You will need to have a file `.env` in the /ui/ folder
 ```
@@ -13,9 +9,12 @@ REACT_APP_DYNAMODB_SECRET_ACCESS_KEY=anotherkey
 REACT_APP_DYNAMODB_TABLE=atlas-staging
 # Set kapture api
 REACT_APP_API_URL=https://kapture-staging.apps.kaleidobio.com/api
-#AWS_COGNITO_REDIRECT=https://kaleido-apps.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=****INSERTCLIENTID****&redirect_uri=https://atlas-staging.apps.kaleidobio.com/callback
-AWS_COGNITO_REDIRECT=https://kaleido-apps.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=****INSERTCLIENTID****&redirect_uri=http://localhost:3000/callback
+AWS_COGNITO_REDIRECT=https://{your-pool}.auth.us-east-1.amazoncognito.com/login?response_type=code&client_id=****INSERTCLIENTID****&redirect_uri=http://localhost:3000/callback
 ```
+
+## Available Scripts
+
+In the `/ui` project directory, you can run:
 
 ### `npm start`
 
