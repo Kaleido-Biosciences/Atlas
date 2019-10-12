@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Label, Popup} from 'semantic-ui-react';
 import { ComponentTypeCircle } from '../ComponentTypeCircle';
-import { getToolTip } from "../../componentToolTipFunction";
+import { ComponentToolTip } from "./ComponentToolTip";
 
 import styles from './ComponentList.module.css';
 
@@ -26,7 +26,7 @@ export class Component extends React.Component {
               <ComponentTypeCircle type={component.type} className={styles.typeCircle}/>{component.displayName}
             </div>
           }>
-          <Popup.Content> {getToolTip(component)} </Popup.Content>
+          <Popup.Content> <ComponentToolTip component={component}/> </Popup.Content>
         </Popup>
       )
     } else {

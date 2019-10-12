@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Popup} from "semantic-ui-react";
-import {getToolTip} from "../componentToolTipFunction";
+import {ComponentToolTip} from "../PlateSidebar/ComponentList/ComponentToolTip";
 
 const renderTimepoints = timepoints => {
   return timepoints.reduce((displayString, timepoint) => {
@@ -33,7 +33,7 @@ export class WellComponent extends Component {
               {`${component.displayName}`} {renderTimepoints(component.timepoints)}
             </div>
           }>
-          <Popup.Content> {getToolTip(component)} </Popup.Content>
+          <Popup.Content> <ComponentToolTip component={component}/> </Popup.Content>
         </Popup>
       )
     } else {

@@ -1,1 +1,0 @@
-select name, description from media order by name;
