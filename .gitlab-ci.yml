@@ -230,8 +230,8 @@ deploy_prod:
     - sed -i "s/__KAPTURE_URL__/${KAPTURE_URL}/" deployment.yaml
     - sed -i "s/__ATLAS_URL__/${ATLAS_URL}/" deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_CLIENT_ID__/${REACT_APP_COGNITO_CLIENT_ID}/" deployment.yaml
-    - sed -i "s/__REACT_APP_COGNITO_SECRET__/${REACT_APP_COGNITO_SECRET}/" Dockerfile  deployment.yaml
-    - sed -i "s/__REACT_APP_COGNITO_DOMAIN__/${REACT_APP_COGNITO_DOMAIN}/" Dockerfile  deployment.yaml
+    - sed -i "s/__REACT_APP_COGNITO_SECRET__/${REACT_APP_COGNITO_SECRET}/"  deployment.yaml
+    - sed -i "s/__REACT_APP_COGNITO_DOMAIN__/${REACT_APP_COGNITO_DOMAIN}/"  deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_CALLBACK_URL__/${REACT_APP_COGNITO_CALLBACK_URL}/" deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_USERINFO_ENDPOINT__/${REACT_APP_COGNITO_USERINFO_ENDPOINT}/" deployment.yaml
     - sed -i "s/__REACT_APP_COGNITO_TOKEN_ENDPOINT__/${REACT_APP_COGNITO_TOKEN_ENDPOINT}/" deployment.yaml
