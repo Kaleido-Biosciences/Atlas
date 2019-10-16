@@ -12,7 +12,7 @@ import {
 import { selectActivePlate } from '../../store/selectors';
 import { ExperimentHeader } from '../../components/Design/ExperimentHeader';
 import { PlateSidebar } from '../../components/PlateSidebar';
-import { Plate } from '../../components/Plate/Plate';
+import { Plate } from '../../components/Design/Plate';
 import { PlateTabBar } from '../../components/Design/PlateTabBar';
 import { NoPlatesMessage } from '../../components/Plate/NoPlatesMessage';
 import styles from './BuildStep.module.css';
@@ -46,12 +46,13 @@ class BuildStep extends Component {
                 pane1Style={{ overflow: 'hidden' }}
                 pane2Style={{ height: '100%' }}
               >
-                <div className={styles.plateContainer}>
-                  <Plate
-                    plate={activePlate}
-                    onWellsClick={this.handlePlateClick}
-                  />
-                  <PlateTabBar />
+                <div className={styles.mainContainer}>
+                  <div className={styles.plateContainer}>
+                    <Plate />
+                  </div>
+                  <div className={styles.plateTabContainer}>
+                    <PlateTabBar />
+                  </div>
                 </div>
                 <PlateSidebar />
               </SplitPane>
