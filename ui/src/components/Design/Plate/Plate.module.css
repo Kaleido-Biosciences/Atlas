@@ -13,6 +13,9 @@
   width: 30px;
   height: 30px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .body {
@@ -96,4 +99,16 @@
   margin: 0 !important;
   height: 2em;
   width: 2em;
+}
+
+.settingsIcon {
+  cursor: pointer;
+}
+
+.settings :global(.ui.form .inline.fields) {
+  margin: 0;
+}
+
+.settings :global(label) {
+  white-space: nowrap;
 }
