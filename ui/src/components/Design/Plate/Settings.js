@@ -17,7 +17,7 @@ const wellSizeOptions = {
   },
   large: {
     size: 180,
-    padding: 10,
+    padding: 5,
   },
 };
 
