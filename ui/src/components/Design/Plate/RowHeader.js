@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { PLATE_ROW_HEADERS } from '../../../constants';
+import { PLATE_ROW_HEADERS, PLATE_HEADER_SIZE } from '../../../constants';
 import { HeaderCell } from './HeaderCell';
 import styles from './Plate.module.css';
 
@@ -11,7 +11,7 @@ export class RowHeader extends Component {
     this.divRef.current.scrollTop = scrollPos;
   };
   render() {
-    const { plate } = this.props;
+    const { plate, wellSize } = this.props;
     const rows = plate.wells;
     const cells = rows.map((row, i) => {
       const label = PLATE_ROW_HEADERS[i];
@@ -21,7 +21,9 @@ export class RowHeader extends Component {
           headerType="row"
           index={i}
           label={PLATE_ROW_HEADERS[i]}
-          className={styles.rowHeaderCell}
+          height={wellSize.size}
+          width={PLATE_HEADER_SIZE}
+          padding={wellSize.padding}
         />
       );
     });
@@ -35,4 +37,5 @@ export class RowHeader extends Component {
 
 RowHeader.propTypes = {
   plate: PropTypes.object.isRequired,
+  wellSize: PropTypes.object.isRequired,
 };

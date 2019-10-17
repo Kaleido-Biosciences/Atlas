@@ -32,23 +32,8 @@
   overflow: hidden;
 }
 
-.columnHeaderCell {
-  width: 100px;
-  height: 30px;
-  padding: 5px;
+.headerCell {
   flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  font-weight: bold;
-}
-
-.rowHeaderCell {
-  height: 100px;
-  width: 30px;
-  padding: 5px;
-  flex-shrink: 0;
-  flex-direction: row;
   display: flex;
   align-items: center;
   justify-content: center;

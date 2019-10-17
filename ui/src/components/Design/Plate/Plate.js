@@ -25,10 +25,18 @@ class Plate extends Component {
           <div className={styles.cornerCell}>
             <Settings />
           </div>
-          <ColumnHeader ref={this.columnHeaderRef} plate={plate} />
+          <ColumnHeader
+            ref={this.columnHeaderRef}
+            plate={plate}
+            wellSize={settings.wellSize}
+          />
         </div>
         <div className={styles.body}>
-          <RowHeader ref={this.rowHeaderRef} plate={plate} />
+          <RowHeader
+            ref={this.rowHeaderRef}
+            plate={plate}
+            wellSize={settings.wellSize}
+          />
           <Scrollbars
             style={{ height: '100%', width: '100%' }}
             onScrollFrame={this.handleScroll}

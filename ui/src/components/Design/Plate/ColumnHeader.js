@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { PLATE_HEADER_SIZE } from '../../../constants';
 import { HeaderCell } from './HeaderCell';
 import styles from './Plate.module.css';
 
@@ -10,7 +11,7 @@ export class ColumnHeader extends Component {
     this.divRef.current.scrollLeft = scrollPos;
   };
   render() {
-    const { plate } = this.props;
+    const { plate, wellSize } = this.props;
     const firstRow = plate.wells[0];
     const cells = firstRow.map((column, i) => {
       return (
@@ -19,7 +20,9 @@ export class ColumnHeader extends Component {
           headerType="column"
           index={i}
           label={i + 1}
-          className={styles.columnHeaderCell}
+          height={PLATE_HEADER_SIZE}
+          width={wellSize.size}
+          padding={wellSize.padding}
         />
       );
     });
@@ -33,4 +36,5 @@ export class ColumnHeader extends Component {
 
 ColumnHeader.propTypes = {
   plate: PropTypes.object.isRequired,
+  wellSize: PropTypes.object.isRequired,
 };
