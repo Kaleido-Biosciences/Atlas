@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
-import { Popup, Icon, Form, Radio } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Popup, Icon, Form } from 'semantic-ui-react';
 
+import { setSettings } from '../../../store/experimentActions';
 import styles from './Plate.module.css';
 
-export class Settings extends Component {
-  state = {
-    wellSize: 'small',
-  };
-  handlePlateSizeChange = (e, { value }) => {
-    this.setState({ wellSize: value });
+const wellSizeOptions = {
+  small: {
+    size: 60,
+    padding: 5,
+  },
+  medium: {
+    size: 120,
+    padding: 5,
+  },
+  large: {
+    size: 180,
+    padding: 10,
+  },
+};
+
+class Settings extends Component {
+  handleWellSizeChange = (e, { value }) => {
+    if (this.props.onChange) {
+      this.props.onChange({ settings: { wellSize: wellSizeOptions[value] } });
+    }
   };
   render() {
-    const { wellSize } = this.state;
+    const { wellSize } = this.props.settings;
+    const size = wellSize.size;
     return (
       <Popup
         position="right center"
@@ -25,20 +43,20 @@ export class Settings extends Component {
             <Form.Radio
               label="Small"
               value="small"
-              checked={wellSize === 'small'}
-              onChange={this.handlePlateSizeChange}
+              checked={size === 60}
+              onChange={this.handleWellSizeChange}
             />
             <Form.Radio
               label="Medium"
               value="medium"
-              checked={wellSize === 'medium'}
-              onChange={this.handlePlateSizeChange}
+              checked={size === 120}
+              onChange={this.handleWellSizeChange}
             />
             <Form.Radio
               label="Large"
               value="large"
-              checked={wellSize === 'large'}
-              onChange={this.handlePlateSizeChange}
+              checked={size === 180}
+              onChange={this.handleWellSizeChange}
             />
           </Form.Group>
         </Form>
@@ -46,3 +64,23 @@ export class Settings extends Component {
     );
   }
 }
+
+Settings.propTypes = {
+  settings: PropTypes.object.isRequired,
+  onChange: PropTypes.func,
+};
+
+const mapState = (state, props) => {
+  const { settings } = state.designExperiment;
+  return { settings };
+};
+
+const mapDispatch = {
+  onChange: setSettings,
+};
+
+const connected = connect(
+  mapState,
+  mapDispatch
+)(Settings);
+export { connected as Settings };

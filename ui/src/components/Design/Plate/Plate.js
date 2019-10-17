@@ -18,7 +18,7 @@ class Plate extends Component {
     this.rowHeaderRef.current.setScrollPos(values.scrollTop);
   };
   render() {
-    const { plate } = this.props;
+    const { plate, settings } = this.props;
     return (
       <div className={styles.plate}>
         <div className={styles.topHeader}>
@@ -33,7 +33,7 @@ class Plate extends Component {
             style={{ height: '100%', width: '100%' }}
             onScrollFrame={this.handleScroll}
           >
-            <Wells plate={plate} />
+            <Wells plate={plate} wellSize={settings.wellSize} />
           </Scrollbars>
         </div>
       </div>
@@ -43,11 +43,13 @@ class Plate extends Component {
 
 Plate.propTypes = {
   plate: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
 };
 
 const mapState = (state, props) => {
   const activePlate = selectActivePlate(state);
-  return { plate: activePlate };
+  const { settings } = state.designExperiment;
+  return { plate: activePlate, settings };
 };
 
 const mapDispatch = {};

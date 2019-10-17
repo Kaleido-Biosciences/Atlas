@@ -32,6 +32,12 @@ const designExperiment = createSlice({
     },
     saveStatus: null,
     lastSaveTime: null,
+    settings: {
+      wellSize: {
+        size: 120,
+        padding: 5,
+      },
+    },
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -302,6 +308,10 @@ const designExperiment = createSlice({
       if (saveStatus === 'SUCCESS') {
         state.lastSaveTime = Date.now();
       }
+    },
+    setSettings(state, action) {
+      const { settings } = action.payload;
+      state.settings = Object.assign(state.settings, settings);
     },
   },
 });

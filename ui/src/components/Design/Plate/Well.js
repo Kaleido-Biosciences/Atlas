@@ -26,11 +26,16 @@ export class Well extends Component {
     });
   }
   render() {
-    console.log('render');
-    const { well } = this.props;
+    const { well, wellSize } = this.props;
+    const { size, padding } = wellSize;
+    const style = {
+      height: size + 'px',
+      width: size + 'px',
+      padding: padding + 'px',
+    };
     const components = this.groupComponents(well.components);
     return (
-      <div className={styles.well}>
+      <div className={styles.well} style={style}>
         <div className={styles.wellBackground}>
           <div className={styles.components}>
             {this.renderComponents(components)}
@@ -46,4 +51,5 @@ export class Well extends Component {
 
 Well.propTypes = {
   well: PropTypes.object.isRequired,
+  wellSize: PropTypes.object.isRequired,
 };
