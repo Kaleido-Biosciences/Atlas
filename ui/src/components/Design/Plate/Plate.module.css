@@ -44,14 +44,14 @@
   display: flex;
 }
 
-.well {
+.wellContainer {
   height: 100px;
   width: 100px;
   flex-shrink: 0;
   padding: 5px;
 }
 
-.wellBackground {
+.well {
   background-color: #f3f3f3;
   display: flex;
   flex-direction: column;
@@ -61,6 +61,11 @@
   cursor: pointer;
   padding: 5px;
 }
+
+.well:global(.selected) {
+  background-color: #d3e6f5;
+}
+
 
 .settingsIcon {
   cursor: pointer;

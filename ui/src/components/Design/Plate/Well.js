@@ -9,6 +9,11 @@ import styles from './Plate.module.css';
 
 export class Well extends Component {
   sortComponents = memoize(sortComponentsByType);
+  handleClick = () => {
+    if (this.props.onClick) {
+      this.props.onClick({ well: this.props.well });
+    }
+  };
   renderComponents(components) {
     const sortedComponents = this.sortComponents(components);
     return sortedComponents.map(component => {
@@ -26,8 +31,8 @@ export class Well extends Component {
     };
     const wellClass = classNames(styles.well, { selected });
     return (
-      <div className={wellClass} style={style}>
-        <div className={styles.wellBackground}>
+      <div className={styles.wellContainer} style={style}>
+        <div onClick={this.handleClick} className={wellClass}>
           {this.renderComponents(components)}
         </div>
       </div>
@@ -38,4 +43,5 @@ export class Well extends Component {
 Well.propTypes = {
   well: PropTypes.object.isRequired,
   wellSize: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
 };
