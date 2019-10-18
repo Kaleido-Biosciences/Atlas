@@ -57,33 +57,9 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-}
-
-.media {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.medium {
-  flex: 1;
-  height: 10px;
-  background: #f2711c;
-}
-
-.components {
-  display: flex;
-  flex-wrap: wrap-reverse;
-  flex: 1 1;
-  flex-direction: row;
-  align-content: flex-start;
-}
-
-.component {
-  margin: 0 !important;
-  height: 2em;
-  width: 2em;
+  font-size: 9px;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .settingsIcon {

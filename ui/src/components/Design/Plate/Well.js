@@ -1,48 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import memoize from 'memoize-one';
 
-import { groupComponents } from '../../../store/plateFunctions';
-import { ComponentTypeCircle } from '../../PlateSidebar/ComponentTypeCircle';
+import { sortComponentsByType } from '../../../store/plateFunctions';
+import { WellComponent } from './WellComponent';
 import styles from './Plate.module.css';
 
 export class Well extends Component {
-  groupComponents = memoize(components => groupComponents(components));
-  renderComponents(groupedComponents) {
-    const { communities, compounds, supplements } = groupedComponents;
-    const components = [].concat(communities, compounds, supplements);
-    return components.map(component => {
-      return (
-        <ComponentTypeCircle
-          type={component.type}
-          className={styles.component}
-        />
-      );
-    });
-  }
-  renderMedia(media) {
-    return media.map(medium => {
-      return <div className={styles.medium}></div>;
+  sortComponents = memoize(sortComponentsByType);
+  renderComponents(components) {
+    const sortedComponents = this.sortComponents(components);
+    return sortedComponents.map(component => {
+      return <WellComponent key={component.id} component={component} />;
     });
   }
   render() {
     const { well, wellSize } = this.props;
+    const { components, selected } = well;
     const { size, padding } = wellSize;
     const style = {
       height: size + 'px',
       width: size + 'px',
       padding: padding + 'px',
     };
-    const components = this.groupComponents(well.components);
+    const wellClass = classNames(styles.well, { selected });
     return (
-      <div className={styles.well} style={style}>
+      <div className={wellClass} style={style}>
         <div className={styles.wellBackground}>
-          <div className={styles.components}>
-            {this.renderComponents(components)}
-          </div>
-          <div className={styles.media}>
-            {this.renderMedia(components.media)}
-          </div>
+          {this.renderComponents(components)}
         </div>
       </div>
     );
