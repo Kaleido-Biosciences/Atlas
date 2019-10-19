@@ -66,7 +66,6 @@
   background-color: #d3e6f5;
 }
 
-
 .settingsIcon {
   cursor: pointer;
 }
@@ -77,4 +76,34 @@
 
 .settings :global(label) {
   white-space: nowrap;
+}
+
+.wellComponent {
+  color: #fff;
+  padding: 6px 4px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.wellComponentName {
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.wellComponentTimepoints {
+  margin-left: 4px;
+  font-size: 9px;
+  line-height: 9px;
+  margin-top: 2px;
+}
+
+.attributeText {
+  line-height: 9px;
+  margin-left: 4px;
+}
+
+.attributeValue {
+  font-weight: bold;
 }

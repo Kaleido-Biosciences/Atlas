@@ -7,22 +7,60 @@ import {
   COMPONENT_TYPE_SUPPLEMENT,
 } from '../../../constants';
 import { ComponentToolTip } from '../../PlateSidebar/ComponentList/ComponentToolTip';
+import styles from './Plate.module.css';
 
 export class WellComponent extends Component {
   renderTimepoints(timepoints) {
-    return timepoints.reduce((displayString, timepoint) => {
+    const timepointStrings = timepoints.map(timepoint => {
       if (timepoint.concentration) {
-        return `${displayString}(${timepoint.concentration.toFixed(2)}@${
-          timepoint.time
-        }h)`;
-      } else return displayString;
-    }, '');
+        return `${timepoint.concentration.toFixed(2)} @ 
+              ${timepoint.time}h`;
+      } else return '';
+    });
+    return timepointStrings.join(', ');
+  }
+  getComponentColor(component) {
+    const { componentColors } = this.props;
+    if (componentColors[component.type]) {
+      return componentColors[component.type];
+    } else return componentColors.default;
+  }
+  renderComponent(component) {
+    const style = {
+      background: this.getComponentColor(component),
+    };
+    return (
+      <div className={styles.wellComponent} style={style}>
+        <div
+          className={styles.wellComponentName}
+        >{`${component.displayName}`}</div>
+        <div className={styles.wellComponentTimepoints}>
+          {this.renderTimepoints(component.timepoints)}
+        </div>
+      </div>
+    );
+  }
+  renderAttribute(attribute) {
+    const { key, value, value_unit } = attribute.data;
+    const style = {
+      background: this.getComponentColor(attribute),
+    };
+    return (
+      <div className={styles.wellComponent} style={style}>
+        <div className={styles.attributeText}>
+          <span>{`${key}:`}</span>
+          <span
+            className={styles.attributeValue}
+          >{` ${value} ${value_unit}`}</span>
+        </div>
+      </div>
+    );
   }
   render() {
     const { component } = this.props;
     // attribute is a special component
     if (component.type === 'attribute') {
-      return <div>{`${component.displayName}`}</div>;
+      return this.renderAttribute(component);
     }
     // for rendering of component other than attribute
     else if (
@@ -30,30 +68,19 @@ export class WellComponent extends Component {
       component.type === COMPONENT_TYPE_SUPPLEMENT
     ) {
       return (
-        <Popup
-          position="top center"
-          trigger={
-            <div>
-              {`${component.displayName}`}{' '}
-              {this.renderTimepoints(component.timepoints)}
-            </div>
-          }
-        >
+        <Popup position="top center" trigger={this.renderComponent(component)}>
           <Popup.Content>
             <ComponentToolTip component={component} />
           </Popup.Content>
         </Popup>
       );
     } else {
-      return (
-        <div>
-          {`${component.displayName}`} {this.renderTimepoints(component.timepoints)}
-        </div>
-      );
+      return this.renderComponent(component);
     }
   }
 }
 
 WellComponent.propTypes = {
   component: PropTypes.object.isRequired,
+  componentColors: PropTypes.object.isRequired,
 };

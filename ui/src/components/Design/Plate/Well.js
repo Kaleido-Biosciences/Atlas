@@ -15,15 +15,21 @@ export class Well extends Component {
     }
   };
   renderComponents(components) {
+    const { componentColors } = this.props.settings;
     const sortedComponents = this.sortComponents(components);
     return sortedComponents.map(component => {
-      return <WellComponent key={component.id} component={component} />;
+      return (
+        <WellComponent
+          key={component.id}
+          component={component}
+          componentColors={componentColors}
+        />
+      );
     });
   }
   render() {
-    const { well, wellSize } = this.props;
-    const { components, selected } = well;
-    const { size, padding } = wellSize;
+    const { components, selected } = this.props.well;
+    const { size, padding } = this.props.settings.wellSize;
     const style = {
       height: size + 'px',
       width: size + 'px',
@@ -42,6 +48,6 @@ export class Well extends Component {
 
 Well.propTypes = {
   well: PropTypes.object.isRequired,
-  wellSize: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
   onClick: PropTypes.func,
 };

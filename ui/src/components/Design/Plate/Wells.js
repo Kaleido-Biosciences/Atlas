@@ -13,14 +13,14 @@ export class Wells extends Component {
     }
   };
   renderWells() {
-    const { wells } = this.props.plate;
-    const { wellSize } = this.props;
-    return wells.map(row => {
-      let wells = row.map(well => {
+    const { plate, settings } = this.props;
+    const { wells: plateWells } = plate;
+    return plateWells.map(row => {
+      const wells = row.map(well => {
         return (
           <Well
             well={well}
-            wellSize={wellSize}
+            settings={settings}
             onClick={this.handleWellClick}
           />
         );
@@ -35,6 +35,6 @@ export class Wells extends Component {
 
 Wells.propTypes = {
   plate: PropTypes.object.isRequired,
-  wellSize: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
   onWellClick: PropTypes.func,
 };

@@ -64,7 +64,7 @@ class Plate extends Component {
           >
             <Wells
               plate={plate}
-              wellSize={settings.wellSize}
+              settings={settings}
               onWellClick={this.handleClick}
             />
           </Scrollbars>

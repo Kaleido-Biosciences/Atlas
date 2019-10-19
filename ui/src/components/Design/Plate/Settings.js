@@ -8,15 +8,15 @@ import styles from './Plate.module.css';
 
 const wellSizeOptions = {
   small: {
-    size: 60,
-    padding: 5,
-  },
-  medium: {
     size: 120,
     padding: 5,
   },
-  large: {
+  medium: {
     size: 180,
+    padding: 5,
+  },
+  large: {
+    size: 240,
     padding: 5,
   },
 };
@@ -43,19 +43,19 @@ class Settings extends Component {
             <Form.Radio
               label="Small"
               value="small"
-              checked={size === 60}
+              checked={size === wellSizeOptions.small.size}
               onChange={this.handleWellSizeChange}
             />
             <Form.Radio
               label="Medium"
               value="medium"
-              checked={size === 120}
+              checked={size === wellSizeOptions.medium.size}
               onChange={this.handleWellSizeChange}
             />
             <Form.Radio
               label="Large"
               value="large"
-              checked={size === 180}
+              checked={size === wellSizeOptions.large.size}
               onChange={this.handleWellSizeChange}
             />
           </Form.Group>

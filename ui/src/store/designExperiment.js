@@ -1,7 +1,11 @@
 import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
-import { STATUS_DRAFT, STATUS_COMPLETED } from '../constants';
+import {
+  STATUS_DRAFT,
+  STATUS_COMPLETED,
+  DEFAULT_COMPONENT_COLOR_CODES,
+} from '../constants';
 import {
   getSelectedWells,
   applySelectedComponentsToWells,
@@ -37,6 +41,7 @@ const designExperiment = createSlice({
         size: 120,
         padding: 5,
       },
+      componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
     },
   },
   reducers: {
