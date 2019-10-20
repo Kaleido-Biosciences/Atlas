@@ -5,32 +5,26 @@ import styles from './Plate.module.css';
 
 export class HeaderCell extends Component {
   handleClick = () => {
-    const { headerType, index } = this.props;
+    const { index } = this.props;
     if (this.props.onClick) {
-      this.props.onClick({ headerType, index });
+      this.props.onClick({ index });
     }
   };
   render() {
-    const { label, height, width, padding } = this.props;
-    const style = {
-      height: height + 'px',
-      width: width + 'px',
-      padding: padding + 'px',
-    };
+    const { label, style } = this.props;
     return (
-      <div style={style} className={styles.headerCell} onClick={this.handleClick}>
-        <span>{label}</span>
+      <div style={style} className={styles.headerCellContainer}>
+        <div className={styles.headerCell} onClick={this.handleClick}>
+          <span>{label}</span>
+        </div>
       </div>
     );
   }
 }
 
 HeaderCell.propTypes = {
-  headerType: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  padding: PropTypes.number.isRequired,
+  style: PropTypes.object,
   onClick: PropTypes.func,
 };

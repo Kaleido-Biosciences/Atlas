@@ -50,6 +50,7 @@ class Plate extends Component {
             ref={this.columnHeaderRef}
             plate={plate}
             wellSize={settings.wellSize}
+            onClick={this.handleClick}
           />
         </div>
         <div className={styles.body}>
@@ -57,6 +58,7 @@ class Plate extends Component {
             ref={this.rowHeaderRef}
             plate={plate}
             wellSize={settings.wellSize}
+            onClick={this.handleClick}
           />
           <Scrollbars
             style={{ height: '100%', width: '100%' }}

@@ -10,20 +10,32 @@ export class RowHeader extends Component {
   setScrollPos = scrollPos => {
     this.divRef.current.scrollTop = scrollPos;
   };
+  handleCellClick = ({ headerType, index }) => {
+    if (this.props.onClick) {
+      const { plate } = this.props;
+      const row = plate.wells[index];
+      const wellIds = row.map(well => well.id);
+      this.props.onClick({
+        wellIds,
+      });
+    }
+  };
   render() {
     const { plate, wellSize } = this.props;
-    const rows = plate.wells;
-    const cells = rows.map((row, i) => {
+    const style = {
+      height: wellSize.size + 'px',
+      width: PLATE_HEADER_SIZE + 'px',
+      padding: `${wellSize.padding}px 0`
+    };
+    const cells = plate.wells.map((row, i) => {
       const label = PLATE_ROW_HEADERS[i];
       return (
         <HeaderCell
           key={label}
-          headerType="row"
           index={i}
           label={PLATE_ROW_HEADERS[i]}
-          height={wellSize.size}
-          width={PLATE_HEADER_SIZE}
-          padding={wellSize.padding}
+          style={style}
+          onClick={this.handleCellClick}
         />
       );
     });
@@ -38,4 +50,5 @@ export class RowHeader extends Component {
 RowHeader.propTypes = {
   plate: PropTypes.object.isRequired,
   wellSize: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
 };

@@ -10,19 +10,30 @@ export class ColumnHeader extends Component {
   setScrollPos = scrollPos => {
     this.divRef.current.scrollLeft = scrollPos;
   };
+  handleCellClick = ({ index }) => {
+    if (this.props.onClick) {
+      const { plate } = this.props;
+      const wellIds = plate.wells.map(row => row[index].id);
+      this.props.onClick({
+        wellIds,
+      });
+    }
+  };
   render() {
     const { plate, wellSize } = this.props;
-    const firstRow = plate.wells[0];
-    const cells = firstRow.map((column, i) => {
+    const style = {
+      height: PLATE_HEADER_SIZE + 'px',
+      width: wellSize.size + 'px',
+      padding: `0 ${wellSize.padding}px`
+    };
+    const cells = plate.wells[0].map((column, i) => {
       return (
         <HeaderCell
           key={i}
-          headerType="column"
           index={i}
           label={i + 1}
-          height={PLATE_HEADER_SIZE}
-          width={wellSize.size}
-          padding={wellSize.padding}
+          style={style}
+          onClick={this.handleCellClick}
         />
       );
     });
@@ -37,4 +48,5 @@ export class ColumnHeader extends Component {
 ColumnHeader.propTypes = {
   plate: PropTypes.object.isRequired,
   wellSize: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
 };

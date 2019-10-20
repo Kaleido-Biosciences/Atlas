@@ -30,14 +30,26 @@
 
 .rowHeader {
   overflow: hidden;
+  flex-shrink: 0;
+}
+
+.headerCellContainer {
+  flex-shrink: 0;
 }
 
 .headerCell {
-  flex-shrink: 0;
+  height: 100%;
+  width: 100%;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  cursor: pointer;
+}
+
+.headerCell:hover {
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .row {
