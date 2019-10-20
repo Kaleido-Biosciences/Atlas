@@ -11,7 +11,7 @@ import {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
-} from '../../../../store/experimentActions';
+} from '../../../../../store/experimentActions';
 import { Timepoint } from './Timepoint';
 import styles from './ToolComponent.module.css';
 
