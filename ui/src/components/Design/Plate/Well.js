@@ -38,8 +38,10 @@ export class Well extends Component {
     const wellClass = classNames(styles.well, { selected });
     return (
       <div className={styles.wellContainer} style={style}>
-        <div onClick={this.handleClick} className={wellClass}>
-          {this.renderComponents(components)}
+        <div className={styles.wellPaddingContainer}>
+          <div onClick={this.handleClick} className={wellClass}>
+            {this.renderComponents(components)}
+          </div>
         </div>
       </div>
     );

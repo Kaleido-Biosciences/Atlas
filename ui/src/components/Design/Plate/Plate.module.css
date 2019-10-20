@@ -44,24 +44,6 @@
   display: flex;
 }
 
-.wellContainer {
-  height: 100px;
-  width: 100px;
-  flex-shrink: 0;
-  padding: 5px;
-}
-
-.well {
-  background-color: #f3f3f3;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  font-size: 9px;
-  cursor: pointer;
-  padding: 5px;
-}
-
 .well:global(.selected) {
   background-color: #d3e6f5;
 }
@@ -76,6 +58,30 @@
 
 .settings :global(label) {
   white-space: nowrap;
+}
+
+.wellContainer {
+  height: 100px;
+  width: 100px;
+  flex-shrink: 0;
+  padding: 5px;
+}
+
+.wellPaddingContainer {
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+.well {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  font-size: 9px;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .wellComponent {
@@ -97,6 +103,7 @@
   font-size: 9px;
   line-height: 9px;
   margin-top: 2px;
+  opacity: 0.6;
 }
 
 .attributeText {
