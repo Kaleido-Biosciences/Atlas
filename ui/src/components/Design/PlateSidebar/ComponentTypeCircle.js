@@ -5,7 +5,7 @@ import { Label } from 'semantic-ui-react';
 import {
   COMPONENT_TYPE_ABBREVIATIONS,
   COMPONENT_TYPE_COLORS,
-} from '../../constants';
+} from '../../../constants';
 
 export class ComponentTypeCircle extends Component {
   render() {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Checkbox } from 'semantic-ui-react';
 
-import { setClearMode } from '../../../../store/experimentActions';
+import { setClearMode } from '../../../../../store/experimentActions';
 import styles from './ClearTool.module.css';
 
 class ClearTool extends Component {

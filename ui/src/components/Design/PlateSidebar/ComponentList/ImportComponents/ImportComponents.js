@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { api } from '../../../../api';
-import { addKaptureComponentsToComponents } from '../../../../store/experimentActions';
+import { api } from '../../../../../api';
+import { addKaptureComponentsToComponents } from '../../../../../store/experimentActions';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 

@@ -6,8 +6,8 @@ import { Menu, Icon } from 'semantic-ui-react';
 import {
   setClickMode,
   deselectAllWells,
-} from '../../../store/experimentActions';
-import { selectActivePlate } from '../../../store/selectors';
+} from '../../../../store/experimentActions';
+import { selectActivePlate } from '../../../../store/selectors';
 import { Header } from './Header';
 import { ApplyTool } from './ApplyTool';
 import { ClearTool } from './ClearTool';

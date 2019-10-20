@@ -6,7 +6,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_SUPPLEMENT,
 } from '../../../constants';
-import { ComponentToolTip } from '../../PlateSidebar/ComponentList/ComponentToolTip';
+import { ComponentToolTip } from '../ComponentToolTip';
 import styles from './Plate.module.css';
 
 export class WellComponent extends Component {
