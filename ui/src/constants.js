@@ -65,6 +65,17 @@ export const COMPONENT_TYPE_COLORS = {
   attribute: 'red',
 };
 
+export const DEFAULT_COMPONENT_COLOR_CODES = {
+  [COMPONENT_TYPE_COMMUNITY]: '#21ba45',
+  [COMPONENT_TYPE_COMPOUND]: '#2185d0',
+  [COMPONENT_TYPE_MEDIUM]: '#f2711c',
+  [COMPONENT_TYPE_SUPPLEMENT]: '#1b1c1d',
+  [COMPONENT_TYPE_ATTRIBUTE]: '#db2828',
+  default: '#9a9a9a',
+};
+
 export const REQUEST_PENDING = 'PENDING';
 export const REQUEST_SUCCESS = 'SUCCESS';
 export const REQUEST_ERROR = 'ERROR';
+
+export const PLATE_HEADER_SIZE = 30;

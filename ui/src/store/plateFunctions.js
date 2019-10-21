@@ -341,6 +341,20 @@ export const groupComponents = components => {
   return groups;
 };
 
+export function sortComponentsByType(components) {
+  const sortValues = {
+    [COMPONENT_TYPE_COMMUNITY]: 1,
+    [COMPONENT_TYPE_COMPOUND]: 2,
+    [COMPONENT_TYPE_MEDIUM]: 3,
+    [COMPONENT_TYPE_SUPPLEMENT]: 4,
+    [COMPONENT_TYPE_ATTRIBUTE]: 5,
+  };
+  const arrayToSort = components.slice(0);
+  return arrayToSort.sort((a,b) => {
+    return sortValues[a.type] - sortValues[b.type];
+  });
+}
+
 export function getPlateStatistics(plate) {
   const statistics = {
     emptyBorders: true,

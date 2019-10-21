@@ -10,8 +10,17 @@
   flex: 1;
 }
 
-.plateContainer {
+.mainContainer {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.plateContainer {
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+.plateTabContainer {
+  flex: 0 0 40px;
 }

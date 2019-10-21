@@ -1,7 +1,11 @@
 import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
-import { STATUS_DRAFT, STATUS_COMPLETED } from '../constants';
+import {
+  STATUS_DRAFT,
+  STATUS_COMPLETED,
+  DEFAULT_COMPONENT_COLOR_CODES,
+} from '../constants';
 import {
   getSelectedWells,
   applySelectedComponentsToWells,
@@ -32,6 +36,13 @@ const designExperiment = createSlice({
     },
     saveStatus: null,
     lastSaveTime: null,
+    settings: {
+      wellSize: {
+        size: 120,
+        padding: 5,
+      },
+      componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
+    },
   },
   reducers: {
     setExperimentOptions(state, action) {
@@ -302,6 +313,10 @@ const designExperiment = createSlice({
       if (saveStatus === 'SUCCESS') {
         state.lastSaveTime = Date.now();
       }
+    },
+    setSettings(state, action) {
+      const { settings } = action.payload;
+      state.settings = Object.assign(state.settings, settings);
     },
   },
 });

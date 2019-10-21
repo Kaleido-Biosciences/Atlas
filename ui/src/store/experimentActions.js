@@ -78,6 +78,7 @@ export const {
   updateTimepoint,
   deleteTimepoint,
   setStepThreeComplete,
+  setSettings,
 } = designExperimentActions;
 
 export const initializePlates = () => {
