@@ -323,6 +323,12 @@ const designExperiment = createSlice({
       const { barcodes } = action.payload;
       state.barcodes = state.barcodes.concat(barcodes);
     },
+    setBarcode(state, action) {
+      const { plateId, barcode } = action.payload;
+      const { plates } = state;
+      const plate = findPlateById(plateId, plates);
+      plate.barcode = barcode;
+    },
   },
 });
 

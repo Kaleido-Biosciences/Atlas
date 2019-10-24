@@ -130,3 +130,16 @@
 .settings :global(label) {
   white-space: nowrap;
 }
+
+.details {
+  padding: 0.4em 0.8em;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.details :global(.dropdown) {
+  font-size: 0.8em !important;
+}
+
+.details :global(.ui.dropdown .menu > .item) {
+  font-size: inherit;
+}

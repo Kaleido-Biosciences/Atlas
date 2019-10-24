@@ -87,6 +87,7 @@ export function createPlate(wells, id) {
   return {
     active: false,
     wells,
+    barcode: null,
     id: id || null,
   };
 }

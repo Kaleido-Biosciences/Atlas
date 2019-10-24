@@ -80,6 +80,7 @@ export const {
   setStepThreeComplete,
   setSettings,
   addBarcodes,
+  setBarcode,
 } = designExperimentActions;
 
 export const initializePlates = () => {

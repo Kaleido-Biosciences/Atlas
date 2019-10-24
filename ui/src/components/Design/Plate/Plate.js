@@ -13,6 +13,7 @@ import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
 import { Wells } from './Wells';
+import { Details } from './Details';
 import styles from './Plate.module.css';
 
 class Plate extends Component {
@@ -70,6 +71,9 @@ class Plate extends Component {
               onWellClick={this.handleClick}
             />
           </Scrollbars>
+        </div>
+        <div>
+          <Details />
         </div>
       </div>
     );
