@@ -25,7 +25,13 @@ class Details extends Component {
   };
   render() {
     const { plate, barcodes } = this.props;
-    const options = this.getOptions(barcodes);
+    let options = [];
+    if(barcodes.length) {
+      options = this.getOptions(barcodes);
+    }
+    else if(plate.barcode) {
+      options = this.getOptions([plate.barcode]);
+    }
     return (
       <div className={styles.details}>
         <div>
