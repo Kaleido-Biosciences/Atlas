@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Message, Button } from 'semantic-ui-react';
 
-import { PopupButton } from '../../PopupButton';
+import { PopupButton } from '../../../PopupButton';
 import styles from './MarkAsCompletedButton.module.css';
 
 export class MarkAsCompletedButton extends Component {
@@ -23,7 +23,8 @@ export class MarkAsCompletedButton extends Component {
       >
         <div className={styles.popupBody}>
           <Message size="tiny" className={styles.message}>
-            This will write a snapshot of the current plates to Kapture. Plates will be editable after.
+            This will write a snapshot of the current plates to Kapture. Plates
+            will be editable after.
           </Message>
           <Button onClick={this.handleClick} color="green">
             Yes, mark as completed

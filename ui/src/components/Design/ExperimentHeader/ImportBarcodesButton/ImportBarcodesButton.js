@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Message, Button, TextArea } from 'semantic-ui-react';
 
-import { PopupButton } from '../../PopupButton';
+import { PopupButton } from '../../../PopupButton';
 import styles from './ImportBarcodesButton.module.css';
 
 const initialState = {
@@ -72,10 +72,7 @@ export class ImportBarcodesButton extends Component {
               <Message size="tiny" className={styles.message}>
                 Barcodes imported.
               </Message>
-              <Button
-                className={styles.button}
-                onClick={this.closePopup}
-              >
+              <Button className={styles.button} onClick={this.closePopup}>
                 Close
               </Button>
             </div>
