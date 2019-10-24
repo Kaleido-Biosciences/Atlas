@@ -79,6 +79,7 @@ export const {
   deleteTimepoint,
   setStepThreeComplete,
   setSettings,
+  addBarcodes,
 } = designExperimentActions;
 
 export const initializePlates = () => {
