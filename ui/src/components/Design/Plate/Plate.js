@@ -13,6 +13,7 @@ import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
 import { Wells } from './Wells';
+import { Details } from './Details';
 import styles from './Plate.module.css';
 
 class Plate extends Component {
@@ -42,6 +43,9 @@ class Plate extends Component {
     const { plate, settings } = this.props;
     return (
       <div className={styles.plate}>
+        <div>
+          <Details />
+        </div>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell}>
             <Settings />

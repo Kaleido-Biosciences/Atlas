@@ -6,13 +6,17 @@ import memoize from 'memoize-one';
 import classNames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 
-import { setCompletedStatus } from '../../../store/experimentActions';
+import {
+  setCompletedStatus,
+  addBarcodes,
+} from '../../../store/experimentActions';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
 } from '../../../constants';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
+import { ImportBarcodesButton } from './ImportBarcodesButton';
 import styles from './ExperimentHeader.module.css';
 
 class ExperimentHeader extends Component {
@@ -50,6 +54,11 @@ class ExperimentHeader extends Component {
       }
     }
   };
+  handleImport = ({ barcodes }) => {
+    if (this.props.onImport) {
+      this.props.onImport({ barcodes });
+    }
+  };
   render() {
     const { experiment, saveStatus, lastSaveTime } = this.props;
     return (
@@ -59,6 +68,7 @@ class ExperimentHeader extends Component {
         </div>
         <div className={styles.container}>
           <div>{this.renderSaveInfo(saveStatus, lastSaveTime)}</div>
+          <ImportBarcodesButton onImport={this.handleImport} />
           <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
         </div>
       </div>
@@ -72,6 +82,7 @@ ExperimentHeader.propTypes = {
   lastSaveTime: PropTypes.number,
   onMarkAsCompleted: PropTypes.func,
   onComplete: PropTypes.func,
+  onImport: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -81,6 +92,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMarkAsCompleted: setCompletedStatus,
+  onImport: addBarcodes,
 };
 
 const connected = connect(
