@@ -8,9 +8,15 @@ export class PopupButton extends Component {
   };
   handlePopupOpen = () => {
     this.setState({ popupOpen: true });
+    if (this.props.onOpen) {
+      this.props.onOpen();
+    }
   };
   handlePopupClose = () => {
     this.setState({ popupOpen: false });
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   };
   render() {
     const { buttonIcon, buttonContent, buttonColor, buttonSize } = this.props;
@@ -45,4 +51,6 @@ PopupButton.propTypes = {
   buttonContent: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonSize: PropTypes.string,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
 };

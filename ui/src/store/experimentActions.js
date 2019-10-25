@@ -19,6 +19,7 @@ const {
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
   setSaveStatus: _setSaveStatus,
+  setBarcode: _setBarcode,
 } = designExperimentActions;
 
 const handleChange = experimentData => {
@@ -79,6 +80,7 @@ export const {
   deleteTimepoint,
   setStepThreeComplete,
   setSettings,
+  addBarcodes,
 } = designExperimentActions;
 
 export const initializePlates = () => {
@@ -131,3 +133,5 @@ export const clearWells = wrapWithChangeHandler(_clearWells);
 export const deletePlate = wrapWithChangeHandler(_deletePlate);
 
 export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
+
+export const setBarcode = wrapWithChangeHandler(_setBarcode);

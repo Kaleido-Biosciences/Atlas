@@ -83,10 +83,11 @@ export function createWell(id, name, index, components = []) {
   };
 }
 
-export function createPlate(wells, id) {
+export function createPlate(wells, id, barcode) {
   return {
     active: false,
     wells,
+    barcode: barcode || null,
     id: id || null,
   };
 }
@@ -172,6 +173,7 @@ export function exportPlates(plates) {
   return plates.map((plate, i) => {
     return {
       id: i + 1,
+      barcode: plate.barcode,
       data: plate.wells.map(row => {
         return row.map(col => {
           const well = col;
@@ -223,7 +225,7 @@ export async function importPlates(plates) {
           return stateWell;
         });
       });
-      return createPlate(stateWells, plate.id);
+      return createPlate(stateWells, plate.id, plate.barcode);
     });
     if (statePlates.length) {
       statePlates[0].active = true;

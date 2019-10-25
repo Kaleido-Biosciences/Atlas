@@ -29,7 +29,7 @@ export class PlateTab extends Component {
   handleOpen = (e, data) => {
     this.setState({
       styles: {
-        top: e.nativeEvent.pageY - 110 + 'px',
+        top: e.nativeEvent.pageY + 'px',
         left: e.nativeEvent.pageX + 'px',
       },
     });
