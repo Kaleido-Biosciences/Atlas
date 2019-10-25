@@ -35,12 +35,11 @@ class Details extends Component {
     return (
       <div className={styles.details}>
         <div>
-          <Icon name="barcode" />
+          <Icon title="Barcode" name="barcode" />
           <Dropdown
             selection
             search
             allowAdditions
-            upward
             options={options}
             placeholder="Select barcode"
             onAddItem={this.handleAddition}

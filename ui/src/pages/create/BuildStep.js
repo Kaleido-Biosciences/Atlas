@@ -47,11 +47,11 @@ class BuildStep extends Component {
                 pane2Style={{ height: '100%' }}
               >
                 <div className={styles.mainContainer}>
-                  <div className={styles.plateContainer}>
-                    <Plate />
-                  </div>
                   <div className={styles.plateTabContainer}>
                     <PlateTabBar />
+                  </div>
+                  <div className={styles.plateContainer}>
+                    <Plate />
                   </div>
                 </div>
                 <PlateSidebar />
