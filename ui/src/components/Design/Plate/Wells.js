@@ -15,17 +15,24 @@ export class Wells extends Component {
   renderWells() {
     const { plate, settings } = this.props;
     const { wells: plateWells } = plate;
-    return plateWells.map(row => {
+    return plateWells.map((row, i) => {
+      const rowKey = `${plate.id}ROW${i}`;
       const wells = row.map(well => {
+        const wellKey = `${plate.id}WELL${well.id}`;
         return (
           <Well
             well={well}
             settings={settings}
             onClick={this.handleWellClick}
+            key={wellKey}
           />
         );
       });
-      return <div className={styles.row}>{wells}</div>;
+      return (
+        <div key={rowKey} className={styles.row}>
+          {wells}
+        </div>
+      );
     });
   }
   render() {
