@@ -19,6 +19,7 @@ ENV REACT_APP_COGNITO_TOKEN_ENDPOINT=https://__REACT_APP_COGNITO_DOMAIN__/oauth2
 
 # install and cache app dependencies
 COPY package.json /app/package.json
+COPY config/default.conf /etc/nginx/conf.d/default.conf
 RUN npm install --silent
 
 # start app
