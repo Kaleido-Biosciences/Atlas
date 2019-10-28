@@ -135,18 +135,15 @@ export function createComponent(data, type) {
  */
 export function getDisplayName(data) {
   let displayName = data.name;
-
-  if ('alias' in data && data.alias) {
+  if (data.alias) {
     //For communities
-    displayName = displayName + ' : (' + data.alias + ')';
-  } else if ('aliases' in data && data.aliases.length > 0) {
+    displayName = displayName + ` : (${data.alias})`;
+  } else if (data.aliases && data.aliases.length > 0) {
     //This is for compounds
     data.aliases.forEach(
-      aliasElement =>
-        (displayName = displayName + ' : (' + aliasElement.alias + ')')
+      aliasElement => (displayName += ` : (${aliasElement.alias})`)
     );
   }
-
   return displayName;
 }
 
@@ -352,7 +349,7 @@ export function sortComponentsByType(components) {
     [COMPONENT_TYPE_ATTRIBUTE]: 5,
   };
   const arrayToSort = components.slice(0);
-  return arrayToSort.sort((a,b) => {
+  return arrayToSort.sort((a, b) => {
     return sortValues[a.type] - sortValues[b.type];
   });
 }
