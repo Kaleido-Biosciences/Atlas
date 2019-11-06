@@ -1,3 +1,9 @@
+# Atlas UI
+The Atlas UI is a web application which allows people to describe the contents of a plate, a sample tube or whatever.
+It is extensible in the sense that it is up to the implementor to determine/decide what is allowed to be put into it.
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Running Locally
