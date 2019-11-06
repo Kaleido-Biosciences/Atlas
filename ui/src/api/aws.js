@@ -57,6 +57,15 @@ export function saveExperimentPlates(experimentName, status, plateMaps) {
     let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
       outputEncoding: 'Base64',
     });
+      saveToDB(experimentName, status, 0, plateMapsToSave, reject, resolve);
+  });
+}
+
+export function publishExperimentPlates(experimentName, status, plateMaps) {
+  return new Promise((resolve, reject) => {
+    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
+      outputEncoding: 'Base64',
+    });
     if (status === STATUS_COMPLETED) {
       getUTCTime().then(function(time) {
         createNew(
@@ -69,7 +78,10 @@ export function saveExperimentPlates(experimentName, status, plateMaps) {
         );
       });
     } else {
-      saveToDB(experimentName, status, 0, plateMapsToSave, reject, resolve);
+        console.error(
+            'Experiment should be completed to be published:',
+            JSON.stringify(status, null, 2)
+        );
     }
   });
 }

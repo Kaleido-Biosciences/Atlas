@@ -15,6 +15,7 @@ const {
   clearWells: _clearWells,
   deletePlate: _deletePlate,
   setCompletedStatus: _setCompletedStatus,
+  setDraftStatus: _setDraftStatus,
   applySelectedToolComponentsToSelectedWells: _applySelectedToolComponentsToSelectedWells,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
@@ -22,14 +23,14 @@ const {
   setBarcode: _setBarcode,
 } = designExperimentActions;
 
-const handleChange = experimentData => {
+const handleChange = (experimentData, saveFunction) => {
   console.log(
     'SAVE',
     experimentData.experiment.name,
     experimentData.status,
     experimentData.plates
   );
-  return aws.saveExperimentPlates(
+  return saveFunction(
     experimentData.experiment.name,
     experimentData.status,
     exportPlates(experimentData.plates)
@@ -40,17 +41,32 @@ function wrapWithChangeHandler(fn) {
   return function() {
     return (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      const experimentData = getState().designExperiment;
-      dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
-      handleChange(experimentData)
-        .then(() => {
-          dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
-        })
-        .catch(() => {
-          dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
-        });
+      //On Change, it should reset to draft
+      dispatch(_setDraftStatus());
+      saveStatusHandler(dispatch, getState, aws.saveExperimentPlates);
     };
   };
+}
+
+function wrapWithPublishHandler(fn) {
+  return function() {
+    return (dispatch, getState) => {
+      dispatch(fn.apply(this, arguments));
+      saveStatusHandler(dispatch, getState, aws.publishExperimentPlates);
+    };
+  };
+}
+
+function saveStatusHandler(dispatch, getState, fn){
+    const experimentData = getState().designExperiment;
+    dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
+    handleChange(experimentData,fn)
+        .then(() => {
+            dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+        })
+        .catch(() => {
+            dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+        });
 }
 
 function _addNewPlate() {
@@ -132,6 +148,6 @@ export const clearWells = wrapWithChangeHandler(_clearWells);
 
 export const deletePlate = wrapWithChangeHandler(_deletePlate);
 
-export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
+export const setCompletedStatus = wrapWithPublishHandler(_setCompletedStatus);
 
 export const setBarcode = wrapWithChangeHandler(_setBarcode);

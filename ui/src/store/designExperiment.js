@@ -301,6 +301,9 @@ const designExperiment = createSlice({
       const stateComponent = getToolComponentFromState(component.id, state);
       stateComponent.concentration = value;
     },
+    setDraftStatus(state, action) {
+      state.status = STATUS_DRAFT;
+    },
     setCompletedStatus(state, action) {
       state.status = STATUS_COMPLETED;
       state.steps.stepTwoCompleted = true;
