@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
 import lzutf8 from 'lzutf8';
-import { STATUS_COMPLETED } from '../constants';
+import {STATUS_COMPLETED, STATUS_DRAFT} from '../constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,
@@ -52,37 +52,42 @@ export function fetchPlates(experimentId, status) {
   });
 }
 
-export function saveExperimentPlates(experimentName, status, plateMaps) {
+/**
+ * Saves the current plate set as a DRAFT with version 0 in Dyanamo database
+ * @param {String} experimentName name of the experiment to which the plates are associated
+ * @param {Object[]} plateMaps Set of plates associated with the experiment
+ * @returns {Promise<any>}
+ */
+export function saveExperimentPlates(experimentName, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
       outputEncoding: 'Base64',
     });
-      saveToDB(experimentName, status, 0, plateMapsToSave, reject, resolve);
+      saveToDB(experimentName, STATUS_DRAFT, 0, plateMapsToSave, reject, resolve);
   });
 }
 
-export function publishExperimentPlates(experimentName, status, plateMaps) {
+/**
+ * Duplicates the current plate and saves it as a COMPLETED with version set to the current epoch time in Dyanamo database
+ * @param {String} experimentName name of the experiment to which the plates are associated
+ * @param {Object[]} plateMaps Set of plates associated with the experiment
+ * @returns {Promise<any>}
+ */
+export function publishExperimentPlates(experimentName, plateMaps) {
   return new Promise((resolve, reject) => {
     let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
       outputEncoding: 'Base64',
     });
-    if (status === STATUS_COMPLETED) {
-      getUTCTime().then(function(time) {
-        createNew(
-          experimentName,
-          status,
-          time,
-          plateMapsToSave,
-          reject,
-          resolve
-        );
-      });
-    } else {
-        console.error(
-            'Experiment should be completed to be published:',
-            JSON.stringify(status, null, 2)
-        );
-    }
+    getUTCTime().then(function(time) {
+      createNew(
+        experimentName,
+        STATUS_COMPLETED,
+        time,
+        plateMapsToSave,
+        reject,
+        resolve
+      );
+    });
   });
 }
 
