@@ -1,4 +1,4 @@
-import { designExperimentActions } from './designExperiment';
+import {designExperimentActions} from './designExperiment';
 import {
   findPlateById,
   createWell,
@@ -6,8 +6,8 @@ import {
   createPlateWithDimensions,
   exportPlates,
 } from './plateFunctions';
-import { aws } from '../api';
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
+import {aws} from '../api';
+import {REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR} from '../constants';
 
 const {
   addPlate: _addPlate,
@@ -22,40 +22,46 @@ const {
   setBarcode: _setBarcode,
 } = designExperimentActions;
 
-const handleChange = experimentData => {
-  console.log(
-    'SAVE',
-    experimentData.experiment.name,
-    experimentData.status,
-    experimentData.plates
-  );
-  return aws.saveExperimentPlates(
-    experimentData.experiment.name,
-    experimentData.status,
-    exportPlates(experimentData.plates)
+/**
+ * Logs the current plate state to be saved and sends the plate to be persisted
+ * @param {Object} experimentData The plates to be saved
+ * @param {function} saveFunction The function to be called to save the plates
+ * @returns {*}
+ */
+const handleChange = (experimentData, saveFunction) => {
+  console.log('SAVE', saveFunction.name, experimentData.experiment.name, experimentData.plates);
+  return saveFunction(experimentData.experiment.name, exportPlates(experimentData.plates)
   );
 };
 
-function wrapWithChangeHandler(fn) {
-  return function() {
+/**
+ * Wraps change types with a handler that will auto save the plate on every change event.
+ * @param {function} fn callback function to apply with the change (e.g. change state status, clear plate, etc...)
+ * @param {boolean} [publishPlateIndicator] if this parameter is passed is truthy than it will call the publish plate function instead of save plate
+ * @returns {function(): Function}
+ */
+
+function wrapWithChangeHandler(fn, publishPlateIndicator) {
+  return function () {
     return (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
       const experimentData = getState().designExperiment;
-      dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
-      handleChange(experimentData)
+      dispatch(_setSaveStatus({saveStatus: REQUEST_PENDING}));
+      handleChange(experimentData, publishPlateIndicator ? aws.publishExperimentPlates : aws.saveExperimentPlates)
         .then(() => {
-          dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+          dispatch(_setSaveStatus({saveStatus: REQUEST_SUCCESS}));
         })
         .catch(() => {
-          dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+          dispatch(_setSaveStatus({saveStatus: REQUEST_ERROR}));
         });
     };
   };
 }
 
+
 function _addNewPlate() {
   return (dispatch, getState) => {
-    const { plateSize, plates } = getState().designExperiment;
+    const {plateSize, plates} = getState().designExperiment;
     const plate = createPlateWithDimensions(plateSize);
     if (!plates.length) plate.active = true;
     dispatch(_addPlate(plate));
@@ -85,7 +91,7 @@ export const {
 
 export const initializePlates = () => {
   return (dispatch, getState) => {
-    let { plates } = getState().designExperiment;
+    let {plates} = getState().designExperiment;
     if (!plates.length) {
       dispatch(_resetNextPlateId());
       dispatch(_addNewPlate());
@@ -132,6 +138,6 @@ export const clearWells = wrapWithChangeHandler(_clearWells);
 
 export const deletePlate = wrapWithChangeHandler(_deletePlate);
 
-export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus);
+export const setCompletedStatus = wrapWithChangeHandler(_setCompletedStatus, true);
 
 export const setBarcode = wrapWithChangeHandler(_setBarcode);
