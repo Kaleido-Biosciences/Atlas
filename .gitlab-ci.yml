@@ -74,7 +74,7 @@ image_build_prod:
 # May fail if the secret already exists
 # Only need one setup per namespace, so we do this in master only
 setup_environment:
-  image: ryarnyah/kubectl-aws
+  image: kokyj/kubectl-aws:1.14
   stage: setup
   environment:
     name: live
@@ -99,7 +99,7 @@ setup_environment:
     - kubectl create secret docker-registry regsecret --docker-server=${CI_REGISTRY} --docker-username=${CI_REGISTRY_USER} --docker-password=${CI_REGISTRY_PASSWORD} --docker-email=wesley.fowlks@kaleido.com --namespace ${CI_PROJECT_NAME}
 
 teardown_staging:
-    image: ryarnyah/kubectl-aws
+    image: kokyj/kubectl-aws:1.14
     stage: cleanup
     allow_failure: true
     environment:
@@ -129,7 +129,7 @@ teardown_staging:
         - kubectl delete -f service.yaml
 
 deploy_staging:
-    image: ryarnyah/kubectl-aws
+    image: kokyj/kubectl-aws:1.14
     stage: deploy
     environment:
         name: staging
@@ -173,7 +173,7 @@ deploy_staging:
         - kubectl get all,ing -l ref=${CI_ENVIRONMENT_SLUG}
 
 teardown_prod:
-  image: ryarnyah/kubectl-aws
+  image: kokyj/kubectl-aws:1.14
   stage: cleanup
   allow_failure: true
   environment:
@@ -203,7 +203,7 @@ teardown_prod:
     - kubectl delete -f service.yaml
 
 deploy_prod:
-  image: ryarnyah/kubectl-aws
+  image: kokyj/kubectl-aws:1.14
   stage: deploy
   environment:
     name: live
