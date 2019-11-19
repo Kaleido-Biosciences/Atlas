@@ -6,27 +6,20 @@ import _ from 'lodash';
 import { api } from '../../api';
 
 export class ExperimentSearch extends Component {
-  constructor(props) {
-    super(props);
-    const { defaultValue } = props;
-    this.state = {
-      value: defaultValue || '',
-      loading: false,
-      results: null,
-      showNoResults: false,
-      noResultsMessage: 'No results found.',
-    };
-    this.debouncedLoadResults = _.debounce(value => {
-      this.loadResults(value);
-    }, 500);
-  }
+  state = {
+    value: this.props.defaultValue || '',
+    loading: false,
+    results: null,
+    showNoResults: false,
+    noResultsMessage: 'No results found.',
+  };
 
   handleSearchChange = (e, { value }) => {
     this.setState({ value });
-    this.debouncedLoadResults(value);
+    this.loadResults(value);
   };
 
-  loadResults = async value => {
+  loadResults = _.debounce(async value => {
     if (value) {
       try {
         this.setState({ loading: true, showNoResults: false });
@@ -53,12 +46,12 @@ export class ExperimentSearch extends Component {
         showNoResults: false,
       });
     }
-  };
+  }, 500);
 
   handleResultSelect = (e, { result }) => {
     this.setState({ value: result.data.name });
     if (this.props.onSelect) {
-      this.props.onSelect(result.data);
+      this.props.onSelect({ experiment: result.data });
     }
   };
 
@@ -70,6 +63,7 @@ export class ExperimentSearch extends Component {
       noResultsMessage,
       value,
     } = this.state;
+    const { autoFocus } = this.props;
     return (
       <Search
         fluid
@@ -82,6 +76,7 @@ export class ExperimentSearch extends Component {
         noResultsMessage={noResultsMessage}
         placeholder="Search experiments"
         value={value}
+        autoFocus={autoFocus}
       />
     );
   }
@@ -89,5 +84,6 @@ export class ExperimentSearch extends Component {
 
 ExperimentSearch.propTypes = {
   defaultValue: PropTypes.string,
+  autoFocus: PropTypes.bool,
   onSelect: PropTypes.func,
 };

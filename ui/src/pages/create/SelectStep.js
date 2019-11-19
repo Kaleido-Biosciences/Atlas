@@ -39,7 +39,7 @@ class SelectStep extends Component {
     plates: this.props.plates || null,
   };
 
-  handleExperimentSelect = async experiment => {
+  handleExperimentSelect = async ({ experiment }) => {
     let savedData, plates;
     this.setState({
       experiment: null,
@@ -216,9 +216,6 @@ const mapDispatch = {
   initializePlates,
 };
 
-const connected = connect(
-  mapState,
-  mapDispatch
-)(SelectStep);
+const connected = connect(mapState, mapDispatch)(SelectStep);
 
 export { connected as SelectStep };

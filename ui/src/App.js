@@ -3,7 +3,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { store } from './store/store';
-import { Header } from './components/Header/Header';
+import { Header } from './components/Header';
+import { Home } from './routes/Home';
 import { CreateNew } from './pages/create/CreateNew';
 import { Statistics } from './pages/statistics';
 import styles from './App.module.css';
@@ -14,10 +15,10 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <React.Fragment>
-            {/*<Header auth={this.props.auth}/>*/}
             <Header />
             <div className={styles.mainContainer}>
               <Switch>
+                <Route path="/" exact component={Home} />
                 <Route path="/create" component={CreateNew} />
                 <Route path="/statistics" component={Statistics} />
                 <Route render={() => <Redirect to="/create/select" />} />
