@@ -7,7 +7,7 @@ import memoize from 'memoize-one';
 import {
   addComponentToComponents,
   addComponentToToolComponents,
-} from '../../../../store/experimentActions';
+} from '../../../../store/designActions';
 import { api } from '../../../../api';
 import { Header } from './Header';
 import { Search } from './Search';

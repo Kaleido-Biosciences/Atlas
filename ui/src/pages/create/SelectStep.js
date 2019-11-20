@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import {
   setExperimentOptions,
   initializePlates,
-} from '../../store/experimentActions';
+} from '../../store/designActions';
 import { importPlates, getPlateSize } from '../../store/plateFunctions';
 import { ExperimentSearch } from '../../components/ExperimentSearch/ExperimentSearch';
 import { ExperimentCard } from '../../components/ExperimentSearch/ExperimentCard';

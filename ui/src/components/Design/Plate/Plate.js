@@ -7,7 +7,7 @@ import {
   toggleWellsSelected,
   applySelectedToolComponentsToWells,
   clearWells,
-} from '../../../store/experimentActions';
+} from '../../../store/designActions';
 import { selectActivePlate } from '../../../store/selectors';
 import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';

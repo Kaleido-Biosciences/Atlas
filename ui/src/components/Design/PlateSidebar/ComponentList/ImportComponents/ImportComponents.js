@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { api } from '../../../../../api';
-import { addKaptureComponentsToComponents } from '../../../../../store/experimentActions';
+import { addKaptureComponentsToComponents } from '../../../../../store/designActions';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 

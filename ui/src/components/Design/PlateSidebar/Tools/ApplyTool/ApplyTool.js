@@ -6,7 +6,7 @@ import memoize from 'memoize-one';
 import {
   applySelectedToolComponentsToSelectedWells,
   addComponentToToolComponents
-} from '../../../../../store/experimentActions';
+} from '../../../../../store/designActions';
 import {
   selectActivePlate,
   selectSelectedWellsFromActivePlate,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import memoize from 'memoize-one';
 
-import { addBarcodes, setBarcode } from '../../../store/experimentActions';
+import { addBarcodes, setBarcode } from '../../../store/designActions';
 import { selectActivePlate } from '../../../store/selectors';
 import styles from './Plate.module.css';
 

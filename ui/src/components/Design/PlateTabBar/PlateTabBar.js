@@ -9,7 +9,7 @@ import {
   setActivePlate,
   clonePlate,
   deletePlate,
-} from '../../../store/experimentActions';
+} from '../../../store/designActions';
 import { selectActivePlate } from '../../../store/selectors';
 import { PlateTab } from './PlateTab';
 import styles from './PlateTabBar.module.css';

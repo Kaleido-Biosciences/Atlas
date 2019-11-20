@@ -9,7 +9,7 @@ import { Icon } from 'semantic-ui-react';
 import {
   setCompletedStatus,
   addBarcodes,
-} from '../../../store/experimentActions';
+} from '../../../store/designActions';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,

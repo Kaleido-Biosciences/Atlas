@@ -8,7 +8,7 @@ import {
   toggleWellsSelected,
   applySelectedToolComponentsToWells,
   clearWells,
-} from '../../store/experimentActions';
+} from '../../store/designActions';
 import { selectActivePlate } from '../../store/selectors';
 import { ExperimentHeader } from '../../components/Design/ExperimentHeader';
 import { Plate } from '../../components/Design/Plate';

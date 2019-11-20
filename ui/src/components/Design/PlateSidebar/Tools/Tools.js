@@ -6,7 +6,7 @@ import { Menu, Icon } from 'semantic-ui-react';
 import {
   setClickMode,
   deselectAllWells,
-} from '../../../../store/experimentActions';
+} from '../../../../store/designActions';
 import { selectActivePlate } from '../../../../store/selectors';
 import { Header } from './Header';
 import { ApplyTool } from './ApplyTool';

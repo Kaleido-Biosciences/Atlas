@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Popup, Icon, Form } from 'semantic-ui-react';
 
-import { setSettings } from '../../../store/experimentActions';
+import { setSettings } from '../../../store/designActions';
 import styles from './Plate.module.css';
 
 const wellSizeOptions = {

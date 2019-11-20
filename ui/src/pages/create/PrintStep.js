@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactToPrint from 'react-to-print';
 import { Button, Icon } from 'semantic-ui-react';
 
-import { setStepThreeComplete } from '../../store/experimentActions';
+import { setStepThreeComplete } from '../../store/designActions';
 import { Printout } from '../../components/Printout/Printout';
 import styles from './PrintStep.module.css';
 
