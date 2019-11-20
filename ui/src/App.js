@@ -4,8 +4,8 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { store } from './store/store';
 import { Header } from './components/Header';
-import { Home } from './routes/Home';
-import { Experiment } from './routes/Experiment';
+import { Home } from './components/Home';
+import { Experiment } from './components/Experiment';
 import { CreateNew } from './pages/create/CreateNew';
 import { Statistics } from './pages/statistics';
 import styles from './App.module.css';

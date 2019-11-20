@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { ExperimentSearch } from '../../components/ExperimentSearch';
+import { ExperimentSearch } from '../ExperimentSearch';
 import styles from './Home.module.css';
 
 export class Home extends Component {
