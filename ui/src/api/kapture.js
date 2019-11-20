@@ -25,6 +25,11 @@ export function fetchSupplement(id) {
   return axios.get(API_URL + '/supplements/' + id);
 }
 
+export async function fetchExperiment(id) {
+  const response = await axios.get(`${API_URL}/experiments/${id}`);
+  return response.data;
+}
+
 export function fetchExperiments(page, size, nameContains, descContains) {
   let queryString = '';
   if (page || size || nameContains || descContains) {

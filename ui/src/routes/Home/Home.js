@@ -20,7 +20,7 @@ export class Home extends Component {
   render() {
     const { toExperiment, experiment } = this.state;
     if (toExperiment && experiment) {
-      const path = `/experiment/${experiment.name}`;
+      const path = `/experiments/${experiment.id}`;
       return <Redirect to={path} />;
     }
     return (
