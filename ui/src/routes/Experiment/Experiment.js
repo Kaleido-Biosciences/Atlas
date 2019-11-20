@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { kapture } from '../../api';
+import { fetchExperiment } from '../../store/experimentActions';
 
-export class Experiment extends Component {
+class Experiment extends Component {
   componentDidMount() {
     const { experimentId } = this.props.match.params;
-    this.fetchExperiment(experimentId);
+    if (this.props.onMount) {
+      this.props.onMount(experimentId);
+    }
   }
-  fetchExperiment = async experimentId => {
-    const experiment = await kapture.fetchExperiment(experimentId);
-    console.log('experiment', experiment);
-  };
   render() {
     return <div>Experiment route</div>;
   }
 }
+
+Experiment.propTypes = {
+  match: PropTypes.object.isRequired,
+  onMount: PropTypes.func,
+};
+
+const mapState = (state, props) => {
+  return {};
+};
+
+const mapDispatch = {
+  onMount: fetchExperiment,
+};
+
+const connected = connect(mapState, mapDispatch)(Experiment);
+export { connected as Experiment };
