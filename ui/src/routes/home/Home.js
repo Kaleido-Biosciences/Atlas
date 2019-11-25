@@ -1,28 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 
 import { ExperimentSearch } from '../../components/experiment/ExperimentSearch';
 import styles from './Home.module.css';
 
 export class Home extends Component {
-  state = {
-    toExperiment: false,
-    experiment: null,
-  };
-
   handleSelect = ({ experiment }) => {
-    this.setState({
-      toExperiment: true,
-      experiment,
-    });
+    this.props.history.push(`/experiments/${experiment.id}`);
   };
 
   render() {
-    const { toExperiment, experiment } = this.state;
-    if (toExperiment && experiment) {
-      const path = `/experiments/${experiment.id}`;
-      return <Redirect to={path} />;
-    }
     return (
       <div className={styles.home}>
         <h1 className={styles.title}>Atlas</h1>

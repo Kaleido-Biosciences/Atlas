@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
+import { Route, Switch } from 'react-router-dom';
 
 import {
   REQUEST_PENDING,
@@ -9,6 +10,8 @@ import {
   REQUEST_ERROR,
 } from '../../constants';
 import { fetchExperiment } from '../../store/experimentActions';
+import { ExperimentHeader } from '../../components/experiment/ExperimentHeader';
+import { ExperimentDetails } from '../../components/experiment/ExperimentDetails';
 import styles from './Experiment.module.css';
 
 class Experiment extends Component {
@@ -19,7 +22,7 @@ class Experiment extends Component {
     }
   }
   render() {
-    const { experiment, loadingStatus } = this.props;
+    const { loadingStatus, match } = this.props;
     return (
       <div>
         {loadingStatus === REQUEST_PENDING && (
@@ -29,14 +32,25 @@ class Experiment extends Component {
             </Loader>
           </div>
         )}
+        {loadingStatus === REQUEST_ERROR && (
+          <div>An error occurred while retrieving the experiment</div>
+        )}
         {loadingStatus === REQUEST_SUCCESS && (
           <div>
-            {experiment.name} {experiment.description}
-          </div>
-        )}
-        {loadingStatus === REQUEST_ERROR && (
-          <div>
-            An error occurred while retrieving the experiment
+            <ExperimentHeader />
+            <Switch>
+              <Route
+                path={`${match.path}`}
+                exact
+                component={ExperimentDetails}
+              />
+              <Route
+                path={`${match.path}/editor`}
+                component={() => {
+                  return <div>editor</div>;
+                }}
+              />
+            </Switch>
           </div>
         )}
       </div>
