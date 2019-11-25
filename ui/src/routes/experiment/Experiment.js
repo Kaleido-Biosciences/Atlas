@@ -22,20 +22,20 @@ class Experiment extends Component {
     }
   }
   render() {
-    const { loadingStatus, match } = this.props;
+    const { experimentLoadingStatus, match } = this.props;
     return (
       <div>
-        {loadingStatus === REQUEST_PENDING && (
+        {experimentLoadingStatus === REQUEST_PENDING && (
           <div className={styles.loader}>
             <Loader active inline="centered">
               Loading experiment
             </Loader>
           </div>
         )}
-        {loadingStatus === REQUEST_ERROR && (
+        {experimentLoadingStatus === REQUEST_ERROR && (
           <div>An error occurred while retrieving the experiment</div>
         )}
-        {loadingStatus === REQUEST_SUCCESS && (
+        {experimentLoadingStatus === REQUEST_SUCCESS && (
           <div>
             <ExperimentHeader />
             <Switch>
@@ -64,8 +64,8 @@ Experiment.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { experiment, loadingStatus } = state.experiment;
-  return { experiment, loadingStatus };
+  const { experiment, experimentLoadingStatus } = state.experiment;
+  return { experiment, experimentLoadingStatus };
 };
 
 const mapDispatch = {

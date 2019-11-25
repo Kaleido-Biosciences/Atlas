@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
 import lzutf8 from 'lzutf8';
-import {STATUS_COMPLETED, STATUS_DRAFT} from '../constants';
+import { STATUS_COMPLETED, STATUS_DRAFT } from '../constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,
@@ -17,6 +17,51 @@ AWS.config.update({
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
+
+const processResponse = response => {
+  const versions = [];
+  if (response.Count > 0) {
+    response.Items.forEach(({ plateMaps, ...rest }) => {
+      versions.push({
+        plateMaps: JSON.parse(
+          lzutf8.decompress(plateMaps, {
+            inputEncoding: 'Base64',
+          })
+        ),
+        ...rest,
+      });
+    });
+  }
+  return versions;
+};
+
+export async function fetchExperimentVersions(experimentId) {
+  let versions = [];
+  const params = {
+    TableName: table,
+    KeyConditionExpression: '#e = :e',
+    ExpressionAttributeNames: {
+      '#e': 'experiment_status',
+    },
+    ScanIndexForward: false,
+    ConsistentRead: false,
+  };
+  const draftParams = Object.assign({}, params, {
+    ExpressionAttributeValues: {
+      ':e': `${experimentId}_DRAFT`,
+    },
+  });
+  const completedParams = Object.assign({}, params, {
+    ExpressionAttributeValues: {
+      ':e': `${experimentId}_COMPLETED`,
+    },
+  });
+  const draftResponse = await docClient.query(draftParams).promise();
+  versions = versions.concat(processResponse(draftResponse));
+  const completedResponse = await docClient.query(completedParams).promise();
+  versions = versions.concat(processResponse(completedResponse));
+  return versions;
+}
 
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
@@ -63,7 +108,7 @@ export function saveExperimentPlates(experimentName, plateMaps) {
     let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
       outputEncoding: 'Base64',
     });
-      saveToDB(experimentName, STATUS_DRAFT, 0, plateMapsToSave, reject, resolve);
+    saveToDB(experimentName, STATUS_DRAFT, 0, plateMapsToSave, reject, resolve);
   });
 }
 
@@ -200,9 +245,11 @@ export function scanTable() {
         data.Items.forEach(function(item) {
           const { plateMaps, ...rest } = item;
           experiments.push({
-            plateMaps: JSON.parse(lzutf8.decompress(plateMaps, {
-              inputEncoding: 'Base64',
-            })),
+            plateMaps: JSON.parse(
+              lzutf8.decompress(plateMaps, {
+                inputEncoding: 'Base64',
+              })
+            ),
             ...rest,
           });
         });
