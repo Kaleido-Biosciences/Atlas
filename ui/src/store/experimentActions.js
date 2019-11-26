@@ -9,6 +9,8 @@ const {
   setVersionsLoadingStatus: _setVersionsLoadingStatus,
 } = experimentActions;
 
+export const { setPlateSize } = experimentActions;
+
 export const fetchExperiment = experimentId => {
   return async (dispatch, getState) => {
     dispatch(_setExperimentLoadingStatus({ status: REQUEST_PENDING }));

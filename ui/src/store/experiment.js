@@ -9,7 +9,7 @@ const experiment = createSlice({
     experimentLoadingStatus: null,
     versions: [],
     versionsLoadingStatus: null,
-    defaultPlateSize: DEFAULT_PLATE_SIZE,
+    plateSize: DEFAULT_PLATE_SIZE,
   },
   reducers: {
     setExperiment(state, action) {
@@ -23,6 +23,9 @@ const experiment = createSlice({
     },
     setVersionsLoadingStatus(state, action) {
       state.versionsLoadingStatus = action.payload.status;
+    },
+    setPlateSize(state, action) {
+      state.plateSize = action.payload.plateSize;
     },
   },
 });

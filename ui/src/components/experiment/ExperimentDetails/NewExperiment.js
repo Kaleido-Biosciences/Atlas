@@ -6,6 +6,19 @@ import { PlateSizeForm } from '../PlateSizeForm';
 import styles from './ExperimentDetails.module.css';
 
 export class NewExperiment extends Component {
+  state = {
+    submitDisabled: false,
+  };
+  handlePlateSizeChange = ({ plateSize }) => {
+    if (plateSize === null) {
+      this.setState({ submitDisabled: true });
+    } else {
+      this.setState({ submitDisabled: false });
+    }
+    if (this.props.onPlateSizeChange) {
+      this.props.onPlateSizeChange({ plateSize });
+    }
+  };
   render() {
     const { defaultPlateSize } = this.props;
     return (
@@ -13,9 +26,14 @@ export class NewExperiment extends Component {
         <Header as="h3">Start Experiment</Header>
         Select a plate size to get started
         <div className={styles.plateSizeFormContainer}>
-          <PlateSizeForm defaultDimensions={defaultPlateSize} />
+          <PlateSizeForm
+            defaultDimensions={defaultPlateSize}
+            onChange={this.handlePlateSizeChange}
+          />
         </div>
-        <Button primary>Done</Button>
+        <Button disabled={this.state.submitDisabled} primary>
+          Submit
+        </Button>
       </div>
     );
   }
@@ -23,4 +41,5 @@ export class NewExperiment extends Component {
 
 NewExperiment.propTypes = {
   defaultPlateSize: PropTypes.object,
+  onPlateSizeChange: PropTypes.func,
 };

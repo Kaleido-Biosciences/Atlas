@@ -8,7 +8,10 @@ import {
   REQUEST_SUCCESS,
   REQUEST_ERROR,
 } from '../../../constants';
-import { fetchExperimentVersions } from '../../../store/experimentActions';
+import {
+  fetchExperimentVersions,
+  setPlateSize,
+} from '../../../store/experimentActions';
 import { Version } from './Version';
 import { NewExperiment } from './NewExperiment';
 import styles from './ExperimentDetails.module.css';
@@ -16,6 +19,11 @@ import styles from './ExperimentDetails.module.css';
 class ExperimentDetails extends Component {
   handleVersionClick = ({ version }) => {
     console.log(version);
+  };
+  handlePlateSizeChange = ({ plateSize }) => {
+    if (this.props.onPlateSizeChange) {
+      this.props.onPlateSizeChange({ plateSize });
+    }
   };
   componentDidMount() {
     const { name } = this.props.experiment;
@@ -40,13 +48,16 @@ class ExperimentDetails extends Component {
     );
   }
   renderContent() {
-    const { versions, defaultPlateSize } = this.props;
+    const { versions, plateSize } = this.props;
     if (this.props.versions.length) {
       return this.renderVersions(versions);
     } else {
       return (
         <div className={styles.newExperimentContainer}>
-          <NewExperiment defaultPlateSize={defaultPlateSize} />
+          <NewExperiment
+            defaultPlateSize={plateSize}
+            onPlateSizeChange={this.handlePlateSizeChange}
+          />
         </div>
       );
     }
@@ -76,6 +87,7 @@ ExperimentDetails.propTypes = {
   versions: PropTypes.array,
   versionsLoadingStatus: PropTypes.string,
   onMount: PropTypes.func,
+  onPlateSizeChange: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -83,13 +95,14 @@ const mapState = (state, props) => {
     experiment,
     versionsLoadingStatus,
     versions,
-    defaultPlateSize,
+    plateSize,
   } = state.experiment;
-  return { experiment, versionsLoadingStatus, versions, defaultPlateSize };
+  return { experiment, versionsLoadingStatus, versions, plateSize };
 };
 
 const mapDispatch = {
   onMount: fetchExperimentVersions,
+  onPlateSizeChange: setPlateSize,
 };
 
 const connected = connect(mapState, mapDispatch)(ExperimentDetails);

@@ -78,12 +78,12 @@ export class PlateSizeForm extends Component {
             rows: parsedRows,
             columns: parsedColumns,
           };
-          this.props.onChange(parsedDimensions);
+          this.props.onChange({ plateSize: parsedDimensions });
         } else {
-          this.props.onChange(null);
+          this.props.onChange({ plateSize: null });
         }
       } else {
-        this.props.onChange(null);
+        this.props.onChange({ plateSize: null });
       }
     }
   };
