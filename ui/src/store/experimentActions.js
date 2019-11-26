@@ -30,6 +30,14 @@ export const fetchExperimentVersions = experimentId => {
     try {
       const versions = await aws.fetchExperimentVersions(experimentId);
       dispatch(_setVersions({ versions }));
+      if (versions.length) {
+        const plateMap = versions[0].plateMaps[0];
+        const plateSize = {
+          rows: plateMap.data.length,
+          columns: plateMap.data[0].length,
+        };
+        dispatch(setPlateSize({ plateSize }));
+      }
       dispatch(_setVersionsLoadingStatus({ status: REQUEST_SUCCESS }));
     } catch (error) {
       dispatch(_setVersionsLoadingStatus({ status: REQUEST_ERROR }));
