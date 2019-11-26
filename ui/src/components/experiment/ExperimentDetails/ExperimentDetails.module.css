@@ -5,3 +5,24 @@
 .loader {
   margin-top: 4em;
 }
+
+.newExperimentContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.newExperiment {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.newExperiment :global(h3) {
+  margin-bottom: 0 !important;
+}
+
+.plateSizeFormContainer {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}

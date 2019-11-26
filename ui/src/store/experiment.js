@@ -1,5 +1,7 @@
 import { createSlice } from 'redux-starter-kit';
 
+import { DEFAULT_PLATE_SIZE } from '../constants';
+
 const experiment = createSlice({
   slice: 'experiment',
   initialState: {
@@ -7,6 +9,7 @@ const experiment = createSlice({
     experimentLoadingStatus: null,
     versions: [],
     versionsLoadingStatus: null,
+    defaultPlateSize: DEFAULT_PLATE_SIZE,
   },
   reducers: {
     setExperiment(state, action) {

@@ -10,6 +10,7 @@ import {
 } from '../../../constants';
 import { fetchExperimentVersions } from '../../../store/experimentActions';
 import { Version } from './Version';
+import { NewExperiment } from './NewExperiment';
 import styles from './ExperimentDetails.module.css';
 
 class ExperimentDetails extends Component {
@@ -23,19 +24,35 @@ class ExperimentDetails extends Component {
     }
   }
   renderVersions(versions) {
-    return versions.map(version => {
-      const key = version.version;
+    return (
+      <Card.Group>
+        {versions.map(version => {
+          const key = version.version;
+          return (
+            <Version
+              key={key}
+              version={version}
+              onClick={this.handleVersionClick}
+            />
+          );
+        })}
+      </Card.Group>
+    );
+  }
+  renderContent() {
+    const { versions, defaultPlateSize } = this.props;
+    if (this.props.versions.length) {
+      return this.renderVersions(versions);
+    } else {
       return (
-        <Version
-          key={key}
-          version={version}
-          onClick={this.handleVersionClick}
-        />
+        <div className={styles.newExperimentContainer}>
+          <NewExperiment defaultPlateSize={defaultPlateSize} />
+        </div>
       );
-    });
+    }
   }
   render() {
-    const { versions, versionsLoadingStatus } = this.props;
+    const { versionsLoadingStatus } = this.props;
     return (
       <div className={styles.experimentDetails}>
         {versionsLoadingStatus === REQUEST_PENDING && (
@@ -48,9 +65,7 @@ class ExperimentDetails extends Component {
         {versionsLoadingStatus === REQUEST_ERROR && (
           <div>An error occurred while retrieving versions</div>
         )}
-        {versionsLoadingStatus === REQUEST_SUCCESS && (
-          <Card.Group>{this.renderVersions(versions)}</Card.Group>
-        )}
+        {versionsLoadingStatus === REQUEST_SUCCESS && this.renderContent()}
       </div>
     );
   }
@@ -64,8 +79,13 @@ ExperimentDetails.propTypes = {
 };
 
 const mapState = (state, props) => {
-  const { experiment, versionsLoadingStatus, versions } = state.experiment;
-  return { experiment, versionsLoadingStatus, versions };
+  const {
+    experiment,
+    versionsLoadingStatus,
+    versions,
+    defaultPlateSize,
+  } = state.experiment;
+  return { experiment, versionsLoadingStatus, versions, defaultPlateSize };
 };
 
 const mapDispatch = {
