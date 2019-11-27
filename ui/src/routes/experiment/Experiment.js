@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 import { Route, Switch } from 'react-router-dom';
 
-import {
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
-} from '../../constants';
+import { REQUEST_PENDING, REQUEST_ERROR } from '../../constants';
 import { fetchExperiment } from '../../store/experimentActions';
 import { ExperimentHeader } from '../../components/experiment/ExperimentHeader';
 import { ExperimentDetails } from '../../components/experiment/ExperimentDetails';
@@ -17,12 +13,13 @@ import styles from './Experiment.module.css';
 class Experiment extends Component {
   componentDidMount() {
     const { experimentId } = this.props.match.params;
-    if (this.props.onMount) {
-      this.props.onMount(experimentId);
+    const { experiment } = this.props;
+    if (!experiment || experiment.id !== parseInt(experimentId)) {
+      this.props.fetchExperiment(experimentId);
     }
   }
   render() {
-    const { experimentLoadingStatus, match } = this.props;
+    const { experiment, experimentLoadingStatus, match } = this.props;
     return (
       <div>
         {experimentLoadingStatus === REQUEST_PENDING && (
@@ -35,7 +32,7 @@ class Experiment extends Component {
         {experimentLoadingStatus === REQUEST_ERROR && (
           <div>An error occurred while retrieving the experiment</div>
         )}
-        {experimentLoadingStatus === REQUEST_SUCCESS && (
+        {experiment && (
           <div>
             <ExperimentHeader />
             <Switch>
@@ -60,7 +57,7 @@ class Experiment extends Component {
 
 Experiment.propTypes = {
   match: PropTypes.object.isRequired,
-  onMount: PropTypes.func,
+  fetchExperiment: PropTypes.func.isRequired,
 };
 
 const mapState = (state, props) => {
@@ -69,7 +66,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onMount: fetchExperiment,
+  fetchExperiment: fetchExperiment,
 };
 
 const connected = connect(mapState, mapDispatch)(Experiment);
