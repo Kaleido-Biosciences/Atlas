@@ -17,8 +17,12 @@ import { NewExperiment } from './NewExperiment';
 import styles from './ExperimentDetails.module.css';
 
 class ExperimentDetails extends Component {
-  handleVersionClick = ({ version }) => {
-    console.log(version);
+  handleVersionClick = ({ version: v }) => {
+    const { experiment_status, version } = v;
+    this.props.history.push(
+      this.props.match.url +
+        `/editor?status=${experiment_status}&version=${version}`
+    );
   };
   handlePlateSizeChange = ({ plateSize }) => {
     if (this.props.onPlateSizeChange) {

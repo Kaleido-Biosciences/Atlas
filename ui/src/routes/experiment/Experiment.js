@@ -8,6 +8,7 @@ import { REQUEST_PENDING, REQUEST_ERROR } from '../../constants';
 import { fetchExperiment } from '../../store/experimentActions';
 import { ExperimentHeader } from '../../components/experiment/ExperimentHeader';
 import { ExperimentDetails } from '../../components/experiment/ExperimentDetails';
+import { Editor } from '../../components/experiment/Editor';
 import styles from './Experiment.module.css';
 
 class Experiment extends Component {
@@ -41,12 +42,7 @@ class Experiment extends Component {
                 exact
                 component={ExperimentDetails}
               />
-              <Route
-                path={`${match.path}/editor`}
-                component={() => {
-                  return <div>editor</div>;
-                }}
-              />
+              <Route path={`${match.path}/editor`} component={Editor} />
             </Switch>
           </div>
         )}
