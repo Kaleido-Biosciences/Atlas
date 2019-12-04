@@ -63,6 +63,28 @@ export async function fetchExperimentVersions(experimentId) {
   return versions;
 }
 
+export async function fetchVersion(status, timestamp) {
+  const params = {
+    TableName: table,
+    KeyConditionExpression: '#e = :e and #v = :v',
+    ExpressionAttributeNames: {
+      '#e': 'experiment_status',
+      '#v': 'version',
+    },
+    ExpressionAttributeValues: {
+      ':e': status,
+      ':v': parseInt(timestamp),
+    },
+    ScanIndexForward: false,
+    ConsistentRead: false,
+  };
+  const response = await docClient.query(params).promise();
+  const versions = processResponse(response);
+  if (versions.length) {
+    return versions[0];
+  }
+}
+
 export function fetchPlates(experimentId, status) {
   return new Promise((resolve, reject) => {
     let plateMaps = [];

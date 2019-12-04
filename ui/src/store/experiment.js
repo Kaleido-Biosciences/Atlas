@@ -23,12 +23,13 @@ const experiment = createSlice({
       const { versions } = action.payload;
       state.versions = versions;
       if (versions.length) {
-        const plateMap = versions[0].plateMaps[0];
-        state.plateSize = {
-          rows: plateMap.data.length,
-          columns: plateMap.data[0].length,
-        };
+        state.plateSize = getPlateSizeFromVersion(versions[0]);
       }
+    },
+    pushVersion(state, action) {
+      const { version } = action.payload;
+      state.versions.push(version);
+      state.plateSize = getPlateSizeFromVersion(version);
     },
     setVersionsLoadingStatus(state, action) {
       state.versionsLoadingStatus = action.payload.status;
@@ -43,3 +44,11 @@ export const {
   actions: experimentActions,
   reducer: experimentReducer,
 } = experiment;
+
+function getPlateSizeFromVersion(version) {
+  const plateMap = version.plateMaps[0];
+  return {
+    rows: plateMap.data.length,
+    columns: plateMap.data[0].length,
+  };
+}
