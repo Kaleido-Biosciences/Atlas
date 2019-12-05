@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import { fetchVersion } from '../../../store/experimentActions';
-import { importPlates } from '../../../store/designActions';
+import { importPlates, initializePlates } from '../../../store/designActions';
+import { selectActivePlate } from '../../../store/selectors';
 
 class Editor extends Component {
   async componentDidMount() {
@@ -14,10 +15,13 @@ class Editor extends Component {
       params.version
     );
     await this.props.importPlates(version.plateMaps);
+    this.props.initializePlates();
   }
 
   render() {
-    return <div>editor</div>;
+    const { plates, activePlate } = this.props;
+    console.log(activePlate);
+    return <div>Editor</div>;
   }
 }
 
@@ -26,12 +30,15 @@ Editor.propTypes = {
 };
 
 const mapState = (state, props) => {
-  return {};
+  const activePlate = selectActivePlate(state);
+  const { plates, clickMode } = state.designExperiment;
+  return { activePlate, plates, clickMode };
 };
 
 const mapDispatch = {
   fetchVersion,
   importPlates,
+  initializePlates,
 };
 
 const connected = connect(mapState, mapDispatch)(Editor);

@@ -22,6 +22,7 @@ const {
   updateNextPlateId: _updateNextPlateId,
   setSaveStatus: _setSaveStatus,
   setBarcode: _setBarcode,
+  setPlates: _setPlates,
 } = designExperimentActions;
 
 /**
@@ -167,6 +168,7 @@ export const importPlates = plates => {
       if (statePlates.length) {
         statePlates[0].active = true;
       }
+      dispatch(_setPlates({ plates: statePlates }));
       return statePlates;
     } else return null;
   };
