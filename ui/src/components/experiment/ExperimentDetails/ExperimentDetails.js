@@ -19,9 +19,10 @@ import styles from './ExperimentDetails.module.css';
 class ExperimentDetails extends Component {
   handleVersionClick = ({ version: v }) => {
     const { experiment_status, version } = v;
+    let url = this.props.match.url;
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
     this.props.history.push(
-      this.props.match.url +
-        `/editor?status=${experiment_status}&version=${version}`
+      url + `/editor?status=${experiment_status}&version=${version}`
     );
   };
   handlePlateSizeChange = ({ plateSize }) => {
