@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import SplitPane from 'react-split-pane';
 
 import { fetchVersion } from '../../../store/experimentActions';
 import { importPlates, initializePlates } from '../../../store/designActions';
 import { selectActivePlate } from '../../../store/selectors';
+import { PlateTabBar } from '../../editor/PlateTabBar';
+import { Plate } from '../../editor/Plate';
+import { PlateSidebar } from '../../editor/PlateSidebar';
+import { NoPlatesMessage } from '../../editor/Plate/NoPlatesMessage';
+import styles from './Editor.module.css';
 
 class Editor extends Component {
   async componentDidMount() {
@@ -19,9 +25,37 @@ class Editor extends Component {
   }
 
   render() {
-    const { plates, activePlate } = this.props;
-    console.log(activePlate);
-    return <div>Editor</div>;
+    const { plates, activePlate, onComplete, addNewPlate } = this.props;
+    const showPlate = plates.length > 0 && activePlate;
+    return (
+      <div className={styles.buildStep}>
+        {showPlate && (
+          <React.Fragment>
+            {/* <ExperimentHeader onComplete={onComplete} /> */}
+            <div className={styles.container}>
+              <SplitPane
+                primary="second"
+                defaultSize={300}
+                minSize={200}
+                pane1Style={{ overflow: 'hidden' }}
+                pane2Style={{ height: '100%' }}
+              >
+                <div className={styles.mainContainer}>
+                  <div className={styles.plateTabContainer}>
+                    <PlateTabBar />
+                  </div>
+                  <div className={styles.plateContainer}>
+                    <Plate />
+                  </div>
+                </div>
+                <PlateSidebar />
+              </SplitPane>
+            </div>
+          </React.Fragment>
+        )}
+        {!showPlate && <NoPlatesMessage onAddClick={addNewPlate} />}
+      </div>
+    );
   }
 }
 

@@ -1,0 +1,26 @@
+.buildStep {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  position: relative;
+  flex: 1;
+}
+
+.mainContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.plateContainer {
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+.plateTabContainer {
+  flex: 0 0 3.2em;
+}

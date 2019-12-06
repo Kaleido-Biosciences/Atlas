@@ -22,7 +22,7 @@ class Experiment extends Component {
   render() {
     const { experiment, experimentLoadingStatus, match } = this.props;
     return (
-      <div>
+      <div className={styles.experiment}>
         {experimentLoadingStatus === REQUEST_PENDING && (
           <div className={styles.loader}>
             <Loader active inline="centered">
@@ -34,7 +34,7 @@ class Experiment extends Component {
           <div>An error occurred while retrieving the experiment</div>
         )}
         {experiment && (
-          <div>
+          <React.Fragment>
             <ExperimentHeader />
             <Switch>
               <Route
@@ -44,7 +44,7 @@ class Experiment extends Component {
               />
               <Route path={`${match.path}/editor`} component={Editor} />
             </Switch>
-          </div>
+          </React.Fragment>
         )}
       </div>
     );
