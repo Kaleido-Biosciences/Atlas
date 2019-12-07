@@ -30,7 +30,7 @@ export async function fetchExperiment(id) {
   return response.data;
 }
 
-export function fetchExperiments(page, size, nameContains, descContains) {
+export function searchActivities(page, size, nameContains, descContains) {
   let queryString = '';
   if (page || size || nameContains || descContains) {
     const params = [];

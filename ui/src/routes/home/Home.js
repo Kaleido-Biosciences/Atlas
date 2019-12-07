@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ExperimentSearch } from '../../components/experiment/ActivitySearch';
+import { ActivitySearch } from '../../components/experiment/ActivitySearch';
 import { setExperiment } from '../../store/experimentActions';
 import styles from './Home.module.css';
 
 class Home extends Component {
-  handleSelect = ({ experiment }) => {
+  handleSelect = ({ activity }) => {
+    // TODO remove this when changing to activity
+    const experiment = activity;
     if (this.props.onSelect) {
       this.props.onSelect({ experiment });
     }
@@ -17,7 +19,7 @@ class Home extends Component {
     return (
       <div className={styles.home}>
         <h1 className={styles.title}>Atlas</h1>
-        <ExperimentSearch autoFocus onSelect={this.handleSelect} />
+        <ActivitySearch autoFocus onSelect={this.handleSelect} />
       </div>
     );
   }

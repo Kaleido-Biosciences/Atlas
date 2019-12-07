@@ -1,2 +1,2 @@
-import { ExperimentSearch } from './ActivitySearch';
-export { ExperimentSearch };
+import { ActivitySearch } from './ActivitySearch';
+export { ActivitySearch };

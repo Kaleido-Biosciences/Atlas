@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { api } from '../../../api';
 
-export class ExperimentSearch extends Component {
+export class ActivitySearch extends Component {
   state = {
     value: this.props.defaultValue || '',
     loading: false,
@@ -23,9 +23,9 @@ export class ExperimentSearch extends Component {
     if (value) {
       try {
         this.setState({ loading: true, showNoResults: false });
-        const response = await api.kapture.fetchExperiments(0, 5, value);
-        const results = response.data.map(exp => {
-          return { title: exp.name, description: exp.description, data: exp };
+        const response = await api.kapture.searchActivities(0, 5, value);
+        const results = response.data.map(activity => {
+          return { title: activity.name, description: activity.description, data: activity };
         });
         this.setState({
           loading: false,
@@ -51,7 +51,7 @@ export class ExperimentSearch extends Component {
   handleResultSelect = (e, { result }) => {
     this.setState({ value: result.data.name });
     if (this.props.onSelect) {
-      this.props.onSelect({ experiment: result.data });
+      this.props.onSelect({ activity: result.data });
     }
   };
 
@@ -74,7 +74,7 @@ export class ExperimentSearch extends Component {
         onResultSelect={this.handleResultSelect}
         showNoResults={showNoResults}
         noResultsMessage={noResultsMessage}
-        placeholder="Search experiments"
+        placeholder="Search activities"
         value={value}
         autoFocus={autoFocus}
       />
@@ -82,7 +82,7 @@ export class ExperimentSearch extends Component {
   }
 }
 
-ExperimentSearch.propTypes = {
+ActivitySearch.propTypes = {
   defaultValue: PropTypes.string,
   autoFocus: PropTypes.bool,
   onSelect: PropTypes.func,
