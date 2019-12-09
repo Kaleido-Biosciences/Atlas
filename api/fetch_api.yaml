@@ -1,12 +1,12 @@
 swagger: "2.0"
 info:
-  description: "This is a sample of what Atlas is expecting from an endpoint, to fill it with components. This is a sample server Petstore server."
+  description: "This is a sample of what Atlas is expecting from an endpoint, to fill it with components."
   version: "1.0.0"
   title: "Atlas Search Endpoint"
   contact:
-    email: "dea@kaleido.com"
-host: "api.kaleidobio.com"
-basePath: "/jarvis"
+    email: "kaleido-oss@glycobiome.onmicrosoft.com"
+host: "fetch.kaleidobio.com"
+basePath: "/"
 produces: 
   - application/json
 tags:
