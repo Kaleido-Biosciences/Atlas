@@ -1,2 +1,2 @@
-import { ActivitySearch } from './ActivitySearch';
+import { ActivitySearch } from './connect';
 export { ActivitySearch };
