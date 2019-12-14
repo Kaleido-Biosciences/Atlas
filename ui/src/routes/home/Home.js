@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ActivitySearch } from '../../components/activity/ActivitySearch';
-import { setExperiment } from '../../store/experimentActions';
+import { setCurrentActivity } from '../../store/activitiesActions';
 import styles from './Home.module.css';
 
 class Home extends Component {
   handleSelect = ({ activity }) => {
-    // TODO remove this when changing to activity
-    const experiment = activity;
     if (this.props.onSelect) {
-      this.props.onSelect({ experiment });
+      this.props.onSelect({ activity });
     }
-    this.props.history.push(`/experiments/${experiment.id}`);
+    this.props.history.push(`/activities/${activity.id}`);
   };
 
   render() {
@@ -30,7 +28,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onSelect: setExperiment,
+  onSelect: setCurrentActivity,
 };
 
 const connected = connect(mapState, mapDispatch)(Home);

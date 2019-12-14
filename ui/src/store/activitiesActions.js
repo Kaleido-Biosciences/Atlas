@@ -10,6 +10,8 @@ const {
   setSearchResults: _setSearchResults,
 } = activitiesActions;
 
+export const { setCurrentActivity } = activitiesActions;
+
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {
     dispatch(_setSearchTerm({ searchTerm }));
