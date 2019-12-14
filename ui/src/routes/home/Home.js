@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ActivitySearch } from '../../components/experiment/ActivitySearch';
+import { ActivitySearch } from '../../components/activity/ActivitySearch';
 import { setExperiment } from '../../store/experimentActions';
 import styles from './Home.module.css';
 
