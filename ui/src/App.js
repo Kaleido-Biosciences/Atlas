@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { store } from './store/store';
 import { Header } from './components/app/Header';
 import { Home } from './routes/home';
-import { Experiment } from './routes/experiment';
+import { Activity } from './routes/activity';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -19,8 +19,8 @@ class App extends Component {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route
-                  path="/experiments/:experimentId"
-                  component={Experiment}
+                  path="/activities/:activityId"
+                  component={Activity}
                 />
                 <Route component={() => <Redirect to="/" />} />
               </Switch>
