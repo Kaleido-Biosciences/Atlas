@@ -1,2 +1,2 @@
-import { Experiment } from './Experiment';
-export { Experiment as Activity };
+import { Activity } from './Activity';
+export { Activity };
