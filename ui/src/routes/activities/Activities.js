@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { REQUEST_PENDING, REQUEST_ERROR } from '../../constants';
 import { fetchActivity } from '../../store/activitiesActions';
-import { ExperimentHeader } from '../../components/experiment/ExperimentHeader';
+import { ExperimentHeader } from '../../components/activity/ActivityHeader';
 import { ExperimentDetails } from '../../components/experiment/ExperimentDetails';
 import { Editor } from '../../components/experiment/Editor';
 import styles from './Activity.module.css';
