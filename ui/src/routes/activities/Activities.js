@@ -11,7 +11,7 @@ import { ExperimentDetails } from '../../components/experiment/ExperimentDetails
 import { Editor } from '../../components/experiment/Editor';
 import styles from './Activity.module.css';
 
-class Activity extends Component {
+class Activities extends Component {
   componentDidMount() {
     const { activityId } = this.props.match.params;
     this.props.fetchActivity(activityId);
@@ -48,7 +48,7 @@ class Activity extends Component {
   }
 }
 
-Activity.propTypes = {
+Activities.propTypes = {
   match: PropTypes.object.isRequired,
   fetchActivity: PropTypes.func.isRequired,
   activityLoadingStatus: PropTypes.string,
@@ -64,5 +64,5 @@ const mapDispatch = {
   fetchActivity,
 };
 
-const connected = connect(mapState, mapDispatch)(Activity);
-export { connected as Activity };
+const connected = connect(mapState, mapDispatch)(Activities);
+export { connected as Activities };
