@@ -2,15 +2,15 @@ import _ from 'lodash';
 
 import { activitiesActions } from './activities';
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
-import { api } from '../api';
+import { kapture, aws, api } from '../api';
 
 const {
   setSearchTerm: _setSearchTerm,
   setSearchStatus: _setSearchStatus,
   setSearchResults: _setSearchResults,
+  setActivity: _setActivity,
+  setActivityLoadingStatus: _setActivityLoadingStatus,
 } = activitiesActions;
-
-export const { setCurrentActivity } = activitiesActions;
 
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {
@@ -38,3 +38,26 @@ const loadResults = _.debounce(async (value, dispatch) => {
     }
   }
 }, 500);
+
+export const fetchActivity = id => {
+  return async (dispatch, getState) => {
+    dispatch(_setActivityLoadingStatus({ status: REQUEST_PENDING }));
+    try {
+      const activity = await kapture.fetchExperiment(id);
+      const versions = await aws.fetchExperimentVersions(activity.name);
+      dispatch(
+        _setActivity({
+          activity: {
+            id: activity.id,
+            name: activity.name,
+            data: activity,
+            containerCollections: versions,
+          },
+        })
+      );
+      dispatch(_setActivityLoadingStatus({ status: REQUEST_SUCCESS }));
+    } catch (error) {
+      dispatch(_setActivityLoadingStatus({ status: REQUEST_ERROR }));
+    }
+  };
+};

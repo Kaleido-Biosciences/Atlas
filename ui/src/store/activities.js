@@ -9,9 +9,8 @@ const initialSearchValues = {
 };
 
 const initialActivityValues = {
-  currentActivity: null,
-  currentActivityLoadingStatus: null,
-  containerCollections: [],
+  activity: null,
+  activityLoadingStatus: null,
   plateSize: DEFAULT_PLATE_SIZE,
 };
 
@@ -33,9 +32,11 @@ const activities = createSlice({
     setSearchResults(state, action) {
       state.searchResults = action.payload.searchResults;
     },
-    setCurrentActivity(state, action) {
-      state.currentActivity = action.payload.activity;
-      state.containerCollections = [];
+    setActivity(state, action) {
+      state.activity = action.payload.activity;
+    },
+    setActivityLoadingStatus(state, action) {
+      state.activityLoadingStatus = action.payload.status;
     },
   },
 });
