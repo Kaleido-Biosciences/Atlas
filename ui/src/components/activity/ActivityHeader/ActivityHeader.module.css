@@ -1,4 +1,4 @@
-.experimentHeader {
+.activityHeader {
   padding: 0.4em 0.4em 0.4em 1.1em;
   display: flex;
   flex-direction: row;
@@ -8,7 +8,7 @@
   box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.1);
 }
 
-.experimentName {
+.activityName {
   font-size: 1.1em;
 }
 

@@ -1,2 +1,2 @@
-import { ExperimentHeader } from './ExperimentHeader';
-export { ExperimentHeader };
+import { ActivityHeader } from './ActivityHeader';
+export { ActivityHeader };

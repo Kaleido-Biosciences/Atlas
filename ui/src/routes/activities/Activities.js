@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { REQUEST_PENDING, REQUEST_ERROR } from '../../constants';
 import { fetchActivity } from '../../store/activitiesActions';
-import { ExperimentHeader } from '../../components/activity/ActivityHeader';
+import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ExperimentDetails } from '../../components/experiment/ExperimentDetails';
 import { Editor } from '../../components/experiment/Editor';
 import styles from './Activity.module.css';
@@ -32,7 +32,7 @@ class Activities extends Component {
         )}
         {activity && (
           <React.Fragment>
-            <ExperimentHeader />
+            <ActivityHeader />
             <Switch>
               <Route
                 path={`${match.path}`}
