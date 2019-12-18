@@ -38,6 +38,9 @@ const activities = createSlice({
     setActivityLoadingStatus(state, action) {
       state.activityLoadingStatus = action.payload.status;
     },
+    setPlateSize(state, action) {
+      state.plateSize = action.payload.plateSize;
+    },
   },
 });
 

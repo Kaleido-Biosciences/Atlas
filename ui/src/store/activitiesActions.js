@@ -12,6 +12,8 @@ const {
   setActivityLoadingStatus: _setActivityLoadingStatus,
 } = activitiesActions;
 
+export const { setPlateSize } = activitiesActions;
+
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {
     dispatch(_setSearchTerm({ searchTerm }));

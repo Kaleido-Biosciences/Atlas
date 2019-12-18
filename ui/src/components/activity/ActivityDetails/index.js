@@ -1,2 +1,2 @@
-import { ExperimentDetails } from './ExperimentDetails';
-export { ExperimentDetails };
+import { ActivityDetails } from './connect';
+export { ActivityDetails };

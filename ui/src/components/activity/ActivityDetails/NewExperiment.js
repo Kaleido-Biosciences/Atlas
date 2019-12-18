@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Header, Button } from 'semantic-ui-react';
 
 import { PlateSizeForm } from '../PlateSizeForm';
-import styles from './ExperimentDetails.module.css';
+import styles from './ActivityDetails.module.css';
 
 export class NewExperiment extends Component {
   state = {

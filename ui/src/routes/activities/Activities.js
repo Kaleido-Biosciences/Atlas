@@ -7,7 +7,7 @@ import { Route, Switch } from 'react-router-dom';
 import { REQUEST_PENDING, REQUEST_ERROR } from '../../constants';
 import { fetchActivity } from '../../store/activitiesActions';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
-import { ExperimentDetails } from '../../components/activity/ActivityDetails';
+import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/experiment/Editor';
 import styles from './Activity.module.css';
 
@@ -37,7 +37,7 @@ class Activities extends Component {
               <Route
                 path={`${match.path}`}
                 exact
-                component={ExperimentDetails}
+                component={ActivityDetails}
               />
               <Route path={`${match.path}/editor`} component={Editor} />
             </Switch>
