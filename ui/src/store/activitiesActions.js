@@ -12,7 +12,7 @@ const {
   setActivityLoadingStatus: _setActivityLoadingStatus,
 } = activitiesActions;
 
-export const { setPlateSize } = activitiesActions;
+export const { setPlateSize, setStale } = activitiesActions;
 
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {
@@ -57,7 +57,6 @@ export const fetchActivity = id => {
           },
         })
       );
-      dispatch(_setActivityLoadingStatus({ status: REQUEST_SUCCESS }));
     } catch (error) {
       dispatch(_setActivityLoadingStatus({ status: REQUEST_ERROR }));
     }

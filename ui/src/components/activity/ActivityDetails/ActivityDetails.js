@@ -7,6 +7,11 @@ import { NewExperiment } from './NewExperiment';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount();
+    }
+  }
   handleVersionClick = ({ version: v }) => {
     const { experiment_status, version } = v;
     let url = this.props.match.url;
@@ -59,4 +64,5 @@ ActivityDetails.propTypes = {
   versions: PropTypes.array,
   plateSize: PropTypes.object,
   onPlateSizeChange: PropTypes.func,
+  onUnmount: PropTypes.func,
 };

@@ -1,6 +1,6 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { DEFAULT_PLATE_SIZE } from '../constants';
+import { DEFAULT_PLATE_SIZE, REQUEST_SUCCESS } from '../constants';
 
 const initialSearchValues = {
   searchTerm: '',
@@ -12,6 +12,7 @@ const initialActivityValues = {
   activity: null,
   activityLoadingStatus: null,
   plateSize: DEFAULT_PLATE_SIZE,
+  stale: true,
 };
 
 const activities = createSlice({
@@ -34,12 +35,17 @@ const activities = createSlice({
     },
     setActivity(state, action) {
       state.activity = action.payload.activity;
+      state.stale = false;
+      state.activityLoadingStatus = REQUEST_SUCCESS;
     },
     setActivityLoadingStatus(state, action) {
       state.activityLoadingStatus = action.payload.status;
     },
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;
+    },
+    setStale(state, action) {
+      state.stale = action.payload.stale;
     },
   },
 });
