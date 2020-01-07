@@ -1,2 +1,2 @@
-import { Editor } from './Editor';
+import { Editor } from './connect';
 export { Editor };

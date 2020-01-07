@@ -1,33 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import queryString from 'query-string';
 import SplitPane from 'react-split-pane';
 
-import { importContainerCollection } from '../../../store/activitiesActions';
-import { initializePlates } from '../../../store/designActions';
-import { selectActivePlate } from '../../../store/selectors';
 import { PlateTabBar } from '../../editor/PlateTabBar';
 import { Plate } from '../../editor/Plate';
 import { PlateSidebar } from '../../editor/PlateSidebar';
 import { NoPlatesMessage } from '../../editor/Plate/NoPlatesMessage';
 import styles from './Editor.module.css';
 
-class Editor extends Component {
-  async componentDidMount() {
-    const params = queryString.parse(this.props.location.search);
-    await this.props.importContainerCollection(params.status, params.version);
-    this.props.initializePlates();
+export class Editor extends Component {
+  componentDidMount() {
+    if (this.props.onMount) {
+      this.props.onMount(this.props.location.search);
+    }
   }
 
   render() {
-    const { plates, activePlate, onComplete, addNewPlate } = this.props;
+    const { plates, activePlate, onAddClick } = this.props;
     const showPlate = plates.length > 0 && activePlate;
     return (
       <div className={styles.buildStep}>
         {showPlate && (
           <React.Fragment>
-            {/* <ExperimentHeader onComplete={onComplete} /> */}
             <div className={styles.container}>
               <SplitPane
                 primary="second"
@@ -49,26 +43,16 @@ class Editor extends Component {
             </div>
           </React.Fragment>
         )}
-        {!showPlate && <NoPlatesMessage onAddClick={addNewPlate} />}
+        {!showPlate && <NoPlatesMessage onAddClick={onAddClick} />}
       </div>
     );
   }
 }
 
 Editor.propTypes = {
-  importContainerCollection: PropTypes.func,
+  location: PropTypes.object,
+  plates: PropTypes.array,
+  activePlate: PropTypes.object,
+  onMount: PropTypes.func,
+  onAddClick: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  const activePlate = selectActivePlate(state);
-  const { plates, clickMode } = state.designExperiment;
-  return { activePlate, plates, clickMode };
-};
-
-const mapDispatch = {
-  importContainerCollection,
-  initializePlates,
-};
-
-const connected = connect(mapState, mapDispatch)(Editor);
-export { connected as Editor };
