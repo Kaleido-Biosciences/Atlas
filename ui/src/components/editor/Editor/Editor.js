@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 
-import { PlateTabBar } from '../../editor/PlateTabBar';
-import { Plate } from '../../editor/Plate';
-import { PlateSidebar } from '../../editor/PlateSidebar';
-import { NoPlatesMessage } from '../../editor/Plate/NoPlatesMessage';
+import { PlateTabBar } from '..//PlateTabBar';
+import { Plate } from '..//Plate';
+import { PlateSidebar } from '../PlateSidebar';
+import { NoPlatesMessage } from '../Plate/NoPlatesMessage';
 import styles from './Editor.module.css';
 
 export class Editor extends Component {
@@ -19,7 +19,7 @@ export class Editor extends Component {
     const { plates, activePlate, onAddClick } = this.props;
     const showPlate = plates.length > 0 && activePlate;
     return (
-      <div className={styles.buildStep}>
+      <div className={styles.editor}>
         {showPlate && (
           <React.Fragment>
             <div className={styles.container}>
