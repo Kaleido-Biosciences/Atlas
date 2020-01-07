@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import SplitPane from 'react-split-pane';
 
-import { fetchVersion } from '../../../store/experimentActions';
-import { importPlates, initializePlates } from '../../../store/designActions';
+import { importContainerCollection } from '../../../store/activitiesActions';
+import { initializePlates } from '../../../store/designActions';
 import { selectActivePlate } from '../../../store/selectors';
 import { PlateTabBar } from '../../editor/PlateTabBar';
 import { Plate } from '../../editor/Plate';
@@ -16,11 +16,7 @@ import styles from './Editor.module.css';
 class Editor extends Component {
   async componentDidMount() {
     const params = queryString.parse(this.props.location.search);
-    const version = await this.props.fetchVersion(
-      params.status,
-      params.version
-    );
-    await this.props.importPlates(version.plateMaps);
+    await this.props.importContainerCollection(params.status, params.version);
     this.props.initializePlates();
   }
 
@@ -60,7 +56,7 @@ class Editor extends Component {
 }
 
 Editor.propTypes = {
-  fetchVersion: PropTypes.func,
+  importContainerCollection: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -70,8 +66,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  fetchVersion,
-  importPlates,
+  importContainerCollection,
   initializePlates,
 };
 
