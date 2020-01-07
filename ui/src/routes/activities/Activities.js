@@ -8,7 +8,7 @@ import { REQUEST_PENDING, REQUEST_ERROR } from '../../constants';
 import { fetchActivity } from '../../store/activitiesActions';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
-import { Editor } from '../../components/experiment/Editor';
+import { Editor } from '../../components/activity/Editor';
 import styles from './Activity.module.css';
 
 class Activities extends Component {
