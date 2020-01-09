@@ -62,30 +62,6 @@ const designExperiment = createSlice({
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
-    setPlates(state, action) {
-      const { plates } = action.payload;
-      state.plates = plates;
-      state.plateSize = {
-        rows: plates[0].wells.length,
-        columns: plates[0].wells[0].length,
-      };
-    },
-    addPlate(state, action) {
-      state.plates.forEach(plate => {
-        plate.active = false;
-      });
-      const plate = action.payload;
-      plate.active = true;
-      plate.id = state.nextPlateId;
-      state.plates.push(plate);
-      state.nextPlateId++;
-    },
-    resetNextPlateId(state, action) {
-      state.nextPlateId = 1;
-    },
-    updateNextPlateId(state, action) {
-      state.nextPlateId = action.payload;
-    },
     setActivePlate(state, action) {
       const plateId = action.payload;
       const { plates } = state;

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { activitiesActions } from './activities';
-import { designExperimentActions } from './designExperiment';
+import { setPlates as _setPlates } from './editorActions';
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
 import { kapture, aws, api } from '../api';
 import { createComponent, createWell, createPlate } from './plateFunctions';
@@ -14,8 +14,6 @@ const {
   setActivity: _setActivity,
   setActivityLoadingStatus: _setActivityLoadingStatus,
 } = activitiesActions;
-
-const { setPlates: _setPlates } = designExperimentActions;
 
 export const {
   setPlateSize,

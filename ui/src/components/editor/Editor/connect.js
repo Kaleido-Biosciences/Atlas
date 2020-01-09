@@ -2,13 +2,19 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import { Editor } from './Editor';
-import { selectActivePlate } from '../../../store/selectors';
+import {
+  selectContainerCollectionImportStatus,
+  selectEditorInitialized,
+} from '../../../store/selectors';
 import {
   importContainerCollection,
   setImportStatus,
 } from '../../../store/activitiesActions';
-import { setInitialized } from '../../../store/editorActions';
-import { initializePlates, addNewPlate } from '../../../store/designActions';
+import {
+  setInitialized,
+  initializePlates,
+  addNewPlate,
+} from '../../../store/editorActions';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
@@ -24,17 +30,15 @@ const onMount = query => {
       dispatch(initializePlates());
       dispatch(setImportStatus({ status: REQUEST_SUCCESS }));
       dispatch(setInitialized({ initialized: true }));
-    } catch {
+    } catch (err) {
       dispatch(setImportStatus({ status: REQUEST_ERROR }));
     }
   };
 };
 
 const mapState = (state, props) => {
-  const { importStatus } = state.activities;
-  const { initialized } = state.editor;
-  const { plates } = state.designExperiment;
-  const activePlate = selectActivePlate(state);
+  const importStatus = selectContainerCollectionImportStatus(state);
+  const initialized = selectEditorInitialized(state);
   let loading = false,
     error = null;
   if (importStatus === REQUEST_PENDING) {
@@ -42,7 +46,7 @@ const mapState = (state, props) => {
   } else if (importStatus === REQUEST_ERROR) {
     error = 'An error occurred while importing plates.';
   }
-  return { plates, activePlate, loading, error, initialized };
+  return { loading, error, initialized };
 };
 
 const mapDispatch = {
