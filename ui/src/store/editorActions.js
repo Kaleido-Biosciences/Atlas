@@ -1,9 +1,15 @@
 import { editorActions } from './editor';
-import { createPlateWithDimensions } from './plateFunctions';
+import {
+  findPlateById,
+  createWell,
+  createPlate,
+  createPlateWithDimensions,
+} from './plateFunctions';
 const {
   addPlate: _addPlate,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
+  deletePlate: _deletePlate,
 } = editorActions;
 
 const _addNewPlate = () => {
@@ -12,12 +18,12 @@ const _addNewPlate = () => {
     const plate = createPlateWithDimensions(plateSize);
     dispatch(_addPlate({ plate }));
   };
-}
+};
 
 function wrapWithChangeHandler(fn, publishPlateIndicator) {
   return function() {
     return (dispatch, getState) => {
-      // dispatch(fn.apply(this, arguments));
+      dispatch(fn.apply(this, arguments));
       // const experimentData = getState().designExperiment;
       // dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
       // handleChange(
@@ -36,7 +42,7 @@ function wrapWithChangeHandler(fn, publishPlateIndicator) {
   };
 }
 
-export const { setInitialized, setPlates } = editorActions;
+export const { setInitialized, setPlates, setActivePlate } = editorActions;
 
 export const initializePlates = () => {
   return (dispatch, getState) => {
@@ -55,3 +61,21 @@ export const initializePlates = () => {
 };
 
 export const addNewPlate = wrapWithChangeHandler(_addNewPlate);
+
+export const clonePlate = wrapWithChangeHandler((plateId, typesToClone) => {
+  return (dispatch, getState) => {
+    let plates = getState().editor.plates;
+    const plate = findPlateById(plateId, plates);
+    const wells = plate.wells.map(row => {
+      return row.map(well => {
+        const components = well.components.filter(component => {
+          return typesToClone.includes(component.type);
+        });
+        return createWell(well.id, well.name, well.index, components);
+      });
+    });
+    dispatch(_addPlate({ plate: createPlate(wells) }));
+  };
+});
+
+export const deletePlate = wrapWithChangeHandler(_deletePlate);

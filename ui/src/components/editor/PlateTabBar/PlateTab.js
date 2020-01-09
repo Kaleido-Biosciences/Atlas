@@ -12,7 +12,7 @@ export class PlateTab extends Component {
   handleClick = () => {
     const { plate } = this.props;
     if (this.props.onClick) {
-      this.props.onClick(plate.id);
+      this.props.onClick({ plateId: plate.id });
     }
   };
   handleItemClick = (e, data) => {

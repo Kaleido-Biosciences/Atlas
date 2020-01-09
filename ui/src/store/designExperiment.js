@@ -62,35 +62,6 @@ const designExperiment = createSlice({
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
-    setActivePlate(state, action) {
-      const plateId = action.payload;
-      const { plates } = state;
-      plates.forEach(plate => {
-        if (plate.id === plateId) {
-          plate.active = true;
-        } else if (plate.active) {
-          plate.active = false;
-        }
-      });
-    },
-    deletePlate(state, action) {
-      const { plateId: idToRemove } = action.payload;
-      let indexToRemove;
-      state.plates.forEach((plate, i) => {
-        plate.active = false;
-        if (plate.id === idToRemove) {
-          indexToRemove = i;
-        }
-      });
-      state.plates.splice(indexToRemove, 1);
-      if (state.plates.length) {
-        if (state.plates[indexToRemove]) {
-          state.plates[indexToRemove].active = true;
-        } else {
-          state.plates[indexToRemove - 1].active = true;
-        }
-      }
-    },
     setClickMode(state, action) {
       state.clickMode = action.payload;
     },

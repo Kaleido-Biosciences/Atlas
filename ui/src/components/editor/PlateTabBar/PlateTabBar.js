@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Icon, Modal, Header } from 'semantic-ui-react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import {
-  addNewPlate,
-  setActivePlate,
-  clonePlate,
-  deletePlate,
-} from '../../../store/designActions';
-import { selectActivePlate } from '../../../store/selectors';
 import { PlateTab } from './PlateTab';
-import styles from './PlateTabBar.module.css';
 import { ClonePlateForm } from './ClonePlateForm';
 import { DeletePlateConfirmation } from './DeletePlateConfirmation';
+import styles from './PlateTabBar.module.css';
 
-class PlateTabBar extends Component {
+export class PlateTabBar extends Component {
   state = {
     cloneModalOpen: false,
     deleteModalOpen: false,
@@ -122,22 +114,3 @@ PlateTabBar.propTypes = {
   onClone: PropTypes.func,
   onDelete: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  const { plates } = state.designExperiment;
-  const activePlate = selectActivePlate(state);
-  return { plates, activePlate };
-};
-
-const mapDispatch = {
-  onAddClick: addNewPlate,
-  onTabClick: setActivePlate,
-  onClone: clonePlate,
-  onDelete: deletePlate,
-};
-
-const connected = connect(
-  mapState,
-  mapDispatch
-)(PlateTabBar);
-export { connected as PlateTabBar };
