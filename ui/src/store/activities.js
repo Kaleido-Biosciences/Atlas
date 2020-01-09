@@ -13,6 +13,7 @@ const initialActivityValues = {
   activityLoadingStatus: null,
   plateSize: DEFAULT_PLATE_SIZE,
   stale: true,
+  importStatus: null,
 };
 
 const activities = createSlice({
@@ -46,6 +47,9 @@ const activities = createSlice({
     },
     setStale(state, action) {
       state.stale = action.payload.stale;
+    },
+    setImportStatus(state, action) {
+      state.importStatus = action.payload.status;
     },
   },
 });

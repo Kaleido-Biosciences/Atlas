@@ -17,7 +17,11 @@ const {
 
 const { setPlates: _setPlates } = designExperimentActions;
 
-export const { setPlateSize, setStale } = activitiesActions;
+export const {
+  setPlateSize,
+  setStale,
+  setImportStatus,
+} = activitiesActions;
 
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {
@@ -80,7 +84,7 @@ export const importContainerCollection = (status, timestamp) => {
       );
     });
     const plates = await importPlates(collection.plateMaps, dispatch);
-    return plates
+    return plates;
   };
 };
 

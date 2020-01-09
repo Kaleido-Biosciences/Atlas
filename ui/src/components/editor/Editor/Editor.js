@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
+import { Loader } from 'semantic-ui-react';
 
 import { PlateTabBar } from '..//PlateTabBar';
 import { Plate } from '..//Plate';
 import { PlateSidebar } from '../PlateSidebar';
-import { NoPlatesMessage } from '../Plate/NoPlatesMessage';
 import styles from './Editor.module.css';
 
 export class Editor extends Component {
@@ -16,43 +16,53 @@ export class Editor extends Component {
   }
 
   render() {
-    const { plates, activePlate, onAddClick } = this.props;
-    const showPlate = plates.length > 0 && activePlate;
-    return (
-      <div className={styles.editor}>
-        {showPlate && (
-          <React.Fragment>
-            <div className={styles.container}>
-              <SplitPane
-                primary="second"
-                defaultSize={300}
-                minSize={200}
-                pane1Style={{ overflow: 'hidden' }}
-                pane2Style={{ height: '100%' }}
-              >
-                <div className={styles.mainContainer}>
-                  <div className={styles.plateTabContainer}>
-                    <PlateTabBar />
-                  </div>
-                  <div className={styles.plateContainer}>
-                    <Plate />
-                  </div>
+    const { loading, error, initialized } = this.props;
+    let content;
+    if (loading) {
+      content = (
+        <div className={styles.loader}>
+          <Loader active inline="centered">
+            Importing containers
+          </Loader>
+        </div>
+      );
+    } else if (!loading && !initialized && error) {
+      content = <div>{error}</div>;
+    } else if (!initialized) {
+      content = null;
+    } else if (!loading && !error && initialized) {
+      content = (
+        <React.Fragment>
+          <div className={styles.container}>
+            <SplitPane
+              primary="second"
+              defaultSize={300}
+              minSize={200}
+              pane1Style={{ overflow: 'hidden' }}
+              pane2Style={{ height: '100%' }}
+            >
+              <div className={styles.mainContainer}>
+                <div className={styles.plateTabContainer}>
+                  <PlateTabBar />
                 </div>
-                <PlateSidebar />
-              </SplitPane>
-            </div>
-          </React.Fragment>
-        )}
-        {!showPlate && <NoPlatesMessage onAddClick={onAddClick} />}
-      </div>
-    );
+                <div className={styles.plateContainer}>
+                  <Plate />
+                </div>
+              </div>
+              <PlateSidebar />
+            </SplitPane>
+          </div>
+        </React.Fragment>
+      );
+    }
+    return <div className={styles.editor}>{content}</div>;
   }
 }
 
 Editor.propTypes = {
   location: PropTypes.object,
-  plates: PropTypes.array,
-  activePlate: PropTypes.object,
+  loading: PropTypes.bool,
+  initialized: PropTypes.bool,
+  error: PropTypes.string,
   onMount: PropTypes.func,
-  onAddClick: PropTypes.func,
 };
