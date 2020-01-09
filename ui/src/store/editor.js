@@ -1,10 +1,13 @@
 import { createSlice } from 'redux-starter-kit';
 
+import { createComponent } from './plateFunctions';
+
 const initialState = {
   initialized: false,
   plates: [],
   plateSize: { rows: 8, columns: 12 },
   nextPlateId: 1,
+  components: [],
 };
 
 const editor = createSlice({
@@ -66,6 +69,19 @@ const editor = createSlice({
           state.plates[indexToRemove - 1].active = true;
         }
       }
+    },
+    addKaptureComponentsToComponents(state, action) {
+      const { kaptureComponents } = action.payload;
+      const { components } = state;
+      kaptureComponents.forEach(kaptureComponent => {
+        const { data, type, id } = kaptureComponent;
+        const existingComponent = components.find(
+          component => component.data.id === id
+        );
+        if (!existingComponent) {
+          components.unshift(createComponent(data, type));
+        }
+      });
     },
   },
 });

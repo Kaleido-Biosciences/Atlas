@@ -1,3 +1,3 @@
-import { ImportComponents } from './ImportComponents';
+import { ImportComponents } from './connect';
 
 export { ImportComponents };

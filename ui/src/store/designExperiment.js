@@ -10,7 +10,6 @@ import {
   getSelectedWells,
   applySelectedComponentsToWells,
   findPlateById,
-  createComponent,
   createTimepoint,
   getComponentCounts,
 } from './plateFunctions';
@@ -78,19 +77,6 @@ const designExperiment = createSlice({
         );
         if (index > -1) {
           toolComponents.splice(index, 1);
-        }
-      });
-    },
-    addKaptureComponentsToComponents(state, action) {
-      const { kaptureComponents } = action.payload;
-      const { components } = state;
-      kaptureComponents.forEach(kaptureComponent => {
-        const { data, type, id } = kaptureComponent;
-        const existingComponent = components.find(
-          component => component.data.id === id
-        );
-        if (!existingComponent) {
-          components.unshift(createComponent(data, type));
         }
       });
     },
