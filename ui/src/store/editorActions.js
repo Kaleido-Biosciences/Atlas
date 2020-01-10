@@ -5,11 +5,15 @@ import {
   createPlate,
   createPlateWithDimensions,
 } from './plateFunctions';
+import { selectActivePlate } from './selectors';
+
 const {
   addPlate: _addPlate,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
   deletePlate: _deletePlate,
+  setClickMode: _setClickMode,
+  deselectAllWells: _deselectAllWells,
 } = editorActions;
 
 const _addNewPlate = () => {
@@ -86,3 +90,11 @@ export const clonePlate = wrapWithChangeHandler((plateId, typesToClone) => {
 });
 
 export const deletePlate = wrapWithChangeHandler(_deletePlate);
+
+export const setClickMode = ({ clickMode }) => {
+  return (dispatch, getState) => {
+    dispatch(_setClickMode({ clickMode }));
+    const plate = selectActivePlate(getState());
+    dispatch(_deselectAllWells({ plateId: plate.id }));
+  };
+};

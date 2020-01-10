@@ -61,9 +61,6 @@ const designExperiment = createSlice({
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
-    setClickMode(state, action) {
-      state.clickMode = action.payload;
-    },
     setClearMode(state, action) {
       state.clearMode = action.payload;
     },
@@ -181,15 +178,6 @@ const designExperiment = createSlice({
         updatedWells.push(well);
       });
       state.componentCounts = getComponentCounts(state.plates);
-    },
-    deselectAllWells(state, action) {
-      const { plateId } = action.payload;
-      const { plates } = state;
-      const plate = findPlateById(plateId, plates);
-      const wells = plate.wells.flat();
-      wells.forEach(well => {
-        well.selected = false;
-      });
     },
     toggleWellsSelected(state, action) {
       const { plateId, wellIds } = action.payload;

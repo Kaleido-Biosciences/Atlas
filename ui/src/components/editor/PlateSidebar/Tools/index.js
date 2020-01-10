@@ -1,2 +1,2 @@
-import { Tools } from './Tools';
+import { Tools } from './connect';
 export { Tools };

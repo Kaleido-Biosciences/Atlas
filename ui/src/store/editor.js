@@ -1,6 +1,6 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { createComponent } from './plateFunctions';
+import { createComponent, findPlateById } from './plateFunctions';
 
 const initialState = {
   initialized: false,
@@ -10,6 +10,7 @@ const initialState = {
   components: [],
   toolComponents: [],
   componentCounts: {},
+  clickMode: 'apply',
 };
 
 const editor = createSlice({
@@ -101,6 +102,17 @@ const editor = createSlice({
       if (!existingComponent) {
         toolComponents.unshift(component);
       }
+    },
+    setClickMode(state, action) {
+      state.clickMode = action.payload.clickMode;
+    },
+    deselectAllWells(state, action) {
+      const { plateId } = action.payload;
+      const plate = findPlateById(plateId, state.plates);
+      const wells = plate.wells.flat();
+      wells.forEach(well => {
+        well.selected = false;
+      });
     },
   },
 });
