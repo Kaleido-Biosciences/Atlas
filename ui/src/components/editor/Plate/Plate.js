@@ -22,7 +22,7 @@ export class Plate extends Component {
     }
   };
   render() {
-    const { plate, settings } = this.props;
+    const { plate, settings, onSettingsChange } = this.props;
     return (
       <div className={styles.plate}>
         <div>
@@ -30,7 +30,7 @@ export class Plate extends Component {
         </div>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell}>
-            <Settings />
+            <Settings settings={settings} onChange={onSettingsChange} />
           </div>
           <ColumnHeader
             ref={this.columnHeaderRef}
@@ -66,4 +66,5 @@ Plate.propTypes = {
   plate: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   onClick: PropTypes.func,
+  onSettingsChange: PropTypes.func,
 };

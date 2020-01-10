@@ -170,10 +170,6 @@ const designExperiment = createSlice({
         state.lastSaveTime = Date.now();
       }
     },
-    setSettings(state, action) {
-      const { settings } = action.payload;
-      state.settings = Object.assign(state.settings, settings);
-    },
     addBarcodes(state, action) {
       const { barcodes } = action.payload;
       state.barcodes = state.barcodes.concat(barcodes);

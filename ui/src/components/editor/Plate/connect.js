@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { Plate } from './Plate';
-import { handlePlateClick } from '../../../store/editorActions';
+import { handlePlateClick, setSettings } from '../../../store/editorActions';
 import {
   selectActivePlate,
   selectEditorSettings,
@@ -16,6 +16,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onClick: handlePlateClick,
+  onSettingsChange: setSettings,
 };
 
 const connected = connect(mapState, mapDispatch)(Plate);

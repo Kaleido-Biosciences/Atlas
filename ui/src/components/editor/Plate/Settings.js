@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Popup, Icon, Form } from 'semantic-ui-react';
 
-import { setSettings } from '../../../store/designActions';
 import styles from './Plate.module.css';
 
 const wellSizeOptions = {
@@ -21,7 +19,7 @@ const wellSizeOptions = {
   },
 };
 
-class Settings extends Component {
+export class Settings extends Component {
   handleWellSizeChange = (e, { value }) => {
     if (this.props.onChange) {
       this.props.onChange({ settings: { wellSize: wellSizeOptions[value] } });
@@ -69,18 +67,3 @@ Settings.propTypes = {
   settings: PropTypes.object.isRequired,
   onChange: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  const { settings } = state.designExperiment;
-  return { settings };
-};
-
-const mapDispatch = {
-  onChange: setSettings,
-};
-
-const connected = connect(
-  mapState,
-  mapDispatch
-)(Settings);
-export { connected as Settings };

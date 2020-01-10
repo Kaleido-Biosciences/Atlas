@@ -185,6 +185,10 @@ const editor = createSlice({
         });
       }
     },
+    setSettings(state, action) {
+      const { settings } = action.payload;
+      state.settings = Object.assign(state.settings, settings);
+    },
   },
 });
 

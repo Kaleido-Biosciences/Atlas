@@ -56,6 +56,7 @@ export const {
   addKaptureComponentsToComponents,
   addComponentToComponents,
   addComponentToToolComponents,
+  setSettings,
 } = editorActions;
 
 export const initializePlates = () => {
