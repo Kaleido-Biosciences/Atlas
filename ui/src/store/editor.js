@@ -29,6 +29,7 @@ const initialState = {
     },
     componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
   },
+  barcodes: [],
 };
 
 const editor = createSlice({
@@ -188,6 +189,15 @@ const editor = createSlice({
     setSettings(state, action) {
       const { settings } = action.payload;
       state.settings = Object.assign(state.settings, settings);
+    },
+    addBarcodes(state, action) {
+      const { barcodes } = action.payload;
+      state.barcodes = state.barcodes.concat(barcodes);
+    },
+    setBarcode(state, action) {
+      const { plateId, barcode } = action.payload;
+      const plate = findPlateById(plateId, state.plates);
+      plate.barcode = barcode;
     },
   },
 });

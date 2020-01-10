@@ -22,11 +22,23 @@ export class Plate extends Component {
     }
   };
   render() {
-    const { plate, settings, onSettingsChange } = this.props;
+    const {
+      plate,
+      settings,
+      barcodes,
+      onSettingsChange,
+      onBarcodeAdd,
+      onBarcodeSelect,
+    } = this.props;
     return (
       <div className={styles.plate}>
         <div>
-          <Details />
+          <Details
+            plate={plate}
+            barcodes={barcodes}
+            onBarcodeAdd={onBarcodeAdd}
+            onBarcodeSelect={onBarcodeSelect}
+          />
         </div>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell}>
@@ -65,6 +77,9 @@ export class Plate extends Component {
 Plate.propTypes = {
   plate: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  barcodes: PropTypes.array.isRequired,
   onClick: PropTypes.func,
   onSettingsChange: PropTypes.func,
+  onBarcodeAdd: PropTypes.func,
+  onBarcodeSelect: PropTypes.func,
 };

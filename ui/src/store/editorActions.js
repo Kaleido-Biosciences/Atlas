@@ -17,6 +17,7 @@ const {
   applySelectedToolComponentsToWells: _applySelectedToolComponentsToWells,
   clearWells: _clearWells,
   toggleWellsSelected: _toggleWellsSelected,
+  setBarcode: _setBarcode,
 } = editorActions;
 
 const _addNewPlate = () => {
@@ -57,6 +58,7 @@ export const {
   addComponentToComponents,
   addComponentToToolComponents,
   setSettings,
+  addBarcodes,
 } = editorActions;
 
 export const initializePlates = () => {
@@ -119,3 +121,5 @@ export const handlePlateClick = wrapWithChangeHandler(
     };
   }
 );
+
+export const setBarcode = wrapWithChangeHandler(_setBarcode);
