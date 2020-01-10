@@ -1,6 +1,15 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { createComponent, findPlateById } from './plateFunctions';
+import {
+  DEFAULT_COMPONENT_COLOR_CODES,
+  COMPONENT_TYPES_PLURAL_TO_SINGULAR,
+} from '../constants';
+import {
+  createComponent,
+  findPlateById,
+  applySelectedComponentsToWells,
+  getComponentCounts,
+} from './plateFunctions';
 
 const initialState = {
   initialized: false,
@@ -9,8 +18,17 @@ const initialState = {
   nextPlateId: 1,
   components: [],
   toolComponents: [],
+  toolComponentsValid: true,
   componentCounts: {},
   clickMode: 'apply',
+  clearMode: 'all',
+  settings: {
+    wellSize: {
+      size: 120,
+      padding: 5,
+    },
+    componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
+  },
 };
 
 const editor = createSlice({
@@ -113,6 +131,59 @@ const editor = createSlice({
       wells.forEach(well => {
         well.selected = false;
       });
+    },
+    applySelectedToolComponentsToWells(state, action) {
+      if (state.toolComponentsValid) {
+        const { plateId, wellIds } = action.payload;
+        const { plates, toolComponents } = state;
+        const plate = findPlateById(plateId, plates);
+        applySelectedComponentsToWells(plate, wellIds, toolComponents);
+        state.componentCounts = getComponentCounts(state.plates);
+      }
+    },
+    clearWells(state, action) {
+      const { plateId, wellIds } = action.payload;
+      const { plates, clearMode } = state;
+      const plate = findPlateById(plateId, plates);
+      const wells = plate.wells.flat();
+      const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
+      const updatedWells = [];
+      const filteredWells = wells.filter(well => wellIds.includes(well.id));
+      filteredWells.forEach(well => {
+        if (clearMode === 'all') {
+          well.components = [];
+        } else {
+          const componentType = componentTypes[clearMode];
+          well.components = well.components.filter(component => {
+            return component.type !== componentType;
+          });
+        }
+        updatedWells.push(well);
+      });
+      state.componentCounts = getComponentCounts(plates);
+    },
+    toggleWellsSelected(state, action) {
+      const { plateId, wellIds } = action.payload;
+      const plate = findPlateById(plateId, state.plates);
+      const wells = plate.wells.flat();
+      const filteredWells = wells.filter(well => wellIds.includes(well.id));
+      const status = { selected: false, deselected: false };
+      filteredWells.forEach(well => {
+        if (well.selected) {
+          status.selected = true;
+        } else {
+          status.deselected = true;
+        }
+      });
+      if ((status.selected && status.deselected) || !status.selected) {
+        filteredWells.forEach(well => {
+          well.selected = true;
+        });
+      } else {
+        filteredWells.forEach(well => {
+          well.selected = false;
+        });
+      }
     },
   },
 });

@@ -132,15 +132,6 @@ const designExperiment = createSlice({
         stateComponent.timepoints.splice(index, 1);
       }
     },
-    applySelectedToolComponentsToWells(state, action) {
-      if (state.toolComponentsValid) {
-        const { plateId, wellIds } = action.payload;
-        const { plates, toolComponents } = state;
-        const plate = findPlateById(plateId, plates);
-        applySelectedComponentsToWells(plate, wellIds, toolComponents);
-        state.componentCounts = getComponentCounts(state.plates);
-      }
-    },
     applySelectedToolComponentsToSelectedWells(state, action) {
       if (state.toolComponentsValid) {
         const { plateId } = action.payload;
@@ -150,57 +141,6 @@ const designExperiment = createSlice({
         const wellIds = selectedWells.map(well => well.id);
         applySelectedComponentsToWells(plate, wellIds, toolComponents);
         state.componentCounts = getComponentCounts(state.plates);
-      }
-    },
-    clearWells(state, action) {
-      const { plateId, wellIds } = action.payload;
-      const { plates, clearMode } = state;
-      const plate = findPlateById(plateId, plates);
-      const wells = plate.wells.flat();
-      const componentTypes = {
-        communities: 'community',
-        compounds: 'compound',
-        media: 'medium',
-        supplements: 'supplement',
-        attributes: 'attribute',
-      };
-      const updatedWells = [];
-      const filteredWells = wells.filter(well => wellIds.includes(well.id));
-      filteredWells.forEach(well => {
-        if (clearMode === 'all') {
-          well.components = [];
-        } else {
-          const componentType = componentTypes[clearMode];
-          well.components = well.components.filter(component => {
-            return component.type !== componentType;
-          });
-        }
-        updatedWells.push(well);
-      });
-      state.componentCounts = getComponentCounts(state.plates);
-    },
-    toggleWellsSelected(state, action) {
-      const { plateId, wellIds } = action.payload;
-      const { plates } = state;
-      const plate = findPlateById(plateId, plates);
-      const wells = plate.wells.flat();
-      const filteredWells = wells.filter(well => wellIds.includes(well.id));
-      const status = { selected: false, deselected: false };
-      filteredWells.forEach(well => {
-        if (well.selected) {
-          status.selected = true;
-        } else {
-          status.deselected = true;
-        }
-      });
-      if ((status.selected && status.deselected) || !status.selected) {
-        filteredWells.forEach(well => {
-          well.selected = true;
-        });
-      } else {
-        filteredWells.forEach(well => {
-          well.selected = false;
-        });
       }
     },
     toggleComponentEditing(state, action) {

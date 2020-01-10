@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import {
-  toggleWellsSelected,
-  applySelectedToolComponentsToWells,
-  clearWells,
-} from '../../../store/designActions';
-import { selectActivePlate } from '../../../store/selectors';
 import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
@@ -16,7 +9,7 @@ import { Wells } from './Wells';
 import { Details } from './Details';
 import styles from './Plate.module.css';
 
-class Plate extends Component {
+export class Plate extends Component {
   columnHeaderRef = React.createRef();
   rowHeaderRef = React.createRef();
   handleScroll = values => {
@@ -24,19 +17,8 @@ class Plate extends Component {
     this.rowHeaderRef.current.setScrollPos(values.scrollTop);
   };
   handleClick = ({ wellIds }) => {
-    const data = {
-      plateId: this.props.plate.id,
-      wellIds,
-    };
-    const { clickMode } = this.props;
-    if (clickMode === 'apply') {
-      this.props.applySelectedToolComponentsToWells(data);
-    }
-    if (clickMode === 'clear') {
-      this.props.clearWells(data);
-    }
-    if (clickMode === 'select') {
-      this.props.toggleWellsSelected(data);
+    if (this.props.onClick) {
+      this.props.onClick({ plateId: this.props.plate.id, wellIds });
     }
   };
   render() {
@@ -83,22 +65,5 @@ class Plate extends Component {
 Plate.propTypes = {
   plate: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  const activePlate = selectActivePlate(state);
-  const { settings, clickMode } = state.designExperiment;
-  return { plate: activePlate, settings, clickMode };
-};
-
-const mapDispatch = {
-  toggleWellsSelected,
-  applySelectedToolComponentsToWells,
-  clearWells,
-};
-
-const connected = connect(
-  mapState,
-  mapDispatch
-)(Plate);
-export { connected as Plate };

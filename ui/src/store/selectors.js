@@ -36,3 +36,5 @@ export const selectEditorComponentCounts = createSelector([
 ]);
 
 export const selectEditorClickMode = createSelector(['editor.clickMode']);
+
+export const selectEditorSettings = createSelector(['editor.settings']);

@@ -5,7 +5,7 @@ import {
   createPlate,
   createPlateWithDimensions,
 } from './plateFunctions';
-import { selectActivePlate } from './selectors';
+import { selectActivePlate, selectEditorClickMode } from './selectors';
 
 const {
   addPlate: _addPlate,
@@ -14,6 +14,9 @@ const {
   deletePlate: _deletePlate,
   setClickMode: _setClickMode,
   deselectAllWells: _deselectAllWells,
+  applySelectedToolComponentsToWells: _applySelectedToolComponentsToWells,
+  clearWells: _clearWells,
+  toggleWellsSelected: _toggleWellsSelected,
 } = editorActions;
 
 const _addNewPlate = () => {
@@ -98,3 +101,20 @@ export const setClickMode = ({ clickMode }) => {
     dispatch(_deselectAllWells({ plateId: plate.id }));
   };
 };
+
+export const handlePlateClick = wrapWithChangeHandler(
+  ({ plateId, wellIds }) => {
+    return (dispatch, getState) => {
+      const clickMode = selectEditorClickMode(getState());
+      if (clickMode === 'apply') {
+        dispatch(_applySelectedToolComponentsToWells({ plateId, wellIds }));
+      }
+      if (clickMode === 'clear') {
+        dispatch(_clearWells({ plateId, wellIds }));
+      }
+      if (clickMode === 'select') {
+        dispatch(_toggleWellsSelected({ plateId, wellIds }));
+      }
+    };
+  }
+);

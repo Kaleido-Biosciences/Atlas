@@ -1,2 +1,2 @@
-import { Plate } from './Plate';
+import { Plate } from './connect';
 export { Plate };
