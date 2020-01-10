@@ -42,7 +42,14 @@ function wrapWithChangeHandler(fn, publishPlateIndicator) {
   };
 }
 
-export const { setInitialized, setPlates, setActivePlate, addKaptureComponentsToComponents } = editorActions;
+export const {
+  setInitialized,
+  setPlates,
+  setActivePlate,
+  addKaptureComponentsToComponents,
+  addComponentToComponents,
+  addComponentToToolComponents,
+} = editorActions;
 
 export const initializePlates = () => {
   return (dispatch, getState) => {

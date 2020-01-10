@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 
-import {
-  addComponentToComponents,
-  addComponentToToolComponents,
-} from '../../../../store/designActions';
 import { api } from '../../../../api';
 import { Header } from './Header';
 import { Search } from './Search';
 import { List } from './List';
 import styles from './ComponentList.module.css';
 
-class ComponentList extends Component {
+export class ComponentList extends Component {
   state = {
     value: '',
     loading: false,
@@ -87,8 +82,9 @@ class ComponentList extends Component {
   };
   handleComponentListClick = ({ component }) => {
     this.setState({ value: '', searchComponents: [] });
-    this.props.addComponentToComponents({ component });
-    this.props.addComponentToToolComponents({ component });
+    if (this.props.onComponentClick) {
+      this.props.onComponentClick({ component });
+    }
   };
   renderList() {
     const { components, componentCounts } = this.props;
@@ -144,19 +140,3 @@ ComponentList.propTypes = {
   components: PropTypes.array,
   onComponentClick: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  const { components, componentCounts } = state.designExperiment;
-  return { components, componentCounts };
-};
-
-const mapDispatch = {
-  addComponentToToolComponents,
-  addComponentToComponents,
-};
-
-const connected = connect(
-  mapState,
-  mapDispatch
-)(ComponentList);
-export { connected as ComponentList };

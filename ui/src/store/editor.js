@@ -8,6 +8,8 @@ const initialState = {
   plateSize: { rows: 8, columns: 12 },
   nextPlateId: 1,
   components: [],
+  toolComponents: [],
+  componentCounts: {},
 };
 
 const editor = createSlice({
@@ -70,6 +72,7 @@ const editor = createSlice({
         }
       }
     },
+    // TODO This should be changed to take normal components
     addKaptureComponentsToComponents(state, action) {
       const { kaptureComponents } = action.payload;
       const { components } = state;
@@ -83,7 +86,33 @@ const editor = createSlice({
         }
       });
     },
+    addComponentToComponents(state, action) {
+      const { component } = action.payload;
+      const { components } = state;
+      const existingComponent = findComponent(component.id, components);
+      if (!existingComponent) {
+        components.unshift(component);
+      }
+    },
+    addComponentToToolComponents(state, action) {
+      const { component } = action.payload;
+      const { toolComponents } = state;
+      const existingComponent = findComponent(component.id, toolComponents);
+      if (!existingComponent) {
+        toolComponents.unshift(component);
+      }
+    },
   },
 });
 
 export const { actions: editorActions, reducer: editorReducer } = editor;
+
+function findComponent(componentId, componentArray) {
+  return componentArray.find(component => component.id === componentId);
+}
+
+// function getToolComponentFromState(componentId, state) {
+//   return state.toolComponents.find(
+//     stateComponent => stateComponent.id === componentId
+//   );
+// }
