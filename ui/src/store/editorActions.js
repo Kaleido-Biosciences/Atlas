@@ -1,25 +1,33 @@
 import { editorActions } from './editor';
 import { editorComponentsActions } from './editorComponents';
+import { editorToolsActions } from './editorTools';
+
 import {
   findPlateById,
   createWell,
   createPlate,
   createPlateWithDimensions,
 } from './plateFunctions';
-import { selectActivePlate, selectEditorClickMode } from './selectors';
+import {
+  selectActivePlate,
+  selectEditorClickMode,
+  selectEditorToolComponentsValid,
+  selectEditorSelectedToolComponents,
+} from './selectors';
 
 const {
   addPlate: _addPlate,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
   deletePlate: _deletePlate,
-  setClickMode: _setClickMode,
   deselectAllWells: _deselectAllWells,
-  applySelectedToolComponentsToWells: _applySelectedToolComponentsToWells,
+  applyComponentsToWells: _applyComponentsToWells,
   clearWells: _clearWells,
   toggleWellsSelected: _toggleWellsSelected,
   setBarcode: _setBarcode,
 } = editorActions;
+
+const { setClickMode: _setClickMode } = editorToolsActions;
 
 const _addNewPlate = () => {
   return (dispatch, getState) => {
@@ -55,7 +63,6 @@ export const {
   setInitialized,
   setPlates,
   setActivePlate,
-  addComponentToToolComponents,
   setSettings,
   addBarcodes,
 } = editorActions;
@@ -64,6 +71,8 @@ export const {
   addKaptureComponentsToComponents,
   addComponentToComponents,
 } = editorComponentsActions;
+
+export const { addComponentToToolComponents } = editorToolsActions;
 
 export const initializePlates = () => {
   return (dispatch, getState) => {
@@ -114,7 +123,10 @@ export const handlePlateClick = wrapWithChangeHandler(
     return (dispatch, getState) => {
       const clickMode = selectEditorClickMode(getState());
       if (clickMode === 'apply') {
-        dispatch(_applySelectedToolComponentsToWells({ plateId, wellIds }));
+        if (selectEditorToolComponentsValid(getState())) {
+          const components = selectEditorSelectedToolComponents(getState());
+          dispatch(_applyComponentsToWells({ plateId, wellIds, components }));
+        }
       }
       if (clickMode === 'clear') {
         dispatch(_clearWells({ plateId, wellIds }));

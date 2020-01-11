@@ -29,14 +29,31 @@ export const selectEditorActivePlate = createSelector(
   getActivePlate
 );
 
-export const selectEditorComponents = createSelector(['editorComponents.components']);
+export const selectEditorComponents = createSelector([
+  'editorComponents.components',
+]);
 
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',
 ]);
 
-export const selectEditorClickMode = createSelector(['editor.clickMode']);
-
 export const selectEditorSettings = createSelector(['editor.settings']);
 
 export const selectEditorBarcodes = createSelector(['editor.barcodes']);
+
+export const selectEditorToolComponentsValid = createSelector([
+  'editorTools.toolComponentsValid',
+]);
+
+export const selectEditorClickMode = createSelector(['editorTools.clickMode']);
+
+export const selectEditorToolComponents = createSelector([
+  'editorTools.toolComponents',
+]);
+
+export const selectEditorSelectedToolComponents = createSelector(
+  ['editorTools.toolComponents'],
+  toolComponents => {
+    return toolComponents.filter(component => component.selected);
+  }
+);

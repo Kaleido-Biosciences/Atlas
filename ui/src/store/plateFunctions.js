@@ -67,6 +67,41 @@ export function applySelectedComponentsToWells(plate, wellIds, components) {
   return updatedWells;
 }
 
+export function applyComponentsToWells(plate, wellIds, components) {
+  const wells = plate.wells.flat();
+  const filteredWells = wells.filter(well => {
+    return wellIds.includes(well.id);
+  });
+  const updatedWells = [];
+  filteredWells.forEach(well => {
+    components.forEach(component => {
+      const existingComponent = well.components.find(
+        comp => comp.id === component.id
+      );
+      const { selected, editing, ...wellComponent } = component;
+      if (!existingComponent) {
+        well.components.push(wellComponent);
+      } else {
+        const existingTimepoints = existingComponent.timepoints;
+        if (wellComponent.timepoints) {
+          wellComponent.timepoints.forEach(newTimepoint => {
+            const index = existingTimepoints.findIndex(
+              eTimepoint => eTimepoint.time === newTimepoint.time
+            );
+            if (index > -1) {
+              existingTimepoints.splice(index, 1, newTimepoint);
+            } else {
+              existingTimepoints.push(newTimepoint);
+            }
+          });
+        }
+      }
+    });
+    updatedWells.push(well);
+  });
+  return updatedWells;
+}
+
 export function findPlateById(id, plates) {
   return plates.find((plate, i) => {
     return plate.id === id;

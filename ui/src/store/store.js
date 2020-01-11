@@ -5,7 +5,8 @@ import { reducer as formReducer } from 'redux-form';
 import './validators';
 import { activitiesReducer } from './activities';
 import { editorReducer } from './editor';
-import { editorComponentsReducer} from './editorComponents';
+import { editorComponentsReducer } from './editorComponents';
+import { editorToolsReducer } from './editorTools';
 import { designExperimentReducer } from './designExperiment';
 
 const middleware = getDefaultMiddleware();
@@ -18,6 +19,7 @@ export const store = configureStore({
     activities: activitiesReducer,
     editor: editorReducer,
     editorComponents: editorComponentsReducer,
+    editorTools: editorToolsReducer,
     designExperiment: designExperimentReducer,
     form: formReducer,
   },

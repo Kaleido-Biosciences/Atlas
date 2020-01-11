@@ -6,7 +6,7 @@ import {
 } from '../constants';
 import {
   findPlateById,
-  applySelectedComponentsToWells,
+  applyComponentsToWells,
   getComponentCounts,
 } from './plateFunctions';
 
@@ -15,11 +15,7 @@ const initialState = {
   plates: [],
   plateSize: { rows: 8, columns: 12 },
   nextPlateId: 1,
-  toolComponents: [],
-  toolComponentsValid: true,
   componentCounts: {},
-  clickMode: 'apply',
-  clearMode: 'all',
   settings: {
     wellSize: {
       size: 120,
@@ -90,19 +86,6 @@ const editor = createSlice({
         }
       }
     },
-    // TODO Move to EditorTools
-    addComponentToToolComponents(state, action) {
-      const { component } = action.payload;
-      const { toolComponents } = state;
-      const existingComponent = findComponent(component.id, toolComponents);
-      if (!existingComponent) {
-        toolComponents.unshift(component);
-      }
-    },
-    // TODO Move to EditorTools
-    setClickMode(state, action) {
-      state.clickMode = action.payload.clickMode;
-    },
     deselectAllWells(state, action) {
       const { plateId } = action.payload;
       const plate = findPlateById(plateId, state.plates);
@@ -111,15 +94,12 @@ const editor = createSlice({
         well.selected = false;
       });
     },
-    // TODO Edit to take tool components as payload
-    applySelectedToolComponentsToWells(state, action) {
-      if (state.toolComponentsValid) {
-        const { plateId, wellIds } = action.payload;
-        const { plates, toolComponents } = state;
-        const plate = findPlateById(plateId, plates);
-        applySelectedComponentsToWells(plate, wellIds, toolComponents);
-        state.componentCounts = getComponentCounts(state.plates);
-      }
+    applyComponentsToWells(state, action) {
+      const { plateId, wellIds, components } = action.payload;
+      const { plates } = state;
+      const plate = findPlateById(plateId, plates);
+      applyComponentsToWells(plate, wellIds, components);
+      state.componentCounts = getComponentCounts(state.plates);
     },
     clearWells(state, action) {
       const { plateId, wellIds } = action.payload;
@@ -182,10 +162,6 @@ const editor = createSlice({
 });
 
 export const { actions: editorActions, reducer: editorReducer } = editor;
-
-function findComponent(componentId, componentArray) {
-  return componentArray.find(component => component.id === componentId);
-}
 
 // function getToolComponentFromState(componentId, state) {
 //   return state.toolComponents.find(
