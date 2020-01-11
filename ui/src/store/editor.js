@@ -5,7 +5,6 @@ import {
   COMPONENT_TYPES_PLURAL_TO_SINGULAR,
 } from '../constants';
 import {
-  createComponent,
   findPlateById,
   applySelectedComponentsToWells,
   getComponentCounts,
@@ -16,7 +15,6 @@ const initialState = {
   plates: [],
   plateSize: { rows: 8, columns: 12 },
   nextPlateId: 1,
-  components: [],
   toolComponents: [],
   toolComponentsValid: true,
   componentCounts: {},
@@ -92,28 +90,7 @@ const editor = createSlice({
         }
       }
     },
-    // TODO This should be changed to take normal components
-    addKaptureComponentsToComponents(state, action) {
-      const { kaptureComponents } = action.payload;
-      const { components } = state;
-      kaptureComponents.forEach(kaptureComponent => {
-        const { data, type, id } = kaptureComponent;
-        const existingComponent = components.find(
-          component => component.data.id === id
-        );
-        if (!existingComponent) {
-          components.unshift(createComponent(data, type));
-        }
-      });
-    },
-    addComponentToComponents(state, action) {
-      const { component } = action.payload;
-      const { components } = state;
-      const existingComponent = findComponent(component.id, components);
-      if (!existingComponent) {
-        components.unshift(component);
-      }
-    },
+    // TODO Move to EditorTools
     addComponentToToolComponents(state, action) {
       const { component } = action.payload;
       const { toolComponents } = state;
@@ -122,6 +99,7 @@ const editor = createSlice({
         toolComponents.unshift(component);
       }
     },
+    // TODO Move to EditorTools
     setClickMode(state, action) {
       state.clickMode = action.payload.clickMode;
     },
@@ -133,6 +111,7 @@ const editor = createSlice({
         well.selected = false;
       });
     },
+    // TODO Edit to take tool components as payload
     applySelectedToolComponentsToWells(state, action) {
       if (state.toolComponentsValid) {
         const { plateId, wellIds } = action.payload;

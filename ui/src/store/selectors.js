@@ -29,7 +29,7 @@ export const selectEditorActivePlate = createSelector(
   getActivePlate
 );
 
-export const selectEditorComponents = createSelector(['editor.components']);
+export const selectEditorComponents = createSelector(['editorComponents.components']);
 
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',

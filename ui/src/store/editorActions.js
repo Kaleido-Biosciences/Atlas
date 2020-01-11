@@ -1,4 +1,5 @@
 import { editorActions } from './editor';
+import { editorComponentsActions } from './editorComponents';
 import {
   findPlateById,
   createWell,
@@ -54,12 +55,15 @@ export const {
   setInitialized,
   setPlates,
   setActivePlate,
-  addKaptureComponentsToComponents,
-  addComponentToComponents,
   addComponentToToolComponents,
   setSettings,
   addBarcodes,
 } = editorActions;
+
+export const {
+  addKaptureComponentsToComponents,
+  addComponentToComponents,
+} = editorComponentsActions;
 
 export const initializePlates = () => {
   return (dispatch, getState) => {
