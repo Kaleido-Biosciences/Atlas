@@ -1,2 +1,2 @@
-import { ClearTool } from './ClearTool';
+import { ClearTool } from './connect';
 export { ClearTool };

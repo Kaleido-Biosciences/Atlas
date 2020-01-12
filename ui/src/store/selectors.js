@@ -57,3 +57,5 @@ export const selectEditorSelectedToolComponents = createSelector(
     return toolComponents.filter(component => component.selected);
   }
 );
+
+export const selectEditorClearMode = createSelector(['editorTools.clearMode']);

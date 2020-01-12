@@ -13,6 +13,7 @@ import {
   selectEditorClickMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
+  selectEditorClearMode,
 } from './selectors';
 
 const {
@@ -72,7 +73,10 @@ export const {
   addComponentToComponents,
 } = editorComponentsActions;
 
-export const { addComponentToToolComponents } = editorToolsActions;
+export const {
+  addComponentToToolComponents,
+  setClearMode,
+} = editorToolsActions;
 
 export const initializePlates = () => {
   return (dispatch, getState) => {
@@ -129,7 +133,8 @@ export const handlePlateClick = wrapWithChangeHandler(
         }
       }
       if (clickMode === 'clear') {
-        dispatch(_clearWells({ plateId, wellIds }));
+        const clearMode = selectEditorClearMode(getState());
+        dispatch(_clearWells({ plateId, wellIds, clearMode }));
       }
       if (clickMode === 'select') {
         dispatch(_toggleWellsSelected({ plateId, wellIds }));

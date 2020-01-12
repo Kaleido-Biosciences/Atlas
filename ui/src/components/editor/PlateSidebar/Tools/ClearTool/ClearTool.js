@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Form, Checkbox } from 'semantic-ui-react';
 
-import { setClearMode } from '../../../../../store/designActions';
 import styles from './ClearTool.module.css';
 
-class ClearTool extends Component {
+export class ClearTool extends Component {
   handleChange = (e, data) => {
-    this.props.onChange(data.value);
+    if (this.props.onChange) {
+      this.props.onChange({ clearMode: data.value });
+    }
   };
   render() {
     return (
@@ -82,15 +82,5 @@ class ClearTool extends Component {
 
 ClearTool.propTypes = {
   clearMode: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  return { clearMode: state.designExperiment.clearMode };
-};
-
-const connected = connect(
-  mapState,
-  { onChange: setClearMode }
-)(ClearTool);
-export { connected as ClearTool };

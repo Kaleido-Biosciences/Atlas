@@ -22,6 +22,9 @@ const editorTools = createSlice({
     setClickMode(state, action) {
       state.clickMode = action.payload.clickMode;
     },
+    setClearMode(state, action) {
+      state.clearMode = action.payload.clearMode;
+    },
   },
 });
 

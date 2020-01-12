@@ -61,9 +61,6 @@ const designExperiment = createSlice({
       state.plateSize = plateSize;
       state.steps.stepOneCompleted = true;
     },
-    setClearMode(state, action) {
-      state.clearMode = action.payload;
-    },
     removeToolComponents(state, action) {
       const componentsToRemove = action.payload.components;
       const { toolComponents } = state;
@@ -169,16 +166,6 @@ const designExperiment = createSlice({
       if (saveStatus === 'SUCCESS') {
         state.lastSaveTime = Date.now();
       }
-    },
-    addBarcodes(state, action) {
-      const { barcodes } = action.payload;
-      state.barcodes = state.barcodes.concat(barcodes);
-    },
-    setBarcode(state, action) {
-      const { plateId, barcode } = action.payload;
-      const { plates } = state;
-      const plate = findPlateById(plateId, plates);
-      plate.barcode = barcode;
     },
   },
 });

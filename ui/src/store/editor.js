@@ -102,9 +102,8 @@ const editor = createSlice({
       state.componentCounts = getComponentCounts(state.plates);
     },
     clearWells(state, action) {
-      const { plateId, wellIds } = action.payload;
-      const { plates, clearMode } = state;
-      const plate = findPlateById(plateId, plates);
+      const { plateId, wellIds, clearMode } = action.payload;
+      const plate = findPlateById(plateId, state.plates);
       const wells = plate.wells.flat();
       const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
       const updatedWells = [];
@@ -120,7 +119,7 @@ const editor = createSlice({
         }
         updatedWells.push(well);
       });
-      state.componentCounts = getComponentCounts(plates);
+      state.componentCounts = getComponentCounts(state.plates);
     },
     toggleWellsSelected(state, action) {
       const { plateId, wellIds } = action.payload;
