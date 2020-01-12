@@ -1,2 +1,2 @@
-import { ApplyTool } from './ApplyTool';
+import { ApplyTool } from './connect';
 export { ApplyTool };

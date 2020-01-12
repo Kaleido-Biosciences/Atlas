@@ -6,13 +6,7 @@ import {
   STATUS_COMPLETED,
   DEFAULT_COMPONENT_COLOR_CODES,
 } from '../constants';
-import {
-  getSelectedWells,
-  applySelectedComponentsToWells,
-  findPlateById,
-  createTimepoint,
-  getComponentCounts,
-} from './plateFunctions';
+import { createTimepoint } from './plateFunctions';
 
 const designExperiment = createSlice({
   slice: 'designExperiment',
@@ -127,17 +121,6 @@ const designExperiment = createSlice({
       if (index > 0) {
         const stateComponent = getToolComponentFromState(component.id, state);
         stateComponent.timepoints.splice(index, 1);
-      }
-    },
-    applySelectedToolComponentsToSelectedWells(state, action) {
-      if (state.toolComponentsValid) {
-        const { plateId } = action.payload;
-        const { toolComponents, plates } = state;
-        const plate = findPlateById(plateId, plates);
-        const selectedWells = getSelectedWells(plate);
-        const wellIds = selectedWells.map(well => well.id);
-        applySelectedComponentsToWells(plate, wellIds, toolComponents);
-        state.componentCounts = getComponentCounts(state.plates);
       }
     },
     toggleComponentEditing(state, action) {

@@ -7,6 +7,7 @@ import {
   createWell,
   createPlate,
   createPlateWithDimensions,
+  getSelectedWells,
 } from './plateFunctions';
 import {
   selectActivePlate,
@@ -14,6 +15,7 @@ import {
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorClearMode,
+  selectEditorPlates,
 } from './selectors';
 
 const {
@@ -144,3 +146,16 @@ export const handlePlateClick = wrapWithChangeHandler(
 );
 
 export const setBarcode = wrapWithChangeHandler(_setBarcode);
+
+export const applySelectedToolComponentsToSelectedWells = wrapWithChangeHandler(
+  ({ plateId }) => {
+    return (dispatch, getState) => {
+      const plates = selectEditorPlates(getState());
+      const plate = findPlateById(plateId, plates);
+      const selectedWells = getSelectedWells(plate);
+      const wellIds = selectedWells.map(well => well.id);
+      const components = selectEditorSelectedToolComponents(getState());
+      dispatch(_applyComponentsToWells({ plateId, wellIds, components }));
+    };
+  }
+);
