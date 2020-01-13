@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Checkbox, Icon, Segment } from 'semantic-ui-react';
 import classNames from 'classnames';
 
-import {
-  selectToolComponents,
-  deselectToolComponents,
-  removeToolComponents,
-  addTimepointToComponent,
-  updateTimepoint,
-  deleteTimepoint,
-} from '../../../../../store/designActions';
-import { Timepoint } from './Timepoint';
+import { Timepoint } from '../Timepoint';
 import styles from './ToolComponent.module.css';
 
-class ToolComponent extends Component {
+export class ToolComponent extends Component {
   state = {
     collapsed: true,
   };
@@ -25,9 +16,13 @@ class ToolComponent extends Component {
     const { component } = this.props;
     const selection = { components: [component] };
     if (checked) {
-      this.props.onSelect(selection);
+      if (this.props.onSelect) {
+        this.props.onSelect(selection);
+      }
     } else {
-      this.props.onDeselect(selection);
+      if (this.props.onDeselect) {
+        this.props.onDeselect(selection);
+      }
     }
   };
   handleRemoveClick = (e, data) => {
@@ -157,7 +152,7 @@ class ToolComponent extends Component {
 }
 
 ToolComponent.propTypes = {
-  component: PropTypes.object,
+  component: PropTypes.object.isRequired,
   showTimepoints: PropTypes.bool,
   allowTimeChange: PropTypes.bool,
   allowAddTimepoint: PropTypes.bool,
@@ -168,18 +163,3 @@ ToolComponent.propTypes = {
   onTimepointChange: PropTypes.func,
   onTimepointDeleteClick: PropTypes.func,
 };
-
-const mapDispatch = {
-  onSelect: selectToolComponents,
-  onDeselect: deselectToolComponents,
-  onRemoveClick: removeToolComponents,
-  onAddTimepointClick: addTimepointToComponent,
-  onTimepointChange: updateTimepoint,
-  onTimepointDeleteClick: deleteTimepoint,
-};
-
-const connected = connect(
-  null,
-  mapDispatch
-)(ToolComponent);
-export { connected as ToolComponent };

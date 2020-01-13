@@ -78,6 +78,12 @@ export const {
 export const {
   addComponentToToolComponents,
   setClearMode,
+  selectToolComponents,
+  deselectToolComponents,
+  removeToolComponents,
+  addTimepointToComponent,
+  updateTimepoint,
+  deleteTimepoint,
 } = editorToolsActions;
 
 export const initializePlates = () => {
