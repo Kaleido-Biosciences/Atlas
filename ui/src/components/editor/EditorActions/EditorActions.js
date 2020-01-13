@@ -5,7 +5,6 @@ import memoize from 'memoize-one';
 import classNames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 
-import { setCompletedStatus, addBarcodes } from '../../../store/designActions';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
@@ -13,6 +12,8 @@ import {
 } from '../../../constants';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
 import { ImportBarcodesButton } from './ImportBarcodesButton';
+import styles from './EditorActions.module.css';
+
 export class EditorActions extends Component {
   renderSaveInfo = memoize((saveStatus, lastSaveTime) => {
     const saveTime = moment(lastSaveTime);
@@ -54,12 +55,13 @@ export class EditorActions extends Component {
     }
   };
   render() {
+    const { saveStatus, lastSaveTime } = this.props;
     return (
-      <div className={styles.container}>
+      <React.Fragment>
         <div>{this.renderSaveInfo(saveStatus, lastSaveTime)}</div>
         <ImportBarcodesButton onImport={this.handleImport} />
         <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -71,16 +73,3 @@ EditorActions.propTypes = {
   onComplete: PropTypes.func,
   onImport: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  const { saveStatus, lastSaveTime } = state.designExperiment;
-  return { saveStatus, lastSaveTime };
-};
-
-const mapDispatch = {
-  onMarkAsCompleted: setCompletedStatus,
-  onImport: addBarcodes,
-};
-
-const connected = connect(mapState, mapDispatch)(EditorActions);
-export { connected as EditorActions };

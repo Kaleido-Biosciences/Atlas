@@ -1,0 +1,10 @@
+.lastSave {
+  margin-right: 1em;
+  font-size: 0.8em;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.error {
+  color: #db2828;
+  font-weight: bold;
+}

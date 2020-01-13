@@ -3,6 +3,7 @@ import { createSlice } from 'redux-starter-kit';
 import {
   DEFAULT_COMPONENT_COLOR_CODES,
   COMPONENT_TYPES_PLURAL_TO_SINGULAR,
+  REQUEST_SUCCESS,
 } from '../constants';
 import {
   findPlateById,
@@ -24,6 +25,8 @@ const initialState = {
     componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
   },
   barcodes: [],
+  saveStatus: null,
+  lastSaveTime: null,
 };
 
 const editor = createSlice({
@@ -156,6 +159,13 @@ const editor = createSlice({
       const { plateId, barcode } = action.payload;
       const plate = findPlateById(plateId, state.plates);
       plate.barcode = barcode;
+    },
+    setSaveStatus(state, action) {
+      const { saveStatus } = action.payload;
+      state.saveStatus = saveStatus;
+      if (saveStatus === REQUEST_SUCCESS) {
+        state.lastSaveTime = Date.now();
+      }
     },
   },
 });

@@ -5,12 +5,13 @@ import styles from './ActivityHeader.module.css';
 
 export class ActivityHeader extends Component {
   render() {
-    const { activity } = this.props;
+    const { activity, actions } = this.props;
     return (
       <div className={styles.activityHeader}>
         <div className={styles.activityName}>
           {activity ? `Activity: ${activity.name}` : null}
         </div>
+        <div className={styles.container}>{actions}</div>
       </div>
     );
   }
@@ -18,4 +19,5 @@ export class ActivityHeader extends Component {
 
 ActivityHeader.propTypes = {
   activity: PropTypes.object,
+  actions: PropTypes.object,
 };

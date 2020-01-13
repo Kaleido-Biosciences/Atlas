@@ -9,6 +9,7 @@ import { fetchActivity } from '../../store/activitiesActions';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
+import { EditorActions } from '../../components/editor/EditorActions';
 import styles from './Activity.module.css';
 
 class Activities extends Component {
@@ -57,7 +58,7 @@ class Activities extends Component {
     } else if (activity) {
       content = (
         <React.Fragment>
-          <ActivityHeader />
+          <ActivityHeader actions={<EditorActions />} />
           <Switch>
             <Route path={`${match.path}`} exact component={ActivityDetails} />
             <Route path={`${match.path}/editor`} component={Editor} />
