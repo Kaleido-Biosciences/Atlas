@@ -49,9 +49,9 @@ export class EditorActions extends Component {
       }
     }
   };
-  handleImport = ({ barcodes }) => {
-    if (this.props.onImport) {
-      this.props.onImport({ barcodes });
+  handleImportBarcodes = ({ barcodes }) => {
+    if (this.props.onImportBarcodes) {
+      this.props.onImportBarcodes({ barcodes });
     }
   };
   render() {
@@ -59,7 +59,7 @@ export class EditorActions extends Component {
     return (
       <React.Fragment>
         <div>{this.renderSaveInfo(saveStatus, lastSaveTime)}</div>
-        <ImportBarcodesButton onImport={this.handleImport} />
+        <ImportBarcodesButton onImport={this.handleImportBarcodes} />
         <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
       </React.Fragment>
     );
@@ -71,5 +71,5 @@ EditorActions.propTypes = {
   lastSaveTime: PropTypes.number,
   onMarkAsCompleted: PropTypes.func,
   onComplete: PropTypes.func,
-  onImport: PropTypes.func,
+  onImportBarcodes: PropTypes.func,
 };

@@ -5,7 +5,7 @@ import {
   selectEditorSaveStatus,
   selectEditorLastSaveTime,
 } from '../../../store/selectors';
-import { setCompletedStatus, addBarcodes } from '../../../store/designActions';
+import { addBarcodes } from '../../../store/editorActions';
 
 const mapState = (state, props) => {
   return {
@@ -16,7 +16,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   //   onMarkAsCompleted: setCompletedStatus,
-  //   onImport: addBarcodes,
+  onImportBarcodes: addBarcodes,
 };
 
 const connected = connect(mapState, mapDispatch)(EditorActions);
