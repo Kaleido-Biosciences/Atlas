@@ -1,6 +1,12 @@
 import { createSelector } from 'redux-starter-kit';
 import { getActivePlate, getSelectedWells } from './plateFunctions';
 
+export const selectContainerCollectionImportStatus = createSelector([
+  'activities.importStatus',
+]);
+
+export const selectActivity = createSelector(['activities.activity']);
+
 export const selectActivePlate = createSelector(
   ['editor.plates'],
   getActivePlate
@@ -16,10 +22,6 @@ export const selectSelectedWellsFromActivePlate = createSelector(
   }
 );
 
-export const selectContainerCollectionImportStatus = createSelector([
-  'activities.importStatus',
-]);
-
 export const selectEditorInitialized = createSelector(['editor.initialized']);
 
 export const selectEditorPlates = createSelector(['editor.plates']);
@@ -29,17 +31,17 @@ export const selectEditorActivePlate = createSelector(
   getActivePlate
 );
 
-export const selectEditorComponents = createSelector([
-  'editorComponents.components',
-]);
+export const selectEditorSettings = createSelector(['editor.settings']);
+
+export const selectEditorBarcodes = createSelector(['editor.barcodes']);
 
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',
 ]);
 
-export const selectEditorSettings = createSelector(['editor.settings']);
-
-export const selectEditorBarcodes = createSelector(['editor.barcodes']);
+export const selectEditorComponents = createSelector([
+  'editorComponents.components',
+]);
 
 export const selectEditorToolComponentsValid = createSelector([
   'editorTools.toolComponentsValid',

@@ -1,2 +1,2 @@
-import { ActivityHeader } from './ActivityHeader';
+import { ActivityHeader } from './connect';
 export { ActivityHeader };

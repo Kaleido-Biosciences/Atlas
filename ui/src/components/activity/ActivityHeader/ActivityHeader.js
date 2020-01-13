@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import styles from './ActivityHeader.module.css';
 
-class ActivityHeader extends Component {
+export class ActivityHeader extends Component {
   render() {
     const { activity } = this.props;
     return (
@@ -20,13 +19,3 @@ class ActivityHeader extends Component {
 ActivityHeader.propTypes = {
   activity: PropTypes.object,
 };
-
-const mapState = (state, props) => {
-  const { activity } = state.activities;
-  return { activity };
-};
-
-const mapDispatch = {};
-
-const connected = connect(mapState, mapDispatch)(ActivityHeader);
-export { connected as ActivityHeader };
