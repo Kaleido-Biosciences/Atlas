@@ -12,8 +12,8 @@ const initialActivityValues = {
   activity: null,
   activityLoadingStatus: null,
   plateSize: DEFAULT_PLATE_SIZE,
-  stale: true,
-  importStatus: null,
+  initialized: false,
+  containerImportStatus: null,
 };
 
 const activities = createSlice({
@@ -36,7 +36,7 @@ const activities = createSlice({
     },
     setActivity(state, action) {
       state.activity = action.payload.activity;
-      state.stale = false;
+      state.initialized = true;
       state.activityLoadingStatus = REQUEST_SUCCESS;
     },
     setActivityLoadingStatus(state, action) {
@@ -45,11 +45,11 @@ const activities = createSlice({
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;
     },
-    setStale(state, action) {
-      state.stale = action.payload.stale;
+    setInitialized(state, action) {
+      state.initialized = action.payload.initialized;
     },
-    setImportStatus(state, action) {
-      state.importStatus = action.payload.status;
+    setContainerImportStatus(state, action) {
+      state.containerImportStatus = action.payload.status;
     },
   },
 });

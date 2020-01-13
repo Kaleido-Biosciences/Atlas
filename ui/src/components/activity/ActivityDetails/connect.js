@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ActivityDetails } from './ActivityDetails';
-import { setPlateSize, setStale } from '../../../store/activitiesActions';
+import { setPlateSize, setInitialized } from '../../../store/activitiesActions';
 
 const mapState = (state, props) => {
   const { activity, plateSize } = state.activities;
@@ -8,7 +8,7 @@ const mapState = (state, props) => {
 };
 
 const onUnmount = () => {
-  return setStale({ stale: true });
+  return setInitialized({ initialized: false });
 };
 
 const mapDispatch = {

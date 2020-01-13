@@ -1,4 +1,5 @@
 .activityHeader {
+  height: 2.8em;
   padding: 0.4em 0.4em 0.4em 1.1em;
   display: flex;
   flex-direction: row;

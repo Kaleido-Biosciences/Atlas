@@ -17,8 +17,8 @@ const {
 
 export const {
   setPlateSize,
-  setStale,
-  setImportStatus,
+  setInitialized,
+  setContainerImportStatus,
 } = activitiesActions;
 
 export const searchActivities = ({ searchTerm }) => {

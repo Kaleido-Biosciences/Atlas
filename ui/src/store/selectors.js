@@ -1,12 +1,19 @@
 import { createSelector } from 'redux-starter-kit';
 import { getActivePlate, getSelectedWells } from './plateFunctions';
 
-export const selectContainerCollectionImportStatus = createSelector([
-  'activities.importStatus',
-]);
-
 export const selectActivity = createSelector(['activities.activity']);
 
+export const selectActivityInitialized = createSelector([
+  'activities.initialized',
+]);
+
+export const selectActivityLoadingStatus = createSelector([
+  'activities.activityLoadingStatus',
+]);
+
+export const selectActivityContainerImportStatus = createSelector([
+  'activities.containerImportStatus',
+]);
 export const selectActivePlate = createSelector(
   ['editor.plates'],
   getActivePlate

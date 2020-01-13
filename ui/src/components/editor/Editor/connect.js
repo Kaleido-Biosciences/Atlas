@@ -3,12 +3,12 @@ import queryString from 'query-string';
 
 import { Editor } from './Editor';
 import {
-  selectContainerCollectionImportStatus,
+  selectActivityContainerImportStatus,
   selectEditorInitialized,
 } from '../../../store/selectors';
 import {
   importContainerCollection,
-  setImportStatus,
+  setContainerImportStatus,
 } from '../../../store/activitiesActions';
 import {
   setInitialized,
@@ -24,20 +24,20 @@ import {
 const onMount = query => {
   return async dispatch => {
     const params = queryString.parse(query);
-    dispatch(setImportStatus({ status: REQUEST_PENDING }));
+    dispatch(setContainerImportStatus({ status: REQUEST_PENDING }));
     try {
       await dispatch(importContainerCollection(params.status, params.version));
       dispatch(initializePlates());
-      dispatch(setImportStatus({ status: REQUEST_SUCCESS }));
+      dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
       dispatch(setInitialized({ initialized: true }));
     } catch (err) {
-      dispatch(setImportStatus({ status: REQUEST_ERROR }));
+      dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
     }
   };
 };
 
 const mapState = (state, props) => {
-  const importStatus = selectContainerCollectionImportStatus(state);
+  const importStatus = selectActivityContainerImportStatus(state);
   const initialized = selectEditorInitialized(state);
   let loading = false,
     error = null;
