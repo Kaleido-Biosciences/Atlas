@@ -3,6 +3,8 @@ import { getActivePlate, getSelectedWells } from './plateFunctions';
 
 export const selectActivity = createSelector(['activities.activity']);
 
+export const selectActivityName = createSelector(['activities.activity.name']);
+
 export const selectActivityInitialized = createSelector([
   'activities.initialized',
 ]);

@@ -1,13 +1,15 @@
 import { editorActions } from './editor';
 import { editorComponentsActions } from './editorComponents';
 import { editorToolsActions } from './editorTools';
-
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
+import { aws } from '../api';
 import {
   findPlateById,
   createWell,
   createPlate,
   createPlateWithDimensions,
   getSelectedWells,
+  exportPlates,
 } from './plateFunctions';
 import {
   selectActivePlate,
@@ -16,6 +18,7 @@ import {
   selectEditorSelectedToolComponents,
   selectEditorClearMode,
   selectEditorPlates,
+  selectActivityName,
 } from './selectors';
 
 const {
@@ -28,6 +31,7 @@ const {
   clearWells: _clearWells,
   toggleWellsSelected: _toggleWellsSelected,
   setBarcode: _setBarcode,
+  setSaveStatus: _setSaveStatus,
 } = editorActions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -40,24 +44,19 @@ const _addNewPlate = () => {
   };
 };
 
-function wrapWithChangeHandler(fn, publishPlateIndicator) {
+function wrapWithChangeHandler(fn) {
   return function() {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      // const experimentData = getState().designExperiment;
-      // dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
-      // handleChange(
-      //   experimentData,
-      //   publishPlateIndicator
-      //     ? aws.publishExperimentPlates
-      //     : aws.saveExperimentPlates
-      // )
-      //   .then(() => {
-      //     dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
-      //   })
-      //   .catch(() => {
-      //     dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
-      //   });
+      dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
+      const activityName = selectActivityName(getState());
+      const exportedPlates = exportPlates(selectEditorPlates(getState()));
+      try {
+        await aws.saveExperimentPlates(activityName, exportedPlates);
+        dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+      } catch (err) {
+        dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+      }
     };
   };
 }

@@ -20,7 +20,7 @@ export class EditorActions extends Component {
     let message;
     switch (saveStatus) {
       case REQUEST_PENDING:
-        message = 'Saving experiment...';
+        message = 'Saving containers...';
         break;
       case REQUEST_SUCCESS:
         message = `Autosaved at ${saveTime.format('LT')}`;
