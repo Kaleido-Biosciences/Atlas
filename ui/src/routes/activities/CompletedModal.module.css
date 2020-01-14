@@ -1,0 +1,9 @@
+.saveSuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.saveSuccess i {
+  margin-bottom: 0.2em !important;
+}

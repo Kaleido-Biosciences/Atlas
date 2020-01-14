@@ -4,7 +4,13 @@ import { activitiesActions } from './activities';
 import { setPlates as _setPlates } from './editorActions';
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
 import { kapture, aws, api } from '../api';
-import { createComponent, createWell, createPlate } from './plateFunctions';
+import {
+  createComponent,
+  createWell,
+  createPlate,
+  exportPlates,
+} from './plateFunctions';
+import { selectActivityName, selectEditorPlates } from './selectors';
 const { fetchCommunity, fetchCompound, fetchMedium, fetchSupplement } = kapture;
 
 const {
@@ -13,6 +19,7 @@ const {
   setSearchResults: _setSearchResults,
   setActivity: _setActivity,
   setActivityLoadingStatus: _setActivityLoadingStatus,
+  setPublishStatus: _setPublishStatus,
 } = activitiesActions;
 
 export const {
@@ -179,3 +186,17 @@ async function fetchComponentsForPlates(plates) {
   });
   return response;
 }
+
+export const publishActivityPlates = () => {
+  return async (dispatch, getState) => {
+    dispatch(_setPublishStatus({ status: REQUEST_PENDING }));
+    const activityName = selectActivityName(getState());
+    const exportedPlates = exportPlates(selectEditorPlates(getState()));
+    try {
+      await aws.publishExperimentPlates(activityName, exportedPlates);
+      dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));
+    } catch (err) {
+      dispatch(_setPublishStatus({ status: REQUEST_ERROR }));
+    }
+  };
+};

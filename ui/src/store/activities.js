@@ -14,6 +14,7 @@ const initialActivityValues = {
   plateSize: DEFAULT_PLATE_SIZE,
   initialized: false,
   containerImportStatus: null,
+  publishStatus: null,
 };
 
 const activities = createSlice({
@@ -50,6 +51,9 @@ const activities = createSlice({
     },
     setContainerImportStatus(state, action) {
       state.containerImportStatus = action.payload.status;
+    },
+    setPublishStatus(state, action) {
+      state.publishStatus = action.payload.status;
     },
   },
 });

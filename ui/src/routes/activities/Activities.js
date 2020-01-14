@@ -14,15 +14,23 @@ import {
   selectActivityLoadingStatus,
   selectActivityInitialized,
   selectActivityContainerImportStatus,
+  selectActivityPublishStatus,
 } from '../../store/selectors';
-import { fetchActivity } from '../../store/activitiesActions';
+import {
+  fetchActivity,
+  publishActivityPlates,
+} from '../../store/activitiesActions';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
 import { EditorActions } from '../../components/editor/EditorActions';
+import { CompletedModal } from './CompletedModal';
 import styles from './Activity.module.css';
 
 class Activities extends Component {
+  state = {
+    modalOpen: false,
+  };
   constructor(props) {
     super(props);
     this.fetchActivity();
@@ -60,6 +68,17 @@ class Activities extends Component {
     const { activityId } = this.props.match.params;
     this.props.fetchActivity(activityId);
   }
+  handleMarkAsCompleted = () => {
+    this.setState({ modalOpen: true });
+    if (this.props.onMarkAsCompleted) {
+      this.props.onMarkAsCompleted();
+    }
+  };
+  goToActivity = () => {
+    const activity = this.props.activity;
+    this.setState({ modalOpen: false });
+    this.props.history.push(`/activities/${activity.id}`);
+  };
   render() {
     const {
       activity,
@@ -67,6 +86,7 @@ class Activities extends Component {
       match,
       activityInitialized,
       activityContainerImportStatus,
+      publishStatus,
     } = this.props;
     let content,
       actions = null;
@@ -87,7 +107,9 @@ class Activities extends Component {
         this.matchEditorPath() &&
         activityContainerImportStatus === REQUEST_SUCCESS
       ) {
-        actions = <EditorActions />;
+        actions = (
+          <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
+        );
       }
       content = (
         <React.Fragment>
@@ -96,6 +118,11 @@ class Activities extends Component {
             <Route path={`${match.path}`} exact component={ActivityDetails} />
             <Route path={`${match.path}/editor`} component={Editor} />
           </Switch>
+          <CompletedModal
+            open={this.state.modalOpen}
+            publishStatus={publishStatus}
+            onBackToActivity={this.goToActivity}
+          />
         </React.Fragment>
       );
     }
@@ -109,7 +136,9 @@ Activities.propTypes = {
   activityInitialized: PropTypes.bool,
   activityLoadingStatus: PropTypes.string,
   activityContainerImportStatus: PropTypes.string,
+  publishStatus: PropTypes.string,
   fetchActivity: PropTypes.func.isRequired,
+  onMarkAsCompleted: PropTypes.func,
 };
 
 const mapState = (state, props) => {
@@ -118,11 +147,13 @@ const mapState = (state, props) => {
     activityInitialized: selectActivityInitialized(state),
     activityLoadingStatus: selectActivityLoadingStatus(state),
     activityContainerImportStatus: selectActivityContainerImportStatus(state),
+    publishStatus: selectActivityPublishStatus(state),
   };
 };
 
 const mapDispatch = {
   fetchActivity,
+  onMarkAsCompleted: publishActivityPlates,
 };
 
 const connected = connect(mapState, mapDispatch)(Activities);

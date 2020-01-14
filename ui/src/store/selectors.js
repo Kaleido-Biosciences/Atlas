@@ -16,6 +16,11 @@ export const selectActivityLoadingStatus = createSelector([
 export const selectActivityContainerImportStatus = createSelector([
   'activities.containerImportStatus',
 ]);
+
+export const selectActivityPublishStatus = createSelector([
+  'activities.publishStatus',
+]);
+
 export const selectActivePlate = createSelector(
   ['editor.plates'],
   getActivePlate

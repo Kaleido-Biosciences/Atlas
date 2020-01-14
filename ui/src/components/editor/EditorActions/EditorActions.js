@@ -44,9 +44,6 @@ export class EditorActions extends Component {
   handleMarkAsCompleted = () => {
     if (this.props.onMarkAsCompleted) {
       this.props.onMarkAsCompleted();
-      if (this.props.onComplete) {
-        this.props.onComplete();
-      }
     }
   };
   handleImportBarcodes = ({ barcodes }) => {
@@ -70,6 +67,5 @@ EditorActions.propTypes = {
   saveStatus: PropTypes.string,
   lastSaveTime: PropTypes.number,
   onMarkAsCompleted: PropTypes.func,
-  onComplete: PropTypes.func,
   onImportBarcodes: PropTypes.func,
 };

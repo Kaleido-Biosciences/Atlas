@@ -15,7 +15,6 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  //   onMarkAsCompleted: setCompletedStatus,
   onImportBarcodes: addBarcodes,
 };
 
