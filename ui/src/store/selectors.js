@@ -2,8 +2,10 @@ import { createSelector } from 'redux-starter-kit';
 import { getActivePlate, getSelectedWells } from './plateFunctions';
 
 export const selectActivity = createSelector(['activities.activity']);
-
 export const selectActivityName = createSelector(['activities.activity.name']);
+export const selectActivityDescription = createSelector([
+  'activities.activity.description',
+]);
 
 export const selectActivityInitialized = createSelector([
   'activities.initialized',
@@ -79,3 +81,6 @@ export const selectEditorSelectedToolComponents = createSelector(
 );
 
 export const selectEditorClearMode = createSelector(['editorTools.clearMode']);
+
+export const selectPrintPlates = createSelector(['print.plates']);
+export const selectPrintInitialized = createSelector(['print.initialized']);

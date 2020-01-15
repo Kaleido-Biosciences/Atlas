@@ -7,6 +7,7 @@ import { activitiesReducer } from './activities';
 import { editorReducer } from './editor';
 import { editorComponentsReducer } from './editorComponents';
 import { editorToolsReducer } from './editorTools';
+import { printReducer } from './print';
 import { designExperimentReducer } from './designExperiment';
 
 const middleware = getDefaultMiddleware();
@@ -20,6 +21,7 @@ export const store = configureStore({
     editor: editorReducer,
     editorComponents: editorComponentsReducer,
     editorTools: editorToolsReducer,
+    print: printReducer,
     designExperiment: designExperimentReducer,
     form: formReducer,
   },

@@ -25,6 +25,7 @@ import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
 import { EditorActions } from '../../components/editor/EditorActions';
 import { CompletedModal } from './CompletedModal';
+import { Print } from '../../components/print';
 import styles from './Activity.module.css';
 
 class Activities extends Component {
@@ -117,6 +118,7 @@ class Activities extends Component {
           <Switch>
             <Route path={`${match.path}`} exact component={ActivityDetails} />
             <Route path={`${match.path}/editor`} component={Editor} />
+            <Route path={`${match.path}/print`} component={Print} />
           </Switch>
           <CompletedModal
             open={this.state.modalOpen}

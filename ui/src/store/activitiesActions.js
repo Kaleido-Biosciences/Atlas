@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
 import { activitiesActions } from './activities';
-import { setPlates as _setPlates } from './editorActions';
+import { setPlates as _setEditorPlates } from './editorActions';
+import { setPlates as _setPrintPlates } from './printActions';
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
 import { kapture, aws, api } from '../api';
 import {
@@ -77,7 +78,7 @@ export const fetchActivity = id => {
   };
 };
 
-export const importContainerCollection = (status, timestamp) => {
+export const importContainerCollection = (status, timestamp, slice) => {
   return async (dispatch, getState) => {
     const parsedTimestamp = parseInt(timestamp);
     const { activities } = getState();
@@ -89,6 +90,11 @@ export const importContainerCollection = (status, timestamp) => {
       );
     });
     const plates = await importPlates(collection.plateMaps, dispatch);
+    if (slice === 'editor') {
+      dispatch(_setEditorPlates({ plates }));
+    } else if (slice === 'print') {
+      dispatch(_setPrintPlates({ plates }));
+    }
     return plates;
   };
 };
@@ -122,7 +128,6 @@ const importPlates = async (plates, dispatch) => {
     if (statePlates.length) {
       statePlates[0].active = true;
     }
-    dispatch(_setPlates({ plates: statePlates }));
     return statePlates;
   } else return null;
 };
