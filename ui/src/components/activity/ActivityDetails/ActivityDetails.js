@@ -4,6 +4,7 @@ import { Card } from 'semantic-ui-react';
 
 import { Version } from './Version';
 import { NewExperiment } from './NewExperiment';
+import { STATUS_DRAFT, STATUS_COMPLETED } from '../../../constants';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {
@@ -14,11 +15,18 @@ export class ActivityDetails extends Component {
   }
   handleVersionClick = ({ version: v }) => {
     const { experiment_status, version } = v;
+    const status = experiment_status.split('_')[1];
     let url = this.props.match.url;
     url = url.endsWith('/') ? url.slice(0, -1) : url;
-    this.props.history.push(
-      url + `/editor?status=${experiment_status}&version=${version}`
-    );
+    if (status === STATUS_COMPLETED) {
+      this.props.history.push(
+        url + `/print?status=${experiment_status}&version=${version}`
+      );
+    } else if (status === STATUS_DRAFT) {
+      this.props.history.push(
+        url + `/editor?status=${experiment_status}&version=${version}`
+      );
+    }
   };
   handlePlateSizeChange = ({ plateSize }) => {
     if (this.props.onPlateSizeChange) {
