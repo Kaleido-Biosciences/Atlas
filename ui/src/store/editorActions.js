@@ -36,15 +36,7 @@ const {
 
 const { setClickMode: _setClickMode } = editorToolsActions;
 
-const _addNewPlate = () => {
-  return (dispatch, getState) => {
-    const { plateSize } = getState().editor;
-    const plate = createPlateWithDimensions(plateSize);
-    dispatch(_addPlate({ plate }));
-  };
-};
-
-function wrapWithChangeHandler(fn) {
+const wrapWithChangeHandler = fn => {
   return function() {
     return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
@@ -59,7 +51,15 @@ function wrapWithChangeHandler(fn) {
       }
     };
   };
-}
+};
+
+const _addNewPlate = () => {
+  return (dispatch, getState) => {
+    const { plateSize } = getState().editor;
+    const plate = createPlateWithDimensions(plateSize);
+    dispatch(_addPlate({ plate }));
+  };
+};
 
 export const {
   setInitialized,
@@ -129,26 +129,26 @@ export const setClickMode = ({ clickMode }) => {
   };
 };
 
-export const handlePlateClick = wrapWithChangeHandler(
-  ({ plateId, wellIds }) => {
-    return (dispatch, getState) => {
-      const clickMode = selectEditorClickMode(getState());
-      if (clickMode === 'apply') {
-        if (selectEditorToolComponentsValid(getState())) {
-          const components = selectEditorSelectedToolComponents(getState());
-          dispatch(_applyComponentsToWells({ plateId, wellIds, components }));
-        }
+export const handlePlateClick = ({ plateId, wellIds }) => {
+  return (dispatch, getState) => {
+    const clickMode = selectEditorClickMode(getState());
+    if (clickMode === 'apply') {
+      if (selectEditorToolComponentsValid(getState())) {
+        const components = selectEditorSelectedToolComponents(getState());
+        const apply = wrapWithChangeHandler(_applyComponentsToWells);
+        dispatch(apply({ plateId, wellIds, components }));
       }
-      if (clickMode === 'clear') {
-        const clearMode = selectEditorClearMode(getState());
-        dispatch(_clearWells({ plateId, wellIds, clearMode }));
-      }
-      if (clickMode === 'select') {
-        dispatch(_toggleWellsSelected({ plateId, wellIds }));
-      }
-    };
-  }
-);
+    }
+    if (clickMode === 'clear') {
+      const clearMode = selectEditorClearMode(getState());
+      const clear = wrapWithChangeHandler(_clearWells);
+      dispatch(clear({ plateId, wellIds, clearMode }));
+    }
+    if (clickMode === 'select') {
+      dispatch(_toggleWellsSelected({ plateId, wellIds }));
+    }
+  };
+};
 
 export const setBarcode = wrapWithChangeHandler(_setBarcode);
 
