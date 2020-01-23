@@ -21,6 +21,7 @@ const {
   setActivity: _setActivity,
   setActivityLoadingStatus: _setActivityLoadingStatus,
   setPublishStatus: _setPublishStatus,
+  setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
 } = activitiesActions;
 
 export const {
@@ -83,12 +84,15 @@ export const importContainerCollection = (status, timestamp, slice) => {
     const parsedTimestamp = parseInt(timestamp);
     const { activities } = getState();
     const { containerCollections } = activities.activity;
-    const collection = containerCollections.find(collection => {
+    let collection = containerCollections.find(collection => {
       return (
         collection.experiment_status === status &&
         collection.version === parsedTimestamp
       );
     });
+    if (!collection) {
+      collection = await aws.fetchVersion(status, timestamp);
+    }
     const plates = await importPlates(collection.plateMaps, dispatch);
     if (slice === 'editor') {
       dispatch(_setEditorPlates({ plates }));
@@ -198,8 +202,12 @@ export const publishActivityPlates = () => {
     const activityName = selectActivityName(getState());
     const exportedPlates = exportPlates(selectEditorPlates(getState()));
     try {
-      await aws.publishExperimentPlates(activityName, exportedPlates);
+      const data = await aws.publishExperimentPlates(
+        activityName,
+        exportedPlates
+      );
       dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));
+      dispatch(_setPublishedContainerCollectionDetails(data));
     } catch (err) {
       dispatch(_setPublishStatus({ status: REQUEST_ERROR }));
     }

@@ -15,6 +15,7 @@ import {
   selectActivityInitialized,
   selectActivityContainerImportStatus,
   selectActivityPublishStatus,
+  selectActivityPublishedContainerCollectionDetails,
 } from '../../store/selectors';
 import {
   fetchActivity,
@@ -80,6 +81,13 @@ class Activities extends Component {
     this.setState({ modalOpen: false });
     this.props.history.push(`/activities/${activity.id}`);
   };
+  goToPrint = () => {
+    const { publishedContainerCollectionDetails, activity } = this.props;
+    const { status, version } = publishedContainerCollectionDetails;
+    const url = `/activities/${activity.id}/print?status=${status}&version=${version}`;
+    this.setState({ modalOpen: false });
+    this.props.history.push(url);
+  };
   render() {
     const {
       activity,
@@ -123,7 +131,8 @@ class Activities extends Component {
           <CompletedModal
             open={this.state.modalOpen}
             publishStatus={publishStatus}
-            onBackToActivity={this.goToActivity}
+            onBackToActivityClick={this.goToActivity}
+            onPrintClick={this.goToPrint}
           />
         </React.Fragment>
       );
@@ -139,6 +148,7 @@ Activities.propTypes = {
   activityLoadingStatus: PropTypes.string,
   activityContainerImportStatus: PropTypes.string,
   publishStatus: PropTypes.string,
+  publishedContainerCollectionDetails: PropTypes.object,
   fetchActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
 };
@@ -150,6 +160,9 @@ const mapState = (state, props) => {
     activityLoadingStatus: selectActivityLoadingStatus(state),
     activityContainerImportStatus: selectActivityContainerImportStatus(state),
     publishStatus: selectActivityPublishStatus(state),
+    publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
+      state
+    ),
   };
 };
 

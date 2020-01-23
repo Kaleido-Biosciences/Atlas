@@ -23,6 +23,10 @@ export const selectActivityPublishStatus = createSelector([
   'activities.publishStatus',
 ]);
 
+export const selectActivityPublishedContainerCollectionDetails = createSelector(
+  ['activities.publishedContainerCollectionDetails']
+);
+
 export const selectActivePlate = createSelector(
   ['editor.plates'],
   getActivePlate

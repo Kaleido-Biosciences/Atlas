@@ -11,14 +11,24 @@ import styles from './CompletedModal.module.css';
 
 export class CompletedModal extends Component {
   handleBackToActivity = () => {
-    if (this.props.onBackToActivity) {
-      this.props.onBackToActivity();
+    if (this.props.onBackToActivityClick) {
+      this.props.onBackToActivityClick();
+    }
+  };
+  handlePrint = () => {
+    if (this.props.onPrintClick) {
+      this.props.onPrintClick();
     }
   };
   render() {
     const { open, publishStatus } = this.props;
     return (
-      <Modal size="mini" dimmer="inverted" open={open} className={styles.modal}>
+      <Modal
+        size="small"
+        dimmer="inverted"
+        open={open}
+        className={styles.modal}
+      >
         <Modal.Content>
           {publishStatus === REQUEST_PENDING && (
             <div>
@@ -41,6 +51,9 @@ export class CompletedModal extends Component {
         </Modal.Content>
         {publishStatus === REQUEST_SUCCESS && (
           <Modal.Actions>
+            <Button secondary onClick={this.handlePrint}>
+              Print Plates
+            </Button>
             <Button primary onClick={this.handleBackToActivity}>
               Back to Activities
             </Button>
@@ -54,5 +67,6 @@ export class CompletedModal extends Component {
 CompletedModal.propTypes = {
   open: PropTypes.bool,
   publishStatus: PropTypes.string,
-  onBackToActivity: PropTypes.func,
+  onBackToActivityClick: PropTypes.func,
+  onPrintClick: PropTypes.func,
 };

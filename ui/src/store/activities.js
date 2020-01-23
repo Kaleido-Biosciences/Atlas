@@ -15,6 +15,7 @@ const initialActivityValues = {
   initialized: false,
   containerImportStatus: null,
   publishStatus: null,
+  publishedContainerCollectionDetails: null,
 };
 
 const activities = createSlice({
@@ -54,6 +55,10 @@ const activities = createSlice({
     },
     setPublishStatus(state, action) {
       state.publishStatus = action.payload.status;
+    },
+    setPublishedContainerCollectionDetails(state, action) {
+      state.publishedContainerCollectionDetails =
+        action.payload.containerCollectionDetails;
     },
   },
 });

@@ -152,7 +152,15 @@ export function publishExperimentPlates(experimentName, plateMaps) {
         time,
         plateMapsToSave,
         reject,
-        resolve
+        ({ data }) => {
+          resolve({
+            containerCollectionDetails: {
+              status: experimentName + '_' + STATUS_COMPLETED,
+              version: time,
+              data,
+            },
+          });
+        }
       );
     });
   });
