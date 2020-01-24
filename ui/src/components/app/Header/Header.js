@@ -10,7 +10,7 @@ export class Header extends Component {
     return (
       <Menu fixed="top" inverted className={styles.header}>
         <Menu.Item header position={'left'}>
-          <Link to="create/select" className={styles.headerLink}>
+          <Link to="/" className={styles.headerLink}>
             <Image size="mini" src={logo} className={styles.logo} />
             Atlas
           </Link>
