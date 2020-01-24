@@ -36,6 +36,9 @@ const editor = createSlice({
     setInitialized(state, action) {
       state.initialized = action.payload.initialized;
     },
+    setPlateSize(state, action) {
+      state.plateSize = action.payload.plateSize;
+    },
     setPlates(state, action) {
       const { plates } = action.payload;
       state.plates = plates;

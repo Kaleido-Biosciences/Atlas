@@ -27,6 +27,8 @@ export const selectActivityPublishedContainerCollectionDetails = createSelector(
   ['activities.publishedContainerCollectionDetails']
 );
 
+export const selectActivityPlateSize = createSelector(['activities.plateSize']);
+
 export const selectActivePlate = createSelector(
   ['editor.plates'],
   getActivePlate

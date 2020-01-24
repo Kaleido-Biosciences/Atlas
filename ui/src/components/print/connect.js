@@ -13,7 +13,7 @@ import {
   importContainerCollection,
   setContainerImportStatus,
 } from '../../store/activitiesActions';
-import { setInitialized } from '../../store/printActions';
+import { setInitialized, setPlates } from '../../store/printActions';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
@@ -22,14 +22,19 @@ import {
 
 const onMount = query => {
   return async dispatch => {
-    const params = queryString.parse(query);
     dispatch(setContainerImportStatus({ status: REQUEST_PENDING }));
+    const params = queryString.parse(query);
     try {
-      await dispatch(
-        importContainerCollection(params.status, params.version, 'print')
+      const plates = await dispatch(
+        importContainerCollection(params.status, params.version)
       );
-      dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
-      dispatch(setInitialized({ initialized: true }));
+      if (plates.length) {
+        dispatch(setPlates({ plates }));
+        dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
+        dispatch(setInitialized({ initialized: true }));
+      } else {
+        dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
+      }
     } catch (err) {
       dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
     }

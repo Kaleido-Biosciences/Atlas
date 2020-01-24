@@ -4,7 +4,7 @@ import { setPlateSize, setInitialized } from '../../../store/activitiesActions';
 
 const mapState = (state, props) => {
   const { activity, plateSize } = state.activities;
-  return { versions: activity.containerCollections, plateSize };
+  return { activity, versions: activity.containerCollections, plateSize };
 };
 
 const onUnmount = () => {

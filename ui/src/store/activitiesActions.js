@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
 import { activitiesActions } from './activities';
-import { setPlates as _setEditorPlates } from './editorActions';
-import { setPlates as _setPrintPlates } from './printActions';
 import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
 import { kapture, aws, api } from '../api';
 import {
@@ -93,13 +91,12 @@ export const importContainerCollection = (status, timestamp, slice) => {
     if (!collection) {
       collection = await aws.fetchVersion(status, timestamp);
     }
-    const plates = await importPlates(collection.plateMaps, dispatch);
-    if (slice === 'editor') {
-      dispatch(_setEditorPlates({ plates }));
-    } else if (slice === 'print') {
-      dispatch(_setPrintPlates({ plates }));
+    if (!collection) {
+      return [];
+    } else {
+      const plates = await importPlates(collection.plateMaps, dispatch);
+      return plates;
     }
-    return plates;
   };
 };
 

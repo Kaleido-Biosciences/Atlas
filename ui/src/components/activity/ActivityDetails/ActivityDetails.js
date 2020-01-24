@@ -33,6 +33,14 @@ export class ActivityDetails extends Component {
       this.props.onPlateSizeChange({ plateSize });
     }
   };
+  handleSubmit = () => {
+    const activityName = this.props.activity.name;
+    let url = this.props.match.url;
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
+    this.props.history.push(
+      url + `/editor?status=${activityName}_DRAFT&version=0`
+    );
+  };
   renderVersions(versions) {
     return (
       <Card.Group>
@@ -60,6 +68,7 @@ export class ActivityDetails extends Component {
           <NewExperiment
             defaultPlateSize={plateSize}
             onPlateSizeChange={this.handlePlateSizeChange}
+            onSubmit={this.handleSubmit}
           />
         </div>
       );
@@ -69,6 +78,7 @@ export class ActivityDetails extends Component {
 }
 
 ActivityDetails.propTypes = {
+  activity: PropTypes.object,
   versions: PropTypes.array,
   plateSize: PropTypes.object,
   onPlateSizeChange: PropTypes.func,

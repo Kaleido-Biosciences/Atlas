@@ -19,6 +19,11 @@ export class NewExperiment extends Component {
       this.props.onPlateSizeChange({ plateSize });
     }
   };
+  handleSubmit = () => {
+    if (this.props.onSubmit) {
+      this.props.onSubmit();
+    }
+  };
   render() {
     const { defaultPlateSize } = this.props;
     return (
@@ -31,7 +36,11 @@ export class NewExperiment extends Component {
             onChange={this.handlePlateSizeChange}
           />
         </div>
-        <Button disabled={this.state.submitDisabled} primary>
+        <Button
+          onClick={this.handleSubmit}
+          disabled={this.state.submitDisabled}
+          primary
+        >
           Submit
         </Button>
       </div>
@@ -42,4 +51,5 @@ export class NewExperiment extends Component {
 NewExperiment.propTypes = {
   defaultPlateSize: PropTypes.object,
   onPlateSizeChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };

@@ -63,6 +63,7 @@ const _addNewPlate = () => {
 
 export const {
   setInitialized,
+  setPlateSize,
   setPlates,
   setActivePlate,
   setSettings,

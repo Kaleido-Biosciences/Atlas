@@ -5,6 +5,7 @@ import { Editor } from './Editor';
 import {
   selectActivityContainerImportStatus,
   selectEditorInitialized,
+  selectActivityPlateSize,
 } from '../../../store/selectors';
 import {
   importContainerCollection,
@@ -14,6 +15,8 @@ import {
   setInitialized,
   initializePlates,
   addNewPlate,
+  setPlates,
+  setPlateSize,
 } from '../../../store/editorActions';
 import {
   REQUEST_PENDING,
@@ -22,14 +25,22 @@ import {
 } from '../../../constants';
 
 const onMount = query => {
-  return async dispatch => {
-    const params = queryString.parse(query);
+  return async (dispatch, getState) => {
     dispatch(setContainerImportStatus({ status: REQUEST_PENDING }));
+    const params = queryString.parse(query);
     try {
-      await dispatch(importContainerCollection(params.status, params.version, 'editor'));
+      const plates = await dispatch(
+        importContainerCollection(params.status, params.version)
+      );
+      if (plates.length) {
+        dispatch(setPlates({ plates }));
+      } else {
+        const plateSize = selectActivityPlateSize(getState());
+        dispatch(setPlateSize({ plateSize }));
+      }
       dispatch(initializePlates());
-      dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
       dispatch(setInitialized({ initialized: true }));
+      dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
     } catch (err) {
       dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
     }
