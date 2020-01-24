@@ -4,7 +4,8 @@ import { ActivityHeader } from './ActivityHeader';
 import { selectActivity } from '../../../store/selectors';
 
 const mapState = (state, props) => {
-  return { activity: selectActivity(state) };
+  const activity = selectActivity(state);
+  return { activityName: activity.name, linkUrl: `/activities/${activity.id}` };
 };
 
 const connected = connect(mapState, null)(ActivityHeader);
