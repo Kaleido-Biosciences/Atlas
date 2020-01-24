@@ -39,8 +39,8 @@ const onMount = query => {
         dispatch(setPlateSize({ plateSize }));
       }
       dispatch(initializePlates());
-      dispatch(setInitialized({ initialized: true }));
       dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
+      dispatch(setInitialized({ initialized: true }));
     } catch (err) {
       dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
     }
