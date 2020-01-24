@@ -6,6 +6,7 @@ import {
   selectActivityContainerImportStatus,
   selectEditorInitialized,
   selectActivityPlateSize,
+  selectEditorPlates,
 } from '../../../store/selectors';
 import {
   importContainerCollection,
@@ -50,6 +51,7 @@ const onMount = query => {
 const mapState = (state, props) => {
   const importStatus = selectActivityContainerImportStatus(state);
   const initialized = selectEditorInitialized(state);
+  const plates = selectEditorPlates(state);
   let loading = false,
     error = null;
   if (importStatus === REQUEST_PENDING) {
@@ -57,7 +59,7 @@ const mapState = (state, props) => {
   } else if (importStatus === REQUEST_ERROR) {
     error = 'An error occurred while importing plates.';
   }
-  return { loading, error, initialized };
+  return { loading, error, initialized, noPlates: plates.length === 0 };
 };
 
 const mapDispatch = {

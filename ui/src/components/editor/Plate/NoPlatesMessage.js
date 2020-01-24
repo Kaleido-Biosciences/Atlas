@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Segment, Header, Icon, Button } from 'semantic-ui-react';
 
+import styles from './NoPlatesMessage.module.css';
+
 export class NoPlatesMessage extends Component {
   render() {
     return (
-      <Segment placeholder>
+      <Segment placeholder className={styles.noPlatesMessage}>
         <Header icon>
           <Icon name="grid layout" />
-          There are no plates in this experiment
+          There are no plates in this activity
         </Header>
         <Button primary onClick={this.props.onAddClick}>
           Add a Plate

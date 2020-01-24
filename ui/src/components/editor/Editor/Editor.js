@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import { Loader } from 'semantic-ui-react';
 
-import { PlateTabBar } from '..//PlateTabBar';
-import { Plate } from '..//Plate';
+import { PlateTabBar } from '../PlateTabBar';
+import { Plate, NoPlatesMessage } from '../Plate';
 import { PlateSidebar } from '../PlateSidebar';
 import styles from './Editor.module.css';
 
@@ -16,7 +16,7 @@ export class Editor extends Component {
   }
 
   render() {
-    const { loading, error, initialized } = this.props;
+    const { loading, error, initialized, noPlates } = this.props;
     let content;
     if (loading) {
       content = (
@@ -46,7 +46,11 @@ export class Editor extends Component {
                   <PlateTabBar />
                 </div>
                 <div className={styles.plateContainer}>
-                  <Plate />
+                  {noPlates ? (
+                    <NoPlatesMessage onAddClick={this.props.onAddClick} />
+                  ) : (
+                    <Plate />
+                  )}
                 </div>
               </div>
               <PlateSidebar />
@@ -64,5 +68,7 @@ Editor.propTypes = {
   loading: PropTypes.bool,
   initialized: PropTypes.bool,
   error: PropTypes.string,
+  noPlates: PropTypes.bool,
   onMount: PropTypes.func,
+  onAddClick: PropTypes.func,
 };

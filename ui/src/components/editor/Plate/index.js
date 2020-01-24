@@ -1,2 +1,3 @@
 import { Plate } from './connect';
-export { Plate };
+import { NoPlatesMessage } from './NoPlatesMessage';
+export { Plate, NoPlatesMessage };
