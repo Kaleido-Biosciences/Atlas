@@ -5,7 +5,7 @@ import { Header, Button } from 'semantic-ui-react';
 import { PlateSizeForm } from '../PlateSizeForm';
 import styles from './ActivityDetails.module.css';
 
-export class NewExperiment extends Component {
+export class NewActivity extends Component {
   state = {
     submitDisabled: false,
   };
@@ -27,8 +27,8 @@ export class NewExperiment extends Component {
   render() {
     const { defaultPlateSize } = this.props;
     return (
-      <div className={styles.newExperiment}>
-        <Header as="h3">Start Experiment</Header>
+      <div className={styles.newActivity}>
+        <Header as="h3">Start Activity</Header>
         Select a plate size to get started
         <div className={styles.plateSizeFormContainer}>
           <PlateSizeForm
@@ -41,14 +41,14 @@ export class NewExperiment extends Component {
           disabled={this.state.submitDisabled}
           primary
         >
-          Submit
+          Get Started
         </Button>
       </div>
     );
   }
 }
 
-NewExperiment.propTypes = {
+NewActivity.propTypes = {
   defaultPlateSize: PropTypes.object,
   onPlateSizeChange: PropTypes.func,
   onSubmit: PropTypes.func,

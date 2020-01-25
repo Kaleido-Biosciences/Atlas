@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
 import { Version } from './Version';
-import { NewExperiment } from './NewExperiment';
+import { NewActivity } from './NewActivity';
 import { STATUS_DRAFT, STATUS_COMPLETED } from '../../../constants';
 import styles from './ActivityDetails.module.css';
 
@@ -64,8 +64,8 @@ export class ActivityDetails extends Component {
       content = this.renderVersions(versions);
     } else {
       content = (
-        <div className={styles.newExperimentContainer}>
-          <NewExperiment
+        <div className={styles.newActivityContainer}>
+          <NewActivity
             defaultPlateSize={plateSize}
             onPlateSizeChange={this.handlePlateSizeChange}
             onSubmit={this.handleSubmit}
