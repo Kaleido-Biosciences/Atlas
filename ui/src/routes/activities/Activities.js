@@ -27,11 +27,13 @@ import { Editor } from '../../components/editor/Editor';
 import { EditorActions } from '../../components/editor/EditorActions';
 import { CompletedModal } from './CompletedModal';
 import { Print } from '../../components/print';
+import { PrintActions } from '../../components/print/PrintActions';
 import styles from './Activity.module.css';
 
 class Activities extends Component {
   state = {
     modalOpen: false,
+    contentRef: null,
   };
   constructor(props) {
     super(props);
@@ -58,6 +60,16 @@ class Activities extends Component {
   }
   matchEditorPath() {
     const path = this.props.match.path + '/editor';
+    const { pathname: url } = this.props.location;
+    const match = matchPath(url, {
+      path,
+      exact: true,
+      strict: false,
+    });
+    return match;
+  }
+  matchPrintPath() {
+    const path = this.props.match.path + '/print';
     const { pathname: url } = this.props.location;
     const match = matchPath(url, {
       path,
@@ -119,6 +131,11 @@ class Activities extends Component {
         actions = (
           <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
         );
+      } else if (
+        this.matchPrintPath() &&
+        activityContainerImportStatus === REQUEST_SUCCESS
+      ) {
+        actions = <PrintActions contentRef={this.state.contentRef} />;
       }
       content = (
         <React.Fragment>
@@ -126,7 +143,17 @@ class Activities extends Component {
           <Switch>
             <Route path={`${match.path}`} exact component={ActivityDetails} />
             <Route path={`${match.path}/editor`} component={Editor} />
-            <Route path={`${match.path}/print`} component={Print} />
+            <Route
+              path={`${match.path}/print`}
+              render={routeProps => (
+                <Print
+                  contentRef={contentRef => {
+                    this.setState({ contentRef });
+                  }}
+                  {...routeProps}
+                />
+              )}
+            />
           </Switch>
           <CompletedModal
             open={this.state.modalOpen}

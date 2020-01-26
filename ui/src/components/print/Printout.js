@@ -60,8 +60,9 @@ export class Printout extends Component {
             return (
               <div key={plate.id} className={styles.container}>
                 <div className={styles.header}>
-                  <h4>{activityName}: </h4>
-                  {activityDescription}
+                  <div>
+                    <strong>{activityName}</strong>: {activityDescription}
+                  </div>
                 </div>
                 <div className={styles.content}>
                   <h5>{`Plate ${i + 1}`}</h5>

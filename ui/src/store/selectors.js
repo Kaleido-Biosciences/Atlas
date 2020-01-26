@@ -4,7 +4,7 @@ import { getActivePlate, getSelectedWells } from './plateFunctions';
 export const selectActivity = createSelector(['activities.activity']);
 export const selectActivityName = createSelector(['activities.activity.name']);
 export const selectActivityDescription = createSelector([
-  'activities.activity.description',
+  'activities.activity.data.description',
 ]);
 
 export const selectActivityInitialized = createSelector([

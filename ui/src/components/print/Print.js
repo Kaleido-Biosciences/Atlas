@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactToPrint from 'react-to-print';
-import { Loader, Button, Icon } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 
 import { Printout } from './Printout';
 import styles from './Print.module.css';
 
 export class Print extends Component {
+  componentRef = null;
+  contentRefUpdated = false;
   componentDidMount() {
     if (this.props.onMount) {
       this.props.onMount(this.props.location.search);
+    }
+  }
+  componentDidUpdate() {
+    if (
+      this.props.contentRef &&
+      this.props.initialized &&
+      this.componentRef &&
+      !this.contentRefUpdated
+    ) {
+      this.contentRefUpdated = true;
+      this.props.contentRef(this.componentRef);
     }
   }
   render() {
@@ -37,15 +49,6 @@ export class Print extends Component {
     } else if (!loading && !error && initialized) {
       content = (
         <React.Fragment>
-          <ReactToPrint
-            trigger={() => (
-              <Button className={styles.printButton}>
-                <Icon name="print" />
-                Print
-              </Button>
-            )}
-            content={() => this.componentRef}
-          />
           <Printout
             activityName={activityName}
             activityDescription={activityDescription}
@@ -55,7 +58,7 @@ export class Print extends Component {
         </React.Fragment>
       );
     }
-    return <div className={styles.print}>{content}</div>;
+    return <div>{content}</div>;
   }
 }
 
@@ -68,4 +71,5 @@ Print.propTypes = {
   activityDescription: PropTypes.string,
   plates: PropTypes.array,
   onMount: PropTypes.func,
+  contentRef: PropTypes.func,
 };
