@@ -3,6 +3,7 @@
   padding: 0.4em 0.4em 0.4em 1.1em;
   display: flex;
   flex-direction: row;
+  flex: 0 0 2.8em;
   justify-content: space-between;
   /* border-bottom: 1px solid rgba(34, 36, 38, 0.15); */
   align-items: center;
