@@ -3,33 +3,34 @@ import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 
 import { groupComponents } from '../../store/plateFunctions';
-import { WellComponent } from './PrintoutWellComponent';
+import { PrintWellComponent } from './PrintWellComponent';
+import styles from './PrintWell.module.css';
 
-export class PrintoutWell extends Component {
+export class PrintWell extends Component {
   group = memoize(groupComponents);
   renderCommunities(communities) {
     return communities.map(community => {
-      return <WellComponent key={community.id} component={community} />;
+      return <PrintWellComponent key={community.id} component={community} />;
     });
   }
   renderCompounds(compounds) {
     return compounds.map(compound => {
-      return <WellComponent key={compound.id} component={compound} />;
+      return <PrintWellComponent key={compound.id} component={compound} />;
     });
   }
   renderMedia(media) {
     return media.map(medium => {
-      return <WellComponent key={medium.id} component={medium} />;
+      return <PrintWellComponent key={medium.id} component={medium} />;
     });
   }
   renderSupplements(supplements) {
     return supplements.map(supplement => {
-      return <WellComponent key={supplement.id} component={supplement} />;
+      return <PrintWellComponent key={supplement.id} component={supplement} />;
     });
   }
   renderAttributes(attributes) {
     return attributes.map(attribute => {
-      return <WellComponent key={attribute.id} component={attribute} />;
+      return <PrintWellComponent key={attribute.id} component={attribute} />;
     });
   }
   render() {
@@ -42,17 +43,17 @@ export class PrintoutWell extends Component {
       attributes,
     } = this.group(components);
     return (
-      <div>
+      <div className={styles.printWell}>
         <div>{this.renderCommunities(communities)}</div>
         <div>{this.renderCompounds(compounds)}</div>
         <div>{this.renderMedia(media)}</div>
         <div>{this.renderSupplements(supplements)}</div>
-        <div>{this.renderSupplements(attributes)}</div>
+        <div>{this.renderAttributes(attributes)}</div>
       </div>
     );
   }
 }
 
-PrintoutWell.propTypes = {
+PrintWell.propTypes = {
   well: PropTypes.object.isRequired,
 };

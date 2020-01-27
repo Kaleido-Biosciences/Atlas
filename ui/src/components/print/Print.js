@@ -58,7 +58,7 @@ export class Print extends Component {
         </React.Fragment>
       );
     }
-    return <div>{content}</div>;
+    return <div className={styles.print}>{content}</div>;
   }
 }
 
