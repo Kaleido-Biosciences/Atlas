@@ -1,0 +1,12 @@
+.print {
+  height: 100%;
+  overflow: auto;
+}
+
+.printButton {
+  margin-left: 1em !important;
+}
+
+.loader {
+  margin-top: 4em;
+}

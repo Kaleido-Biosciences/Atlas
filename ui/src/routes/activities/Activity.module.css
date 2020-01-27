@@ -1,0 +1,9 @@
+.activity {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.loader {
+  margin-top: 4em;
+}

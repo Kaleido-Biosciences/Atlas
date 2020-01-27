@@ -25,7 +25,12 @@ export function fetchSupplement(id) {
   return axios.get(API_URL + '/supplements/' + id);
 }
 
-export function fetchExperiments(page, size, nameContains, descContains) {
+export async function fetchExperiment(id) {
+  const response = await axios.get(`${API_URL}/experiments/${id}`);
+  return response.data;
+}
+
+export function searchActivities(page, size, nameContains, descContains) {
   let queryString = '';
   if (page || size || nameContains || descContains) {
     const params = [];
