@@ -1,8 +1,8 @@
 .applyTool {
   display: flex;
-  flex: 1;
+  flex: 1 1 100%;
   flex-direction: column;
-  height: 100%;
+  overflow: auto;
 }
 
 .componentsContainer {
@@ -24,6 +24,7 @@
   text-align: center;
   flex: 0;
   font-size: 0.8em;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .selectedWellsText {

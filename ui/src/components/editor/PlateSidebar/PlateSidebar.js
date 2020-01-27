@@ -12,7 +12,7 @@ export class PlateSidebar extends Component {
         <SplitPane
           split="horizontal"
           defaultSize={250}
-          pane2Style={{ height: '100%' }}
+          pane2Style={{ overflow: 'hidden' }}
         >
           <ComponentList />
           <Tools />
