@@ -8,11 +8,17 @@
 .header {
   border-top: 1px solid rgba(34, 36, 38, 0.15);
   border-bottom: 1px solid rgba(34, 36, 38, 0.15);
-  padding: 0.4em;
+  padding: 0.4em 0.4em 0.4em 0.6em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  flex: 0 0 0%;
+  height: 2.2em;
+  flex: 0 0 2.2em;
+  align-items: center;
+}
+
+.header :global(i) {
+  margin-top: -0.3em !important;
 }
 
 .headerContent {
@@ -24,7 +30,7 @@
   padding: 1em;
   text-align: center;
   width: 100%;
-  color: rgba(0, 0, 0, 0.4)
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .search {
