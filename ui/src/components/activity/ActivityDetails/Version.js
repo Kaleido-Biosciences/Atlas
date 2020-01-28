@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Icon } from 'semantic-ui-react';
 import moment from 'moment';
+import bigInt from 'big-integer';
 
 import { STATUS_COMPLETED } from '../../../constants';
 import styles from './Version.module.css';
 
-/* global BigInt */
 const ldapToJS = n => {
-  return new Date(Number(BigInt(n) / BigInt(1e4) - BigInt(1.16444736e13)));
+  return new Date(Number(bigInt(n) / bigInt(1e4) - bigInt(1.16444736e13)));
 };
 
 export class Version extends Component {
