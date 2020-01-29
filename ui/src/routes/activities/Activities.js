@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
 import {
@@ -12,6 +12,7 @@ import {
 import {
   selectActivity,
   selectActivityLoadingStatus,
+  selectActivityLoadingError,
   selectActivityInitialized,
   selectActivityContainerImportStatus,
   selectActivityPublishStatus,
@@ -43,6 +44,7 @@ class Activities extends Component {
     if (
       !this.props.activityInitialized &&
       this.props.activityLoadingStatus !== REQUEST_PENDING &&
+      this.props.activityLoadingStatus !== REQUEST_ERROR &&
       this.matchDetailsPath()
     ) {
       this.fetchActivity();
@@ -104,6 +106,7 @@ class Activities extends Component {
     const {
       activity,
       activityLoadingStatus,
+      activityLoadingError,
       match,
       activityInitialized,
       activityContainerImportStatus,
@@ -119,10 +122,21 @@ class Activities extends Component {
           </Loader>
         </div>
       );
+    } else if (
+      !activityInitialized &&
+      activityLoadingStatus === REQUEST_ERROR
+    ) {
+      content = (
+        <Message
+          negative
+          className={styles.errorMessage}
+          icon="warning circle"
+          header="An error occurred while loading the activity:"
+          content={activityLoadingError}
+        />
+      );
     } else if (!activityInitialized && this.matchDetailsPath()) {
       content = null;
-    } else if (activityLoadingStatus === REQUEST_ERROR) {
-      content = <div>An error occurred while retrieving the activity</div>;
     } else if (activity) {
       if (
         this.matchEditorPath() &&
@@ -173,6 +187,7 @@ Activities.propTypes = {
   activity: PropTypes.object,
   activityInitialized: PropTypes.bool,
   activityLoadingStatus: PropTypes.string,
+  activityLoadingError: PropTypes.string,
   activityContainerImportStatus: PropTypes.string,
   publishStatus: PropTypes.string,
   publishedContainerCollectionDetails: PropTypes.object,
@@ -185,6 +200,7 @@ const mapState = (state, props) => {
     activity: selectActivity(state),
     activityInitialized: selectActivityInitialized(state),
     activityLoadingStatus: selectActivityLoadingStatus(state),
+    activityLoadingError: selectActivityLoadingError(state),
     activityContainerImportStatus: selectActivityContainerImportStatus(state),
     publishStatus: selectActivityPublishStatus(state),
     publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(

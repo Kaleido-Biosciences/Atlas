@@ -11,6 +11,7 @@ const initialSearchValues = {
 const initialActivityValues = {
   activity: null,
   activityLoadingStatus: null,
+  activityLoadingError: null,
   plateSize: DEFAULT_PLATE_SIZE,
   initialized: false,
   containerImportStatus: null,
@@ -43,6 +44,9 @@ const activities = createSlice({
     },
     setActivityLoadingStatus(state, action) {
       state.activityLoadingStatus = action.payload.status;
+    },
+    setActivityLoadingError(state, action) {
+      state.activityLoadingError = action.payload.error;
     },
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;

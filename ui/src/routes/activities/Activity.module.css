@@ -7,3 +7,8 @@
 .loader {
   margin-top: 4em;
 }
+
+.errorMessage {
+  margin: 2em auto !important;
+  width: 40em !important;
+}
