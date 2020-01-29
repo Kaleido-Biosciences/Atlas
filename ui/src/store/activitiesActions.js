@@ -18,6 +18,7 @@ const {
   setSearchResults: _setSearchResults,
   setActivity: _setActivity,
   setActivityLoadingStatus: _setActivityLoadingStatus,
+  setActivityLoadingError: _setActivityLoadingError,
   setPublishStatus: _setPublishStatus,
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
 } = activitiesActions;
@@ -73,6 +74,7 @@ export const fetchActivity = id => {
       );
     } catch (error) {
       dispatch(_setActivityLoadingStatus({ status: REQUEST_ERROR }));
+      dispatch(_setActivityLoadingError({ error: error.message }));
     }
   };
 };

@@ -15,6 +15,10 @@ export const selectActivityLoadingStatus = createSelector([
   'activities.activityLoadingStatus',
 ]);
 
+export const selectActivityLoadingError = createSelector([
+  'activities.activityLoadingError',
+]);
+
 export const selectActivityContainerImportStatus = createSelector([
   'activities.containerImportStatus',
 ]);
