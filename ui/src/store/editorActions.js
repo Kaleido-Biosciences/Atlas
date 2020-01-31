@@ -24,6 +24,10 @@ import {
 import { importContainerCollection } from './activitiesActions';
 
 const {
+  setInitialized: _setInitialized,
+  setInitializationError: _setInitializationError,
+  setPlateSize: _setPlateSize,
+  setPlates: _setPlates,
   addPlate: _addPlate,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
@@ -64,10 +68,6 @@ const _addNewPlate = () => {
 };
 
 export const {
-  setInitialized,
-  setInitializationError,
-  setPlateSize,
-  setPlates,
   setActivePlate,
   setSettings,
   addBarcodes,
@@ -93,18 +93,16 @@ export const {
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
-      const plates = await dispatch(
-        importContainerCollection(status, version)
-      );
+      const plates = await dispatch(importContainerCollection(status, version));
       if (plates.length) {
-        dispatch(setPlates({ plates }));
+        dispatch(_setPlates({ plates }));
       } else {
         const plateSize = selectActivityPlateSize(getState());
-        dispatch(setPlateSize({ plateSize }));
+        dispatch(_setPlateSize({ plateSize }));
       }
       dispatch(initializePlates());
     } catch (error) {
-      dispatch(setInitializationError({ error: error.message }));
+      dispatch(_setInitializationError({ error: error.message }));
     }
   };
 };
@@ -122,7 +120,7 @@ export const initializePlates = () => {
       }, 0);
       dispatch(_updateNextPlateId({ plateId: highestId + 1 }));
     }
-    dispatch(setInitialized({ initialized: true }));
+    dispatch(_setInitialized({ initialized: true }));
   };
 };
 
