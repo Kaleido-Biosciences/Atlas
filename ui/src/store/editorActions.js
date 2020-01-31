@@ -19,7 +19,9 @@ import {
   selectEditorClearMode,
   selectEditorPlates,
   selectActivityName,
+  selectActivityPlateSize,
 } from './selectors';
+import { importContainerCollection } from './activitiesActions';
 
 const {
   addPlate: _addPlate,
@@ -63,11 +65,13 @@ const _addNewPlate = () => {
 
 export const {
   setInitialized,
+  setInitializationError,
   setPlateSize,
   setPlates,
   setActivePlate,
   setSettings,
   addBarcodes,
+  resetState,
 } = editorActions;
 
 export const {
@@ -86,6 +90,25 @@ export const {
   deleteTimepoint,
 } = editorToolsActions;
 
+export const loadContainerCollection = (status, version) => {
+  return async (dispatch, getState) => {
+    try {
+      const plates = await dispatch(
+        importContainerCollection(status, version)
+      );
+      if (plates.length) {
+        dispatch(setPlates({ plates }));
+      } else {
+        const plateSize = selectActivityPlateSize(getState());
+        dispatch(setPlateSize({ plateSize }));
+      }
+      dispatch(initializePlates());
+    } catch (error) {
+      dispatch(setInitializationError({ error: error.message }));
+    }
+  };
+};
+
 export const initializePlates = () => {
   return (dispatch, getState) => {
     let { plates } = getState().editor;
@@ -99,6 +122,7 @@ export const initializePlates = () => {
       }, 0);
       dispatch(_updateNextPlateId({ plateId: highestId + 1 }));
     }
+    dispatch(setInitialized({ initialized: true }));
   };
 };
 

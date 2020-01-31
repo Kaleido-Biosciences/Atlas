@@ -49,6 +49,9 @@ export const selectSelectedWellsFromActivePlate = createSelector(
 );
 
 export const selectEditorInitialized = createSelector(['editor.initialized']);
+export const selectEditorInitializationError = createSelector([
+  'editor.initializationError',
+]);
 
 export const selectEditorPlates = createSelector(['editor.plates']);
 
