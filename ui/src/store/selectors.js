@@ -95,5 +95,9 @@ export const selectEditorSelectedToolComponents = createSelector(
 
 export const selectEditorClearMode = createSelector(['editorTools.clearMode']);
 
-export const selectPrintPlates = createSelector(['print.plates']);
+/* Print */
 export const selectPrintInitialized = createSelector(['print.initialized']);
+export const selectPrintInitializationError = createSelector([
+  'print.initializationError',
+]);
+export const selectPrintPlates = createSelector(['print.plates']);

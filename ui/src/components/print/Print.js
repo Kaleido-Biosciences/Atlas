@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Message } from 'semantic-ui-react';
 
 import { Printout } from './Printout';
 import styles from './Print.module.css';
@@ -11,6 +11,11 @@ export class Print extends Component {
   componentDidMount() {
     if (this.props.onMount) {
       this.props.onMount(this.props.location.search);
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount();
     }
   }
   componentDidUpdate() {
@@ -42,11 +47,17 @@ export class Print extends Component {
           </Loader>
         </div>
       );
-    } else if (!loading && !initialized && error) {
-      content = <div>{error}</div>;
-    } else if (!initialized) {
-      content = null;
-    } else if (!loading && !error && initialized) {
+    } else if (error) {
+      content = (
+        <Message
+          negative
+          className={styles.errorMessage}
+          icon="warning circle"
+          header="An error occurred while importing containers:"
+          content={error}
+        />
+      );
+    } else if (initialized) {
       content = (
         <React.Fragment>
           <Printout
@@ -65,11 +76,12 @@ export class Print extends Component {
 Print.propTypes = {
   location: PropTypes.object.isRequired,
   loading: PropTypes.bool,
-  initialized: PropTypes.bool,
   error: PropTypes.string,
+  initialized: PropTypes.bool,
+  plates: PropTypes.array,
   activityName: PropTypes.string,
   activityDescription: PropTypes.string,
-  plates: PropTypes.array,
   onMount: PropTypes.func,
+  onUnmount: PropTypes.func,
   contentRef: PropTypes.func,
 };
