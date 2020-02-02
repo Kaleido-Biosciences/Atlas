@@ -1,2 +1,1 @@
-import { Activities } from './Activities';
-export { Activities };
+export { Activities } from './connect';

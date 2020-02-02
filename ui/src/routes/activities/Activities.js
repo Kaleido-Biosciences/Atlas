@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
@@ -9,19 +8,6 @@ import {
   REQUEST_ERROR,
   REQUEST_SUCCESS,
 } from '../../constants';
-import {
-  selectActivity,
-  selectActivityLoadingStatus,
-  selectActivityLoadingError,
-  selectActivityInitialized,
-  selectActivityContainerImportStatus,
-  selectActivityPublishStatus,
-  selectActivityPublishedContainerCollectionDetails,
-} from '../../store/selectors';
-import {
-  fetchActivity,
-  publishActivityPlates,
-} from '../../store/activitiesActions';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
@@ -31,7 +17,7 @@ import { Print } from '../../components/print';
 import { PrintActions } from '../../components/print/PrintActions';
 import styles from './Activity.module.css';
 
-class Activities extends Component {
+export class Activities extends Component {
   state = {
     modalOpen: false,
     contentRef: null,
@@ -194,25 +180,3 @@ Activities.propTypes = {
   fetchActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  return {
-    activity: selectActivity(state),
-    activityInitialized: selectActivityInitialized(state),
-    activityLoadingStatus: selectActivityLoadingStatus(state),
-    activityLoadingError: selectActivityLoadingError(state),
-    activityContainerImportStatus: selectActivityContainerImportStatus(state),
-    publishStatus: selectActivityPublishStatus(state),
-    publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
-      state
-    ),
-  };
-};
-
-const mapDispatch = {
-  fetchActivity,
-  onMarkAsCompleted: publishActivityPlates,
-};
-
-const connected = connect(mapState, mapDispatch)(Activities);
-export { connected as Activities };
