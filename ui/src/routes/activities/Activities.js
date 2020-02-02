@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
-import {
-  REQUEST_PENDING,
-  REQUEST_ERROR,
-  REQUEST_SUCCESS,
-} from '../../constants';
+import { REQUEST_SUCCESS } from '../../constants';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
@@ -27,13 +23,19 @@ export class Activities extends Component {
     this.fetchActivity();
   }
   componentDidUpdate(prevProps, prevState) {
+    const { loading, error, containerCollectionsStale } = this.props;
     if (
-      !this.props.activityInitialized &&
-      this.props.activityLoadingStatus !== REQUEST_PENDING &&
-      this.props.activityLoadingStatus !== REQUEST_ERROR &&
+      !loading &&
+      !error &&
+      containerCollectionsStale &&
       this.matchDetailsPath()
     ) {
       this.fetchActivity();
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount();
     }
   }
   matchDetailsPath() {
@@ -90,17 +92,17 @@ export class Activities extends Component {
   };
   render() {
     const {
-      activity,
-      activityLoadingStatus,
-      activityLoadingError,
+      initialized,
+      error,
+      loading,
       match,
-      activityInitialized,
       activityContainerImportStatus,
       publishStatus,
+      containerCollectionsStale,
     } = this.props;
     let content,
       actions = null;
-    if (activityLoadingStatus === REQUEST_PENDING) {
+    if (loading) {
       content = (
         <div className={styles.loader}>
           <Loader active inline="centered">
@@ -108,22 +110,17 @@ export class Activities extends Component {
           </Loader>
         </div>
       );
-    } else if (
-      !activityInitialized &&
-      activityLoadingStatus === REQUEST_ERROR
-    ) {
+    } else if (error) {
       content = (
         <Message
           negative
           className={styles.errorMessage}
           icon="warning circle"
           header="An error occurred while loading the activity:"
-          content={activityLoadingError}
+          content={error}
         />
       );
-    } else if (!activityInitialized && this.matchDetailsPath()) {
-      content = null;
-    } else if (activity) {
+    } else if (initialized) {
       if (
         this.matchEditorPath() &&
         activityContainerImportStatus === REQUEST_SUCCESS
@@ -141,7 +138,15 @@ export class Activities extends Component {
         <React.Fragment>
           <ActivityHeader actions={actions} />
           <Switch>
-            <Route path={`${match.path}`} exact component={ActivityDetails} />
+            <Route
+              path={`${match.path}`}
+              exact
+              render={routeProps => {
+                return containerCollectionsStale ? null : (
+                  <ActivityDetails {...routeProps} />
+                );
+              }}
+            />
             <Route path={`${match.path}/editor`} component={Editor} />
             <Route
               path={`${match.path}/print`}
@@ -170,13 +175,15 @@ export class Activities extends Component {
 
 Activities.propTypes = {
   match: PropTypes.object.isRequired,
+  initialized: PropTypes.bool,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
   activity: PropTypes.object,
-  activityInitialized: PropTypes.bool,
-  activityLoadingStatus: PropTypes.string,
-  activityLoadingError: PropTypes.string,
   activityContainerImportStatus: PropTypes.string,
   publishStatus: PropTypes.string,
   publishedContainerCollectionDetails: PropTypes.object,
+  containerCollectionsStale: PropTypes.bool,
   fetchActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
+  onUnmount: PropTypes.func,
 };

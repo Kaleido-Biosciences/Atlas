@@ -10,13 +10,8 @@ export const selectActivityDescription = createSelector([
 export const selectActivityInitialized = createSelector([
   'activities.initialized',
 ]);
-
-export const selectActivityLoadingStatus = createSelector([
-  'activities.activityLoadingStatus',
-]);
-
-export const selectActivityLoadingError = createSelector([
-  'activities.activityLoadingError',
+export const selectActivityInitializationError = createSelector([
+  'activities.initializationError',
 ]);
 
 export const selectActivityContainerImportStatus = createSelector([
@@ -32,6 +27,9 @@ export const selectActivityPublishedContainerCollectionDetails = createSelector(
 );
 
 export const selectActivityPlateSize = createSelector(['activities.plateSize']);
+export const selectActivityContainerCollectionsStale = createSelector([
+  'activities.containerCollectionsStale',
+]);
 
 export const selectActivePlate = createSelector(
   ['editor.plates'],

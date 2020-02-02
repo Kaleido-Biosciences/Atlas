@@ -1,34 +1,31 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { DEFAULT_PLATE_SIZE, REQUEST_SUCCESS } from '../constants';
+import { DEFAULT_PLATE_SIZE } from '../constants';
 
-const initialSearchValues = {
+const initialState = {
   searchTerm: '',
   searchStatus: null,
   searchResults: null,
-};
-
-const initialActivityValues = {
-  activity: null,
-  activityLoadingStatus: null,
-  activityLoadingError: null,
-  plateSize: DEFAULT_PLATE_SIZE,
   initialized: false,
+  initializationError: null,
+  activity: null,
+  plateSize: DEFAULT_PLATE_SIZE,
   containerImportStatus: null,
   publishStatus: null,
   publishedContainerCollectionDetails: null,
+  containerCollectionsStale: true,
 };
 
 const activities = createSlice({
   slice: 'activities',
-  initialState: Object.assign({}, initialSearchValues, initialActivityValues),
+  initialState,
   reducers: {
     setSearchTerm(state, action) {
       const { searchTerm } = action.payload;
       if (searchTerm) {
         state.searchTerm = searchTerm;
       } else {
-        state = Object.assign(state, initialSearchValues);
+        Object.assign(state, initialState);
       }
     },
     setSearchStatus(state, action) {
@@ -37,22 +34,22 @@ const activities = createSlice({
     setSearchResults(state, action) {
       state.searchResults = action.payload.searchResults;
     },
+    setInitialized(state, action) {
+      state.initialized = action.payload.initialized;
+    },
+    setInitializationError(state, action) {
+      state.initializationError = action.payload.error;
+    },
+    resetState(state, action) {
+      Object.assign(state, initialState);
+    },
     setActivity(state, action) {
       state.activity = action.payload.activity;
       state.initialized = true;
-      state.activityLoadingStatus = REQUEST_SUCCESS;
-    },
-    setActivityLoadingStatus(state, action) {
-      state.activityLoadingStatus = action.payload.status;
-    },
-    setActivityLoadingError(state, action) {
-      state.activityLoadingError = action.payload.error;
+      state.containerCollectionsStale = false;
     },
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;
-    },
-    setInitialized(state, action) {
-      state.initialized = action.payload.initialized;
     },
     setContainerImportStatus(state, action) {
       state.containerImportStatus = action.payload.status;
@@ -63,6 +60,9 @@ const activities = createSlice({
     setPublishedContainerCollectionDetails(state, action) {
       state.publishedContainerCollectionDetails =
         action.payload.containerCollectionDetails;
+    },
+    setContainerCollectionsStale(state, action) {
+      state.containerCollectionsStale = action.payload.stale;
     },
   },
 });
