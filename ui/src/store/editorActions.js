@@ -12,7 +12,7 @@ import {
   exportPlates,
 } from './plateFunctions';
 import {
-  selectActivePlate,
+  selectEditorActivePlate,
   selectEditorClickMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
@@ -147,7 +147,7 @@ export const deletePlate = wrapWithChangeHandler(_deletePlate);
 export const setClickMode = ({ clickMode }) => {
   return (dispatch, getState) => {
     dispatch(_setClickMode({ clickMode }));
-    const plate = selectActivePlate(getState());
+    const plate = selectEditorActivePlate(getState());
     dispatch(_deselectAllWells({ plateId: plate.id }));
   };
 };
