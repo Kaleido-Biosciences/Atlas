@@ -10,7 +10,6 @@ const initialState = {
   initializationError: null,
   activity: null,
   plateSize: DEFAULT_PLATE_SIZE,
-  containerImportStatus: null,
   publishStatus: null,
   publishedContainerCollectionDetails: null,
   containerCollectionsStale: true,
@@ -50,9 +49,6 @@ const activities = createSlice({
     },
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;
-    },
-    setContainerImportStatus(state, action) {
-      state.containerImportStatus = action.payload.status;
     },
     setPublishStatus(state, action) {
       state.publishStatus = action.payload.status;

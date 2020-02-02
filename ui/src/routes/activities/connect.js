@@ -5,10 +5,11 @@ import {
   selectActivityInitialized,
   selectActivityInitializationError,
   selectActivity,
-  selectActivityContainerImportStatus,
   selectActivityPublishStatus,
   selectActivityPublishedContainerCollectionDetails,
   selectActivityContainerCollectionsStale,
+  selectEditorInitialized,
+  selectPrintInitialized,
 } from '../../store/selectors';
 import {
   fetchActivity,
@@ -28,12 +29,13 @@ const mapState = (state, props) => {
     loading,
     error,
     activity: selectActivity(state),
-    activityContainerImportStatus: selectActivityContainerImportStatus(state),
     publishStatus: selectActivityPublishStatus(state),
     publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
       state
     ),
     containerCollectionsStale: selectActivityContainerCollectionsStale(state),
+    editorInitialized: selectEditorInitialized(state),
+    printInitialized: selectPrintInitialized(state),
   };
 };
 

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
-import { REQUEST_SUCCESS } from '../../constants';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
@@ -96,9 +95,10 @@ export class Activities extends Component {
       error,
       loading,
       match,
-      activityContainerImportStatus,
       publishStatus,
       containerCollectionsStale,
+      editorInitialized,
+      printInitialized,
     } = this.props;
     let content,
       actions = null;
@@ -121,17 +121,11 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
-      if (
-        this.matchEditorPath() &&
-        activityContainerImportStatus === REQUEST_SUCCESS
-      ) {
+      if (this.matchEditorPath() && editorInitialized) {
         actions = (
           <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
         );
-      } else if (
-        this.matchPrintPath() &&
-        activityContainerImportStatus === REQUEST_SUCCESS
-      ) {
+      } else if (this.matchPrintPath() && printInitialized) {
         actions = <PrintActions contentRef={this.state.contentRef} />;
       }
       content = (
@@ -179,10 +173,11 @@ Activities.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
   activity: PropTypes.object,
-  activityContainerImportStatus: PropTypes.string,
   publishStatus: PropTypes.string,
   publishedContainerCollectionDetails: PropTypes.object,
   containerCollectionsStale: PropTypes.bool,
+  editorInitialized: PropTypes.bool,
+  printInitialized: PropTypes.bool,
   fetchActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
   onUnmount: PropTypes.func,

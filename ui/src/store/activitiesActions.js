@@ -26,7 +26,6 @@ const {
 
 export const {
   setPlateSize,
-  setContainerImportStatus,
   resetState,
   setContainerCollectionsStale,
 } = activitiesActions;
