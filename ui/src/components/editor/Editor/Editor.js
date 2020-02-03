@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Message } from 'semantic-ui-react';
 
 import { PlateTabBar } from '../PlateTabBar';
 import { Plate, NoPlatesMessage } from '../Plate';
@@ -12,6 +12,12 @@ export class Editor extends Component {
   componentDidMount() {
     if (this.props.onMount) {
       this.props.onMount(this.props.location.search);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount();
     }
   }
 
@@ -26,11 +32,17 @@ export class Editor extends Component {
           </Loader>
         </div>
       );
-    } else if (!loading && !initialized && error) {
-      content = <div>{error}</div>;
-    } else if (!initialized) {
-      content = null;
-    } else if (!loading && !error && initialized) {
+    } else if (error) {
+      content = (
+        <Message
+          negative
+          className={styles.errorMessage}
+          icon="warning circle"
+          header="An error occurred while importing containers:"
+          content={error}
+        />
+      );
+    } else if (initialized) {
       content = (
         <React.Fragment>
           <div className={styles.container}>
@@ -70,5 +82,6 @@ Editor.propTypes = {
   error: PropTypes.string,
   noPlates: PropTypes.bool,
   onMount: PropTypes.func,
+  onUnmount: PropTypes.func,
   onAddClick: PropTypes.func,
 };

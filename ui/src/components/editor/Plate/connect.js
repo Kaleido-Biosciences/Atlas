@@ -8,14 +8,14 @@ import {
   setBarcode,
 } from '../../../store/editorActions';
 import {
-  selectActivePlate,
+  selectEditorActivePlate,
   selectEditorSettings,
   selectEditorBarcodes,
 } from '../../../store/selectors';
 
 const mapState = (state, props) => {
   return {
-    plate: selectActivePlate(state),
+    plate: selectEditorActivePlate(state),
     settings: selectEditorSettings(state),
     barcodes: selectEditorBarcodes(state),
   };

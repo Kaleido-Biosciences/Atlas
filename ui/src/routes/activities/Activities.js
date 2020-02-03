@@ -1,27 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
-import {
-  REQUEST_PENDING,
-  REQUEST_ERROR,
-  REQUEST_SUCCESS,
-} from '../../constants';
-import {
-  selectActivity,
-  selectActivityLoadingStatus,
-  selectActivityLoadingError,
-  selectActivityInitialized,
-  selectActivityContainerImportStatus,
-  selectActivityPublishStatus,
-  selectActivityPublishedContainerCollectionDetails,
-} from '../../store/selectors';
-import {
-  fetchActivity,
-  publishActivityPlates,
-} from '../../store/activitiesActions';
 import { ActivityHeader } from '../../components/activity/ActivityHeader';
 import { ActivityDetails } from '../../components/activity/ActivityDetails';
 import { Editor } from '../../components/editor/Editor';
@@ -31,7 +12,7 @@ import { Print } from '../../components/print';
 import { PrintActions } from '../../components/print/PrintActions';
 import styles from './Activity.module.css';
 
-class Activities extends Component {
+export class Activities extends Component {
   state = {
     modalOpen: false,
     contentRef: null,
@@ -41,13 +22,19 @@ class Activities extends Component {
     this.fetchActivity();
   }
   componentDidUpdate(prevProps, prevState) {
+    const { loading, error, containerCollectionsStale } = this.props;
     if (
-      !this.props.activityInitialized &&
-      this.props.activityLoadingStatus !== REQUEST_PENDING &&
-      this.props.activityLoadingStatus !== REQUEST_ERROR &&
+      !loading &&
+      !error &&
+      containerCollectionsStale &&
       this.matchDetailsPath()
     ) {
       this.fetchActivity();
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount();
     }
   }
   matchDetailsPath() {
@@ -104,17 +91,18 @@ class Activities extends Component {
   };
   render() {
     const {
-      activity,
-      activityLoadingStatus,
-      activityLoadingError,
+      initialized,
+      error,
+      loading,
       match,
-      activityInitialized,
-      activityContainerImportStatus,
       publishStatus,
+      containerCollectionsStale,
+      editorInitialized,
+      printInitialized,
     } = this.props;
     let content,
       actions = null;
-    if (activityLoadingStatus === REQUEST_PENDING) {
+    if (loading) {
       content = (
         <div className={styles.loader}>
           <Loader active inline="centered">
@@ -122,40 +110,37 @@ class Activities extends Component {
           </Loader>
         </div>
       );
-    } else if (
-      !activityInitialized &&
-      activityLoadingStatus === REQUEST_ERROR
-    ) {
+    } else if (error) {
       content = (
         <Message
           negative
           className={styles.errorMessage}
           icon="warning circle"
           header="An error occurred while loading the activity:"
-          content={activityLoadingError}
+          content={error}
         />
       );
-    } else if (!activityInitialized && this.matchDetailsPath()) {
-      content = null;
-    } else if (activity) {
-      if (
-        this.matchEditorPath() &&
-        activityContainerImportStatus === REQUEST_SUCCESS
-      ) {
+    } else if (initialized) {
+      if (this.matchEditorPath() && editorInitialized) {
         actions = (
           <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
         );
-      } else if (
-        this.matchPrintPath() &&
-        activityContainerImportStatus === REQUEST_SUCCESS
-      ) {
+      } else if (this.matchPrintPath() && printInitialized) {
         actions = <PrintActions contentRef={this.state.contentRef} />;
       }
       content = (
         <React.Fragment>
           <ActivityHeader actions={actions} />
           <Switch>
-            <Route path={`${match.path}`} exact component={ActivityDetails} />
+            <Route
+              path={`${match.path}`}
+              exact
+              render={routeProps => {
+                return containerCollectionsStale ? null : (
+                  <ActivityDetails {...routeProps} />
+                );
+              }}
+            />
             <Route path={`${match.path}/editor`} component={Editor} />
             <Route
               path={`${match.path}/print`}
@@ -184,35 +169,16 @@ class Activities extends Component {
 
 Activities.propTypes = {
   match: PropTypes.object.isRequired,
+  initialized: PropTypes.bool,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
   activity: PropTypes.object,
-  activityInitialized: PropTypes.bool,
-  activityLoadingStatus: PropTypes.string,
-  activityLoadingError: PropTypes.string,
-  activityContainerImportStatus: PropTypes.string,
   publishStatus: PropTypes.string,
   publishedContainerCollectionDetails: PropTypes.object,
+  containerCollectionsStale: PropTypes.bool,
+  editorInitialized: PropTypes.bool,
+  printInitialized: PropTypes.bool,
   fetchActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
+  onUnmount: PropTypes.func,
 };
-
-const mapState = (state, props) => {
-  return {
-    activity: selectActivity(state),
-    activityInitialized: selectActivityInitialized(state),
-    activityLoadingStatus: selectActivityLoadingStatus(state),
-    activityLoadingError: selectActivityLoadingError(state),
-    activityContainerImportStatus: selectActivityContainerImportStatus(state),
-    publishStatus: selectActivityPublishStatus(state),
-    publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
-      state
-    ),
-  };
-};
-
-const mapDispatch = {
-  fetchActivity,
-  onMarkAsCompleted: publishActivityPlates,
-};
-
-const connected = connect(mapState, mapDispatch)(Activities);
-export { connected as Activities };

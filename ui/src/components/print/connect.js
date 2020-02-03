@@ -3,66 +3,41 @@ import queryString from 'query-string';
 
 import { Print } from './Print';
 import {
+  selectPrintInitialized,
+  selectPrintInitializationError,
+  selectPrintPlates,
   selectActivityName,
   selectActivityDescription,
-  selectActivityContainerImportStatus,
-  selectPrintInitialized,
-  selectPrintPlates,
 } from '../../store/selectors';
-import {
-  importContainerCollection,
-  setContainerImportStatus,
-} from '../../store/activitiesActions';
-import { setInitialized, setPlates } from '../../store/printActions';
-import {
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
-} from '../../constants';
+import { loadContainerCollection, resetState } from '../../store/printActions';
 
 const onMount = query => {
   return async dispatch => {
-    dispatch(setContainerImportStatus({ status: REQUEST_PENDING }));
     const params = queryString.parse(query);
-    try {
-      const plates = await dispatch(
-        importContainerCollection(params.status, params.version)
-      );
-      if (plates.length) {
-        dispatch(setPlates({ plates }));
-        dispatch(setContainerImportStatus({ status: REQUEST_SUCCESS }));
-        dispatch(setInitialized({ initialized: true }));
-      } else {
-        dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
-      }
-    } catch (err) {
-      dispatch(setContainerImportStatus({ status: REQUEST_ERROR }));
-    }
+    dispatch(loadContainerCollection(params.status, params.version));
   };
 };
 
 const mapState = (state, props) => {
-  const importStatus = selectActivityContainerImportStatus(state);
   const initialized = selectPrintInitialized(state);
-  let loading = false,
-    error = null;
-  if (importStatus === REQUEST_PENDING) {
+  const error = selectPrintInitializationError(state);
+  let loading = false;
+  if (!initialized && !error) {
     loading = true;
-  } else if (importStatus === REQUEST_ERROR) {
-    error = 'An error occurred while importing plates.';
   }
   return {
     loading,
     error,
     initialized,
+    plates: selectPrintPlates(state),
     activityName: selectActivityName(state),
     activityDescription: selectActivityDescription(state),
-    plates: selectPrintPlates(state),
   };
 };
 
 const mapDispatch = {
   onMount,
+  onUnmount: resetState,
 };
 
 const connected = connect(mapState, mapDispatch)(Print);

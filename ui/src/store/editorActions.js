@@ -12,16 +12,22 @@ import {
   exportPlates,
 } from './plateFunctions';
 import {
-  selectActivePlate,
+  selectEditorActivePlate,
   selectEditorClickMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorClearMode,
   selectEditorPlates,
   selectActivityName,
+  selectActivityPlateSize,
 } from './selectors';
+import { importContainerCollection } from './activitiesActions';
 
 const {
+  setInitialized: _setInitialized,
+  setInitializationError: _setInitializationError,
+  setPlateSize: _setPlateSize,
+  setPlates: _setPlates,
   addPlate: _addPlate,
   resetNextPlateId: _resetNextPlateId,
   updateNextPlateId: _updateNextPlateId,
@@ -62,12 +68,10 @@ const _addNewPlate = () => {
 };
 
 export const {
-  setInitialized,
-  setPlateSize,
-  setPlates,
   setActivePlate,
   setSettings,
   addBarcodes,
+  resetState,
 } = editorActions;
 
 export const {
@@ -86,6 +90,23 @@ export const {
   deleteTimepoint,
 } = editorToolsActions;
 
+export const loadContainerCollection = (status, version) => {
+  return async (dispatch, getState) => {
+    try {
+      const plates = await dispatch(importContainerCollection(status, version));
+      if (plates.length) {
+        dispatch(_setPlates({ plates }));
+      } else {
+        const plateSize = selectActivityPlateSize(getState());
+        dispatch(_setPlateSize({ plateSize }));
+      }
+      dispatch(initializePlates());
+    } catch (error) {
+      dispatch(_setInitializationError({ error: error.message }));
+    }
+  };
+};
+
 export const initializePlates = () => {
   return (dispatch, getState) => {
     let { plates } = getState().editor;
@@ -99,6 +120,7 @@ export const initializePlates = () => {
       }, 0);
       dispatch(_updateNextPlateId({ plateId: highestId + 1 }));
     }
+    dispatch(_setInitialized({ initialized: true }));
   };
 };
 
@@ -125,7 +147,7 @@ export const deletePlate = wrapWithChangeHandler(_deletePlate);
 export const setClickMode = ({ clickMode }) => {
   return (dispatch, getState) => {
     dispatch(_setClickMode({ clickMode }));
-    const plate = selectActivePlate(getState());
+    const plate = selectEditorActivePlate(getState());
     dispatch(_deselectAllWells({ plateId: plate.id }));
   };
 };
