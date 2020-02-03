@@ -41,9 +41,7 @@ const editor = createSlice({
       state.initializationError = action.payload.error;
     },
     resetState(state, action) {
-      for (var property in initialState) {
-        state[property] = initialState[property];
-      }
+      Object.assign(state, initialState);
     },
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;
