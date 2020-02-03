@@ -13,6 +13,9 @@ export const selectActivityName = createSelector(['activities.activity.name']);
 export const selectActivityDescription = createSelector([
   'activities.activity.data.description',
 ]);
+export const selectActivityContainerCollections = createSelector([
+  'activities.activity.containerCollections',
+]);
 export const selectActivityPublishStatus = createSelector([
   'activities.publishStatus',
 ]);
