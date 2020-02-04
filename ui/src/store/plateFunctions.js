@@ -11,13 +11,13 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
 } from '../constants';
 
-import { api } from '../api';
-const {
-  fetchCommunity,
-  fetchCompound,
-  fetchMedium,
-  fetchSupplement,
-} = api.kapture;
+// import { api } from '../api';
+// const {
+//   fetchCommunity,
+//   fetchCompound,
+//   fetchMedium,
+//   fetchSupplement,
+// } = api.kapture;
 
 export function getActivePlate(plates) {
   if (plates.length > 0) {
@@ -59,6 +59,41 @@ export function applySelectedComponentsToWells(plate, wellIds, components) {
               }
             });
           }
+        }
+      }
+    });
+    updatedWells.push(well);
+  });
+  return updatedWells;
+}
+
+export function applyComponentsToWells(plate, wellIds, components) {
+  const wells = plate.wells.flat();
+  const filteredWells = wells.filter(well => {
+    return wellIds.includes(well.id);
+  });
+  const updatedWells = [];
+  filteredWells.forEach(well => {
+    components.forEach(component => {
+      const existingComponent = well.components.find(
+        comp => comp.id === component.id
+      );
+      const { selected, editing, ...wellComponent } = component;
+      if (!existingComponent) {
+        well.components.push(wellComponent);
+      } else {
+        const existingTimepoints = existingComponent.timepoints;
+        if (wellComponent.timepoints) {
+          wellComponent.timepoints.forEach(newTimepoint => {
+            const index = existingTimepoints.findIndex(
+              eTimepoint => eTimepoint.time === newTimepoint.time
+            );
+            if (index > -1) {
+              existingTimepoints.splice(index, 1, newTimepoint);
+            } else {
+              existingTimepoints.push(newTimepoint);
+            }
+          });
         }
       }
     });
@@ -198,98 +233,98 @@ export function exportPlates(plates) {
   });
 }
 
-export async function importPlates(plates) {
-  if (plates) {
-    const components = await fetchComponentsForPlates(plates);
-    const statePlates = plates.map(plate => {
-      let wellIndex = 0;
-      const stateWells = plate.data.map(rows => {
-        return rows.map(well => {
-          const stateComponents = well.components.map(component => {
-            const lookup = components[component.type];
-            const data = lookup.find(data => data.id === component.id);
-            const stateComponent = createComponent(data, component.type);
-            stateComponent.timepoints = component.timepoints;
-            return stateComponent;
-          });
-          const stateWell = createWell(
-            well.id,
-            well.id,
-            wellIndex,
-            stateComponents
-          );
-          wellIndex++;
-          return stateWell;
-        });
-      });
-      return createPlate(stateWells, plate.id, plate.barcode);
-    });
-    if (statePlates.length) {
-      statePlates[0].active = true;
-    }
-    return statePlates;
-  } else return null;
-}
+// export async function importPlates(plates) {
+//   if (plates) {
+//     const components = await fetchComponentsForPlates(plates);
+//     const statePlates = plates.map(plate => {
+//       let wellIndex = 0;
+//       const stateWells = plate.data.map(rows => {
+//         return rows.map(well => {
+//           const stateComponents = well.components.map(component => {
+//             const lookup = components[component.type];
+//             const data = lookup.find(data => data.id === component.id);
+//             const stateComponent = createComponent(data, component.type);
+//             stateComponent.timepoints = component.timepoints;
+//             return stateComponent;
+//           });
+//           const stateWell = createWell(
+//             well.id,
+//             well.id,
+//             wellIndex,
+//             stateComponents
+//           );
+//           wellIndex++;
+//           return stateWell;
+//         });
+//       });
+//       return createPlate(stateWells, plate.id, plate.barcode);
+//     });
+//     if (statePlates.length) {
+//       statePlates[0].active = true;
+//     }
+//     return statePlates;
+//   } else return null;
+// }
 
-async function fetchComponentsForPlates(plates) {
-  const components = {
-    community: [],
-    compound: [],
-    medium: [],
-    supplement: [],
-    attribute: [],
-  };
-  const response = {
-    community: [],
-    compound: [],
-    medium: [],
-    supplement: [],
-    attribute: [],
-  };
-  plates.forEach(plate => {
-    const wells = plate.data.flat();
-    wells.forEach(well => {
-      well.components.forEach(component => {
-        const cType = component.type;
-        if (cType === 'attribute') {
-          response.attribute.push(component.attributeValues);
-        } else if (!components[cType].includes(component.id)) {
-          components[cType].push(component.id);
-        }
-      });
-    });
-  });
-  let promises, results;
-  promises = components.community.map(id => {
-    return fetchCommunity(id);
-  });
-  results = await Promise.all(promises);
-  results.forEach(result => {
-    response.community.push(result.data);
-  });
-  promises = components.compound.map(id => {
-    return fetchCompound(id);
-  });
-  results = await Promise.all(promises);
-  results.forEach(result => {
-    response.compound.push(result.data);
-  });
-  promises = components.medium.map(id => {
-    return fetchMedium(id);
-  });
-  results = await Promise.all(promises);
-  results.forEach(result => {
-    response.medium.push(result.data);
-  });
-  promises = components.supplement.map(id => {
-    return fetchSupplement(id);
-  });
-  results = await Promise.all(promises);
-  results.forEach(result => {
-    response.supplement.push(result.data);
-  });
-  return response;
-}
+// async function fetchComponentsForPlates(plates) {
+//   const components = {
+//     community: [],
+//     compound: [],
+//     medium: [],
+//     supplement: [],
+//     attribute: [],
+//   };
+//   const response = {
+//     community: [],
+//     compound: [],
+//     medium: [],
+//     supplement: [],
+//     attribute: [],
+//   };
+//   plates.forEach(plate => {
+//     const wells = plate.data.flat();
+//     wells.forEach(well => {
+//       well.components.forEach(component => {
+//         const cType = component.type;
+//         if (cType === 'attribute') {
+//           response.attribute.push(component.attributeValues);
+//         } else if (!components[cType].includes(component.id)) {
+//           components[cType].push(component.id);
+//         }
+//       });
+//     });
+//   });
+//   let promises, results;
+//   promises = components.community.map(id => {
+//     return fetchCommunity(id);
+//   });
+//   results = await Promise.all(promises);
+//   results.forEach(result => {
+//     response.community.push(result.data);
+//   });
+//   promises = components.compound.map(id => {
+//     return fetchCompound(id);
+//   });
+//   results = await Promise.all(promises);
+//   results.forEach(result => {
+//     response.compound.push(result.data);
+//   });
+//   promises = components.medium.map(id => {
+//     return fetchMedium(id);
+//   });
+//   results = await Promise.all(promises);
+//   results.forEach(result => {
+//     response.medium.push(result.data);
+//   });
+//   promises = components.supplement.map(id => {
+//     return fetchSupplement(id);
+//   });
+//   results = await Promise.all(promises);
+//   results.forEach(result => {
+//     response.supplement.push(result.data);
+//   });
+//   return response;
+// }
 
 export function getPlateSize(plate) {
   return {
