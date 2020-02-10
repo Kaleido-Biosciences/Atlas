@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
-import { ActivityHeader } from '../../../../components/activity/ActivityHeader';
+import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../../../components/activity/ActivityDetails';
 import { Editor } from '../../../../components/editor/Editor';
 import { EditorActions } from '../../../../components/editor/EditorActions';

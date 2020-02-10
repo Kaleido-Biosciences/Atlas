@@ -23,6 +23,7 @@ export const selectActivityInitializationError = createSelector([
   'activities.initializationError',
 ]);
 export const selectActivity = createSelector(['activities.activity']);
+export const selectActivityId = createSelector(['activities.activity.id']);
 export const selectActivityName = createSelector(['activities.activity.name']);
 export const selectActivityDescription = createSelector([
   'activities.activity.data.description',
