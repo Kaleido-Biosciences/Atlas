@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { kapture } from '../../../api';
+import { api } from '../api';
 import { activitySearchActions } from '../store';
 
 const {
@@ -23,7 +23,7 @@ const loadResults = _.debounce(async (value, dispatch) => {
   if (value) {
     try {
       dispatch(_setLoading({ loading: true }));
-      const response = await kapture.searchActivities(0, 5, value);
+      const response = await api.searchActivities(0, 5, value);
       const results = response.data.map(activity => {
         return {
           title: activity.name,
