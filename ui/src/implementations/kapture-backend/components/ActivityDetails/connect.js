@@ -5,11 +5,11 @@ import {
   selectActivity,
   selectActivityContainerCollections,
   selectActivityPlateSize,
-} from '../../../store/selectors';
+} from '../../../../store/selectors';
 import {
   setPlateSize,
   setContainerCollectionsStale,
-} from '../../../store/activitiesActions';
+} from '../../../../store/activitiesActions';
 
 const mapState = (state, props) => {
   return {

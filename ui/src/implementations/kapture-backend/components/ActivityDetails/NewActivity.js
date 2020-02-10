@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Header, Button } from 'semantic-ui-react';
 
-import { PlateSizeForm } from '../PlateSizeForm';
+import { PlateSizeForm } from '../../components';
 import styles from './ActivityDetails.module.css';
 
 export class NewActivity extends Component {

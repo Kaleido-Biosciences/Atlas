@@ -4,7 +4,7 @@ import { Card, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 import bigInt from 'big-integer';
 
-import { STATUS_COMPLETED } from '../../../constants';
+import { STATUS_COMPLETED } from '../../../../constants';
 import styles from './Version.module.css';
 
 const ldapToJS = n => {

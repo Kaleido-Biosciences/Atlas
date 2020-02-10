@@ -4,7 +4,7 @@ import { Card } from 'semantic-ui-react';
 
 import { Version } from './Version';
 import { NewActivity } from './NewActivity';
-import { STATUS_DRAFT, STATUS_COMPLETED } from '../../../constants';
+import { STATUS_DRAFT, STATUS_COMPLETED } from '../../../../constants';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {

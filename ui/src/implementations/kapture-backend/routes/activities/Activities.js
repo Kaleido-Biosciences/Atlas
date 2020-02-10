@@ -4,7 +4,7 @@ import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
 import { ActivityHeader } from '../../components';
-import { ActivityDetails } from '../../../../components/activity/ActivityDetails';
+import { ActivityDetails } from '../../components';
 import { Editor } from '../../../../components/editor/Editor';
 import { EditorActions } from '../../../../components/editor/EditorActions';
 import { Print } from '../../../../components/print';
