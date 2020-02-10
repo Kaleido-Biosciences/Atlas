@@ -2,12 +2,14 @@ import { connect } from 'react-redux';
 
 import { ActivitySearch } from '../../../components';
 import { searchActivities, resetState } from '../actions/activitySearchActions';
-import {
+import { selectors } from '../store';
+
+const {
   selectActivitySearchSearchTerm,
   selectActivitySearchLoading,
   selectActivitySearchError,
   selectActivitySearchResults,
-} from '../../../store/selectors';
+} = selectors;
 
 const onUnmount = () => {
   return resetState();

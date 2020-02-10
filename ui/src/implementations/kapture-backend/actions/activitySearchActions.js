@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { kapture } from '../../../api';
-import { activitySearchActions } from '../../../store/activitySearch';
+import { activitySearchActions } from '../store';
 
 const {
   setSearchTerm: _setSearchTerm,
