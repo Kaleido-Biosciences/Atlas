@@ -1,6 +1,20 @@
 import { createSelector } from 'redux-starter-kit';
 import { getActivePlate, getSelectedWells } from './plateFunctions';
 
+/* Activity Search */
+export const selectActivitySearchSearchTerm = createSelector([
+  'activitySearch.searchTerm',
+]);
+export const selectActivitySearchLoading = createSelector([
+  'activitySearch.loading',
+]);
+export const selectActivitySearchError = createSelector([
+  'activitySearch.error',
+]);
+export const selectActivitySearchResults = createSelector([
+  'activitySearch.results',
+]);
+
 /* Activities */
 export const selectActivityInitialized = createSelector([
   'activities.initialized',

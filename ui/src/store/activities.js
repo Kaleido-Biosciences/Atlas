@@ -3,9 +3,6 @@ import { createSlice } from 'redux-starter-kit';
 import { DEFAULT_PLATE_SIZE } from '../constants';
 
 const initialState = {
-  searchTerm: '',
-  searchStatus: null,
-  searchResults: null,
   initialized: false,
   initializationError: null,
   activity: null,
@@ -19,20 +16,6 @@ const activities = createSlice({
   slice: 'activities',
   initialState,
   reducers: {
-    setSearchTerm(state, action) {
-      const { searchTerm } = action.payload;
-      if (searchTerm) {
-        state.searchTerm = searchTerm;
-      } else {
-        Object.assign(state, initialState);
-      }
-    },
-    setSearchStatus(state, action) {
-      state.searchStatus = action.payload.status;
-    },
-    setSearchResults(state, action) {
-      state.searchResults = action.payload.searchResults;
-    },
     setInitialized(state, action) {
       state.initialized = action.payload.initialized;
     },

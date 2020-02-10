@@ -1,1 +1,1 @@
-export { ActivitySearch } from '../../../components/activity/ActivitySearch';
+export { ActivitySearch } from './ActivitySearchConnected';
