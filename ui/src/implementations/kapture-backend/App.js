@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import { store } from './store/store';
-import { Header } from './components/app/Header';
-import { Home } from './routes/home';
-import { Activities } from './routes/activities';
+import { store } from '../../store/store';
+import { Header } from '../../components/app/Header';
+import { Home } from '../../routes/home';
+import { Activities } from '../../routes/activities';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -18,10 +18,7 @@ class App extends Component {
             <div className={styles.mainContainer}>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route
-                  path="/activities/:activityId"
-                  component={Activities}
-                />
+                <Route path="/activities/:activityId" component={Activities} />
                 <Route component={() => <Redirect to="/" />} />
               </Switch>
             </div>
