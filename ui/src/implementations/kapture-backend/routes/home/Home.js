@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ActivitySearch } from '../../components/activity/ActivitySearch';
+import { ActivitySearch } from '../../components';
 import styles from './Home.module.css';
 
 export class Home extends Component {
