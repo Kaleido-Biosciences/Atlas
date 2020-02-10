@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
-import { ActivityHeader } from '../../components/activity/ActivityHeader';
-import { ActivityDetails } from '../../components/activity/ActivityDetails';
-import { Editor } from '../../components/editor/Editor';
-import { EditorActions } from '../../components/editor/EditorActions';
+import { ActivityHeader } from '../../../../components/activity/ActivityHeader';
+import { ActivityDetails } from '../../../../components/activity/ActivityDetails';
+import { Editor } from '../../../../components/editor/Editor';
+import { EditorActions } from '../../../../components/editor/EditorActions';
+import { Print } from '../../../../components/print';
+import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
-import { Print } from '../../components/print';
-import { PrintActions } from '../../components/print/PrintActions';
 import styles from './Activity.module.css';
 
 export class Activities extends Component {

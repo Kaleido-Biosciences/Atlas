@@ -6,7 +6,7 @@ import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
-} from '../../constants';
+} from '../../../../constants';
 import styles from './CompletedModal.module.css';
 
 export class CompletedModal extends Component {

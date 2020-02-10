@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { store } from './store';
 import { Header } from './components';
 import { Home } from './routes/home';
-import { Activities } from '../../routes/activities';
+import { Activities } from './routes/activities';
 import styles from './App.module.css';
 
 class App extends Component {

@@ -10,12 +10,12 @@ import {
   selectActivityContainerCollectionsStale,
   selectEditorInitialized,
   selectPrintInitialized,
-} from '../../store/selectors';
+} from '../../../../store/selectors';
 import {
   fetchActivity,
   publishActivityPlates,
   resetState,
-} from '../../store/activitiesActions';
+} from '../../../../store/activitiesActions';
 
 const mapState = (state, props) => {
   const initialized = selectActivityInitialized(state);
