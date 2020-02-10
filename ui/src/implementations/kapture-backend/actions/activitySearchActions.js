@@ -10,7 +10,7 @@ const {
   setError: _setError,
 } = activitySearchActions;
 
-export const { resetState } = activitySearchActions;
+export const { resetState: resetActivitySearch } = activitySearchActions;
 
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {

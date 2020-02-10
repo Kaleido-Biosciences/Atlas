@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ActivitySearch } from '../../../components';
-import { searchActivities, resetState } from '../actions/activitySearchActions';
+import { searchActivities, resetActivitySearch } from '../actions';
 import { selectors } from '../store';
 
 const {
@@ -12,7 +12,7 @@ const {
 } = selectors;
 
 const onUnmount = () => {
-  return resetState();
+  return resetActivitySearch();
 };
 
 const mapState = (state, props) => {
