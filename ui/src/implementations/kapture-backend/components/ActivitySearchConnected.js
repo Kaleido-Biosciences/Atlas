@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 
 import { ActivitySearch } from '../../../components';
-import { searchActivities, resetActivitySearch } from '../actions';
+import { actions } from '../actions';
 import { selectors } from '../store';
+
+const { searchActivities, resetActivitySearch } = actions.activitySearch;
 
 const {
   selectActivitySearchSearchTerm,

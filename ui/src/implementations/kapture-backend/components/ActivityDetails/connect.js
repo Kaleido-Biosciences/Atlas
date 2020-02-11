@@ -2,10 +2,9 @@ import { connect } from 'react-redux';
 
 import { ActivityDetails } from './ActivityDetails';
 import { selectors } from '../../store';
-import {
-  setActivityPlateSize,
-  setActivityContainerCollectionsStale,
-} from '../../actions';
+import { actions } from '../../actions';
+
+const { setPlateSize, setContainerCollectionsStale } = actions.activity;
 
 const {
   selectActivityName,
@@ -22,11 +21,11 @@ const mapState = (state, props) => {
 };
 
 const onUnmount = () => {
-  return setActivityContainerCollectionsStale({ stale: true });
+  return setContainerCollectionsStale({ stale: true });
 };
 
 const mapDispatch = {
-  onPlateSizeChange: setActivityPlateSize,
+  onPlateSizeChange: setPlateSize,
   onUnmount,
 };
 

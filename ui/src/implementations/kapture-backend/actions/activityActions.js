@@ -24,9 +24,9 @@ const {
 } = activityActions;
 
 export const {
-  setPlateSize: setActivityPlateSize,
-  resetState: resetActivityState,
-  setContainerCollectionsStale: setActivityContainerCollectionsStale,
+  setPlateSize,
+  resetState: resetActivity,
+  setContainerCollectionsStale,
 } = activityActions;
 
 export const loadActivity = id => {
