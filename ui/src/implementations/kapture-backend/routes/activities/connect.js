@@ -5,7 +5,7 @@ import { selectors } from '../../store';
 import {
   loadActivity,
   // publishActivityPlates,
-  // resetState,
+  resetActivityState,
 } from '../../actions';
 
 const {
@@ -44,7 +44,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   loadActivity,
   // onMarkAsCompleted: publishActivityPlates,
-  // onUnmount: resetState,
+  onUnmount: resetActivityState,
 };
 
 const connected = connect(mapState, mapDispatch)(Activities);

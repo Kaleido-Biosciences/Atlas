@@ -27,7 +27,7 @@ const {
 
 export const {
   setPlateSize,
-  resetState,
+  resetState: resetActivityState,
   setContainerCollectionsStale,
 } = activityActions;
 
