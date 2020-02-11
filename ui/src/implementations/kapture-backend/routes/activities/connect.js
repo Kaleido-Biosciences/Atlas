@@ -4,7 +4,7 @@ import { Activities } from './Activities';
 import {
   selectActivityInitialized,
   selectActivityInitializationError,
-  selectActivity,
+  selectActivityId,
   selectActivityPublishStatus,
   selectActivityPublishedContainerCollectionDetails,
   selectActivityContainerCollectionsStale,
@@ -12,10 +12,10 @@ import {
   selectPrintInitialized,
 } from '../../../../store/selectors';
 import {
-  fetchActivity,
-  publishActivityPlates,
-  resetState,
-} from '../../../../store/activitiesActions';
+  loadActivity
+  // publishActivityPlates,
+  // resetState,
+} from '../../actions';
 
 const mapState = (state, props) => {
   const initialized = selectActivityInitialized(state);
@@ -28,7 +28,7 @@ const mapState = (state, props) => {
     initialized,
     loading,
     error,
-    activity: selectActivity(state),
+    activityId: selectActivityId(state),
     publishStatus: selectActivityPublishStatus(state),
     publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
       state
@@ -40,9 +40,9 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  fetchActivity,
-  onMarkAsCompleted: publishActivityPlates,
-  onUnmount: resetState,
+  loadActivity,
+  // onMarkAsCompleted: publishActivityPlates,
+  // onUnmount: resetState,
 };
 
 const connected = connect(mapState, mapDispatch)(Activities);

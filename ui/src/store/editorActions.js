@@ -21,7 +21,7 @@ import {
   selectActivityName,
   selectActivityPlateSize,
 } from './selectors';
-import { importContainerCollection } from './activitiesActions';
+// import { importContainerCollection } from './activitiesActions';
 
 const {
   setInitialized: _setInitialized,
@@ -92,18 +92,18 @@ export const {
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
-    try {
-      const plates = await dispatch(importContainerCollection(status, version));
-      if (plates.length) {
-        dispatch(_setPlates({ plates }));
-      } else {
-        const plateSize = selectActivityPlateSize(getState());
-        dispatch(_setPlateSize({ plateSize }));
-      }
-      dispatch(initializePlates());
-    } catch (error) {
-      dispatch(_setInitializationError({ error: error.message }));
-    }
+    // try {
+    //   const plates = await dispatch(importContainerCollection(status, version));
+    //   if (plates.length) {
+    //     dispatch(_setPlates({ plates }));
+    //   } else {
+    //     const plateSize = selectActivityPlateSize(getState());
+    //     dispatch(_setPlateSize({ plateSize }));
+    //   }
+    //   dispatch(initializePlates());
+    // } catch (error) {
+    //   dispatch(_setInitializationError({ error: error.message }));
+    // }
   };
 };
 

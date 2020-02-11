@@ -1,13 +1,19 @@
-import { activitiesActions } from './activities';
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
-import { kapture, aws } from '../api';
+import { activityActions, plateFunctions, selectors } from '../store';
 import {
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+  REQUEST_ERROR,
+} from '../../../constants';
+import { kapture, aws } from '../../../api';
+
+const { selectActivityName, selectEditorPlates } = selectors;
+
+const {
   createComponent,
   createWell,
   createPlate,
   exportPlates,
-} from './plateFunctions';
-import { selectActivityName, selectEditorPlates } from './selectors';
+} = plateFunctions;
 
 const { fetchCommunity, fetchCompound, fetchMedium, fetchSupplement } = kapture;
 
@@ -17,15 +23,15 @@ const {
   setActivity: _setActivity,
   setPublishStatus: _setPublishStatus,
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
-} = activitiesActions;
+} = activityActions;
 
 export const {
   setPlateSize,
   resetState,
   setContainerCollectionsStale,
-} = activitiesActions;
+} = activityActions;
 
-export const fetchActivity = id => {
+export const loadActivity = id => {
   return async (dispatch, getState) => {
     dispatch(_setInitialized({ initialized: false }));
     try {
@@ -36,8 +42,9 @@ export const fetchActivity = id => {
           activity: {
             id: activity.id,
             name: activity.name,
-            data: activity,
+            description: activity.description,
             containerCollections: versions,
+            data: activity,
           },
         })
       );

@@ -17,14 +17,14 @@ export const selectActivitySearchResults = createSelector([
 
 /* Activities */
 export const selectActivityInitialized = createSelector([
-  'activities.initialized',
+  'activity.initialized',
 ]);
 export const selectActivityInitializationError = createSelector([
-  'activities.initializationError',
+  'activity.initializationError',
 ]);
 export const selectActivity = createSelector(['activities.activity']);
-export const selectActivityId = createSelector(['activities.activity.id']);
-export const selectActivityName = createSelector(['activities.activity.name']);
+export const selectActivityId = createSelector(['activity.id']);
+export const selectActivityName = createSelector(['activity.name']);
 export const selectActivityDescription = createSelector([
   'activities.activity.data.description',
 ]);

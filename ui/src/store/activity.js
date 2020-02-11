@@ -5,15 +5,19 @@ import { DEFAULT_PLATE_SIZE } from '../constants';
 const initialState = {
   initialized: false,
   initializationError: null,
-  activity: null,
+  id: null,
+  name: null,
+  description: null,
+  containerCollections: null,
+  data: null,
   plateSize: DEFAULT_PLATE_SIZE,
   publishStatus: null,
   publishedContainerCollectionDetails: null,
   containerCollectionsStale: true,
 };
 
-const activities = createSlice({
-  slice: 'activities',
+const activity = createSlice({
+  slice: 'activity',
   initialState,
   reducers: {
     setInitialized(state, action) {
@@ -26,7 +30,8 @@ const activities = createSlice({
       Object.assign(state, initialState);
     },
     setActivity(state, action) {
-      state.activity = action.payload.activity;
+      const { activity } = action.payload;
+      Object.assign(state, activity);
       state.initialized = true;
       state.containerCollectionsStale = false;
     },
@@ -46,7 +51,4 @@ const activities = createSlice({
   },
 });
 
-export const {
-  actions: activitiesActions,
-  reducer: activitiesReducer,
-} = activities;
+export const { actions: activityActions, reducer: activityReducer } = activity;

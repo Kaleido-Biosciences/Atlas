@@ -4,10 +4,10 @@ import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
 import { ActivityHeader } from '../../components';
-import { ActivityDetails } from '../../components';
-import { Editor } from '../../../../components/editor/Editor';
+// import { ActivityDetails } from '../../components';
+// import { Editor } from '../../../../components/editor/Editor';
 import { EditorActions } from '../../../../components/editor/EditorActions';
-import { Print } from '../../../../components/print';
+// import { Print } from '../../../../components/print';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
 import styles from './Activity.module.css';
@@ -19,7 +19,7 @@ export class Activities extends Component {
   };
   constructor(props) {
     super(props);
-    this.fetchActivity();
+    this.loadActivity();
   }
   componentDidUpdate(prevProps, prevState) {
     const { loading, error, containerCollectionsStale } = this.props;
@@ -29,7 +29,7 @@ export class Activities extends Component {
       containerCollectionsStale &&
       this.matchDetailsPath()
     ) {
-      this.fetchActivity();
+      this.loadActivity();
     }
   }
   componentWillUnmount() {
@@ -67,9 +67,9 @@ export class Activities extends Component {
     });
     return match;
   }
-  fetchActivity() {
+  loadActivity() {
     const { activityId } = this.props.match.params;
-    this.props.fetchActivity(activityId);
+    this.props.loadActivity(activityId);
   }
   handleMarkAsCompleted = () => {
     this.setState({ modalOpen: true });
@@ -131,7 +131,7 @@ export class Activities extends Component {
       content = (
         <React.Fragment>
           <ActivityHeader actions={actions} />
-          <Switch>
+          {/* <Switch>
             <Route
               path={`${match.path}`}
               exact
@@ -153,7 +153,7 @@ export class Activities extends Component {
                 />
               )}
             />
-          </Switch>
+          </Switch> */}
           <CompletedModal
             open={this.state.modalOpen}
             publishStatus={publishStatus}
@@ -172,13 +172,13 @@ Activities.propTypes = {
   initialized: PropTypes.bool,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  activity: PropTypes.object,
+  activityId: PropTypes.number,
   publishStatus: PropTypes.string,
   publishedContainerCollectionDetails: PropTypes.object,
   containerCollectionsStale: PropTypes.bool,
   editorInitialized: PropTypes.bool,
   printInitialized: PropTypes.bool,
-  fetchActivity: PropTypes.func.isRequired,
+  loadActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
   onUnmount: PropTypes.func,
 };
