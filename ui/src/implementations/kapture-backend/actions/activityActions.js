@@ -4,7 +4,7 @@ import {
   REQUEST_SUCCESS,
   REQUEST_ERROR,
 } from '../../../constants';
-import { kapture, aws } from '../../../api';
+import { api } from '../api';
 
 const { selectActivityName, selectEditorPlates } = selectors;
 
@@ -14,8 +14,6 @@ const {
   createPlate,
   exportPlates,
 } = plateFunctions;
-
-const { fetchCommunity, fetchCompound, fetchMedium, fetchSupplement } = kapture;
 
 const {
   setInitialized: _setInitialized,
@@ -35,8 +33,8 @@ export const loadActivity = id => {
   return async (dispatch, getState) => {
     dispatch(_setInitialized({ initialized: false }));
     try {
-      const activity = await kapture.fetchExperiment(id);
-      const versions = await aws.fetchExperimentVersions(activity.name);
+      const activity = await api.fetchExperiment(id);
+      const versions = await api.fetchExperimentVersions(activity.name);
       dispatch(
         _setActivity({
           activity: {
@@ -66,7 +64,7 @@ export const importContainerCollection = (status, timestamp, slice) => {
       );
     });
     if (!collection) {
-      collection = await aws.fetchVersion(status, timestamp);
+      collection = await api.fetchVersion(status, timestamp);
     }
     if (!collection) {
       return [];
@@ -140,28 +138,28 @@ async function fetchComponentsForPlates(plates) {
   });
   let promises, results;
   promises = components.community.map(id => {
-    return fetchCommunity(id);
+    return api.fetchCommunity(id);
   });
   results = await Promise.all(promises);
   results.forEach(result => {
     response.community.push(result.data);
   });
   promises = components.compound.map(id => {
-    return fetchCompound(id);
+    return api.fetchCompound(id);
   });
   results = await Promise.all(promises);
   results.forEach(result => {
     response.compound.push(result.data);
   });
   promises = components.medium.map(id => {
-    return fetchMedium(id);
+    return api.fetchMedium(id);
   });
   results = await Promise.all(promises);
   results.forEach(result => {
     response.medium.push(result.data);
   });
   promises = components.supplement.map(id => {
-    return fetchSupplement(id);
+    return api.fetchSupplement(id);
   });
   results = await Promise.all(promises);
   results.forEach(result => {
@@ -176,7 +174,7 @@ export const publishActivityPlates = () => {
     const activityName = selectActivityName(getState());
     const exportedPlates = exportPlates(selectEditorPlates(getState()));
     try {
-      const data = await aws.publishExperimentPlates(
+      const data = await api.publishExperimentPlates(
         activityName,
         exportedPlates
       );
