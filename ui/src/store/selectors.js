@@ -15,31 +15,31 @@ export const selectActivitySearchResults = createSelector([
   'activitySearch.results',
 ]);
 
-/* Activities */
+/* Activity */
 export const selectActivityInitialized = createSelector([
   'activity.initialized',
 ]);
 export const selectActivityInitializationError = createSelector([
   'activity.initializationError',
 ]);
-export const selectActivity = createSelector(['activities.activity']);
 export const selectActivityId = createSelector(['activity.id']);
 export const selectActivityName = createSelector(['activity.name']);
 export const selectActivityDescription = createSelector([
-  'activities.activity.data.description',
+  'activity.description',
 ]);
 export const selectActivityContainerCollections = createSelector([
-  'activities.activity.containerCollections',
+  'activity.containerCollections',
 ]);
+export const selectActivityData = createSelector(['activity.data']);
+export const selectActivityPlateSize = createSelector(['activity.plateSize']);
 export const selectActivityPublishStatus = createSelector([
-  'activities.publishStatus',
+  'activity.publishStatus',
 ]);
 export const selectActivityPublishedContainerCollectionDetails = createSelector(
-  ['activities.publishedContainerCollectionDetails']
+  ['activity.publishedContainerCollectionDetails']
 );
-export const selectActivityPlateSize = createSelector(['activities.plateSize']);
 export const selectActivityContainerCollectionsStale = createSelector([
-  'activities.containerCollectionsStale',
+  'activity.containerCollectionsStale',
 ]);
 
 /* Editor */
