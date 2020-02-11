@@ -78,14 +78,14 @@ export class Activities extends Component {
     }
   };
   goToActivity = () => {
-    const activity = this.props.activity;
+    const { activityId } = this.props;
     this.setState({ modalOpen: false });
-    this.props.history.push(`/activities/${activity.id}`);
+    this.props.history.push(`/activities/${activityId}`);
   };
   goToPrint = () => {
-    const { publishedContainerCollectionDetails, activity } = this.props;
+    const { publishedContainerCollectionDetails, activityId } = this.props;
     const { status, version } = publishedContainerCollectionDetails;
-    const url = `/activities/${activity.id}/print?status=${status}&version=${version}`;
+    const url = `/activities/${activityId}/print?status=${status}&version=${version}`;
     this.setState({ modalOpen: false });
     this.props.history.push(url);
   };

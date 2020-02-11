@@ -1,7 +1,14 @@
 import { connect } from 'react-redux';
 
 import { Activities } from './Activities';
+import { selectors } from '../../store';
 import {
+  loadActivity,
+  // publishActivityPlates,
+  // resetState,
+} from '../../actions';
+
+const {
   selectActivityInitialized,
   selectActivityInitializationError,
   selectActivityId,
@@ -10,12 +17,7 @@ import {
   selectActivityContainerCollectionsStale,
   selectEditorInitialized,
   selectPrintInitialized,
-} from '../../../../store/selectors';
-import {
-  loadActivity
-  // publishActivityPlates,
-  // resetState,
-} from '../../actions';
+} = selectors;
 
 const mapState = (state, props) => {
   const initialized = selectActivityInitialized(state);
