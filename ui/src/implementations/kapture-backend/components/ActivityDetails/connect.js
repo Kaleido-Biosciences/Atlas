@@ -1,30 +1,32 @@
 import { connect } from 'react-redux';
 
 import { ActivityDetails } from './ActivityDetails';
+import { selectors } from '../../store';
 import {
-  selectActivity,
+  setActivityPlateSize,
+  setActivityContainerCollectionsStale,
+} from '../../actions';
+
+const {
+  selectActivityName,
   selectActivityContainerCollections,
   selectActivityPlateSize,
-} from '../../../../store/selectors';
-import {
-  setPlateSize,
-  setContainerCollectionsStale,
-} from '../../../../store/activitiesActions';
+} = selectors;
 
 const mapState = (state, props) => {
   return {
-    activity: selectActivity(state),
+    activityName: selectActivityName(state),
     versions: selectActivityContainerCollections(state),
     plateSize: selectActivityPlateSize(state),
   };
 };
 
 const onUnmount = () => {
-  return setContainerCollectionsStale({ stale: true });
+  return setActivityContainerCollectionsStale({ stale: true });
 };
 
 const mapDispatch = {
-  onPlateSizeChange: setPlateSize,
+  onPlateSizeChange: setActivityPlateSize,
   onUnmount,
 };
 

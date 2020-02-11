@@ -34,7 +34,7 @@ export class ActivityDetails extends Component {
     }
   };
   handleSubmit = () => {
-    const activityName = this.props.activity.name;
+    const { activityName } = this.props;
     let url = this.props.match.url;
     url = url.endsWith('/') ? url.slice(0, -1) : url;
     this.props.history.push(
@@ -78,7 +78,7 @@ export class ActivityDetails extends Component {
 }
 
 ActivityDetails.propTypes = {
-  activity: PropTypes.object,
+  activityName: PropTypes.string,
   versions: PropTypes.array,
   plateSize: PropTypes.object,
   onPlateSizeChange: PropTypes.func,

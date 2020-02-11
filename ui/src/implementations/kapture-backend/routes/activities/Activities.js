@@ -4,7 +4,7 @@ import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
 import { ActivityHeader } from '../../components';
-// import { ActivityDetails } from '../../components';
+import { ActivityDetails } from '../../components';
 // import { Editor } from '../../../../components/editor/Editor';
 import { EditorActions } from '../../../../components/editor/EditorActions';
 // import { Print } from '../../../../components/print';
@@ -131,7 +131,7 @@ export class Activities extends Component {
       content = (
         <React.Fragment>
           <ActivityHeader actions={actions} />
-          {/* <Switch>
+          <Switch>
             <Route
               path={`${match.path}`}
               exact
@@ -141,7 +141,7 @@ export class Activities extends Component {
                 );
               }}
             />
-            <Route path={`${match.path}/editor`} component={Editor} />
+            {/* <Route path={`${match.path}/editor`} component={Editor} />
             <Route
               path={`${match.path}/print`}
               render={routeProps => (
@@ -152,8 +152,8 @@ export class Activities extends Component {
                   {...routeProps}
                 />
               )}
-            />
-          </Switch> */}
+            /> */}
+          </Switch>
           <CompletedModal
             open={this.state.modalOpen}
             publishStatus={publishStatus}
