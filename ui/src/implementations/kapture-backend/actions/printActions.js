@@ -1,12 +1,12 @@
-import { printActions } from './print';
-import { importContainerCollection } from './activitiesActions';
+import { printActions } from '../store';
+import { importContainerCollection } from './activityActions';
 
 const {
   setPlates: _setPlates,
   setInitializationError: _setInitializationError,
 } = printActions;
 
-export const { resetState } = printActions;
+export const { resetState: resetPrint } = printActions;
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {

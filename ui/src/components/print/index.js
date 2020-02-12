@@ -1,2 +1,1 @@
-import { Print } from './connect';
-export { Print };
+export { Print } from './Print';

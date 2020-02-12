@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import { Print } from './Print';
-import {
+import { Print } from '../../../components';
+import { actions } from '../actions';
+import { selectors } from '../store';
+
+const {
   selectPrintInitialized,
   selectPrintInitializationError,
   selectPrintPlates,
   selectActivityName,
   selectActivityDescription,
-} from '../../store/selectors';
-import { loadContainerCollection, resetState } from '../../store/printActions';
+} = selectors;
+const { loadContainerCollection, resetPrint } = actions.print;
 
 const onMount = query => {
   return async dispatch => {
@@ -37,7 +40,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
-  onUnmount: resetState,
+  onUnmount: resetPrint,
 };
 
 const connected = connect(mapState, mapDispatch)(Print);

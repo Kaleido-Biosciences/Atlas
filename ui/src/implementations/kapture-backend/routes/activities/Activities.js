@@ -7,7 +7,7 @@ import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../components';
 // import { Editor } from '../../../../components/editor/Editor';
 import { EditorActions } from '../../../../components/editor/EditorActions';
-// import { Print } from '../../../../components/print';
+import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
 import styles from './Activity.module.css';
@@ -141,7 +141,7 @@ export class Activities extends Component {
                 );
               }}
             />
-            {/* <Route path={`${match.path}/editor`} component={Editor} />
+            {/* <Route path={`${match.path}/editor`} component={Editor} /> */}
             <Route
               path={`${match.path}/print`}
               render={routeProps => (
@@ -152,7 +152,7 @@ export class Activities extends Component {
                   {...routeProps}
                 />
               )}
-            /> */}
+            />
           </Switch>
           <CompletedModal
             open={this.state.modalOpen}

@@ -6,7 +6,11 @@ import {
 } from '../../../constants';
 import { api } from '../api';
 
-const { selectActivityName, selectEditorPlates } = selectors;
+const {
+  selectActivityName,
+  selectActivityContainerCollections,
+  selectEditorPlates,
+} = selectors;
 
 const {
   createComponent,
@@ -55,8 +59,7 @@ export const loadActivity = id => {
 export const importContainerCollection = (status, timestamp, slice) => {
   return async (dispatch, getState) => {
     const parsedTimestamp = parseInt(timestamp);
-    const { activities } = getState();
-    const { containerCollections } = activities.activity;
+    const containerCollections = selectActivityContainerCollections(getState());
     let collection = containerCollections.find(collection => {
       return (
         collection.experiment_status === status &&
