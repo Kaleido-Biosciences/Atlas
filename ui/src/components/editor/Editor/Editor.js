@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import { Loader, Message } from 'semantic-ui-react';
 
-import { PlateTabBar } from '../PlateTabBar';
-import { Plate, NoPlatesMessage } from '../Plate';
-import { PlateSidebar } from '../PlateSidebar';
+// import { PlateTabBar } from '../PlateTabBar';
+// import { Plate, NoPlatesMessage } from '../Plate';
+// import { PlateSidebar } from '../PlateSidebar';
 import styles from './Editor.module.css';
 
 export class Editor extends Component {
@@ -55,17 +55,17 @@ export class Editor extends Component {
             >
               <div className={styles.mainContainer}>
                 <div className={styles.plateTabContainer}>
-                  <PlateTabBar />
+                  {/* <PlateTabBar /> */}
                 </div>
                 <div className={styles.plateContainer}>
-                  {noPlates ? (
+                  {/* {noPlates ? (
                     <NoPlatesMessage onAddClick={this.props.onAddClick} />
                   ) : (
                     <Plate />
-                  )}
+                  )} */}
                 </div>
               </div>
-              <PlateSidebar />
+              {/* <PlateSidebar /> */}
             </SplitPane>
           </div>
         </React.Fragment>

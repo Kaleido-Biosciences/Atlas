@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import { Editor } from './Editor';
-import {
+import { Editor } from '../../../components';
+import { selectors } from '../store';
+import { actions } from '../actions';
+
+const {
   selectEditorInitialized,
   selectEditorInitializationError,
   selectEditorPlates,
-} from '../../../store/selectors';
-import {
-  loadContainerCollection,
-  resetState,
-  addNewPlate,
-} from '../../../store/editorActions';
+} = selectors;
+
+const { loadContainerCollection, resetEditor, addNewPlate } = actions.editor;
 
 const onMount = query => {
   return async (dispatch, getState) => {
@@ -34,7 +34,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
-  onUnmount: resetState,
+  onUnmount: resetEditor,
   onAddClick: addNewPlate,
 };
 

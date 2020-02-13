@@ -10,6 +10,7 @@ import {
   fetchExperimentVersions,
   fetchVersion,
   publishExperimentPlates,
+  saveExperimentPlates,
 } from './aws';
 export const api = {
   searchActivities,
@@ -21,4 +22,5 @@ export const api = {
   fetchCompound,
   fetchMedium,
   fetchSupplement,
+  saveExperimentPlates,
 };

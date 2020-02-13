@@ -1,6 +1,7 @@
 import * as activitySearchActions from './activitySearchActions';
 import * as activityActions from './activityActions';
 import * as printActions from './printActions';
+import * as editorActions from './editorActions';
 
 export const actions = {
   activitySearch: {
@@ -8,4 +9,5 @@ export const actions = {
   },
   activity: { ...activityActions },
   print: { ...printActions },
+  editor: { ...editorActions },
 };

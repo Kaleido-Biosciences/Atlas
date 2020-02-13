@@ -1,17 +1,18 @@
-import { editorActions } from './editor';
-import { editorComponentsActions } from './editorComponents';
-import { editorToolsActions } from './editorTools';
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../constants';
-import { aws } from '../api';
-import {
+import { editorActions, editorComponentsActions, editorToolsActions, selectors, plateFunctions } from '../store';
+import { importContainerCollection } from './activityActions';
+import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../../../constants';
+import { api } from '../api';
+
+const {
   findPlateById,
   createWell,
   createPlate,
   createPlateWithDimensions,
   getSelectedWells,
   exportPlates,
-} from './plateFunctions';
-import {
+} = plateFunctions;
+
+const {
   selectEditorActivePlate,
   selectEditorClickMode,
   selectEditorToolComponentsValid,
@@ -20,8 +21,7 @@ import {
   selectEditorPlates,
   selectActivityName,
   selectActivityPlateSize,
-} from './selectors';
-// import { importContainerCollection } from './activitiesActions';
+} = selectors;
 
 const {
   setInitialized: _setInitialized,
@@ -50,7 +50,7 @@ const wrapWithChangeHandler = fn => {
       const activityName = selectActivityName(getState());
       const exportedPlates = exportPlates(selectEditorPlates(getState()));
       try {
-        await aws.saveExperimentPlates(activityName, exportedPlates);
+        await api.saveExperimentPlates(activityName, exportedPlates);
         dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
       } catch (err) {
         dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
@@ -71,7 +71,7 @@ export const {
   setActivePlate,
   setSettings,
   addBarcodes,
-  resetState,
+  resetState: resetEditor,
 } = editorActions;
 
 export const {
@@ -92,18 +92,18 @@ export const {
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
-    // try {
-    //   const plates = await dispatch(importContainerCollection(status, version));
-    //   if (plates.length) {
-    //     dispatch(_setPlates({ plates }));
-    //   } else {
-    //     const plateSize = selectActivityPlateSize(getState());
-    //     dispatch(_setPlateSize({ plateSize }));
-    //   }
-    //   dispatch(initializePlates());
-    // } catch (error) {
-    //   dispatch(_setInitializationError({ error: error.message }));
-    // }
+    try {
+      const plates = await dispatch(importContainerCollection(status, version));
+      if (plates.length) {
+        dispatch(_setPlates({ plates }));
+      } else {
+        const plateSize = selectActivityPlateSize(getState());
+        dispatch(_setPlateSize({ plateSize }));
+      }
+      dispatch(initializePlates());
+    } catch (error) {
+      dispatch(_setInitializationError({ error: error.message }));
+    }
   };
 };
 
