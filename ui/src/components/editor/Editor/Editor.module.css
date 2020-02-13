@@ -33,3 +33,7 @@
   margin: 2em auto !important;
   width: 40em !important;
 }
+
+.plateSidebar {
+  height: 100%;
+}

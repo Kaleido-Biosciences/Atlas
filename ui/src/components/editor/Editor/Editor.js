@@ -65,7 +65,16 @@ export class Editor extends Component {
                   )} */}
                 </div>
               </div>
-              {/* <PlateSidebar /> */}
+              <div className={styles.plateSidebar}>
+                <SplitPane
+                  split="horizontal"
+                  defaultSize={250}
+                  pane2Style={{ overflow: 'hidden' }}
+                >
+                  {/* <ComponentList />
+                  <Tools /> */}
+                </SplitPane>
+              </div>
             </SplitPane>
           </div>
         </React.Fragment>
