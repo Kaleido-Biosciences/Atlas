@@ -8,6 +8,7 @@ import { ActivityDetails } from '../../components';
 import { Editor } from '../../components';
 import { PlateTabBar } from '../../components';
 import { Plate } from '../../components';
+import { ComponentList } from '../../components';
 // import { EditorActions } from '../../../../components/editor/EditorActions';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
@@ -125,6 +126,7 @@ export class Activities extends Component {
     } else if (initialized) {
       const tabBarComponent = <PlateTabBar />;
       const plateComponent = <Plate />;
+      const componentListComponent = <ComponentList />;
       if (this.matchEditorPath() && editorInitialized) {
         actions = (
           <div />
@@ -153,6 +155,7 @@ export class Activities extends Component {
                   <Editor
                     tabBarComponent={tabBarComponent}
                     plateComponent={plateComponent}
+                    componentListComponent={componentListComponent}
                     {...routeProps}
                   />
                 );

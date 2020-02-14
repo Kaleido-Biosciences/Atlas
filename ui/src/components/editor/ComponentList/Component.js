@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Label, Popup } from 'semantic-ui-react';
 import { ComponentTypeCircle } from '../ComponentTypeCircle';
-import { ComponentToolTip } from '../../ComponentToolTip';
+import { ComponentToolTip } from '../ComponentToolTip';
 
 import styles from './ComponentList.module.css';
 

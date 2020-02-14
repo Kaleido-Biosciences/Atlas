@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 
-import { ComponentList } from './ComponentList';
-import {
+import { ComponentList } from '../../../components';
+import { actions } from '../actions';
+import { selectors } from '../store';
+
+const {
   addComponentToComponents,
   addComponentToToolComponents,
-} from '../../../../store/editorActions';
-import {
-  selectEditorComponents,
-  selectEditorComponentCounts,
-} from '../../../../store/selectors';
+} = actions.editor;
+
+const { selectEditorComponents, selectEditorComponentCounts } = selectors;
 
 const onComponentClick = ({ component }) => {
   return (dispatch, getState) => {
