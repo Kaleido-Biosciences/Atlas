@@ -7,6 +7,7 @@ import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../components';
 import { Editor } from '../../components';
 import { PlateTabBar } from '../../components';
+import { Plate } from '../../components';
 // import { EditorActions } from '../../../../components/editor/EditorActions';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
@@ -122,7 +123,8 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
-      const tabBar = <PlateTabBar />;
+      const tabBarComponent = <PlateTabBar />;
+      const plateComponent = <Plate />;
       if (this.matchEditorPath() && editorInitialized) {
         actions = (
           <div />
@@ -147,7 +149,13 @@ export class Activities extends Component {
             <Route
               path={`${match.path}/editor`}
               render={routeProps => {
-                return <Editor tabBarComponent={tabBar} {...routeProps} />;
+                return (
+                  <Editor
+                    tabBarComponent={tabBarComponent}
+                    plateComponent={plateComponent}
+                    {...routeProps}
+                  />
+                );
               }}
             />
             <Route

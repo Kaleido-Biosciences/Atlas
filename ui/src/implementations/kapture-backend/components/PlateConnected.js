@@ -1,17 +1,21 @@
 import { connect } from 'react-redux';
 
-import { Plate } from './Plate';
-import {
+import { Plate } from '../../../components';
+import { actions } from '../actions';
+import { selectors } from '../store';
+
+const {
   handlePlateClick,
   setSettings,
   addBarcodes,
   setBarcode,
-} from '../../../store/editorActions';
-import {
+} = actions.editor;
+
+const {
   selectEditorActivePlate,
   selectEditorSettings,
   selectEditorBarcodes,
-} from '../../../store/selectors';
+} = selectors;
 
 const mapState = (state, props) => {
   return {

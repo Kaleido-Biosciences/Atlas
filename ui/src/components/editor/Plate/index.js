@@ -1,3 +1,2 @@
-import { Plate } from './connect';
-import { NoPlatesMessage } from './NoPlatesMessage';
-export { Plate, NoPlatesMessage };
+export { Plate } from './Plate';
+export { NoPlatesMessage } from './NoPlatesMessage';
