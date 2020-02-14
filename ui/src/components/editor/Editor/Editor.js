@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import { Loader, Message } from 'semantic-ui-react';
 
-// import { PlateTabBar } from '../PlateTabBar';
 // import { Plate, NoPlatesMessage } from '../Plate';
 // import { PlateSidebar } from '../PlateSidebar';
 import styles from './Editor.module.css';
@@ -14,15 +13,19 @@ export class Editor extends Component {
       this.props.onMount(this.props.location.search);
     }
   }
-
   componentWillUnmount() {
     if (this.props.onUnmount) {
       this.props.onUnmount();
     }
   }
-
   render() {
-    const { loading, error, initialized, noPlates } = this.props;
+    const {
+      loading,
+      error,
+      initialized,
+      noPlates,
+      tabBarComponent,
+    } = this.props;
     let content;
     if (loading) {
       content = (
@@ -55,7 +58,7 @@ export class Editor extends Component {
             >
               <div className={styles.mainContainer}>
                 <div className={styles.plateTabContainer}>
-                  {/* <PlateTabBar /> */}
+                  {tabBarComponent}
                 </div>
                 <div className={styles.plateContainer}>
                   {/* {noPlates ? (
@@ -93,4 +96,5 @@ Editor.propTypes = {
   onMount: PropTypes.func,
   onUnmount: PropTypes.func,
   onAddClick: PropTypes.func,
+  tabBarComponent: PropTypes.object,
 };

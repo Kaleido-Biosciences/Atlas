@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
 
-import { PlateTabBar } from './PlateTabBar';
-import {
-  addNewPlate,
-  setActivePlate,
-  clonePlate,
-  deletePlate,
-} from '../../../store/editorActions';
-import {
-  selectEditorPlates,
-  selectEditorActivePlate,
-} from '../../../store/selectors';
+import { PlateTabBar } from '../../../components';
+import { actions } from '../actions';
+import { selectors } from '../store';
+
+const { addNewPlate, setActivePlate, clonePlate, deletePlate } = actions.editor;
+
+const { selectEditorPlates, selectEditorActivePlate } = selectors;
 
 const mapState = (state, props) => {
   const plates = selectEditorPlates(state);

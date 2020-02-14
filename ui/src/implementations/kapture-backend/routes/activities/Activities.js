@@ -6,6 +6,7 @@ import { Route, Switch, matchPath } from 'react-router-dom';
 import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../components';
 import { Editor } from '../../components';
+import { PlateTabBar } from '../../components';
 // import { EditorActions } from '../../../../components/editor/EditorActions';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
@@ -121,6 +122,7 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
+      const tabBar = <PlateTabBar />;
       if (this.matchEditorPath() && editorInitialized) {
         actions = (
           <div />
@@ -142,7 +144,12 @@ export class Activities extends Component {
                 );
               }}
             />
-            <Route path={`${match.path}/editor`} component={Editor} />
+            <Route
+              path={`${match.path}/editor`}
+              render={routeProps => {
+                return <Editor tabBarComponent={tabBar} {...routeProps} />;
+              }}
+            />
             <Route
               path={`${match.path}/print`}
               render={routeProps => (
