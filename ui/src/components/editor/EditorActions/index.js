@@ -1,2 +1,1 @@
-import { EditorActions } from './connect';
-export { EditorActions };
+export { EditorActions } from './EditorActions';

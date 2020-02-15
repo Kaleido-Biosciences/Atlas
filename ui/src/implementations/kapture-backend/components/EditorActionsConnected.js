@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 
-import { EditorActions } from './EditorActions';
-import {
-  selectEditorSaveStatus,
-  selectEditorLastSaveTime,
-} from '../../../store/selectors';
-import { addBarcodes } from '../../../store/editorActions';
+import { EditorActions } from '../../../components';
+import { selectors } from '../store';
+import { actions } from '../actions';
+const { selectEditorSaveStatus, selectEditorLastSaveTime } = selectors;
+const { addBarcodes } = actions.editor;
 
 const mapState = (state, props) => {
   return {

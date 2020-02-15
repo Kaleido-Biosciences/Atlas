@@ -10,7 +10,7 @@ import { PlateTabBar } from '../../components';
 import { Plate } from '../../components';
 import { ComponentList } from '../../components';
 import { Tools } from '../../components';
-// import { EditorActions } from '../../../../components/editor/EditorActions';
+import { EditorActions } from '../../components';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
@@ -131,8 +131,7 @@ export class Activities extends Component {
       const toolsComponent = <Tools />;
       if (this.matchEditorPath() && editorInitialized) {
         actions = (
-          <div />
-          // <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
+          <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
         );
       } else if (this.matchPrintPath() && printInitialized) {
         actions = <PrintActions contentRef={this.state.contentRef} />;
