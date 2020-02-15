@@ -1,2 +1,1 @@
-import { Tools } from './connect';
-export { Tools };
+export { Tools } from './Tools';

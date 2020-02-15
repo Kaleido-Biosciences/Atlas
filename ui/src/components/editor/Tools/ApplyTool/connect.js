@@ -4,13 +4,13 @@ import { ApplyTool } from './ApplyTool';
 import {
   applySelectedToolComponentsToSelectedWells,
   addComponentToToolComponents,
-} from '../../../../../store/editorActions';
+} from '../../../../implementations/kapture-backend/actions/editorActions';
 import {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
   selectEditorSelectedWellsFromActivePlate,
   selectEditorActivePlate,
-} from '../../../../../store/selectors';
+} from '../../../../store/selectors';
 
 const mapState = (state, props) => {
   return {

@@ -8,7 +8,7 @@ import {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
-} from '../../../../../../store/editorActions';
+} from '../../../../../implementations/kapture-backend/actions/editorActions';
 
 const mapDispatch = {
   onSelect: selectToolComponents,

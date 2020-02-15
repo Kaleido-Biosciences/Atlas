@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
 
-import { Tools } from './Tools';
-import { setClickMode } from '../../../../store/editorActions';
-import { selectEditorClickMode } from '../../../../store/selectors';
+import { Tools } from '../../../components';
+import { actions } from '../actions';
+import { selectors } from '../store';
+
+const { setClickMode } = actions.editor;
+const { selectEditorClickMode } = selectors;
 
 const mapState = (state, props) => {
   return { clickMode: selectEditorClickMode(state) };

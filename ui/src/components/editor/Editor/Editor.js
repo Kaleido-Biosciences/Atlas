@@ -27,6 +27,7 @@ export class Editor extends Component {
       tabBarComponent,
       plateComponent,
       componentListComponent,
+      toolsComponent,
     } = this.props;
     let content;
     if (loading) {
@@ -77,7 +78,7 @@ export class Editor extends Component {
                   pane2Style={{ overflow: 'hidden' }}
                 >
                   {componentListComponent}
-                  {/* <Tools /> */}
+                  {toolsComponent}
                 </SplitPane>
               </div>
             </SplitPane>
@@ -101,4 +102,5 @@ Editor.propTypes = {
   tabBarComponent: PropTypes.object,
   plateComponent: PropTypes.object,
   componentListComponent: PropTypes.object,
+  toolsComponent: PropTypes.object,
 };

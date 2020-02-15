@@ -7,7 +7,7 @@ import { CompoundsSection } from './CompoundsSection';
 import { MediaSection } from './MediaSection';
 import { SupplementsSection } from './SupplementsSection';
 import { AttributesSection } from './AttributesSection';
-import { groupComponents } from '../../../../../store/plateFunctions';
+import { groupComponents } from '../../../../store/plateFunctions';
 import { SelectedWells } from './SelectedWells';
 import styles from './ApplyTool.module.css';
 

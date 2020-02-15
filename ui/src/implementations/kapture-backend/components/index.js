@@ -8,3 +8,4 @@ export { Editor } from './EditorConnected';
 export { PlateTabBar } from './PlateTabBarConnected';
 export { Plate } from './PlateConnected';
 export { ComponentList } from './ComponentListConnected';
+export { Tools } from './ToolsConnected';
