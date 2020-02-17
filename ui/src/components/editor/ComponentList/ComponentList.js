@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 
-import { api } from '../../../api';
+import { api } from '../../../implementations/kapture-backend/api';
 import { Header } from './Header';
 import { Search } from './Search';
 import { List } from './List';
@@ -51,7 +51,7 @@ export class ComponentList extends Component {
     if (searchQuery) {
       try {
         this.setState({ loading: true });
-        const results = await api.kapture.searchComponents(0, 4, searchQuery);
+        const results = await api.searchComponents(0, 4, searchQuery);
         const searchUpper = searchQuery.toUpperCase();
         results.sort((a, b) => {
           const aName = a.data.name.toUpperCase();

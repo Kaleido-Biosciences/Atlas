@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { api } from '../../../../api';
+import { api } from '../../../../implementations/kapture-backend/api';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 
@@ -22,7 +22,7 @@ export class ImportComponents extends Component {
 
   searchNext = async () => {
     const index = this.currentSearchIndex;
-    const result = await api.kapture.findComponent(this.componentNames[index]);
+    const result = await api.findComponent(this.componentNames[index]);
     if (result.found) {
       this.setState({ found: [result].concat(this.state.found) });
     } else {

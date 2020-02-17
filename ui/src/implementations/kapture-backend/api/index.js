@@ -5,6 +5,8 @@ import {
   fetchCompound,
   fetchMedium,
   fetchSupplement,
+  findComponent,
+  searchComponents,
 } from './kapture';
 import {
   fetchExperimentVersions,
@@ -23,4 +25,6 @@ export const api = {
   fetchMedium,
   fetchSupplement,
   saveExperimentPlates,
+  findComponent,
+  searchComponents,
 };
