@@ -2,14 +2,9 @@ import { connect } from 'react-redux';
 
 import { Activities } from './Activities';
 import { selectors } from '../../store';
-// import {
-//   loadActivity,
-//   // publishActivityPlates,
-//   resetActivityState,
-// } from '../../actions';
 import { actions } from '../../actions';
 
-const { loadActivity, resetActivity } = actions.activity;
+const { loadActivity, resetActivity, publishActivityPlates } = actions.activity;
 
 const {
   selectActivityInitialized,
@@ -46,7 +41,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   loadActivity,
-  // onMarkAsCompleted: publishActivityPlates,
+  onMarkAsCompleted: publishActivityPlates,
   onUnmount: resetActivity,
 };
 
