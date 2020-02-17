@@ -1,2 +1,1 @@
-import { PlateTabBar } from './connect';
-export { PlateTabBar };
+export { PlateTabBar } from './PlateTabBar';

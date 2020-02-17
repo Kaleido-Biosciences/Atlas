@@ -1,2 +1,1 @@
-import { Editor } from './connect';
-export { Editor };
+export { Editor } from './Editor';

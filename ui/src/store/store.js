@@ -3,7 +3,8 @@ import logger from 'redux-logger';
 import { reducer as formReducer } from 'redux-form';
 
 import './validators';
-import { activitiesReducer } from './activities';
+import { activitySearchReducer } from './activitySearch';
+import { activityReducer } from './activity';
 import { editorReducer } from './editor';
 import { editorComponentsReducer } from './editorComponents';
 import { editorToolsReducer } from './editorTools';
@@ -16,7 +17,8 @@ if (process.env.NODE_ENV === `development`) {
 
 export const store = configureStore({
   reducer: {
-    activities: activitiesReducer,
+    activitySearch: activitySearchReducer,
+    activity: activityReducer,
     editor: editorReducer,
     editorComponents: editorComponentsReducer,
     editorTools: editorToolsReducer,

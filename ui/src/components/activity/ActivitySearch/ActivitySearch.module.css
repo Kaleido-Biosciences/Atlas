@@ -1,0 +1,4 @@
+.search :global(.results) {
+  max-height: 20em;
+  overflow: auto;
+}

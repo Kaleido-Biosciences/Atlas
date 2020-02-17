@@ -1,2 +1,1 @@
-import { ActivitySearch } from './connect';
-export { ActivitySearch };
+export { ActivitySearch } from './ActivitySearch';

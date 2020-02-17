@@ -1,30 +1,45 @@
 import { createSelector } from 'redux-starter-kit';
 import { getActivePlate, getSelectedWells } from './plateFunctions';
 
-/* Activities */
+/* Activity Search */
+export const selectActivitySearchSearchTerm = createSelector([
+  'activitySearch.searchTerm',
+]);
+export const selectActivitySearchLoading = createSelector([
+  'activitySearch.loading',
+]);
+export const selectActivitySearchError = createSelector([
+  'activitySearch.error',
+]);
+export const selectActivitySearchResults = createSelector([
+  'activitySearch.results',
+]);
+
+/* Activity */
 export const selectActivityInitialized = createSelector([
-  'activities.initialized',
+  'activity.initialized',
 ]);
 export const selectActivityInitializationError = createSelector([
-  'activities.initializationError',
+  'activity.initializationError',
 ]);
-export const selectActivity = createSelector(['activities.activity']);
-export const selectActivityName = createSelector(['activities.activity.name']);
+export const selectActivityId = createSelector(['activity.id']);
+export const selectActivityName = createSelector(['activity.name']);
 export const selectActivityDescription = createSelector([
-  'activities.activity.data.description',
+  'activity.description',
 ]);
 export const selectActivityContainerCollections = createSelector([
-  'activities.activity.containerCollections',
+  'activity.containerCollections',
 ]);
+export const selectActivityData = createSelector(['activity.data']);
+export const selectActivityPlateSize = createSelector(['activity.plateSize']);
 export const selectActivityPublishStatus = createSelector([
-  'activities.publishStatus',
+  'activity.publishStatus',
 ]);
 export const selectActivityPublishedContainerCollectionDetails = createSelector(
-  ['activities.publishedContainerCollectionDetails']
+  ['activity.publishedContainerCollectionDetails']
 );
-export const selectActivityPlateSize = createSelector(['activities.plateSize']);
 export const selectActivityContainerCollectionsStale = createSelector([
-  'activities.containerCollectionsStale',
+  'activity.containerCollectionsStale',
 ]);
 
 /* Editor */

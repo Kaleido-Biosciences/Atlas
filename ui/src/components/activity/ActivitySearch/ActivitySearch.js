@@ -2,47 +2,45 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Search } from 'semantic-ui-react';
 
-import {
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
-} from '../../../constants';
+import styles from './ActivitySearch.module.css';
 
 export class ActivitySearch extends Component {
+  componentWillUnmount() {
+    if (this.props.onUnmount) {
+      this.props.onUnmount();
+    }
+  }
   handleSearchChange = (e, { value }) => {
     if (this.props.onChange) {
       this.props.onChange({ searchTerm: value });
     }
   };
-
   handleResultSelect = (e, { result }) => {
     if (this.props.onSelect) {
       this.props.onSelect({ activity: result.data });
     }
   };
-
   render() {
     const {
       value,
-      requestStatus,
+      loading,
+      error,
       results,
       placeholder,
       autoFocus,
     } = this.props;
-    let loading = false,
-      showNoResults = false,
+    let showNoResults = false,
       noResultsMessage = '';
-    if (requestStatus === REQUEST_PENDING) {
-      loading = true;
-    } else if (requestStatus === REQUEST_SUCCESS) {
+    if (error) {
+      showNoResults = true;
+      noResultsMessage = `Error occurred while searching: ${error}`;
+    } else if (results && !loading) {
       showNoResults = true;
       noResultsMessage = 'No activities found';
-    } else if (requestStatus === REQUEST_ERROR) {
-      showNoResults = true;
-      noResultsMessage = 'Error occurred while searching.';
     }
     return (
       <Search
+        className={styles.search}
         fluid
         input={{ fluid: true }}
         loading={loading}
@@ -61,12 +59,14 @@ export class ActivitySearch extends Component {
 
 ActivitySearch.propTypes = {
   value: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
   results: PropTypes.array,
-  requestStatus: PropTypes.string,
   placeholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   onChange: PropTypes.func,
   onSelect: PropTypes.func,
+  onUnmount: PropTypes.func,
 };
 
 ActivitySearch.defaultProps = {
