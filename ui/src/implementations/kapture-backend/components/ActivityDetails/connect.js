@@ -15,7 +15,7 @@ const {
 const mapState = (state, props) => {
   return {
     activityName: selectActivityName(state),
-    versions: selectActivityContainerCollections(state),
+    containerCollections: selectActivityContainerCollections(state),
     plateSize: selectActivityPlateSize(state),
   };
 };

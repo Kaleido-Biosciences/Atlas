@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
-import { Version } from './Version';
-import { NewActivity } from './NewActivity';
-import { STATUS_DRAFT, STATUS_COMPLETED } from '../../../../constants';
+import { ContainerCollection } from './ContainerCollection';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {
@@ -13,44 +11,21 @@ export class ActivityDetails extends Component {
       this.props.onUnmount();
     }
   }
-  handleVersionClick = ({ version: v }) => {
-    const { experiment_status, version } = v;
-    const status = experiment_status.split('_')[1];
+  handleCollectionClick = ({ collection }) => {
     let url = this.props.match.url;
     url = url.endsWith('/') ? url.slice(0, -1) : url;
-    if (status === STATUS_COMPLETED) {
-      this.props.history.push(
-        url + `/print?status=${experiment_status}&version=${version}`
-      );
-    } else if (status === STATUS_DRAFT) {
-      this.props.history.push(
-        url + `/editor?status=${experiment_status}&version=${version}`
-      );
-    }
+    this.props.history.push(url + collection.route);
   };
-  handlePlateSizeChange = ({ plateSize }) => {
-    if (this.props.onPlateSizeChange) {
-      this.props.onPlateSizeChange({ plateSize });
-    }
-  };
-  handleSubmit = () => {
-    const { activityName } = this.props;
-    let url = this.props.match.url;
-    url = url.endsWith('/') ? url.slice(0, -1) : url;
-    this.props.history.push(
-      url + `/editor?status=${activityName}_DRAFT&version=0`
-    );
-  };
-  renderVersions(versions) {
+  renderCollections(collections) {
     return (
       <Card.Group>
-        {versions.map(version => {
-          const key = version.version;
+        {collections.map(collection => {
+          const key = collection.id;
           return (
-            <Version
+            <ContainerCollection
               key={key}
-              version={version}
-              onClick={this.handleVersionClick}
+              collection={collection}
+              onClick={this.handleCollectionClick}
             />
           );
         })}
@@ -58,20 +33,10 @@ export class ActivityDetails extends Component {
     );
   }
   render() {
-    const { versions, plateSize } = this.props;
-    let content;
-    if (versions.length) {
-      content = this.renderVersions(versions);
-    } else {
-      content = (
-        <div className={styles.newActivityContainer}>
-          <NewActivity
-            defaultPlateSize={plateSize}
-            onPlateSizeChange={this.handlePlateSizeChange}
-            onSubmit={this.handleSubmit}
-          />
-        </div>
-      );
+    const { containerCollections: collections } = this.props;
+    let content = null;
+    if (collections.length) {
+      content = this.renderCollections(collections);
     }
     return <div className={styles.experimentDetails}>{content}</div>;
   }
@@ -79,8 +44,6 @@ export class ActivityDetails extends Component {
 
 ActivityDetails.propTypes = {
   activityName: PropTypes.string,
-  versions: PropTypes.array,
-  plateSize: PropTypes.object,
-  onPlateSizeChange: PropTypes.func,
+  containerCollections: PropTypes.array,
   onUnmount: PropTypes.func,
 };

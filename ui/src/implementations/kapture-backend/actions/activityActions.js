@@ -1,10 +1,14 @@
+import bigInt from 'big-integer';
+
 import { activityActions, plateFunctions, selectors } from '../store';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
+  STATUS_COMPLETED,
 } from '../../../constants';
 import { api } from '../api';
+import { createContainerCollection } from '../models';
 
 const {
   selectActivityName,
@@ -27,6 +31,36 @@ const {
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
 } = activityActions;
 
+const ldapToJS = n => {
+  return new Date(Number(bigInt(n) / bigInt(1e4) - bigInt(1.16444736e13)));
+};
+
+const getCollectionFromVersion = v => {
+  const { experiment_status, version } = v;
+  const status = experiment_status.split('_')[1];
+  const containerCount = v.plateMaps.length;
+  let updatedTime = null,
+    icon = 'edit',
+    tooltip = 'View in editor',
+    route = `/editor?status=${experiment_status}&version=0`;
+  if (status === STATUS_COMPLETED) {
+    updatedTime = ldapToJS(version).getTime();
+    icon = 'print';
+    tooltip = 'Print plates';
+    route = `/print?status=${experiment_status}&version=${version}`;
+  }
+  return createContainerCollection(
+    status,
+    null,
+    updatedTime,
+    icon,
+    containerCount,
+    route,
+    tooltip,
+    v
+  );
+};
+
 export const {
   setPlateSize,
   resetState: resetActivity,
@@ -39,13 +73,23 @@ export const loadActivity = id => {
     try {
       const activity = await api.fetchExperiment(id);
       const versions = await api.fetchExperimentVersions(activity.name);
+      if (!versions.length) {
+        versions.push({
+          plateMaps: [],
+          experiment_status: `${activity.name}_DRAFT`,
+          version: 0,
+        });
+      }
+      const containerCollections = versions.map(version => {
+        return getCollectionFromVersion(version);
+      });
       dispatch(
         _setActivity({
           activity: {
             id: activity.id,
             name: activity.name,
             description: activity.description,
-            containerCollections: versions,
+            containerCollections,
             data: activity,
           },
         })
@@ -62,17 +106,18 @@ export const importContainerCollection = (status, timestamp, slice) => {
     const containerCollections = selectActivityContainerCollections(getState());
     let collection = containerCollections.find(collection => {
       return (
-        collection.experiment_status === status &&
-        collection.version === parsedTimestamp
+        collection.data.experiment_status === status &&
+        collection.data.version === parsedTimestamp
       );
     });
     if (!collection) {
-      collection = await api.fetchVersion(status, timestamp);
+      const version = await api.fetchVersion(status, timestamp);
+      collection = getCollectionFromVersion(version);
     }
     if (!collection) {
       return [];
     } else {
-      const plates = await importPlates(collection.plateMaps, dispatch);
+      const plates = await importPlates(collection.data.plateMaps, dispatch);
       return plates;
     }
   };
