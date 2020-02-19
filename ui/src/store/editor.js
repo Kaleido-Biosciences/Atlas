@@ -15,6 +15,7 @@ const initialState = {
   initialized: false,
   initializationError: null,
   plates: [],
+  // TODO remove this
   plateSize: { rows: 8, columns: 12 },
   nextPlateId: 1,
   componentCounts: {},
@@ -43,6 +44,7 @@ const editor = createSlice({
     resetState(state, action) {
       Object.assign(state, initialState);
     },
+    // TODO remove this
     setPlateSize(state, action) {
       state.plateSize = action.payload.plateSize;
     },

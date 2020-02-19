@@ -62,7 +62,6 @@ const getCollectionFromVersion = v => {
 };
 
 export const {
-  setPlateSize,
   resetState: resetActivity,
   setContainerCollectionsStale,
 } = activityActions;

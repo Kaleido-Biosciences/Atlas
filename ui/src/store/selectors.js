@@ -31,7 +31,6 @@ export const selectActivityContainerCollections = createSelector([
   'activity.containerCollections',
 ]);
 export const selectActivityData = createSelector(['activity.data']);
-export const selectActivityPlateSize = createSelector(['activity.plateSize']);
 export const selectActivityPublishStatus = createSelector([
   'activity.publishStatus',
 ]);

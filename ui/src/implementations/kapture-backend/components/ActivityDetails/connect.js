@@ -4,19 +4,14 @@ import { ActivityDetails } from './ActivityDetails';
 import { selectors } from '../../store';
 import { actions } from '../../actions';
 
-const { setPlateSize, setContainerCollectionsStale } = actions.activity;
+const { setContainerCollectionsStale } = actions.activity;
 
-const {
-  selectActivityName,
-  selectActivityContainerCollections,
-  selectActivityPlateSize,
-} = selectors;
+const { selectActivityName, selectActivityContainerCollections } = selectors;
 
 const mapState = (state, props) => {
   return {
     activityName: selectActivityName(state),
     containerCollections: selectActivityContainerCollections(state),
-    plateSize: selectActivityPlateSize(state),
   };
 };
 
@@ -25,7 +20,6 @@ const onUnmount = () => {
 };
 
 const mapDispatch = {
-  onPlateSizeChange: setPlateSize,
   onUnmount,
 };
 

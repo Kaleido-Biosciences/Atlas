@@ -1,6 +1,16 @@
-import { editorActions, editorComponentsActions, editorToolsActions, selectors, plateFunctions } from '../store';
+import {
+  editorActions,
+  editorComponentsActions,
+  editorToolsActions,
+  selectors,
+  plateFunctions,
+} from '../store';
 import { importContainerCollection } from './activityActions';
-import { REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_ERROR } from '../../../constants';
+import {
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+  REQUEST_ERROR,
+} from '../../../constants';
 import { api } from '../api';
 
 const {
@@ -20,13 +30,11 @@ const {
   selectEditorClearMode,
   selectEditorPlates,
   selectActivityName,
-  selectActivityPlateSize,
 } = selectors;
 
 const {
   setInitialized: _setInitialized,
   setInitializationError: _setInitializationError,
-  setPlateSize: _setPlateSize,
   setPlates: _setPlates,
   addPlate: _addPlate,
   resetNextPlateId: _resetNextPlateId,
@@ -96,9 +104,6 @@ export const loadContainerCollection = (status, version) => {
       const plates = await dispatch(importContainerCollection(status, version));
       if (plates.length) {
         dispatch(_setPlates({ plates }));
-      } else {
-        const plateSize = selectActivityPlateSize(getState());
-        dispatch(_setPlateSize({ plateSize }));
       }
       dispatch(initializePlates());
     } catch (error) {
