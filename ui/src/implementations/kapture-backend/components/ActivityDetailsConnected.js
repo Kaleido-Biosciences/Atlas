@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
-import { ActivityDetails } from './ActivityDetails';
-import { selectors } from '../../store';
-import { actions } from '../../actions';
+import { ActivityDetails } from '../../../components';
+import { selectors } from '../store';
+import { actions } from '../actions';
 
 const { setContainerCollectionsStale } = actions.activity;
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
-import { ContainerCollection } from './ContainerCollection';
+import { ContainerCollection } from '../ContainerCollection';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {
