@@ -91,3 +91,11 @@ export const selectPrintInitializationError = createSelector([
   'print.initializationError',
 ]);
 export const selectPrintPlates = createSelector(['print.plates']);
+
+/* Editor V2 */
+export const selectEditorV2Initialized = createSelector([
+  'editorV2.initialized',
+]);
+export const selectEditorV2InitializationError = createSelector([
+  'editorV2.initializationError',
+]);

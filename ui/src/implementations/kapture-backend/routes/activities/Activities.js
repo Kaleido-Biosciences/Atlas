@@ -5,7 +5,7 @@ import { Route, Switch, matchPath } from 'react-router-dom';
 
 import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../components';
-import { Editor } from '../../components';
+import { EditorV2 } from '../../components';
 import { PlateTabBar } from '../../components';
 import { Plate } from '../../components';
 import { ComponentList } from '../../components';
@@ -153,7 +153,7 @@ export class Activities extends Component {
               path={`${match.path}/editor`}
               render={routeProps => {
                 return (
-                  <Editor
+                  <EditorV2
                     tabBarComponent={tabBarComponent}
                     plateComponent={plateComponent}
                     componentListComponent={componentListComponent}

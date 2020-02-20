@@ -9,3 +9,4 @@ export { editorToolsActions } from './editorTools';
 export { printActions } from './print';
 export { selectors };
 export { plateFunctions };
+export { editorV2Actions } from './editorV2';

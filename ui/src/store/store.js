@@ -9,6 +9,7 @@ import { editorReducer } from './editor';
 import { editorComponentsReducer } from './editorComponents';
 import { editorToolsReducer } from './editorTools';
 import { printReducer } from './print';
+import { editorV2Reducer } from './editorV2';
 
 const middleware = getDefaultMiddleware();
 if (process.env.NODE_ENV === `development`) {
@@ -24,6 +25,7 @@ export const store = configureStore({
     editorTools: editorToolsReducer,
     print: printReducer,
     form: formReducer,
+    editorV2: editorV2Reducer,
   },
   middleware,
 });
