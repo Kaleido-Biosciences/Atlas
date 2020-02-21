@@ -3,6 +3,7 @@ import { createSlice } from 'redux-starter-kit';
 const initialState = {
   initialized: false,
   initializationError: null,
+  containers: [],
 };
 
 const editorV2 = createSlice({

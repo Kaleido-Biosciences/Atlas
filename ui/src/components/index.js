@@ -12,3 +12,4 @@ export { ComponentList } from './editor/ComponentList';
 export { Tools } from './editor/Tools';
 export { EditorActions } from './editor/EditorActions';
 export { EditorV2 } from './editor/EditorV2';
+export { ContainerTabBar } from './editor/ContainerTabBar';

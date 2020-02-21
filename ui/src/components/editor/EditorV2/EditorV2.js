@@ -60,7 +60,7 @@ export class EditorV2 extends Component {
             >
               <div className={styles.mainContainer}>
                 <div className={styles.plateTabContainer}>
-                  {/* {tabBarComponent} */}
+                  {tabBarComponent}
                 </div>
                 <div className={styles.plateContainer}>
                   {/* {noPlates ? (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Loader, Message } from 'semantic-ui-react';
+import { Loader, Message, Container } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
 import { ActivityHeader } from '../../components';
@@ -14,6 +14,7 @@ import { EditorActions } from '../../components';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
+import { ContainerTabBar } from '../../components';
 import styles from './Activity.module.css';
 
 export class Activities extends Component {
@@ -125,7 +126,7 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
-      const tabBarComponent = <PlateTabBar />;
+      const tabBarComponent = <ContainerTabBar />;
       const plateComponent = <Plate />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;
