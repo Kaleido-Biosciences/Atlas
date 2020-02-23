@@ -25,9 +25,7 @@ export class ContainerSize extends Component {
             <tr>
               <td>
                 <div className={styles.rows}>
-                  <div className={styles.rowText}>
-                    {rows ? `${rows} rows` : ''}
-                  </div>
+                  <div>{rows ? `${rows} rows` : ''}</div>
                 </div>
               </td>
               <td>

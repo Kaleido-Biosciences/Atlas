@@ -20,7 +20,7 @@ export class AddContainerModal extends Component {
     const { open, onClose } = this.props;
     const submitDisabled = this.state.container ? false : true;
     return (
-      <Modal open={open} onClose={onClose} closeIcon>
+      <Modal open={open} onClose={onClose} closeIcon size="small">
         <Header icon="add circle" content="Add Container" />
         <Modal.Content>
           <AddContainer onChange={this.handleChange} />

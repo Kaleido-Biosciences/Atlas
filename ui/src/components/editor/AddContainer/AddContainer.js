@@ -5,6 +5,7 @@ import { Form } from 'semantic-ui-react';
 import { PlateSizeForm } from './PlateSizeForm';
 import { RackSizeForm } from './RackSizeForm';
 import { SingleContainerForm } from './SingleContainerForm';
+import styles from './AddContainer.module.css';
 
 export class AddContainer extends Component {
   state = {
@@ -41,7 +42,9 @@ export class AddContainer extends Component {
       <div>
         <Form>
           <Form.Group inline>
-            <label>Select a container type: </label>
+            <label className={styles.radioLabel}>
+              Select a container type:
+            </label>
             <Form.Radio
               label="Plate"
               name="radioOption"

@@ -4,6 +4,7 @@ import { Form } from 'semantic-ui-react';
 
 import { ContainerSize } from './ContainerSize';
 import { ContainerSizeForm } from './ContainerSizeForm';
+import styles from './AddContainer.module.css';
 
 export class PlateSizeForm extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ export class PlateSizeForm extends Component {
       <div>
         <Form>
           <Form.Group inline>
-            <label>Select a plate size: </label>
+            <label className={styles.radioLabel}>Select a plate size:</label>
             <Form.Radio
               label="96 wells"
               name="radioOption"

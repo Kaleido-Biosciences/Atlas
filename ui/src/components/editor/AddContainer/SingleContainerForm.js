@@ -15,7 +15,7 @@ export class SingleContainerForm extends Component {
     const { options } = this.props;
     return (
       <Select
-        placeholder="Select a tube type"
+        placeholder="Select a container type"
         options={options}
         onChange={this.handleChange}
       />
