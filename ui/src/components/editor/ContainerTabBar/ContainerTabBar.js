@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Modal, Header } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ContainerTab } from './ContainerTab';
-import { AddContainer } from '../AddContainer';
+import { AddContainerModal } from '../AddContainer';
 import styles from './ContainerTabBar.module.css';
 
 export class ContainerTabBar extends Component {
@@ -16,6 +16,9 @@ export class ContainerTabBar extends Component {
   };
   closeAddContainerModal = () => {
     this.setState({ addContainerModalOpen: false });
+  };
+  handleAddContainer = ({ container }) => {
+    console.log(container);
   };
   renderTabs() {
     const { containers, onTabClick } = this.props;
@@ -46,15 +49,11 @@ export class ContainerTabBar extends Component {
             <div className={styles.tabContainer}>{this.renderTabs()}</div>
           </Scrollbars>
         </div>
-        <Modal
+        <AddContainerModal
           open={addContainerModalOpen}
           onClose={this.closeAddContainerModal}
-        >
-          <Header icon="add circle" content="Add Container" />
-          <Modal.Content>
-            <AddContainer />
-          </Modal.Content>
-        </Modal>
+          onSubmit={this.handleAddContainer}
+        />
       </div>
     );
   }

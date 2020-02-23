@@ -5,7 +5,7 @@ import { Form } from 'semantic-ui-react';
 import styles from './ContainerSize.module.css';
 
 const renderInput = options => {
-  return <Form.Input fluid type="number" {...options} />;
+  return <Form.Input fluid type="text" {...options} />;
 };
 
 export class ContainerSizeForm extends Component {
@@ -15,34 +15,28 @@ export class ContainerSizeForm extends Component {
   };
   handleCustomChange = (e, { name, value }) => {
     let rows, columns;
+    let parsed = parseInt(value);
+    if (!parsed || isNaN(parsed)) {
+      parsed = '';
+    }
     if (name === 'rows') {
       if (value < 27) {
-        this.setState({ rows: value });
-        rows = value;
-        columns = this.state.columns;
+        this.setState({ rows: parsed });
+        rows = parsed;
+        columns = parseInt(this.state.columns);
         this.onChange({ rows, columns });
       }
     } else {
-      this.setState({ columns: value });
-      rows = this.state.rows;
-      columns = value;
+      this.setState({ columns: parsed });
+      rows = parseInt(this.state.rows);
+      columns = parsed;
       this.onChange({ rows, columns });
     }
   };
   onChange = dimensions => {
     if (this.props.onChange) {
-      if (dimensions) {
-        const parsedRows = parseInt(dimensions.rows);
-        const parsedColumns = parseInt(dimensions.columns);
-        if (parsedRows && parsedColumns) {
-          const parsedDimensions = {
-            rows: parsedRows,
-            columns: parsedColumns,
-          };
-          this.props.onChange({ dimensions: parsedDimensions });
-        } else {
-          this.props.onChange({ dimensions: null });
-        }
+      if (dimensions && dimensions.rows && dimensions.columns) {
+        this.props.onChange({ dimensions });
       } else {
         this.props.onChange({ dimensions: null });
       }
@@ -53,7 +47,7 @@ export class ContainerSizeForm extends Component {
     const wells = rows && columns ? rows * columns : null;
     const { units } = this.props;
     return (
-      <div className={styles.plate}>
+      <div className={styles.container}>
         <table cellPadding="0" cellSpacing="0">
           <tbody>
             <tr>
@@ -88,7 +82,7 @@ export class ContainerSizeForm extends Component {
               </td>
               <td>
                 <div className={styles.rectangle}>
-                  <div className={styles.wellCount}>
+                  <div className={styles.containerCount}>
                     {wells ? `${wells} ${units}` : ''}
                   </div>
                 </div>

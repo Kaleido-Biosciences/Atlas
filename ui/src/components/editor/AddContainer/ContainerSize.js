@@ -9,7 +9,7 @@ export class ContainerSize extends Component {
     const { rows, columns } = dimensions;
     const containers = rows && columns ? rows * columns : null;
     return (
-      <div className={styles.plate}>
+      <div className={styles.container}>
         <table cellPadding="0" cellSpacing="0">
           <tbody>
             <tr>
@@ -32,7 +32,7 @@ export class ContainerSize extends Component {
               </td>
               <td>
                 <div className={styles.rectangle}>
-                  <div className={styles.wellCount}>
+                  <div className={styles.containerCount}>
                     {containers ? `${containers} ${units}` : ''}
                   </div>
                 </div>

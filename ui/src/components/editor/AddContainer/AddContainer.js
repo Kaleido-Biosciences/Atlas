@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 import { PlateSizeForm } from './PlateSizeForm';
 import { RackSizeForm } from './RackSizeForm';
@@ -17,13 +17,26 @@ export class AddContainer extends Component {
   };
   handleFormChange = ({ dimensions, containerType }) => {
     this.setState({ dimensions, containerType });
-  };
-  handleSubmit = () => {
-    console.log(this.state);
+    if (this.props.onChange) {
+      if (
+        containerType &&
+        dimensions &&
+        dimensions.rows &&
+        dimensions.columns
+      ) {
+        this.props.onChange({
+          container: {
+            type: containerType,
+            dimensions,
+          },
+        });
+      } else {
+        this.props.onChange({ container: null });
+      }
+    }
   };
   render() {
-    const { radioOption, dimensions: d } = this.state;
-    const submitDisabled = d && d.rows && d.columns ? false : true;
+    const { radioOption } = this.state;
     return (
       <div>
         <Form>
@@ -63,16 +76,11 @@ export class AddContainer extends Component {
             <SingleContainerForm onChange={this.handleFormChange} />
           )}
         </div>
-        <div>
-          <Button disabled={submitDisabled} onClick={this.handleSubmit}>
-            Add Container
-          </Button>
-        </div>
       </div>
     );
   }
 }
 
 AddContainer.propTypes = {
-  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
 };

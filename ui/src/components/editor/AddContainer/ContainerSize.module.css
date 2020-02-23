@@ -1,9 +1,4 @@
-.radioContainer {
-  margin-left: 0.5em;
-  margin-right: 2em;
-}
-
-.plate {
+.container {
   color: rgba(0, 0, 0, 0.68);
   font-weight: bold;
   margin-top: 2em;
@@ -46,6 +41,6 @@
   display: flex;
 }
 
-.wellCount {
+.containerCount {
   margin: auto;
 }
