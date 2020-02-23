@@ -2,22 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 
+import { PlateSizeForm } from './PlateSizeForm';
+import { RackSizeForm } from './RackSizeForm';
+import { SingleContainerForm } from './SingleContainerForm';
+
 export class AddContainer extends Component {
   state = {
-    containerType: 'plate',
+    radioOption: 'plate',
+    containerType: 'Plate',
     dimensions: { rows: 8, columns: 12 },
   };
-  handleContainerTypeChange = (e, data) => {
-    this.setState({ containerType: data.value });
+  handleRadioOptionChange = (e, data) => {
+    this.setState({ radioOption: data.value });
   };
-  handleDimensionsChange = ({ dimensions }) => {
-    this.setState({ dimensions });
+  handleFormChange = ({ dimensions, containerType }) => {
+    this.setState({ dimensions, containerType });
   };
   handleSubmit = () => {
     console.log(this.state);
   };
   render() {
-    const { containerType } = this.state;
+    const { radioOption, dimensions: d } = this.state;
+    const submitDisabled = d && d.rows && d.columns ? false : true;
     return (
       <div>
         <Form>
@@ -25,34 +31,42 @@ export class AddContainer extends Component {
             <label>Select a container type: </label>
             <Form.Radio
               label="Plate"
-              name="containerType"
+              name="radioOption"
               value="plate"
-              checked={this.state.containerType === 'plate'}
-              onChange={this.handleContainerTypeChange}
+              checked={this.state.radioOption === 'plate'}
+              onChange={this.handleRadioOptionChange}
             />
             <Form.Radio
               label="Rack"
-              name="containerType"
+              name="radioOption"
               value="rack"
-              checked={this.state.containerType === 'rack'}
-              onChange={this.handleContainerTypeChange}
+              checked={this.state.radioOption === 'rack'}
+              onChange={this.handleRadioOptionChange}
             />
             <Form.Radio
-              label="Tube"
-              name="containerType"
-              value="tube"
-              checked={this.state.containerType === 'tube'}
-              onChange={this.handleContainerTypeChange}
+              label="Other"
+              name="radioOption"
+              value="other"
+              checked={this.state.radioOption === 'other'}
+              onChange={this.handleRadioOptionChange}
             />
           </Form.Group>
         </Form>
         <div>
-          {containerType === 'plate' && <div>Plate</div>}
-          {containerType === 'rack' && <div>Rack</div>}
-          {containerType === 'tube' && <div>tube</div>}
+          {radioOption === 'plate' && (
+            <PlateSizeForm onChange={this.handleFormChange} />
+          )}
+          {radioOption === 'rack' && (
+            <RackSizeForm onChange={this.handleFormChange} />
+          )}
+          {radioOption === 'other' && (
+            <SingleContainerForm onChange={this.handleFormChange} />
+          )}
         </div>
         <div>
-          <Button onClick={this.handleSubmit}>Submit</Button>
+          <Button disabled={submitDisabled} onClick={this.handleSubmit}>
+            Add Container
+          </Button>
         </div>
       </div>
     );
