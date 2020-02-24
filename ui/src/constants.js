@@ -49,9 +49,37 @@ export const REQUEST_PENDING = 'PENDING';
 export const REQUEST_SUCCESS = 'SUCCESS';
 export const REQUEST_ERROR = 'ERROR';
 
-export const DEFAULT_PLATE_SIZE = { rows: 8, columns: 12 };
 export const PLATE_HEADER_SIZE = 30;
 export const PLATE_ROW_HEADERS = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+];
+
+export const CONTAINER_ROW_HEADERS = [
   'A',
   'B',
   'C',
