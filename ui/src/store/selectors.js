@@ -106,3 +106,23 @@ export const selectEditorV2ActiveContainer = createSelector(
     return containers.find(c => c.active);
   }
 );
+export const selectEditorV2ContainerTabs = createSelector(
+  ['editorV2.containers', 'editorV2.activeContainerId'],
+  (containers, activeContainerId) => {
+    const typeCounts = {};
+    const tabs = [];
+    containers.forEach(container => {
+      if (!typeCounts[container.type]) {
+        typeCounts[container.type] = 1;
+      } else {
+        typeCounts[container.type]++;
+      }
+      tabs.push({
+        id: container.id,
+        name: `${container.type} ${typeCounts[container.type]}`,
+        active: container.id === activeContainerId,
+      });
+    });
+    return tabs;
+  }
+);

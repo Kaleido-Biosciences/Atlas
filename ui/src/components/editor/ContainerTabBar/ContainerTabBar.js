@@ -28,13 +28,15 @@ export class ContainerTabBar extends Component {
     }
   };
   renderTabs() {
-    const { containers, onTabClick } = this.props;
-    if (containers && containers.length) {
-      return containers.map((container, i) => {
+    const { tabs, onTabClick } = this.props;
+    if (tabs && tabs.length) {
+      return tabs.map((tab, i) => {
         return (
           <ContainerTab
-            key={container.id}
-            container={container}
+            key={tab.id}
+            containerId={tab.id}
+            name={tab.name}
+            active={tab.active}
             onClick={onTabClick}
           />
         );
@@ -68,6 +70,7 @@ export class ContainerTabBar extends Component {
 }
 
 ContainerTabBar.propTypes = {
+  tabs: PropTypes.array,
   containers: PropTypes.array,
   activeContainer: PropTypes.object,
   onAddClick: PropTypes.func,

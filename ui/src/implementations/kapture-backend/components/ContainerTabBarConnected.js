@@ -5,19 +5,31 @@ import { actions } from '../actions';
 import { selectors } from '../store';
 
 const { addNewPlate, setActivePlate, clonePlate, deletePlate } = actions.editor;
-const { addNewContainer, addNewContainerGrid } = actions.editorV2;
+const {
+  addNewContainer,
+  addNewContainerGrid,
+  setActiveContainerId,
+} = actions.editorV2;
 
-const { selectEditorV2Containers, selectEditorV2ActiveContainer } = selectors;
+const {
+  selectEditorV2Containers,
+  selectEditorV2ActiveContainer,
+  selectEditorV2ContainerTabs,
+} = selectors;
 
 const mapState = (state, props) => {
   const containers = selectEditorV2Containers(state);
   const activeContainer = selectEditorV2ActiveContainer(state);
-  return { containers, activeContainer };
+  return {
+    containers,
+    activeContainer,
+    tabs: selectEditorV2ContainerTabs(state),
+  };
 };
 
 const mapDispatch = {
   // onAddClick: addNewPlate,
-  // onTabClick: setActivePlate,
+  onTabClick: setActiveContainerId,
   // onClone: clonePlate,
   // onDelete: deletePlate,
   onAddContainer: addNewContainer,

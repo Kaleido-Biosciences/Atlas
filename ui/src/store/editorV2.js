@@ -5,6 +5,7 @@ const initialState = {
   initializationError: null,
   containers: [],
   containerCollection: null,
+  activeContainerId: null,
 };
 
 const editorV2 = createSlice({
@@ -25,6 +26,10 @@ const editorV2 = createSlice({
     },
     addContainer(state, action) {
       state.containers.push(action.payload.container);
+      state.activeContainerId = action.payload.container.id;
+    },
+    setActiveContainerId(state, action) {
+      state.activeContainerId = action.payload.id;
     },
   },
 });

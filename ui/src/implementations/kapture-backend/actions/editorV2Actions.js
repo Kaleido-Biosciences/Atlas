@@ -12,6 +12,8 @@ const {
   addContainer: _addContainer,
 } = editorV2Actions;
 
+export const { setActiveContainerId } = editorV2Actions;
+
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {

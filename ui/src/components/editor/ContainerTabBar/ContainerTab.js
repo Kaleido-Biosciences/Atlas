@@ -12,7 +12,7 @@ export class ContainerTab extends Component {
   handleClick = () => {
     const { containerId } = this.props;
     if (this.props.onClick) {
-      this.props.onClick({ containerId });
+      this.props.onClick({ id: containerId });
     }
   };
   handleItemClick = (e, data) => {
