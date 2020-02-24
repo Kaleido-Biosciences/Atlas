@@ -26,6 +26,7 @@ export const createContainerCollection = (
     containerCount,
     route,
     tooltip,
+    containers: [],
     data,
   };
 };
