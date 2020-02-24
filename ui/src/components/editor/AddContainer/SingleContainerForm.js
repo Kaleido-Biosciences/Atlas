@@ -6,8 +6,9 @@ export class SingleContainerForm extends Component {
   handleChange = (e, { value }) => {
     if (this.props.onChange) {
       this.props.onChange({
-        dimensions: { rows: 1, columns: 1 },
-        containerType: value,
+        container: {
+          type: value,
+        },
       });
     }
   };

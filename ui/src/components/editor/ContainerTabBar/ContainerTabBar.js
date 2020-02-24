@@ -18,7 +18,14 @@ export class ContainerTabBar extends Component {
     this.setState({ addContainerModalOpen: false });
   };
   handleAddContainer = ({ container }) => {
-    console.log(container);
+    if (this.props.onAddContainer) {
+      this.props.onAddContainer({ container });
+    }
+  };
+  handleAddContainerGrid = ({ containerGrid }) => {
+    if (this.props.onAddContainerGrid) {
+      this.props.onAddContainerGrid({ containerGrid });
+    }
   };
   renderTabs() {
     const { containers, onTabClick } = this.props;
@@ -52,7 +59,8 @@ export class ContainerTabBar extends Component {
         <AddContainerModal
           open={addContainerModalOpen}
           onClose={this.closeAddContainerModal}
-          onSubmit={this.handleAddContainer}
+          onSubmitContainer={this.handleAddContainer}
+          onSubmitContainerGrid={this.handleAddContainerGrid}
         />
       </div>
     );
@@ -66,4 +74,6 @@ ContainerTabBar.propTypes = {
   onTabClick: PropTypes.func,
   onClone: PropTypes.func,
   onDelete: PropTypes.func,
+  onAddContainer: PropTypes.func,
+  onAddContainerGrid: PropTypes.func,
 };

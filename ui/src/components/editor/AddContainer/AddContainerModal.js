@@ -7,18 +7,32 @@ import { AddContainer } from './AddContainer';
 export class AddContainerModal extends Component {
   state = {
     container: null,
+    containerGrid: null,
   };
-  handleChange = ({ container }) => {
-    this.setState({ container });
+  handleChange = data => {
+    if ('containerGrid' in data) {
+      this.setState({ containerGrid: data.containerGrid, container: null });
+    } else if ('container' in data) {
+      this.setState({ container: data.container, containerGrid: null });
+    }
   };
   handleAddContainer = () => {
-    if (this.props.onSubmit) {
-      this.props.onSubmit({ container: this.state.container });
+    if (this.state.containerGrid) {
+      if (this.props.onSubmitContainerGrid) {
+        this.props.onSubmitContainerGrid({
+          containerGrid: this.state.containerGrid,
+        });
+      }
+    } else if (this.state.container) {
+      if (this.props.onSubmitContainer) {
+        this.props.onSubmitContainer({ container: this.state.container });
+      }
     }
   };
   render() {
     const { open, onClose } = this.props;
-    const submitDisabled = this.state.container ? false : true;
+    const submitDisabled =
+      this.state.container || this.state.containerGrid ? false : true;
     return (
       <Modal open={open} onClose={onClose} closeIcon size="small">
         <Header icon="add circle" content="Add Container" />
@@ -42,5 +56,6 @@ export class AddContainerModal extends Component {
 AddContainerModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  onSubmit: PropTypes.func,
+  onSubmitContainer: PropTypes.func,
+  onSubmitContainerGrid: PropTypes.func,
 };

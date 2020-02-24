@@ -99,6 +99,24 @@ export const loadActivity = id => {
   };
 };
 
+export const getContainerCollection = (status, timestamp) => {
+  return async (dispatch, getState) => {
+    const parsedTimestamp = parseInt(timestamp);
+    const containerCollections = selectActivityContainerCollections(getState());
+    let collection = containerCollections.find(collection => {
+      return (
+        collection.data.experiment_status === status &&
+        collection.data.version === parsedTimestamp
+      );
+    });
+    if (!collection) {
+      const version = await api.fetchVersion(status, timestamp);
+      collection = getCollectionFromVersion(version);
+    }
+    return collection;
+  };
+};
+
 export const importContainerCollection = (status, timestamp, slice) => {
   return async (dispatch, getState) => {
     const parsedTimestamp = parseInt(timestamp);

@@ -10,25 +10,32 @@ import styles from './AddContainer.module.css';
 export class AddContainer extends Component {
   state = {
     radioOption: 'plate',
-    containerType: 'Plate',
-    dimensions: { rows: 8, columns: 12 },
   };
   handleRadioOptionChange = (e, data) => {
     this.setState({ radioOption: data.value });
   };
-  handleFormChange = ({ dimensions, containerType }) => {
-    this.setState({ dimensions, containerType });
+  handleContainerGridChange = ({ containerGrid }) => {
     if (this.props.onChange) {
-      if (
-        containerType &&
-        dimensions &&
-        dimensions.rows &&
-        dimensions.columns
-      ) {
+      const { type, dimensions } = containerGrid;
+      if (type && dimensions && dimensions.rows && dimensions.columns) {
+        this.props.onChange({
+          containerGrid: {
+            type,
+            dimensions,
+          },
+        });
+      } else {
+        this.props.onChange({ containerGrid: null });
+      }
+    }
+  };
+  handleContainerChange = ({ container }) => {
+    if (this.props.onChange) {
+      const { type } = container;
+      if (type) {
         this.props.onChange({
           container: {
-            type: containerType,
-            dimensions,
+            type,
           },
         });
       } else {
@@ -70,13 +77,13 @@ export class AddContainer extends Component {
         </Form>
         <div>
           {radioOption === 'plate' && (
-            <PlateSizeForm onChange={this.handleFormChange} />
+            <PlateSizeForm onChange={this.handleContainerGridChange} />
           )}
           {radioOption === 'rack' && (
-            <RackSizeForm onChange={this.handleFormChange} />
+            <RackSizeForm onChange={this.handleContainerGridChange} />
           )}
           {radioOption === 'other' && (
-            <SingleContainerForm onChange={this.handleFormChange} />
+            <SingleContainerForm onChange={this.handleContainerChange} />
           )}
         </div>
       </div>

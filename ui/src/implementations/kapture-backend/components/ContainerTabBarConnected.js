@@ -5,6 +5,7 @@ import { actions } from '../actions';
 import { selectors } from '../store';
 
 const { addNewPlate, setActivePlate, clonePlate, deletePlate } = actions.editor;
+const { addNewContainer, addNewContainerGrid } = actions.editorV2;
 
 const { selectEditorV2Containers, selectEditorV2ActiveContainer } = selectors;
 
@@ -19,6 +20,8 @@ const mapDispatch = {
   // onTabClick: setActivePlate,
   // onClone: clonePlate,
   // onDelete: deletePlate,
+  onAddContainer: addNewContainer,
+  onAddContainerGrid: addNewContainerGrid,
 };
 
 const connected = connect(mapState, mapDispatch)(ContainerTabBar);

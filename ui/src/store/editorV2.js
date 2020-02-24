@@ -4,6 +4,7 @@ const initialState = {
   initialized: false,
   initializationError: null,
   containers: [],
+  containerCollection: null,
 };
 
 const editorV2 = createSlice({
@@ -18,6 +19,12 @@ const editorV2 = createSlice({
     },
     resetState(state, action) {
       Object.assign(state, initialState);
+    },
+    setContainerCollection(state, action) {
+      state.containerCollection = action.payload.collection;
+    },
+    addContainer(state, action) {
+      state.containers.push(action.payload.container);
     },
   },
 });
