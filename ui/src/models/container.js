@@ -2,7 +2,7 @@ import uuidv1 from 'uuid/v1';
 
 export const createContainer = (
   id,
-  type,
+  subType,
   barcode,
   location,
   components,
@@ -10,7 +10,8 @@ export const createContainer = (
 ) => {
   return {
     id: uuidv1(),
-    type,
+    type: 'Container',
+    subType,
     barcode,
     location,
     components: components || [],

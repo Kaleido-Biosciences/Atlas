@@ -5,13 +5,13 @@ import { createContainer } from './container';
 
 export const createContainerGrid = (
   id,
-  type,
+  subType,
   barcode,
   dimensions,
   attributes
 ) => {
   const containers = [];
-  if (type === 'Plate') {
+  if (subType === 'Plate') {
     const { rows, columns } = dimensions;
     for (let i = 0; i < rows; i++) {
       const rowLetter = CONTAINER_ROW_HEADERS[i];
@@ -27,7 +27,8 @@ export const createContainerGrid = (
   }
   return {
     id: uuidv1(),
-    type,
+    type: 'ContainerGrid',
+    subType,
     barcode,
     dimensions,
     containers,

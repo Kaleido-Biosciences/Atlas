@@ -112,14 +112,14 @@ export const selectEditorV2ContainerTabs = createSelector(
     const typeCounts = {};
     const tabs = [];
     containers.forEach(container => {
-      if (!typeCounts[container.type]) {
-        typeCounts[container.type] = 1;
+      if (!typeCounts[container.subType]) {
+        typeCounts[container.subType] = 1;
       } else {
-        typeCounts[container.type]++;
+        typeCounts[container.subType]++;
       }
       tabs.push({
         id: container.id,
-        name: `${container.type} ${typeCounts[container.type]}`,
+        name: `${container.subType} ${typeCounts[container.subType]}`,
         active: container.id === activeContainerId,
       });
     });
