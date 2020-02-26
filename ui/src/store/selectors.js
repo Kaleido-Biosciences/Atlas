@@ -126,3 +126,5 @@ export const selectEditorV2ContainerTabs = createSelector(
     return tabs;
   }
 );
+export const selectEditorV2Barcodes = createSelector(['editorV2.barcodes']);
+export const selectEditorV2Settings = createSelector(['editorV2.settings']);

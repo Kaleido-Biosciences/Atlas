@@ -1,11 +1,21 @@
 import { createSlice } from 'redux-starter-kit';
 
+import { DEFAULT_COMPONENT_COLOR_CODES } from '../constants';
+
 const initialState = {
   initialized: false,
   initializationError: null,
   containers: [],
   containerCollection: null,
   activeContainerId: null,
+  barcodes: [],
+  settings: {
+    containerSize: {
+      size: 120,
+      padding: 5,
+    },
+    componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
+  },
 };
 
 const editorV2 = createSlice({

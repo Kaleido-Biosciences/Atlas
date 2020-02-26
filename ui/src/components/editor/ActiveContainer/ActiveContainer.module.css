@@ -1,0 +1,69 @@
+.activeContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.details {
+  padding: 0.4em 0.8em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #f9f9f9;
+}
+
+.details :global(.dropdown) {
+  font-size: 0.8em !important;
+}
+
+.details :global(.ui.dropdown .menu > .item) {
+  font-size: inherit;
+}
+
+.topHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.cornerCell {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.columnHeader {
+  display: flex;
+  overflow: hidden;
+}
+
+.headerCellContainer {
+  flex-shrink: 0;
+}
+
+.headerCell {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.headerCell:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.settingsIcon {
+  cursor: pointer;
+}
+
+.settings :global(.ui.form .inline.fields) {
+  margin: 0;
+}
+
+.settings :global(label) {
+  white-space: nowrap;
+}
