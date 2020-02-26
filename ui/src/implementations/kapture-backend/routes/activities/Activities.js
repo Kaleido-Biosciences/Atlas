@@ -15,6 +15,7 @@ import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
 import { ContainerTabBar } from '../../components';
+import { ActiveContainer } from '../../components';
 import styles from './Activity.module.css';
 
 export class Activities extends Component {
@@ -127,7 +128,7 @@ export class Activities extends Component {
       );
     } else if (initialized) {
       const tabBarComponent = <ContainerTabBar />;
-      const plateComponent = <Plate />;
+      const plateComponent = <ActiveContainer />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;
       if (this.matchEditorPath() && editorInitialized) {

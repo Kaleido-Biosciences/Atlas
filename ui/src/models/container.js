@@ -4,7 +4,6 @@ export const createContainer = (
   id,
   subType,
   barcode,
-  location,
   components,
   attributes
 ) => {
@@ -13,7 +12,6 @@ export const createContainer = (
     type: 'Container',
     subType,
     barcode,
-    location,
     components: components || [],
     attributes: attributes || [],
   };

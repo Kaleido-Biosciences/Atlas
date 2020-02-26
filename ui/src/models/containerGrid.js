@@ -10,20 +10,23 @@ export const createContainerGrid = (
   dimensions,
   attributes
 ) => {
-  const containers = [];
-  if (subType === 'Plate') {
-    const { rows, columns } = dimensions;
-    for (let i = 0; i < rows; i++) {
-      const rowLetter = CONTAINER_ROW_HEADERS[i];
-      for (let j = 0; j < columns; j++) {
-        const location = {
-          row: rowLetter,
-          column: j + 1,
-        };
-        const container = createContainer(null, 'PlateWell', null, location);
-        containers.push(container);
+  const grid = [];
+  const { rows, columns } = dimensions;
+  for (let i = 0; i < rows; i++) {
+    const row = [];
+    const rowLetter = CONTAINER_ROW_HEADERS[i];
+    for (let j = 0; j < columns; j++) {
+      const location = {
+        row: rowLetter,
+        column: j + 1,
+        container: null,
+      };
+      if (subType === 'Plate') {
+        location.container = createContainer(null, 'PlateWell', null);
       }
+      row.push(location);
     }
+    grid.push(row);
   }
   return {
     id: uuidv1(),
@@ -31,7 +34,7 @@ export const createContainerGrid = (
     subType,
     barcode,
     dimensions,
-    containers,
+    grid,
     attributes: attributes || [],
   };
 };

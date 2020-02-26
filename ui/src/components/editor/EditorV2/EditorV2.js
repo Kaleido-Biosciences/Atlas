@@ -63,6 +63,7 @@ export class EditorV2 extends Component {
                   {tabBarComponent}
                 </div>
                 <div className={styles.plateContainer}>
+                  {plateComponent}
                   {/* {noPlates ? (
                     <NoPlatesMessage onAddClick={this.props.onAddClick} />
                   ) : (

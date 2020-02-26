@@ -101,9 +101,9 @@ export const selectEditorV2InitializationError = createSelector([
 ]);
 export const selectEditorV2Containers = createSelector(['editorV2.containers']);
 export const selectEditorV2ActiveContainer = createSelector(
-  ['editorV2.containers'],
-  containers => {
-    return containers.find(c => c.active);
+  ['editorV2.containers', 'editorV2.activeContainerId'],
+  (containers, activeId) => {
+    return containers.find(c => c.id === activeId);
   }
 );
 export const selectEditorV2ContainerTabs = createSelector(
