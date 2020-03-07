@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ContainerTab } from './ContainerTab';
 import { AddContainerModal } from '../AddContainer';
+import { AddContainerButton } from '../AddContainer';
 import styles from './ContainerTabBar.module.css';
 
 export class ContainerTabBar extends Component {
@@ -47,9 +48,7 @@ export class ContainerTabBar extends Component {
     const { addContainerModalOpen } = this.state;
     return (
       <div className={styles.containerTabBar}>
-        <div className={styles.addIcon} onClick={this.openAddContainerModal}>
-          <Icon name="plus circle" link title="Add Container" size="large" />
-        </div>
+        <AddContainerButton />
         <div className={styles.scrollContainer}>
           <Scrollbars
             ref={this.setScrollbarsRef}
