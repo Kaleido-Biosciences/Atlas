@@ -31,6 +31,16 @@ export class AddContainerButton extends Component {
   closeContainerModal = () => {
     this.setState({ containerModalOpen: false });
   };
+  handleAddContainerGrid = ({ containerGrid }) => {
+    if (this.props.onAddContainerGrid) {
+      this.props.onAddContainerGrid({ containerGrid });
+    }
+  };
+  handleAddContainer = ({ container }) => {
+    if (this.props.onAddContainer) {
+      this.props.onAddContainer({ container });
+    }
+  };
   render() {
     const { plateModalOpen, rackModalOpen, containerModalOpen } = this.state;
     return (
@@ -57,15 +67,27 @@ export class AddContainerButton extends Component {
             />
           </Dropdown.Menu>
         </Dropdown>
-        <AddPlateModal open={plateModalOpen} onClose={this.closePlateModal} />
-        <AddRackModal open={rackModalOpen} onClose={this.closeRackModal} />
+        <AddPlateModal
+          open={plateModalOpen}
+          onClose={this.closePlateModal}
+          onAddClick={this.handleAddContainerGrid}
+        />
+        <AddRackModal
+          open={rackModalOpen}
+          onClose={this.closeRackModal}
+          onAddClick={this.handleAddContainerGrid}
+        />
         <AddContainerModal
           open={containerModalOpen}
           onClose={this.closeContainerModal}
+          onAddClick={this.handleAddContainer}
         />
       </div>
     );
   }
 }
 
-AddContainerButton.propTypes = {};
+AddContainerButton.propTypes = {
+  onAddContainerGrid: PropTypes.func,
+  onAddContainer: PropTypes.func,
+};

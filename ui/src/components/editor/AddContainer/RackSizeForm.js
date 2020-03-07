@@ -35,7 +35,11 @@ export class RackSizeForm extends Component {
   };
   onChange = ({ dimensions }) => {
     if (this.props.onChange) {
-      this.props.onChange({ containerGrid: { dimensions, type: 'Rack' } });
+      if (dimensions) {
+        this.props.onChange({ containerGrid: { dimensions, type: 'Rack' } });
+      } else {
+        this.props.onChange({ containerGrid: null });
+      }
     }
   };
   render() {

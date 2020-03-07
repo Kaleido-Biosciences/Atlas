@@ -46,9 +46,13 @@ export class ContainerTabBar extends Component {
   }
   render() {
     const { addContainerModalOpen } = this.state;
+    const { onAddContainer, onAddContainerGrid } = this.props;
     return (
       <div className={styles.containerTabBar}>
-        <AddContainerButton />
+        <AddContainerButton
+          onAddContainer={onAddContainer}
+          onAddContainerGrid={onAddContainerGrid}
+        />
         <div className={styles.scrollContainer}>
           <Scrollbars
             ref={this.setScrollbarsRef}
