@@ -5,7 +5,6 @@ import { Dropdown, Icon } from 'semantic-ui-react';
 import { AddPlateModal } from './AddPlateModal';
 import { AddRackModal } from './AddRackModal';
 import { AddContainerModal } from './AddContainerModal';
-import styles from './AddContainer.module.css';
 
 export class AddContainerButton extends Component {
   state = {
@@ -42,12 +41,13 @@ export class AddContainerButton extends Component {
     }
   };
   render() {
+    const { className } = this.props;
     const { plateModalOpen, rackModalOpen, containerModalOpen } = this.state;
     return (
       <div>
         <Dropdown
           trigger={
-            <div className={styles.addContainerButton}>
+            <div className={className}>
               <Icon
                 name="plus circle"
                 link
@@ -88,6 +88,7 @@ export class AddContainerButton extends Component {
 }
 
 AddContainerButton.propTypes = {
+  className: PropTypes.string,
   onAddContainerGrid: PropTypes.func,
   onAddContainer: PropTypes.func,
 };

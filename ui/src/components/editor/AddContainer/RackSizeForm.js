@@ -4,7 +4,6 @@ import { Form } from 'semantic-ui-react';
 
 import { ContainerSize } from './ContainerSize';
 import { ContainerSizeForm } from './ContainerSizeForm';
-import styles from './AddContainer.module.css';
 
 export class RackSizeForm extends Component {
   constructor(props) {
@@ -49,7 +48,7 @@ export class RackSizeForm extends Component {
       <div>
         <Form>
           <Form.Group inline>
-            <label className={styles.radioLabel}>Select a rack size:</label>
+            <label>Select a rack size:</label>
             <Form.Radio
               label="36 tubes"
               name="radioOption"

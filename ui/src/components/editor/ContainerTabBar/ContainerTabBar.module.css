@@ -37,13 +37,13 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-.addIcon {
+.addContainerButton {
   composes: containerTab;
   padding: 0;
   width: 3em;
 }
 
-.addIcon :global(i) {
+.addContainerButton :global(i) {
   height: 100% !important;
   width: 100% !important;
   margin: 0 !important;

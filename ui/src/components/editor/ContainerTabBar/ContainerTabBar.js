@@ -1,33 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ContainerTab } from './ContainerTab';
-import { AddContainerModal } from '../AddContainer';
 import { AddContainerButton } from '../AddContainer';
 import styles from './ContainerTabBar.module.css';
 
 export class ContainerTabBar extends Component {
-  state = {
-    addContainerModalOpen: false,
-  };
-  openAddContainerModal = () => {
-    this.setState({ addContainerModalOpen: true });
-  };
-  closeAddContainerModal = () => {
-    this.setState({ addContainerModalOpen: false });
-  };
-  handleAddContainer = ({ container }) => {
-    if (this.props.onAddContainer) {
-      this.props.onAddContainer({ container });
-    }
-  };
-  handleAddContainerGrid = ({ containerGrid }) => {
-    if (this.props.onAddContainerGrid) {
-      this.props.onAddContainerGrid({ containerGrid });
-    }
-  };
   renderTabs() {
     const { tabs, onTabClick } = this.props;
     if (tabs && tabs.length) {
@@ -45,11 +24,11 @@ export class ContainerTabBar extends Component {
     }
   }
   render() {
-    const { addContainerModalOpen } = this.state;
     const { onAddContainer, onAddContainerGrid } = this.props;
     return (
       <div className={styles.containerTabBar}>
         <AddContainerButton
+          className={styles.addContainerButton}
           onAddContainer={onAddContainer}
           onAddContainerGrid={onAddContainerGrid}
         />
@@ -61,12 +40,6 @@ export class ContainerTabBar extends Component {
             <div className={styles.tabContainer}>{this.renderTabs()}</div>
           </Scrollbars>
         </div>
-        <AddContainerModal
-          open={addContainerModalOpen}
-          onClose={this.closeAddContainerModal}
-          onSubmitContainer={this.handleAddContainer}
-          onSubmitContainerGrid={this.handleAddContainerGrid}
-        />
       </div>
     );
   }
@@ -74,9 +47,6 @@ export class ContainerTabBar extends Component {
 
 ContainerTabBar.propTypes = {
   tabs: PropTypes.array,
-  containers: PropTypes.array,
-  activeContainer: PropTypes.object,
-  onAddClick: PropTypes.func,
   onTabClick: PropTypes.func,
   onClone: PropTypes.func,
   onDelete: PropTypes.func,
