@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { PLATE_HEADER_SIZE } from '../../../constants';
 import { HeaderCell } from './HeaderCell';
-import styles from './ActiveContainer.module.css';
+import styles from './ContainerGrid.module.css';
 
 export class ColumnHeader extends Component {
   divRef = React.createRef();

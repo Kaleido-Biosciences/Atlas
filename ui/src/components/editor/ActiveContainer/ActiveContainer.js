@@ -1,28 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Details } from './Details';
-import { Settings } from './Settings';
-import { ColumnHeader } from './ColumnHeader';
-
+import { ContainerDetails } from './ContainerDetails';
+import { ContainerGrid } from '../ContainerGrid';
+import { Container } from '../Container';
 import styles from './ActiveContainer.module.css';
 
 export class ActiveContainer extends Component {
+  renderContainerGrid(containerGrid) {
+    const { settings, onSettingsChange } = this.props;
+    return (
+      <ContainerGrid
+        containerGrid={containerGrid}
+        settings={settings}
+        onSettingsChange={onSettingsChange}
+      />
+    );
+  }
+  renderContainer(container) {
+    return <Container container={container} />;
+  }
   render() {
     const {
       activeContainer,
       barcodes,
       onBarcodeAdd,
       onBarcodeSelect,
-      settings,
-      onSettingsChange,
     } = this.props;
-    let content = 'hi';
     if (activeContainer) {
       return (
         <div className={styles.activeContainer}>
           <div>
-            <Details
+            <ContainerDetails
               containerId={activeContainer.id}
               containerBarcode={activeContainer.barcode}
               barcodes={barcodes}
@@ -30,19 +39,16 @@ export class ActiveContainer extends Component {
               onBarcodeSelect={onBarcodeSelect}
             />
           </div>
-          <div className={styles.topHeader}>
-            <div className={styles.cornerCell}>
-              <Settings settings={settings} onChange={onSettingsChange} />
-            </div>
-            <ColumnHeader
-              ref={this.columnHeaderRef}
-              numberOfColumns={activeContainer.grid[0].length}
-              containerSize={settings.containerSize}
-            />
+          <div className={styles.container}>
+            {activeContainer.type === 'ContainerGrid'
+              ? this.renderContainerGrid(activeContainer)
+              : this.renderContainer(activeContainer)}
           </div>
         </div>
       );
-    } else return <div />;
+    } else {
+      return <div>No active container</div>;
+    }
   }
 }
 

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import memoize from 'memoize-one';
 
-import styles from './ActiveContainer.module.css';
+import styles from './ContainerDetails.module.css';
 
-export class Details extends Component {
+export class ContainerDetails extends Component {
   getOptions = memoize(barcodes => {
     return barcodes.map(barcode => {
       return { key: barcode, value: barcode, text: barcode };
@@ -33,7 +33,7 @@ export class Details extends Component {
       options = this.getOptions([containerBarcode]);
     }
     return (
-      <div className={styles.details}>
+      <div className={styles.containerDetails}>
         <div>
           <Icon title="Barcode" name="barcode" />
           <Dropdown
@@ -52,7 +52,7 @@ export class Details extends Component {
   }
 }
 
-Details.propTypes = {
+ContainerDetails.propTypes = {
   containerId: PropTypes.string,
   containerBarcode: PropTypes.string,
   barcodes: PropTypes.array.isRequired,

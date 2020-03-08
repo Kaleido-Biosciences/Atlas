@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Popup, Icon, Form } from 'semantic-ui-react';
 
-import styles from './ActiveContainer.module.css';
+import styles from './Settings.module.css';
 
 const containerSizeOptions = {
   small: {

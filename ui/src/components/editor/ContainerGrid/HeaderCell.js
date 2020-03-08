@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './ActiveContainer.module.css';
+import styles from './ContainerGrid.module.css';
 
 export class HeaderCell extends Component {
   handleClick = () => {
