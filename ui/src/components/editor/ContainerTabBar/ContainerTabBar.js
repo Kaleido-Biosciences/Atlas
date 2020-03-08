@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ContainerTab } from './ContainerTab';
-import { AddContainerButton } from '../AddContainer';
+import { AddContainerButton } from '../AddContainerButton';
 import styles from './ContainerTabBar.module.css';
 
 export class ContainerTabBar extends Component {
