@@ -15,30 +15,30 @@ export class AddContainerButton extends Component {
   openPlateModal = () => {
     this.setState({ plateModalOpen: true });
   };
-  closePlateModal = () => {
-    this.setState({ plateModalOpen: false });
-  };
   openRackModal = () => {
     this.setState({ rackModalOpen: true });
-  };
-  closeRackModal = () => {
-    this.setState({ rackModalOpen: false });
   };
   openContainerModal = () => {
     this.setState({ containerModalOpen: true });
   };
-  closeContainerModal = () => {
-    this.setState({ containerModalOpen: false });
+  closeModals = () => {
+    this.setState({
+      plateModalOpen: false,
+      rackModalOpen: false,
+      containerModalOpen: false,
+    });
   };
   handleAddContainerGrid = ({ containerGrid }) => {
     if (this.props.onAddContainerGrid) {
       this.props.onAddContainerGrid({ containerGrid });
     }
+    this.closeModals();
   };
   handleAddContainer = ({ container }) => {
     if (this.props.onAddContainer) {
       this.props.onAddContainer({ container });
     }
+    this.closeModals();
   };
   render() {
     const { className } = this.props;
@@ -69,17 +69,17 @@ export class AddContainerButton extends Component {
         </Dropdown>
         <AddPlateModal
           open={plateModalOpen}
-          onClose={this.closePlateModal}
+          onClose={this.closeModals}
           onAddClick={this.handleAddContainerGrid}
         />
         <AddRackModal
           open={rackModalOpen}
-          onClose={this.closeRackModal}
+          onClose={this.closeModals}
           onAddClick={this.handleAddContainerGrid}
         />
         <AddContainerModal
           open={containerModalOpen}
-          onClose={this.closeContainerModal}
+          onClose={this.closeModals}
           onAddClick={this.handleAddContainer}
         />
       </div>
