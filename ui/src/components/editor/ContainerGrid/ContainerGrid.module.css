@@ -35,3 +35,8 @@
 .headerCell:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
+
+.rowHeader {
+  overflow: hidden;
+  flex-shrink: 0;
+}

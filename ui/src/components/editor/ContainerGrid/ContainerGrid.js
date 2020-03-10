@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';
+import { RowHeader } from './RowHeader';
 import styles from './ContainerGrid.module.css';
 
 export class ContainerGrid extends Component {
@@ -17,6 +18,13 @@ export class ContainerGrid extends Component {
           <ColumnHeader
             ref={this.columnHeaderRef}
             numberOfColumns={containerGrid.grid[0].length}
+            containerSize={settings.containerSize}
+          />
+        </div>
+        <div className={styles.body}>
+          <RowHeader
+            ref={this.rowHeaderRef}
+            numberOfRows={containerGrid.grid.length}
             containerSize={settings.containerSize}
           />
         </div>
