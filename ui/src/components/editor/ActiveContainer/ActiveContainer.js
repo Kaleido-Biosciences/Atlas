@@ -39,7 +39,7 @@ export class ActiveContainer extends Component {
               onBarcodeSelect={onBarcodeSelect}
             />
           </div>
-          <div className={styles.container}>
+          <div className={styles.bodyContainer}>
             {activeContainer.type === 'ContainerGrid'
               ? this.renderContainerGrid(activeContainer)
               : this.renderContainer(activeContainer)}

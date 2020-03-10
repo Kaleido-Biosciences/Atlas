@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
+import { Grid } from './Grid';
 import styles from './ContainerGrid.module.css';
 
 export class ContainerGrid extends Component {
+  columnHeaderRef = React.createRef();
+  rowHeaderRef = React.createRef();
+  handleScroll = values => {
+    this.columnHeaderRef.current.setScrollPos(values.scrollLeft);
+    this.rowHeaderRef.current.setScrollPos(values.scrollTop);
+  };
   render() {
     const { containerGrid, settings, onSettingsChange } = this.props;
     return (
-      <div>
+      <div className={styles.containerGrid}>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell}>
             <Settings settings={settings} onChange={onSettingsChange} />
@@ -27,6 +35,12 @@ export class ContainerGrid extends Component {
             numberOfRows={containerGrid.grid.length}
             containerSize={settings.containerSize}
           />
+          <Scrollbars
+            style={{ height: '100%', width: '100%' }}
+            onScrollFrame={this.handleScroll}
+          >
+            <Grid containerGrid={containerGrid} settings={settings} />
+          </Scrollbars>
         </div>
       </div>
     );

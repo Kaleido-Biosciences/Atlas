@@ -4,6 +4,7 @@
   flex-direction: column;
 }
 
-.container {
+.bodyContainer {
   height: 100%;
+  overflow: hidden;
 }

@@ -40,3 +40,31 @@
   overflow: hidden;
   flex-shrink: 0;
 }
+
+.body {
+  display: flex;
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+}
+
+.containerGrid {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gridPositionContainer {
+  flex-shrink: 0;
+  padding: 5px;
+}
+
+.gridPosition {
+  height: 100%;
+  width: 100%;
+  background-color: #f3f3f3;
+}
