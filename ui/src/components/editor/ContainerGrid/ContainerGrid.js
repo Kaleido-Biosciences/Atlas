@@ -15,6 +15,11 @@ export class ContainerGrid extends Component {
     this.columnHeaderRef.current.setScrollPos(values.scrollLeft);
     this.rowHeaderRef.current.setScrollPos(values.scrollTop);
   };
+  handleAddContainer = options => {
+    if (this.props.onAddContainer) {
+      this.props.onAddContainer(options);
+    }
+  };
   render() {
     const { containerGrid, settings, onSettingsChange } = this.props;
     return (
@@ -39,7 +44,11 @@ export class ContainerGrid extends Component {
             style={{ height: '100%', width: '100%' }}
             onScrollFrame={this.handleScroll}
           >
-            <Grid containerGrid={containerGrid} settings={settings} />
+            <Grid
+              containerGrid={containerGrid}
+              settings={settings}
+              onAddContainer={this.handleAddContainer}
+            />
           </Scrollbars>
         </div>
       </div>
@@ -51,4 +60,5 @@ ContainerGrid.propTypes = {
   containerGrid: PropTypes.object,
   settings: PropTypes.object,
   onSettingsChange: PropTypes.func,
+  onAddContainer: PropTypes.func,
 };

@@ -7,6 +7,11 @@ import { Container } from '../Container';
 import styles from './ActiveContainer.module.css';
 
 export class ActiveContainer extends Component {
+  handleAddContainer = ({ containerGridId, position, type }) => {
+    if (this.props.onAddContainer) {
+      this.props.onAddContainer(containerGridId, position, type);
+    }
+  };
   renderContainerGrid(containerGrid) {
     const { settings, onSettingsChange } = this.props;
     return (
@@ -14,6 +19,7 @@ export class ActiveContainer extends Component {
         containerGrid={containerGrid}
         settings={settings}
         onSettingsChange={onSettingsChange}
+        onAddContainer={this.handleAddContainer}
       />
     );
   }
@@ -60,4 +66,5 @@ ActiveContainer.propTypes = {
   onSettingsChange: PropTypes.func,
   onBarcodeAdd: PropTypes.func,
   onBarcodeSelect: PropTypes.func,
+  onAddContainer: PropTypes.func,
 };

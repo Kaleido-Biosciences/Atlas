@@ -41,6 +41,17 @@ const editorV2 = createSlice({
     setActiveContainerId(state, action) {
       state.activeContainerId = action.payload.id;
     },
+    addContainerToContainerGrid(state, action) {
+      const { containerGridId, position, container } = action.payload;
+      const containerGrid = state.containers.find(
+        container => container.id === containerGridId
+      );
+      const positions = containerGrid.grid.flat();
+      const statePosition = positions.find(pos => {
+        return pos.row === position.row && pos.column === position.column;
+      });
+      statePosition.container = container;
+    },
   },
 });
 

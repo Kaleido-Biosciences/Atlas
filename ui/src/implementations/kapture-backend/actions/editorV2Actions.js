@@ -10,6 +10,7 @@ const {
   setInitializationError: _setInitializationError,
   setContainerCollection: _setContainerCollection,
   addContainer: _addContainer,
+  addContainerToContainerGrid: _addContainerToContainerGrid,
 } = editorV2Actions;
 
 export const { setActiveContainerId } = editorV2Actions;
@@ -51,10 +52,17 @@ export const addNewContainer = ({ container: c }) => {
 
 export const addNewContainerToContainerGrid = (
   containerGridId,
-  type,
-  location
+  position,
+  type
 ) => {
   return (dispatch, getState) => {
-    // add container to container grid
+    const container = createContainer(null, type);
+    dispatch(
+      _addContainerToContainerGrid({
+        containerGridId,
+        position,
+        container,
+      })
+    );
   };
 };
