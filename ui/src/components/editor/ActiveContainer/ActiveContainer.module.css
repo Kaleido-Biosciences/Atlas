@@ -8,3 +8,9 @@
   height: 100%;
   overflow: hidden;
 }
+
+.containerWrapper {
+  height: 200px;
+  width: 200px;
+  padding: 1em;
+}

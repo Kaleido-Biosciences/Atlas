@@ -24,7 +24,11 @@ export class ActiveContainer extends Component {
     );
   }
   renderContainer(container) {
-    return <Container container={container} />;
+    return (
+      <div className={styles.containerWrapper}>
+        <Container container={container} />
+      </div>
+    );
   }
   render() {
     const {
