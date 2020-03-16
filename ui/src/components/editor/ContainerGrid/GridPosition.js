@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
+import { Container } from '../Container';
 import styles from './ContainerGrid.module.css';
 
 export class GridPosition extends Component {
@@ -13,7 +14,8 @@ export class GridPosition extends Component {
     }
   };
   renderContainer() {
-    return <div />;
+    const { container } = this.props.position;
+    return <Container container={container} />;
   }
   renderAddContainer() {
     return (

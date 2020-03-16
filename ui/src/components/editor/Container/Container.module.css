@@ -1,0 +1,10 @@
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: #f3f3f3;
+  cursor: pointer;
+}
+
+.container:global(.selected) {
+  background-color: #d3e6f5;
+}

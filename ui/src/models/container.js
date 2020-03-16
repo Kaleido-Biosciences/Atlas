@@ -14,5 +14,6 @@ export const createContainer = (
     barcode,
     components: components || [],
     attributes: attributes || [],
+    selected: false,
   };
 };
