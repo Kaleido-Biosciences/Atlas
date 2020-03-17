@@ -40,7 +40,9 @@ export class Grid extends Component {
         return (
           <GridPosition
             key={positionKey}
-            settings={settings}
+            height={settings.containerSize.size}
+            width={settings.containerSize.size}
+            padding={settings.containerSize.padding}
             position={position}
             onAddContainerClick={this.handleAddContainerClick}
           />

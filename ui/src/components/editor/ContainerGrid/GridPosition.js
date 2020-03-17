@@ -29,11 +29,10 @@ export class GridPosition extends Component {
     );
   }
   render() {
-    const { position, settings } = this.props;
-    const { size, padding } = settings.containerSize;
+    const { position, height, width, padding } = this.props;
     const positionContainerStyle = {
-      height: size + 'px',
-      width: size + 'px',
+      height: height + 'px',
+      width: width + 'px',
       padding: padding + 'px',
     };
     const positionStyle = {
@@ -56,6 +55,8 @@ export class GridPosition extends Component {
 
 GridPosition.propTypes = {
   position: PropTypes.object,
-  settings: PropTypes.object.isRequired,
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  padding: PropTypes.number.isRequired,
   onAddContainerClick: PropTypes.func,
 };
