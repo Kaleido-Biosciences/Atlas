@@ -8,3 +8,7 @@
 .container:global(.selected) {
   background-color: #d3e6f5;
 }
+
+.container:hover {
+  background-color: #ececec;
+}

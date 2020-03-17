@@ -12,6 +12,11 @@ export class ActiveContainer extends Component {
       this.props.onAddContainer(containerGridId, position, type);
     }
   };
+  handleContainerGridClick = ({ position }) => {
+    if (this.props.onContainerGridClick) {
+      this.props.onContainerGridClick([position]);
+    }
+  };
   renderContainerGrid(containerGrid) {
     const { settings, onSettingsChange } = this.props;
     return (
@@ -20,6 +25,7 @@ export class ActiveContainer extends Component {
         settings={settings}
         onSettingsChange={onSettingsChange}
         onAddContainer={this.handleAddContainer}
+        onContainerClick={this.handleContainerGridClick}
       />
     );
   }
@@ -71,4 +77,5 @@ ActiveContainer.propTypes = {
   onBarcodeAdd: PropTypes.func,
   onBarcodeSelect: PropTypes.func,
   onAddContainer: PropTypes.func,
+  onContainerGridClick: PropTypes.func,
 };

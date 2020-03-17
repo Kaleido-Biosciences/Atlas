@@ -13,9 +13,18 @@ export class GridPosition extends Component {
       });
     }
   };
+  handleContainerClick = () => {
+    if (this.props.onContainerClick) {
+      this.props.onContainerClick({
+        position: this.props.position,
+      });
+    }
+  };
   renderContainer() {
     const { container } = this.props.position;
-    return <Container container={container} />;
+    return (
+      <Container container={container} onClick={this.handleContainerClick} />
+    );
   }
   renderAddContainer() {
     return (
@@ -59,4 +68,5 @@ GridPosition.propTypes = {
   width: PropTypes.number.isRequired,
   padding: PropTypes.number.isRequired,
   onAddContainerClick: PropTypes.func,
+  onContainerClick: PropTypes.func,
 };

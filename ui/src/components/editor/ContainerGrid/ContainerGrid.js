@@ -20,6 +20,11 @@ export class ContainerGrid extends Component {
       this.props.onAddContainer(options);
     }
   };
+  handleContainerClick = ({ position }) => {
+    if (this.props.onContainerClick) {
+      this.props.onContainerClick({ position });
+    }
+  };
   render() {
     const { containerGrid, settings, onSettingsChange } = this.props;
     return (
@@ -48,6 +53,7 @@ export class ContainerGrid extends Component {
               containerGrid={containerGrid}
               settings={settings}
               onAddContainer={this.handleAddContainer}
+              onContainerClick={this.handleContainerClick}
             />
           </Scrollbars>
         </div>
@@ -61,4 +67,5 @@ ContainerGrid.propTypes = {
   settings: PropTypes.object,
   onSettingsChange: PropTypes.func,
   onAddContainer: PropTypes.func,
+  onContainerClick: PropTypes.func,
 };

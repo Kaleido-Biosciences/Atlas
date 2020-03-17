@@ -66,3 +66,9 @@ export const addNewContainerToContainerGrid = (
     );
   };
 };
+
+export const handleContainerGridClick = positions => {
+  return (dispatch, getState) => {
+    console.log(positions);
+  };
+};

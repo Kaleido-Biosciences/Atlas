@@ -77,8 +77,8 @@ export class EditorV2 extends Component {
                   defaultSize={250}
                   pane2Style={{ overflow: 'hidden' }}
                 >
-                  {/* {componentListComponent}
-                  {toolsComponent} */}
+                  {componentListComponent}
+                  {toolsComponent}
                 </SplitPane>
               </div>
             </SplitPane>

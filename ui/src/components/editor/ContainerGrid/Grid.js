@@ -32,6 +32,11 @@ export class Grid extends Component {
       addContainerModalOpen: false,
     });
   };
+  handleContainerClick = ({ position }) => {
+    if (this.props.onContainerClick) {
+      this.props.onContainerClick({ position });
+    }
+  };
   render() {
     const { containerGrid, settings } = this.props;
     const { grid } = containerGrid;
@@ -48,6 +53,7 @@ export class Grid extends Component {
             padding={settings.containerSize.padding}
             position={position}
             onAddContainerClick={this.handleAddContainerClick}
+            onContainerClick={this.handleContainerClick}
           />
         );
       });
@@ -74,4 +80,5 @@ Grid.propTypes = {
   containerGrid: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   onAddContainer: PropTypes.func,
+  onContainerClick: PropTypes.func,
 };
