@@ -16,6 +16,9 @@ export class Grid extends Component {
       addContainerModalOpen: true,
     });
   };
+  handleAddContainerModalClose = () => {
+    this.setState({ addContainerModalOpen: false });
+  };
   handleAddContainer = ({ container }) => {
     if (this.props.onAddContainer) {
       this.props.onAddContainer({
@@ -59,6 +62,7 @@ export class Grid extends Component {
         {renderedGrid}
         <AddContainerModal
           open={this.state.addContainerModalOpen}
+          onClose={this.handleAddContainerModalClose}
           onAddClick={this.handleAddContainer}
         />
       </div>
