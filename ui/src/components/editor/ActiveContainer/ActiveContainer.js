@@ -12,9 +12,12 @@ export class ActiveContainer extends Component {
       this.props.onAddContainer(containerGridId, position, type);
     }
   };
-  handleContainerGridClick = ({ position }) => {
-    if (this.props.onContainerGridClick) {
-      this.props.onContainerGridClick([position]);
+  handleContainerClick = ({ containerId, positions }) => {
+    if (this.props.onContainerClick) {
+      this.props.onContainerClick({
+        containerId,
+        positions,
+      });
     }
   };
   renderContainerGrid(containerGrid) {
@@ -25,14 +28,14 @@ export class ActiveContainer extends Component {
         settings={settings}
         onSettingsChange={onSettingsChange}
         onAddContainer={this.handleAddContainer}
-        onContainerClick={this.handleContainerGridClick}
+        onClick={this.handleContainerClick}
       />
     );
   }
   renderContainer(container) {
     return (
       <div className={styles.containerWrapper}>
-        <Container container={container} />
+        <Container container={container} onClick={this.handleContainerClick} />
       </div>
     );
   }
@@ -77,5 +80,5 @@ ActiveContainer.propTypes = {
   onBarcodeAdd: PropTypes.func,
   onBarcodeSelect: PropTypes.func,
   onAddContainer: PropTypes.func,
-  onContainerGridClick: PropTypes.func,
+  onContainerClick: PropTypes.func,
 };

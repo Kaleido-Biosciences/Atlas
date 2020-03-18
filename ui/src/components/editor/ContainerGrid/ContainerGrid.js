@@ -21,8 +21,28 @@ export class ContainerGrid extends Component {
     }
   };
   handleContainerClick = ({ position }) => {
-    if (this.props.onContainerClick) {
-      this.props.onContainerClick({ position });
+    if (this.props.onClick) {
+      this.props.onClick({
+        containerId: this.props.containerGrid.id,
+        positions: [position],
+      });
+    }
+  };
+  handleHeaderCellClick = ({ cellType, index }) => {
+    if (this.props.onClick) {
+      const grid = this.props.containerGrid.grid;
+      let positions;
+      if (cellType === 'column') {
+        positions = grid.map(row => {
+          return row[index];
+        });
+      } else if (cellType === 'row') {
+        positions = grid[index];
+      }
+      this.props.onClick({
+        containerId: this.props.containerGrid.id,
+        positions,
+      });
     }
   };
   render() {
@@ -37,6 +57,7 @@ export class ContainerGrid extends Component {
             ref={this.columnHeaderRef}
             numberOfColumns={containerGrid.grid[0].length}
             containerSize={settings.containerSize}
+            onClick={this.handleHeaderCellClick}
           />
         </div>
         <div className={styles.body}>
@@ -44,6 +65,7 @@ export class ContainerGrid extends Component {
             ref={this.rowHeaderRef}
             numberOfRows={containerGrid.grid.length}
             containerSize={settings.containerSize}
+            onClick={this.handleHeaderCellClick}
           />
           <Scrollbars
             style={{ height: '100%', width: '100%' }}
@@ -67,5 +89,5 @@ ContainerGrid.propTypes = {
   settings: PropTypes.object,
   onSettingsChange: PropTypes.func,
   onAddContainer: PropTypes.func,
-  onContainerClick: PropTypes.func,
+  onClick: PropTypes.func,
 };

@@ -10,14 +10,9 @@ export class RowHeader extends Component {
   setScrollPos = scrollPos => {
     this.divRef.current.scrollTop = scrollPos;
   };
-  handleCellClick = ({ headerType, index }) => {
+  handleCellClick = ({ index }) => {
     if (this.props.onClick) {
-      // const { plate } = this.props;
-      // const row = plate.wells[index];
-      // const wellIds = row.map(well => well.id);
-      // this.props.onClick({
-      //   wellIds,
-      // });
+      this.props.onClick({ cellType: 'row', index });
     }
   };
   render() {

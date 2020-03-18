@@ -12,11 +12,7 @@ export class ColumnHeader extends Component {
   };
   handleCellClick = ({ index }) => {
     if (this.props.onClick) {
-      // const { plate } = this.props;
-      // const wellIds = plate.wells.map(row => row[index].id);
-      // this.props.onClick({
-      //   wellIds,
-      // });
+      this.props.onClick({ cellType: 'column', index });
     }
   };
   render() {
@@ -27,14 +23,16 @@ export class ColumnHeader extends Component {
       padding: `0 ${containerSize.padding}px`,
     };
     const cells = [];
-    for(let i = 0; i < numberOfColumns; i++) {
-      cells.push(<HeaderCell
-        key={i}
-        index={i}
-        label={i + 1}
-        style={style}
-        onClick={this.handleCellClick}
-      />)
+    for (let i = 0; i < numberOfColumns; i++) {
+      cells.push(
+        <HeaderCell
+          key={i}
+          index={i}
+          label={i + 1}
+          style={style}
+          onClick={this.handleCellClick}
+        />
+      );
     }
     return (
       <div ref={this.divRef} className={styles.columnHeader}>

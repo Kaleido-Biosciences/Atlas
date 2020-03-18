@@ -12,7 +12,7 @@ const {
 
 const {
   addNewContainerToContainerGrid,
-  handleContainerGridClick,
+  handleContainerClick,
 } = actions.editorV2;
 
 const mapState = (state, props) => {
@@ -25,7 +25,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onAddContainer: addNewContainerToContainerGrid,
-  onContainerGridClick: handleContainerGridClick,
+  onContainerClick: handleContainerClick,
 };
 
 const connected = connect(mapState, mapDispatch)(ActiveContainer);

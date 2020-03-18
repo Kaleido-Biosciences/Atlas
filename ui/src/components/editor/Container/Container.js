@@ -7,7 +7,10 @@ import styles from './Container.module.css';
 export class Container extends Component {
   handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick({ container: this.props.container });
+      this.props.onClick({
+        containerId: this.props.container.id,
+        positions: null,
+      });
     }
   };
   render() {
