@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Header, Button } from 'semantic-ui-react';
 
-import styles from './ApplyTool.module.css';
+import styles from './SelectedContainers.module.css';
 
 export class SelectedContainers extends Component {
   handleApplyClick = () => {
@@ -20,7 +20,7 @@ export class SelectedContainers extends Component {
         headerText = 'No containers selected.';
       }
       return (
-        <div className={styles.selectedContainersText}>
+        <div className={styles.text}>
           <Header size="tiny">{headerText}</Header>
           {selectedContainersSummary.text}
         </div>
@@ -33,7 +33,7 @@ export class SelectedContainers extends Component {
       <div>
         {this.renderSelectedContainersSummary()}
         {showButton ? (
-          <div className={styles.selectedContainersButtonContainer}>
+          <div className={styles.buttonContainer}>
             <Button
               disabled={buttonDisabled}
               primary

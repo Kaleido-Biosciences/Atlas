@@ -26,15 +26,3 @@
   font-size: 0.8em;
   border-top: 1px solid rgba(34, 36, 38, 0.15);
 }
-
-.selectedContainersText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.selectedContainersButtonContainer {
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-}
