@@ -13,10 +13,24 @@ export class Container extends Component {
       });
     }
   };
+  renderComponents() {
+    return this.props.container.components.map(component => {
+      return (
+        <div>
+          {component.displayName}
+          {JSON.stringify(component.timepoints)}
+        </div>
+      );
+    });
+  }
   render() {
     const { selected } = this.props.container;
     const containerClass = classNames(styles.container, { selected });
-    return <div className={containerClass} onClick={this.handleClick}></div>;
+    return (
+      <div className={containerClass} onClick={this.handleClick}>
+        {this.renderComponents()}
+      </div>
+    );
   }
 }
 

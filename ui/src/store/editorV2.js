@@ -52,6 +52,28 @@ const editorV2 = createSlice({
       });
       statePosition.container = container;
     },
+    setContainerComponents(state, action) {
+      const { containerId, components } = action.payload;
+      const container = state.containers.find(
+        container => container.id === containerId
+      );
+      container.components = components;
+    },
+    setContainerGridComponents(state, action) {
+      const { containerId, positions } = action.payload;
+      const container = state.containers.find(
+        container => container.id === containerId
+      );
+      const gridPositions = container.grid.flat();
+      positions.forEach(position => {
+        const gridPosition = gridPositions.find(
+          gPos => gPos.row === position.row && gPos.column === position.column
+        );
+        if (gridPosition.container) {
+          gridPosition.container.components = position.components;
+        }
+      });
+    },
   },
 });
 
