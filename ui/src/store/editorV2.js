@@ -74,6 +74,24 @@ const editorV2 = createSlice({
         }
       });
     },
+    deselectContainers(state, action) {
+      const { containerIds } = action.payload;
+      containerIds.forEach(containerId => {
+        const container = state.containers.find(
+          container => container.id === containerId
+        );
+        if (container.type === 'ContainerGrid') {
+          const positions = container.grid.flat();
+          positions.forEach(position => {
+            if (position.container) {
+              position.container.selected = false;
+            }
+          });
+        } else if (container.type === 'Container') {
+          container.selected = false;
+        }
+      });
+    },
   },
 });
 

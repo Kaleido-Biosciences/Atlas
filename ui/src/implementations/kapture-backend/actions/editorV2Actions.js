@@ -1,4 +1,4 @@
-import { editorV2Actions, selectors } from '../store';
+import { editorV2Actions, editorToolsActions, selectors } from '../store';
 import {
   getContainerCollection,
   importContainerCollection,
@@ -13,13 +13,17 @@ const {
   addContainerToContainerGrid: _addContainerToContainerGrid,
   setContainerComponents: _setContainerComponents,
   setContainerGridComponents: _setContainerGridComponents,
+  deselectContainers: _deselectContainers,
 } = editorV2Actions;
+
+const { setClickMode: _setClickMode } = editorToolsActions;
 
 const {
   selectEditorClickMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorV2Containers,
+  selectEditorV2ActiveContainerId,
 } = selectors;
 
 export const { setActiveContainerId } = editorV2Actions;
@@ -117,6 +121,16 @@ export const handleContainerClick = ({ containerId, positions }) => {
       console.log('select');
     } else if (clickMode === 'clear') {
       console.log('clear');
+    }
+  };
+};
+
+export const setClickMode = ({ clickMode }) => {
+  return (dispatch, getState) => {
+    dispatch(_setClickMode({ clickMode }));
+    const activeContainerId = selectEditorV2ActiveContainerId(getState());
+    if (activeContainerId) {
+      dispatch(_deselectContainers({ containerIds: [activeContainerId] }));
     }
   };
 };

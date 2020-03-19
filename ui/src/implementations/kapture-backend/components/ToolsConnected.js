@@ -4,7 +4,7 @@ import { Tools } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 
-const { setClickMode } = actions.editor;
+const { setClickMode } = actions.editorV2;
 const { selectEditorClickMode } = selectors;
 
 const mapState = (state, props) => {
