@@ -6,7 +6,7 @@
 }
 
 .container:global(.selected) {
-  background-color: #d3e6f5;
+  background-color: #d3e6f5 !important;
 }
 
 .container:hover {

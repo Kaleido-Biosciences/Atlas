@@ -92,6 +92,45 @@ const editorV2 = createSlice({
         }
       });
     },
+    toggleContainerSelected(state, action) {
+      const { containerId } = action.payload;
+      const container = state.containers.find(
+        container => container.id === containerId
+      );
+      container.selected = !container.selected;
+    },
+    toggleContainerGridSelected(state, action) {
+      const { containerId, positions } = action.payload;
+      const shortPositions = positions.map(
+        position => position.row + position.column
+      );
+      const container = state.containers.find(
+        container => container.id === containerId
+      );
+      const flatPositions = container.grid.flat();
+      const filteredPositions = flatPositions.filter(position =>
+        shortPositions.includes(position.row + position.column)
+      );
+      const status = { selected: false, deselected: false };
+      filteredPositions.forEach(position => {
+        if (position.container) {
+          if (position.container.selected) {
+            status.selected = true;
+          } else {
+            status.deselected = true;
+          }
+        }
+      });
+      const newSelectionStatus =
+        (status.selected && status.deselected) || !status.selected
+          ? true
+          : false;
+      filteredPositions.forEach(position => {
+        if (position.container) {
+          position.container.selected = newSelectionStatus;
+        }
+      });
+    },
   },
 });
 

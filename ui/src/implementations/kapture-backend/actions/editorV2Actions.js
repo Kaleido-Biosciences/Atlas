@@ -14,6 +14,8 @@ const {
   setContainerComponents: _setContainerComponents,
   setContainerGridComponents: _setContainerGridComponents,
   deselectContainers: _deselectContainers,
+  toggleContainerSelected: _toggleContainerSelected,
+  toggleContainerGridSelected: _toggleContainerGridSelected,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -118,7 +120,11 @@ export const handleContainerClick = ({ containerId, positions }) => {
         }
       }
     } else if (clickMode === 'select') {
-      console.log('select');
+      if (positions) {
+        dispatch(_toggleContainerGridSelected({ containerId, positions }));
+      } else {
+        dispatch(_toggleContainerSelected({ containerId }));
+      }
     } else if (clickMode === 'clear') {
       console.log('clear');
     }
