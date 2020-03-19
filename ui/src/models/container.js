@@ -11,6 +11,7 @@ export const createContainer = (
     id: uuidv1(),
     type: 'Container',
     subType,
+    name: null,
     barcode,
     components: components || [],
     attributes: attributes || [],

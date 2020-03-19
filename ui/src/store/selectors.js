@@ -112,17 +112,11 @@ export const selectEditorV2ActiveContainer = createSelector(
 export const selectEditorV2ContainerTabs = createSelector(
   ['editorV2.containers', 'editorV2.activeContainerId'],
   (containers, activeContainerId) => {
-    const typeCounts = {};
     const tabs = [];
     containers.forEach(container => {
-      if (!typeCounts[container.subType]) {
-        typeCounts[container.subType] = 1;
-      } else {
-        typeCounts[container.subType]++;
-      }
       tabs.push({
         id: container.id,
-        name: `${container.subType} ${typeCounts[container.subType]}`,
+        name: container.name,
         active: container.id === activeContainerId,
       });
     });
@@ -131,3 +125,42 @@ export const selectEditorV2ContainerTabs = createSelector(
 );
 export const selectEditorV2Barcodes = createSelector(['editorV2.barcodes']);
 export const selectEditorV2Settings = createSelector(['editorV2.settings']);
+export const selectEditorV2SelectedContainersSummary = createSelector(
+  ['editorV2.containers', 'editorV2.activeContainerId'],
+  (containers, activeContainerId) => {
+    const selectedContainersSummary = {
+      count: 0,
+      text: '',
+    };
+    if (containers.length) {
+      const activeContainer = containers.find(
+        container => container.id === activeContainerId
+      );
+      if (activeContainer) {
+        if (activeContainer.type === 'ContainerGrid') {
+          const positions = activeContainer.grid.flat();
+          const selectedPositions = positions.filter(position => {
+            if (position.container && position.container.selected) return true;
+            else return false;
+          });
+          const mapped = selectedPositions.map(
+            position => position.row + position.column
+          );
+          if (mapped.length) {
+            selectedContainersSummary.text = `${
+              activeContainer.name
+            }: ${mapped.join(',')}`;
+            selectedContainersSummary.count = mapped.length;
+          }
+        } else if (
+          activeContainer.type === 'Container' &&
+          activeContainer.selected
+        ) {
+          selectedContainersSummary.text = activeContainer.name;
+          selectedContainersSummary.count = 1;
+        }
+      }
+    }
+    return selectedContainersSummary;
+  }
+);

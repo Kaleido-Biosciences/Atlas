@@ -37,6 +37,7 @@ const editorV2 = createSlice({
     addContainer(state, action) {
       state.containers.push(action.payload.container);
       state.activeContainerId = action.payload.container.id;
+      assignContainerNames(state.containers);
     },
     setActiveContainerId(state, action) {
       state.activeContainerId = action.payload.id;
@@ -135,3 +136,15 @@ const editorV2 = createSlice({
 });
 
 export const { actions: editorV2Actions, reducer: editorV2Reducer } = editorV2;
+
+function assignContainerNames(containers) {
+  const typeCounts = {};
+  containers.forEach(container => {
+    if (!typeCounts[container.subType]) {
+      typeCounts[container.subType] = 1;
+    } else {
+      typeCounts[container.subType]++;
+    }
+    container.name = `${container.subType} ${typeCounts[container.subType]}`;
+  });
+}

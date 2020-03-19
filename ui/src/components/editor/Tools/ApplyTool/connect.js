@@ -8,15 +8,15 @@ import {
 import {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
-  selectEditorSelectedWellsFromActivePlate,
   selectEditorActivePlate,
+  selectEditorV2SelectedContainersSummary,
 } from '../../../../store/selectors';
 
 const mapState = (state, props) => {
   return {
     toolComponents: selectEditorToolComponents(state),
     toolComponentsValid: selectEditorToolComponentsValid(state),
-    selectedWells: selectEditorSelectedWellsFromActivePlate(state),
+    selectedContainersSummary: selectEditorV2SelectedContainersSummary(state),
     activePlate: selectEditorActivePlate(state),
   };
 };

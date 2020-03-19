@@ -32,6 +32,7 @@ export const createContainerGrid = (
     id: uuidv1(),
     type: 'ContainerGrid',
     subType,
+    name: null,
     barcode,
     dimensions,
     grid,

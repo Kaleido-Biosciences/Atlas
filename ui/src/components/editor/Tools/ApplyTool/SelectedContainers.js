@@ -4,46 +4,43 @@ import { Header, Button } from 'semantic-ui-react';
 
 import styles from './ApplyTool.module.css';
 
-export class SelectedWells extends Component {
+export class SelectedContainers extends Component {
   handleApplyClick = () => {
     if (this.props.onApplyClick) {
       this.props.onApplyClick();
     }
   };
-  renderSelectedWells() {
-    const { selectedWells } = this.props;
-    if (selectedWells) {
-      let wellString = null,
-        headerText;
-      if (selectedWells.length > 0) {
-        const wellNames = selectedWells.map(well => well.name);
-        wellString = wellNames.join(', ');
-        headerText = 'Selected Wells:';
+  renderSelectedContainersSummary() {
+    const { selectedContainersSummary } = this.props;
+    if (selectedContainersSummary) {
+      let headerText;
+      if (selectedContainersSummary.count > 0) {
+        headerText = 'Selected Containers';
       } else {
-        headerText = 'No wells selected.';
+        headerText = 'No containers selected.';
       }
       return (
-        <div className={styles.selectedWellsText}>
+        <div className={styles.selectedContainersText}>
           <Header size="tiny">{headerText}</Header>
-          {wellString}
+          {selectedContainersSummary.text}
         </div>
       );
     }
   }
   render() {
-    const { selectedWells, showButton, buttonDisabled } = this.props;
+    const { selectedContainersSummary, showButton, buttonDisabled } = this.props;
     return (
       <div>
-        {this.renderSelectedWells()}
+        {this.renderSelectedContainersSummary()}
         {showButton ? (
-          <div className={styles.selectedWellsButtonContainer}>
+          <div className={styles.selectedContainersButtonContainer}>
             <Button
               disabled={buttonDisabled}
               primary
               onClick={this.handleApplyClick}
               size="mini"
             >
-              Apply to {selectedWells.length} wells
+              Apply to {selectedContainersSummary.count} containers
             </Button>
           </div>
         ) : null}
@@ -52,8 +49,8 @@ export class SelectedWells extends Component {
   }
 }
 
-SelectedWells.propTypes = {
-  selectedWells: PropTypes.array,
+SelectedContainers.propTypes = {
+  selectedContainersSummary: PropTypes.array,
   showButton: PropTypes.bool,
   buttonDisabled: PropTypes.bool,
   onApplyClick: PropTypes.func,
