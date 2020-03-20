@@ -16,12 +16,14 @@ const {
   deselectContainers: _deselectContainers,
   toggleContainerSelected: _toggleContainerSelected,
   toggleContainerGridSelected: _toggleContainerGridSelected,
+  clearContainers: _clearContainers,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
 
 const {
   selectEditorClickMode,
+  selectEditorClearMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorV2Containers,
@@ -126,7 +128,10 @@ export const handleContainerClick = ({ containerId, positions }) => {
         dispatch(_toggleContainerSelected({ containerId }));
       }
     } else if (clickMode === 'clear') {
-      console.log('clear');
+      const clearMode = selectEditorClearMode(getState());
+      //const clear = wrapWithChangeHandler(_clearWells);
+      // dispatch(clear({ plateId, wellIds, clearMode }));
+      dispatch(_clearContainers({ containerId, positions, clearMode }));
     }
   };
 };

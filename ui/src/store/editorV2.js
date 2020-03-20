@@ -1,6 +1,9 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { DEFAULT_COMPONENT_COLOR_CODES } from '../constants';
+import {
+  DEFAULT_COMPONENT_COLOR_CODES,
+  COMPONENT_TYPES_PLURAL_TO_SINGULAR,
+} from '../constants';
 
 const initialState = {
   initialized: false,
@@ -131,6 +134,45 @@ const editorV2 = createSlice({
           position.container.selected = newSelectionStatus;
         }
       });
+    },
+    clearContainers(state, action) {
+      const { containerId, positions, clearMode } = action.payload;
+      const container = state.containers.find(
+        container => container.id === containerId
+      );
+      const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
+      if (container.type === 'ContainerGrid') {
+        const shortPositions = positions.map(
+          position => position.row + position.column
+        );
+        const flatPositions = container.grid.flat();
+        const filteredPositions = flatPositions.filter(position =>
+          shortPositions.includes(position.row + position.column)
+        );
+        filteredPositions.forEach(position => {
+          if (position.container) {
+            if (clearMode === 'all') {
+              position.container.components = [];
+            } else {
+              const componentType = componentTypes[clearMode];
+              position.container.components = position.container.components.filter(
+                component => {
+                  return component.type !== componentType;
+                }
+              );
+            }
+          }
+        });
+      } else if (container.type === 'Container') {
+        if (clearMode === 'all') {
+          container.components = [];
+        } else {
+          const componentType = componentTypes[clearMode];
+          container.components = container.components.filter(component => {
+            return component.type !== componentType;
+          });
+        }
+      }
     },
   },
 });
