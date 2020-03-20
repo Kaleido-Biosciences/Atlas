@@ -141,6 +141,47 @@ export const setClickMode = ({ clickMode }) => {
   };
 };
 
+export const applySelectedToolComponentsToSelectedContainers = ({
+  containerId,
+}) => {
+  return (dispatch, getState) => {
+    const components = selectEditorSelectedToolComponents(getState());
+    const containers = selectEditorV2Containers(getState());
+    const container = findContainerById(containers, containerId);
+    if (container.type === 'ContainerGrid') {
+      const actionPositions = [];
+      const positions = container.grid.flat();
+      positions.forEach(position => {
+        if (position.container && position.container.selected) {
+          const newComponents = applyComponentsToContainer(
+            position.container,
+            components
+          );
+          actionPositions.push({
+            row: position.row,
+            column: position.column,
+            components: newComponents,
+          });
+        }
+      });
+      if (actionPositions.length) {
+        dispatch(
+          _setContainerGridComponents({
+            containerId,
+            positions: actionPositions,
+          })
+        );
+      }
+    }
+    if (container.type === 'Container' && container.selected) {
+      const newComponents = applyComponentsToContainer(container, components);
+      dispatch(
+        _setContainerComponents({ containerId, components: newComponents })
+      );
+    }
+  };
+};
+
 function applyComponentsToContainer(container, componentsToApply) {
   const containerComponents = container.components.slice();
   componentsToApply.forEach(component => {

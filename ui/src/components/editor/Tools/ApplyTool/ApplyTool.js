@@ -14,9 +14,9 @@ import styles from './ApplyTool.module.css';
 export class ApplyTool extends Component {
   groupComponents = memoize(groupComponents);
   handleApplyClick = () => {
-    const { activePlate } = this.props;
+    const { activeContainerId } = this.props;
     if (this.props.onApplyClick) {
-      this.props.onApplyClick({ plateId: activePlate.id });
+      this.props.onApplyClick({ containerId: activeContainerId });
     }
   };
   handleAddAttribute = ({ component }) => {
@@ -85,7 +85,7 @@ ApplyTool.propTypes = {
   toolComponents: PropTypes.array.isRequired,
   toolComponentsValid: PropTypes.bool.isRequired,
   selectedContainersSummary: PropTypes.array.isRequired,
-  activePlate: PropTypes.object,
+  activeContainerId: PropTypes.string,
   onApplyClick: PropTypes.func,
   onAddAttribute: PropTypes.func,
 };
