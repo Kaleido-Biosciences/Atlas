@@ -3,7 +3,11 @@ import {
   getContainerCollection,
   importContainerCollection,
 } from './activityActions';
-import { createContainer, createContainerGrid } from '../models';
+import {
+  createContainer,
+  createContainerGrid,
+  createComponent,
+} from '../models';
 
 const {
   setInitialized: _setInitialized,
@@ -187,35 +191,32 @@ export const applySelectedToolComponentsToSelectedContainers = ({
   };
 };
 
-function applyComponentsToContainer(container, componentsToApply) {
+function applyComponentsToContainer(container, toolComponentsToApply) {
   const containerComponents = container.components.slice();
+  const componentsToApply = toolComponentsToApply.map(toolComponent => {
+    return transformToolComponent(toolComponent);
+  });
   componentsToApply.forEach(component => {
     const existingComponent = containerComponents.find(
       comp => comp.id === component.id
     );
-    const { selected, editing, ...containerComponent } = component;
     if (!existingComponent) {
-      containerComponents.push(containerComponent);
+      containerComponents.push(component);
     } else {
-      const newComponent = { ...existingComponent };
-      const timepointsToUpdate = newComponent.timepoints.slice();
-      if (containerComponent.timepoints) {
-        containerComponent.timepoints.forEach(newTimepoint => {
-          const index = timepointsToUpdate.findIndex(
-            eTimepoint => eTimepoint.time === newTimepoint.time
+      if (existingComponent.options.timepoints) {
+        existingComponent.options.timepoints.forEach(eTimepoint => {
+          const index = component.options.timepoints.findIndex(
+            timepoint => timepoint.time === eTimepoint.time
           );
-          if (index > -1) {
-            timepointsToUpdate.splice(index, 1, newTimepoint);
-          } else {
-            timepointsToUpdate.push(newTimepoint);
+          if (index === -1) {
+            component.options.timepoints.push(eTimepoint);
           }
         });
       }
-      newComponent.timepoints = timepointsToUpdate;
       const index = containerComponents.findIndex(
-        component => component.id === newComponent.id
+        eComponent => eComponent.id === component.id
       );
-      containerComponents.splice(index, 1, newComponent);
+      containerComponents.splice(index, 1, component);
     }
   });
   return containerComponents;
@@ -223,4 +224,17 @@ function applyComponentsToContainer(container, componentsToApply) {
 
 function findContainerById(containers, containerId) {
   return containers.find(container => container.id === containerId);
+}
+
+function transformToolComponent({ id, displayName, type, data, timepoints }) {
+  return createComponent(
+    id,
+    type,
+    displayName,
+    null,
+    { timepoints },
+    null,
+    null,
+    data
+  );
 }

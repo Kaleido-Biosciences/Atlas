@@ -17,8 +17,8 @@ export class Container extends Component {
     return this.props.container.components.map(component => {
       return (
         <div>
-          {component.displayName}
-          {JSON.stringify(component.timepoints)}
+          {component.name}
+          {JSON.stringify(component.options)}
         </div>
       );
     });
