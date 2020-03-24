@@ -8,6 +8,13 @@ import {
   createContainerGrid,
   createComponent,
 } from '../models';
+import {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
+} from '../../../constants';
 
 const {
   setInitialized: _setInitialized,
@@ -201,7 +208,7 @@ function applyComponentsToContainer(container, toolComponentsToApply) {
       comp => comp.id === component.id
     );
     if (!existingComponent) {
-      containerComponents.push(component);
+      containerComponents.push(setComponentDescription(component));
     } else {
       if (existingComponent.options.timepoints) {
         existingComponent.options.timepoints.forEach(eTimepoint => {
@@ -216,10 +223,10 @@ function applyComponentsToContainer(container, toolComponentsToApply) {
       const index = containerComponents.findIndex(
         eComponent => eComponent.id === component.id
       );
-      containerComponents.splice(index, 1, component);
+      containerComponents.splice(index, 1, setComponentDescription(component));
     }
   });
-  return containerComponents;
+  return sortComponentsByType(containerComponents);
 }
 
 function findContainerById(containers, containerId) {
@@ -237,4 +244,31 @@ function transformToolComponent({ id, displayName, type, data, timepoints }) {
     null,
     data
   );
+}
+
+function setComponentDescription(component) {
+  if (component.options && component.options.timepoints) {
+    const timepointStrings = component.options.timepoints.map(timepoint => {
+      if (timepoint.concentration) {
+        return `${timepoint.concentration.toFixed(2)} @ 
+            ${timepoint.time}h`;
+      } else return '';
+    });
+    component.description = timepointStrings.join(', ');
+  }
+  return component;
+}
+
+function sortComponentsByType(components) {
+  const sortValues = {
+    [COMPONENT_TYPE_COMMUNITY]: 1,
+    [COMPONENT_TYPE_COMPOUND]: 2,
+    [COMPONENT_TYPE_MEDIUM]: 3,
+    [COMPONENT_TYPE_SUPPLEMENT]: 4,
+    [COMPONENT_TYPE_ATTRIBUTE]: 5,
+  };
+  const arrayToSort = components;
+  return arrayToSort.sort((a, b) => {
+    return sortValues[a.type] - sortValues[b.type];
+  });
 }

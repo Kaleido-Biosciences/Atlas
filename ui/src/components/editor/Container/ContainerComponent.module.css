@@ -1,0 +1,31 @@
+.containerComponent {
+  color: #fff;
+  padding: 6px 4px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  font-size: 9px;
+}
+
+.containerComponentName {
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.containerComponentDescription {
+  margin-left: 4px;
+  font-size: 9px;
+  line-height: 9px;
+  margin-top: 2px;
+  opacity: 0.6;
+}
+
+.attributeText {
+  line-height: 9px;
+  margin-left: 4px;
+}
+
+.attributeValue {
+  font-weight: bold;
+}

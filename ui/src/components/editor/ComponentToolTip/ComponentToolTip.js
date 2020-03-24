@@ -1,6 +1,10 @@
 import React from 'react';
 import { List } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import {
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_SUPPLEMENT,
+} from '../../../constants';
 
 export class ComponentToolTip extends React.Component {
   formatDate = iso_text => {
@@ -17,7 +21,7 @@ export class ComponentToolTip extends React.Component {
   render() {
     const { component } = this.props;
     switch (component.type) {
-      case 'compound':
+      case COMPONENT_TYPE_COMPOUND:
         return (
           <List>
             {component.data.aveDP ? (
@@ -70,7 +74,7 @@ export class ComponentToolTip extends React.Component {
             )}
           </List>
         );
-      case 'supplement':
+      case COMPONENT_TYPE_SUPPLEMENT:
         return (
           <List>
             {component.data.registrationDate ? (

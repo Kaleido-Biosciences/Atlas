@@ -4,7 +4,10 @@ import classNames from 'classnames';
 import { Label, Popup } from 'semantic-ui-react';
 import { ComponentTypeCircle } from '../ComponentTypeCircle';
 import { ComponentToolTip } from '../ComponentToolTip';
-
+import {
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_SUPPLEMENT,
+} from '../../../constants';
 import styles from './ComponentList.module.css';
 
 export class Component extends React.Component {
@@ -16,7 +19,10 @@ export class Component extends React.Component {
 
   renderComponentDetails() {
     const { component } = this.props;
-    if (component.type === 'compound' || component.type === 'supplement') {
+    if (
+      component.type === COMPONENT_TYPE_COMPOUND ||
+      component.type === COMPONENT_TYPE_SUPPLEMENT
+    ) {
       return (
         <Popup
           position="top center"

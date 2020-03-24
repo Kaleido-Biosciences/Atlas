@@ -6,34 +6,34 @@ export const DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION = null;
 export const STATUS_DRAFT = 'DRAFT';
 export const STATUS_COMPLETED = 'COMPLETED';
 
-export const COMPONENT_TYPE_COMMUNITY = 'community';
-export const COMPONENT_TYPE_COMPOUND = 'compound';
-export const COMPONENT_TYPE_MEDIUM = 'medium';
-export const COMPONENT_TYPE_SUPPLEMENT = 'supplement';
-export const COMPONENT_TYPE_ATTRIBUTE = 'attribute';
+export const COMPONENT_TYPE_COMMUNITY = 'Community';
+export const COMPONENT_TYPE_COMPOUND = 'Compound';
+export const COMPONENT_TYPE_MEDIUM = 'Medium';
+export const COMPONENT_TYPE_SUPPLEMENT = 'Supplement';
+export const COMPONENT_TYPE_ATTRIBUTE = 'Attribute';
 
 export const COMPONENT_TYPES_PLURAL_TO_SINGULAR = {
-  communities: 'community',
-  compounds: 'compound',
-  media: 'medium',
-  supplements: 'supplement',
-  attributes: 'attribute',
+  communities: COMPONENT_TYPE_COMMUNITY,
+  compounds: COMPONENT_TYPE_COMPOUND,
+  media: COMPONENT_TYPE_MEDIUM,
+  supplements: COMPONENT_TYPE_SUPPLEMENT,
+  attributes: COMPONENT_TYPE_ATTRIBUTE,
 };
 
 export const COMPONENT_TYPE_ABBREVIATIONS = {
-  community: 'C',
-  compound: 'B',
-  medium: 'M',
-  supplement: 'S',
-  attribute: 'A',
+  [COMPONENT_TYPE_COMMUNITY]: 'C',
+  [COMPONENT_TYPE_COMPOUND]: 'B',
+  [COMPONENT_TYPE_MEDIUM]: 'M',
+  [COMPONENT_TYPE_SUPPLEMENT]: 'S',
+  [COMPONENT_TYPE_ATTRIBUTE]: 'A',
 };
 
 export const COMPONENT_TYPE_COLORS = {
-  community: 'green',
-  compound: 'blue',
-  medium: 'orange',
-  supplement: 'black',
-  attribute: 'red',
+  [COMPONENT_TYPE_COMMUNITY]: 'green',
+  [COMPONENT_TYPE_COMPOUND]: 'blue',
+  [COMPONENT_TYPE_MEDIUM]: 'orange',
+  [COMPONENT_TYPE_SUPPLEMENT]: 'black',
+  [COMPONENT_TYPE_ATTRIBUTE]: 'red',
 };
 
 export const DEFAULT_COMPONENT_COLOR_CODES = {
