@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ContainerTabBar } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
+import { COMPONENT_TYPES } from '../componentTypes';
 
 const { clonePlate, deletePlate } = actions.editor;
 const {
@@ -16,6 +17,7 @@ const { selectEditorV2ContainerTabs } = selectors;
 const mapState = (state, props) => {
   return {
     tabs: selectEditorV2ContainerTabs(state),
+    componentTypes: COMPONENT_TYPES,
   };
 };
 
