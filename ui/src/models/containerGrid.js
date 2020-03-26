@@ -8,7 +8,8 @@ export const createContainerGrid = (
   subType,
   barcode,
   dimensions,
-  attributes
+  attributes,
+  positionComponents
 ) => {
   const grid = [];
   const { rows, columns } = dimensions;
@@ -22,7 +23,17 @@ export const createContainerGrid = (
         container: null,
       };
       if (subType === 'Plate') {
-        location.container = createContainer(null, 'PlateWell', null);
+        if (positionComponents) {
+          const components = positionComponents[location.row + location.column];
+          location.container = createContainer(
+            null,
+            'PlateWell',
+            null,
+            components
+          );
+        } else {
+          location.container = createContainer(null, 'PlateWell', null);
+        }
       }
       row.push(location);
     }

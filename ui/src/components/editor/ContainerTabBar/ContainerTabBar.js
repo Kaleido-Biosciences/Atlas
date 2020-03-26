@@ -19,11 +19,13 @@ export class ContainerTabBar extends Component {
     this.setState({ cloneModalOpen: false });
   };
   handleCloneSubmit = ({ typesToClone }) => {
-    console.log(typesToClone);
     if (this.props.onClone) {
-      //this.props.onClone(this.props.activePlate.id, typesToClone);
-      this.closeCloneModal();
+      this.props.onClone({
+        containerId: this.props.activeContainerId,
+        componentTypesToClone: typesToClone,
+      });
     }
+    this.closeCloneModal();
   };
   renderTabs() {
     const { tabs, onTabClick } = this.props;
@@ -76,6 +78,7 @@ export class ContainerTabBar extends Component {
 
 ContainerTabBar.propTypes = {
   tabs: PropTypes.array,
+  activeContainerId: PropTypes.string,
   componentTypes: PropTypes.object,
   onTabClick: PropTypes.func,
   onClone: PropTypes.func,

@@ -198,6 +198,75 @@ export const applySelectedToolComponentsToSelectedContainers = ({
   };
 };
 
+export const cloneContainer = ({ containerId, componentTypesToClone }) => {
+  return (dispatch, getState) => {
+    const containers = selectEditorV2Containers(getState());
+    const container = findContainerById(containers, containerId);
+    if (container.type === 'Container') {
+      const clonedComponents = cloneComponents(
+        container.components,
+        componentTypesToClone
+      );
+      const newContainer = createContainer(
+        null,
+        container.subType,
+        null,
+        clonedComponents
+      );
+      dispatch(_addContainer({ container: newContainer }));
+    } else if (container.type === 'ContainerGrid') {
+      const positionComponents = {};
+      const positions = container.grid.flat();
+      positions.forEach(position => {
+        const location = position.row + position.column;
+        const clonedComponents = cloneComponents(
+          position.container.components,
+          componentTypesToClone
+        );
+        positionComponents[location] = clonedComponents;
+      });
+      const newContainer = createContainerGrid(
+        null,
+        container.subType,
+        null,
+        container.dimensions,
+        null,
+        positionComponents
+      );
+      dispatch(_addContainer({ container: newContainer }));
+    }
+  };
+};
+
+function cloneComponents(components, componentTypesToClone) {
+  const clonedComponents = [];
+  components.forEach(component => {
+    if (componentTypesToClone.includes(component.type)) {
+      const clonedOptions = {};
+      if (component.options && component.options.timepoints) {
+        clonedOptions.timepoints = component.options.timepoints.map(
+          timepoint => {
+            return Object.assign({}, timepoint);
+          }
+        );
+      }
+      clonedComponents.push(
+        createComponent(
+          component.id,
+          component.type,
+          component.displayName,
+          component.description,
+          clonedOptions,
+          component.tooltip,
+          component.color,
+          component.data
+        )
+      );
+    }
+  });
+  return clonedComponents;
+}
+
 function applyComponentsToContainer(container, toolComponentsToApply) {
   const containerComponents = container.components.slice();
   const componentsToApply = toolComponentsToApply.map(toolComponent => {

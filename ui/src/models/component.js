@@ -2,7 +2,7 @@ import { DEFAULT_COMPONENT_COLOR_CODES } from '../constants';
 export const createComponent = (
   id,
   type,
-  name,
+  displayName,
   description,
   options,
   tooltip,
@@ -12,7 +12,7 @@ export const createComponent = (
   return {
     id,
     type,
-    displayName: name,
+    displayName,
     description,
     options,
     tooltip,

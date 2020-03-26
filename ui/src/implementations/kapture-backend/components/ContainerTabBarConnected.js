@@ -10,20 +10,25 @@ const {
   addNewContainer,
   addNewContainerGrid,
   setActiveContainerId,
+  cloneContainer,
 } = actions.editorV2;
 
-const { selectEditorV2ContainerTabs } = selectors;
+const {
+  selectEditorV2ContainerTabs,
+  selectEditorV2ActiveContainerId,
+} = selectors;
 
 const mapState = (state, props) => {
   return {
     tabs: selectEditorV2ContainerTabs(state),
+    activeContainerId: selectEditorV2ActiveContainerId(state),
     componentTypes: COMPONENT_TYPES,
   };
 };
 
 const mapDispatch = {
   onTabClick: setActiveContainerId,
-  // onClone: clonePlate,
+  onClone: cloneContainer,
   // onDelete: deletePlate,
   onAddContainer: addNewContainer,
   onAddContainerGrid: addNewContainerGrid,
