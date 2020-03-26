@@ -28,6 +28,7 @@ const {
   toggleContainerSelected: _toggleContainerSelected,
   toggleContainerGridSelected: _toggleContainerGridSelected,
   clearContainers: _clearContainers,
+  deleteContainer: _deleteContainer,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -235,6 +236,12 @@ export const cloneContainer = ({ containerId, componentTypesToClone }) => {
       );
       dispatch(_addContainer({ container: newContainer }));
     }
+  };
+};
+
+export const deleteContainer = ({ containerId }) => {
+  return (dispatch, getState) => {
+    dispatch(_deleteContainer({ containerId }));
   };
 };
 

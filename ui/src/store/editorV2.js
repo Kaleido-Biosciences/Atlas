@@ -174,6 +174,21 @@ const editorV2 = createSlice({
         }
       }
     },
+    deleteContainer(state, action) {
+      const { containerId } = action.payload;
+      const indexToRemove = state.containers.findIndex(
+        container => container.id === containerId
+      );
+      state.containers.splice(indexToRemove, 1);
+      if (state.containers.length) {
+        if (state.containers[indexToRemove]) {
+          state.activeContainerId = state.containers[indexToRemove].id;
+        } else {
+          state.activeContainerId = state.containers[indexToRemove - 1].id;
+        }
+      }
+      assignContainerNames(state.containers);
+    },
   },
 });
 

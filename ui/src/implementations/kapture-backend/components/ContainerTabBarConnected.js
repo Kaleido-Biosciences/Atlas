@@ -5,12 +5,12 @@ import { actions } from '../actions';
 import { selectors } from '../store';
 import { COMPONENT_TYPES } from '../componentTypes';
 
-const { clonePlate, deletePlate } = actions.editor;
 const {
   addNewContainer,
   addNewContainerGrid,
   setActiveContainerId,
   cloneContainer,
+  deleteContainer,
 } = actions.editorV2;
 
 const {
@@ -29,7 +29,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onTabClick: setActiveContainerId,
   onClone: cloneContainer,
-  // onDelete: deletePlate,
+  onDelete: deleteContainer,
   onAddContainer: addNewContainer,
   onAddContainerGrid: addNewContainerGrid,
 };
