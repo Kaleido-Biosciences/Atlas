@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Modal, Header } from 'semantic-ui-react';
+import { Modal, Header } from 'semantic-ui-react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ContainerTab } from './ContainerTab';
@@ -13,6 +13,16 @@ export class ContainerTabBar extends Component {
   state = {
     cloneModalOpen: false,
     deleteModalOpen: false,
+    containerAdded: false,
+  };
+  componentDidUpdate() {
+    if (this.state.containerAdded) {
+      this.scrollbars.scrollLeft(this.scrollbars.getScrollWidth());
+      this.setState({ containerAdded: false });
+    }
+  }
+  setScrollbarsRef = ref => {
+    this.scrollbars = ref;
   };
   openCloneModal = () => {
     this.setState({ cloneModalOpen: true });
@@ -41,6 +51,18 @@ export class ContainerTabBar extends Component {
     }
     this.closeDeleteModal();
   };
+  handleAddContainer = ({ container }) => {
+    if (this.props.onAddContainer) {
+      this.props.onAddContainer({ container });
+      this.setState({ containerAdded: true });
+    }
+  };
+  handleAddContainerGrid = ({ containerGrid }) => {
+    if (this.props.onAddContainerGrid) {
+      this.props.onAddContainerGrid({ containerGrid });
+      this.setState({ containerAdded: true });
+    }
+  };
   renderTabs() {
     const { tabs, onTabClick } = this.props;
     if (tabs && tabs.length) {
@@ -61,13 +83,13 @@ export class ContainerTabBar extends Component {
   }
   render() {
     const { cloneModalOpen, deleteModalOpen } = this.state;
-    const { componentTypes, onAddContainer, onAddContainerGrid } = this.props;
+    const { componentTypes } = this.props;
     return (
       <div className={styles.containerTabBar}>
         <AddContainerButton
           className={styles.addContainerButton}
-          onAddContainer={onAddContainer}
-          onAddContainerGrid={onAddContainerGrid}
+          onAddContainer={this.handleAddContainer}
+          onAddContainerGrid={this.handleAddContainerGrid}
         />
         <div className={styles.scrollContainer}>
           <Scrollbars
