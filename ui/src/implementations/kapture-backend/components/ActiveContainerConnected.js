@@ -14,6 +14,7 @@ const {
   addNewContainerToContainerGrid,
   handleContainerClick,
   setBarcode,
+  addBarcodes,
 } = actions.editorV2;
 
 const mapState = (state, props) => {
@@ -28,6 +29,7 @@ const mapDispatch = {
   onAddContainer: addNewContainerToContainerGrid,
   onContainerClick: handleContainerClick,
   onBarcodeSelect: setBarcode,
+  onBarcodeAdd: addBarcodes,
 };
 
 const connected = connect(mapState, mapDispatch)(ActiveContainer);
