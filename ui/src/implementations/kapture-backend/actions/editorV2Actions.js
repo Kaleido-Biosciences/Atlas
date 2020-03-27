@@ -43,7 +43,11 @@ const {
   selectEditorV2ActiveContainerId,
 } = selectors;
 
-export const { setActiveContainerId, addBarcodes } = editorV2Actions;
+export const {
+  setActiveContainerId,
+  addBarcodes,
+  setSettings,
+} = editorV2Actions;
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {

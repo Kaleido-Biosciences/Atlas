@@ -200,6 +200,10 @@ const editorV2 = createSlice({
       );
       container.barcode = barcode;
     },
+    setSettings(state, action) {
+      const { settings } = action.payload;
+      state.settings = Object.assign(state.settings, settings);
+    },
   },
 });
 
