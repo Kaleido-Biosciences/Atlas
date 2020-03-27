@@ -189,6 +189,17 @@ const editorV2 = createSlice({
       }
       assignContainerNames(state.containers);
     },
+    addBarcodes(state, action) {
+      const { barcodes } = action.payload;
+      state.barcodes = state.barcodes.concat(barcodes);
+    },
+    setBarcode(state, action) {
+      const { containerId, barcode } = action.payload;
+      const container = state.containers.find(
+        container => container.id === containerId
+      );
+      container.barcode = barcode;
+    },
   },
 });
 

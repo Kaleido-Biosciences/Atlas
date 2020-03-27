@@ -29,6 +29,7 @@ const {
   toggleContainerGridSelected: _toggleContainerGridSelected,
   clearContainers: _clearContainers,
   deleteContainer: _deleteContainer,
+  setBarcode: _setBarcode,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -42,7 +43,7 @@ const {
   selectEditorV2ActiveContainerId,
 } = selectors;
 
-export const { setActiveContainerId } = editorV2Actions;
+export const { setActiveContainerId, addBarcodes } = editorV2Actions;
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
@@ -244,6 +245,8 @@ export const deleteContainer = ({ containerId }) => {
     dispatch(_deleteContainer({ containerId }));
   };
 };
+
+export const setBarcode = _setBarcode;
 
 function cloneComponents(components, componentTypesToClone) {
   const clonedComponents = [];
