@@ -164,3 +164,7 @@ export const selectEditorV2SelectedContainersSummary = createSelector(
     return selectedContainersSummary;
   }
 );
+export const selectEditorV2SaveStatus = createSelector(['editorV2.saveStatus']);
+export const selectEditorV2LastSaveTime = createSelector([
+  'editorV2.lastSaveTime',
+]);

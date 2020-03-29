@@ -120,17 +120,17 @@ export function fetchPlates(experimentId, status) {
 }
 
 /**
- * Saves the current plate set as a DRAFT with version 0 in Dyanamo database
- * @param {String} experimentName name of the experiment to which the plates are associated
- * @param {Object[]} plateMaps Set of plates associated with the experiment
+ * Saves the current container set as a DRAFT with version 0 in Dyanamo database
+ * @param {String} activityName name of the activity to which the containers are associated
+ * @param {Object[]} containers Set of containers associated with the experiment
  * @returns {Promise<any>}
  */
-export function saveExperimentPlates(experimentName, plateMaps) {
+export function saveActivityContainers(activityName, containers) {
   return new Promise((resolve, reject) => {
-    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
+    let containersToSave = lzutf8.compress(JSON.stringify(containers), {
       outputEncoding: 'Base64',
     });
-    saveToDB(experimentName, STATUS_DRAFT, 0, plateMapsToSave, reject, resolve);
+    saveToDB(activityName, STATUS_DRAFT, 0, containersToSave, reject, resolve);
   });
 }
 

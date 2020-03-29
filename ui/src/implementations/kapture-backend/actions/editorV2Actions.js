@@ -19,6 +19,7 @@ import {
   REQUEST_SUCCESS,
   REQUEST_ERROR,
 } from '../../../constants';
+import { api } from '../api';
 
 const {
   setInitialized: _setInitialized,
@@ -60,12 +61,12 @@ const wrapWithChangeHandler = fn => {
       const exportedContainers = exportContainers(
         selectEditorV2Containers(getState())
       );
-      // try {
-      //   await api.saveExperimentPlates(activityName, exportedPlates);
-      //   dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
-      // } catch (err) {
-      //   dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
-      // }
+      try {
+        await api.saveActivityContainers(activityName, exportedContainers);
+        dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+      } catch (err) {
+        dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+      }
     };
   };
 };
@@ -118,22 +119,20 @@ export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
   };
 });
 
-export const addNewContainerToContainerGrid = (
-  containerGridId,
-  position,
-  type
-) => {
-  return (dispatch, getState) => {
-    const container = createContainer(null, type);
-    dispatch(
-      _addContainerToContainerGrid({
-        containerGridId,
-        position,
-        container,
-      })
-    );
-  };
-};
+export const addNewContainerToContainerGrid = wrapWithChangeHandler(
+  (containerGridId, position, type) => {
+    return (dispatch, getState) => {
+      const container = createContainer(null, type);
+      dispatch(
+        _addContainerToContainerGrid({
+          containerGridId,
+          position,
+          container,
+        })
+      );
+    };
+  }
+);
 
 export const handleContainerClick = wrapWithChangeHandler(
   ({ containerId, positions }) => {
@@ -202,94 +201,96 @@ export const setClickMode = ({ clickMode }) => {
   };
 };
 
-export const applySelectedToolComponentsToSelectedContainers = ({
-  containerId,
-}) => {
-  return (dispatch, getState) => {
-    const components = selectEditorSelectedToolComponents(getState());
-    const containers = selectEditorV2Containers(getState());
-    const container = findContainerById(containers, containerId);
-    if (container.type === 'ContainerGrid') {
-      const actionPositions = [];
-      const positions = container.grid.flat();
-      positions.forEach(position => {
-        if (position.container && position.container.selected) {
-          const newComponents = applyComponentsToContainer(
-            position.container,
-            components
+export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHandler(
+  ({ containerId }) => {
+    return (dispatch, getState) => {
+      const components = selectEditorSelectedToolComponents(getState());
+      const containers = selectEditorV2Containers(getState());
+      const container = findContainerById(containers, containerId);
+      if (container.type === 'ContainerGrid') {
+        const actionPositions = [];
+        const positions = container.grid.flat();
+        positions.forEach(position => {
+          if (position.container && position.container.selected) {
+            const newComponents = applyComponentsToContainer(
+              position.container,
+              components
+            );
+            actionPositions.push({
+              row: position.row,
+              column: position.column,
+              components: newComponents,
+            });
+          }
+        });
+        if (actionPositions.length) {
+          dispatch(
+            _setContainerGridComponents({
+              containerId,
+              positions: actionPositions,
+            })
           );
-          actionPositions.push({
-            row: position.row,
-            column: position.column,
-            components: newComponents,
-          });
         }
-      });
-      if (actionPositions.length) {
+      }
+      if (container.type === 'Container' && container.selected) {
+        const newComponents = applyComponentsToContainer(container, components);
         dispatch(
-          _setContainerGridComponents({
-            containerId,
-            positions: actionPositions,
-          })
+          _setContainerComponents({ containerId, components: newComponents })
         );
       }
-    }
-    if (container.type === 'Container' && container.selected) {
-      const newComponents = applyComponentsToContainer(container, components);
-      dispatch(
-        _setContainerComponents({ containerId, components: newComponents })
-      );
-    }
-  };
-};
+    };
+  }
+);
 
-export const cloneContainer = ({ containerId, componentTypesToClone }) => {
-  return (dispatch, getState) => {
-    const containers = selectEditorV2Containers(getState());
-    const container = findContainerById(containers, containerId);
-    if (container.type === 'Container') {
-      const clonedComponents = cloneComponents(
-        container.components,
-        componentTypesToClone
-      );
-      const newContainer = createContainer(
-        null,
-        container.subType,
-        null,
-        clonedComponents
-      );
-      dispatch(_addContainer({ container: newContainer }));
-    } else if (container.type === 'ContainerGrid') {
-      const positionComponents = {};
-      const positions = container.grid.flat();
-      positions.forEach(position => {
-        const location = position.row + position.column;
+export const cloneContainer = wrapWithChangeHandler(
+  ({ containerId, componentTypesToClone }) => {
+    return (dispatch, getState) => {
+      const containers = selectEditorV2Containers(getState());
+      const container = findContainerById(containers, containerId);
+      if (container.type === 'Container') {
         const clonedComponents = cloneComponents(
-          position.container.components,
+          container.components,
           componentTypesToClone
         );
-        positionComponents[location] = clonedComponents;
-      });
-      const newContainer = createContainerGrid(
-        null,
-        container.subType,
-        null,
-        container.dimensions,
-        null,
-        positionComponents
-      );
-      dispatch(_addContainer({ container: newContainer }));
-    }
-  };
-};
+        const newContainer = createContainer(
+          null,
+          container.subType,
+          null,
+          clonedComponents
+        );
+        dispatch(_addContainer({ container: newContainer }));
+      } else if (container.type === 'ContainerGrid') {
+        const positionComponents = {};
+        const positions = container.grid.flat();
+        positions.forEach(position => {
+          const location = position.row + position.column;
+          const clonedComponents = cloneComponents(
+            position.container.components,
+            componentTypesToClone
+          );
+          positionComponents[location] = clonedComponents;
+        });
+        const newContainer = createContainerGrid(
+          null,
+          container.subType,
+          null,
+          container.dimensions,
+          null,
+          positionComponents
+        );
+        dispatch(_addContainer({ container: newContainer }));
+      }
+    };
+  }
+);
 
-export const deleteContainer = ({ containerId }) => {
+export const deleteContainer = wrapWithChangeHandler(({ containerId }) => {
   return (dispatch, getState) => {
     dispatch(_deleteContainer({ containerId }));
   };
-};
+});
 
-export const setBarcode = _setBarcode;
+export const setBarcode = wrapWithChangeHandler(_setBarcode);
 
 function cloneComponents(components, componentTypesToClone) {
   const clonedComponents = [];
