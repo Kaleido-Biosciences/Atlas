@@ -3,6 +3,7 @@ import { createSlice } from 'redux-starter-kit';
 import {
   DEFAULT_COMPONENT_COLOR_CODES,
   COMPONENT_TYPES_PLURAL_TO_SINGULAR,
+  REQUEST_SUCCESS,
 } from '../constants';
 
 const initialState = {
@@ -19,6 +20,8 @@ const initialState = {
     },
     componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
   },
+  saveStatus: null,
+  lastSaveTime: null,
 };
 
 const editorV2 = createSlice({
@@ -203,6 +206,13 @@ const editorV2 = createSlice({
     setSettings(state, action) {
       const { settings } = action.payload;
       state.settings = Object.assign(state.settings, settings);
+    },
+    setSaveStatus(state, action) {
+      const { saveStatus } = action.payload;
+      state.saveStatus = saveStatus;
+      if (saveStatus === REQUEST_SUCCESS) {
+        state.lastSaveTime = Date.now();
+      }
     },
   },
 });

@@ -7,6 +7,7 @@ import {
   createContainer,
   createContainerGrid,
   createComponent,
+  containerFunctions,
 } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -14,6 +15,9 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+  REQUEST_ERROR,
 } from '../../../constants';
 
 const {
@@ -30,6 +34,7 @@ const {
   clearContainers: _clearContainers,
   deleteContainer: _deleteContainer,
   setBarcode: _setBarcode,
+  setSaveStatus: _setSaveStatus,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -41,7 +46,29 @@ const {
   selectEditorSelectedToolComponents,
   selectEditorV2Containers,
   selectEditorV2ActiveContainerId,
+  selectActivityName,
 } = selectors;
+
+const { exportContainers } = containerFunctions;
+
+const wrapWithChangeHandler = fn => {
+  return function() {
+    return async (dispatch, getState) => {
+      dispatch(fn.apply(this, arguments));
+      dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
+      const activityName = selectActivityName(getState());
+      const exportedContainers = exportContainers(
+        selectEditorV2Containers(getState())
+      );
+      // try {
+      //   await api.saveExperimentPlates(activityName, exportedPlates);
+      //   dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+      // } catch (err) {
+      //   dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+      // }
+    };
+  };
+};
 
 export const {
   setActiveContainerId,
@@ -70,19 +97,26 @@ export const loadContainerCollection = (status, version) => {
   };
 };
 
-export const addNewContainerGrid = ({ containerGrid: c }) => {
-  return (dispatch, getState) => {
-    const containerGrid = createContainerGrid(null, c.type, null, c.dimensions);
-    dispatch(_addContainer({ container: containerGrid }));
-  };
-};
+export const addNewContainerGrid = wrapWithChangeHandler(
+  ({ containerGrid: c }) => {
+    return (dispatch, getState) => {
+      const containerGrid = createContainerGrid(
+        null,
+        c.type,
+        null,
+        c.dimensions
+      );
+      dispatch(_addContainer({ container: containerGrid }));
+    };
+  }
+);
 
-export const addNewContainer = ({ container: c }) => {
+export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
   return (dispatch, getState) => {
     const container = createContainer(null, c.type);
     dispatch(_addContainer({ container: container }));
   };
-};
+});
 
 export const addNewContainerToContainerGrid = (
   containerGridId,
@@ -101,57 +135,62 @@ export const addNewContainerToContainerGrid = (
   };
 };
 
-export const handleContainerClick = ({ containerId, positions }) => {
-  return (dispatch, getState) => {
-    const clickMode = selectEditorClickMode(getState());
-    if (clickMode === 'apply') {
-      if (selectEditorToolComponentsValid(getState())) {
-        const components = selectEditorSelectedToolComponents(getState());
-        const containers = selectEditorV2Containers(getState());
-        const topLevelContainer = findContainerById(containers, containerId);
-        if (positions) {
-          const actionPositions = [];
-          positions.forEach(position => {
+export const handleContainerClick = wrapWithChangeHandler(
+  ({ containerId, positions }) => {
+    return (dispatch, getState) => {
+      const clickMode = selectEditorClickMode(getState());
+      if (clickMode === 'apply') {
+        if (selectEditorToolComponentsValid(getState())) {
+          const components = selectEditorSelectedToolComponents(getState());
+          const containers = selectEditorV2Containers(getState());
+          const topLevelContainer = findContainerById(containers, containerId);
+          if (positions) {
+            const actionPositions = [];
+            positions.forEach(position => {
+              const newComponents = applyComponentsToContainer(
+                position.container,
+                components
+              );
+              actionPositions.push({
+                row: position.row,
+                column: position.column,
+                components: newComponents,
+              });
+            });
+            dispatch(
+              _setContainerGridComponents({
+                containerId,
+                positions: actionPositions,
+              })
+            );
+          } else {
             const newComponents = applyComponentsToContainer(
-              position.container,
+              topLevelContainer,
               components
             );
-            actionPositions.push({
-              row: position.row,
-              column: position.column,
-              components: newComponents,
-            });
-          });
-          dispatch(
-            _setContainerGridComponents({
-              containerId,
-              positions: actionPositions,
-            })
-          );
-        } else {
-          const newComponents = applyComponentsToContainer(
-            topLevelContainer,
-            components
-          );
-          dispatch(
-            _setContainerComponents({ containerId, components: newComponents })
-          );
+            dispatch(
+              _setContainerComponents({
+                containerId,
+                components: newComponents,
+              })
+            );
+          }
         }
+      } else if (clickMode === 'select') {
+        if (positions) {
+          dispatch(_toggleContainerGridSelected({ containerId, positions }));
+        } else {
+          dispatch(_toggleContainerSelected({ containerId }));
+        }
+      } else if (clickMode === 'clear') {
+        const clearMode = selectEditorClearMode(getState());
+        //const clear = wrapWithChangeHandler(_clearWells);
+        // dispatch(clear({ plateId, wellIds, clearMode }));
+        dispatch(_clearContainers({ containerId, positions, clearMode }));
       }
-    } else if (clickMode === 'select') {
-      if (positions) {
-        dispatch(_toggleContainerGridSelected({ containerId, positions }));
-      } else {
-        dispatch(_toggleContainerSelected({ containerId }));
-      }
-    } else if (clickMode === 'clear') {
-      const clearMode = selectEditorClearMode(getState());
-      //const clear = wrapWithChangeHandler(_clearWells);
-      // dispatch(clear({ plateId, wellIds, clearMode }));
-      dispatch(_clearContainers({ containerId, positions, clearMode }));
-    }
-  };
-};
+    };
+  }
+);
 
 export const setClickMode = ({ clickMode }) => {
   return (dispatch, getState) => {
