@@ -102,7 +102,7 @@ export const addNewContainerGrid = wrapWithChangeHandler(
     return (dispatch, getState) => {
       const grid = createGrid(c.dimensions);
       const containerGrid = createContainerGrid({
-        subType: c.type,
+        subtype: c.type,
         dimensions: c.dimensions,
         grid: grid,
       });
@@ -120,15 +120,15 @@ export const addNewContainerGrid = wrapWithChangeHandler(
 
 export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
   return (dispatch, getState) => {
-    const container = createContainer({ subType: c.type });
+    const container = createContainer({ subtype: c.type });
     dispatch(_addContainer({ container: container }));
   };
 });
 
 export const addNewContainerToContainerGrid = wrapWithChangeHandler(
-  (containerGridId, position, type) => {
+  (containerGridId, position, containerSubtype) => {
     return (dispatch, getState) => {
-      const container = createContainer(null, type);
+      const container = createContainer({ subtype: containerSubtype });
       dispatch(
         _addContainerToContainerGrid({
           containerGridId,
@@ -260,7 +260,7 @@ export const cloneContainer = wrapWithChangeHandler(
         );
         const newContainer = createContainer(
           null,
-          container.subType,
+          container.subtype,
           null,
           clonedComponents
         );
@@ -278,7 +278,7 @@ export const cloneContainer = wrapWithChangeHandler(
         });
         const newContainer = createContainerGrid(
           null,
-          container.subType,
+          container.subtype,
           null,
           container.dimensions,
           null,

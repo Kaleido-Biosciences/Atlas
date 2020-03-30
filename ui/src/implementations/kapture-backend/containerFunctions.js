@@ -49,7 +49,7 @@ const exportContainer = (container, id) => {
     rows: 1,
     columns: 1,
     name: container.name || null,
-    containerType: container.subType || null,
+    containerType: container.subtype || null,
     barcode: container.barcode || null,
     data: [],
   };
@@ -65,14 +65,14 @@ const exportContainerGrid = (containerGrid, id) => {
     rows: containerGrid.dimensions.rows,
     columns: containerGrid.dimensions.columns,
     name: containerGrid.name || null,
-    containerType: containerGrid.subType || null,
+    containerType: containerGrid.subtype || null,
     barcode: containerGrid.barcode || null,
     data: [],
   };
   if (containerGrid.grid && containerGrid.grid.length) {
     const positions = containerGrid.grid.flat();
     positions.forEach(position => {
-      if (position.container) {
+      if (position.container && position.container.components.length) {
         exportedContainerGrid.data.push(
           exportContainerData(position.container, position.row, position.column)
         );
@@ -85,7 +85,7 @@ const exportContainerGrid = (containerGrid, id) => {
 function exportContainerData(container, row, column) {
   const containerData = {
     name: container.name || null,
-    containerType: container.subType || null,
+    containerType: container.subtype || null,
     row: row || null,
     col: column || null,
     components: [],

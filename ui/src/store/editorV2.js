@@ -222,11 +222,11 @@ export const { actions: editorV2Actions, reducer: editorV2Reducer } = editorV2;
 function assignContainerNames(containers) {
   const typeCounts = {};
   containers.forEach(container => {
-    if (!typeCounts[container.subType]) {
-      typeCounts[container.subType] = 1;
+    if (!typeCounts[container.subtype]) {
+      typeCounts[container.subtype] = 1;
     } else {
-      typeCounts[container.subType]++;
+      typeCounts[container.subtype]++;
     }
-    container.name = `${container.subType} ${typeCounts[container.subType]}`;
+    container.name = `${container.subtype} ${typeCounts[container.subtype]}`;
   });
 }

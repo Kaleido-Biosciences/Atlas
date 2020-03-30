@@ -5,7 +5,7 @@ import { createContainer } from './container';
 
 export const createContainerGrid = ({
   id = null,
-  subType = null,
+  subtype = null,
   name = null,
   displayName = null,
   barcode = null,
@@ -16,7 +16,7 @@ export const createContainerGrid = ({
   return {
     id: id || uuidv1(),
     type: 'ContainerGrid',
-    subType,
+    subtype,
     name,
     displayName,
     barcode,
@@ -55,7 +55,7 @@ export const createContainersForGrid = (dimensions, containerType) => {
       const position = {
         row: rowLetter,
         column: j + 1,
-        container: createContainer({ subType: containerType }),
+        container: createContainer({ subtype: containerType }),
       };
       positions.push(position);
     }
