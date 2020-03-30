@@ -8,7 +8,19 @@ import {
   STATUS_COMPLETED,
 } from '../../../constants';
 import { api } from '../api';
-import { createContainerCollection } from '../models';
+import {
+  createContainerCollection,
+  createContainer,
+  createContainerGrid,
+  createEditorComponentFromKaptureData,
+} from '../models';
+import {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
+} from '../componentTypes';
 
 const {
   selectActivityName,
@@ -113,32 +125,166 @@ export const getContainerCollection = (status, timestamp) => {
       const version = await api.fetchVersion(status, timestamp);
       collection = getCollectionFromVersion(version);
     }
+    console.log(collection);
     return collection;
   };
 };
 
-export const importContainerCollection = (status, timestamp, slice) => {
-  return async (dispatch, getState) => {
-    const parsedTimestamp = parseInt(timestamp);
-    const containerCollections = selectActivityContainerCollections(getState());
-    let collection = containerCollections.find(collection => {
-      return (
-        collection.data.experiment_status === status &&
-        collection.data.version === parsedTimestamp
-      );
-    });
-    if (!collection) {
-      const version = await api.fetchVersion(status, timestamp);
-      collection = getCollectionFromVersion(version);
+export const importContainerCollection = async containerCollection => {
+  console.log(containerCollection);
+  const kaptureComponents = await fetchComponentsForContainers(
+    containerCollection.data.plateMaps
+  );
+  const importedContainers = containerCollection.data.plateMaps.map(
+    container => {
+      let importedContainer;
+      if (container.rows === 1 && container.columns === 1) {
+        const editorComponents = container.data[0].components.map(component => {
+          const kaptureComponent = kaptureComponents[component.type].find(
+            kaptureComponent => kaptureComponent.id === component.id
+          );
+          return createEditorComponentFromKaptureData(
+            kaptureComponent,
+            component.type,
+            component.timepoints
+          );
+        });
+        importedContainer = createContainer(
+          null,
+          container.containerType,
+          container.barcode,
+          editorComponents,
+          null
+        );
+      } else if (container.rows > 1 && container.columns > 1) {
+        const positionComponents = {};
+        container.data.forEach(position => {
+          const location = position.row + position.col;
+          const components = position.components.map(component => {
+            const kaptureComponent = kaptureComponents[component.type].find(
+              kaptureComponent => kaptureComponent.id === component.id
+            );
+            return createEditorComponentFromKaptureData(
+              kaptureComponent,
+              component.type,
+              component.timepoints
+            );
+          });
+          positionComponents[location] = components;
+        });
+        // const positions = container.grid.flat();
+        // positions.forEach(position => {
+        //   const location = position.row + position.col;
+        //   const clonedComponents = cloneComponents(
+        //     position.container.components,
+        //     componentTypesToClone
+        //   );
+        //   positionComponents[location] = clonedComponents;
+        // });
+        importedContainer = createContainerGrid(
+          null,
+          container.containerType,
+          container.barcode,
+          { rows: container.rows, columns: container.columns },
+          null,
+          positionComponents
+        );
+      }
+      return importedContainer;
     }
-    if (!collection) {
-      return [];
-    } else {
-      const plates = await importPlates(collection.data.plateMaps, dispatch);
-      return plates;
-    }
-  };
+  );
+  console.log('importedContainers', importedContainers);
 };
+
+async function fetchComponentsForContainers(containers) {
+  const components = {
+    [COMPONENT_TYPE_COMMUNITY]: [],
+    [COMPONENT_TYPE_COMPOUND]: [],
+    [COMPONENT_TYPE_MEDIUM]: [],
+    [COMPONENT_TYPE_SUPPLEMENT]: [],
+    [COMPONENT_TYPE_ATTRIBUTE]: [],
+  };
+  const response = {
+    [COMPONENT_TYPE_COMMUNITY]: [],
+    [COMPONENT_TYPE_COMPOUND]: [],
+    [COMPONENT_TYPE_MEDIUM]: [],
+    [COMPONENT_TYPE_SUPPLEMENT]: [],
+    [COMPONENT_TYPE_ATTRIBUTE]: [],
+  };
+  containers.forEach(container => {
+    if (container.rows === 1 && container.columns === 1) {
+      if (container.data && container.data.length) {
+        container.data[0].components.forEach(component => {
+          const cType = component.type;
+          if (!components[cType].includes(component.id)) {
+            components[cType].push(component.id);
+          }
+        });
+      }
+    } else if (container.rows > 1 && container.columns > 1) {
+      container.data.forEach(positionContainer => {
+        positionContainer.components.forEach(component => {
+          const cType = component.type;
+          if (!components[cType].includes(component.id)) {
+            components[cType].push(component.id);
+          }
+        });
+      });
+    }
+  });
+  let promises, results;
+  promises = components[COMPONENT_TYPE_COMMUNITY].map(id => {
+    return api.fetchCommunity(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach(result => {
+    response[COMPONENT_TYPE_COMMUNITY].push(result.data);
+  });
+  promises = components[COMPONENT_TYPE_COMPOUND].map(id => {
+    return api.fetchCompound(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach(result => {
+    response[COMPONENT_TYPE_COMPOUND].push(result.data);
+  });
+  promises = components[COMPONENT_TYPE_MEDIUM].map(id => {
+    return api.fetchMedium(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach(result => {
+    response[COMPONENT_TYPE_MEDIUM].push(result.data);
+  });
+  promises = components[COMPONENT_TYPE_SUPPLEMENT].map(id => {
+    return api.fetchSupplement(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach(result => {
+    response[COMPONENT_TYPE_SUPPLEMENT].push(result.data);
+  });
+  return response;
+}
+// export const importContainerCollection = (status, timestamp, slice) => {
+//   return async (dispatch, getState) => {
+//     const parsedTimestamp = parseInt(timestamp);
+//     const containerCollections = selectActivityContainerCollections(getState());
+//     let collection = containerCollections.find(collection => {
+//       return (
+//         collection.data.experiment_status === status &&
+//         collection.data.version === parsedTimestamp
+//       );
+//     });
+//     if (!collection) {
+//       const version = await api.fetchVersion(status, timestamp);
+//       collection = getCollectionFromVersion(version);
+//     }
+//     if (!collection) {
+//       return [];
+//     } else {
+//       const plates = await importPlates(collection.data.plateMaps, dispatch);
+//       return plates;
+//     }
+//   };
+// };
 
 const importPlates = async (plates, dispatch) => {
   if (plates) {

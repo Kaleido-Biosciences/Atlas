@@ -35,7 +35,7 @@ export function exportContainerGrid(containerGrid, id) {
     rows: containerGrid.dimensions.rows,
     columns: containerGrid.dimensions.columns,
     name: containerGrid.name || null,
-    type: containerGrid.subType || null,
+    containerType: containerGrid.subType || null,
     barcode: containerGrid.barcode || null,
     data: [],
   };
