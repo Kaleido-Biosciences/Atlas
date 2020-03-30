@@ -1,3 +1,4 @@
+import { exportContainers } from './containerFunctions';
 import { createComponent } from '../../models';
 import { DEFAULT_COMPONENT_COLOR_CODES } from '../../constants';
 
@@ -51,9 +52,13 @@ function getDescription(timepoints) {
   return timepointStrings.join(', ');
 }
 
-export { createComponent } from '../../models';
-export { createEditorComponentFromKaptureData };
-export { createContainerCollection } from '../../models';
-export { createContainer } from '../../models';
-export { createContainerGrid } from '../../models';
-export { containerFunctions } from '../../models';
+export {
+  createComponent,
+  createContainerCollection,
+  createContainer,
+  createContainerGrid,
+  createGrid,
+  createContainersForGrid,
+  addContainersToGrid,
+} from '../../models';
+export { createEditorComponentFromKaptureData, exportContainers };

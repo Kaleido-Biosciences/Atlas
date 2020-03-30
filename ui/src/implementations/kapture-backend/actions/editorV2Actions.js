@@ -6,8 +6,11 @@ import {
 import {
   createContainer,
   createContainerGrid,
+  createGrid,
   createComponent,
-  containerFunctions,
+  createContainersForGrid,
+  addContainersToGrid,
+  exportContainers,
 } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -50,8 +53,6 @@ const {
   selectActivityName,
 } = selectors;
 
-const { exportContainers } = containerFunctions;
-
 const wrapWithChangeHandler = fn => {
   return function() {
     return async (dispatch, getState) => {
@@ -83,8 +84,8 @@ export const loadContainerCollection = (status, version) => {
     const collection = await dispatch(getContainerCollection(status, version));
     console.log('collection', collection);
     dispatch(_setContainerCollection({ collection }));
-    const importData = await importContainerCollection(collection);
-    console.log(importData);
+    //const importData = await importContainerCollection(collection);
+    //console.log(importData);
     // if (containers.length) {
     //   // TODO need a set containers action
     //   // dispatch(_setPlates({ plates }));
@@ -99,12 +100,19 @@ export const loadContainerCollection = (status, version) => {
 export const addNewContainerGrid = wrapWithChangeHandler(
   ({ containerGrid: c }) => {
     return (dispatch, getState) => {
-      const containerGrid = createContainerGrid(
-        null,
-        c.type,
-        null,
-        c.dimensions
-      );
+      const grid = createGrid(c.dimensions);
+      const containerGrid = createContainerGrid({
+        subType: c.type,
+        dimensions: c.dimensions,
+        grid: grid,
+      });
+      if (c.type === 'Plate') {
+        const containerPositions = createContainersForGrid(
+          c.dimensions,
+          'PlateWell'
+        );
+        addContainersToGrid(containerGrid, containerPositions);
+      }
       dispatch(_addContainer({ container: containerGrid }));
     };
   }
@@ -112,7 +120,7 @@ export const addNewContainerGrid = wrapWithChangeHandler(
 
 export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
   return (dispatch, getState) => {
-    const container = createContainer(null, c.type);
+    const container = createContainer({ subType: c.type });
     dispatch(_addContainer({ container: container }));
   };
 });

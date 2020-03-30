@@ -1,20 +1,23 @@
 import uuidv1 from 'uuid/v1';
 
-export const createContainer = (
-  id,
-  subType,
-  barcode,
-  components,
-  attributes
-) => {
+export const createContainer = ({
+  id = null,
+  subType = null,
+  name = null,
+  displayName = null,
+  barcode = null,
+  components = [],
+  attributes = [],
+}) => {
   return {
-    id: uuidv1(),
+    id: id || uuidv1(),
     type: 'Container',
     subType,
-    name: null,
+    name,
+    displayName,
     barcode,
-    components: components || [],
-    attributes: attributes || [],
+    components,
+    attributes,
     selected: false,
   };
 };

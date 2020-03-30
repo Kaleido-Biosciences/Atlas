@@ -3,50 +3,72 @@ import uuidv1 from 'uuid/v1';
 import { CONTAINER_ROW_HEADERS } from '../constants';
 import { createContainer } from './container';
 
-export const createContainerGrid = (
-  id,
-  subType,
-  barcode,
-  dimensions,
-  attributes,
-  positionComponents
-) => {
+export const createContainerGrid = ({
+  id = null,
+  subType = null,
+  name = null,
+  displayName = null,
+  barcode = null,
+  dimensions = null,
+  grid = null,
+  attributes = [],
+}) => {
+  return {
+    id: id || uuidv1(),
+    type: 'ContainerGrid',
+    subType,
+    name,
+    displayName,
+    barcode,
+    dimensions,
+    grid,
+    attributes,
+  };
+};
+
+export const createGrid = dimensions => {
   const grid = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
     const row = [];
     const rowLetter = CONTAINER_ROW_HEADERS[i];
     for (let j = 0; j < columns; j++) {
-      const location = {
+      const position = {
         row: rowLetter,
         column: j + 1,
         container: null,
       };
-      if (subType === 'Plate') {
-        if (positionComponents) {
-          const components = positionComponents[location.row + location.column];
-          location.container = createContainer(
-            null,
-            'PlateWell',
-            null,
-            components
-          );
-        } else {
-          location.container = createContainer(null, 'PlateWell', null);
-        }
-      }
-      row.push(location);
+      row.push(position);
     }
     grid.push(row);
   }
-  return {
-    id: uuidv1(),
-    type: 'ContainerGrid',
-    subType,
-    name: null,
-    barcode,
-    dimensions,
-    grid,
-    attributes: attributes || [],
-  };
+  return grid;
+};
+
+export const createContainersForGrid = (dimensions, containerType) => {
+  const positions = [];
+  const { rows, columns } = dimensions;
+  for (let i = 0; i < rows; i++) {
+    const row = [];
+    const rowLetter = CONTAINER_ROW_HEADERS[i];
+    for (let j = 0; j < columns; j++) {
+      const position = {
+        row: rowLetter,
+        column: j + 1,
+        container: createContainer({ subType: containerType }),
+      };
+      positions.push(position);
+    }
+  }
+  return positions;
+};
+
+export const addContainersToGrid = (containerGrid, containerPositions) => {
+  containerPositions.forEach(containerPosition => {
+    const rowIndex = CONTAINER_ROW_HEADERS.findIndex(
+      rowLetter => rowLetter === containerPosition.row
+    );
+    containerGrid.grid[rowIndex][containerPosition.column - 1].container =
+      containerPosition.container;
+  });
 };

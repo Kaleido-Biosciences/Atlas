@@ -1,7 +1,9 @@
-import * as containerFunctions from './containerFunctions';
-
 export { createContainerCollection } from './containerCollection';
 export { createContainer } from './container';
-export { createContainerGrid } from './containerGrid';
+export {
+  createContainerGrid,
+  createGrid,
+  createContainersForGrid,
+  addContainersToGrid,
+} from './containerGrid';
 export { createComponent } from './component';
-export { containerFunctions };
