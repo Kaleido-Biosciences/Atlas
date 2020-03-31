@@ -39,6 +39,7 @@ const {
   deleteContainer: _deleteContainer,
   setBarcode: _setBarcode,
   setSaveStatus: _setSaveStatus,
+  setContainers: _setContainers,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -80,20 +81,17 @@ export const {
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
-    //try {
-    const collection = await dispatch(getContainerCollection(status, version));
-    console.log('collection', collection);
-    dispatch(_setContainerCollection({ collection }));
-    //const importData = await importContainerCollection(collection);
-    //console.log(importData);
-    // if (containers.length) {
-    //   // TODO need a set containers action
-    //   // dispatch(_setPlates({ plates }));
-    // }
-    dispatch(_setInitialized({ initialized: true }));
-    //} catch (error) {
-    //dispatch(_setInitializationError({ error: error.message }));
-    //}
+    try {
+      const collection = await dispatch(
+        getContainerCollection(status, version)
+      );
+      dispatch(_setContainerCollection({ collection }));
+      const importedContainers = await importContainerCollection(collection);
+      dispatch(_setContainers({ containers: importedContainers }));
+      dispatch(_setInitialized({ initialized: true }));
+    } catch (error) {
+      dispatch(_setInitializationError({ error: error.message }));
+    }
   };
 };
 

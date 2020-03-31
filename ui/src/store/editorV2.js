@@ -37,6 +37,15 @@ const editorV2 = createSlice({
     resetState(state, action) {
       Object.assign(state, initialState);
     },
+    setContainers(state, action) {
+      state.containers = action.payload.containers;
+      if (state.containers.length) {
+        state.activeContainerId = state.containers[0].id;
+      } else {
+        state.activeContainerId = null;
+      }
+      assignContainerNames(state.containers);
+    },
     setContainerCollection(state, action) {
       state.containerCollection = action.payload.collection;
     },

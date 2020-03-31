@@ -49,7 +49,6 @@ export const createContainersForGrid = (dimensions, containerType) => {
   const positions = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
-    const row = [];
     const rowLetter = CONTAINER_ROW_HEADERS[i];
     for (let j = 0; j < columns; j++) {
       const position = {

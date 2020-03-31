@@ -1,4 +1,8 @@
-import { exportContainers } from './containerFunctions';
+import {
+  exportContainers,
+  importContainer,
+  importContainerGrid,
+} from './containerFunctions';
 import { createComponent } from '../../models';
 import { DEFAULT_COMPONENT_COLOR_CODES } from '../../constants';
 
@@ -61,4 +65,9 @@ export {
   createContainersForGrid,
   addContainersToGrid,
 } from '../../models';
-export { createEditorComponentFromKaptureData, exportContainers };
+export {
+  createEditorComponentFromKaptureData,
+  exportContainers,
+  importContainer,
+  importContainerGrid,
+};

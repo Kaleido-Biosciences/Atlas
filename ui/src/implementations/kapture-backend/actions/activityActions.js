@@ -10,9 +10,8 @@ import {
 import { api } from '../api';
 import {
   createContainerCollection,
-  createContainer,
-  createContainerGrid,
-  createEditorComponentFromKaptureData,
+  importContainer,
+  importContainerGrid,
 } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -131,7 +130,6 @@ export const getContainerCollection = (status, timestamp) => {
 };
 
 export const importContainerCollection = async containerCollection => {
-  console.log(containerCollection);
   const kaptureComponents = await fetchComponentsForContainers(
     containerCollection.data.plateMaps
   );
@@ -139,61 +137,14 @@ export const importContainerCollection = async containerCollection => {
     container => {
       let importedContainer;
       if (container.rows === 1 && container.columns === 1) {
-        const editorComponents = container.data[0].components.map(component => {
-          const kaptureComponent = kaptureComponents[component.type].find(
-            kaptureComponent => kaptureComponent.id === component.id
-          );
-          return createEditorComponentFromKaptureData(
-            kaptureComponent,
-            component.type,
-            component.timepoints
-          );
-        });
-        importedContainer = createContainer(
-          null,
-          container.containerType,
-          container.barcode,
-          editorComponents,
-          null
-        );
+        importedContainer = importContainer(container, kaptureComponents);
       } else if (container.rows > 1 && container.columns > 1) {
-        const positionComponents = {};
-        container.data.forEach(position => {
-          const location = position.row + position.col;
-          const components = position.components.map(component => {
-            const kaptureComponent = kaptureComponents[component.type].find(
-              kaptureComponent => kaptureComponent.id === component.id
-            );
-            return createEditorComponentFromKaptureData(
-              kaptureComponent,
-              component.type,
-              component.timepoints
-            );
-          });
-          positionComponents[location] = components;
-        });
-        // const positions = container.grid.flat();
-        // positions.forEach(position => {
-        //   const location = position.row + position.col;
-        //   const clonedComponents = cloneComponents(
-        //     position.container.components,
-        //     componentTypesToClone
-        //   );
-        //   positionComponents[location] = clonedComponents;
-        // });
-        importedContainer = createContainerGrid(
-          null,
-          container.containerType,
-          container.barcode,
-          { rows: container.rows, columns: container.columns },
-          null,
-          positionComponents
-        );
+        importedContainer = importContainerGrid(container, kaptureComponents);
       }
       return importedContainer;
     }
   );
-  console.log('importedContainers', importedContainers);
+  return importedContainers;
 };
 
 async function fetchComponentsForContainers(containers) {
@@ -286,38 +237,38 @@ async function fetchComponentsForContainers(containers) {
 //   };
 // };
 
-const importPlates = async (plates, dispatch) => {
-  if (plates) {
-    const components = await fetchComponentsForPlates(plates);
-    const statePlates = plates.map(plate => {
-      let wellIndex = 0;
-      const stateWells = plate.data.map(rows => {
-        return rows.map(well => {
-          const stateComponents = well.components.map(component => {
-            const lookup = components[component.type];
-            const data = lookup.find(data => data.id === component.id);
-            const stateComponent = createComponent(data, component.type);
-            stateComponent.timepoints = component.timepoints;
-            return stateComponent;
-          });
-          const stateWell = createWell(
-            well.id,
-            well.id,
-            wellIndex,
-            stateComponents
-          );
-          wellIndex++;
-          return stateWell;
-        });
-      });
-      return createPlate(stateWells, plate.id, plate.barcode);
-    });
-    if (statePlates.length) {
-      statePlates[0].active = true;
-    }
-    return statePlates;
-  } else return null;
-};
+// const importPlates = async (plates, dispatch) => {
+//   if (plates) {
+//     const components = await fetchComponentsForPlates(plates);
+//     const statePlates = plates.map(plate => {
+//       let wellIndex = 0;
+//       const stateWells = plate.data.map(rows => {
+//         return rows.map(well => {
+//           const stateComponents = well.components.map(component => {
+//             const lookup = components[component.type];
+//             const data = lookup.find(data => data.id === component.id);
+//             const stateComponent = createComponent(data, component.type);
+//             stateComponent.timepoints = component.timepoints;
+//             return stateComponent;
+//           });
+//           const stateWell = createWell(
+//             well.id,
+//             well.id,
+//             wellIndex,
+//             stateComponents
+//           );
+//           wellIndex++;
+//           return stateWell;
+//         });
+//       });
+//       return createPlate(stateWells, plate.id, plate.barcode);
+//     });
+//     if (statePlates.length) {
+//       statePlates[0].active = true;
+//     }
+//     return statePlates;
+//   } else return null;
+// };
 
 async function fetchComponentsForPlates(plates) {
   const components = {
