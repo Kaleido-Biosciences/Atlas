@@ -13,7 +13,6 @@ const {
   selectActivityPublishStatus,
   selectActivityPublishedContainerCollectionDetails,
   selectActivityContainerCollectionsStale,
-  selectEditorInitialized,
   selectPrintInitialized,
   selectEditorV2Initialized,
 } = selectors;
