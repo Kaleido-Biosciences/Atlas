@@ -40,6 +40,7 @@ const exportContainers = containers => {
     }
     return exported;
   });
+  console.log(exportedContainers);
   return exportedContainers;
 };
 
@@ -72,7 +73,7 @@ const exportContainerGrid = (containerGrid, id) => {
   if (containerGrid.grid && containerGrid.grid.length) {
     const positions = containerGrid.grid.flat();
     positions.forEach(position => {
-      if (position.container && position.container.components.length) {
+      if (position.container) {
         exportedContainerGrid.data.push(
           exportContainerData(position.container, position.row, position.column)
         );
