@@ -84,7 +84,7 @@ export class ApplyTool extends Component {
 ApplyTool.propTypes = {
   toolComponents: PropTypes.array.isRequired,
   toolComponentsValid: PropTypes.bool.isRequired,
-  selectedContainersSummary: PropTypes.array.isRequired,
+  selectedContainersSummary: PropTypes.object.isRequired,
   activeContainerId: PropTypes.string,
   onApplyClick: PropTypes.func,
   onAddAttribute: PropTypes.func,

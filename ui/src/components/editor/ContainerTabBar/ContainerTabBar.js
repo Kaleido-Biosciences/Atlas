@@ -128,7 +128,7 @@ export class ContainerTabBar extends Component {
 ContainerTabBar.propTypes = {
   tabs: PropTypes.array,
   activeContainerId: PropTypes.string,
-  componentTypes: PropTypes.object,
+  componentTypes: PropTypes.array,
   onTabClick: PropTypes.func,
   onClone: PropTypes.func,
   onDelete: PropTypes.func,

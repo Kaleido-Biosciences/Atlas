@@ -76,6 +76,6 @@ export class CloneContainerForm extends Component {
 }
 
 CloneContainerForm.propTypes = {
-  componentTypes: PropTypes.object,
+  componentTypes: PropTypes.array,
   onSubmit: PropTypes.func,
 };
