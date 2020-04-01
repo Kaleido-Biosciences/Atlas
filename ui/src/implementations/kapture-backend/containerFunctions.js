@@ -24,16 +24,15 @@ const createEditorComponentFromKaptureData = (
       return Object.assign({}, timepoint);
     }),
   };
-  return createComponent(
+  return createComponent({
     id,
     type,
     displayName,
     description,
     options,
-    null,
     color,
-    kaptureData
-  );
+    data: kaptureData,
+  });
 };
 
 const exportContainers = containers => {
@@ -46,7 +45,6 @@ const exportContainers = containers => {
     }
     return exported;
   });
-  console.log(exportedContainers);
   return exportedContainers;
 };
 
@@ -120,8 +118,8 @@ function exportContainerData(container, row, column) {
   return containerData;
 }
 
-const importContainer = (importData, kaptureComponents) => {
-  const editorComponents = importData.data[0].components.map(component => {
+const importContainer = (containerData, kaptureComponents) => {
+  const editorComponents = containerData.components.map(component => {
     const kaptureComponent = kaptureComponents[component.type].find(
       kaptureComponent => kaptureComponent.id === component.id
     );
@@ -131,10 +129,31 @@ const importContainer = (importData, kaptureComponents) => {
       component.timepoints
     );
   });
+  const editorAttributes = containerData.attributes.map(
+    ({ key, value, value_type, value_unit }) => {
+      const id = value ? (key + '_' + value).replace(/ /g, '_') : key;
+      const unit = value ? (value_unit ? value_unit : '') : '';
+      const displayName = value ? key + '(' + value + unit + ')' : key;
+      return createComponent({
+        id,
+        type: COMPONENT_TYPE_ATTRIBUTE,
+        displayName,
+        data: {
+          id: id,
+          name: displayName,
+          key: key,
+          value: value,
+          value_type: value_type,
+          value_unit: value_unit,
+        },
+      });
+    }
+  );
+  const containerComponents = editorComponents.concat(editorAttributes);
   return createContainer({
-    subtype: importData.containerType,
-    barcode: importData.barcode,
-    components: editorComponents,
+    subtype: containerData.containerType,
+    barcode: containerData.barcode,
+    components: containerComponents,
   });
 };
 
@@ -149,55 +168,14 @@ const importContainerGrid = (importData, kaptureComponents) => {
     dimensions: { rows: importData.rows, columns: importData.columns },
     grid,
   });
-  if (importData.containerType === 'Plate') {
-    const containerPositions = importData.data.map(containerData => {
-      const components = containerData.components.map(component => {
-        const kaptureComponent = kaptureComponents[component.type].find(
-          kaptureComponent => kaptureComponent.id === component.id
-        );
-        return createEditorComponentFromKaptureData(
-          kaptureComponent,
-          component.type,
-          component.timepoints
-        );
-      });
-      return {
-        row: containerData.row,
-        column: containerData.col,
-        container: createContainer({
-          name: containerData.name,
-          subtype: containerData.containerType,
-          barcode: containerData.barcode,
-          components,
-        }),
-      };
-    });
-    addContainersToGrid(containerGrid, containerPositions);
-  } else if (importData.containerType === 'Rack') {
-    const containerPositions = importData.data.map(containerData => {
-      const components = containerData.components.map(component => {
-        const kaptureComponent = kaptureComponents[component.type].find(
-          kaptureComponent => kaptureComponent.id === component.id
-        );
-        return createEditorComponentFromKaptureData(
-          kaptureComponent,
-          component.type,
-          component.timepoints
-        );
-      });
-      return {
-        row: containerData.row,
-        column: containerData.col,
-        container: createContainer({
-          name: containerData.name,
-          subtype: containerData.containerType,
-          barcode: containerData.barcode,
-          components,
-        }),
-      };
-    });
-    addContainersToGrid(containerGrid, containerPositions);
-  }
+  const containerPositions = importData.data.map(containerData => {
+    return {
+      row: containerData.row,
+      column: containerData.col,
+      container: importContainer(containerData, kaptureComponents),
+    };
+  });
+  addContainersToGrid(containerGrid, containerPositions);
   return containerGrid;
 };
 

@@ -309,16 +309,16 @@ function cloneComponents(components, componentTypesToClone) {
         );
       }
       clonedComponents.push(
-        createComponent(
-          component.id,
-          component.type,
-          component.displayName,
-          component.description,
-          clonedOptions,
-          component.tooltip,
-          component.color,
-          component.data
-        )
+        createComponent({
+          id: component.id,
+          type: component.type,
+          displayName: component.displayName,
+          description: component.description,
+          options: clonedOptions,
+          tooltip: component.tooltip,
+          color: component.color,
+          data: component.data,
+        })
       );
     }
   });
