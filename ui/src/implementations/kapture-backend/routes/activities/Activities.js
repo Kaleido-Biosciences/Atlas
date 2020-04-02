@@ -126,7 +126,7 @@ export class Activities extends Component {
       );
     } else if (initialized) {
       const tabBarComponent = <ContainerTabBar />;
-      const plateComponent = <ActiveContainer />;
+      const containerComponent = <ActiveContainer />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;
       if (this.matchEditorPath() && editorInitialized) {
@@ -155,7 +155,7 @@ export class Activities extends Component {
                 return (
                   <EditorV2
                     tabBarComponent={tabBarComponent}
-                    plateComponent={plateComponent}
+                    containerComponent={containerComponent}
                     componentListComponent={componentListComponent}
                     toolsComponent={toolsComponent}
                     {...routeProps}

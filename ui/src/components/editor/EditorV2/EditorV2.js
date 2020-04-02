@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import { Loader, Message } from 'semantic-ui-react';
 
-import { NoPlatesMessage } from '../Plate';
+import { EditorEmptyState } from './EditorEmptyState';
 import styles from './EditorV2.module.css';
 
 export class EditorV2 extends Component {
@@ -22,9 +22,9 @@ export class EditorV2 extends Component {
       loading,
       error,
       initialized,
-      noPlates,
+      showEmptyState,
       tabBarComponent,
-      plateComponent,
+      containerComponent,
       componentListComponent,
       toolsComponent,
     } = this.props;
@@ -63,12 +63,7 @@ export class EditorV2 extends Component {
                   {tabBarComponent}
                 </div>
                 <div className={styles.plateContainer}>
-                  {plateComponent}
-                  {/* {noPlates ? (
-                    <NoPlatesMessage onAddClick={this.props.onAddClick} />
-                  ) : (
-                    plateComponent
-                  )} */}
+                  {showEmptyState ? <EditorEmptyState /> : containerComponent}
                 </div>
               </div>
               <div className={styles.plateSidebar}>
@@ -95,12 +90,12 @@ EditorV2.propTypes = {
   loading: PropTypes.bool,
   initialized: PropTypes.bool,
   error: PropTypes.string,
-  noPlates: PropTypes.bool,
+  showEmptyState: PropTypes.bool,
   onMount: PropTypes.func,
   onUnmount: PropTypes.func,
   onAddClick: PropTypes.func,
   tabBarComponent: PropTypes.object,
-  plateComponent: PropTypes.object,
+  containerComponent: PropTypes.object,
   componentListComponent: PropTypes.object,
   toolsComponent: PropTypes.object,
 };

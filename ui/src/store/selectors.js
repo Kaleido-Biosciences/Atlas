@@ -100,6 +100,12 @@ export const selectEditorV2InitializationError = createSelector([
   'editorV2.initializationError',
 ]);
 export const selectEditorV2Containers = createSelector(['editorV2.containers']);
+export const selectEditorV2ContainerCount = createSelector(
+  ['editorV2.containers'],
+  containers => {
+    return containers.length;
+  }
+);
 export const selectEditorV2ActiveContainerId = createSelector([
   'editorV2.activeContainerId',
 ]);
