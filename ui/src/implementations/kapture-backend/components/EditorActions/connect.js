@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { EditorActions } from '.EditorActions';
+import { EditorActions } from './EditorActions';
 import { selectors } from '../../store';
 import { actions } from '../../actions';
 const { selectEditorV2SaveStatus, selectEditorV2LastSaveTime } = selectors;

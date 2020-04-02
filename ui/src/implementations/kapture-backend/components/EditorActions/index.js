@@ -1,1 +1,1 @@
-export { EditorActions } from './EditorActions';
+export { EditorActions } from './connect';
