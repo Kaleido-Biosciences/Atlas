@@ -3,6 +3,7 @@
   width: 100%;
   background-color: #f3f3f3;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .container:global(.selected) {
