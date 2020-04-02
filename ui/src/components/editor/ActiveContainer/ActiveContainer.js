@@ -33,9 +33,23 @@ export class ActiveContainer extends Component {
     );
   }
   renderContainer(container) {
+    const { size, padding } = this.props.settings.containerSize;
+    const paddingStyle = {
+      height: size + 'px',
+      width: size + 'px',
+      padding: padding + 'px',
+    };
+    const borderStyle = {
+      borderWidth: padding + 'px',
+    };
     return (
-      <div className={styles.containerWrapper}>
-        <Container container={container} onClick={this.handleContainerClick} />
+      <div className={styles.paddingContainer} style={paddingStyle}>
+        <div className={styles.borderContainer} style={borderStyle}>
+          <Container
+            container={container}
+            onClick={this.handleContainerClick}
+          />
+        </div>
       </div>
     );
   }

@@ -14,3 +14,15 @@
   width: 200px;
   padding: 1em;
 }
+
+.paddingContainer {
+  flex-shrink: 0;
+  padding: 5px;
+}
+
+.borderContainer {
+  height: 100%;
+  width: 100%;
+  border-color: #f3f3f3;
+  border-style: solid;
+}
