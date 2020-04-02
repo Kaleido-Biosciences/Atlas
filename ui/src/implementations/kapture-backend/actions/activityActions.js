@@ -1,6 +1,6 @@
 import bigInt from 'big-integer';
 
-import { activityActions, plateFunctions, selectors } from '../store';
+import { activityActions, selectors } from '../store';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
@@ -12,6 +12,7 @@ import {
   createContainerCollection,
   importContainer,
   importContainerGrid,
+  exportContainers,
 } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -24,10 +25,8 @@ import {
 const {
   selectActivityName,
   selectActivityContainerCollections,
-  selectEditorPlates,
+  selectEditorV2Containers,
 } = selectors;
-
-const { exportPlates } = plateFunctions;
 
 const {
   setInitialized: _setInitialized,
@@ -118,11 +117,13 @@ export const publishActivityPlates = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishStatus({ status: REQUEST_PENDING }));
     const activityName = selectActivityName(getState());
-    const exportedPlates = exportPlates(selectEditorPlates(getState()));
+    const exportedContainers = exportContainers(
+      selectEditorV2Containers(getState())
+    );
     try {
       const data = await api.publishExperimentPlates(
         activityName,
-        exportedPlates
+        exportedContainers
       );
       dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));
       dispatch(_setPublishedContainerCollectionDetails(data));

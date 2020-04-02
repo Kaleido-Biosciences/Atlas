@@ -9,7 +9,7 @@ export { PlateTabBar } from './PlateTabBarConnected';
 export { Plate } from './PlateConnected';
 export { ComponentList } from './ComponentListConnected';
 export { Tools } from './ToolsConnected';
-export { EditorActions } from './EditorActionsConnected';
 export { EditorV2 } from './EditorV2Connected';
 export { ContainerTabBar } from './ContainerTabBarConnected';
 export { ActiveContainer } from './ActiveContainerConnected';
+export { EditorActions } from './EditorActions';

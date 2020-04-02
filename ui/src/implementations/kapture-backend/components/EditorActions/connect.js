@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
-import { EditorActions } from '../../../components';
-import { selectors } from '../store';
-import { actions } from '../actions';
+import { EditorActions } from '.EditorActions';
+import { selectors } from '../../store';
+import { actions } from '../../actions';
 const { selectEditorV2SaveStatus, selectEditorV2LastSaveTime } = selectors;
 const { addBarcodes } = actions.editorV2;
 

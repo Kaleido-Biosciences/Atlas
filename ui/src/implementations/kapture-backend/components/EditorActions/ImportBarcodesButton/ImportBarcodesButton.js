@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Message, Button, TextArea } from 'semantic-ui-react';
 
-import { PopupButton } from '../../../ui/PopupButton';
+import { PopupButton } from '../../../../../components';
 import styles from './ImportBarcodesButton.module.css';
 
 const initialState = {

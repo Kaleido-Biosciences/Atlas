@@ -361,16 +361,13 @@ function findContainerById(containers, containerId) {
 }
 
 function transformToolComponent({ id, displayName, type, data, timepoints }) {
-  return createComponent(
+  return createComponent({
     id,
     type,
     displayName,
-    null,
-    { timepoints },
-    null,
-    null,
-    data
-  );
+    options: { timepoints },
+    data,
+  });
 }
 
 function setComponentDescription(component) {
