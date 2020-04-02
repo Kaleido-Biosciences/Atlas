@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { Settings } from './Settings';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
 import { Grid } from './Grid';
@@ -46,13 +45,11 @@ export class ContainerGrid extends Component {
     }
   };
   render() {
-    const { containerGrid, settings, onSettingsChange } = this.props;
+    const { containerGrid, settings } = this.props;
     return (
       <div className={styles.containerGrid}>
         <div className={styles.topHeader}>
-          <div className={styles.cornerCell}>
-            <Settings settings={settings} onChange={onSettingsChange} />
-          </div>
+          <div className={styles.cornerCell}></div>
           <ColumnHeader
             ref={this.columnHeaderRef}
             numberOfColumns={containerGrid.grid[0].length}
@@ -87,7 +84,6 @@ export class ContainerGrid extends Component {
 ContainerGrid.propTypes = {
   containerGrid: PropTypes.object,
   settings: PropTypes.object,
-  onSettingsChange: PropTypes.func,
   onAddContainer: PropTypes.func,
   onClick: PropTypes.func,
 };

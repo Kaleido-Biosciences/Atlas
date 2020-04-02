@@ -21,12 +21,11 @@ export class ActiveContainer extends Component {
     }
   };
   renderContainerGrid(containerGrid) {
-    const { settings, onSettingsChange } = this.props;
+    const { settings } = this.props;
     return (
       <ContainerGrid
         containerGrid={containerGrid}
         settings={settings}
-        onSettingsChange={onSettingsChange}
         onAddContainer={this.handleAddContainer}
         onClick={this.handleContainerClick}
       />
@@ -59,6 +58,8 @@ export class ActiveContainer extends Component {
       barcodes,
       onBarcodeAdd,
       onBarcodeSelect,
+      settings,
+      onSettingsChange,
     } = this.props;
     if (activeContainer) {
       return (
@@ -70,6 +71,8 @@ export class ActiveContainer extends Component {
               barcodes={barcodes}
               onBarcodeAdd={onBarcodeAdd}
               onBarcodeSelect={onBarcodeSelect}
+              settings={settings}
+              onSettingsChange={onSettingsChange}
             />
           </div>
           <div className={styles.bodyContainer}>
@@ -87,12 +90,11 @@ export class ActiveContainer extends Component {
 
 ActiveContainer.propTypes = {
   activeContainer: PropTypes.object,
-  settings: PropTypes.object.isRequired,
-  barcodes: PropTypes.array.isRequired,
-  onClick: PropTypes.func,
-  onSettingsChange: PropTypes.func,
-  onBarcodeAdd: PropTypes.func,
-  onBarcodeSelect: PropTypes.func,
-  onAddContainer: PropTypes.func,
   onContainerClick: PropTypes.func,
+  onAddContainer: PropTypes.func,
+  barcodes: PropTypes.array.isRequired,
+  onBarcodeSelect: PropTypes.func,
+  onBarcodeAdd: PropTypes.func,
+  settings: PropTypes.object.isRequired,
+  onSettingsChange: PropTypes.func,
 };

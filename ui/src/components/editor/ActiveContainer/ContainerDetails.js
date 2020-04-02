@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import memoize from 'memoize-one';
 
+import { Settings } from '../Settings';
 import styles from './ContainerDetails.module.css';
 
 export class ContainerDetails extends Component {
@@ -25,7 +26,12 @@ export class ContainerDetails extends Component {
     }
   };
   render() {
-    const { containerBarcode, barcodes } = this.props;
+    const {
+      containerBarcode,
+      barcodes,
+      settings,
+      onSettingsChange,
+    } = this.props;
     let options = [];
     if (barcodes.length) {
       options = this.getOptions(barcodes);
@@ -47,6 +53,9 @@ export class ContainerDetails extends Component {
             value={containerBarcode}
           />
         </div>
+        <div className={styles.settings}>
+          <Settings settings={settings} onChange={onSettingsChange} />
+        </div>
       </div>
     );
   }
@@ -58,4 +67,6 @@ ContainerDetails.propTypes = {
   barcodes: PropTypes.array.isRequired,
   onBarcodeAdd: PropTypes.func,
   onBarcodeSelect: PropTypes.func,
+  settings: PropTypes.object,
+  onSettingsChange: PropTypes.func,
 };

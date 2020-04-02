@@ -27,8 +27,8 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddContainer: addNewContainerToContainerGrid,
   onContainerClick: handleContainerClick,
+  onAddContainer: addNewContainerToContainerGrid,
   onBarcodeSelect: setBarcode,
   onBarcodeAdd: addBarcodes,
   onSettingsChange: setSettings,

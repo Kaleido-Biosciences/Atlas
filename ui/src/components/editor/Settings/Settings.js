@@ -32,14 +32,21 @@ export class Settings extends Component {
     const size = containerSize.size;
     return (
       <Popup
-        position="right center"
+        position="bottom center"
         on="click"
-        trigger={<Icon name="setting" className={styles.settingsIcon} />}
+        trigger={
+          <Icon
+            name="setting"
+            className={styles.settingsIcon}
+            title="Settings"
+          />
+        }
         className={styles.settings}
+        pinned={true}
       >
         <Form>
           <Form.Group inline>
-            <label>Well Size</label>
+            <label>Container Size</label>
             <Form.Radio
               label="Small"
               value="small"
