@@ -77,6 +77,7 @@ export const {
   setActiveContainerId,
   addBarcodes,
   setSettings,
+  resetState: resetEditorV2,
 } = editorV2Actions;
 
 export const loadContainerCollection = (status, version) => {

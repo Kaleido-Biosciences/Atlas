@@ -5,7 +5,7 @@ import { EditorV2 } from '../../../components';
 import { selectors } from '../store';
 import { actions } from '../actions';
 
-const { loadContainerCollection } = actions.editorV2;
+const { loadContainerCollection, resetEditorV2 } = actions.editorV2;
 
 const {
   selectEditorV2Initialized,
@@ -34,6 +34,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
+  onUnmount: resetEditorV2,
 };
 
 const connected = connect(mapState, mapDispatch)(EditorV2);
