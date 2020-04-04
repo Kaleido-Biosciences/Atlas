@@ -7,9 +7,9 @@ import { Container } from '../Container';
 import styles from './ActiveContainer.module.css';
 
 export class ActiveContainer extends Component {
-  handleAddContainer = ({ containerGridId, position, type }) => {
+  handleAddContainer = options => {
     if (this.props.onAddContainer) {
-      this.props.onAddContainer(containerGridId, position, type);
+      this.props.onAddContainer(options);
     }
   };
   handleContainerClick = ({ containerId, positions }) => {

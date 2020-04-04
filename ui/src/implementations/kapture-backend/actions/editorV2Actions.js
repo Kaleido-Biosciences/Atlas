@@ -139,38 +139,10 @@ export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
   };
 });
 
-// export const addNewContainerGrid = wrapWithChangeHandler(
-//   ({ containerGrid: c }) => {
-//     return (dispatch, getState) => {
-//       const grid = createGrid(c.dimensions);
-//       const containerGrid = createContainerGrid({
-//         subtype: c.type,
-//         dimensions: c.dimensions,
-//         grid: grid,
-//       });
-//       if (c.type === 'Plate') {
-//         const containerPositions = createContainersForGrid(
-//           c.dimensions,
-//           'PlateWell'
-//         );
-//         addContainersToGrid(containerGrid, containerPositions);
-//       }
-//       dispatch(_addContainer({ container: containerGrid }));
-//     };
-//   }
-// );
-
-// export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
-//   return (dispatch, getState) => {
-//     const container = createContainer({ subtype: c.type });
-//     dispatch(_addContainer({ container: container }));
-//   };
-// });
-
 export const addNewContainerToContainerGrid = wrapWithChangeHandler(
-  (containerGridId, position, containerSubtype) => {
+  ({ containerGridId, position, containerType }) => {
     return (dispatch, getState) => {
-      const container = createContainer({ subtype: containerSubtype });
+      const container = createContainer({ subtype: containerType });
       dispatch(
         _addContainerToContainerGrid({
           containerGridId,

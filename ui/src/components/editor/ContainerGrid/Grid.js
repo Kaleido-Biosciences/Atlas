@@ -19,12 +19,12 @@ export class Grid extends Component {
   handleAddContainerModalClose = () => {
     this.setState({ addContainerModalOpen: false });
   };
-  handleAddContainer = ({ container }) => {
+  handleAddContainer = ({ containerType }) => {
     if (this.props.onAddContainer) {
       this.props.onAddContainer({
         containerGridId: this.props.containerGrid.id,
         position: this.state.addContainerPosition,
-        type: container.type,
+        containerType,
       });
     }
     this.setState({
