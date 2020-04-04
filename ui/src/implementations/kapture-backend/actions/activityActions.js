@@ -10,7 +10,6 @@ import {
 import { api } from '../api';
 import {
   createContainerCollection,
-  importContainer,
   importContainerGrid,
   exportContainers,
 } from '../models';
@@ -98,16 +97,7 @@ export const importContainerCollection = async containerCollection => {
   );
   const importedContainers = containerCollection.data.plateMaps.map(
     container => {
-      let importedContainer;
-      if (container.rows === 1 && container.columns === 1) {
-        importedContainer = importContainer(
-          container.data[0],
-          kaptureComponents
-        );
-      } else if (container.rows > 1 && container.columns > 1) {
-        importedContainer = importContainerGrid(container, kaptureComponents);
-      }
-      return importedContainer;
+      return importContainerGrid(container, kaptureComponents);
     }
   );
   return importedContainers;
