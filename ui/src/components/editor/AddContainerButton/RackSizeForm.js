@@ -8,22 +8,16 @@ import { ContainerSizeForm } from './ContainerSizeForm';
 export class RackSizeForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { radioOption: '36', dimensions: { rows: 6, columns: 6 } };
-    this.onChange({ dimensions: { rows: 6, columns: 6 } });
+    this.state = { radioOption: '96', dimensions: { rows: 8, columns: 12 } };
+    this.onChange({ dimensions: { rows: 8, columns: 12 } });
   }
   handleRadioOptionChange = (e, { value }) => {
-    if (value === '36') {
+    if (value === '96') {
       this.setState({
         radioOption: value,
-        dimensions: { rows: 6, columns: 6 },
+        dimensions: { rows: 8, columns: 12 },
       });
-      this.onChange({ dimensions: { rows: 6, columns: 6 } });
-    } else if (value === '72') {
-      this.setState({
-        radioOption: value,
-        dimensions: { rows: 6, columns: 12 },
-      });
-      this.onChange({ dimensions: { rows: 6, columns: 12 } });
+      this.onChange({ dimensions: { rows: 8, columns: 12 } });
     } else if (value === 'custom') {
       this.setState({
         radioOption: value,
@@ -34,11 +28,7 @@ export class RackSizeForm extends Component {
   };
   onChange = ({ dimensions }) => {
     if (this.props.onChange) {
-      if (dimensions) {
-        this.props.onChange({ containerGrid: { dimensions, type: 'Rack' } });
-      } else {
-        this.props.onChange({ containerGrid: null });
-      }
+      this.props.onChange({ dimensions });
     }
   };
   render() {
@@ -50,17 +40,10 @@ export class RackSizeForm extends Component {
           <Form.Group inline>
             <label>Select a rack size:</label>
             <Form.Radio
-              label="36 tubes"
+              label="96 tubes"
               name="radioOption"
-              value="36"
-              checked={this.state.radioOption === '36'}
-              onChange={this.handleRadioOptionChange}
-            />
-            <Form.Radio
-              label="72 tubes"
-              name="radioOption"
-              value="72"
-              checked={this.state.radioOption === '72'}
+              value="96"
+              checked={this.state.radioOption === '96'}
               onChange={this.handleRadioOptionChange}
             />
             <Form.Radio

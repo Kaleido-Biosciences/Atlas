@@ -34,11 +34,7 @@ export class PlateSizeForm extends Component {
   };
   onChange = ({ dimensions }) => {
     if (this.props.onChange) {
-      if (dimensions) {
-        this.props.onChange({ containerGrid: { dimensions, type: 'Plate' } });
-      } else {
-        this.props.onChange({ containerGrid: null });
-      }
+      this.props.onChange({ dimensions });
     }
   };
   render() {

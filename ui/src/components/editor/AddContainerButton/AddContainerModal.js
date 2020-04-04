@@ -6,21 +6,27 @@ import { SingleContainerForm } from './SingleContainerForm';
 
 export class AddContainerModal extends Component {
   state = {
-    container: null,
+    containerType: null,
   };
-  handleContainerChange = ({ container }) => {
-    this.setState({ container });
+  handleContainerChange = ({ containerType }) => {
+    this.setState({ containerType });
   };
   handleAddClick = () => {
     if (this.props.onAddClick) {
-      this.props.onAddClick({ container: this.state.container });
+      this.props.onAddClick({
+        containerType: this.state.containerType,
+      });
     }
   };
+  handleClose = () => {
+    this.setState({ containerType: null });
+    if (this.props.onClose) this.props.onClose();
+  };
   render() {
-    const { open, onClose } = this.props;
-    const addDisabled = this.state.container ? false : true;
+    const { open } = this.props;
+    const addDisabled = this.state.containerType ? false : true;
     return (
-      <Modal open={open} onClose={onClose} closeIcon size="small">
+      <Modal open={open} onClose={this.handleClose} closeIcon size="small">
         <Header icon="add circle" content="Add Container" />
         <Modal.Content>
           <SingleContainerForm onChange={this.handleContainerChange} />

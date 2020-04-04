@@ -6,19 +6,21 @@ import { RackSizeForm } from './RackSizeForm';
 
 export class AddRackModal extends Component {
   state = {
-    containerGrid: null,
+    dimensions: null,
   };
-  handleSizeChange = ({ containerGrid }) => {
-    this.setState({ containerGrid });
+  handleSizeChange = ({ dimensions }) => {
+    this.setState({ dimensions });
   };
   handleAddClick = () => {
     if (this.props.onAddClick) {
-      this.props.onAddClick({ containerGrid: this.state.containerGrid });
+      this.props.onAddClick({
+        dimensions: this.state.dimensions,
+      });
     }
   };
   render() {
     const { open, onClose } = this.props;
-    const addDisabled = this.state.containerGrid ? false : true;
+    const addDisabled = this.state.dimensions ? false : true;
     return (
       <Modal open={open} onClose={onClose} closeIcon size="small">
         <Header icon="add circle" content="Add Rack" />

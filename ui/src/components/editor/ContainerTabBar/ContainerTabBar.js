@@ -13,12 +13,10 @@ export class ContainerTabBar extends Component {
   state = {
     cloneModalOpen: false,
     deleteModalOpen: false,
-    containerAdded: false,
   };
-  componentDidUpdate() {
-    if (this.state.containerAdded) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.tabs.length !== this.props.tabs.length) {
       this.scrollbars.scrollLeft(this.scrollbars.getScrollWidth());
-      this.setState({ containerAdded: false });
     }
   }
   setScrollbarsRef = ref => {
@@ -51,18 +49,6 @@ export class ContainerTabBar extends Component {
     }
     this.closeDeleteModal();
   };
-  handleAddContainer = ({ container }) => {
-    if (this.props.onAddContainer) {
-      this.props.onAddContainer({ container });
-      this.setState({ containerAdded: true });
-    }
-  };
-  handleAddContainerGrid = ({ containerGrid }) => {
-    if (this.props.onAddContainerGrid) {
-      this.props.onAddContainerGrid({ containerGrid });
-      this.setState({ containerAdded: true });
-    }
-  };
   renderTabs() {
     const { tabs, onTabClick } = this.props;
     if (tabs && tabs.length) {
@@ -83,13 +69,19 @@ export class ContainerTabBar extends Component {
   }
   render() {
     const { cloneModalOpen, deleteModalOpen } = this.state;
-    const { componentTypes } = this.props;
+    const {
+      componentTypes,
+      onAddPlate,
+      onAddRack,
+      onAddContainer,
+    } = this.props;
     return (
       <div className={styles.containerTabBar}>
         <AddContainerButton
           className={styles.addContainerButton}
-          onAddContainer={this.handleAddContainer}
-          onAddContainerGrid={this.handleAddContainerGrid}
+          onAddPlate={onAddPlate}
+          onAddRack={onAddRack}
+          onAddContainer={onAddContainer}
         />
         <div className={styles.scrollContainer}>
           <Scrollbars
@@ -128,10 +120,11 @@ export class ContainerTabBar extends Component {
 ContainerTabBar.propTypes = {
   tabs: PropTypes.array,
   activeContainerId: PropTypes.string,
-  componentTypes: PropTypes.array,
   onTabClick: PropTypes.func,
-  onClone: PropTypes.func,
-  onDelete: PropTypes.func,
+  onAddPlate: PropTypes.func,
+  onAddRack: PropTypes.func,
   onAddContainer: PropTypes.func,
-  onAddContainerGrid: PropTypes.func,
+  onClone: PropTypes.func,
+  componentTypes: PropTypes.array,
+  onDelete: PropTypes.func,
 };

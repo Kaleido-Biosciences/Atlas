@@ -96,33 +96,76 @@ export const loadContainerCollection = (status, version) => {
   };
 };
 
-export const addNewContainerGrid = wrapWithChangeHandler(
-  ({ containerGrid: c }) => {
-    return (dispatch, getState) => {
-      const grid = createGrid(c.dimensions);
-      const containerGrid = createContainerGrid({
-        subtype: c.type,
-        dimensions: c.dimensions,
-        grid: grid,
-      });
-      if (c.type === 'Plate') {
-        const containerPositions = createContainersForGrid(
-          c.dimensions,
-          'PlateWell'
-        );
-        addContainersToGrid(containerGrid, containerPositions);
-      }
-      dispatch(_addContainer({ container: containerGrid }));
-    };
-  }
-);
-
-export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
+export const addNewPlate = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
-    const container = createContainer({ subtype: c.type });
-    dispatch(_addContainer({ container: container }));
+    const grid = createGrid(dimensions);
+    const containerGrid = createContainerGrid({
+      subtype: 'Plate',
+      dimensions: dimensions,
+      grid: grid,
+    });
+    const containerPositions = createContainersForGrid(dimensions, 'PlateWell');
+    addContainersToGrid(containerGrid, containerPositions);
+    dispatch(_addContainer({ container: containerGrid }));
   };
 });
+
+export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
+  return (dispatch, getState) => {
+    const grid = createGrid(dimensions);
+    const containerGrid = createContainerGrid({
+      subtype: 'Rack',
+      dimensions: dimensions,
+      grid: grid,
+    });
+    dispatch(_addContainer({ container: containerGrid }));
+  };
+});
+
+export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
+  return (dispatch, getState) => {
+    const grid = createGrid({ rows: 1, columns: 1 });
+    const containerGrid = createContainerGrid({
+      subtype: containerType,
+      dimensions: { rows: 1, columns: 1 },
+      grid: grid,
+    });
+    const containerPositions = createContainersForGrid(
+      { rows: 1, columns: 1 },
+      containerType
+    );
+    addContainersToGrid(containerGrid, containerPositions);
+    dispatch(_addContainer({ container: containerGrid }));
+  };
+});
+
+// export const addNewContainerGrid = wrapWithChangeHandler(
+//   ({ containerGrid: c }) => {
+//     return (dispatch, getState) => {
+//       const grid = createGrid(c.dimensions);
+//       const containerGrid = createContainerGrid({
+//         subtype: c.type,
+//         dimensions: c.dimensions,
+//         grid: grid,
+//       });
+//       if (c.type === 'Plate') {
+//         const containerPositions = createContainersForGrid(
+//           c.dimensions,
+//           'PlateWell'
+//         );
+//         addContainersToGrid(containerGrid, containerPositions);
+//       }
+//       dispatch(_addContainer({ container: containerGrid }));
+//     };
+//   }
+// );
+
+// export const addNewContainer = wrapWithChangeHandler(({ container: c }) => {
+//   return (dispatch, getState) => {
+//     const container = createContainer({ subtype: c.type });
+//     dispatch(_addContainer({ container: container }));
+//   };
+// });
 
 export const addNewContainerToContainerGrid = wrapWithChangeHandler(
   (containerGridId, position, containerSubtype) => {

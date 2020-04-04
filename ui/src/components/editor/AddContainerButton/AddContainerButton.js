@@ -28,16 +28,16 @@ export class AddContainerButton extends Component {
       containerModalOpen: false,
     });
   };
-  handleAddContainerGrid = ({ containerGrid }) => {
-    if (this.props.onAddContainerGrid) {
-      this.props.onAddContainerGrid({ containerGrid });
-    }
+  handleAddPlate = ({ dimensions }) => {
+    if (this.props.onAddPlate) this.props.onAddPlate({ dimensions });
     this.closeModals();
   };
-  handleAddContainer = ({ container }) => {
-    if (this.props.onAddContainer) {
-      this.props.onAddContainer({ container });
-    }
+  handleAddRack = ({ dimensions }) => {
+    if (this.props.onAddRack) this.props.onAddRack({ dimensions });
+    this.closeModals();
+  };
+  handleAddContainer = ({ containerType }) => {
+    if (this.props.onAddContainer) this.props.onAddContainer({ containerType });
     this.closeModals();
   };
   render() {
@@ -70,12 +70,12 @@ export class AddContainerButton extends Component {
         <AddPlateModal
           open={plateModalOpen}
           onClose={this.closeModals}
-          onAddClick={this.handleAddContainerGrid}
+          onAddClick={this.handleAddPlate}
         />
         <AddRackModal
           open={rackModalOpen}
           onClose={this.closeModals}
-          onAddClick={this.handleAddContainerGrid}
+          onAddClick={this.handleAddRack}
         />
         <AddContainerModal
           open={containerModalOpen}
@@ -89,6 +89,7 @@ export class AddContainerButton extends Component {
 
 AddContainerButton.propTypes = {
   className: PropTypes.string,
-  onAddContainerGrid: PropTypes.func,
+  onAddPlate: PropTypes.func,
+  onAddRack: PropTypes.func,
   onAddContainer: PropTypes.func,
 };

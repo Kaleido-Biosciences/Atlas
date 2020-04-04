@@ -6,9 +6,7 @@ export class SingleContainerForm extends Component {
   handleChange = (e, { value }) => {
     if (this.props.onChange) {
       this.props.onChange({
-        container: {
-          type: value,
-        },
+        containerType: value,
       });
     }
   };
@@ -32,6 +30,7 @@ SingleContainerForm.propTypes = {
       text: PropTypes.string,
     })
   ),
+  onChange: PropTypes.func,
 };
 
 SingleContainerForm.defaultProps = {

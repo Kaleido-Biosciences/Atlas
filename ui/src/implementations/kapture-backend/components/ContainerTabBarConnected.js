@@ -6,8 +6,9 @@ import { selectors } from '../store';
 import { COMPONENT_TYPES } from '../componentTypes';
 
 const {
+  addNewPlate,
+  addNewRack,
   addNewContainer,
-  addNewContainerGrid,
   setActiveContainerId,
   cloneContainer,
   deleteContainer,
@@ -28,10 +29,11 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onTabClick: setActiveContainerId,
+  onAddPlate: addNewPlate,
+  onAddRack: addNewRack,
+  onAddContainer: addNewContainer,
   onClone: cloneContainer,
   onDelete: deleteContainer,
-  onAddContainer: addNewContainer,
-  onAddContainerGrid: addNewContainerGrid,
 };
 
 const connected = connect(mapState, mapDispatch)(ContainerTabBar);
