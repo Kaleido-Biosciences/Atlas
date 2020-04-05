@@ -10,7 +10,7 @@ const {
   addNewRack,
   addNewContainer,
   setActiveContainerId,
-  cloneContainer,
+  cloneContainerGrid,
   deleteContainer,
 } = actions.editorV2;
 
@@ -32,7 +32,7 @@ const mapDispatch = {
   onAddPlate: addNewPlate,
   onAddRack: addNewRack,
   onAddContainer: addNewContainer,
-  onClone: cloneContainer,
+  onClone: cloneContainerGrid,
   onDelete: deleteContainer,
 };
 

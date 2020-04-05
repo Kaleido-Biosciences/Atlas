@@ -37,7 +37,7 @@ export class ContainerTabBar extends Component {
   handleCloneSubmit = ({ typesToClone }) => {
     if (this.props.onClone) {
       this.props.onClone({
-        containerId: this.props.activeContainerId,
+        containerGridId: this.props.activeContainerId,
         componentTypesToClone: typesToClone,
       });
     }

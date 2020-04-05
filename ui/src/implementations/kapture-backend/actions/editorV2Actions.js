@@ -29,6 +29,7 @@ const {
   setInitializationError: _setInitializationError,
   setContainerCollection: _setContainerCollection,
   addContainer: _addContainer,
+  addContainerGrid: _addContainerGrid,
   addContainerToContainerGrid: _addContainerToContainerGrid,
   setContainerComponents: _setContainerComponents,
   setContainerGridComponents: _setContainerGridComponents,
@@ -50,6 +51,7 @@ const {
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorV2Containers,
+  selectEditorV2ContainerGrids,
   selectEditorV2ActiveContainerId,
   selectActivityName,
 } = selectors;
@@ -262,44 +264,41 @@ export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHan
   }
 );
 
-export const cloneContainer = wrapWithChangeHandler(
-  ({ containerId, componentTypesToClone }) => {
+export const cloneContainerGrid = wrapWithChangeHandler(
+  ({ containerGridId, componentTypesToClone }) => {
     return (dispatch, getState) => {
-      const containers = selectEditorV2Containers(getState());
-      const container = findContainerById(containers, containerId);
-      if (container.type === 'Container') {
-        const clonedComponents = cloneComponents(
-          container.components,
-          componentTypesToClone
-        );
-        const newContainer = createContainer(
-          null,
-          container.subtype,
-          null,
-          clonedComponents
-        );
-        dispatch(_addContainer({ container: newContainer }));
-      } else if (container.type === 'ContainerGrid') {
-        const positionComponents = {};
-        const positions = container.grid.flat();
-        positions.forEach(position => {
-          const location = position.row + position.column;
+      const containerGrids = selectEditorV2ContainerGrids(getState());
+      const containerGrid = findContainerGridById(
+        containerGrids,
+        containerGridId
+      );
+      const containerPositions = [];
+      const positions = containerGrid.grid.flat();
+      positions.forEach(position => {
+        if (position.container) {
           const clonedComponents = cloneComponents(
             position.container.components,
             componentTypesToClone
           );
-          positionComponents[location] = clonedComponents;
-        });
-        const newContainer = createContainerGrid(
-          null,
-          container.subtype,
-          null,
-          container.dimensions,
-          null,
-          positionComponents
-        );
-        dispatch(_addContainer({ container: newContainer }));
-      }
+          const newContainer = createContainer({
+            subtype: position.container.subtype,
+            components: clonedComponents,
+          });
+          containerPositions.push({
+            row: position.row,
+            column: position.column,
+            container: newContainer,
+          });
+        }
+      });
+      const grid = createGrid({ ...containerGrid.dimensions });
+      const newContainerGrid = createContainerGrid({
+        subtype: containerGrid.subtype,
+        dimensions: containerGrid.dimensions,
+        grid,
+      });
+      addContainersToGrid(newContainerGrid, containerPositions);
+      dispatch(_addContainerGrid({ container: newContainerGrid }));
     };
   }
 );
@@ -370,6 +369,10 @@ function applyComponentsToContainer(container, toolComponentsToApply) {
     }
   });
   return sortComponentsByType(containerComponents);
+}
+
+function findContainerGridById(containerGrids, containerId) {
+  return containerGrids.find(containerGrid => containerGrid.id === containerId);
 }
 
 function findContainerById(containers, containerId) {

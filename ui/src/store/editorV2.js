@@ -54,6 +54,11 @@ const editorV2 = createSlice({
       state.activeContainerId = action.payload.container.id;
       assignContainerNames(state.containers);
     },
+    addContainerGrid(state, action) {
+      state.containers.push(action.payload.container);
+      state.activeContainerId = action.payload.container.id;
+      assignContainerNames(state.containers);
+    },
     setActiveContainerId(state, action) {
       state.activeContainerId = action.payload.id;
     },
