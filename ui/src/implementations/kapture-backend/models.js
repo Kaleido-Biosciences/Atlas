@@ -8,8 +8,8 @@ export {
   createComponent,
   createContainerCollection,
   createContainer,
-  createContainerGrid,
   createGrid,
+  createGridData,
   createContainersForGrid,
   addContainersToGrid,
 } from '../../models';

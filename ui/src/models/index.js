@@ -1,9 +1,9 @@
 export { createContainerCollection } from './containerCollection';
 export { createContainer } from './container';
 export {
-  createContainerGrid,
   createGrid,
+  createGridData,
   createContainersForGrid,
   addContainersToGrid,
-} from './containerGrid';
+} from './grid';
 export { createComponent } from './component';

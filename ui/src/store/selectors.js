@@ -53,7 +53,7 @@ export const selectEditorActivePlate = createSelector(
 );
 export const selectEditorSelectedWellsFromActivePlate = createSelector(
   ['editor.plates'],
-  plates => {
+  (plates) => {
     const activePlate = getActivePlate(plates);
     if (activePlate) {
       return getSelectedWells(activePlate);
@@ -79,8 +79,8 @@ export const selectEditorToolComponents = createSelector([
 ]);
 export const selectEditorSelectedToolComponents = createSelector(
   ['editorTools.toolComponents'],
-  toolComponents => {
-    return toolComponents.filter(component => component.selected);
+  (toolComponents) => {
+    return toolComponents.filter((component) => component.selected);
   }
 );
 export const selectEditorClearMode = createSelector(['editorTools.clearMode']);
@@ -99,34 +99,31 @@ export const selectEditorV2Initialized = createSelector([
 export const selectEditorV2InitializationError = createSelector([
   'editorV2.initializationError',
 ]);
-export const selectEditorV2Containers = createSelector(['editorV2.containers']);
-export const selectEditorV2ContainerGrids = createSelector([
-  'editorV2.containers',
-]);
-export const selectEditorV2ContainerCount = createSelector(
-  ['editorV2.containers'],
-  containers => {
-    return containers.length;
+export const selectEditorV2Grids = createSelector(['editorV2.grids']);
+export const selectEditorV2GridCount = createSelector(
+  ['editorV2.grids'],
+  (grids) => {
+    return grids.length;
   }
 );
-export const selectEditorV2ActiveContainerId = createSelector([
-  'editorV2.activeContainerId',
+export const selectEditorV2ActiveGridId = createSelector([
+  'editorV2.activeGridId',
 ]);
-export const selectEditorV2ActiveContainer = createSelector(
-  ['editorV2.containers', 'editorV2.activeContainerId'],
-  (containers, activeId) => {
-    return containers.find(c => c.id === activeId);
+export const selectEditorV2ActiveGrid = createSelector(
+  ['editorV2.grids', 'editorV2.activeGridId'],
+  (grids, activeGridId) => {
+    return grids.find((c) => c.id === activeGridId);
   }
 );
-export const selectEditorV2ContainerTabs = createSelector(
-  ['editorV2.containers', 'editorV2.activeContainerId'],
-  (containers, activeContainerId) => {
+export const selectEditorV2GridTabs = createSelector(
+  ['editorV2.grids', 'editorV2.activeGridId'],
+  (grids, activeGridId) => {
     const tabs = [];
-    containers.forEach(container => {
+    grids.forEach((grid) => {
       tabs.push({
-        id: container.id,
-        name: container.name,
-        active: container.id === activeContainerId,
+        id: grid.id,
+        name: grid.displayName,
+        active: grid.id === activeGridId,
       });
     });
     return tabs;
@@ -135,38 +132,28 @@ export const selectEditorV2ContainerTabs = createSelector(
 export const selectEditorV2Barcodes = createSelector(['editorV2.barcodes']);
 export const selectEditorV2Settings = createSelector(['editorV2.settings']);
 export const selectEditorV2SelectedContainersSummary = createSelector(
-  ['editorV2.containers', 'editorV2.activeContainerId'],
-  (containers, activeContainerId) => {
+  ['editorV2.grids', 'editorV2.activeGridId'],
+  (grids, activeGridId) => {
     const selectedContainersSummary = {
       count: 0,
       text: '',
     };
-    if (containers.length) {
-      const activeContainer = containers.find(
-        container => container.id === activeContainerId
-      );
-      if (activeContainer) {
-        if (activeContainer.type === 'ContainerGrid') {
-          const positions = activeContainer.grid.flat();
-          const selectedPositions = positions.filter(position => {
-            if (position.container && position.container.selected) return true;
-            else return false;
-          });
-          const mapped = selectedPositions.map(
-            position => position.row + position.column
-          );
-          if (mapped.length) {
-            selectedContainersSummary.text = `${
-              activeContainer.name
-            }: ${mapped.join(',')}`;
-            selectedContainersSummary.count = mapped.length;
-          }
-        } else if (
-          activeContainer.type === 'Container' &&
-          activeContainer.selected
-        ) {
-          selectedContainersSummary.text = activeContainer.name;
-          selectedContainersSummary.count = 1;
+    if (grids.length) {
+      const activeGrid = grids.find((grid) => grid.id === activeGridId);
+      if (activeGrid) {
+        const positions = activeGrid.data.flat();
+        const selectedPositions = positions.filter((position) => {
+          if (position.container && position.container.selected) return true;
+          else return false;
+        });
+        const mapped = selectedPositions.map(
+          (position) => position.row + position.column
+        );
+        if (mapped.length) {
+          selectedContainersSummary.text = `${activeGrid.name}: ${mapped.join(
+            ','
+          )}`;
+          selectedContainersSummary.count = mapped.length;
         }
       }
     }

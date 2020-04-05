@@ -4,12 +4,12 @@ import {
   importContainerCollection,
 } from './activityActions';
 import {
-  createContainer,
-  createContainerGrid,
   createGrid,
-  createComponent,
+  createGridData,
   createContainersForGrid,
   addContainersToGrid,
+  createContainer,
+  createComponent,
   exportContainers,
 } from '../models';
 import {
@@ -28,19 +28,16 @@ const {
   setInitialized: _setInitialized,
   setInitializationError: _setInitializationError,
   setContainerCollection: _setContainerCollection,
-  addContainer: _addContainer,
-  addContainerGrid: _addContainerGrid,
-  addContainerToContainerGrid: _addContainerToContainerGrid,
-  setContainerComponents: _setContainerComponents,
-  setContainerGridComponents: _setContainerGridComponents,
-  deselectContainers: _deselectContainers,
-  toggleContainerSelected: _toggleContainerSelected,
-  toggleContainerGridSelected: _toggleContainerGridSelected,
-  clearContainers: _clearContainers,
-  deleteContainer: _deleteContainer,
-  setBarcode: _setBarcode,
+  setGrids: _setGrids,
+  addGrid: _addGrid,
+  addContainerToGrid: _addContainerToGrid,
+  setGridComponents: _setGridComponents,
+  deselectGridContainers: _deselectGridContainers,
+  toggleGridContainersSelected: _toggleGridSelected,
+  clearGridContainers: _clearGridContainers,
+  deleteGrid: _deleteGrid,
+  setGridBarcode: _setGridBarcode,
   setSaveStatus: _setSaveStatus,
-  setContainers: _setContainers,
 } = editorV2Actions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -50,20 +47,19 @@ const {
   selectEditorClearMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
-  selectEditorV2Containers,
-  selectEditorV2ContainerGrids,
-  selectEditorV2ActiveContainerId,
+  selectEditorV2Grids,
+  selectEditorV2ActiveGridId,
   selectActivityName,
 } = selectors;
 
-const wrapWithChangeHandler = fn => {
-  return function() {
+const wrapWithChangeHandler = (fn) => {
+  return function () {
     return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
       dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
       const activityName = selectActivityName(getState());
       const exportedContainers = exportContainers(
-        selectEditorV2Containers(getState())
+        selectEditorV2Grids(getState())
       );
       try {
         await api.saveActivityContainers(activityName, exportedContainers);
@@ -76,7 +72,7 @@ const wrapWithChangeHandler = fn => {
 };
 
 export const {
-  setActiveContainerId,
+  setActiveGridId,
   addBarcodes,
   setSettings,
   resetState: resetEditorV2,
@@ -89,8 +85,8 @@ export const loadContainerCollection = (status, version) => {
         getContainerCollection(status, version)
       );
       dispatch(_setContainerCollection({ collection }));
-      const importedContainers = await importContainerCollection(collection);
-      dispatch(_setContainers({ containers: importedContainers }));
+      const importedGrids = await importContainerCollection(collection);
+      dispatch(_setGrids({ grids: importedGrids }));
       dispatch(_setInitialized({ initialized: true }));
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));
@@ -100,54 +96,54 @@ export const loadContainerCollection = (status, version) => {
 
 export const addNewPlate = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
-    const grid = createGrid(dimensions);
-    const containerGrid = createContainerGrid({
+    const gridData = createGridData(dimensions);
+    const grid = createGrid({
       subtype: 'Plate',
       dimensions: dimensions,
-      grid: grid,
+      data: gridData,
     });
     const containerPositions = createContainersForGrid(dimensions, 'PlateWell');
-    addContainersToGrid(containerGrid, containerPositions);
-    dispatch(_addContainer({ container: containerGrid }));
+    addContainersToGrid(grid, containerPositions);
+    dispatch(_addGrid({ grid }));
   };
 });
 
 export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
-    const grid = createGrid(dimensions);
-    const containerGrid = createContainerGrid({
+    const gridData = createGridData(dimensions);
+    const grid = createGrid({
       subtype: 'Rack',
       dimensions: dimensions,
-      grid: grid,
+      data: gridData,
     });
-    dispatch(_addContainer({ container: containerGrid }));
+    dispatch(_addGrid({ grid }));
   };
 });
 
 export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
   return (dispatch, getState) => {
-    const grid = createGrid({ rows: 1, columns: 1 });
-    const containerGrid = createContainerGrid({
+    const gridData = createGridData({ rows: 1, columns: 1 });
+    const grid = createGrid({
       subtype: containerType,
       dimensions: { rows: 1, columns: 1 },
-      grid: grid,
+      data: gridData,
     });
     const containerPositions = createContainersForGrid(
       { rows: 1, columns: 1 },
       containerType
     );
-    addContainersToGrid(containerGrid, containerPositions);
-    dispatch(_addContainer({ container: containerGrid }));
+    addContainersToGrid(grid, containerPositions);
+    dispatch(_addGrid({ grid }));
   };
 });
 
-export const addNewContainerToContainerGrid = wrapWithChangeHandler(
-  ({ containerGridId, position, containerType }) => {
+export const addNewContainerToGrid = wrapWithChangeHandler(
+  ({ gridId, position, containerType }) => {
     return (dispatch, getState) => {
       const container = createContainer({ subtype: containerType });
       dispatch(
-        _addContainerToContainerGrid({
-          containerGridId,
+        _addContainerToGrid({
+          gridId,
           position,
           container,
         })
@@ -157,83 +153,14 @@ export const addNewContainerToContainerGrid = wrapWithChangeHandler(
 );
 
 export const handleContainerClick = wrapWithChangeHandler(
-  ({ containerId, positions }) => {
+  ({ gridId, positions }) => {
     return (dispatch, getState) => {
       const clickMode = selectEditorClickMode(getState());
       if (clickMode === 'apply') {
         if (selectEditorToolComponentsValid(getState())) {
           const components = selectEditorSelectedToolComponents(getState());
-          const containers = selectEditorV2Containers(getState());
-          const topLevelContainer = findContainerById(containers, containerId);
-          if (positions) {
-            const actionPositions = [];
-            positions.forEach(position => {
-              const newComponents = applyComponentsToContainer(
-                position.container,
-                components
-              );
-              actionPositions.push({
-                row: position.row,
-                column: position.column,
-                components: newComponents,
-              });
-            });
-            dispatch(
-              _setContainerGridComponents({
-                containerId,
-                positions: actionPositions,
-              })
-            );
-          } else {
-            const newComponents = applyComponentsToContainer(
-              topLevelContainer,
-              components
-            );
-            dispatch(
-              _setContainerComponents({
-                containerId,
-                components: newComponents,
-              })
-            );
-          }
-        }
-      } else if (clickMode === 'select') {
-        if (positions) {
-          dispatch(_toggleContainerGridSelected({ containerId, positions }));
-        } else {
-          dispatch(_toggleContainerSelected({ containerId }));
-        }
-      } else if (clickMode === 'clear') {
-        const clearMode = selectEditorClearMode(getState());
-        //const clear = wrapWithChangeHandler(_clearWells);
-        // dispatch(clear({ plateId, wellIds, clearMode }));
-        dispatch(_clearContainers({ containerId, positions, clearMode }));
-      }
-    };
-  }
-);
-
-export const setClickMode = ({ clickMode }) => {
-  return (dispatch, getState) => {
-    dispatch(_setClickMode({ clickMode }));
-    const activeContainerId = selectEditorV2ActiveContainerId(getState());
-    if (activeContainerId) {
-      dispatch(_deselectContainers({ containerIds: [activeContainerId] }));
-    }
-  };
-};
-
-export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHandler(
-  ({ containerId }) => {
-    return (dispatch, getState) => {
-      const components = selectEditorSelectedToolComponents(getState());
-      const containers = selectEditorV2Containers(getState());
-      const container = findContainerById(containers, containerId);
-      if (container.type === 'ContainerGrid') {
-        const actionPositions = [];
-        const positions = container.grid.flat();
-        positions.forEach(position => {
-          if (position.container && position.container.selected) {
+          const actionPositions = [];
+          positions.forEach((position) => {
             const newComponents = applyComponentsToContainer(
               position.container,
               components
@@ -243,38 +170,75 @@ export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHan
               column: position.column,
               components: newComponents,
             });
-          }
-        });
-        if (actionPositions.length) {
+          });
           dispatch(
-            _setContainerGridComponents({
-              containerId,
+            _setGridComponents({
+              gridId,
               positions: actionPositions,
             })
           );
         }
+      } else if (clickMode === 'select') {
+        dispatch(_toggleGridSelected({ gridId, positions }));
+      } else if (clickMode === 'clear') {
+        const clearMode = selectEditorClearMode(getState());
+        dispatch(_clearGridContainers({ gridId, positions, clearMode }));
       }
-      if (container.type === 'Container' && container.selected) {
-        const newComponents = applyComponentsToContainer(container, components);
+    };
+  }
+);
+
+export const setClickMode = ({ clickMode }) => {
+  return (dispatch, getState) => {
+    dispatch(_setClickMode({ clickMode }));
+    const activeId = selectEditorV2ActiveGridId(getState());
+    if (activeId) {
+      dispatch(_deselectGridContainers({ gridIds: [activeId] }));
+    }
+  };
+};
+
+export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
+  ({ gridId }) => {
+    return (dispatch, getState) => {
+      const components = selectEditorSelectedToolComponents(getState());
+      const grids = selectEditorV2Grids(getState());
+      const grid = findGridById(gridId, grids);
+      const actionPositions = [];
+      const positions = grid.grid.flat();
+      positions.forEach((position) => {
+        if (position.container && position.container.selected) {
+          const newComponents = applyComponentsToContainer(
+            position.container,
+            components
+          );
+          actionPositions.push({
+            row: position.row,
+            column: position.column,
+            components: newComponents,
+          });
+        }
+      });
+      if (actionPositions.length) {
         dispatch(
-          _setContainerComponents({ containerId, components: newComponents })
+          _setGridComponents({
+            gridId,
+            positions: actionPositions,
+          })
         );
       }
     };
   }
 );
 
-export const cloneContainerGrid = wrapWithChangeHandler(
-  ({ containerGridId, componentTypesToClone }) => {
+export const cloneGrid = wrapWithChangeHandler(
+  ({ gridId, componentTypesToClone }) => {
     return (dispatch, getState) => {
-      const containerGrids = selectEditorV2ContainerGrids(getState());
-      const containerGrid = findContainerGridById(
-        containerGrids,
-        containerGridId
-      );
+      const grids = selectEditorV2Grids(getState());
+      const grid = findGridById(gridId, grids);
       const containerPositions = [];
-      const positions = containerGrid.grid.flat();
-      positions.forEach(position => {
+      const positions = grid.grid.flat();
+      positions.forEach((position) => {
         if (position.container) {
           const clonedComponents = cloneComponents(
             position.container.components,
@@ -291,34 +255,34 @@ export const cloneContainerGrid = wrapWithChangeHandler(
           });
         }
       });
-      const grid = createGrid({ ...containerGrid.dimensions });
-      const newContainerGrid = createContainerGrid({
-        subtype: containerGrid.subtype,
-        dimensions: containerGrid.dimensions,
+      const grid = createGrid({ ...grid.dimensions });
+      const newGrid = createGrid({
+        subtype: grid.subtype,
+        dimensions: grid.dimensions,
         grid,
       });
-      addContainersToGrid(newContainerGrid, containerPositions);
-      dispatch(_addContainerGrid({ container: newContainerGrid }));
+      addContainersToGrid(newGrid, containerPositions);
+      dispatch(_addGrid({ container: newGrid }));
     };
   }
 );
 
-export const deleteContainer = wrapWithChangeHandler(({ containerId }) => {
+export const deleteGrid = wrapWithChangeHandler(({ gridId }) => {
   return (dispatch, getState) => {
-    dispatch(_deleteContainer({ containerId }));
+    dispatch(_deleteGrid({ gridId }));
   };
 });
 
-export const setBarcode = wrapWithChangeHandler(_setBarcode);
+export const setGridBarcode = wrapWithChangeHandler(_setGridBarcode);
 
 function cloneComponents(components, componentTypesToClone) {
   const clonedComponents = [];
-  components.forEach(component => {
+  components.forEach((component) => {
     if (componentTypesToClone.includes(component.type)) {
       const clonedOptions = {};
       if (component.options && component.options.timepoints) {
         clonedOptions.timepoints = component.options.timepoints.map(
-          timepoint => {
+          (timepoint) => {
             return Object.assign({}, timepoint);
           }
         );
@@ -342,20 +306,20 @@ function cloneComponents(components, componentTypesToClone) {
 
 function applyComponentsToContainer(container, toolComponentsToApply) {
   const containerComponents = container.components.slice();
-  const componentsToApply = toolComponentsToApply.map(toolComponent => {
+  const componentsToApply = toolComponentsToApply.map((toolComponent) => {
     return transformToolComponent(toolComponent);
   });
-  componentsToApply.forEach(component => {
+  componentsToApply.forEach((component) => {
     const existingComponent = containerComponents.find(
-      comp => comp.id === component.id
+      (comp) => comp.id === component.id
     );
     if (!existingComponent) {
       containerComponents.push(setComponentDescription(component));
     } else {
       if (existingComponent.options.timepoints) {
-        existingComponent.options.timepoints.forEach(eTimepoint => {
+        existingComponent.options.timepoints.forEach((eTimepoint) => {
           const index = component.options.timepoints.findIndex(
-            timepoint => timepoint.time === eTimepoint.time
+            (timepoint) => timepoint.time === eTimepoint.time
           );
           if (index === -1) {
             component.options.timepoints.push(eTimepoint);
@@ -363,7 +327,7 @@ function applyComponentsToContainer(container, toolComponentsToApply) {
         });
       }
       const index = containerComponents.findIndex(
-        eComponent => eComponent.id === component.id
+        (eComponent) => eComponent.id === component.id
       );
       containerComponents.splice(index, 1, setComponentDescription(component));
     }
@@ -371,12 +335,8 @@ function applyComponentsToContainer(container, toolComponentsToApply) {
   return sortComponentsByType(containerComponents);
 }
 
-function findContainerGridById(containerGrids, containerId) {
-  return containerGrids.find(containerGrid => containerGrid.id === containerId);
-}
-
-function findContainerById(containers, containerId) {
-  return containers.find(container => container.id === containerId);
+function findGridById(gridId, grids) {
+  return grids.find((grid) => grid.id === gridId);
 }
 
 function transformToolComponent({ id, displayName, type, data, timepoints }) {
@@ -391,7 +351,7 @@ function transformToolComponent({ id, displayName, type, data, timepoints }) {
 
 function setComponentDescription(component) {
   if (component.options && component.options.timepoints) {
-    const timepointStrings = component.options.timepoints.map(timepoint => {
+    const timepointStrings = component.options.timepoints.map((timepoint) => {
       if (timepoint.concentration) {
         return `${timepoint.concentration.toFixed(2)} @ 
             ${timepoint.time}h`;

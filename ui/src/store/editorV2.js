@@ -9,9 +9,9 @@ import {
 const initialState = {
   initialized: false,
   initializationError: null,
-  containers: [],
+  grids: [],
+  activeGridId: null,
   containerCollection: null,
-  activeContainerId: null,
   barcodes: [],
   settings: {
     containerSize: {
@@ -37,103 +37,68 @@ const editorV2 = createSlice({
     resetState(state, action) {
       Object.assign(state, initialState);
     },
-    setContainers(state, action) {
-      state.containers = action.payload.containers;
-      if (state.containers.length) {
-        state.activeContainerId = state.containers[0].id;
-      } else {
-        state.activeContainerId = null;
-      }
-      assignContainerNames(state.containers);
-    },
     setContainerCollection(state, action) {
-      state.containerCollection = action.payload.collection;
+      state.containerCollection = action.payload.containerCollection;
     },
-    addContainer(state, action) {
-      state.containers.push(action.payload.container);
-      state.activeContainerId = action.payload.container.id;
-      assignContainerNames(state.containers);
+    setGrids(state, action) {
+      state.grids = action.payload.grids;
+      if (state.grids.length) {
+        state.activeGridId = state.grids[0].id;
+      } else {
+        state.activeGridId = null;
+      }
+      assignGridNames(state.grids);
     },
-    addContainerGrid(state, action) {
-      state.containers.push(action.payload.container);
-      state.activeContainerId = action.payload.container.id;
-      assignContainerNames(state.containers);
+    addGrid(state, action) {
+      state.grids.push(action.payload.grid);
+      state.activeGridId = action.payload.grid.id;
+      assignGridNames(state.grids);
     },
-    setActiveContainerId(state, action) {
-      state.activeContainerId = action.payload.id;
+    setActiveGridId(state, action) {
+      state.activeGridId = action.payload.gridId;
     },
-    addContainerToContainerGrid(state, action) {
-      const { containerGridId, position, container } = action.payload;
-      const containerGrid = state.containers.find(
-        container => container.id === containerGridId
-      );
-      const positions = containerGrid.grid.flat();
-      const statePosition = positions.find(pos => {
-        return pos.row === position.row && pos.column === position.column;
-      });
+    addContainerToGrid(state, action) {
+      const { gridId, position, container } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const positions = grid.grid.flat();
+      const statePosition = findPosition(position, positions);
       statePosition.container = container;
     },
-    setContainerComponents(state, action) {
-      const { containerId, components } = action.payload;
-      const container = state.containers.find(
-        container => container.id === containerId
-      );
-      container.components = components;
-    },
-    setContainerGridComponents(state, action) {
-      const { containerId, positions } = action.payload;
-      const container = state.containers.find(
-        container => container.id === containerId
-      );
-      const gridPositions = container.grid.flat();
-      positions.forEach(position => {
-        const gridPosition = gridPositions.find(
-          gPos => gPos.row === position.row && gPos.column === position.column
-        );
+    setGridComponents(state, action) {
+      const { gridId, positions } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const gridPositions = grid.grid.flat();
+      positions.forEach((position) => {
+        const gridPosition = findPosition(position, gridPositions);
         if (gridPosition.container) {
           gridPosition.container.components = position.components;
         }
       });
     },
-    deselectContainers(state, action) {
-      const { containerIds } = action.payload;
-      containerIds.forEach(containerId => {
-        const container = state.containers.find(
-          container => container.id === containerId
-        );
-        if (container.type === 'ContainerGrid') {
-          const positions = container.grid.flat();
-          positions.forEach(position => {
-            if (position.container) {
-              position.container.selected = false;
-            }
-          });
-        } else if (container.type === 'Container') {
-          container.selected = false;
-        }
+    deselectGridContainers(state, action) {
+      const { gridIds } = action.payload;
+      gridIds.forEach((gridId) => {
+        const grid = findGrid(gridId, state.grids);
+        const positions = grid.grid.flat();
+        positions.forEach((position) => {
+          if (position.container) {
+            position.container.selected = false;
+          }
+        });
       });
     },
-    toggleContainerSelected(state, action) {
-      const { containerId } = action.payload;
-      const container = state.containers.find(
-        container => container.id === containerId
-      );
-      container.selected = !container.selected;
-    },
-    toggleContainerGridSelected(state, action) {
-      const { containerId, positions } = action.payload;
+    toggleGridContainersSelected(state, action) {
+      const { gridId, positions } = action.payload;
       const shortPositions = positions.map(
-        position => position.row + position.column
+        (position) => position.row + position.column
       );
-      const container = state.containers.find(
-        container => container.id === containerId
-      );
-      const flatPositions = container.grid.flat();
-      const filteredPositions = flatPositions.filter(position =>
+      const grid = findGrid(gridId, state.grids);
+      const flatPositions = grid.grid.flat();
+      const filteredPositions = flatPositions.filter((position) =>
         shortPositions.includes(position.row + position.column)
       );
       const status = { selected: false, deselected: false };
-      filteredPositions.forEach(position => {
+      filteredPositions.forEach((position) => {
         if (position.container) {
           if (position.container.selected) {
             status.selected = true;
@@ -146,76 +111,61 @@ const editorV2 = createSlice({
         (status.selected && status.deselected) || !status.selected
           ? true
           : false;
-      filteredPositions.forEach(position => {
+      filteredPositions.forEach((position) => {
         if (position.container) {
           position.container.selected = newSelectionStatus;
         }
       });
     },
-    clearContainers(state, action) {
-      const { containerId, positions, clearMode } = action.payload;
-      const container = state.containers.find(
-        container => container.id === containerId
-      );
+    clearGridContainers(state, action) {
+      const { gridId, positions, clearMode } = action.payload;
+      const grid = findGrid(gridId, state.grids);
       const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
-      if (container.type === 'ContainerGrid') {
-        const shortPositions = positions.map(
-          position => position.row + position.column
-        );
-        const flatPositions = container.grid.flat();
-        const filteredPositions = flatPositions.filter(position =>
-          shortPositions.includes(position.row + position.column)
-        );
-        filteredPositions.forEach(position => {
-          if (position.container) {
-            if (clearMode === 'all') {
-              position.container.components = [];
-            } else {
-              const componentType = componentTypes[clearMode];
-              position.container.components = position.container.components.filter(
-                component => {
-                  return component.type !== componentType;
-                }
-              );
-            }
-          }
-        });
-      } else if (container.type === 'Container') {
-        if (clearMode === 'all') {
-          container.components = [];
-        } else {
-          const componentType = componentTypes[clearMode];
-          container.components = container.components.filter(component => {
-            return component.type !== componentType;
-          });
-        }
-      }
-    },
-    deleteContainer(state, action) {
-      const { containerId } = action.payload;
-      const indexToRemove = state.containers.findIndex(
-        container => container.id === containerId
+      const shortPositions = positions.map(
+        (position) => position.row + position.column
       );
-      state.containers.splice(indexToRemove, 1);
-      if (state.containers.length) {
-        if (state.containers[indexToRemove]) {
-          state.activeContainerId = state.containers[indexToRemove].id;
+      const flatPositions = grid.grid.flat();
+      const filteredPositions = flatPositions.filter((position) =>
+        shortPositions.includes(position.row + position.column)
+      );
+      filteredPositions.forEach((position) => {
+        if (position.container) {
+          if (clearMode === 'all') {
+            position.container.components = [];
+          } else {
+            const componentType = componentTypes[clearMode];
+            position.container.components = position.container.components.filter(
+              (component) => {
+                return component.type !== componentType;
+              }
+            );
+          }
+        }
+      });
+    },
+    deleteGrid(state, action) {
+      const { gridId } = action.payload;
+      const indexToRemove = state.grids.findIndex(
+        (container) => container.id === gridId
+      );
+      state.grids.splice(indexToRemove, 1);
+      if (state.grids.length) {
+        if (state.grids[indexToRemove]) {
+          state.activeGridId = state.grids[indexToRemove].id;
         } else {
-          state.activeContainerId = state.containers[indexToRemove - 1].id;
+          state.activeGridId = state.grids[indexToRemove - 1].id;
         }
       }
-      assignContainerNames(state.containers);
+      assignGridNames(state.grids);
     },
     addBarcodes(state, action) {
       const { barcodes } = action.payload;
       state.barcodes = state.barcodes.concat(barcodes);
     },
-    setBarcode(state, action) {
-      const { containerId, barcode } = action.payload;
-      const container = state.containers.find(
-        container => container.id === containerId
-      );
-      container.barcode = barcode;
+    setGridBarcode(state, action) {
+      const { gridId, barcode } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      grid.barcode = barcode;
     },
     setSettings(state, action) {
       const { settings } = action.payload;
@@ -233,14 +183,24 @@ const editorV2 = createSlice({
 
 export const { actions: editorV2Actions, reducer: editorV2Reducer } = editorV2;
 
-function assignContainerNames(containers) {
+function assignGridNames(grids) {
   const typeCounts = {};
-  containers.forEach(container => {
-    if (!typeCounts[container.subtype]) {
-      typeCounts[container.subtype] = 1;
+  grids.forEach((grid) => {
+    if (!typeCounts[grid.subtype]) {
+      typeCounts[grid.subtype] = 1;
     } else {
-      typeCounts[container.subtype]++;
+      typeCounts[grid.subtype]++;
     }
-    container.name = `${container.subtype} ${typeCounts[container.subtype]}`;
+    grid.name = `${grid.subtype} ${typeCounts[grid.subtype]}`;
   });
+}
+
+function findGrid(gridId, grids) {
+  return grids.find((grid) => grid.id === gridId);
+}
+
+function findPosition(position, positions) {
+  return positions.find(
+    (pos) => pos.row === position.row && pos.column === position.column
+  );
 }
