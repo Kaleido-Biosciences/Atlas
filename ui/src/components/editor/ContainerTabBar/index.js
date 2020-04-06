@@ -1,1 +1,0 @@
-export { ContainerTabBar } from './ContainerTabBar';

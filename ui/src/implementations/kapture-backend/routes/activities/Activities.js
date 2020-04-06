@@ -12,7 +12,7 @@ import { EditorActions } from '../../components';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
-import { ContainerTabBar } from '../../components';
+import { GridTabs } from '../../components';
 import { ActiveContainer } from '../../components';
 import styles from './Activity.module.css';
 
@@ -125,7 +125,7 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
-      const tabsComponent = <ContainerTabBar />;
+      const tabsComponent = <GridTabs />;
       const activeGridComponent = <ActiveContainer />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;

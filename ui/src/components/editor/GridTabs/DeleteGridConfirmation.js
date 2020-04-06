@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Message, Button } from 'semantic-ui-react';
 
-import styles from './DeleteContainerConfirmation.module.css';
+import styles from './DeleteGridConfirmation.module.css';
 
-export class DeleteContainerConfirmation extends Component {
+export class DeleteGridConfirmation extends Component {
   handleClick = () => {
     if (this.props.onConfirmClick) {
       this.props.onConfirmClick();
@@ -12,7 +12,7 @@ export class DeleteContainerConfirmation extends Component {
   };
   render() {
     return (
-      <div className={styles.deleteContainerConfirmation}>
+      <div className={styles.deleteGridConfirmation}>
         <Message size="tiny" className={styles.message}>
           Are you sure? The current container will be permanently deleted. This
           action cannot be undone.
@@ -25,6 +25,6 @@ export class DeleteContainerConfirmation extends Component {
   }
 }
 
-DeleteContainerConfirmation.propTypes = {
+DeleteGridConfirmation.propTypes = {
   onConfirmClick: PropTypes.func,
 };

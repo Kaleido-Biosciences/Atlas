@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Modal, Header } from 'semantic-ui-react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { ContainerTab } from './ContainerTab';
+import { GridTab } from './GridTab';
 import { AddContainerButton } from '../AddContainerButton';
-import { CloneContainerForm } from './CloneContainerForm';
-import { DeleteContainerConfirmation } from './DeleteContainerConfirmation';
-import styles from './ContainerTabBar.module.css';
+import { CloneForm } from './CloneForm';
+import { DeleteGridConfirmation } from './DeleteGridConfirmation';
+import styles from './GridTabs.module.css';
 
-export class ContainerTabBar extends Component {
+export class GridTabs extends Component {
   state = {
     cloneModalOpen: false,
     deleteModalOpen: false,
@@ -19,7 +19,7 @@ export class ContainerTabBar extends Component {
       this.scrollbars.scrollLeft(this.scrollbars.getScrollWidth());
     }
   }
-  setScrollbarsRef = ref => {
+  setScrollbarsRef = (ref) => {
     this.scrollbars = ref;
   };
   openCloneModal = () => {
@@ -37,7 +37,7 @@ export class ContainerTabBar extends Component {
   handleCloneSubmit = ({ typesToClone }) => {
     if (this.props.onClone) {
       this.props.onClone({
-        containerGridId: this.props.activeContainerId,
+        gridId: this.props.activeGridId,
         componentTypesToClone: typesToClone,
       });
     }
@@ -45,7 +45,7 @@ export class ContainerTabBar extends Component {
   };
   handleDeleteSubmit = () => {
     if (this.props.onDelete) {
-      this.props.onDelete({ containerId: this.props.activeContainerId });
+      this.props.onDelete({ gridId: this.props.activeGridId });
     }
     this.closeDeleteModal();
   };
@@ -54,9 +54,9 @@ export class ContainerTabBar extends Component {
     if (tabs && tabs.length) {
       return tabs.map((tab, i) => {
         return (
-          <ContainerTab
+          <GridTab
             key={tab.id}
-            containerId={tab.id}
+            gridId={tab.id}
             name={tab.name}
             active={tab.active}
             onClick={onTabClick}
@@ -76,7 +76,7 @@ export class ContainerTabBar extends Component {
       onAddContainer,
     } = this.props;
     return (
-      <div className={styles.containerTabBar}>
+      <div className={styles.gridTabs}>
         <AddContainerButton
           className={styles.addContainerButton}
           onAddPlate={onAddPlate}
@@ -94,7 +94,7 @@ export class ContainerTabBar extends Component {
         <Modal size="mini" open={cloneModalOpen} onClose={this.closeCloneModal}>
           <Header icon="clone outline" content="Clone Plate" />
           <Modal.Content>
-            <CloneContainerForm
+            <CloneForm
               onSubmit={this.handleCloneSubmit}
               componentTypes={componentTypes}
             />
@@ -107,9 +107,7 @@ export class ContainerTabBar extends Component {
         >
           <Header icon="trash alternate outline" content="Delete Container" />
           <Modal.Content>
-            <DeleteContainerConfirmation
-              onConfirmClick={this.handleDeleteSubmit}
-            />
+            <DeleteGridConfirmation onConfirmClick={this.handleDeleteSubmit} />
           </Modal.Content>
         </Modal>
       </div>
@@ -117,9 +115,9 @@ export class ContainerTabBar extends Component {
   }
 }
 
-ContainerTabBar.propTypes = {
+GridTabs.propTypes = {
   tabs: PropTypes.array,
-  activeContainerId: PropTypes.string,
+  activeGridId: PropTypes.string,
   onTabClick: PropTypes.func,
   onAddPlate: PropTypes.func,
   onAddRack: PropTypes.func,

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Checkbox, Button, Message } from 'semantic-ui-react';
 
-import styles from './CloneContainerForm.module.css';
+import styles from './CloneForm.module.css';
 
-export class CloneContainerForm extends Component {
+export class CloneForm extends Component {
   constructor(props) {
     super(props);
     this.state = props.componentTypes.reduce((state, type) => {
@@ -18,12 +18,12 @@ export class CloneContainerForm extends Component {
       [value]: checked,
     });
   };
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     if (this.props.onSubmit) {
       const entries = Object.entries(this.state);
       const selections = [];
-      entries.forEach(selection => {
+      entries.forEach((selection) => {
         if (selection[1]) {
           selections.push(selection[0]);
         }
@@ -33,7 +33,7 @@ export class CloneContainerForm extends Component {
   };
   renderFields() {
     const { componentTypes } = this.props;
-    return componentTypes.map(type => {
+    return componentTypes.map((type) => {
       return (
         <Form.Field key={`CLONE_${type.name}`}>
           <Checkbox
@@ -48,7 +48,7 @@ export class CloneContainerForm extends Component {
   }
   render() {
     const selections = Object.entries(this.state);
-    const selected = selections.find(option => {
+    const selected = selections.find((option) => {
       return option[1];
     });
     const buttonDisabled = selected ? false : true;
@@ -75,7 +75,7 @@ export class CloneContainerForm extends Component {
   }
 }
 
-CloneContainerForm.propTypes = {
+CloneForm.propTypes = {
   componentTypes: PropTypes.array,
   onSubmit: PropTypes.func,
 };

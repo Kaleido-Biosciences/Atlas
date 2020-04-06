@@ -1,4 +1,4 @@
-.containerTabBar {
+.gridTabs {
   display: flex;
   flex-direction: row;
   background-color: #eaeaea;
@@ -7,7 +7,7 @@
   align-items: flex-end;
 }
 
-.containerTab {
+.gridTab {
   height: 3em;
   display: flex;
   align-items: center;
@@ -17,13 +17,13 @@
   flex-shrink: 0;
 }
 
-.containerTab :global(i) {
+.gridTab :global(i) {
   margin: 0 0 0 0.2em !important;
   height: auto !important;
   color: rgba(0, 0, 0, 0.4);
 }
 
-.containerTab:hover {
+.gridTab:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
@@ -38,7 +38,7 @@
 }
 
 .addContainerButton {
-  composes: containerTab;
+  composes: gridTab;
   padding: 0;
   width: 3em;
 }

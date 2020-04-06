@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Dropdown, Portal, Icon } from 'semantic-ui-react';
 
-import styles from './ContainerTabBar.module.css';
+import styles from './GridTabs.module.css';
 
-export class ContainerTab extends Component {
+export class GridTab extends Component {
   state = {
     styles: {},
   };
   handleClick = () => {
-    const { containerId } = this.props;
+    const { gridId } = this.props;
     if (this.props.onClick) {
-      this.props.onClick({ id: containerId });
+      this.props.onClick({ gridId });
     }
   };
   handleItemClick = (e, data) => {
@@ -36,7 +36,7 @@ export class ContainerTab extends Component {
   };
   render() {
     const { name, active } = this.props;
-    const tabClass = classNames(styles.containerTab, {
+    const tabClass = classNames(styles.gridTab, {
       [styles.active]: active,
     });
     return (
@@ -75,10 +75,10 @@ export class ContainerTab extends Component {
   }
 }
 
-ContainerTab.propTypes = {
+GridTab.propTypes = {
   name: PropTypes.string,
   active: PropTypes.bool,
-  containerId: PropTypes.string,
+  gridId: PropTypes.string,
   onClick: PropTypes.func,
   onCloneMenuItemClick: PropTypes.func,
   onDeleteMenuItemClick: PropTypes.func,

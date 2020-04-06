@@ -1,4 +1,4 @@
-.deleteContainerConfirmation {
+.deleteGridConfirmation {
   display: flex;
   flex-direction: column;
 }
