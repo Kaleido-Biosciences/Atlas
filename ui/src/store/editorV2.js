@@ -60,14 +60,14 @@ const editorV2 = createSlice({
     addContainerToGrid(state, action) {
       const { gridId, position, container } = action.payload;
       const grid = findGrid(gridId, state.grids);
-      const positions = grid.grid.flat();
+      const positions = grid.data.flat();
       const statePosition = findPosition(position, positions);
       statePosition.container = container;
     },
     setGridComponents(state, action) {
       const { gridId, positions } = action.payload;
       const grid = findGrid(gridId, state.grids);
-      const gridPositions = grid.grid.flat();
+      const gridPositions = grid.data.flat();
       positions.forEach((position) => {
         const gridPosition = findPosition(position, gridPositions);
         if (gridPosition.container) {
@@ -79,7 +79,7 @@ const editorV2 = createSlice({
       const { gridIds } = action.payload;
       gridIds.forEach((gridId) => {
         const grid = findGrid(gridId, state.grids);
-        const positions = grid.grid.flat();
+        const positions = grid.data.flat();
         positions.forEach((position) => {
           if (position.container) {
             position.container.selected = false;
@@ -93,7 +93,7 @@ const editorV2 = createSlice({
         (position) => position.row + position.column
       );
       const grid = findGrid(gridId, state.grids);
-      const flatPositions = grid.grid.flat();
+      const flatPositions = grid.data.flat();
       const filteredPositions = flatPositions.filter((position) =>
         shortPositions.includes(position.row + position.column)
       );
@@ -124,7 +124,7 @@ const editorV2 = createSlice({
       const shortPositions = positions.map(
         (position) => position.row + position.column
       );
-      const flatPositions = grid.grid.flat();
+      const flatPositions = grid.data.flat();
       const filteredPositions = flatPositions.filter((position) =>
         shortPositions.includes(position.row + position.column)
       );

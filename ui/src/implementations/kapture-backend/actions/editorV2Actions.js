@@ -205,7 +205,7 @@ export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
       const grids = selectEditorV2Grids(getState());
       const grid = findGridById(gridId, grids);
       const actionPositions = [];
-      const positions = grid.grid.flat();
+      const positions = grid.data.flat();
       positions.forEach((position) => {
         if (position.container && position.container.selected) {
           const newComponents = applyComponentsToContainer(
@@ -237,7 +237,7 @@ export const cloneGrid = wrapWithChangeHandler(
       const grids = selectEditorV2Grids(getState());
       const grid = findGridById(gridId, grids);
       const containerPositions = [];
-      const positions = grid.grid.flat();
+      const positions = grid.data.flat();
       positions.forEach((position) => {
         if (position.container) {
           const clonedComponents = cloneComponents(
