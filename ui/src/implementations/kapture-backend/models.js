@@ -1,16 +1,16 @@
 import {
   exportContainers,
   importContainer,
-  importContainerGrid,
+  importGrid,
 } from './containerFunctions';
 
 export {
   createComponent,
-  createContainerCollection,
   createContainer,
+  createContainerCollection,
   createGrid,
   createGridData,
   createContainersForGrid,
   addContainersToGrid,
 } from '../../models';
-export { exportContainers, importContainer, importContainerGrid };
+export { exportContainers, importContainer, importGrid };

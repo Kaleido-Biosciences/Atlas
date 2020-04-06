@@ -125,8 +125,8 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
-      const tabBarComponent = <ContainerTabBar />;
-      const containerComponent = <ActiveContainer />;
+      const tabsComponent = <ContainerTabBar />;
+      const activeGridComponent = <ActiveContainer />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;
       if (this.matchEditorPath() && editorInitialized) {
@@ -143,7 +143,7 @@ export class Activities extends Component {
             <Route
               path={`${match.path}`}
               exact
-              render={routeProps => {
+              render={(routeProps) => {
                 return containerCollectionsStale ? null : (
                   <ActivityDetails {...routeProps} />
                 );
@@ -151,11 +151,11 @@ export class Activities extends Component {
             />
             <Route
               path={`${match.path}/editor`}
-              render={routeProps => {
+              render={(routeProps) => {
                 return (
                   <EditorV2
-                    tabBarComponent={tabBarComponent}
-                    containerComponent={containerComponent}
+                    tabsComponent={tabsComponent}
+                    activeGridComponent={activeGridComponent}
                     componentListComponent={componentListComponent}
                     toolsComponent={toolsComponent}
                     {...routeProps}
@@ -165,9 +165,9 @@ export class Activities extends Component {
             />
             <Route
               path={`${match.path}/print`}
-              render={routeProps => (
+              render={(routeProps) => (
                 <Print
-                  contentRef={contentRef => {
+                  contentRef={(contentRef) => {
                     this.setState({ contentRef });
                   }}
                   {...routeProps}

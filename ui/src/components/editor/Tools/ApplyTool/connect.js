@@ -7,7 +7,7 @@ import {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
   selectEditorV2SelectedContainersSummary,
-  selectEditorV2ActiveContainerId,
+  selectEditorV2ActiveGridId,
 } from '../../../../store/selectors';
 
 const { applySelectedToolComponentsToSelectedContainers } = actions.editorV2;
@@ -17,7 +17,7 @@ const mapState = (state, props) => {
     toolComponents: selectEditorToolComponents(state),
     toolComponentsValid: selectEditorToolComponentsValid(state),
     selectedContainersSummary: selectEditorV2SelectedContainersSummary(state),
-    activeContainerId: selectEditorV2ActiveContainerId(state),
+    activeContainerId: selectEditorV2ActiveGridId(state),
   };
 };
 

@@ -23,8 +23,8 @@ export class EditorV2 extends Component {
       error,
       initialized,
       showEmptyState,
-      tabBarComponent,
-      containerComponent,
+      tabsComponent,
+      activeGridComponent,
       componentListComponent,
       toolsComponent,
     } = this.props;
@@ -59,14 +59,12 @@ export class EditorV2 extends Component {
               pane2Style={{ height: '100%' }}
             >
               <div className={styles.mainContainer}>
-                <div className={styles.plateTabContainer}>
-                  {tabBarComponent}
-                </div>
-                <div className={styles.plateContainer}>
-                  {showEmptyState ? <EditorEmptyState /> : containerComponent}
+                <div className={styles.tabsContainer}>{tabsComponent}</div>
+                <div className={styles.activeGridContainer}>
+                  {showEmptyState ? <EditorEmptyState /> : activeGridComponent}
                 </div>
               </div>
-              <div className={styles.plateSidebar}>
+              <div className={styles.sidebar}>
                 <SplitPane
                   split="horizontal"
                   defaultSize={250}
@@ -94,8 +92,8 @@ EditorV2.propTypes = {
   onMount: PropTypes.func,
   onUnmount: PropTypes.func,
   onAddClick: PropTypes.func,
-  tabBarComponent: PropTypes.object,
-  containerComponent: PropTypes.object,
+  tabsComponent: PropTypes.object,
+  activeGridComponent: PropTypes.object,
   componentListComponent: PropTypes.object,
   toolsComponent: PropTypes.object,
 };

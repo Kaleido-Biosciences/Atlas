@@ -10,10 +10,10 @@ const { loadContainerCollection, resetEditorV2 } = actions.editorV2;
 const {
   selectEditorV2Initialized,
   selectEditorV2InitializationError,
-  selectEditorV2ContainerCount,
+  selectEditorV2GridCount,
 } = selectors;
 
-const onMount = query => {
+const onMount = (query) => {
   return async (dispatch, getState) => {
     const params = queryString.parse(query);
     dispatch(loadContainerCollection(params.status, params.version));
@@ -23,8 +23,8 @@ const onMount = query => {
 const mapState = (state, props) => {
   const initialized = selectEditorV2Initialized(state);
   const error = selectEditorV2InitializationError(state);
-  const containerCount = selectEditorV2ContainerCount(state);
-  const showEmptyState = containerCount ? false : true;
+  const gridCount = selectEditorV2GridCount(state);
+  const showEmptyState = gridCount ? false : true;
   let loading = false;
   if (!initialized && !error) {
     loading = true;

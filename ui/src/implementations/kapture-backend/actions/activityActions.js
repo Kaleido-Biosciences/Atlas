@@ -10,7 +10,7 @@ import {
 import { api } from '../api';
 import {
   createContainerCollection,
-  importContainerGrid,
+  importGrid,
   exportContainers,
 } from '../models';
 import {
@@ -40,7 +40,7 @@ export const {
   setContainerCollectionsStale,
 } = activityActions;
 
-export const loadActivity = id => {
+export const loadActivity = (id) => {
   return async (dispatch, getState) => {
     dispatch(_setInitialized({ initialized: false }));
     try {
@@ -53,7 +53,7 @@ export const loadActivity = id => {
           version: 0,
         });
       }
-      const containerCollections = versions.map(version => {
+      const containerCollections = versions.map((version) => {
         return getCollectionFromVersion(version);
       });
       dispatch(
@@ -77,7 +77,7 @@ export const getContainerCollection = (status, timestamp) => {
   return async (dispatch, getState) => {
     const parsedTimestamp = parseInt(timestamp);
     const containerCollections = selectActivityContainerCollections(getState());
-    let collection = containerCollections.find(collection => {
+    let collection = containerCollections.find((collection) => {
       return (
         collection.data.experiment_status === status &&
         collection.data.version === parsedTimestamp
@@ -91,13 +91,13 @@ export const getContainerCollection = (status, timestamp) => {
   };
 };
 
-export const importContainerCollection = async containerCollection => {
+export const importContainerCollection = async (containerCollection) => {
   const kaptureComponents = await fetchComponentsForContainers(
     containerCollection.data.plateMaps
   );
   const importedContainers = containerCollection.data.plateMaps.map(
-    container => {
-      return importContainerGrid(container, kaptureComponents);
+    (container) => {
+      return importGrid(container, kaptureComponents);
     }
   );
   return importedContainers;
@@ -138,10 +138,10 @@ async function fetchComponentsForContainers(containers) {
     [COMPONENT_TYPE_SUPPLEMENT]: [],
     [COMPONENT_TYPE_ATTRIBUTE]: [],
   };
-  containers.forEach(container => {
+  containers.forEach((container) => {
     if (container.rows === 1 && container.columns === 1) {
       if (container.data && container.data.length) {
-        container.data[0].components.forEach(component => {
+        container.data[0].components.forEach((component) => {
           const cType = component.type;
           if (!components[cType].includes(component.id)) {
             components[cType].push(component.id);
@@ -149,8 +149,8 @@ async function fetchComponentsForContainers(containers) {
         });
       }
     } else if (container.rows > 1 && container.columns > 1) {
-      container.data.forEach(positionContainer => {
-        positionContainer.components.forEach(component => {
+      container.data.forEach((positionContainer) => {
+        positionContainer.components.forEach((component) => {
           const cType = component.type;
           if (!components[cType].includes(component.id)) {
             components[cType].push(component.id);
@@ -160,32 +160,32 @@ async function fetchComponentsForContainers(containers) {
     }
   });
   let promises, results;
-  promises = components[COMPONENT_TYPE_COMMUNITY].map(id => {
+  promises = components[COMPONENT_TYPE_COMMUNITY].map((id) => {
     return api.fetchCommunity(id);
   });
   results = await Promise.all(promises);
-  results.forEach(result => {
+  results.forEach((result) => {
     response[COMPONENT_TYPE_COMMUNITY].push(result.data);
   });
-  promises = components[COMPONENT_TYPE_COMPOUND].map(id => {
+  promises = components[COMPONENT_TYPE_COMPOUND].map((id) => {
     return api.fetchCompound(id);
   });
   results = await Promise.all(promises);
-  results.forEach(result => {
+  results.forEach((result) => {
     response[COMPONENT_TYPE_COMPOUND].push(result.data);
   });
-  promises = components[COMPONENT_TYPE_MEDIUM].map(id => {
+  promises = components[COMPONENT_TYPE_MEDIUM].map((id) => {
     return api.fetchMedium(id);
   });
   results = await Promise.all(promises);
-  results.forEach(result => {
+  results.forEach((result) => {
     response[COMPONENT_TYPE_MEDIUM].push(result.data);
   });
-  promises = components[COMPONENT_TYPE_SUPPLEMENT].map(id => {
+  promises = components[COMPONENT_TYPE_SUPPLEMENT].map((id) => {
     return api.fetchSupplement(id);
   });
   results = await Promise.all(promises);
-  results.forEach(result => {
+  results.forEach((result) => {
     response[COMPONENT_TYPE_SUPPLEMENT].push(result.data);
   });
   return response;

@@ -255,11 +255,11 @@ export const cloneGrid = wrapWithChangeHandler(
           });
         }
       });
-      const grid = createGrid({ ...grid.dimensions });
+      const gridData = createGrid({ ...grid.dimensions });
       const newGrid = createGrid({
         subtype: grid.subtype,
         dimensions: grid.dimensions,
-        grid,
+        gridData,
       });
       addContainersToGrid(newGrid, containerPositions);
       dispatch(_addGrid({ container: newGrid }));
