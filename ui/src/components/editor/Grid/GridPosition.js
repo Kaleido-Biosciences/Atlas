@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 import { Container } from '../Container';
-import styles from './ContainerGrid.module.css';
+import styles from './Grid.module.css';
 
 export class GridPosition extends Component {
   handleAddContainerClick = () => {

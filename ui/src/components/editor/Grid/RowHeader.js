@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { PLATE_ROW_HEADERS, PLATE_HEADER_SIZE } from '../../../constants';
 import { HeaderCell } from './HeaderCell';
-import styles from './ContainerGrid.module.css';
+import styles from './Grid.module.css';
 
 export class RowHeader extends Component {
   divRef = React.createRef();
-  setScrollPos = scrollPos => {
+  setScrollPos = (scrollPos) => {
     this.divRef.current.scrollTop = scrollPos;
   };
   handleCellClick = ({ index }) => {

@@ -4,9 +4,9 @@ import { Icon, Dropdown } from 'semantic-ui-react';
 import memoize from 'memoize-one';
 
 import { Settings } from '../Settings';
-import styles from './ContainerDetails.module.css';
+import styles from './GridDetails.module.css';
 
-export class ContainerDetails extends Component {
+export class GridDetails extends Component {
   getOptions = memoize(barcodes => {
     return barcodes.map(barcode => {
       return { key: barcode, value: barcode, text: barcode };
@@ -20,14 +20,14 @@ export class ContainerDetails extends Component {
   handleChange = (e, { value }) => {
     if (this.props.onBarcodeSelect) {
       this.props.onBarcodeSelect({
-        containerId: this.props.containerId,
+        gridId: this.props.gridId,
         barcode: value,
       });
     }
   };
   render() {
     const {
-      containerBarcode,
+      gridBarcode,
       barcodes,
       settings,
       onSettingsChange,
@@ -35,11 +35,11 @@ export class ContainerDetails extends Component {
     let options = [];
     if (barcodes.length) {
       options = this.getOptions(barcodes);
-    } else if (containerBarcode) {
-      options = this.getOptions([containerBarcode]);
+    } else if (gridBarcode) {
+      options = this.getOptions([gridBarcode]);
     }
     return (
-      <div className={styles.containerDetails}>
+      <div className={styles.gridDetails}>
         <div>
           <Icon title="Barcode" name="barcode" />
           <Dropdown
@@ -50,7 +50,7 @@ export class ContainerDetails extends Component {
             placeholder="Select barcode"
             onAddItem={this.handleAddition}
             onChange={this.handleChange}
-            value={containerBarcode}
+            value={gridBarcode}
           />
         </div>
         <div className={styles.settings}>
@@ -61,9 +61,9 @@ export class ContainerDetails extends Component {
   }
 }
 
-ContainerDetails.propTypes = {
-  containerId: PropTypes.string,
-  containerBarcode: PropTypes.string,
+GridDetails.propTypes = {
+  gridId: PropTypes.string,
+  gridBarcode: PropTypes.string,
   barcodes: PropTypes.array.isRequired,
   onBarcodeAdd: PropTypes.func,
   onBarcodeSelect: PropTypes.func,

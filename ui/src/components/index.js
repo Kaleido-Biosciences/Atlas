@@ -12,6 +12,6 @@ export { ComponentList } from './editor/ComponentList';
 export { Tools } from './editor/Tools';
 export { EditorV2 } from './editor/EditorV2';
 export { GridTabs } from './editor/GridTabs';
-export { ContainerGrid } from './editor/ContainerGrid';
-export { ActiveContainer } from './editor/ActiveContainer';
+export { Grid } from './editor/Grid';
+export { ActiveGrid } from './editor/ActiveGrid';
 export { PopupButton } from './ui/PopupButton';

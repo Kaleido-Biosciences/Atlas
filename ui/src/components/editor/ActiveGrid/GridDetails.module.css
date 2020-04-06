@@ -1,4 +1,4 @@
-.containerDetails {
+.gridDetails {
   padding: 0.4em 0.8em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   background-color: #f9f9f9;
@@ -8,11 +8,11 @@
   align-items: center;
 }
 
-.containerDetails :global(.dropdown) {
+.gridDetails :global(.dropdown) {
   font-size: 0.8em !important;
 }
 
-.containerDetails :global(.ui.dropdown .menu > .item) {
+.gridDetails :global(.ui.dropdown .menu > .item) {
   font-size: inherit;
 }
 

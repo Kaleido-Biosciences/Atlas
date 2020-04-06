@@ -13,7 +13,7 @@ import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
 import { GridTabs } from '../../components';
-import { ActiveContainer } from '../../components';
+import { ActiveGrid } from '../../components';
 import styles from './Activity.module.css';
 
 export class Activities extends Component {
@@ -126,7 +126,7 @@ export class Activities extends Component {
       );
     } else if (initialized) {
       const tabsComponent = <GridTabs />;
-      const activeGridComponent = <ActiveContainer />;
+      const activeGridComponent = <ActiveGrid />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;
       if (this.matchEditorPath() && editorInitialized) {

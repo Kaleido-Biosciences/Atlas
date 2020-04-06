@@ -11,5 +11,5 @@ export { ComponentList } from './ComponentListConnected';
 export { Tools } from './ToolsConnected';
 export { EditorV2 } from './EditorV2Connected';
 export { GridTabs } from './GridTabsConnected';
-export { ActiveContainer } from './ActiveContainerConnected';
+export { ActiveGrid } from './ActiveGridConnected';
 export { EditorActions } from './EditorActions';

@@ -4,17 +4,17 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
-import { Grid } from './Grid';
-import styles from './ContainerGrid.module.css';
+import { GridData } from './GridData';
+import styles from './Grid.module.css';
 
-export class ContainerGrid extends Component {
+export class Grid extends Component {
   columnHeaderRef = React.createRef();
   rowHeaderRef = React.createRef();
-  handleScroll = values => {
+  handleScroll = (values) => {
     this.columnHeaderRef.current.setScrollPos(values.scrollLeft);
     this.rowHeaderRef.current.setScrollPos(values.scrollTop);
   };
-  handleAddContainer = options => {
+  handleAddContainer = (options) => {
     if (this.props.onAddContainer) {
       this.props.onAddContainer(options);
     }
@@ -22,37 +22,37 @@ export class ContainerGrid extends Component {
   handleContainerClick = ({ position }) => {
     if (this.props.onClick) {
       this.props.onClick({
-        containerId: this.props.containerGrid.id,
+        gridId: this.props.grid.id,
         positions: [position],
       });
     }
   };
   handleHeaderCellClick = ({ cellType, index }) => {
     if (this.props.onClick) {
-      const grid = this.props.containerGrid.grid;
+      const gridData = this.props.grid.data;
       let positions;
       if (cellType === 'column') {
-        positions = grid.map(row => {
+        positions = gridData.map((row) => {
           return row[index];
         });
       } else if (cellType === 'row') {
-        positions = grid[index];
+        positions = gridData[index];
       }
       this.props.onClick({
-        containerId: this.props.containerGrid.id,
+        gridId: this.props.grid.id,
         positions,
       });
     }
   };
   render() {
-    const { containerGrid, settings } = this.props;
+    const { grid, settings } = this.props;
     return (
-      <div className={styles.containerGrid}>
+      <div className={styles.grid}>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell}></div>
           <ColumnHeader
             ref={this.columnHeaderRef}
-            numberOfColumns={containerGrid.grid[0].length}
+            numberOfColumns={grid.data[0].length}
             containerSize={settings.containerSize}
             onClick={this.handleHeaderCellClick}
           />
@@ -60,7 +60,7 @@ export class ContainerGrid extends Component {
         <div className={styles.body}>
           <RowHeader
             ref={this.rowHeaderRef}
-            numberOfRows={containerGrid.grid.length}
+            numberOfRows={grid.data.length}
             containerSize={settings.containerSize}
             onClick={this.handleHeaderCellClick}
           />
@@ -68,8 +68,8 @@ export class ContainerGrid extends Component {
             style={{ height: '100%', width: '100%' }}
             onScrollFrame={this.handleScroll}
           >
-            <Grid
-              containerGrid={containerGrid}
+            <GridData
+              grid={grid}
               settings={settings}
               onAddContainer={this.handleAddContainer}
               onContainerClick={this.handleContainerClick}
@@ -81,8 +81,8 @@ export class ContainerGrid extends Component {
   }
 }
 
-ContainerGrid.propTypes = {
-  containerGrid: PropTypes.object,
+Grid.propTypes = {
+  grid: PropTypes.object,
   settings: PropTypes.object,
   onAddContainer: PropTypes.func,
   onClick: PropTypes.func,

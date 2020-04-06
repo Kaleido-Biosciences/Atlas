@@ -98,7 +98,7 @@ export const addNewPlate = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
     const gridData = createGridData(dimensions);
     const grid = createGrid({
-      subtype: 'Plate',
+      containerType: 'Plate',
       dimensions: dimensions,
       data: gridData,
     });
@@ -112,7 +112,7 @@ export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
     const gridData = createGridData(dimensions);
     const grid = createGrid({
-      subtype: 'Rack',
+      containerType: 'Rack',
       dimensions: dimensions,
       data: gridData,
     });
@@ -124,7 +124,7 @@ export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
   return (dispatch, getState) => {
     const gridData = createGridData({ rows: 1, columns: 1 });
     const grid = createGrid({
-      subtype: containerType,
+      containerType,
       dimensions: { rows: 1, columns: 1 },
       data: gridData,
     });

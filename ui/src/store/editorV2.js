@@ -186,12 +186,16 @@ export const { actions: editorV2Actions, reducer: editorV2Reducer } = editorV2;
 function assignGridNames(grids) {
   const typeCounts = {};
   grids.forEach((grid) => {
-    if (!typeCounts[grid.subtype]) {
-      typeCounts[grid.subtype] = 1;
+    if (!typeCounts[grid.containerType]) {
+      typeCounts[grid.containerType] = 1;
     } else {
-      typeCounts[grid.subtype]++;
+      typeCounts[grid.containerType]++;
     }
-    grid.name = `${grid.subtype} ${typeCounts[grid.subtype]}`;
+    const displayName = `${grid.containerType} ${
+      typeCounts[grid.containerType]
+    }`;
+    grid.name = displayName;
+    grid.displayName = displayName;
   });
 }
 

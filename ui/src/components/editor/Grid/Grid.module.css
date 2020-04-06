@@ -1,3 +1,10 @@
+.grid {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .topHeader {
   display: flex;
   flex-direction: row;
@@ -12,9 +19,20 @@
   justify-content: center;
 }
 
+.body {
+  display: flex;
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
 .columnHeader {
   display: flex;
   overflow: hidden;
+}
+
+.rowHeader {
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .headerCellContainer {
@@ -36,26 +54,8 @@
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.rowHeader {
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.body {
-  display: flex;
-  flex: 1 1 100%;
-  overflow: hidden;
-}
-
 .row {
   display: flex;
-}
-
-.containerGrid {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 }
 
 .gridPositionContainer {

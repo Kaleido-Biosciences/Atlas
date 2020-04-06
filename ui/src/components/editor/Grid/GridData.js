@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { GridPosition } from './GridPosition';
 import { AddContainerModal } from '../AddContainerButton';
-import styles from './ContainerGrid.module.css';
+import styles from './Grid.module.css';
 
-export class Grid extends Component {
+export class GridData extends Component {
   state = {
     addContainerPosition: null,
     addContainerModalOpen: false,
@@ -22,7 +22,7 @@ export class Grid extends Component {
   handleAddContainer = ({ containerType }) => {
     if (this.props.onAddContainer) {
       this.props.onAddContainer({
-        containerGridId: this.props.containerGrid.id,
+        gridId: this.props.grid.id,
         position: this.state.addContainerPosition,
         containerType,
       });
@@ -38,10 +38,10 @@ export class Grid extends Component {
     }
   };
   render() {
-    const { containerGrid, settings } = this.props;
-    const { grid } = containerGrid;
-    const id = containerGrid.id;
-    const renderedGrid = grid.map((row, i) => {
+    const { grid, settings } = this.props;
+    const { data } = grid;
+    const id = grid.id;
+    const renderedGrid = data.map((row, i) => {
       const rowKey = `${id}_ROW_${i}`;
       const positions = row.map((position, i) => {
         const positionKey = `${id}_POSITION_${position.row}${position.column}`;
@@ -76,8 +76,8 @@ export class Grid extends Component {
   }
 }
 
-Grid.propTypes = {
-  containerGrid: PropTypes.object.isRequired,
+GridData.propTypes = {
+  grid: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   onAddContainer: PropTypes.func,
   onContainerClick: PropTypes.func,

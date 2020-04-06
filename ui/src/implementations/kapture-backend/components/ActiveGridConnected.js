@@ -1,26 +1,26 @@
 import { connect } from 'react-redux';
 
-import { ActiveContainer } from '../../../components';
+import { ActiveGrid } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 
 const {
-  selectEditorV2ActiveContainer,
+  selectEditorV2ActiveGrid,
   selectEditorV2Barcodes,
   selectEditorV2Settings,
 } = selectors;
 
 const {
-  addNewContainerToContainerGrid,
+  addNewContainerToGrid,
   handleContainerClick,
-  setBarcode,
+  setGridBarcode,
   addBarcodes,
   setSettings,
 } = actions.editorV2;
 
 const mapState = (state, props) => {
   return {
-    activeContainer: selectEditorV2ActiveContainer(state),
+    activeGrid: selectEditorV2ActiveGrid(state),
     barcodes: selectEditorV2Barcodes(state),
     settings: selectEditorV2Settings(state),
   };
@@ -28,11 +28,11 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onContainerClick: handleContainerClick,
-  onAddContainer: addNewContainerToContainerGrid,
-  onBarcodeSelect: setBarcode,
+  onAddContainer: addNewContainerToGrid,
+  onBarcodeSelect: setGridBarcode,
   onBarcodeAdd: addBarcodes,
   onSettingsChange: setSettings,
 };
 
-const connected = connect(mapState, mapDispatch)(ActiveContainer);
-export { connected as ActiveContainer };
+const connected = connect(mapState, mapDispatch)(ActiveGrid);
+export { connected as ActiveGrid };
