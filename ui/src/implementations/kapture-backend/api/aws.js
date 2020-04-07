@@ -140,22 +140,22 @@ export function saveActivityGrids(activityName, grids) {
  * @param {Object[]} plateMaps Set of plates associated with the experiment
  * @returns {Promise<any>}
  */
-export function publishExperimentPlates(experimentName, plateMaps) {
+export function publishActivityGrids(activityName, grids) {
   return new Promise((resolve, reject) => {
-    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
+    let compressedGrids = lzutf8.compress(JSON.stringify(grids), {
       outputEncoding: 'Base64',
     });
     getUTCTime().then(function (time) {
       createNew(
-        experimentName,
+        activityName,
         STATUS_COMPLETED,
         time,
-        plateMapsToSave,
+        compressedGrids,
         reject,
         ({ data }) => {
           resolve({
             containerCollectionDetails: {
-              status: experimentName + '_' + STATUS_COMPLETED,
+              status: activityName + '_' + STATUS_COMPLETED,
               version: time,
               data,
             },

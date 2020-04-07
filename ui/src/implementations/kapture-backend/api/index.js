@@ -11,7 +11,7 @@ import {
 import {
   fetchExperimentVersions,
   fetchVersion,
-  publishExperimentPlates,
+  publishActivityGrids,
   saveActivityGrids,
 } from './aws';
 export const api = {
@@ -19,7 +19,7 @@ export const api = {
   fetchExperiment,
   fetchExperimentVersions,
   fetchVersion,
-  publishExperimentPlates,
+  publishActivityGrids,
   fetchCommunity,
   fetchCompound,
   fetchMedium,

@@ -20,7 +20,7 @@ import {
 const {
   selectActivityName,
   selectActivityContainerCollections,
-  selectEditorV2Containers,
+  selectEditorV2Grids,
 } = selectors;
 
 const {
@@ -93,18 +93,13 @@ export const importContainerCollection = async (containerCollection) => {
   return importGrids(grids, kaptureComponents);
 };
 
-export const publishActivityPlates = () => {
+export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishStatus({ status: REQUEST_PENDING }));
     const activityName = selectActivityName(getState());
-    const exportedContainers = exportGrids(
-      selectEditorV2Containers(getState())
-    );
+    const exportedGrids = exportGrids(selectEditorV2Grids(getState()));
     try {
-      const data = await api.publishExperimentPlates(
-        activityName,
-        exportedContainers
-      );
+      const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));
       dispatch(_setPublishedContainerCollectionDetails(data));
     } catch (err) {
