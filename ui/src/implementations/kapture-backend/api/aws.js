@@ -18,7 +18,7 @@ AWS.config.update({
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
 
-const processResponse = response => {
+const processResponse = (response) => {
   const versions = [];
   if (response.Count > 0) {
     response.Items.forEach(({ plateMaps, ...rest }) => {
@@ -102,7 +102,7 @@ export function fetchPlates(experimentId, status) {
       ScanIndexForward: false,
       ConsistentRead: false,
     };
-    docClient.query(params, function(err, response) {
+    docClient.query(params, function (err, response) {
       if (err) {
         reject(err);
       } else {
@@ -125,12 +125,12 @@ export function fetchPlates(experimentId, status) {
  * @param {Object[]} containers Set of containers associated with the experiment
  * @returns {Promise<any>}
  */
-export function saveActivityContainers(activityName, containers) {
+export function saveActivityGrids(activityName, grids) {
   return new Promise((resolve, reject) => {
-    let containersToSave = lzutf8.compress(JSON.stringify(containers), {
+    let compressedGrids = lzutf8.compress(JSON.stringify(grids), {
       outputEncoding: 'Base64',
     });
-    saveToDB(activityName, STATUS_DRAFT, 0, containersToSave, reject, resolve);
+    saveToDB(activityName, STATUS_DRAFT, 0, compressedGrids, reject, resolve);
   });
 }
 
@@ -145,7 +145,7 @@ export function publishExperimentPlates(experimentName, plateMaps) {
     let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
       outputEncoding: 'Base64',
     });
-    getUTCTime().then(function(time) {
+    getUTCTime().then(function (time) {
       createNew(
         experimentName,
         STATUS_COMPLETED,
@@ -184,10 +184,10 @@ export function getUTCTime() {
           'x-rapidapi-key': WORLD_CLOCK_KEY,
         },
       })
-      .then(function(response) {
+      .then(function (response) {
         resolve(response.data['currentFileTime']);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // convert unix time stamp to LDAP/Win32 Filetime
         resolve((Date.now() / 1000 + 11644473600) * 10000000);
       });
@@ -215,7 +215,7 @@ function saveToDB(
     ReturnValues: 'UPDATED_NEW',
   };
 
-  docClient.update(params, function(err, data) {
+  docClient.update(params, function (err, data) {
     if (err) {
       reject(err);
       console.error(
@@ -244,7 +244,7 @@ function createNew(
       plateMaps: plateMapsToSave,
     },
   };
-  docClient.put(params, function(err, data) {
+  docClient.put(params, function (err, data) {
     if (err) {
       reject(err);
       console.error(
@@ -272,7 +272,7 @@ export function scanTable() {
           JSON.stringify(err, null, 2)
         );
       } else {
-        data.Items.forEach(function(item) {
+        data.Items.forEach(function (item) {
           const { plateMaps, ...rest } = item;
           experiments.push({
             plateMaps: JSON.parse(

@@ -2,7 +2,7 @@ import uuidv1 from 'uuid/v1';
 
 export const createContainer = ({
   id = null,
-  subtype = null,
+  containerType = null,
   name = null,
   displayName = null,
   barcode = null,
@@ -12,7 +12,7 @@ export const createContainer = ({
   return {
     id: id || uuidv1(),
     type: 'Container',
-    subtype,
+    containerType,
     name,
     displayName,
     barcode,

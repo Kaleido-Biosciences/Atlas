@@ -8,11 +8,7 @@ import {
   STATUS_COMPLETED,
 } from '../../../constants';
 import { api } from '../api';
-import {
-  createContainerCollection,
-  importGrid,
-  exportContainers,
-} from '../models';
+import { createContainerCollection, exportGrids, importGrids } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
@@ -92,22 +88,16 @@ export const getContainerCollection = (status, timestamp) => {
 };
 
 export const importContainerCollection = async (containerCollection) => {
-  const kaptureComponents = await fetchComponentsForContainers(
-    containerCollection.data.plateMaps
-  );
-  const importedContainers = containerCollection.data.plateMaps.map(
-    (container) => {
-      return importGrid(container, kaptureComponents);
-    }
-  );
-  return importedContainers;
+  const grids = containerCollection.data.plateMaps;
+  const kaptureComponents = await fetchComponentsForContainers(grids);
+  return importGrids(grids, kaptureComponents);
 };
 
 export const publishActivityPlates = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishStatus({ status: REQUEST_PENDING }));
     const activityName = selectActivityName(getState());
-    const exportedContainers = exportContainers(
+    const exportedContainers = exportGrids(
       selectEditorV2Containers(getState())
     );
     try {

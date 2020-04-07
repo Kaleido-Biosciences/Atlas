@@ -35,33 +35,11 @@ const createEditorComponentFromKaptureData = (
   });
 };
 
-const exportContainers = (containers) => {
-  const exportedContainers = containers.map((container, i) => {
-    let exported;
-    if (container.type === 'ContainerGrid') {
-      exported = exportGrid(container, i + 1);
-    } else if (container.type === 'Container') {
-      exported = exportContainer(container, i + 1);
-    }
-    return exported;
+const exportGrids = (grids) => {
+  const exportedGrids = grids.map((grid, i) => {
+    return exportGrid(grid, i + 1);
   });
-  return exportedContainers;
-};
-
-const exportContainer = (container, id) => {
-  const exportedContainer = {
-    id: id || null,
-    rows: 1,
-    columns: 1,
-    name: container.name || null,
-    containerType: container.subtype || null,
-    barcode: container.barcode || null,
-    data: [],
-  };
-  if (container.components) {
-    exportedContainer.data.push(exportContainerData(container, 'A', 1));
-  }
-  return exportedContainer;
+  return exportedGrids;
 };
 
 const exportGrid = (grid, id) => {
@@ -70,7 +48,7 @@ const exportGrid = (grid, id) => {
     rows: grid.dimensions.rows,
     columns: grid.dimensions.columns,
     name: grid.name || null,
-    containerType: grid.subtype || null,
+    containerType: grid.containerType || null,
     barcode: grid.barcode || null,
     data: [],
   };
@@ -79,7 +57,7 @@ const exportGrid = (grid, id) => {
     positions.forEach((position) => {
       if (position.container) {
         exportedGrid.data.push(
-          exportContainerData(position.container, position.row, position.column)
+          exportContainer(position.container, position.row, position.column)
         );
       }
     });
@@ -87,10 +65,10 @@ const exportGrid = (grid, id) => {
   return exportedGrid;
 };
 
-function exportContainerData(container, row, column) {
-  const containerData = {
+const exportContainer = (container, row, column) => {
+  const exportedContainer = {
     name: container.name || null,
-    containerType: container.subtype || null,
+    containerType: container.containerType || null,
     row: row || null,
     col: column || null,
     barcode: container.barcode || null,
@@ -100,14 +78,14 @@ function exportContainerData(container, row, column) {
   if (container.components && container.components.length) {
     container.components.forEach((component) => {
       if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
-        containerData.attributes.push({
+        exportedContainer.attributes.push({
           key: component.data.key,
           value: component.data.value,
           value_type: component.data.value_type,
           value_unit: component.data.value_unit,
         });
       } else {
-        containerData.components.push({
+        exportedContainer.components.push({
           type: component.type,
           id: component.data.id,
           timepoints: component.options.timepoints,
@@ -115,8 +93,36 @@ function exportContainerData(container, row, column) {
       }
     });
   }
-  return containerData;
-}
+  return exportedContainer;
+};
+
+const importGrids = (grids, kaptureComponents) => {
+  return grids.map((grid) => {
+    return importGrid(grid, kaptureComponents);
+  });
+};
+
+const importGrid = (importData, kaptureComponents) => {
+  const gridData = createGridData({
+    rows: importData.rows,
+    columns: importData.columns,
+  });
+  const grid = createGrid({
+    containerType: importData.containerType,
+    barcode: importData.barcode,
+    dimensions: { rows: importData.rows, columns: importData.columns },
+    data: gridData,
+  });
+  const containerPositions = importData.data.map((containerData) => {
+    return {
+      row: containerData.row,
+      column: containerData.col,
+      container: importContainer(containerData, kaptureComponents),
+    };
+  });
+  addContainersToGrid(grid, containerPositions);
+  return grid;
+};
 
 const importContainer = (containerData, kaptureComponents) => {
   const editorComponents = containerData.components.map((component) => {
@@ -151,35 +157,13 @@ const importContainer = (containerData, kaptureComponents) => {
   );
   const containerComponents = editorComponents.concat(editorAttributes);
   return createContainer({
-    subtype: containerData.containerType,
+    containerType: containerData.containerType,
     barcode: containerData.barcode,
     components: containerComponents,
   });
 };
 
-const importGrid = (importData, kaptureComponents) => {
-  const gridData = createGridData({
-    rows: importData.rows,
-    columns: importData.columns,
-  });
-  const grid = createGrid({
-    subtype: importData.containerType,
-    barcode: importData.barcode,
-    dimensions: { rows: importData.rows, columns: importData.columns },
-    gridData,
-  });
-  const containerPositions = importData.data.map((containerData) => {
-    return {
-      row: containerData.row,
-      column: containerData.col,
-      container: importContainer(containerData, kaptureComponents),
-    };
-  });
-  addContainersToGrid(grid, containerPositions);
-  return grid;
-};
-
-function getDisplayName(data) {
+const getDisplayName = (data) => {
   let displayName = data.name;
   if (data.alias) {
     //For communities
@@ -191,9 +175,9 @@ function getDisplayName(data) {
     );
   }
   return displayName;
-}
+};
 
-function getDescription(timepoints) {
+const getDescription = (timepoints) => {
   const timepointStrings = timepoints.map((timepoint) => {
     if (timepoint.concentration) {
       return `${timepoint.concentration.toFixed(2)} @ 
@@ -201,11 +185,6 @@ function getDescription(timepoints) {
     } else return '';
   });
   return timepointStrings.join(', ');
-}
-
-export {
-  createEditorComponentFromKaptureData,
-  exportContainers,
-  importContainer,
-  importGrid,
 };
+
+export { exportGrids, importGrids };

@@ -54,7 +54,7 @@ export const createContainersForGrid = (dimensions, containerType) => {
       const position = {
         row: rowLetter,
         column: j + 1,
-        container: createContainer({ subtype: containerType }),
+        container: createContainer({ containerType }),
       };
       positions.push(position);
     }

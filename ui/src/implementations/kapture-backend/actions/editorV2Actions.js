@@ -10,7 +10,7 @@ import {
   addContainersToGrid,
   createContainer,
   createComponent,
-  exportContainers,
+  exportGrids,
 } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -58,11 +58,9 @@ const wrapWithChangeHandler = (fn) => {
       dispatch(fn.apply(this, arguments));
       dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
       const activityName = selectActivityName(getState());
-      const exportedContainers = exportContainers(
-        selectEditorV2Grids(getState())
-      );
+      const exportedGrids = exportGrids(selectEditorV2Grids(getState()));
       try {
-        await api.saveActivityContainers(activityName, exportedContainers);
+        await api.saveActivityGrids(activityName, exportedGrids);
         dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
       } catch (err) {
         dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
@@ -245,7 +243,7 @@ export const cloneGrid = wrapWithChangeHandler(
             componentTypesToClone
           );
           const newContainer = createContainer({
-            subtype: position.container.subtype,
+            containerType: position.container.containerType,
             components: clonedComponents,
           });
           containerPositions.push({
@@ -255,14 +253,14 @@ export const cloneGrid = wrapWithChangeHandler(
           });
         }
       });
-      const gridData = createGrid({ ...grid.dimensions });
+      const gridData = createGridData({ ...grid.dimensions });
       const newGrid = createGrid({
-        subtype: grid.subtype,
+        containerType: grid.containerType,
         dimensions: grid.dimensions,
-        gridData,
+        data: gridData,
       });
       addContainersToGrid(newGrid, containerPositions);
-      dispatch(_addGrid({ container: newGrid }));
+      dispatch(_addGrid({ grid: newGrid }));
     };
   }
 );
