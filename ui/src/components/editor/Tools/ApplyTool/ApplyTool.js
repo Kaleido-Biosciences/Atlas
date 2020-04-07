@@ -14,9 +14,9 @@ import styles from './ApplyTool.module.css';
 export class ApplyTool extends Component {
   groupComponents = memoize(groupComponents);
   handleApplyClick = () => {
-    const { activeContainerId } = this.props;
+    const { activeGridId } = this.props;
     if (this.props.onApplyClick) {
-      this.props.onApplyClick({ containerId: activeContainerId });
+      this.props.onApplyClick({ gridId: activeGridId });
     }
   };
   handleAddAttribute = ({ component }) => {
@@ -39,7 +39,7 @@ export class ApplyTool extends Component {
       attributes,
     } = groupedComponents;
     const showComponents =
-      toolComponents.filter(x => x.type !== 'attribute').length > 0;
+      toolComponents.filter((x) => x.type !== 'attribute').length > 0;
     return (
       <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
@@ -85,7 +85,7 @@ ApplyTool.propTypes = {
   toolComponents: PropTypes.array.isRequired,
   toolComponentsValid: PropTypes.bool.isRequired,
   selectedContainersSummary: PropTypes.object.isRequired,
-  activeContainerId: PropTypes.string,
+  activeGridId: PropTypes.string,
   onApplyClick: PropTypes.func,
   onAddAttribute: PropTypes.func,
 };

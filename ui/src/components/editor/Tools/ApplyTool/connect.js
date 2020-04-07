@@ -10,19 +10,19 @@ import {
   selectEditorV2ActiveGridId,
 } from '../../../../store/selectors';
 
-const { applySelectedToolComponentsToSelectedContainers } = actions.editorV2;
+const { applySelectedToolComponentsToSelectedGrids } = actions.editorV2;
 
 const mapState = (state, props) => {
   return {
     toolComponents: selectEditorToolComponents(state),
     toolComponentsValid: selectEditorToolComponentsValid(state),
     selectedContainersSummary: selectEditorV2SelectedContainersSummary(state),
-    activeContainerId: selectEditorV2ActiveGridId(state),
+    activeGridId: selectEditorV2ActiveGridId(state),
   };
 };
 
 const mapDispatch = {
-  onApplyClick: applySelectedToolComponentsToSelectedContainers,
+  onApplyClick: applySelectedToolComponentsToSelectedGrids,
   onAddAttribute: addComponentToToolComponents,
 };
 

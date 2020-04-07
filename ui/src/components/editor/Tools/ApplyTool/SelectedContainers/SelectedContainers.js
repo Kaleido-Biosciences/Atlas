@@ -28,7 +28,11 @@ export class SelectedContainers extends Component {
     }
   }
   render() {
-    const { selectedContainersSummary, showButton, buttonDisabled } = this.props;
+    const {
+      selectedContainersSummary,
+      showButton,
+      buttonDisabled,
+    } = this.props;
     return (
       <div>
         {this.renderSelectedContainersSummary()}
@@ -50,7 +54,7 @@ export class SelectedContainers extends Component {
 }
 
 SelectedContainers.propTypes = {
-  selectedContainersSummary: PropTypes.array,
+  selectedContainersSummary: PropTypes.object,
   showButton: PropTypes.bool,
   buttonDisabled: PropTypes.bool,
   onApplyClick: PropTypes.func,
