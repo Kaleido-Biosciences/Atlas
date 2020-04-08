@@ -15,7 +15,7 @@ export class GridTabs extends Component {
     deleteModalOpen: false,
   };
   componentDidUpdate(prevProps) {
-    if (prevProps.tabs.length !== this.props.tabs.length) {
+    if (prevProps.tabs.length < this.props.tabs.length) {
       this.scrollbars.scrollLeft(this.scrollbars.getScrollWidth());
     }
   }
