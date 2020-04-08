@@ -5,7 +5,6 @@ export { ActivityDetails } from './ActivityDetailsConnected';
 export { PlateSizeForm } from '../../../components';
 export { Print } from './PrintConnected';
 export { Editor } from './EditorConnected';
-export { PlateTabBar } from './PlateTabBarConnected';
 export { Plate } from './PlateConnected';
 export { ComponentList } from './ComponentListConnected';
 export { Tools } from './ToolsConnected';

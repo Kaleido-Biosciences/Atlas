@@ -1,1 +1,0 @@
-export { PlateTabBar } from './PlateTabBar';
