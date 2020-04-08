@@ -102,6 +102,7 @@ export const publishActivityGrids = () => {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));
       dispatch(_setPublishedContainerCollectionDetails(data));
+      dispatch(setContainerCollectionsStale({ stale: true }));
     } catch (err) {
       dispatch(_setPublishStatus({ status: REQUEST_ERROR }));
     }
