@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import { Loader, Message } from 'semantic-ui-react';
 
-import { NoPlatesMessage } from '../Plate';
+// import { NoPlatesMessage } from '../Plate';
 // import { PlateSidebar } from '../PlateSidebar';
 import styles from './Editor.module.css';
 
@@ -64,11 +64,11 @@ export class Editor extends Component {
                   {tabBarComponent}
                 </div>
                 <div className={styles.plateContainer}>
-                  {noPlates ? (
-                    <NoPlatesMessage onAddClick={this.props.onAddClick} />
+                  {/* {noPlates ? (
+                    // <NoPlatesMessage onAddClick={this.props.onAddClick} />
                   ) : (
                     plateComponent
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className={styles.plateSidebar}>
