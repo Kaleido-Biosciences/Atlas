@@ -4,7 +4,6 @@ export { ActivityHeader } from './activity/ActivityHeader';
 export { ActivityDetails } from './activity/ActivityDetails';
 export { PlateSizeForm } from './activity/PlateSizeForm';
 export { Print } from './print';
-export { Editor } from './editor/Editor';
 export { ComponentList } from './editor/ComponentList';
 export { Tools } from './editor/Tools';
 export { EditorV2 } from './editor/EditorV2';
