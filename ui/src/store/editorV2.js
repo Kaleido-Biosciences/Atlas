@@ -22,6 +22,7 @@ const initialState = {
   },
   saveStatus: null,
   lastSaveTime: null,
+  componentCounts: {},
 };
 
 const editorV2 = createSlice({

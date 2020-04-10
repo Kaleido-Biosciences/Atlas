@@ -164,3 +164,9 @@ export const selectEditorV2SaveStatus = createSelector(['editorV2.saveStatus']);
 export const selectEditorV2LastSaveTime = createSelector([
   'editorV2.lastSaveTime',
 ]);
+export const selectEditorV2ComponentCounts = createSelector([
+  'editorV2.componentCounts',
+]);
+export const selectEditorV2Components = createSelector([
+  'editorComponents.components',
+]);

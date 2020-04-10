@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import { addComponentToToolComponents } from '../../../../implementations/kapture-backend/actions/editorActions';
 import { actions } from '../../../../implementations/kapture-backend/actions';
 import {
   selectEditorToolComponents,
@@ -11,6 +10,7 @@ import {
 } from '../../../../store/selectors';
 
 const { applySelectedToolComponentsToSelectedGrids } = actions.editorV2;
+const { addComponentToToolComponents } = actions.editorTools;
 
 const mapState = (state, props) => {
   return {

@@ -4,12 +4,9 @@ import { ComponentList } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 
-const {
-  addComponentToComponents,
-  addComponentToToolComponents,
-} = actions.editor;
-
-const { selectEditorComponents, selectEditorComponentCounts } = selectors;
+const { addComponentToToolComponents } = actions.editorTools;
+const { addComponentToComponents } = actions.editorComponents;
+const { selectEditorV2Components, selectEditorV2ComponentCounts } = selectors;
 
 const onComponentClick = ({ component }) => {
   return (dispatch, getState) => {
@@ -20,8 +17,8 @@ const onComponentClick = ({ component }) => {
 
 const mapState = (state, props) => {
   return {
-    components: selectEditorComponents(state),
-    componentCounts: selectEditorComponentCounts(state),
+    components: selectEditorV2Components(state),
+    componentCounts: selectEditorV2ComponentCounts(state),
   };
 };
 

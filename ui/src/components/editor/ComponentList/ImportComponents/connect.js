@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ImportComponents } from './ImportComponents';
 import { actions } from '../../../../implementations/kapture-backend/actions';
 
-const { addKaptureComponentsToComponents } = actions.editor;
+const { addKaptureComponentsToComponents } = actions.editorComponents;
 
 const mapDispatch = {
   onAdd: addKaptureComponentsToComponents,
