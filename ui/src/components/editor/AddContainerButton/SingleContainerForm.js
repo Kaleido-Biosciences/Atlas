@@ -32,11 +32,3 @@ SingleContainerForm.propTypes = {
   ),
   onChange: PropTypes.func,
 };
-
-SingleContainerForm.defaultProps = {
-  options: [
-    { key: 'Tube', value: 'Tube', text: 'Tube' },
-    { key: 'PetriDish', value: 'PetriDish', text: 'Petri Dish' },
-    { key: 'Other', value: 'Other', text: 'Other' },
-  ],
-};

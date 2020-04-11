@@ -10,6 +10,7 @@ export class ActiveGrid extends Component {
     const {
       activeGrid,
       onContainerClick,
+      containerTypeOptions,
       onAddContainer,
       barcodes,
       onBarcodeAdd,
@@ -35,8 +36,9 @@ export class ActiveGrid extends Component {
             <Grid
               grid={activeGrid}
               settings={settings}
-              onAddContainer={onAddContainer}
               onClick={onContainerClick}
+              containerTypeOptions={containerTypeOptions}
+              onAddContainer={onAddContainer}
             />
           </div>
         </div>
@@ -50,6 +52,7 @@ export class ActiveGrid extends Component {
 ActiveGrid.propTypes = {
   activeGrid: PropTypes.object,
   onContainerClick: PropTypes.func,
+  containerTypeOptions: PropTypes.array,
   onAddContainer: PropTypes.func,
   barcodes: PropTypes.array.isRequired,
   onBarcodeSelect: PropTypes.func,

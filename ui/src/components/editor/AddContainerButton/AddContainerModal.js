@@ -47,6 +47,6 @@ export class AddContainerModal extends Component {
 AddContainerModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  onAddClick: PropTypes.func,
   containerTypeOptions: PropTypes.array,
+  onAddClick: PropTypes.func,
 };

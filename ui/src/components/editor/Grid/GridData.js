@@ -38,7 +38,7 @@ export class GridData extends Component {
     }
   };
   render() {
-    const { grid, settings } = this.props;
+    const { grid, settings, containerTypeOptions } = this.props;
     const { data } = grid;
     const id = grid.id;
     const renderedGrid = data.map((row, i) => {
@@ -69,6 +69,7 @@ export class GridData extends Component {
         <AddContainerModal
           open={this.state.addContainerModalOpen}
           onClose={this.handleAddContainerModalClose}
+          containerTypeOptions={containerTypeOptions}
           onAddClick={this.handleAddContainer}
         />
       </div>
@@ -79,6 +80,7 @@ export class GridData extends Component {
 GridData.propTypes = {
   grid: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  onAddContainer: PropTypes.func,
   onContainerClick: PropTypes.func,
+  containerTypeOptions: PropTypes.array,
+  onAddContainer: PropTypes.func,
 };

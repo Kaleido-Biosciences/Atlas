@@ -45,7 +45,7 @@ export class Grid extends Component {
     }
   };
   render() {
-    const { grid, settings } = this.props;
+    const { grid, settings, containerTypeOptions } = this.props;
     return (
       <div className={styles.grid}>
         <div className={styles.topHeader}>
@@ -71,8 +71,9 @@ export class Grid extends Component {
             <GridData
               grid={grid}
               settings={settings}
-              onAddContainer={this.handleAddContainer}
               onContainerClick={this.handleContainerClick}
+              containerTypeOptions={containerTypeOptions}
+              onAddContainer={this.handleAddContainer}
             />
           </Scrollbars>
         </div>
@@ -84,6 +85,7 @@ export class Grid extends Component {
 Grid.propTypes = {
   grid: PropTypes.object,
   settings: PropTypes.object,
-  onAddContainer: PropTypes.func,
   onClick: PropTypes.func,
+  containerTypeOptions: PropTypes.array,
+  onAddContainer: PropTypes.func,
 };

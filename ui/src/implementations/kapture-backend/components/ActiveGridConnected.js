@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ActiveGrid } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
+import { CONTAINER_TYPE_OPTIONS } from '../config/containerTypes';
 
 const {
   selectEditorActiveGrid,
@@ -23,6 +24,7 @@ const mapState = (state, props) => {
     activeGrid: selectEditorActiveGrid(state),
     barcodes: selectEditorBarcodes(state),
     settings: selectEditorSettings(state),
+    containerTypeOptions: CONTAINER_TYPE_OPTIONS,
   };
 };
 
