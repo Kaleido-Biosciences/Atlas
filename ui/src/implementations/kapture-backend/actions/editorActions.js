@@ -141,7 +141,7 @@ export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
 export const addNewContainerToGrid = wrapWithChangeHandler(
   ({ gridId, position, containerType }) => {
     return (dispatch, getState) => {
-      const container = createContainer({ subtype: containerType });
+      const container = createContainer({ containerType });
       dispatch(
         _addContainerToGrid({
           gridId,
