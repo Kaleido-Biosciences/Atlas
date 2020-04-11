@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import { EditorV2 } from '../../../components';
+import { Editor } from '../../../components';
 import { selectors } from '../store';
 import { actions } from '../actions';
 
-const { loadContainerCollection, resetEditorV2 } = actions.editorV2;
+const { loadContainerCollection, resetEditor } = actions.editor;
 
 const {
   selectEditorInitialized,
@@ -34,8 +34,8 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
-  onUnmount: resetEditorV2,
+  onUnmount: resetEditor,
 };
 
-const connected = connect(mapState, mapDispatch)(EditorV2);
-export { connected as EditorV2 };
+const connected = connect(mapState, mapDispatch)(Editor);
+export { connected as Editor };

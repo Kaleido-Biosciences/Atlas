@@ -4,9 +4,9 @@ import SplitPane from 'react-split-pane';
 import { Loader, Message } from 'semantic-ui-react';
 
 import { EditorEmptyState } from './EditorEmptyState';
-import styles from './EditorV2.module.css';
+import styles from './Editor.module.css';
 
-export class EditorV2 extends Component {
+export class Editor extends Component {
   componentDidMount() {
     if (this.props.onMount) {
       this.props.onMount(this.props.location.search);
@@ -83,7 +83,7 @@ export class EditorV2 extends Component {
   }
 }
 
-EditorV2.propTypes = {
+Editor.propTypes = {
   location: PropTypes.object,
   loading: PropTypes.bool,
   initialized: PropTypes.bool,

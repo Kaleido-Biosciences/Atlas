@@ -5,7 +5,7 @@ export { ActivityDetails } from './ActivityDetailsConnected';
 export { Print } from './PrintConnected';
 export { ComponentList } from './ComponentListConnected';
 export { Tools } from './ToolsConnected';
-export { EditorV2 } from './EditorV2Connected';
+export { Editor } from './EditorConnected';
 export { GridTabs } from './GridTabsConnected';
 export { ActiveGrid } from './ActiveGridConnected';
 export { EditorActions } from './EditorActions';

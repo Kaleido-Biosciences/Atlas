@@ -1,4 +1,4 @@
-import { editorV2Actions, editorToolsActions, selectors } from '../store';
+import { editorActions, editorToolsActions, selectors } from '../store';
 import {
   getContainerCollection,
   importContainerCollection,
@@ -38,7 +38,7 @@ const {
   deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
   setSaveStatus: _setSaveStatus,
-} = editorV2Actions;
+} = editorActions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
 
@@ -73,8 +73,8 @@ export const {
   setActiveGridId,
   addBarcodes,
   setSettings,
-  resetState: resetEditorV2,
-} = editorV2Actions;
+  resetState: resetEditor,
+} = editorActions;
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {

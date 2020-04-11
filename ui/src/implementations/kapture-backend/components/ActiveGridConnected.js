@@ -16,7 +16,7 @@ const {
   setGridBarcode,
   addBarcodes,
   setSettings,
-} = actions.editorV2;
+} = actions.editor;
 
 const mapState = (state, props) => {
   return {

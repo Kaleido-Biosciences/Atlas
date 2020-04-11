@@ -41,28 +41,26 @@ export const selectActivityContainerCollectionsStale = createSelector([
 ]);
 
 /* Editor */
-export const selectEditorInitialized = createSelector(['editorV2.initialized']);
+export const selectEditorInitialized = createSelector(['editor.initialized']);
 export const selectEditorInitializationError = createSelector([
-  'editorV2.initializationError',
+  'editor.initializationError',
 ]);
-export const selectEditorGrids = createSelector(['editorV2.grids']);
+export const selectEditorGrids = createSelector(['editor.grids']);
 export const selectEditorGridCount = createSelector(
-  ['editorV2.grids'],
+  ['editor.grids'],
   (grids) => {
     return grids.length;
   }
 );
-export const selectEditorActiveGridId = createSelector([
-  'editorV2.activeGridId',
-]);
+export const selectEditorActiveGridId = createSelector(['editor.activeGridId']);
 export const selectEditorActiveGrid = createSelector(
-  ['editorV2.grids', 'editorV2.activeGridId'],
+  ['editor.grids', 'editor.activeGridId'],
   (grids, activeGridId) => {
     return grids.find((c) => c.id === activeGridId);
   }
 );
 export const selectEditorGridTabs = createSelector(
-  ['editorV2.grids', 'editorV2.activeGridId'],
+  ['editor.grids', 'editor.activeGridId'],
   (grids, activeGridId) => {
     const tabs = [];
     grids.forEach((grid) => {
@@ -75,10 +73,10 @@ export const selectEditorGridTabs = createSelector(
     return tabs;
   }
 );
-export const selectEditorBarcodes = createSelector(['editorV2.barcodes']);
-export const selectEditorSettings = createSelector(['editorV2.settings']);
+export const selectEditorBarcodes = createSelector(['editor.barcodes']);
+export const selectEditorSettings = createSelector(['editor.settings']);
 export const selectEditorSelectedContainersSummary = createSelector(
-  ['editorV2.grids', 'editorV2.activeGridId'],
+  ['editor.grids', 'editor.activeGridId'],
   (grids, activeGridId) => {
     const selectedContainersSummary = {
       count: 0,
@@ -106,12 +104,10 @@ export const selectEditorSelectedContainersSummary = createSelector(
     return selectedContainersSummary;
   }
 );
-export const selectEditorSaveStatus = createSelector(['editorV2.saveStatus']);
-export const selectEditorLastSaveTime = createSelector([
-  'editorV2.lastSaveTime',
-]);
+export const selectEditorSaveStatus = createSelector(['editor.saveStatus']);
+export const selectEditorLastSaveTime = createSelector(['editor.lastSaveTime']);
 export const selectEditorComponentCounts = createSelector([
-  'editorV2.componentCounts',
+  'editor.componentCounts',
 ]);
 export const selectEditorComponents = createSelector([
   'editorComponents.components',

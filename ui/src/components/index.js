@@ -5,7 +5,7 @@ export { ActivityDetails } from './activity/ActivityDetails';
 export { Print } from './print';
 export { ComponentList } from './editor/ComponentList';
 export { Tools } from './editor/Tools';
-export { EditorV2 } from './editor/EditorV2';
+export { Editor } from './editor/Editor';
 export { GridTabs } from './editor/GridTabs';
 export { Grid } from './editor/Grid';
 export { ActiveGrid } from './editor/ActiveGrid';

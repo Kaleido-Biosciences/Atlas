@@ -12,7 +12,7 @@ const {
   addNewContainer,
   cloneGrid,
   deleteGrid,
-} = actions.editorV2;
+} = actions.editor;
 
 const { selectEditorGridTabs, selectEditorActiveGridId } = selectors;
 

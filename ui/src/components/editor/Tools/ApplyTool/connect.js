@@ -9,7 +9,7 @@ import {
   selectEditorActiveGridId,
 } from '../../../../store/selectors';
 
-const { applySelectedToolComponentsToSelectedGrids } = actions.editorV2;
+const { applySelectedToolComponentsToSelectedGrids } = actions.editor;
 const { addComponentToToolComponents } = actions.editorTools;
 
 const mapState = (state, props) => {

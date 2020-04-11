@@ -4,7 +4,7 @@ import { EditorActions } from './EditorActions';
 import { selectors } from '../../store';
 import { actions } from '../../actions';
 const { selectEditorSaveStatus, selectEditorLastSaveTime } = selectors;
-const { addBarcodes } = actions.editorV2;
+const { addBarcodes } = actions.editor;
 
 const mapState = (state, props) => {
   return {

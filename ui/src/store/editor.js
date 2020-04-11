@@ -25,8 +25,8 @@ const initialState = {
   componentCounts: {},
 };
 
-const editorV2 = createSlice({
-  slice: 'editorV2',
+const editor = createSlice({
+  slice: 'editor',
   initialState,
   reducers: {
     setInitialized(state, action) {
@@ -182,7 +182,7 @@ const editorV2 = createSlice({
   },
 });
 
-export const { actions: editorV2Actions, reducer: editorV2Reducer } = editorV2;
+export const { actions: editorActions, reducer: editorReducer } = editor;
 
 function assignGridNames(grids) {
   const typeCounts = {};
