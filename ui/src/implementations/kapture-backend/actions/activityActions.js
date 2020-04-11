@@ -15,7 +15,7 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
-} from '../componentTypes';
+} from '../config/componentTypes';
 
 const {
   selectActivityName,

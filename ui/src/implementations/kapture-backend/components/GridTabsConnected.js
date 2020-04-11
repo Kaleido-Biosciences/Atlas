@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { GridTabs } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
-import { COMPONENT_TYPES } from '../componentTypes';
+import { COMPONENT_TYPES } from '../config/componentTypes';
 import { CONTAINER_TYPE_OPTIONS } from '../config/containerTypes';
 
 const {
