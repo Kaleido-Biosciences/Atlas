@@ -14,7 +14,7 @@ const {
   selectActivityPublishedContainerCollectionDetails,
   selectActivityContainerCollectionsStale,
   selectPrintInitialized,
-  selectEditorV2Initialized,
+  selectEditorInitialized,
 } = selectors;
 
 const mapState = (state, props) => {
@@ -34,7 +34,7 @@ const mapState = (state, props) => {
       state
     ),
     containerCollectionsStale: selectActivityContainerCollectionsStale(state),
-    editorInitialized: selectEditorV2Initialized(state),
+    editorInitialized: selectEditorInitialized(state),
     printInitialized: selectPrintInitialized(state),
   };
 };

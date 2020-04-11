@@ -8,9 +8,9 @@ import { actions } from '../actions';
 const { loadContainerCollection, resetEditorV2 } = actions.editorV2;
 
 const {
-  selectEditorV2Initialized,
-  selectEditorV2InitializationError,
-  selectEditorV2GridCount,
+  selectEditorInitialized,
+  selectEditorInitializationError,
+  selectEditorGridCount,
 } = selectors;
 
 const onMount = (query) => {
@@ -21,9 +21,9 @@ const onMount = (query) => {
 };
 
 const mapState = (state, props) => {
-  const initialized = selectEditorV2Initialized(state);
-  const error = selectEditorV2InitializationError(state);
-  const gridCount = selectEditorV2GridCount(state);
+  const initialized = selectEditorInitialized(state);
+  const error = selectEditorInitializationError(state);
+  const gridCount = selectEditorGridCount(state);
   const showEmptyState = gridCount ? false : true;
   let loading = false;
   if (!initialized && !error) {

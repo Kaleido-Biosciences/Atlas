@@ -5,8 +5,8 @@ import { actions } from '../../../../implementations/kapture-backend/actions';
 import {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
-  selectEditorV2SelectedContainersSummary,
-  selectEditorV2ActiveGridId,
+  selectEditorSelectedContainersSummary,
+  selectEditorActiveGridId,
 } from '../../../../store/selectors';
 
 const { applySelectedToolComponentsToSelectedGrids } = actions.editorV2;
@@ -16,8 +16,8 @@ const mapState = (state, props) => {
   return {
     toolComponents: selectEditorToolComponents(state),
     toolComponentsValid: selectEditorToolComponentsValid(state),
-    selectedContainersSummary: selectEditorV2SelectedContainersSummary(state),
-    activeGridId: selectEditorV2ActiveGridId(state),
+    selectedContainersSummary: selectEditorSelectedContainersSummary(state),
+    activeGridId: selectEditorActiveGridId(state),
   };
 };
 

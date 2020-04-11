@@ -5,9 +5,9 @@ import { actions } from '../actions';
 import { selectors } from '../store';
 
 const {
-  selectEditorV2ActiveGrid,
-  selectEditorV2Barcodes,
-  selectEditorV2Settings,
+  selectEditorActiveGrid,
+  selectEditorBarcodes,
+  selectEditorSettings,
 } = selectors;
 
 const {
@@ -20,9 +20,9 @@ const {
 
 const mapState = (state, props) => {
   return {
-    activeGrid: selectEditorV2ActiveGrid(state),
-    barcodes: selectEditorV2Barcodes(state),
-    settings: selectEditorV2Settings(state),
+    activeGrid: selectEditorActiveGrid(state),
+    barcodes: selectEditorBarcodes(state),
+    settings: selectEditorSettings(state),
   };
 };
 

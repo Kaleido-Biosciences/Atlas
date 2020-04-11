@@ -20,7 +20,7 @@ import {
 const {
   selectActivityName,
   selectActivityContainerCollections,
-  selectEditorV2Grids,
+  selectEditorGrids,
 } = selectors;
 
 const {
@@ -97,7 +97,7 @@ export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishStatus({ status: REQUEST_PENDING }));
     const activityName = selectActivityName(getState());
-    const exportedGrids = exportGrids(selectEditorV2Grids(getState()));
+    const exportedGrids = exportGrids(selectEditorGrids(getState()));
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));

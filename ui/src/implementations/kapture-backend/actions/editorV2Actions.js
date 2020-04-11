@@ -47,8 +47,8 @@ const {
   selectEditorClearMode,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
-  selectEditorV2Grids,
-  selectEditorV2ActiveGridId,
+  selectEditorGrids,
+  selectEditorActiveGridId,
   selectActivityName,
 } = selectors;
 
@@ -58,7 +58,7 @@ const wrapWithChangeHandler = (fn) => {
       dispatch(fn.apply(this, arguments));
       dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
       const activityName = selectActivityName(getState());
-      const exportedGrids = exportGrids(selectEditorV2Grids(getState()));
+      const exportedGrids = exportGrids(selectEditorGrids(getState()));
       try {
         await api.saveActivityGrids(activityName, exportedGrids);
         dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
@@ -189,7 +189,7 @@ export const handleContainerClick = wrapWithChangeHandler(
 export const setClickMode = ({ clickMode }) => {
   return (dispatch, getState) => {
     dispatch(_setClickMode({ clickMode }));
-    const activeId = selectEditorV2ActiveGridId(getState());
+    const activeId = selectEditorActiveGridId(getState());
     if (activeId) {
       dispatch(_deselectGridContainers({ gridIds: [activeId] }));
     }
@@ -200,7 +200,7 @@ export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
   ({ gridId }) => {
     return (dispatch, getState) => {
       const components = selectEditorSelectedToolComponents(getState());
-      const grids = selectEditorV2Grids(getState());
+      const grids = selectEditorGrids(getState());
       const grid = findGridById(gridId, grids);
       const actionPositions = [];
       const positions = grid.data.flat();
@@ -232,7 +232,7 @@ export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
 export const cloneGrid = wrapWithChangeHandler(
   ({ gridId, componentTypesToClone }) => {
     return (dispatch, getState) => {
-      const grids = selectEditorV2Grids(getState());
+      const grids = selectEditorGrids(getState());
       const grid = findGridById(gridId, grids);
       const containerPositions = [];
       const positions = grid.data.flat();

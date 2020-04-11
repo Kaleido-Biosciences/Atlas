@@ -14,12 +14,12 @@ const {
   deleteGrid,
 } = actions.editorV2;
 
-const { selectEditorV2GridTabs, selectEditorV2ActiveGridId } = selectors;
+const { selectEditorGridTabs, selectEditorActiveGridId } = selectors;
 
 const mapState = (state, props) => {
   return {
-    tabs: selectEditorV2GridTabs(state),
-    activeGridId: selectEditorV2ActiveGridId(state),
+    tabs: selectEditorGridTabs(state),
+    activeGridId: selectEditorActiveGridId(state),
     componentTypes: COMPONENT_TYPES,
   };
 };
