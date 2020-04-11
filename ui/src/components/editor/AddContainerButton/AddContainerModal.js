@@ -23,13 +23,16 @@ export class AddContainerModal extends Component {
     if (this.props.onClose) this.props.onClose();
   };
   render() {
-    const { open } = this.props;
+    const { open, containerTypeOptions } = this.props;
     const addDisabled = this.state.containerType ? false : true;
     return (
       <Modal open={open} onClose={this.handleClose} closeIcon size="small">
         <Header icon="add circle" content="Add Container" />
         <Modal.Content>
-          <SingleContainerForm onChange={this.handleContainerChange} />
+          <SingleContainerForm
+            onChange={this.handleContainerChange}
+            options={containerTypeOptions}
+          />
         </Modal.Content>
         <Modal.Actions>
           <Button primary disabled={addDisabled} onClick={this.handleAddClick}>
@@ -45,4 +48,5 @@ AddContainerModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onAddClick: PropTypes.func,
+  containerTypeOptions: PropTypes.array,
 };

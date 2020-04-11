@@ -41,7 +41,7 @@ export class AddContainerButton extends Component {
     this.closeModals();
   };
   render() {
-    const { className } = this.props;
+    const { className, containerTypeOptions } = this.props;
     const { plateModalOpen, rackModalOpen, containerModalOpen } = this.state;
     return (
       <div>
@@ -81,6 +81,7 @@ export class AddContainerButton extends Component {
           open={containerModalOpen}
           onClose={this.closeModals}
           onAddClick={this.handleAddContainer}
+          containerTypeOptions={containerTypeOptions}
         />
       </div>
     );
@@ -92,4 +93,5 @@ AddContainerButton.propTypes = {
   onAddPlate: PropTypes.func,
   onAddRack: PropTypes.func,
   onAddContainer: PropTypes.func,
+  containerTypeOptions: PropTypes.array,
 };

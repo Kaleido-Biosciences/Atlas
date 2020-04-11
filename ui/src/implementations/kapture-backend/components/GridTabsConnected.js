@@ -4,6 +4,7 @@ import { GridTabs } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 import { COMPONENT_TYPES } from '../componentTypes';
+import { CONTAINER_TYPE_OPTIONS } from '../config/containerTypes';
 
 const {
   setActiveGridId,
@@ -21,6 +22,7 @@ const mapState = (state, props) => {
     tabs: selectEditorGridTabs(state),
     activeGridId: selectEditorActiveGridId(state),
     componentTypes: COMPONENT_TYPES,
+    containerTypeOptions: CONTAINER_TYPE_OPTIONS,
   };
 };
 

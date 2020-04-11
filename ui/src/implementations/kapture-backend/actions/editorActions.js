@@ -23,6 +23,7 @@ import {
   REQUEST_ERROR,
 } from '../../../constants';
 import { api } from '../api';
+import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
 
 const {
   setInitialized: _setInitialized,
@@ -38,6 +39,7 @@ const {
   deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
   setSaveStatus: _setSaveStatus,
+  setContainerTypes: _setContainerTypes,
 } = editorActions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
@@ -79,6 +81,7 @@ export const {
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
+      dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES_KEYED }));
       const collection = await dispatch(
         getContainerCollection(status, version)
       );

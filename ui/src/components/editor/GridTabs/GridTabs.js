@@ -74,6 +74,7 @@ export class GridTabs extends Component {
       onAddPlate,
       onAddRack,
       onAddContainer,
+      containerTypeOptions,
     } = this.props;
     return (
       <div className={styles.gridTabs}>
@@ -82,6 +83,7 @@ export class GridTabs extends Component {
           onAddPlate={onAddPlate}
           onAddRack={onAddRack}
           onAddContainer={onAddContainer}
+          containerTypeOptions={containerTypeOptions}
         />
         <div className={styles.scrollContainer}>
           <Scrollbars
@@ -125,4 +127,5 @@ GridTabs.propTypes = {
   onClone: PropTypes.func,
   componentTypes: PropTypes.array,
   onDelete: PropTypes.func,
+  containerTypeOptions: PropTypes.array,
 };

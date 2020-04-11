@@ -23,6 +23,7 @@ const initialState = {
   saveStatus: null,
   lastSaveTime: null,
   componentCounts: {},
+  containerTypes: {},
 };
 
 const editor = createSlice({
@@ -48,12 +49,12 @@ const editor = createSlice({
       } else {
         state.activeGridId = null;
       }
-      assignGridNames(state.grids);
+      assignGridNames(state.grids, state.containerTypes);
     },
     addGrid(state, action) {
       state.grids.push(action.payload.grid);
       state.activeGridId = action.payload.grid.id;
-      assignGridNames(state.grids);
+      assignGridNames(state.grids, state.containerTypes);
     },
     setActiveGridId(state, action) {
       state.activeGridId = action.payload.gridId;
@@ -157,7 +158,7 @@ const editor = createSlice({
           state.activeGridId = state.grids[indexToRemove - 1].id;
         }
       }
-      assignGridNames(state.grids);
+      assignGridNames(state.grids, state.containerTypes);
     },
     addBarcodes(state, action) {
       const { barcodes } = action.payload;
@@ -179,12 +180,15 @@ const editor = createSlice({
         state.lastSaveTime = Date.now();
       }
     },
+    setContainerTypes(state, action) {
+      state.containerTypes = action.payload.containerTypes;
+    },
   },
 });
 
 export const { actions: editorActions, reducer: editorReducer } = editor;
 
-function assignGridNames(grids) {
+function assignGridNames(grids, containerTypes) {
   const typeCounts = {};
   grids.forEach((grid) => {
     if (!typeCounts[grid.containerType]) {
@@ -192,7 +196,13 @@ function assignGridNames(grids) {
     } else {
       typeCounts[grid.containerType]++;
     }
-    const displayName = `${grid.containerType} ${
+    let containerTypeName;
+    if (containerTypes && containerTypes[grid.containerType]) {
+      containerTypeName = containerTypes[grid.containerType].displayName;
+    } else {
+      containerTypeName = grid.containerType;
+    }
+    const displayName = `${containerTypeName} ${
       typeCounts[grid.containerType]
     }`;
     grid.name = displayName;
