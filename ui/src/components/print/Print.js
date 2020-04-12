@@ -38,6 +38,7 @@ export class Print extends Component {
       activityDescription,
       grids,
       gridTypes,
+      rowHeaders,
     } = this.props;
     let content;
     if (loading) {
@@ -66,6 +67,7 @@ export class Print extends Component {
             activityDescription={activityDescription}
             grids={grids}
             gridTypes={gridTypes}
+            rowHeaders={rowHeaders}
             ref={(el) => (this.componentRef = el)}
           />
         </React.Fragment>
@@ -82,6 +84,7 @@ Print.propTypes = {
   initialized: PropTypes.bool,
   grids: PropTypes.array,
   gridTypes: PropTypes.object,
+  rowHeaders: PropTypes.array.isRequired,
   activityName: PropTypes.string,
   activityDescription: PropTypes.string,
   onMount: PropTypes.func,

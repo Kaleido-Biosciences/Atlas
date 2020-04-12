@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { PLATE_HEADER_SIZE } from '../../../constants';
 import { HeaderCell } from './HeaderCell';
 import styles from './Grid.module.css';
 
@@ -16,9 +15,9 @@ export class ColumnHeader extends Component {
     }
   };
   render() {
-    const { numberOfColumns, containerSize } = this.props;
+    const { numberOfColumns, containerSize, headerSize } = this.props;
     const style = {
-      height: PLATE_HEADER_SIZE + 'px',
+      height: headerSize + 'px',
       width: containerSize.size + 'px',
       padding: `0 ${containerSize.padding}px`,
     };
@@ -45,5 +44,6 @@ export class ColumnHeader extends Component {
 ColumnHeader.propTypes = {
   numberOfColumns: PropTypes.number,
   containerSize: PropTypes.object.isRequired,
+  headerSize: PropTypes.number.isRequired,
   onClick: PropTypes.func,
 };

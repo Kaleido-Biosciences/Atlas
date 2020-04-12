@@ -24,6 +24,7 @@ import {
 } from '../../../constants';
 import { api } from '../api';
 import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
+import { GRID_ROW_HEADERS } from '../config/grid';
 
 const {
   setInitialized: _setInitialized,
@@ -97,21 +98,25 @@ export const loadContainerCollection = (status, version) => {
 
 export const addNewPlate = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
-    const gridData = createGridData(dimensions);
+    const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
     const grid = createGrid({
       containerType: 'Plate',
       dimensions: dimensions,
       data: gridData,
     });
-    const containerPositions = createContainersForGrid(dimensions, 'PlateWell');
-    addContainersToGrid(grid, containerPositions);
+    const containerPositions = createContainersForGrid(
+      dimensions,
+      'PlateWell',
+      GRID_ROW_HEADERS
+    );
+    addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
     dispatch(_addGrid({ grid }));
   };
 });
 
 export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
-    const gridData = createGridData(dimensions);
+    const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
     const grid = createGrid({
       containerType: 'Rack',
       dimensions: dimensions,
@@ -123,7 +128,7 @@ export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
 
 export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
   return (dispatch, getState) => {
-    const gridData = createGridData({ rows: 1, columns: 1 });
+    const gridData = createGridData({ rows: 1, columns: 1 }, GRID_ROW_HEADERS);
     const grid = createGrid({
       containerType,
       dimensions: { rows: 1, columns: 1 },
@@ -131,9 +136,10 @@ export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
     });
     const containerPositions = createContainersForGrid(
       { rows: 1, columns: 1 },
-      containerType
+      containerType,
+      GRID_ROW_HEADERS
     );
-    addContainersToGrid(grid, containerPositions);
+    addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
     dispatch(_addGrid({ grid }));
   };
 });
@@ -256,13 +262,13 @@ export const cloneGrid = wrapWithChangeHandler(
           });
         }
       });
-      const gridData = createGridData({ ...grid.dimensions });
+      const gridData = createGridData({ ...grid.dimensions }, GRID_ROW_HEADERS);
       const newGrid = createGrid({
         containerType: grid.containerType,
         dimensions: grid.dimensions,
         data: gridData,
       });
-      addContainersToGrid(newGrid, containerPositions);
+      addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
       dispatch(_addGrid({ grid: newGrid }));
     };
   }

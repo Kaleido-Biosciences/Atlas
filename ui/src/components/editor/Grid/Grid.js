@@ -45,16 +45,24 @@ export class Grid extends Component {
     }
   };
   render() {
-    const { grid, settings, containerTypeOptions } = this.props;
+    const {
+      grid,
+      settings,
+      containerTypeOptions,
+      headerSize,
+      rowHeaders,
+    } = this.props;
+    const cornerStyle = { height: headerSize + 'px', width: headerSize + 'px' };
     return (
       <div className={styles.grid}>
         <div className={styles.topHeader}>
-          <div className={styles.cornerCell}></div>
+          <div className={styles.cornerCell} style={cornerStyle}></div>
           <ColumnHeader
             ref={this.columnHeaderRef}
             numberOfColumns={grid.data[0].length}
             containerSize={settings.containerSize}
             onClick={this.handleHeaderCellClick}
+            headerSize={headerSize}
           />
         </div>
         <div className={styles.body}>
@@ -63,6 +71,8 @@ export class Grid extends Component {
             numberOfRows={grid.data.length}
             containerSize={settings.containerSize}
             onClick={this.handleHeaderCellClick}
+            headerSize={headerSize}
+            rowHeaders={rowHeaders}
           />
           <Scrollbars
             style={{ height: '100%', width: '100%' }}
@@ -88,4 +98,6 @@ Grid.propTypes = {
   onClick: PropTypes.func,
   containerTypeOptions: PropTypes.array,
   onAddContainer: PropTypes.func,
+  headerSize: PropTypes.number.isRequired,
+  rowHeaders: PropTypes.array.isRequired,
 };

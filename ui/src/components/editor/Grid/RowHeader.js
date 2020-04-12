@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { PLATE_ROW_HEADERS, PLATE_HEADER_SIZE } from '../../../constants';
 import { HeaderCell } from './HeaderCell';
 import styles from './Grid.module.css';
 
@@ -16,19 +15,19 @@ export class RowHeader extends Component {
     }
   };
   render() {
-    const { numberOfRows, containerSize } = this.props;
+    const { numberOfRows, containerSize, headerSize, rowHeaders } = this.props;
     const style = {
       height: containerSize.size + 'px',
-      width: PLATE_HEADER_SIZE + 'px',
+      width: headerSize + 'px',
       padding: `${containerSize.padding}px 0`,
     };
     const cells = [];
     for (let i = 0; i < numberOfRows; i++) {
       cells.push(
         <HeaderCell
-          key={PLATE_ROW_HEADERS[i]}
+          key={rowHeaders[i]}
           index={i}
-          label={PLATE_ROW_HEADERS[i]}
+          label={rowHeaders[i]}
           style={style}
           onClick={this.handleCellClick}
         />
@@ -45,5 +44,7 @@ export class RowHeader extends Component {
 RowHeader.propTypes = {
   numberOfRows: PropTypes.number,
   containerSize: PropTypes.object.isRequired,
+  headerSize: PropTypes.number.isRequired,
+  rowHeaders: PropTypes.array.isRequired,
   onClick: PropTypes.func,
 };

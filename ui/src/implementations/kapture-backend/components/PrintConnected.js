@@ -5,6 +5,7 @@ import { Print } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 import { GRID_TYPES_KEYED } from '../config/containerTypes';
+import { GRID_ROW_HEADERS } from '../config/grid';
 
 const {
   selectPrintInitialized,
@@ -35,6 +36,7 @@ const mapState = (state, props) => {
     initialized,
     grids: selectPrintGrids(state),
     gridTypes: GRID_TYPES_KEYED,
+    rowHeaders: GRID_ROW_HEADERS,
     activityName: selectActivityName(state),
     activityDescription: selectActivityDescription(state),
   };

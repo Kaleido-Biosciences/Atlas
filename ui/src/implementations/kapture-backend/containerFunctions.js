@@ -9,6 +9,7 @@ import {
   DEFAULT_COMPONENT_COLOR_CODES,
   COMPONENT_TYPE_ATTRIBUTE,
 } from '../../constants';
+import { GRID_ROW_HEADERS } from './config/grid';
 
 const createEditorComponentFromKaptureData = (
   kaptureData,
@@ -103,10 +104,13 @@ const importGrids = (grids, kaptureComponents) => {
 };
 
 const importGrid = (importData, kaptureComponents) => {
-  const gridData = createGridData({
-    rows: importData.rows,
-    columns: importData.columns,
-  });
+  const gridData = createGridData(
+    {
+      rows: importData.rows,
+      columns: importData.columns,
+    },
+    GRID_ROW_HEADERS
+  );
   const grid = createGrid({
     containerType: importData.containerType,
     barcode: importData.barcode,
@@ -120,7 +124,7 @@ const importGrid = (importData, kaptureComponents) => {
       container: importContainer(containerData, kaptureComponents),
     };
   });
-  addContainersToGrid(grid, containerPositions);
+  addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
   return grid;
 };
 

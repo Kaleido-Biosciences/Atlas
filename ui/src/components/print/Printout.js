@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { PLATE_ROW_HEADERS } from '../../constants';
 import { PrintPosition } from './PrintPosition';
 import { PrintHeader } from './PrintHeader';
 import styles from './Printout.module.css';
@@ -9,7 +8,7 @@ import styles from './Printout.module.css';
 export class Printout extends Component {
   renderTable(grid) {
     const gridData = grid.data;
-    const gridTypes = this.props.gridTypes;
+    const { gridTypes, rowHeaders } = this.props;
     let displayType = false;
     if (gridTypes[grid.containerType]) {
       displayType =
@@ -31,7 +30,7 @@ export class Printout extends Component {
       columns.unshift(
         <PrintHeader
           headerType="row"
-          label={PLATE_ROW_HEADERS[i]}
+          label={rowHeaders[i]}
           key={0}
           index={i}
           className="row"
@@ -93,4 +92,5 @@ Printout.propTypes = {
   activityDescription: PropTypes.string,
   grids: PropTypes.array.isRequired,
   gridTypes: PropTypes.object,
+  rowHeaders: PropTypes.array.isRequired,
 };

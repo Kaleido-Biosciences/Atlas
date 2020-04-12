@@ -17,6 +17,8 @@ export class ActiveGrid extends Component {
       onBarcodeSelect,
       settings,
       onSettingsChange,
+      headerSize,
+      rowHeaders,
     } = this.props;
     if (activeGrid) {
       return (
@@ -39,6 +41,8 @@ export class ActiveGrid extends Component {
               onClick={onContainerClick}
               containerTypeOptions={containerTypeOptions}
               onAddContainer={onAddContainer}
+              headerSize={headerSize}
+              rowHeaders={rowHeaders}
             />
           </div>
         </div>
@@ -59,4 +63,6 @@ ActiveGrid.propTypes = {
   onBarcodeAdd: PropTypes.func,
   settings: PropTypes.object.isRequired,
   onSettingsChange: PropTypes.func,
+  headerSize: PropTypes.number.isRequired,
+  rowHeaders: PropTypes.array.isRequired,
 };

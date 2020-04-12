@@ -1,6 +1,5 @@
 import uuidv1 from 'uuid/v1';
 
-import { CONTAINER_ROW_HEADERS } from '../constants';
 import { createContainer } from './container';
 
 export const createGrid = ({
@@ -26,12 +25,12 @@ export const createGrid = ({
   };
 };
 
-export const createGridData = (dimensions) => {
+export const createGridData = (dimensions, rowHeaders) => {
   const data = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
     const row = [];
-    const rowLetter = CONTAINER_ROW_HEADERS[i];
+    const rowLetter = rowHeaders[i];
     for (let j = 0; j < columns; j++) {
       const position = {
         row: rowLetter,
@@ -45,11 +44,15 @@ export const createGridData = (dimensions) => {
   return data;
 };
 
-export const createContainersForGrid = (dimensions, containerType) => {
+export const createContainersForGrid = (
+  dimensions,
+  containerType,
+  rowHeaders
+) => {
   const positions = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
-    const rowLetter = CONTAINER_ROW_HEADERS[i];
+    const rowLetter = rowHeaders[i];
     for (let j = 0; j < columns; j++) {
       const position = {
         row: rowLetter,
@@ -62,9 +65,9 @@ export const createContainersForGrid = (dimensions, containerType) => {
   return positions;
 };
 
-export const addContainersToGrid = (grid, containerPositions) => {
+export const addContainersToGrid = (grid, containerPositions, rowHeaders) => {
   containerPositions.forEach((containerPosition) => {
-    const rowIndex = CONTAINER_ROW_HEADERS.findIndex(
+    const rowIndex = rowHeaders.findIndex(
       (rowLetter) => rowLetter === containerPosition.row
     );
     grid.data[rowIndex][containerPosition.column - 1].container =
