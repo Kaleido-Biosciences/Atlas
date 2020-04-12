@@ -132,4 +132,4 @@ export const selectPrintInitialized = createSelector(['print.initialized']);
 export const selectPrintInitializationError = createSelector([
   'print.initializationError',
 ]);
-export const selectPrintPlates = createSelector(['print.plates']);
+export const selectPrintGrids = createSelector(['print.grids']);

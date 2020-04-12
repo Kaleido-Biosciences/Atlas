@@ -3,16 +3,18 @@ import { createSlice } from 'redux-starter-kit';
 const initialState = {
   initialized: false,
   initializationError: null,
-  plates: [],
+  grids: [],
+  containerTypes: {},
 };
 
 const print = createSlice({
   slice: 'print',
   initialState,
   reducers: {
-    setPlates(state, action) {
-      state.plates = action.payload.plates;
+    setGrids(state, action) {
+      state.grids = action.payload.grids;
       state.initialized = true;
+      assignGridNames(state.grids, state.containerTypes);
     },
     setInitializationError(state, action) {
       state.initializationError = action.payload.error;
@@ -20,7 +22,32 @@ const print = createSlice({
     resetState(state, action) {
       Object.assign(state, initialState);
     },
+    setContainerTypes(state, action) {
+      state.containerTypes = action.payload.containerTypes;
+    },
   },
 });
 
 export const { actions: printActions, reducer: printReducer } = print;
+
+function assignGridNames(grids, containerTypes) {
+  const typeCounts = {};
+  grids.forEach((grid) => {
+    if (!typeCounts[grid.containerType]) {
+      typeCounts[grid.containerType] = 1;
+    } else {
+      typeCounts[grid.containerType]++;
+    }
+    let containerTypeName;
+    if (containerTypes && containerTypes[grid.containerType]) {
+      containerTypeName = containerTypes[grid.containerType].displayName;
+    } else {
+      containerTypeName = grid.containerType;
+    }
+    const displayName = `${containerTypeName} ${
+      typeCounts[grid.containerType]
+    }`;
+    grid.name = displayName;
+    grid.displayName = displayName;
+  });
+}

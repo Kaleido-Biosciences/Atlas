@@ -36,7 +36,8 @@ export class Print extends Component {
       initialized,
       activityName,
       activityDescription,
-      plates,
+      grids,
+      gridTypes,
     } = this.props;
     let content;
     if (loading) {
@@ -63,8 +64,9 @@ export class Print extends Component {
           <Printout
             activityName={activityName}
             activityDescription={activityDescription}
-            plates={plates}
-            ref={el => (this.componentRef = el)}
+            grids={grids}
+            gridTypes={gridTypes}
+            ref={(el) => (this.componentRef = el)}
           />
         </React.Fragment>
       );
@@ -78,7 +80,8 @@ Print.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
   initialized: PropTypes.bool,
-  plates: PropTypes.array,
+  grids: PropTypes.array,
+  gridTypes: PropTypes.object,
   activityName: PropTypes.string,
   activityDescription: PropTypes.string,
   onMount: PropTypes.func,
