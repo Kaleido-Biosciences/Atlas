@@ -1,6 +1,5 @@
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import logger from 'redux-logger';
-import { reducer as formReducer } from 'redux-form';
 
 import './validators';
 import { activitySearchReducer } from './activitySearch';
@@ -23,7 +22,6 @@ export const store = configureStore({
     editorComponents: editorComponentsReducer,
     editorTools: editorToolsReducer,
     print: printReducer,
-    form: formReducer,
   },
   middleware,
 });
