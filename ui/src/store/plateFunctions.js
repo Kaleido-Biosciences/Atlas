@@ -11,17 +11,14 @@ import {
 } from '../constants';
 
 export function createComponent(data, type) {
-  const displayName = getDisplayName(data);
-  const id = `${type.toUpperCase()}_${data.id}`;
-  const timepoints = [createTimepoint(type)];
   return {
-    id,
-    displayName,
+    id: `${type.toUpperCase()}_${data.id}`,
+    name: getName(data),
     type,
     data,
     selected: true,
     isValid: true,
-    timepoints,
+    timepoints: [createTimepoint(type)],
   };
 }
 
@@ -30,18 +27,18 @@ export function createComponent(data, type) {
  * @param data The component/data object
  * @returns {*}
  */
-export function getDisplayName(data) {
-  let displayName = data.name;
+export function getName(data) {
+  let name = data.name;
   if (data.alias) {
     //For communities
-    displayName = displayName + ` : (${data.alias})`;
+    name += ` : (${data.alias})`;
   } else if (data.aliases && data.aliases.length > 0) {
     //This is for compounds
     data.aliases.forEach(
-      (aliasElement) => (displayName += ` : (${aliasElement.alias})`)
+      (aliasElement) => (name += ` : (${aliasElement.alias})`)
     );
   }
-  return displayName;
+  return name;
 }
 
 export function createTimepoint(

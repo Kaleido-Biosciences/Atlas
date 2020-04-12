@@ -16,7 +16,7 @@ export class ContainerCollection extends Component {
     const { collection } = this.props;
     const {
       tooltip,
-      displayName,
+      name,
       icon,
       formattedUpdatedTime,
       containerCount,
@@ -25,7 +25,7 @@ export class ContainerCollection extends Component {
       <Card link onClick={this.handleClick} title={tooltip}>
         <Card.Content>
           <Card.Header className={styles.header}>
-            {displayName}
+            {name}
             <Icon name={icon} />
           </Card.Header>
           <Card.Meta>

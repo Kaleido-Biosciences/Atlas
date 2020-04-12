@@ -8,7 +8,7 @@ export class PrintComponent extends Component {
     const { component } = this.props;
     return (
       <div>
-        <div className={styles.name}>{`${component.displayName}`}</div>
+        <div className={styles.name}>{`${component.name}`}</div>
         <div className={styles.description}>{component.description}</div>
       </div>
     );

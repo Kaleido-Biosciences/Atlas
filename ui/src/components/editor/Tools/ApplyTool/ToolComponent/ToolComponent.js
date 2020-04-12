@@ -37,13 +37,13 @@ export class ToolComponent extends Component {
       this.props.onAddTimepointClick({ component });
     }
   };
-  handleTimepointChange = data => {
+  handleTimepointChange = (data) => {
     if (this.props.onTimepointChange) {
       const { component } = this.props;
       this.props.onTimepointChange({ component, ...data });
     }
   };
-  handleTimepointDeleteClick = data => {
+  handleTimepointDeleteClick = (data) => {
     if (this.props.onTimepointDeleteClick) {
       const { component } = this.props;
       this.props.onTimepointDeleteClick({ component, ...data });
@@ -94,7 +94,7 @@ export class ToolComponent extends Component {
       </React.Fragment>
     );
   };
-  renderValidationErrors = errors => {
+  renderValidationErrors = (errors) => {
     return errors.map((error, i) => {
       return <div key={i}>{error}</div>;
     });
@@ -125,7 +125,7 @@ export class ToolComponent extends Component {
                 onClick={this.handleCheckboxClick}
                 checked={component.selected}
               />
-              <span className={styles.name}>{component.displayName}</span>
+              <span className={styles.name}>{component.name}</span>
             </div>
             <Icon
               title="Remove component"

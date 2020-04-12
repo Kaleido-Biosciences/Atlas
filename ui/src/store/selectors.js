@@ -66,7 +66,7 @@ export const selectEditorGridTabs = createSelector(
     grids.forEach((grid) => {
       tabs.push({
         id: grid.id,
-        name: grid.displayName,
+        name: grid.name,
         active: grid.id === activeGridId,
       });
     });

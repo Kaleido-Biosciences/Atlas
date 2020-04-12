@@ -35,7 +35,7 @@ export class ContainerComponent extends Component {
       <div className={styles.containerComponent} style={style}>
         <div
           className={styles.containerComponentName}
-        >{`${component.displayName}`}</div>
+        >{`${component.name}`}</div>
         <div className={styles.containerComponentDescription}>
           {component.description}
         </div>

@@ -16,22 +16,17 @@ const createEditorComponentFromKaptureData = (
   type,
   timepoints
 ) => {
-  const id = `${type.toUpperCase()}_${kaptureData.id}`;
-  const displayName = getDisplayName(kaptureData);
-  const description = getDescription(timepoints);
-  const color = DEFAULT_COMPONENT_COLOR_CODES[type];
-  const options = {
-    timepoints: timepoints.map((timepoint) => {
-      return Object.assign({}, timepoint);
-    }),
-  };
   return createComponent({
-    id,
+    id: `${type.toUpperCase()}_${kaptureData.id}`,
     type,
-    displayName,
-    description,
-    options,
-    color,
+    name: getName(kaptureData),
+    description: getDescription(timepoints),
+    options: {
+      timepoints: timepoints.map((timepoint) => {
+        return Object.assign({}, timepoint);
+      }),
+    },
+    color: DEFAULT_COMPONENT_COLOR_CODES[type],
     data: kaptureData,
   });
 };
@@ -143,14 +138,14 @@ const importContainer = (containerData, kaptureComponents) => {
     ({ key, value, value_type, value_unit }) => {
       const id = value ? (key + '_' + value).replace(/ /g, '_') : key;
       const unit = value ? (value_unit ? value_unit : '') : '';
-      const displayName = value ? key + '(' + value + unit + ')' : key;
+      const name = value ? key + '(' + value + unit + ')' : key;
       return createComponent({
         id,
         type: COMPONENT_TYPE_ATTRIBUTE,
-        displayName,
+        name,
         data: {
           id: id,
-          name: displayName,
+          name,
           key: key,
           value: value,
           value_type: value_type,
@@ -167,18 +162,18 @@ const importContainer = (containerData, kaptureComponents) => {
   });
 };
 
-const getDisplayName = (data) => {
-  let displayName = data.name;
+const getName = (data) => {
+  let name = data.name;
   if (data.alias) {
     //For communities
-    displayName += ` : (${data.alias})`;
+    name += ` : (${data.alias})`;
   } else if (data.aliases && data.aliases.length > 0) {
     //This is for compounds
     data.aliases.forEach(
-      (aliasElement) => (displayName += ` : (${aliasElement.alias})`)
+      (aliasElement) => (name += ` : (${aliasElement.alias})`)
     );
   }
-  return displayName;
+  return name;
 };
 
 const getDescription = (timepoints) => {

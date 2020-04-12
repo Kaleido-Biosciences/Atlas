@@ -198,15 +198,11 @@ function assignGridNames(grids, containerTypes) {
     }
     let containerTypeName;
     if (containerTypes && containerTypes[grid.containerType]) {
-      containerTypeName = containerTypes[grid.containerType].displayName;
+      containerTypeName = containerTypes[grid.containerType].name;
     } else {
       containerTypeName = grid.containerType;
     }
-    const displayName = `${containerTypeName} ${
-      typeCounts[grid.containerType]
-    }`;
-    grid.name = displayName;
-    grid.displayName = displayName;
+    grid.name = `${containerTypeName} ${typeCounts[grid.containerType]}`;
   });
 }
 

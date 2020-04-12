@@ -16,23 +16,23 @@ export class ComponentList extends Component {
     searchComponents: [],
     updateComplete: false,
   };
-  debouncedLoadResults = _.debounce(value => {
+  debouncedLoadResults = _.debounce((value) => {
     this.loadResults(value);
   }, 500);
   getComponentsList = memoize((localComponents, searchComponents, query) => {
     let finalArray = [];
     let value = query.toUpperCase();
     if (query) {
-      const filtered = localComponents.filter(component => {
-        return component.displayName.toUpperCase().includes(value);
+      const filtered = localComponents.filter((component) => {
+        return component.name.toUpperCase().includes(value);
       });
-      const filteredIds = filtered.map(component => {
+      const filteredIds = filtered.map((component) => {
         return component.id;
       });
       finalArray = finalArray.concat(filtered);
       if (searchComponents) {
         const filteredSearchComponents = searchComponents.filter(
-          searchComponent => {
+          (searchComponent) => {
             return !filteredIds.includes(searchComponent.id);
           }
         );
@@ -43,11 +43,11 @@ export class ComponentList extends Component {
     }
     return finalArray;
   });
-  handleSearchChange = value => {
+  handleSearchChange = (value) => {
     this.setState({ value, searchComponents: [], updateComplete: false });
     this.debouncedLoadResults(value);
   };
-  loadResults = async searchQuery => {
+  loadResults = async (searchQuery) => {
     if (searchQuery) {
       try {
         this.setState({ loading: true });

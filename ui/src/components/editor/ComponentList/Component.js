@@ -32,7 +32,7 @@ export class Component extends React.Component {
                 type={component.type}
                 className={styles.typeCircle}
               />
-              {component.displayName}
+              {component.name}
             </div>
           }
         >
@@ -49,7 +49,7 @@ export class Component extends React.Component {
             type={component.type}
             className={styles.typeCircle}
           />
-          {component.displayName}
+          {component.name}
         </div>
       );
     }

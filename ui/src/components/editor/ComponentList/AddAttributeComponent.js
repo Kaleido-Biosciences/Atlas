@@ -67,7 +67,7 @@ export class AddAttributeComponent extends Component {
     return errorMessage ? <Message error content={errorMessage} /> : '';
   };
 
-  handleAddClick = event => {
+  handleAddClick = (event) => {
     if (!this.validValueWithType()) {
       this.setState({
         errorMessage: 'Input value does not match with selected type',
@@ -79,16 +79,16 @@ export class AddAttributeComponent extends Component {
       }
       let id = value ? (key + '_' + value).replace(/ /g, '_') : key;
       let unit = value ? (value_unit ? value_unit : '') : '';
-      let displayName = value ? key + '(' + value + unit + ')' : key;
+      let name = value ? key + '(' + value + unit + ')' : key;
       let component = {
         id: 'ATTRIBUTE_' + id,
         type: COMPONENT_TYPE_ATTRIBUTE,
-        displayName: displayName,
+        name,
         isValid: true,
         selected: true,
         data: {
           id: id,
-          name: displayName,
+          name,
           key: key,
           value: value,
           value_type: value_type,

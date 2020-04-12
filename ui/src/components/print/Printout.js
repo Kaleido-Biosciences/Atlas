@@ -75,7 +75,7 @@ export class Printout extends Component {
                   <div>
                     <strong>{activityName}</strong>: {activityDescription}
                   </div>
-                  <div>{`${grid.displayName}: ${barcode}`}</div>
+                  <div>{`${grid.name}: ${barcode}`}</div>
                 </div>
                 <div className={styles.content}>{this.renderTable(grid)}</div>
               </div>

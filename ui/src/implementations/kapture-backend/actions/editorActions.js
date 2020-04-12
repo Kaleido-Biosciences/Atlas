@@ -298,7 +298,7 @@ function cloneComponents(components, componentTypesToClone) {
         createComponent({
           id: component.id,
           type: component.type,
-          displayName: component.displayName,
+          name: component.name,
           description: component.description,
           options: clonedOptions,
           tooltip: component.tooltip,
@@ -346,11 +346,11 @@ function findGridById(gridId, grids) {
   return grids.find((grid) => grid.id === gridId);
 }
 
-function transformToolComponent({ id, displayName, type, data, timepoints }) {
+function transformToolComponent({ id, name, type, data, timepoints }) {
   return createComponent({
     id,
     type,
-    displayName,
+    name,
     options: { timepoints },
     data,
   });

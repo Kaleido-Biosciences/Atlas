@@ -1,19 +1,19 @@
 export const CONTAINER_TYPES = [
   {
     type: 'Tube',
-    displayName: 'Tube',
+    name: 'Tube',
   },
   {
     type: 'Vial',
-    displayName: 'Vial',
+    name: 'Vial',
   },
   {
     type: 'Flask',
-    displayName: 'Flask',
+    name: 'Flask',
   },
   {
     type: 'PetriDish',
-    displayName: 'Petri Dish',
+    name: 'Petri Dish',
   },
 ];
 
@@ -23,18 +23,18 @@ export const CONTAINER_TYPES_KEYED = CONTAINER_TYPES.reduce((keyed, type) => {
 }, {});
 
 export const CONTAINER_TYPE_OPTIONS = CONTAINER_TYPES.map((type) => {
-  return { key: type.type, value: type.type, text: type.displayName };
+  return { key: type.type, value: type.type, text: type.name };
 });
 
 export const GRID_TYPES = [
   {
     type: 'Plate',
-    displayName: 'Plate',
+    name: 'Plate',
     displayContainerTypesInPrintout: false,
   },
   {
     type: 'Rack',
-    displayName: 'Rack',
+    name: 'Rack',
     displayContainerTypesInPrintout: true,
   },
 ];

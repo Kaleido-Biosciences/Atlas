@@ -2,7 +2,7 @@ import moment from 'moment';
 import uuidv1 from 'uuid/v1';
 
 export const createContainerCollection = (
-  displayName,
+  name,
   createdTime,
   updatedTime,
   icon,
@@ -18,7 +18,7 @@ export const createContainerCollection = (
   }
   return {
     id: uuidv1(),
-    displayName,
+    name,
     createdTime,
     updatedTime,
     formattedUpdatedTime,
