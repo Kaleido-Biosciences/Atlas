@@ -58,6 +58,7 @@ export class Settings extends Component {
           value={option.name}
           checked={currentSize === option.size}
           onChange={this.handleContainerSizeChange}
+          key={option.name}
         />
       );
     });
