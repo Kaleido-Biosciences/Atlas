@@ -11,20 +11,24 @@ export class ActivityDetails extends Component {
       this.props.onUnmount();
     }
   }
-  handleCollectionClick = ({ collection }) => {
+  handleCollectionClick = ({ route }) => {
     let url = this.props.match.url;
     url = url.endsWith('/') ? url.slice(0, -1) : url;
-    this.props.history.push(url + collection.route);
+    this.props.history.push(url + route);
   };
   renderCollections(collections) {
     return (
       <Card.Group>
-        {collections.map(collection => {
+        {collections.map((collection) => {
           const key = collection.id;
           return (
             <ContainerCollection
               key={key}
-              collection={collection}
+              tooltip={collection.tooltip}
+              name={collection.name}
+              metadata={collection.formattedUpdatedTime}
+              containerCount={collection.containerCount}
+              route={collection.route}
               onClick={this.handleCollectionClick}
             />
           );

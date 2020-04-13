@@ -8,19 +8,12 @@ export class ContainerCollection extends Component {
   handleClick = () => {
     if (this.props.onClick) {
       this.props.onClick({
-        collection: this.props.collection,
+        route: this.props.route,
       });
     }
   };
   render() {
-    const { collection } = this.props;
-    const {
-      tooltip,
-      name,
-      icon,
-      formattedUpdatedTime,
-      containerCount,
-    } = collection;
+    const { tooltip, name, icon, metadata, containerCount } = this.props;
     return (
       <Card link onClick={this.handleClick} title={tooltip}>
         <Card.Content>
@@ -29,7 +22,7 @@ export class ContainerCollection extends Component {
             <Icon name={icon} />
           </Card.Header>
           <Card.Meta>
-            <span>{formattedUpdatedTime}</span>
+            <span>{metadata}</span>
           </Card.Meta>
           <Card.Description>{containerCount} containers</Card.Description>
         </Card.Content>
@@ -39,6 +32,11 @@ export class ContainerCollection extends Component {
 }
 
 ContainerCollection.propTypes = {
-  collection: PropTypes.object,
+  tooltip: PropTypes.string,
+  name: PropTypes.string,
+  icon: PropTypes.string,
+  metadata: PropTypes.string,
+  containerCount: PropTypes.number,
+  route: PropTypes.string,
   onClick: PropTypes.func,
 };
