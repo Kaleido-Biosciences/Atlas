@@ -19,14 +19,22 @@ export class AddContainerModal extends Component {
     }
   };
   handleClose = () => {
-    this.setState({ containerType: null });
     if (this.props.onClose) this.props.onClose();
+  };
+  handleModalUnmount = () => {
+    this.setState({ containerType: null });
   };
   render() {
     const { open, containerTypeOptions } = this.props;
     const addDisabled = this.state.containerType ? false : true;
     return (
-      <Modal open={open} onClose={this.handleClose} closeIcon size="small">
+      <Modal
+        open={open}
+        onClose={this.handleClose}
+        onUnmount={this.handleModalUnmount}
+        closeIcon
+        size="small"
+      >
         <Header icon="add circle" content="Add Container" />
         <Modal.Content>
           <SingleContainerForm
