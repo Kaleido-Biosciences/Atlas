@@ -74,6 +74,14 @@ export const selectEditorGridTabs = createSelector(
   }
 );
 export const selectEditorBarcodes = createSelector(['editor.barcodes']);
+export const selectEditorBarcodeOptions = createSelector(
+  ['editor.barcodes'],
+  (barcodes) => {
+    return barcodes.map((barcode) => {
+      return { key: barcode, value: barcode, text: barcode };
+    });
+  }
+);
 export const selectEditorSettings = createSelector(['editor.settings']);
 export const selectEditorSelectedContainersSummary = createSelector(
   ['editor.grids', 'editor.activeGridId'],

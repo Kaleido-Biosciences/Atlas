@@ -12,7 +12,7 @@ export class ActiveGrid extends Component {
       onContainerClick,
       containerTypeOptions,
       onAddContainer,
-      barcodes,
+      barcodeOptions,
       onBarcodeAdd,
       onBarcodeSelect,
       settings,
@@ -27,7 +27,7 @@ export class ActiveGrid extends Component {
             <GridDetails
               gridId={activeGrid.id}
               gridBarcode={activeGrid.barcode}
-              barcodes={barcodes}
+              barcodeOptions={barcodeOptions}
               onBarcodeAdd={onBarcodeAdd}
               onBarcodeSelect={onBarcodeSelect}
               settings={settings}
@@ -58,7 +58,7 @@ ActiveGrid.propTypes = {
   onContainerClick: PropTypes.func,
   containerTypeOptions: PropTypes.array,
   onAddContainer: PropTypes.func,
-  barcodes: PropTypes.array.isRequired,
+  barcodeOptions: PropTypes.array.isRequired,
   onBarcodeSelect: PropTypes.func,
   onBarcodeAdd: PropTypes.func,
   settings: PropTypes.object.isRequired,

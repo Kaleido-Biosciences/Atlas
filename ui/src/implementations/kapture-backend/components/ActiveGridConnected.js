@@ -8,7 +8,7 @@ import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from '../config/grid';
 
 const {
   selectEditorActiveGrid,
-  selectEditorBarcodes,
+  selectEditorBarcodeOptions,
   selectEditorSettings,
 } = selectors;
 
@@ -23,7 +23,7 @@ const {
 const mapState = (state, props) => {
   return {
     activeGrid: selectEditorActiveGrid(state),
-    barcodes: selectEditorBarcodes(state),
+    barcodeOptions: selectEditorBarcodeOptions(state),
     settings: selectEditorSettings(state),
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
     headerSize: GRID_HEADER_SIZE,

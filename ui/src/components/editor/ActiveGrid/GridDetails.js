@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Dropdown } from 'semantic-ui-react';
-import memoize from 'memoize-one';
 
 import { Settings } from '../Settings';
 import styles from './GridDetails.module.css';
 
 export class GridDetails extends Component {
-  getOptions = memoize(barcodes => {
-    return barcodes.map(barcode => {
-      return { key: barcode, value: barcode, text: barcode };
-    });
-  });
   handleAddition = (e, { value }) => {
     if (this.props.onBarcodeAdd) {
       this.props.onBarcodeAdd({ barcodes: [value] });
@@ -28,16 +22,10 @@ export class GridDetails extends Component {
   render() {
     const {
       gridBarcode,
-      barcodes,
+      barcodeOptions,
       settings,
       onSettingsChange,
     } = this.props;
-    let options = [];
-    if (barcodes.length) {
-      options = this.getOptions(barcodes);
-    } else if (gridBarcode) {
-      options = this.getOptions([gridBarcode]);
-    }
     return (
       <div className={styles.gridDetails}>
         <div>
@@ -46,11 +34,12 @@ export class GridDetails extends Component {
             selection
             search
             allowAdditions
-            options={options}
+            options={barcodeOptions}
             placeholder="Select barcode"
             onAddItem={this.handleAddition}
             onChange={this.handleChange}
             value={gridBarcode}
+            selectOnBlur={false}
           />
         </div>
         <div className={styles.settings}>
@@ -64,7 +53,7 @@ export class GridDetails extends Component {
 GridDetails.propTypes = {
   gridId: PropTypes.string,
   gridBarcode: PropTypes.string,
-  barcodes: PropTypes.array.isRequired,
+  barcodeOptions: PropTypes.array.isRequired,
   onBarcodeAdd: PropTypes.func,
   onBarcodeSelect: PropTypes.func,
   settings: PropTypes.object,

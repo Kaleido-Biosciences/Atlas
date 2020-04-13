@@ -163,12 +163,22 @@ const editor = createSlice({
     },
     addBarcodes(state, action) {
       const { barcodes } = action.payload;
-      state.barcodes = state.barcodes.concat(barcodes);
+      barcodes.forEach((barcode) => {
+        if (!state.barcodes.includes(barcode)) {
+          state.barcodes.push(barcode);
+        }
+      });
+      state.barcodes.sort();
     },
     setGridBarcode(state, action) {
       const { gridId, barcode } = action.payload;
-      const grid = findGrid(gridId, state.grids);
-      grid.barcode = barcode;
+      state.grids.forEach((grid) => {
+        if (grid.id === gridId) {
+          grid.barcode = barcode;
+        } else if (grid.barcode === barcode) {
+          grid.barcode = null;
+        }
+      });
     },
     setSettings(state, action) {
       const { settings } = action.payload;

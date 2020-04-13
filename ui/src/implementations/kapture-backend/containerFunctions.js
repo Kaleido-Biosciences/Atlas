@@ -93,9 +93,17 @@ const exportContainer = (container, row, column) => {
 };
 
 const importGrids = (grids, kaptureComponents) => {
-  return grids.map((grid) => {
-    return importGrid(grid, kaptureComponents);
+  const importData = {
+    grids: [],
+    barcodes: [],
+  };
+  grids.forEach((grid) => {
+    importData.grids.push(importGrid(grid, kaptureComponents));
+    if (grid.barcode) {
+      importData.barcodes.push(grid.barcode);
+    }
   });
+  return importData;
 };
 
 const importGrid = (importData, kaptureComponents) => {

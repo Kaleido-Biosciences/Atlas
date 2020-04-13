@@ -87,8 +87,9 @@ export const loadContainerCollection = (status, version) => {
         getContainerCollection(status, version)
       );
       dispatch(_setContainerCollection({ collection }));
-      const importedGrids = await importContainerCollection(collection);
-      dispatch(_setGrids({ grids: importedGrids }));
+      const importData = await importContainerCollection(collection);
+      dispatch(addBarcodes({ barcodes: importData.barcodes }));
+      dispatch(_setGrids({ grids: importData.grids }));
       dispatch(_setInitialized({ initialized: true }));
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));

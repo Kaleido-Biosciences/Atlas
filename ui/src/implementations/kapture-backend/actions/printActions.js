@@ -20,9 +20,9 @@ export const loadContainerCollection = (status, version) => {
       const collection = await dispatch(
         getContainerCollection(status, version)
       );
-      const importedGrids = await importContainerCollection(collection);
-      if (importedGrids.length) {
-        dispatch(_setGrids({ grids: importedGrids }));
+      const importData = await importContainerCollection(collection);
+      if (importData.grids.length) {
+        dispatch(_setGrids({ grids: importData.grids }));
       } else {
         dispatch(
           _setInitializationError({
