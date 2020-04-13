@@ -38,14 +38,14 @@ export class GridPosition extends Component {
     );
   }
   render() {
-    const { position, height, width, padding } = this.props;
+    const { position, height, width, innerPadding, outerPadding } = this.props;
     const positionContainerStyle = {
       height: height + 'px',
       width: width + 'px',
-      padding: padding + 'px',
+      padding: outerPadding + 'px',
     };
     const positionStyle = {
-      borderWidth: padding + 'px',
+      borderWidth: innerPadding + 'px',
     };
     return (
       <div
@@ -66,7 +66,8 @@ GridPosition.propTypes = {
   position: PropTypes.object,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
-  padding: PropTypes.number.isRequired,
+  innerPadding: PropTypes.number.isRequired,
+  outerPadding: PropTypes.number.isRequired,
   onAddContainerClick: PropTypes.func,
   onContainerClick: PropTypes.func,
 };

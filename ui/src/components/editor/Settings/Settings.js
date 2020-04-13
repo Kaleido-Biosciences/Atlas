@@ -4,32 +4,65 @@ import { Popup, Icon, Form } from 'semantic-ui-react';
 
 import styles from './Settings.module.css';
 
-const containerSizeOptions = {
-  small: {
+const containerSizeOptions = [
+  {
+    name: 'Tiny',
+    size: 80,
+    innerPadding: 2,
+    outerPadding: 1,
+  },
+  {
+    name: 'Small',
     size: 120,
-    padding: 5,
+    innerPadding: 4,
+    outerPadding: 2,
   },
-  medium: {
-    size: 180,
-    padding: 5,
+  {
+    name: 'Medium',
+    size: 160,
+    innerPadding: 4,
+    outerPadding: 4,
   },
-  large: {
-    size: 240,
-    padding: 5,
+  {
+    name: 'Large',
+    size: 220,
+    innerPadding: 4,
+    outerPadding: 4,
   },
-};
+  {
+    name: 'XL',
+    size: 300,
+    innerPadding: 4,
+    outerPadding: 4,
+  },
+];
 
 export class Settings extends Component {
   handleContainerSizeChange = (e, { value }) => {
     if (this.props.onChange) {
+      const option = containerSizeOptions.find((option) => {
+        return option.name === value;
+      });
       this.props.onChange({
-        settings: { containerSize: containerSizeOptions[value] },
+        settings: { containerSize: option },
       });
     }
   };
+  renderOptions = () => {
+    const { settings } = this.props;
+    const currentSize = settings.containerSize.size;
+    return containerSizeOptions.map((option) => {
+      return (
+        <Form.Radio
+          label={option.name}
+          value={option.name}
+          checked={currentSize === option.size}
+          onChange={this.handleContainerSizeChange}
+        />
+      );
+    });
+  };
   render() {
-    const { containerSize } = this.props.settings;
-    const size = containerSize.size;
     return (
       <Popup
         position="bottom center"
@@ -47,24 +80,7 @@ export class Settings extends Component {
         <Form>
           <Form.Group inline>
             <label>Container Size</label>
-            <Form.Radio
-              label="Small"
-              value="small"
-              checked={size === containerSizeOptions.small.size}
-              onChange={this.handleContainerSizeChange}
-            />
-            <Form.Radio
-              label="Medium"
-              value="medium"
-              checked={size === containerSizeOptions.medium.size}
-              onChange={this.handleContainerSizeChange}
-            />
-            <Form.Radio
-              label="Large"
-              value="large"
-              checked={size === containerSizeOptions.large.size}
-              onChange={this.handleContainerSizeChange}
-            />
+            {this.renderOptions()}
           </Form.Group>
         </Form>
       </Popup>

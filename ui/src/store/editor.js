@@ -16,7 +16,8 @@ const initialState = {
   settings: {
     containerSize: {
       size: 120,
-      padding: 5,
+      innerPadding: 4,
+      outerPadding: 2,
     },
     componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
   },

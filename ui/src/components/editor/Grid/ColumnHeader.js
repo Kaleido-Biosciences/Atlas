@@ -19,7 +19,7 @@ export class ColumnHeader extends Component {
     const style = {
       height: headerSize + 'px',
       width: containerSize.size + 'px',
-      padding: `0 ${containerSize.padding}px`,
+      padding: `0 ${containerSize.outerPadding}px`,
     };
     const cells = [];
     for (let i = 0; i < numberOfColumns; i++) {

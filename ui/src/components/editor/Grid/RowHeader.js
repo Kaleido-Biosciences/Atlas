@@ -19,7 +19,7 @@ export class RowHeader extends Component {
     const style = {
       height: containerSize.size + 'px',
       width: headerSize + 'px',
-      padding: `${containerSize.padding}px 0`,
+      padding: `${containerSize.outerPadding}px 0`,
     };
     const cells = [];
     for (let i = 0; i < numberOfRows; i++) {

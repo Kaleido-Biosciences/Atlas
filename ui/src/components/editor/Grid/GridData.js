@@ -50,7 +50,8 @@ export class GridData extends Component {
             key={positionKey}
             height={settings.containerSize.size}
             width={settings.containerSize.size}
-            padding={settings.containerSize.padding}
+            innerPadding={settings.containerSize.innerPadding}
+            outerPadding={settings.containerSize.outerPadding}
             position={position}
             onAddContainerClick={this.handleAddContainerClick}
             onContainerClick={this.handleContainerClick}
