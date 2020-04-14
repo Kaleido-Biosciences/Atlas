@@ -4,7 +4,7 @@ import { Activities } from './Activities';
 import { selectors } from '../../store';
 import { actions } from '../../actions';
 
-const { loadActivity, resetActivity, publishActivityPlates } = actions.activity;
+const { loadActivity, resetActivity, publishActivityGrids } = actions.activity;
 
 const {
   selectActivityInitialized,
@@ -13,8 +13,8 @@ const {
   selectActivityPublishStatus,
   selectActivityPublishedContainerCollectionDetails,
   selectActivityContainerCollectionsStale,
-  selectEditorInitialized,
   selectPrintInitialized,
+  selectEditorInitialized,
 } = selectors;
 
 const mapState = (state, props) => {
@@ -41,7 +41,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   loadActivity,
-  onMarkAsCompleted: publishActivityPlates,
+  onMarkAsCompleted: publishActivityGrids,
   onUnmount: resetActivity,
 };
 

@@ -1,0 +1,1 @@
+export { GridTabs } from './GridTabs';

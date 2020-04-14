@@ -4,18 +4,20 @@ import queryString from 'query-string';
 import { Print } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
+import { GRID_TYPES_KEYED } from '../config/containerTypes';
+import { GRID_ROW_HEADERS } from '../config/grid';
 
 const {
   selectPrintInitialized,
   selectPrintInitializationError,
-  selectPrintPlates,
+  selectPrintGrids,
   selectActivityName,
   selectActivityDescription,
 } = selectors;
 const { loadContainerCollection, resetPrint } = actions.print;
 
-const onMount = query => {
-  return async dispatch => {
+const onMount = (query) => {
+  return async (dispatch) => {
     const params = queryString.parse(query);
     dispatch(loadContainerCollection(params.status, params.version));
   };
@@ -32,7 +34,9 @@ const mapState = (state, props) => {
     loading,
     error,
     initialized,
-    plates: selectPrintPlates(state),
+    grids: selectPrintGrids(state),
+    gridTypes: GRID_TYPES_KEYED,
+    rowHeaders: GRID_ROW_HEADERS,
     activityName: selectActivityName(state),
     activityDescription: selectActivityDescription(state),
   };

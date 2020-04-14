@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import SplitPane from 'react-split-pane';
 import { Loader, Message } from 'semantic-ui-react';
 
-import { NoPlatesMessage } from '../Plate';
-// import { PlateSidebar } from '../PlateSidebar';
+import { EditorEmptyState } from './EditorEmptyState';
 import styles from './Editor.module.css';
 
 export class Editor extends Component {
@@ -23,9 +22,9 @@ export class Editor extends Component {
       loading,
       error,
       initialized,
-      noPlates,
-      tabBarComponent,
-      plateComponent,
+      showEmptyState,
+      tabsComponent,
+      activeGridComponent,
       componentListComponent,
       toolsComponent,
     } = this.props;
@@ -60,18 +59,12 @@ export class Editor extends Component {
               pane2Style={{ height: '100%' }}
             >
               <div className={styles.mainContainer}>
-                <div className={styles.plateTabContainer}>
-                  {tabBarComponent}
-                </div>
-                <div className={styles.plateContainer}>
-                  {noPlates ? (
-                    <NoPlatesMessage onAddClick={this.props.onAddClick} />
-                  ) : (
-                    plateComponent
-                  )}
+                <div className={styles.tabsContainer}>{tabsComponent}</div>
+                <div className={styles.activeGridContainer}>
+                  {showEmptyState ? <EditorEmptyState /> : activeGridComponent}
                 </div>
               </div>
-              <div className={styles.plateSidebar}>
+              <div className={styles.sidebar}>
                 <SplitPane
                   split="horizontal"
                   defaultSize={250}
@@ -95,12 +88,12 @@ Editor.propTypes = {
   loading: PropTypes.bool,
   initialized: PropTypes.bool,
   error: PropTypes.string,
-  noPlates: PropTypes.bool,
+  showEmptyState: PropTypes.bool,
   onMount: PropTypes.func,
   onUnmount: PropTypes.func,
   onAddClick: PropTypes.func,
-  tabBarComponent: PropTypes.object,
-  plateComponent: PropTypes.object,
+  tabsComponent: PropTypes.object,
+  activeGridComponent: PropTypes.object,
   componentListComponent: PropTypes.object,
   toolsComponent: PropTypes.object,
 };

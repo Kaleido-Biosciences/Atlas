@@ -5,29 +5,26 @@ import {
   COMPONENT_TYPES_PLURAL_TO_SINGULAR,
   REQUEST_SUCCESS,
 } from '../constants';
-import {
-  findPlateById,
-  applyComponentsToWells,
-  getComponentCounts,
-} from './plateFunctions';
 
 const initialState = {
   initialized: false,
   initializationError: null,
-  plates: [],
-  plateSize: { rows: 8, columns: 12 },
-  nextPlateId: 1,
-  componentCounts: {},
+  grids: [],
+  activeGridId: null,
+  containerCollection: null,
+  barcodes: [],
   settings: {
-    wellSize: {
+    containerSize: {
       size: 120,
-      padding: 5,
+      innerPadding: 4,
+      outerPadding: 2,
     },
     componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
   },
-  barcodes: [],
   saveStatus: null,
   lastSaveTime: null,
+  componentCounts: {},
+  containerTypes: {},
 };
 
 const editor = createSlice({
@@ -43,132 +40,149 @@ const editor = createSlice({
     resetState(state, action) {
       Object.assign(state, initialState);
     },
-    setPlateSize(state, action) {
-      state.plateSize = action.payload.plateSize;
+    setContainerCollection(state, action) {
+      state.containerCollection = action.payload.containerCollection;
     },
-    setPlates(state, action) {
-      const { plates } = action.payload;
-      state.plates = plates;
-      state.plateSize = {
-        rows: plates[0].wells.length,
-        columns: plates[0].wells[0].length,
-      };
-    },
-    addPlate(state, action) {
-      const { plate } = action.payload;
-      state.plates.forEach(plate => {
-        plate.active = false;
-      });
-      plate.active = true;
-      plate.id = state.nextPlateId;
-      state.plates.push(plate);
-      state.nextPlateId++;
-    },
-    resetNextPlateId(state, action) {
-      state.nextPlateId = 1;
-    },
-    updateNextPlateId(state, action) {
-      state.nextPlateId = action.payload.plateId;
-    },
-    setActivePlate(state, action) {
-      const { plateId } = action.payload;
-      const { plates } = state;
-      plates.forEach(plate => {
-        if (plate.id === plateId) {
-          plate.active = true;
-        } else if (plate.active) {
-          plate.active = false;
-        }
-      });
-    },
-    deletePlate(state, action) {
-      const { plateId: idToRemove } = action.payload;
-      let indexToRemove;
-      state.plates.forEach((plate, i) => {
-        plate.active = false;
-        if (plate.id === idToRemove) {
-          indexToRemove = i;
-        }
-      });
-      state.plates.splice(indexToRemove, 1);
-      if (state.plates.length) {
-        if (state.plates[indexToRemove]) {
-          state.plates[indexToRemove].active = true;
-        } else {
-          state.plates[indexToRemove - 1].active = true;
-        }
-      }
-    },
-    deselectAllWells(state, action) {
-      const { plateId } = action.payload;
-      const plate = findPlateById(plateId, state.plates);
-      const wells = plate.wells.flat();
-      wells.forEach(well => {
-        well.selected = false;
-      });
-    },
-    applyComponentsToWells(state, action) {
-      const { plateId, wellIds, components } = action.payload;
-      const { plates } = state;
-      const plate = findPlateById(plateId, plates);
-      applyComponentsToWells(plate, wellIds, components);
-      state.componentCounts = getComponentCounts(state.plates);
-    },
-    clearWells(state, action) {
-      const { plateId, wellIds, clearMode } = action.payload;
-      const plate = findPlateById(plateId, state.plates);
-      const wells = plate.wells.flat();
-      const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
-      const updatedWells = [];
-      const filteredWells = wells.filter(well => wellIds.includes(well.id));
-      filteredWells.forEach(well => {
-        if (clearMode === 'all') {
-          well.components = [];
-        } else {
-          const componentType = componentTypes[clearMode];
-          well.components = well.components.filter(component => {
-            return component.type !== componentType;
-          });
-        }
-        updatedWells.push(well);
-      });
-      state.componentCounts = getComponentCounts(state.plates);
-    },
-    toggleWellsSelected(state, action) {
-      const { plateId, wellIds } = action.payload;
-      const plate = findPlateById(plateId, state.plates);
-      const wells = plate.wells.flat();
-      const filteredWells = wells.filter(well => wellIds.includes(well.id));
-      const status = { selected: false, deselected: false };
-      filteredWells.forEach(well => {
-        if (well.selected) {
-          status.selected = true;
-        } else {
-          status.deselected = true;
-        }
-      });
-      if ((status.selected && status.deselected) || !status.selected) {
-        filteredWells.forEach(well => {
-          well.selected = true;
-        });
+    setGrids(state, action) {
+      state.grids = action.payload.grids;
+      if (state.grids.length) {
+        state.activeGridId = state.grids[0].id;
       } else {
-        filteredWells.forEach(well => {
-          well.selected = false;
-        });
+        state.activeGridId = null;
       }
+      assignGridNames(state.grids, state.containerTypes);
+    },
+    addGrid(state, action) {
+      state.grids.push(action.payload.grid);
+      state.activeGridId = action.payload.grid.id;
+      assignGridNames(state.grids, state.containerTypes);
+    },
+    setActiveGridId(state, action) {
+      state.activeGridId = action.payload.gridId;
+    },
+    addContainerToGrid(state, action) {
+      const { gridId, position, container } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const positions = grid.data.flat();
+      const statePosition = findPosition(position, positions);
+      statePosition.container = container;
+    },
+    setGridComponents(state, action) {
+      const { gridId, positions } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const gridPositions = grid.data.flat();
+      positions.forEach((position) => {
+        const gridPosition = findPosition(position, gridPositions);
+        if (gridPosition.container) {
+          gridPosition.container.components = position.components;
+        }
+      });
+    },
+    deselectGridContainers(state, action) {
+      const { gridIds } = action.payload;
+      gridIds.forEach((gridId) => {
+        const grid = findGrid(gridId, state.grids);
+        const positions = grid.data.flat();
+        positions.forEach((position) => {
+          if (position.container) {
+            position.container.selected = false;
+          }
+        });
+      });
+    },
+    toggleGridContainersSelected(state, action) {
+      const { gridId, positions } = action.payload;
+      const shortPositions = positions.map(
+        (position) => position.row + position.column
+      );
+      const grid = findGrid(gridId, state.grids);
+      const flatPositions = grid.data.flat();
+      const filteredPositions = flatPositions.filter((position) =>
+        shortPositions.includes(position.row + position.column)
+      );
+      const status = { selected: false, deselected: false };
+      filteredPositions.forEach((position) => {
+        if (position.container) {
+          if (position.container.selected) {
+            status.selected = true;
+          } else {
+            status.deselected = true;
+          }
+        }
+      });
+      const newSelectionStatus =
+        (status.selected && status.deselected) || !status.selected
+          ? true
+          : false;
+      filteredPositions.forEach((position) => {
+        if (position.container) {
+          position.container.selected = newSelectionStatus;
+        }
+      });
+    },
+    clearGridContainers(state, action) {
+      const { gridId, positions, clearMode } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
+      const shortPositions = positions.map(
+        (position) => position.row + position.column
+      );
+      const flatPositions = grid.data.flat();
+      const filteredPositions = flatPositions.filter((position) =>
+        shortPositions.includes(position.row + position.column)
+      );
+      filteredPositions.forEach((position) => {
+        if (position.container) {
+          if (clearMode === 'all') {
+            position.container.components = [];
+          } else {
+            const componentType = componentTypes[clearMode];
+            position.container.components = position.container.components.filter(
+              (component) => {
+                return component.type !== componentType;
+              }
+            );
+          }
+        }
+      });
+    },
+    deleteGrid(state, action) {
+      const { gridId } = action.payload;
+      const indexToRemove = state.grids.findIndex(
+        (container) => container.id === gridId
+      );
+      state.grids.splice(indexToRemove, 1);
+      if (state.grids.length) {
+        if (state.grids[indexToRemove]) {
+          state.activeGridId = state.grids[indexToRemove].id;
+        } else {
+          state.activeGridId = state.grids[indexToRemove - 1].id;
+        }
+      }
+      assignGridNames(state.grids, state.containerTypes);
+    },
+    addBarcodes(state, action) {
+      const { barcodes } = action.payload;
+      barcodes.forEach((barcode) => {
+        if (!state.barcodes.includes(barcode)) {
+          state.barcodes.push(barcode);
+        }
+      });
+      state.barcodes.sort();
+    },
+    setGridBarcode(state, action) {
+      const { gridId, barcode } = action.payload;
+      state.grids.forEach((grid) => {
+        if (grid.id === gridId) {
+          grid.barcode = barcode;
+        } else if (grid.barcode === barcode) {
+          grid.barcode = null;
+        }
+      });
     },
     setSettings(state, action) {
       const { settings } = action.payload;
       state.settings = Object.assign(state.settings, settings);
-    },
-    addBarcodes(state, action) {
-      const { barcodes } = action.payload;
-      state.barcodes = state.barcodes.concat(barcodes);
-    },
-    setBarcode(state, action) {
-      const { plateId, barcode } = action.payload;
-      const plate = findPlateById(plateId, state.plates);
-      plate.barcode = barcode;
     },
     setSaveStatus(state, action) {
       const { saveStatus } = action.payload;
@@ -177,13 +191,38 @@ const editor = createSlice({
         state.lastSaveTime = Date.now();
       }
     },
+    setContainerTypes(state, action) {
+      state.containerTypes = action.payload.containerTypes;
+    },
   },
 });
 
 export const { actions: editorActions, reducer: editorReducer } = editor;
 
-// function getToolComponentFromState(componentId, state) {
-//   return state.toolComponents.find(
-//     stateComponent => stateComponent.id === componentId
-//   );
-// }
+function assignGridNames(grids, containerTypes) {
+  const typeCounts = {};
+  grids.forEach((grid) => {
+    if (!typeCounts[grid.containerType]) {
+      typeCounts[grid.containerType] = 1;
+    } else {
+      typeCounts[grid.containerType]++;
+    }
+    let containerTypeName;
+    if (containerTypes && containerTypes[grid.containerType]) {
+      containerTypeName = containerTypes[grid.containerType].name;
+    } else {
+      containerTypeName = grid.containerType;
+    }
+    grid.name = `${containerTypeName} ${typeCounts[grid.containerType]}`;
+  });
+}
+
+function findGrid(gridId, grids) {
+  return grids.find((grid) => grid.id === gridId);
+}
+
+function findPosition(position, positions) {
+  return positions.find(
+    (pos) => pos.row === position.row && pos.column === position.column
+  );
+}

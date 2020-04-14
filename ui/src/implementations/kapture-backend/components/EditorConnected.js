@@ -5,15 +5,15 @@ import { Editor } from '../../../components';
 import { selectors } from '../store';
 import { actions } from '../actions';
 
+const { loadContainerCollection, resetEditor } = actions.editor;
+
 const {
   selectEditorInitialized,
   selectEditorInitializationError,
-  selectEditorPlates,
+  selectEditorGridCount,
 } = selectors;
 
-const { loadContainerCollection, resetEditor, addNewPlate } = actions.editor;
-
-const onMount = query => {
+const onMount = (query) => {
   return async (dispatch, getState) => {
     const params = queryString.parse(query);
     dispatch(loadContainerCollection(params.status, params.version));
@@ -23,19 +23,18 @@ const onMount = query => {
 const mapState = (state, props) => {
   const initialized = selectEditorInitialized(state);
   const error = selectEditorInitializationError(state);
-  const plates = selectEditorPlates(state);
-  const noPlates = plates.length === 0;
+  const gridCount = selectEditorGridCount(state);
+  const showEmptyState = gridCount ? false : true;
   let loading = false;
   if (!initialized && !error) {
     loading = true;
   }
-  return { loading, error, initialized, noPlates };
+  return { loading, error, initialized, showEmptyState };
 };
 
 const mapDispatch = {
   onMount,
   onUnmount: resetEditor,
-  onAddClick: addNewPlate,
 };
 
 const connected = connect(mapState, mapDispatch)(Editor);

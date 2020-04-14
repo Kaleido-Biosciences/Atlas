@@ -2,13 +2,13 @@
   width: 100%;
 }
 
-.plate {
+.grid {
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px solid black;
 }
 
-.plate th {
+.grid th {
   border: 1px solid rgb(227, 229, 229);
   background: #f9fafb;
   font-size: 14px;
@@ -16,7 +16,7 @@
   width: 1.4em;
 }
 
-.plate td {
+.grid td {
   border: 1px solid rgb(227, 229, 229);
   font-size: 8px;
   line-height: 1;

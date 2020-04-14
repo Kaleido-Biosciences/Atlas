@@ -4,11 +4,8 @@ import { ComponentList } from '../../../components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 
-const {
-  addComponentToComponents,
-  addComponentToToolComponents,
-} = actions.editor;
-
+const { addComponentToToolComponents } = actions.editorTools;
+const { addComponentToComponents } = actions.editorComponents;
 const { selectEditorComponents, selectEditorComponentCounts } = selectors;
 
 const onComponentClick = ({ component }) => {

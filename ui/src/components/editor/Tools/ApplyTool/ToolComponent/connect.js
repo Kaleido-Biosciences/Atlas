@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 
 import { ToolComponent } from './ToolComponent';
-import {
+import { actions } from '../../../../../implementations/kapture-backend/actions/';
+
+const {
   selectToolComponents,
   deselectToolComponents,
   removeToolComponents,
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
-} from '../../../../../implementations/kapture-backend/actions/editorActions';
+} = actions.editorTools;
 
 const mapDispatch = {
   onSelect: selectToolComponents,

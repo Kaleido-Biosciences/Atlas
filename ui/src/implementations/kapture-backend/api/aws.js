@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
-import lzutf8 from 'lzutf8';
+import pako from 'pako';
 import { STATUS_COMPLETED, STATUS_DRAFT } from '../../../constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
@@ -18,24 +18,7 @@ AWS.config.update({
 let docClient = new AWS.DynamoDB.DocumentClient();
 let table = DYNAMODB_TABLE;
 
-const processResponse = response => {
-  const versions = [];
-  if (response.Count > 0) {
-    response.Items.forEach(({ plateMaps, ...rest }) => {
-      versions.push({
-        plateMaps: JSON.parse(
-          lzutf8.decompress(plateMaps, {
-            inputEncoding: 'Base64',
-          })
-        ),
-        ...rest,
-      });
-    });
-  }
-  return versions;
-};
-
-export async function fetchExperimentVersions(experimentId) {
+export async function fetchActivityVersions(experimentId) {
   let versions = [];
   const params = {
     TableName: table,
@@ -85,52 +68,16 @@ export async function fetchVersion(status, timestamp) {
   }
 }
 
-export function fetchPlates(experimentId, status) {
-  return new Promise((resolve, reject) => {
-    let plateMaps = [];
-    let params = {
-      TableName: table,
-      KeyConditionExpression: '#e = :eeee and #s = :ssss',
-      ExpressionAttributeNames: {
-        '#e': 'experiment_status',
-        '#s': 'version',
-      },
-      ExpressionAttributeValues: {
-        ':eeee': experimentId + '_' + status,
-        ':ssss': 0,
-      },
-      ScanIndexForward: false,
-      ConsistentRead: false,
-    };
-    docClient.query(params, function(err, response) {
-      if (err) {
-        reject(err);
-      } else {
-        if (response.Count > 0) {
-          plateMaps = JSON.parse(
-            lzutf8.decompress(response.Items[0].plateMaps, {
-              inputEncoding: 'Base64',
-            })
-          );
-        }
-        resolve(plateMaps);
-      }
-    });
-  });
-}
-
 /**
- * Saves the current plate set as a DRAFT with version 0 in Dyanamo database
- * @param {String} experimentName name of the experiment to which the plates are associated
- * @param {Object[]} plateMaps Set of plates associated with the experiment
+ * Saves the current container set as a DRAFT with version 0 in Dyanamo database
+ * @param {String} activityName name of the activity to which the containers are associated
+ * @param {Object[]} containers Set of containers associated with the experiment
  * @returns {Promise<any>}
  */
-export function saveExperimentPlates(experimentName, plateMaps) {
+export function saveActivityGrids(activityName, grids) {
   return new Promise((resolve, reject) => {
-    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
-      outputEncoding: 'Base64',
-    });
-    saveToDB(experimentName, STATUS_DRAFT, 0, plateMapsToSave, reject, resolve);
+    const compressedGrids = compressGrids(grids);
+    saveToDB(activityName, STATUS_DRAFT, 0, compressedGrids, reject, resolve);
   });
 }
 
@@ -140,22 +87,20 @@ export function saveExperimentPlates(experimentName, plateMaps) {
  * @param {Object[]} plateMaps Set of plates associated with the experiment
  * @returns {Promise<any>}
  */
-export function publishExperimentPlates(experimentName, plateMaps) {
+export function publishActivityGrids(activityName, grids) {
   return new Promise((resolve, reject) => {
-    let plateMapsToSave = lzutf8.compress(JSON.stringify(plateMaps), {
-      outputEncoding: 'Base64',
-    });
-    getUTCTime().then(function(time) {
+    const compressedGrids = compressGrids(grids);
+    getUTCTime().then(function (time) {
       createNew(
-        experimentName,
+        activityName,
         STATUS_COMPLETED,
         time,
-        plateMapsToSave,
+        compressedGrids,
         reject,
         ({ data }) => {
           resolve({
             containerCollectionDetails: {
-              status: experimentName + '_' + STATUS_COMPLETED,
+              status: activityName + '_' + STATUS_COMPLETED,
               version: time,
               data,
             },
@@ -184,10 +129,10 @@ export function getUTCTime() {
           'x-rapidapi-key': WORLD_CLOCK_KEY,
         },
       })
-      .then(function(response) {
+      .then(function (response) {
         resolve(response.data['currentFileTime']);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // convert unix time stamp to LDAP/Win32 Filetime
         resolve((Date.now() / 1000 + 11644473600) * 10000000);
       });
@@ -215,7 +160,7 @@ function saveToDB(
     ReturnValues: 'UPDATED_NEW',
   };
 
-  docClient.update(params, function(err, data) {
+  docClient.update(params, function (err, data) {
     if (err) {
       reject(err);
       console.error(
@@ -244,7 +189,7 @@ function createNew(
       plateMaps: plateMapsToSave,
     },
   };
-  docClient.put(params, function(err, data) {
+  docClient.put(params, function (err, data) {
     if (err) {
       reject(err);
       console.error(
@@ -272,14 +217,10 @@ export function scanTable() {
           JSON.stringify(err, null, 2)
         );
       } else {
-        data.Items.forEach(function(item) {
+        data.Items.forEach(function (item) {
           const { plateMaps, ...rest } = item;
           experiments.push({
-            plateMaps: JSON.parse(
-              lzutf8.decompress(plateMaps, {
-                inputEncoding: 'Base64',
-              })
-            ),
+            plateMaps: decompressGrids(plateMaps),
             ...rest,
           });
         });
@@ -292,4 +233,29 @@ export function scanTable() {
       }
     }
   });
+}
+
+function compressGrids(grids) {
+  const gridsString = JSON.stringify(grids);
+  const gzipped = pako.gzip(gridsString, { to: 'string' });
+  return btoa(gzipped);
+}
+
+function decompressGrids(compressedGrids) {
+  const decoded = atob(compressedGrids);
+  const decompressed = pako.ungzip(decoded, { to: 'string' });
+  return JSON.parse(decompressed);
+}
+
+function processResponse(response) {
+  const versions = [];
+  if (response.Count > 0) {
+    response.Items.forEach(({ plateMaps, ...rest }) => {
+      versions.push({
+        plateMaps: decompressGrids(plateMaps),
+        ...rest,
+      });
+    });
+  }
+  return versions;
 }

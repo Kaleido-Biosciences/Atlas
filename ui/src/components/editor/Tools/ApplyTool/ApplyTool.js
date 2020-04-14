@@ -8,15 +8,15 @@ import { MediaSection } from './MediaSection';
 import { SupplementsSection } from './SupplementsSection';
 import { AttributesSection } from './AttributesSection';
 import { groupComponents } from '../../../../store/plateFunctions';
-import { SelectedWells } from './SelectedWells';
+import { SelectedContainers } from './SelectedContainers';
 import styles from './ApplyTool.module.css';
 
 export class ApplyTool extends Component {
   groupComponents = memoize(groupComponents);
   handleApplyClick = () => {
-    const { activePlate } = this.props;
+    const { activeGridId } = this.props;
     if (this.props.onApplyClick) {
-      this.props.onApplyClick({ plateId: activePlate.id });
+      this.props.onApplyClick({ gridId: activeGridId });
     }
   };
   handleAddAttribute = ({ component }) => {
@@ -25,7 +25,11 @@ export class ApplyTool extends Component {
     }
   };
   render() {
-    const { toolComponents, toolComponentsValid, selectedWells } = this.props;
+    const {
+      toolComponents,
+      toolComponentsValid,
+      selectedContainersSummary,
+    } = this.props;
     const groupedComponents = this.groupComponents(toolComponents);
     const {
       communities,
@@ -35,7 +39,7 @@ export class ApplyTool extends Component {
       attributes,
     } = groupedComponents;
     const showComponents =
-      toolComponents.filter(x => x.type !== 'attribute').length > 0;
+      toolComponents.filter((x) => x.type !== 'attribute').length > 0;
     return (
       <div className={styles.applyTool}>
         <div className={styles.componentsContainer}>
@@ -62,10 +66,10 @@ export class ApplyTool extends Component {
             addAttribute={this.handleAddAttribute}
           />
         </div>
-        {selectedWells && selectedWells.length > 0 ? (
-          <div className={styles.selectedWellsContainer}>
-            <SelectedWells
-              selectedWells={selectedWells}
+        {selectedContainersSummary && selectedContainersSummary.count > 0 ? (
+          <div className={styles.selectedContainersContainer}>
+            <SelectedContainers
+              selectedContainersSummary={selectedContainersSummary}
               showButton={showComponents}
               buttonDisabled={!toolComponentsValid}
               onApplyClick={this.handleApplyClick}
@@ -80,8 +84,8 @@ export class ApplyTool extends Component {
 ApplyTool.propTypes = {
   toolComponents: PropTypes.array.isRequired,
   toolComponentsValid: PropTypes.bool.isRequired,
-  selectedWells: PropTypes.array.isRequired,
-  activePlate: PropTypes.object,
+  selectedContainersSummary: PropTypes.object.isRequired,
+  activeGridId: PropTypes.string,
   onApplyClick: PropTypes.func,
   onAddAttribute: PropTypes.func,
 };

@@ -1,9 +1,14 @@
 import { printActions } from '../store';
-import { importContainerCollection } from './activityActions';
+import {
+  getContainerCollection,
+  importContainerCollection,
+} from './activityActions';
+import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
 
 const {
-  setPlates: _setPlates,
+  setGrids: _setGrids,
   setInitializationError: _setInitializationError,
+  setContainerTypes: _setContainerTypes,
 } = printActions;
 
 export const { resetState: resetPrint } = printActions;
@@ -11,9 +16,13 @@ export const { resetState: resetPrint } = printActions;
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
-      const plates = await dispatch(importContainerCollection(status, version));
-      if (plates.length) {
-        dispatch(_setPlates({ plates }));
+      dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES_KEYED }));
+      const collection = await dispatch(
+        getContainerCollection(status, version)
+      );
+      const importData = await importContainerCollection(collection);
+      if (importData.grids.length) {
+        dispatch(_setGrids({ grids: importData.grids }));
       } else {
         dispatch(
           _setInitializationError({

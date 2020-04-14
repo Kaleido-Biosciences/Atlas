@@ -1,5 +1,4 @@
 import { createSelector } from 'redux-starter-kit';
-import { getActivePlate, getSelectedWells } from './plateFunctions';
 
 /* Activity Search */
 export const selectActivitySearchSearchTerm = createSelector([
@@ -31,7 +30,6 @@ export const selectActivityContainerCollections = createSelector([
   'activity.containerCollections',
 ]);
 export const selectActivityData = createSelector(['activity.data']);
-export const selectActivityPlateSize = createSelector(['activity.plateSize']);
 export const selectActivityPublishStatus = createSelector([
   'activity.publishStatus',
 ]);
@@ -47,48 +45,99 @@ export const selectEditorInitialized = createSelector(['editor.initialized']);
 export const selectEditorInitializationError = createSelector([
   'editor.initializationError',
 ]);
-export const selectEditorPlates = createSelector(['editor.plates']);
-export const selectEditorActivePlate = createSelector(
-  ['editor.plates'],
-  getActivePlate
+export const selectEditorGrids = createSelector(['editor.grids']);
+export const selectEditorGridCount = createSelector(
+  ['editor.grids'],
+  (grids) => {
+    return grids.length;
+  }
 );
-export const selectEditorSelectedWellsFromActivePlate = createSelector(
-  ['editor.plates'],
-  plates => {
-    const activePlate = getActivePlate(plates);
-    if (activePlate) {
-      return getSelectedWells(activePlate);
-    } else return null;
+export const selectEditorActiveGridId = createSelector(['editor.activeGridId']);
+export const selectEditorActiveGrid = createSelector(
+  ['editor.grids', 'editor.activeGridId'],
+  (grids, activeGridId) => {
+    return grids.find((c) => c.id === activeGridId);
+  }
+);
+export const selectEditorGridTabs = createSelector(
+  ['editor.grids', 'editor.activeGridId'],
+  (grids, activeGridId) => {
+    const tabs = [];
+    grids.forEach((grid) => {
+      tabs.push({
+        id: grid.id,
+        name: grid.name,
+        active: grid.id === activeGridId,
+      });
+    });
+    return tabs;
+  }
+);
+export const selectEditorBarcodes = createSelector(['editor.barcodes']);
+export const selectEditorBarcodeOptions = createSelector(
+  ['editor.barcodes'],
+  (barcodes) => {
+    return barcodes.map((barcode) => {
+      return { key: barcode, value: barcode, text: barcode };
+    });
   }
 );
 export const selectEditorSettings = createSelector(['editor.settings']);
-export const selectEditorBarcodes = createSelector(['editor.barcodes']);
+export const selectEditorSelectedContainersSummary = createSelector(
+  ['editor.grids', 'editor.activeGridId'],
+  (grids, activeGridId) => {
+    const selectedContainersSummary = {
+      count: 0,
+      text: '',
+    };
+    if (grids.length) {
+      const activeGrid = grids.find((grid) => grid.id === activeGridId);
+      if (activeGrid) {
+        const positions = activeGrid.data.flat();
+        const selectedPositions = positions.filter((position) => {
+          if (position.container && position.container.selected) return true;
+          else return false;
+        });
+        const mapped = selectedPositions.map(
+          (position) => position.row + position.column
+        );
+        if (mapped.length) {
+          selectedContainersSummary.text = `${activeGrid.name}: ${mapped.join(
+            ','
+          )}`;
+          selectedContainersSummary.count = mapped.length;
+        }
+      }
+    }
+    return selectedContainersSummary;
+  }
+);
+export const selectEditorSaveStatus = createSelector(['editor.saveStatus']);
+export const selectEditorLastSaveTime = createSelector(['editor.lastSaveTime']);
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',
 ]);
-export const selectEditorSaveStatus = createSelector(['editor.saveStatus']);
-export const selectEditorLastSaveTime = createSelector(['editor.lastSaveTime']);
 export const selectEditorComponents = createSelector([
   'editorComponents.components',
+]);
+export const selectEditorToolComponents = createSelector([
+  'editorTools.toolComponents',
 ]);
 export const selectEditorToolComponentsValid = createSelector([
   'editorTools.toolComponentsValid',
 ]);
 export const selectEditorClickMode = createSelector(['editorTools.clickMode']);
-export const selectEditorToolComponents = createSelector([
-  'editorTools.toolComponents',
-]);
+export const selectEditorClearMode = createSelector(['editorTools.clearMode']);
 export const selectEditorSelectedToolComponents = createSelector(
   ['editorTools.toolComponents'],
-  toolComponents => {
-    return toolComponents.filter(component => component.selected);
+  (toolComponents) => {
+    return toolComponents.filter((component) => component.selected);
   }
 );
-export const selectEditorClearMode = createSelector(['editorTools.clearMode']);
 
 /* Print */
 export const selectPrintInitialized = createSelector(['print.initialized']);
 export const selectPrintInitializationError = createSelector([
   'print.initializationError',
 ]);
-export const selectPrintPlates = createSelector(['print.plates']);
+export const selectPrintGrids = createSelector(['print.grids']);

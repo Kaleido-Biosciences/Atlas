@@ -6,14 +6,14 @@ import { Route, Switch, matchPath } from 'react-router-dom';
 import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../components';
 import { Editor } from '../../components';
-import { PlateTabBar } from '../../components';
-import { Plate } from '../../components';
 import { ComponentList } from '../../components';
 import { Tools } from '../../components';
 import { EditorActions } from '../../components';
 import { Print } from '../../components';
 import { PrintActions } from '../../../../components/print/PrintActions';
 import { CompletedModal } from './CompletedModal';
+import { GridTabs } from '../../components';
+import { ActiveGrid } from '../../components';
 import styles from './Activity.module.css';
 
 export class Activities extends Component {
@@ -125,8 +125,8 @@ export class Activities extends Component {
         />
       );
     } else if (initialized) {
-      const tabBarComponent = <PlateTabBar />;
-      const plateComponent = <Plate />;
+      const tabsComponent = <GridTabs />;
+      const activeGridComponent = <ActiveGrid />;
       const componentListComponent = <ComponentList />;
       const toolsComponent = <Tools />;
       if (this.matchEditorPath() && editorInitialized) {
@@ -143,7 +143,7 @@ export class Activities extends Component {
             <Route
               path={`${match.path}`}
               exact
-              render={routeProps => {
+              render={(routeProps) => {
                 return containerCollectionsStale ? null : (
                   <ActivityDetails {...routeProps} />
                 );
@@ -151,11 +151,11 @@ export class Activities extends Component {
             />
             <Route
               path={`${match.path}/editor`}
-              render={routeProps => {
+              render={(routeProps) => {
                 return (
                   <Editor
-                    tabBarComponent={tabBarComponent}
-                    plateComponent={plateComponent}
+                    tabsComponent={tabsComponent}
+                    activeGridComponent={activeGridComponent}
                     componentListComponent={componentListComponent}
                     toolsComponent={toolsComponent}
                     {...routeProps}
@@ -165,9 +165,9 @@ export class Activities extends Component {
             />
             <Route
               path={`${match.path}/print`}
-              render={routeProps => (
+              render={(routeProps) => (
                 <Print
-                  contentRef={contentRef => {
+                  contentRef={(contentRef) => {
                     this.setState({ contentRef });
                   }}
                   {...routeProps}

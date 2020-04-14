@@ -1,28 +1,28 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import {
-  applySelectedToolComponentsToSelectedWells,
-  addComponentToToolComponents,
-} from '../../../../implementations/kapture-backend/actions/editorActions';
+import { actions } from '../../../../implementations/kapture-backend/actions';
 import {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
-  selectEditorSelectedWellsFromActivePlate,
-  selectEditorActivePlate,
+  selectEditorSelectedContainersSummary,
+  selectEditorActiveGridId,
 } from '../../../../store/selectors';
+
+const { applySelectedToolComponentsToSelectedGrids } = actions.editor;
+const { addComponentToToolComponents } = actions.editorTools;
 
 const mapState = (state, props) => {
   return {
     toolComponents: selectEditorToolComponents(state),
     toolComponentsValid: selectEditorToolComponentsValid(state),
-    selectedWells: selectEditorSelectedWellsFromActivePlate(state),
-    activePlate: selectEditorActivePlate(state),
+    selectedContainersSummary: selectEditorSelectedContainersSummary(state),
+    activeGridId: selectEditorActiveGridId(state),
   };
 };
 
 const mapDispatch = {
-  onApplyClick: applySelectedToolComponentsToSelectedWells,
+  onApplyClick: applySelectedToolComponentsToSelectedGrids,
   onAddAttribute: addComponentToToolComponents,
 };
 
