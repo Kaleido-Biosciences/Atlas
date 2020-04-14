@@ -40,8 +40,8 @@ export const loadActivity = (id) => {
   return async (dispatch, getState) => {
     dispatch(_setInitialized({ initialized: false }));
     try {
-      const activity = await api.fetchExperiment(id);
-      const versions = await api.fetchExperimentVersions(activity.name);
+      const activity = await api.fetchActivity(id);
+      const versions = await api.fetchActivityVersions(activity.name);
       if (!versions.length) {
         versions.push({
           plateMaps: [],

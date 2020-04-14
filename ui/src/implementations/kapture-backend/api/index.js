@@ -1,6 +1,6 @@
 import {
   searchActivities,
-  fetchExperiment,
+  fetchActivity,
   fetchCommunity,
   fetchCompound,
   fetchMedium,
@@ -9,15 +9,15 @@ import {
   searchComponents,
 } from './kapture';
 import {
-  fetchExperimentVersions,
+  fetchActivityVersions,
   fetchVersion,
   publishActivityGrids,
   saveActivityGrids,
 } from './aws';
 export const api = {
   searchActivities,
-  fetchExperiment,
-  fetchExperimentVersions,
+  fetchActivity,
+  fetchActivityVersions,
   fetchVersion,
   publishActivityGrids,
   fetchCommunity,

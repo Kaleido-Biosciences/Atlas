@@ -23,7 +23,7 @@ export function searchActivities(page, size, nameContains, descContains) {
   return axios.get(API_URL + '/experiments' + queryString);
 }
 
-export async function fetchExperiment(id) {
+export async function fetchActivity(id) {
   const response = await axios.get(`${API_URL}/experiments/${id}`);
   return response.data;
 }
@@ -51,7 +51,7 @@ export function findComponent(name) {
   const media = axios.get(API_URL + '/media' + queryString);
   const supplements = axios.get(API_URL + '/supplements' + queryString);
   return Promise.all([communities, compounds, media, supplements]).then(
-    response => {
+    (response) => {
       const result = {
         name,
         found: false,
@@ -87,7 +87,7 @@ export async function searchComponents(page, size, query) {
     if (page) params.push(`page=${page}`);
     if (size) params.push(`size=${size}`);
     const queryString = '?' + params.join('&');
-    const getUrl = url => `${API_URL}${url}${queryString}`;
+    const getUrl = (url) => `${API_URL}${url}${queryString}`;
     const communities = axios.get(getUrl('/_search/communities'));
     const compounds = axios.get(getUrl('/_search/batches'));
     const media = axios.get(getUrl('/_search/media'));
@@ -100,22 +100,22 @@ export async function searchComponents(page, size, query) {
     ]);
     const components = [];
     if (response[0].data.length) {
-      response[0].data.forEach(component => {
+      response[0].data.forEach((component) => {
         components.push(createComponent(component, COMPONENT_TYPE_COMMUNITY));
       });
     }
     if (response[1].data.length) {
-      response[1].data.forEach(component => {
+      response[1].data.forEach((component) => {
         components.push(createComponent(component, COMPONENT_TYPE_COMPOUND));
       });
     }
     if (response[2].data.length) {
-      response[2].data.forEach(component => {
+      response[2].data.forEach((component) => {
         components.push(createComponent(component, COMPONENT_TYPE_MEDIUM));
       });
     }
     if (response[3].data.length) {
-      response[3].data.forEach(component => {
+      response[3].data.forEach((component) => {
         components.push(createComponent(component, COMPONENT_TYPE_SUPPLEMENT));
       });
     }
