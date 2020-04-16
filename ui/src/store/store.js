@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import logger from 'redux-logger';
 
 import './validators';
-import { activitySearchReducer } from './activitySearch';
+import { activitySearchReducer } from 'AtlasUI/store';
 import { activityReducer } from './activity';
 import { editorReducer } from './editor';
 import { editorComponentsReducer } from './editorComponents';

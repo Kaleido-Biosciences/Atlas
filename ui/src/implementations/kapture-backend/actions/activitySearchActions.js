@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { api } from '../api';
-import { activitySearchActions } from '../store';
+import { activitySearchActions } from 'AtlasUI/store';
 
 const {
   setSearchTerm: _setSearchTerm,
