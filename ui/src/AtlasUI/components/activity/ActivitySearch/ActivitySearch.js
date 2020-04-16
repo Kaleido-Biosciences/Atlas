@@ -17,7 +17,7 @@ export class ActivitySearch extends Component {
   };
   handleResultSelect = (e, { result }) => {
     if (this.props.onSelect) {
-      this.props.onSelect({ activity: result.data });
+      this.props.onSelect({ activityId: result.id });
     }
   };
   render() {

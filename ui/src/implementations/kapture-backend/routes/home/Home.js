@@ -4,8 +4,8 @@ import { ActivitySearch } from '../../components';
 import styles from './Home.module.css';
 
 export class Home extends Component {
-  handleSelect = ({ activity }) => {
-    this.props.history.push(`/activities/${activity.id}`);
+  handleSelect = ({ activityId }) => {
+    this.props.history.push(`/activities/${activityId}`);
   };
 
   render() {

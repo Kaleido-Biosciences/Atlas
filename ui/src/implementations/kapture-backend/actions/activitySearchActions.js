@@ -24,11 +24,11 @@ const loadResults = _.debounce(async (value, dispatch) => {
     try {
       dispatch(_setLoading({ loading: true }));
       const response = await api.searchActivities(0, 5, value);
-      const results = response.data.map(activity => {
+      const results = response.data.map((activity) => {
         return {
           title: activity.name,
           description: activity.description,
-          data: activity,
+          id: activity.id,
         };
       });
       dispatch(_setResults({ results }));
