@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
-import { ContainerCollection } from '../ContainerCollection';
+import { ContainerCollection } from './ContainerCollection';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {
@@ -12,9 +12,9 @@ export class ActivityDetails extends Component {
     }
   }
   handleCollectionClick = ({ route }) => {
-    let url = this.props.match.url;
-    url = url.endsWith('/') ? url.slice(0, -1) : url;
-    this.props.history.push(url + route);
+    if (this.props.onCollectionClick) {
+      this.props.onCollectionClick({ route });
+    }
   };
   renderCollections(collections) {
     return (
@@ -42,12 +42,12 @@ export class ActivityDetails extends Component {
     if (collections.length) {
       content = this.renderCollections(collections);
     }
-    return <div className={styles.experimentDetails}>{content}</div>;
+    return <div className={styles.activityDetails}>{content}</div>;
   }
 }
 
 ActivityDetails.propTypes = {
-  activityName: PropTypes.string,
   containerCollections: PropTypes.array,
+  onCollectionClick: PropTypes.func,
   onUnmount: PropTypes.func,
 };

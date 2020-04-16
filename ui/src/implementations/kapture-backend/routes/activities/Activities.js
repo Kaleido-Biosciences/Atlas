@@ -81,6 +81,11 @@ export class Activities extends Component {
       this.props.onMarkAsCompleted();
     }
   };
+  goToRoute = ({ route }) => {
+    let url = this.props.match.url;
+    url = url.endsWith('/') ? url.slice(0, -1) : url;
+    this.props.history.push(url + route);
+  };
   goToActivity = () => {
     const { activityId } = this.props;
     this.setState({ modalOpen: false });
@@ -145,7 +150,10 @@ export class Activities extends Component {
               exact
               render={(routeProps) => {
                 return containerCollectionsStale ? null : (
-                  <ActivityDetails {...routeProps} />
+                  <ActivityDetails
+                    {...routeProps}
+                    onCollectionClick={this.goToRoute}
+                  />
                 );
               }}
             />
