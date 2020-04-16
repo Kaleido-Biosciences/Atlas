@@ -10,7 +10,7 @@ import { ComponentList } from '../../components';
 import { Tools } from '../../components';
 import { EditorActions } from '../../components';
 import { Print } from '../../components';
-import { PrintActions } from '../../../../components/print/PrintActions';
+import { PrintActions } from 'AtlasUI/components';
 import { CompletedModal } from './CompletedModal';
 import { GridTabs } from '../../components';
 import { ActiveGrid } from '../../components';

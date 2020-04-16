@@ -1,4 +1,3 @@
-export { Print } from './print';
 export { ComponentList } from './editor/ComponentList';
 export { Tools } from './editor/Tools';
 export { Editor } from './editor/Editor';

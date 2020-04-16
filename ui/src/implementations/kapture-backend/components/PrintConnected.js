@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import { Print } from '../../../components';
+import { Print } from 'AtlasUI/components';
 import { actions } from '../actions';
 import { selectors } from 'AtlasUI/store';
 import { GRID_TYPES_KEYED } from '../config/containerTypes';
