@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { store } from './store';
-import { Header } from './components';
+import { Header } from 'AtlasUI/components';
 import { Home } from './routes/home';
 import { Activities } from './routes/activities';
 import styles from './App.module.css';

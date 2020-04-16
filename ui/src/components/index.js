@@ -1,4 +1,3 @@
-export { Header } from './app/Header';
 export { Print } from './print';
 export { ComponentList } from './editor/ComponentList';
 export { Tools } from './editor/Tools';
