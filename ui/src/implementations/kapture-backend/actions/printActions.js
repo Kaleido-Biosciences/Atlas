@@ -1,4 +1,4 @@
-import { printActions } from '../store';
+import { printActions } from 'AtlasUI/store';
 import {
   getContainerCollection,
   importContainerCollection,
