@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ActivityHeader } from 'AtlasUI/components';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 
 const { selectActivityId, selectActivityName } = selectors;
 

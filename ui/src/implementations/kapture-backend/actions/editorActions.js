@@ -1,4 +1,5 @@
-import { editorActions, editorToolsActions, selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
+import { editorActions, editorToolsActions } from '../store';
 import {
   getContainerCollection,
   importContainerCollection,

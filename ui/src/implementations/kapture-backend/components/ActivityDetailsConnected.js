@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ActivityDetails } from 'AtlasUI/components';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 import { actions } from '../actions';
 
 const { selectActivityContainerCollections } = selectors;

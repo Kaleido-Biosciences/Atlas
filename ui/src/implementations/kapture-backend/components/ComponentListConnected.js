@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ComponentList } from '../../../components';
 import { actions } from '../actions';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 
 const { addComponentToToolComponents } = actions.editorTools;
 const { addComponentToComponents } = actions.editorComponents;

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { Tools } from '../../../components';
 import { actions } from '../actions';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 
 const { setClickMode } = actions.editor;
 const { selectEditorClickMode } = selectors;

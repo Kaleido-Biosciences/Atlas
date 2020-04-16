@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import { Editor } from '../../../components';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 import { actions } from '../actions';
 
 const { loadContainerCollection, resetEditor } = actions.editor;

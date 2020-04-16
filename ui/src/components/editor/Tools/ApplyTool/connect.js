@@ -2,12 +2,14 @@ import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
 import { actions } from '../../../../implementations/kapture-backend/actions';
-import {
+import { selectors } from 'AtlasUI/store';
+
+const {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
   selectEditorSelectedContainersSummary,
   selectEditorActiveGridId,
-} from '../../../../store/selectors';
+} = selectors;
 
 const { applySelectedToolComponentsToSelectedGrids } = actions.editor;
 const { addComponentToToolComponents } = actions.editorTools;

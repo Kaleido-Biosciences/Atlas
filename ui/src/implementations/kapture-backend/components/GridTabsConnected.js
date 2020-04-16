@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { GridTabs } from '../../../components';
 import { actions } from '../actions';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 import { COMPONENT_TYPES } from '../config/componentTypes';
 import { CONTAINER_TYPE_OPTIONS } from '../config/containerTypes';
 

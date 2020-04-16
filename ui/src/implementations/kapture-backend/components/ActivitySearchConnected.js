@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import { ActivitySearch } from 'AtlasUI/components';
+import { selectors } from 'AtlasUI/store';
 import { actions } from '../actions';
-import { selectors } from '../store';
 
 const { searchActivities, resetActivitySearch } = actions.activitySearch;
 

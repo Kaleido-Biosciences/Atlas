@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { EditorActions } from './EditorActions';
-import { selectors } from '../../store';
+import { selectors } from 'AtlasUI/store';
 import { actions } from '../../actions';
 const { selectEditorSaveStatus, selectEditorLastSaveTime } = selectors;
 const { addBarcodes } = actions.editor;

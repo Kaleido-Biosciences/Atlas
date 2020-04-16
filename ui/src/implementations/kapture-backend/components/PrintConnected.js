@@ -3,7 +3,7 @@ import queryString from 'query-string';
 
 import { Print } from '../../../components';
 import { actions } from '../actions';
-import { selectors } from '../store';
+import { selectors } from 'AtlasUI/store';
 import { GRID_TYPES_KEYED } from '../config/containerTypes';
 import { GRID_ROW_HEADERS } from '../config/grid';
 
