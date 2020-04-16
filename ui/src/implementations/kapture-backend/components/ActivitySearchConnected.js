@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { ActivitySearch } from '../../../components';
+import { ActivitySearch } from 'AtlasUI/components';
 import { actions } from '../actions';
 import { selectors } from '../store';
 
