@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Message, Button, TextArea } from 'semantic-ui-react';
 
-import { PopupButton } from '../../../../../components';
+import { PopupButton } from 'AtlasUI/components';
 import styles from './ImportBarcodesButton.module.css';
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 export class ImportBarcodesButton extends Component {
   state = initialState;
   popupRef = React.createRef();
-  handleImport = e => {
+  handleImport = (e) => {
     e.preventDefault();
     if (this.props.onImport) {
       this.props.onImport({ barcodes: this.state.barcodes });

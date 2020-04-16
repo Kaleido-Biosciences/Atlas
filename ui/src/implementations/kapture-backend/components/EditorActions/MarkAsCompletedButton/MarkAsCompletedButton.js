@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Message, Button } from 'semantic-ui-react';
 
-import { PopupButton } from '../../../../../components';
+import { PopupButton } from 'AtlasUI/components';
 import styles from './MarkAsCompletedButton.module.css';
 
 export class MarkAsCompletedButton extends Component {
