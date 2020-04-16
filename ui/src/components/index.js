@@ -1,5 +1,4 @@
 export { Header } from './app/Header';
-export { ActivityHeader } from './activity/ActivityHeader';
 export { ActivityDetails } from './activity/ActivityDetails';
 export { Print } from './print';
 export { ComponentList } from './editor/ComponentList';

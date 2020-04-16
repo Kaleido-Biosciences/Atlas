@@ -6,22 +6,20 @@ import styles from './ActivityHeader.module.css';
 
 export class ActivityHeader extends Component {
   render() {
-    const { activityName, linkUrl, actions } = this.props;
+    const { name, linkUrl, actions } = this.props;
     return (
       <div className={styles.activityHeader}>
-        <div className={styles.activityName}>
-          {activityName ? (
-            <Link to={linkUrl}>{`Activity: ${activityName}`}</Link>
-          ) : null}
+        <div className={styles.name}>
+          <Link to={linkUrl}>{`Activity${name ? `: ${name}` : ''}`}</Link>
         </div>
-        <div className={styles.container}>{actions}</div>
+        <div className={styles.actions}>{actions}</div>
       </div>
     );
   }
 }
 
 ActivityHeader.propTypes = {
-  activityName: PropTypes.string,
+  name: PropTypes.string,
   linkUrl: PropTypes.string,
   actions: PropTypes.object,
 };
