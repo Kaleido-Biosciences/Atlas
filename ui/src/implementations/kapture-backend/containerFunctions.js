@@ -4,7 +4,7 @@ import {
   createGrid,
   createGridData,
   addContainersToGrid,
-} from '../../models';
+} from 'AtlasUI/models';
 import {
   DEFAULT_COMPONENT_COLOR_CODES,
   COMPONENT_TYPE_ATTRIBUTE,

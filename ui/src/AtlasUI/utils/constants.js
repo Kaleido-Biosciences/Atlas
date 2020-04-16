@@ -1,0 +1,1 @@
+export const DEFAULT_COMPONENT_COLOR_CODE = '#9a9a9a';

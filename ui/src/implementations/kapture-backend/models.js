@@ -8,5 +8,5 @@ export {
   createGridData,
   createContainersForGrid,
   addContainersToGrid,
-} from '../../models';
+} from 'AtlasUI/models';
 export { exportGrids, importGrids };
