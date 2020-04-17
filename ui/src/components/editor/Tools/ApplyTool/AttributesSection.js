@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ComponentsSection } from './ComponentsSection';
-import { AddAttributeComponent } from "../../ComponentList/AddAttributeComponent";
+import { AddAttributeComponent } from './AddAttributeComponent';
 
 export class AttributesSection extends Component {
   render() {
@@ -10,7 +10,9 @@ export class AttributesSection extends Component {
       <React.Fragment>
         <ComponentsSection
           label={'Attributes'}
-          labelDescription={'Use attributes to include additional smaple meta data'}
+          labelDescription={
+            'Use attributes to include additional smaple meta data'
+          }
           components={attributes}
           showTimepoints={false}
           allowTimepointTimeChange={false}
