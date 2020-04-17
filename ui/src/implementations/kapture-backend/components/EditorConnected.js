@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import { Editor } from '../../../components';
+import { Editor } from 'AtlasUI/components';
 import { selectors } from 'AtlasUI/store';
 import { actions } from '../actions';
 

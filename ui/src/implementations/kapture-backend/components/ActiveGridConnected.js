@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { ActiveGrid } from '../../../components';
+import { ActiveGrid } from 'AtlasUI/components';
 import { actions } from '../actions';
 import { selectors } from 'AtlasUI/store';
 import { CONTAINER_TYPE_OPTIONS } from '../config/containerTypes';
