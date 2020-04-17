@@ -79,7 +79,7 @@ export class AddAttributeComponent extends Component {
       }
       let id = value ? (key + '_' + value).replace(/ /g, '_') : key;
       let unit = value ? (value_unit ? value_unit : '') : '';
-      let name = value ? key + '(' + value + unit + ')' : key;
+      let name = value ? key + ': ' + value + unit : key;
       let component = {
         id: 'ATTRIBUTE_' + id,
         type: COMPONENT_TYPE_ATTRIBUTE,

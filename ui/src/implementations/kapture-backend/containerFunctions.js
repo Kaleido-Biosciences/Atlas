@@ -149,7 +149,7 @@ const importContainer = (containerData, kaptureComponents) => {
     ({ key, value, value_type, value_unit }) => {
       const id = value ? (key + '_' + value).replace(/ /g, '_') : key;
       const unit = value ? (value_unit ? value_unit : '') : '';
-      const name = value ? key + '(' + value + unit + ')' : key;
+      const name = value ? key + ': ' + value + unit : key;
       return createComponent({
         id,
         type: COMPONENT_TYPE_ATTRIBUTE,
@@ -162,6 +162,7 @@ const importContainer = (containerData, kaptureComponents) => {
           value_type: value_type,
           value_unit: value_unit,
         },
+        color: DEFAULT_COMPONENT_COLOR_CODES[COMPONENT_TYPE_ATTRIBUTE],
       });
     }
   );
