@@ -22,6 +22,7 @@ import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
+  DEFAULT_COMPONENT_COLOR_CODES,
 } from '../../../constants';
 import { api } from '../api';
 import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
@@ -356,6 +357,7 @@ function transformToolComponent({ id, name, type, data, timepoints, tooltip }) {
     options: { timepoints },
     data,
     tooltip,
+    color: DEFAULT_COMPONENT_COLOR_CODES[type],
   });
 }
 
