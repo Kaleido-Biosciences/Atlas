@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ToolComponent } from './ToolComponent';
-import { actions } from '../../../../../implementations/kapture-backend/actions/';
+import { actions } from '../../../../../actions';
 
 const {
   selectToolComponents,

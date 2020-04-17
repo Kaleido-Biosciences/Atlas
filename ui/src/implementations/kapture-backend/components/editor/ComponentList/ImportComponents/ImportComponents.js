@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { api } from '../../../../implementations/kapture-backend/api';
+import { api } from '../../../../api';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
 

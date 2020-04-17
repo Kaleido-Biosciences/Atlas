@@ -1,5 +1,3 @@
-export { ComponentList } from './editor/ComponentList';
-export { Tools } from './editor/Tools';
 export { Editor } from './editor/Editor';
 export { GridTabs } from './editor/GridTabs';
 export { Grid } from './editor/Grid';

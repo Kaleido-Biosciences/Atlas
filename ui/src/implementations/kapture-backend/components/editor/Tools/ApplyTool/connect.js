@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import { actions } from '../../../../implementations/kapture-backend/actions';
+import { actions } from '../../../../actions';
 import { selectors } from 'AtlasUI/store';
 
 const {

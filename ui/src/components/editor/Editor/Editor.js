@@ -25,8 +25,7 @@ export class Editor extends Component {
       showEmptyState,
       tabsComponent,
       activeGridComponent,
-      componentListComponent,
-      toolsComponent,
+      sidebarComponent,
     } = this.props;
     let content;
     if (loading) {
@@ -64,16 +63,7 @@ export class Editor extends Component {
                   {showEmptyState ? <EditorEmptyState /> : activeGridComponent}
                 </div>
               </div>
-              <div className={styles.sidebar}>
-                <SplitPane
-                  split="horizontal"
-                  defaultSize={250}
-                  pane2Style={{ overflow: 'hidden' }}
-                >
-                  {componentListComponent}
-                  {toolsComponent}
-                </SplitPane>
-              </div>
+              <div className={styles.sidebar}>{sidebarComponent}</div>
             </SplitPane>
           </div>
         </React.Fragment>
@@ -94,6 +84,5 @@ Editor.propTypes = {
   onAddClick: PropTypes.func,
   tabsComponent: PropTypes.object,
   activeGridComponent: PropTypes.object,
-  componentListComponent: PropTypes.object,
-  toolsComponent: PropTypes.object,
+  sidebarComponent: PropTypes.object,
 };

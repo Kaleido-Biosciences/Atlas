@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 
-import { api } from '../../../implementations/kapture-backend/api';
+import { api } from '../../../api';
 import { Header } from './Header';
 import { Search } from './Search';
 import { List } from './List';

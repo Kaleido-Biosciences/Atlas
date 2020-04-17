@@ -6,8 +6,7 @@ import { Route, Switch, matchPath } from 'react-router-dom';
 import { ActivityHeader } from '../../components';
 import { ActivityDetails } from '../../components';
 import { Editor } from '../../components';
-import { ComponentList } from '../../components';
-import { Tools } from '../../components';
+import { EditorSidebar } from '../../components';
 import { EditorActions } from '../../components';
 import { Print } from '../../components';
 import { PrintActions } from 'AtlasUI/components';
@@ -132,8 +131,7 @@ export class Activities extends Component {
     } else if (initialized) {
       const tabsComponent = <GridTabs />;
       const activeGridComponent = <ActiveGrid />;
-      const componentListComponent = <ComponentList />;
-      const toolsComponent = <Tools />;
+      const sidebarComponent = <EditorSidebar />;
       if (this.matchEditorPath() && editorInitialized) {
         actions = (
           <EditorActions onMarkAsCompleted={this.handleMarkAsCompleted} />
@@ -164,8 +162,7 @@ export class Activities extends Component {
                   <Editor
                     tabsComponent={tabsComponent}
                     activeGridComponent={activeGridComponent}
-                    componentListComponent={componentListComponent}
-                    toolsComponent={toolsComponent}
+                    sidebarComponent={sidebarComponent}
                     {...routeProps}
                   />
                 );

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ImportComponents } from './ImportComponents';
-import { actions } from '../../../../implementations/kapture-backend/actions';
+import { actions } from '../../../../actions';
 
 const { addKaptureComponentsToComponents } = actions.editorComponents;
 
