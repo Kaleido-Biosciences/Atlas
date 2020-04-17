@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Label, Popup } from 'semantic-ui-react';
+
 import { ComponentTypeCircle } from '../ComponentTypeCircle';
-import { ComponentToolTip } from '../ComponentToolTip';
-import {
-  COMPONENT_TYPE_COMPOUND,
-  COMPONENT_TYPE_SUPPLEMENT,
-} from '../../../constants';
+import { ComponentTooltip } from 'AtlasUI/components';
 import styles from './ComponentList.module.css';
 
 export class Component extends React.Component {
@@ -17,41 +14,27 @@ export class Component extends React.Component {
     }
   };
 
-  renderComponentDetails() {
+  renderComponent() {
     const { component } = this.props;
-    if (
-      component.type === COMPONENT_TYPE_COMPOUND ||
-      component.type === COMPONENT_TYPE_SUPPLEMENT
-    ) {
+    const renderedComponent = (
+      <div>
+        <ComponentTypeCircle
+          type={component.type}
+          className={styles.typeCircle}
+        />
+        {component.name}
+      </div>
+    );
+    if (component.tooltip.length) {
       return (
-        <Popup
-          position="top center"
-          trigger={
-            <div>
-              <ComponentTypeCircle
-                type={component.type}
-                className={styles.typeCircle}
-              />
-              {component.name}
-            </div>
-          }
-        >
+        <Popup position="top center" trigger={renderedComponent}>
           <Popup.Content>
-            {' '}
-            <ComponentToolTip component={component} />{' '}
+            <ComponentTooltip tooltip={component.tooltip} />
           </Popup.Content>
         </Popup>
       );
     } else {
-      return (
-        <div>
-          <ComponentTypeCircle
-            type={component.type}
-            className={styles.typeCircle}
-          />
-          {component.name}
-        </div>
-      );
+      return renderedComponent;
     }
   }
 
@@ -62,7 +45,7 @@ export class Component extends React.Component {
     });
     return (
       <div onClick={this.handleClick} className={componentClass}>
-        {this.renderComponentDetails()}
+        {this.renderComponent()}
         {count && <Label className={styles.componentLabel}>{count}</Label>}
       </div>
     );

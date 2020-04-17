@@ -8,6 +8,8 @@ import {
 import {
   DEFAULT_COMPONENT_COLOR_CODES,
   COMPONENT_TYPE_ATTRIBUTE,
+  COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_COMPOUND,
 } from '../../constants';
 import { GRID_ROW_HEADERS } from './config/grid';
 
@@ -28,6 +30,7 @@ const createEditorComponentFromKaptureData = (
     },
     color: DEFAULT_COMPONENT_COLOR_CODES[type],
     data: kaptureData,
+    tooltip: getComponentTooltip(kaptureData, type),
   });
 };
 
@@ -192,6 +195,58 @@ const getDescription = (timepoints) => {
     } else return '';
   });
   return timepointStrings.join(', ');
+};
+
+const getComponentTooltip = (data, type) => {
+  const tooltip = [];
+  if (type === COMPONENT_TYPE_SUPPLEMENT) {
+    if (data.source) {
+      tooltip.push({ key: 'Source', value: data.source });
+    }
+    if (data.registrationDate) {
+      tooltip.push({ key: 'Registration Date', value: data.registrationDate });
+    }
+  } else if (type === COMPONENT_TYPE_COMPOUND) {
+    if (data.aveDP) {
+      tooltip.push({
+        key: 'Avg. DP',
+        value: data.aveDP.toFixed(2),
+      });
+    }
+    if (data.glycanComposition) {
+      tooltip.push({
+        key: 'Glycan Composition',
+        value: data.glycanComposition,
+      });
+    }
+    if (data.dataRecordName) {
+      tooltip.push({ key: 'Data record name', value: data.dataRecordName });
+    }
+    if (data.createdBy) {
+      tooltip.push({ key: 'Created by', value: data.createdBy });
+    }
+    if (data.dateCreated) {
+      tooltip.push({
+        key: 'Created date',
+        value: formatDate(data.dateCreated),
+      });
+    }
+    if (data.notes) {
+      tooltip.push({ key: 'Notes', value: data.notes });
+    }
+  }
+  return tooltip;
+};
+
+const formatDate = (iso_text) => {
+  let d = new Date(iso_text),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
 };
 
 export { exportGrids, importGrids };

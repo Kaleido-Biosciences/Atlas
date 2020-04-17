@@ -1,0 +1,1 @@
+export { ComponentTooltip } from './ComponentTooltip';

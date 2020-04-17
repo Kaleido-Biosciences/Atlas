@@ -5,3 +5,4 @@ export { ActivityDetails } from './activity/ActivityDetails';
 export { Print } from './print/Print';
 export { PrintActions } from './print/PrintActions';
 export { PopupButton } from './ui/PopupButton';
+export { ComponentTooltip } from './editor/ComponentTooltip';

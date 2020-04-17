@@ -348,13 +348,14 @@ function findGridById(gridId, grids) {
   return grids.find((grid) => grid.id === gridId);
 }
 
-function transformToolComponent({ id, name, type, data, timepoints }) {
+function transformToolComponent({ id, name, type, data, timepoints, tooltip }) {
   return createComponent({
     id,
     type,
     name,
     options: { timepoints },
     data,
+    tooltip,
   });
 }
 
