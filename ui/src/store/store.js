@@ -6,8 +6,8 @@ import {
   activitySearchReducer,
   activityReducer,
   printReducer,
+  editorReducer,
 } from 'AtlasUI/store';
-import { editorReducer } from './editor';
 import { editorComponentsReducer } from './editorComponents';
 import { editorToolsReducer } from './editorTools';
 
