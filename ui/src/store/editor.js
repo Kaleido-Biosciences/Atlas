@@ -1,11 +1,5 @@
 import { createSlice } from 'redux-starter-kit';
 
-import {
-  DEFAULT_COMPONENT_COLOR_CODES,
-  COMPONENT_TYPES_PLURAL_TO_SINGULAR,
-  REQUEST_SUCCESS,
-} from '../constants';
-
 const initialState = {
   initialized: false,
   initializationError: null,
@@ -19,7 +13,6 @@ const initialState = {
       innerPadding: 4,
       outerPadding: 2,
     },
-    componentColors: Object.assign({}, DEFAULT_COMPONENT_COLOR_CODES),
   },
   saveStatus: null,
   lastSaveTime: null,
@@ -121,9 +114,8 @@ const editor = createSlice({
       });
     },
     clearGridContainers(state, action) {
-      const { gridId, positions, clearMode } = action.payload;
+      const { gridId, positions, typesToClear } = action.payload;
       const grid = findGrid(gridId, state.grids);
-      const componentTypes = COMPONENT_TYPES_PLURAL_TO_SINGULAR;
       const shortPositions = positions.map(
         (position) => position.row + position.column
       );
@@ -133,16 +125,11 @@ const editor = createSlice({
       );
       filteredPositions.forEach((position) => {
         if (position.container) {
-          if (clearMode === 'all') {
-            position.container.components = [];
-          } else {
-            const componentType = componentTypes[clearMode];
-            position.container.components = position.container.components.filter(
-              (component) => {
-                return component.type !== componentType;
-              }
-            );
-          }
+          position.container.components = position.container.components.filter(
+            (component) => {
+              return !typesToClear.includes(component.type);
+            }
+          );
         }
       });
     },
@@ -185,10 +172,10 @@ const editor = createSlice({
       state.settings = Object.assign(state.settings, settings);
     },
     setSaveStatus(state, action) {
-      const { saveStatus } = action.payload;
+      const { saveStatus, lastSaveTime } = action.payload;
       state.saveStatus = saveStatus;
-      if (saveStatus === REQUEST_SUCCESS) {
-        state.lastSaveTime = Date.now();
+      if (lastSaveTime) {
+        state.lastSaveTime = lastSaveTime;
       }
     },
     setContainerTypes(state, action) {

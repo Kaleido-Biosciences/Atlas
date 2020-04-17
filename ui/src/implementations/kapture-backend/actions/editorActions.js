@@ -19,6 +19,7 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
+  COMPONENT_TYPES_PLURAL_TO_SINGULAR,
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
@@ -66,7 +67,12 @@ const wrapWithChangeHandler = (fn) => {
       const exportedGrids = exportGrids(selectEditorGrids(getState()));
       try {
         await api.saveActivityGrids(activityName, exportedGrids);
-        dispatch(_setSaveStatus({ saveStatus: REQUEST_SUCCESS }));
+        dispatch(
+          _setSaveStatus({
+            saveStatus: REQUEST_SUCCESS,
+            lastSaveTime: Date.now(),
+          })
+        );
       } catch (err) {
         dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
       }
@@ -192,7 +198,19 @@ export const handleContainerClick = wrapWithChangeHandler(
         dispatch(_toggleGridSelected({ gridId, positions }));
       } else if (clickMode === 'clear') {
         const clearMode = selectEditorClearMode(getState());
-        dispatch(_clearGridContainers({ gridId, positions, clearMode }));
+        let typesToClear;
+        if (clearMode === 'all') {
+          typesToClear = [
+            COMPONENT_TYPE_COMMUNITY,
+            COMPONENT_TYPE_COMPOUND,
+            COMPONENT_TYPE_MEDIUM,
+            COMPONENT_TYPE_SUPPLEMENT,
+            COMPONENT_TYPE_ATTRIBUTE,
+          ];
+        } else {
+          typesToClear = [COMPONENT_TYPES_PLURAL_TO_SINGULAR[clearMode]];
+        }
+        dispatch(_clearGridContainers({ gridId, positions, typesToClear }));
       }
     };
   }
