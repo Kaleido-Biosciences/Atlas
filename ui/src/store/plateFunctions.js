@@ -8,6 +8,8 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
+  COMPONENT_TYPE_COLORS,
+  COMPONENT_TYPE_ABBREVIATIONS,
 } from '../constants';
 
 export function createComponent(data, type) {
@@ -20,6 +22,8 @@ export function createComponent(data, type) {
     isValid: true,
     timepoints: [createTimepoint(type)],
     tooltip: getComponentTooltip(data, type),
+    color: COMPONENT_TYPE_COLORS[type],
+    abbreviation: COMPONENT_TYPE_ABBREVIATIONS[type],
   };
 }
 

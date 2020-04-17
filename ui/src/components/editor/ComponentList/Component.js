@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Label, Popup } from 'semantic-ui-react';
 
-import { ComponentTypeCircle } from '../ComponentTypeCircle';
-import { ComponentTooltip } from 'AtlasUI/components';
+import { ComponentTooltip, ComponentTypeCircle } from 'AtlasUI/components';
 import styles from './ComponentList.module.css';
 
 export class Component extends React.Component {
@@ -19,7 +18,8 @@ export class Component extends React.Component {
     const renderedComponent = (
       <div>
         <ComponentTypeCircle
-          type={component.type}
+          color={component.color}
+          text={component.abbreviation}
           className={styles.typeCircle}
         />
         {component.name}
