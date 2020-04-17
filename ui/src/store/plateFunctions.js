@@ -10,7 +10,7 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPE_COLORS,
   COMPONENT_TYPE_ABBREVIATIONS,
-} from '../constants';
+} from '../implementations/kapture-backend/constants';
 
 export function createComponent(data, type) {
   return {

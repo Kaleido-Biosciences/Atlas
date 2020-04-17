@@ -6,7 +6,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
-} from '../../../constants';
+} from '../constants';
 import { plateFunctions } from '../store';
 const { createComponent } = plateFunctions;
 

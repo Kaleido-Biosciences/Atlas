@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
 import pako from 'pako';
-import { STATUS_COMPLETED, STATUS_DRAFT } from '../../../constants';
+import { STATUS_COMPLETED, STATUS_DRAFT } from '../constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,

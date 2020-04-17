@@ -5,7 +5,7 @@ import {
   REQUEST_SUCCESS,
   REQUEST_ERROR,
   STATUS_COMPLETED,
-} from '../../../constants';
+} from '../constants';
 import { api } from '../api';
 import { createContainerCollection, exportGrids, importGrids } from '../models';
 import {

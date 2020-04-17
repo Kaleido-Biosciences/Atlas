@@ -24,7 +24,7 @@ import {
   REQUEST_SUCCESS,
   REQUEST_ERROR,
   DEFAULT_COMPONENT_COLOR_CODES,
-} from '../../../constants';
+} from '../constants';
 import { api } from '../api';
 import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
 import { GRID_ROW_HEADERS } from '../config/grid';

@@ -9,7 +9,7 @@ import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
-} from '../../../../constants';
+} from '../../constants';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
 import { ImportBarcodesButton } from './ImportBarcodesButton';
 import styles from './EditorActions.module.css';
