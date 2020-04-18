@@ -11,7 +11,7 @@ import {
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_COMPOUND,
 } from 'KaptureApp/config/constants';
-import { GRID_ROW_HEADERS } from './config/grid';
+import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const createEditorComponentFromKaptureData = (
   kaptureData,

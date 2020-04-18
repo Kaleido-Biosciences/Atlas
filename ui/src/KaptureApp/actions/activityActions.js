@@ -7,7 +7,8 @@ import {
   STATUS_COMPLETED,
 } from 'KaptureApp/config/constants';
 import { api } from 'KaptureApp/api';
-import { createContainerCollection, exportGrids, importGrids } from '../models';
+import { createContainerCollection } from 'KaptureApp/models';
+import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,

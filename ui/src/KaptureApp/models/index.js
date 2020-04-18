@@ -1,5 +1,3 @@
-import { exportGrids, importGrids } from '../containerFunctions';
-
 export {
   createComponent,
   createContainer,
@@ -9,4 +7,3 @@ export {
   createContainersForGrid,
   addContainersToGrid,
 } from 'AtlasUI/models';
-export { exportGrids, importGrids };

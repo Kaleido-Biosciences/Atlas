@@ -11,8 +11,8 @@ import {
   addContainersToGrid,
   createContainer,
   createComponent,
-  exportGrids,
 } from '../models';
+import { exportGrids } from 'KaptureApp/utils/containerFunctions';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
