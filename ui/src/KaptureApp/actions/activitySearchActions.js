@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
+import { activitySearchActions } from 'KaptureApp/store';
 import { api } from 'KaptureApp/api';
-import { activitySearchActions } from 'AtlasUI/store';
 
 const {
   setSearchTerm: _setSearchTerm,
