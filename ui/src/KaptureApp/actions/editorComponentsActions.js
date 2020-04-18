@@ -1,4 +1,4 @@
-import { editorComponentsActions } from '../store';
+import { editorComponentsActions } from 'KaptureApp/store';
 
 export const {
   addKaptureComponentsToComponents,
