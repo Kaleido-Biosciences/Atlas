@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import { actions } from '../../../../actions';
 import { selectors } from 'KaptureApp/store';
+import { actions } from 'KaptureApp/actions';
 
 const {
   selectEditorToolComponents,

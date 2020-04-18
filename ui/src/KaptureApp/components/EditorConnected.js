@@ -3,7 +3,7 @@ import queryString from 'query-string';
 
 import { Editor } from 'AtlasUI/components';
 import { selectors } from 'KaptureApp/store';
-import { actions } from '../actions';
+import { actions } from 'KaptureApp/actions';
 
 const { loadContainerCollection, resetEditor } = actions.editor;
 

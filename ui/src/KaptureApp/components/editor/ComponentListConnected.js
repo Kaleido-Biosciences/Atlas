@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import { ComponentList } from './ComponentList';
-import { actions } from '../../actions';
 import { selectors } from 'KaptureApp/store';
+import { actions } from 'KaptureApp/actions';
 
 const { addComponentToToolComponents } = actions.editorTools;
 const { addComponentToComponents } = actions.editorComponents;

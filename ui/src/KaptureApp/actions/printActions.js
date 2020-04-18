@@ -1,9 +1,9 @@
-import { printActions } from 'AtlasUI/store';
+import { printActions } from 'KaptureApp/store';
 import {
   getContainerCollection,
   importContainerCollection,
 } from './activityActions';
-import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
+import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
 
 const {
   setGrids: _setGrids,

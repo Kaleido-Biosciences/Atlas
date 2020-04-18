@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
 import { Tools } from './Tools';
-import { actions } from '../../actions';
 import { selectors } from 'KaptureApp/store';
+import { actions } from 'KaptureApp/actions';
 
 const { setClickMode } = actions.editor;
 const { selectEditorClickMode } = selectors;

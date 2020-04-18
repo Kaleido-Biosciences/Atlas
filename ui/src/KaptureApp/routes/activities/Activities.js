@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch, matchPath } from 'react-router-dom';
 
-import { ActivityHeader } from '../../components';
-import { ActivityDetails } from '../../components';
-import { Editor } from '../../components';
-import { EditorSidebar } from '../../components';
-import { EditorActions } from '../../components';
-import { Print } from '../../components';
 import { PrintActions } from 'AtlasUI/components';
+import {
+  ActivityHeader,
+  ActivityDetails,
+  Editor,
+  EditorSidebar,
+  EditorActions,
+  Print,
+  GridTabs,
+  ActiveGrid,
+} from 'KaptureApp/components';
 import { CompletedModal } from './CompletedModal';
-import { GridTabs } from '../../components';
-import { ActiveGrid } from '../../components';
 import styles from './Activity.module.css';
 
 export class Activities extends Component {

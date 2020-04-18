@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ClearTool } from './ClearTool';
 import { selectors } from 'KaptureApp/store';
-import { actions } from '../../../../actions';
+import { actions } from 'KaptureApp/actions';
 
 const { selectEditorClearMode } = selectors;
 const { setClearMode } = actions.editorTools;

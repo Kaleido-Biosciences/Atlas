@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ActivitySearch } from '../../components';
+import { ActivitySearch } from 'KaptureApp/components';
 import styles from './Home.module.css';
 
 export class Home extends Component {

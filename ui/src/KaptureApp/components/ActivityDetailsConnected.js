@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ActivityDetails } from 'AtlasUI/components';
 import { selectors } from 'KaptureApp/store';
-import { actions } from '../actions';
+import { actions } from 'KaptureApp/actions';
 
 const { selectActivityContainerCollections } = selectors;
 const { setContainerCollectionsStale } = actions.activity;

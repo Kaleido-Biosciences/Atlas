@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 
 import { EditorActions } from './EditorActions';
 import { selectors } from 'KaptureApp/store';
-import { actions } from '../../actions';
+import { actions } from 'KaptureApp/actions';
+
 const { selectEditorSaveStatus, selectEditorLastSaveTime } = selectors;
 const { addBarcodes } = actions.editor;
 
