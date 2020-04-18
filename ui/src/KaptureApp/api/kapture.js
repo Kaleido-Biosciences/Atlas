@@ -7,8 +7,7 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
 } from 'KaptureApp/config/constants';
-import { plateFunctions } from '../store';
-const { createComponent } = plateFunctions;
+import { createComponent } from 'KaptureApp/utils/plateFunctions';
 
 export function searchActivities(page, size, nameContains, descContains) {
   let queryString = '';

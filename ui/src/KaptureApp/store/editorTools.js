@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
-import { createTimepoint } from './plateFunctions';
+import { createTimepoint } from 'KaptureApp/utils/plateFunctions';
 
 const initialState = {
   toolComponents: [],
@@ -30,7 +30,7 @@ const editorTools = createSlice({
     },
     selectToolComponents(state, action) {
       const { components } = action.payload;
-      components.forEach(component => {
+      components.forEach((component) => {
         const stateComponent = findComponent(
           component.id,
           state.toolComponents
@@ -40,7 +40,7 @@ const editorTools = createSlice({
     },
     deselectToolComponents(state, action) {
       const { components } = action.payload;
-      components.forEach(component => {
+      components.forEach((component) => {
         const stateComponent = findComponent(
           component.id,
           state.toolComponents
@@ -51,10 +51,10 @@ const editorTools = createSlice({
     removeToolComponents(state, action) {
       const componentsToRemove = action.payload.components;
       const { toolComponents } = state;
-      const idsToRemove = componentsToRemove.map(component => component.id);
-      idsToRemove.forEach(id => {
+      const idsToRemove = componentsToRemove.map((component) => component.id);
+      idsToRemove.forEach((id) => {
         const index = toolComponents.findIndex(
-          component => component.id === id
+          (component) => component.id === id
         );
         if (index > -1) {
           toolComponents.splice(index, 1);
@@ -114,5 +114,5 @@ export const {
 } = editorTools;
 
 function findComponent(componentId, componentArray) {
-  return componentArray.find(component => component.id === componentId);
+  return componentArray.find((component) => component.id === componentId);
 }

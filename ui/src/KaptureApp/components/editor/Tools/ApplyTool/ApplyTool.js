@@ -7,11 +7,9 @@ import { CompoundsSection } from './CompoundsSection';
 import { MediaSection } from './MediaSection';
 import { SupplementsSection } from './SupplementsSection';
 import { AttributesSection } from './AttributesSection';
-import { plateFunctions } from '../../../../store';
 import { SelectedContainers } from './SelectedContainers';
+import { groupComponents } from 'KaptureApp/utils/plateFunctions';
 import styles from './ApplyTool.module.css';
-
-const { groupComponents } = plateFunctions;
 
 export class ApplyTool extends Component {
   groupComponents = memoize(groupComponents);

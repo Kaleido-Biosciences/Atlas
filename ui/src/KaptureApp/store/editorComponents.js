@@ -1,6 +1,6 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { createComponent } from './plateFunctions';
+import { createComponent } from 'KaptureApp/utils/plateFunctions';
 
 const initialState = {
   components: [],
@@ -14,10 +14,10 @@ const editorComponents = createSlice({
     addKaptureComponentsToComponents(state, action) {
       const { kaptureComponents } = action.payload;
       const { components } = state;
-      kaptureComponents.forEach(kaptureComponent => {
+      kaptureComponents.forEach((kaptureComponent) => {
         const { data, type, id } = kaptureComponent;
         const existingComponent = components.find(
-          component => component.data.id === id
+          (component) => component.data.id === id
         );
         if (!existingComponent) {
           components.unshift(createComponent(data, type));
@@ -41,5 +41,5 @@ export const {
 } = editorComponents;
 
 function findComponent(componentId, componentArray) {
-  return componentArray.find(component => component.id === componentId);
+  return componentArray.find((component) => component.id === componentId);
 }
