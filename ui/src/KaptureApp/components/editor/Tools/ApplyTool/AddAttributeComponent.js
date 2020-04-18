@@ -3,7 +3,7 @@ import { Grid, Icon, Form, Segment, Message } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 
-import { COMPONENT_TYPE_ATTRIBUTE } from '../../../../constants';
+import { COMPONENT_TYPE_ATTRIBUTE } from 'KaptureApp/config/constants';
 
 export class AddAttributeComponent extends Component {
   constructor(props) {
