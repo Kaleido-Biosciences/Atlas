@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import { store } from './store';
 import { Header } from 'AtlasUI/components';
-import { Home } from './routes/home';
-import { Activities } from './routes/activities';
+import { store } from 'KaptureApp/store';
+import { Home, Activities } from 'KaptureApp/routes';
 import styles from './App.module.css';
 
 class App extends Component {
