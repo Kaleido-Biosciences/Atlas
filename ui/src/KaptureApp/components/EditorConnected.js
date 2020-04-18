@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import { Editor } from 'AtlasUI/components';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { actions } from '../actions';
 
 const { loadContainerCollection, resetEditor } = actions.editor;

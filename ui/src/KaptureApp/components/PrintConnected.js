@@ -3,7 +3,7 @@ import queryString from 'query-string';
 
 import { Print } from 'AtlasUI/components';
 import { actions } from '../actions';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { GRID_TYPES_KEYED } from '../config/containerTypes';
 import { GRID_ROW_HEADERS } from '../config/grid';
 

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
 import { actions } from '../../../../actions';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 
 const {
   selectEditorToolComponents,

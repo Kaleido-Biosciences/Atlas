@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ActiveGrid } from 'AtlasUI/components';
 import { actions } from '../actions';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from '../config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from '../config/grid';
 

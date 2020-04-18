@@ -1,5 +1,6 @@
 import bigInt from 'big-integer';
-import { activityActions, selectors } from 'AtlasUI/store';
+import { activityActions } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,

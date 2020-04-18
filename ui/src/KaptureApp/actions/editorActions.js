@@ -1,5 +1,5 @@
-import { selectors, editorActions } from 'AtlasUI/store';
-import { editorToolsActions } from '../store';
+import { editorActions } from 'AtlasUI/store';
+import { editorToolsActions, selectors } from 'KaptureApp/store';
 import {
   getContainerCollection,
   importContainerCollection,

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ActivityHeader } from 'AtlasUI/components';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 
 const { selectActivityId, selectActivityName } = selectors;
 

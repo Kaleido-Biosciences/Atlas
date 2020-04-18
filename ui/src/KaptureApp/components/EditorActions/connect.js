@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { EditorActions } from './EditorActions';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { actions } from '../../actions';
 const { selectEditorSaveStatus, selectEditorLastSaveTime } = selectors;
 const { addBarcodes } = actions.editor;

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { Activities } from './Activities';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { actions } from '../../actions';
 
 const { loadActivity, resetActivity, publishActivityGrids } = actions.activity;

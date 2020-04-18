@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ComponentList } from './ComponentList';
 import { actions } from '../../actions';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 
 const { addComponentToToolComponents } = actions.editorTools;
 const { addComponentToComponents } = actions.editorComponents;

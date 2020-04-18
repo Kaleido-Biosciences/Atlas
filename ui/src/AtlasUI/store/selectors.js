@@ -117,23 +117,6 @@ export const selectEditorLastSaveTime = createSelector(['editor.lastSaveTime']);
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',
 ]);
-export const selectEditorComponents = createSelector([
-  'editorComponents.components',
-]);
-export const selectEditorToolComponents = createSelector([
-  'editorTools.toolComponents',
-]);
-export const selectEditorToolComponentsValid = createSelector([
-  'editorTools.toolComponentsValid',
-]);
-export const selectEditorClickMode = createSelector(['editorTools.clickMode']);
-export const selectEditorClearMode = createSelector(['editorTools.clearMode']);
-export const selectEditorSelectedToolComponents = createSelector(
-  ['editorTools.toolComponents'],
-  (toolComponents) => {
-    return toolComponents.filter((component) => component.selected);
-  }
-);
 
 /* Print */
 export const selectPrintInitialized = createSelector(['print.initialized']);

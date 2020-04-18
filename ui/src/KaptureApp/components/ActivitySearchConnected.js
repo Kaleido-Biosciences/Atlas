@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ActivitySearch } from 'AtlasUI/components';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { actions } from '../actions';
 
 const { searchActivities, resetActivitySearch } = actions.activitySearch;

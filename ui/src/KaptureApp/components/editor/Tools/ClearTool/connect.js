@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ClearTool } from './ClearTool';
-import { selectors } from 'AtlasUI/store';
+import { selectors } from 'KaptureApp/store';
 import { actions } from '../../../../actions';
 
 const { selectEditorClearMode } = selectors;
