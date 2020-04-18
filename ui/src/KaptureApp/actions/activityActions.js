@@ -4,12 +4,7 @@ import { activityActions, selectors } from 'KaptureApp/store';
 import { api } from 'KaptureApp/api';
 import { createContainerCollection } from 'KaptureApp/models';
 import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
-import {
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
-  STATUS_COMPLETED,
-} from 'KaptureApp/config/constants';
+import { STATUS_COMPLETED } from 'KaptureApp/config/constants';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
@@ -28,13 +23,15 @@ const {
   setInitialized: _setInitialized,
   setInitializationError: _setInitializationError,
   setActivity: _setActivity,
-  setPublishStatus: _setPublishStatus,
+  setPublishSuccess: _setPublishSuccess,
+  setPublishError: _setPublishError,
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
 } = activityActions;
 
 export const {
   resetState: resetActivity,
   setContainerCollectionsStale,
+  resetPublishState,
 } = activityActions;
 
 export const loadActivity = (id) => {
@@ -96,16 +93,16 @@ export const importContainerCollection = async (containerCollection) => {
 
 export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
-    dispatch(_setPublishStatus({ status: REQUEST_PENDING }));
+    dispatch(_setPublishSuccess({ publishSuccess: false }));
     const activityName = selectActivityName(getState());
     const exportedGrids = exportGrids(selectEditorGrids(getState()));
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
-      dispatch(_setPublishStatus({ status: REQUEST_SUCCESS }));
       dispatch(_setPublishedContainerCollectionDetails(data));
       dispatch(setContainerCollectionsStale({ stale: true }));
-    } catch (err) {
-      dispatch(_setPublishStatus({ status: REQUEST_ERROR }));
+      dispatch(_setPublishSuccess({ publishSuccess: true }));
+    } catch (error) {
+      dispatch(_setPublishError({ publishError: error.message }));
     }
   };
 };

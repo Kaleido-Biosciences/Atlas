@@ -29,16 +29,19 @@ export const selectActivityDescription = createSelector([
 export const selectActivityContainerCollections = createSelector([
   'activity.containerCollections',
 ]);
+export const selectActivityContainerCollectionsStale = createSelector([
+  'activity.containerCollectionsStale',
+]);
 export const selectActivityData = createSelector(['activity.data']);
-export const selectActivityPublishStatus = createSelector([
-  'activity.publishStatus',
+export const selectActivityPublishSuccess = createSelector([
+  'activity.publishSuccess',
+]);
+export const selectActivityPublishError = createSelector([
+  'activity.publishError',
 ]);
 export const selectActivityPublishedContainerCollectionDetails = createSelector(
   ['activity.publishedContainerCollectionDetails']
 );
-export const selectActivityContainerCollectionsStale = createSelector([
-  'activity.containerCollectionsStale',
-]);
 
 /* Editor */
 export const selectEditorInitialized = createSelector(['editor.initialized']);

@@ -89,15 +89,21 @@ export class Activities extends Component {
   };
   goToActivity = () => {
     const { activityId } = this.props;
-    this.setState({ modalOpen: false });
+    this.closeCompletedModal();
     this.props.history.push(`/activities/${activityId}`);
   };
   goToPrint = () => {
     const { publishedContainerCollectionDetails, activityId } = this.props;
     const { status, version } = publishedContainerCollectionDetails;
     const url = `/activities/${activityId}/print?status=${status}&version=${version}`;
-    this.setState({ modalOpen: false });
+    this.closeCompletedModal();
     this.props.history.push(url);
+  };
+  closeCompletedModal = () => {
+    this.setState({ modalOpen: false });
+    if (this.props.onCompletedModalClose) {
+      this.props.onCompletedModalClose();
+    }
   };
   render() {
     const {
@@ -105,7 +111,9 @@ export class Activities extends Component {
       error,
       loading,
       match,
-      publishStatus,
+      publishPending,
+      publishSuccess,
+      publishError,
       containerCollectionsStale,
       editorInitialized,
       printInitialized,
@@ -184,7 +192,9 @@ export class Activities extends Component {
           </Switch>
           <CompletedModal
             open={this.state.modalOpen}
-            publishStatus={publishStatus}
+            pending={publishPending}
+            success={publishSuccess}
+            error={publishError}
             onBackToActivityClick={this.goToActivity}
             onPrintClick={this.goToPrint}
           />
@@ -201,7 +211,9 @@ Activities.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
   activityId: PropTypes.number,
-  publishStatus: PropTypes.string,
+  publishPending: PropTypes.bool,
+  publishSuccess: PropTypes.bool,
+  publishError: PropTypes.string,
   publishedContainerCollectionDetails: PropTypes.object,
   containerCollectionsStale: PropTypes.bool,
   editorInitialized: PropTypes.bool,
@@ -209,4 +221,5 @@ Activities.propTypes = {
   loadActivity: PropTypes.func.isRequired,
   onMarkAsCompleted: PropTypes.func,
   onUnmount: PropTypes.func,
+  onCompletedModalClose: PropTypes.func,
 };

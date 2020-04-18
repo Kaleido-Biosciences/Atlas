@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Loader, Modal, Button, Icon } from 'semantic-ui-react';
 
-import {
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
-} from 'KaptureApp/config/constants';
 import styles from './CompletedModal.module.css';
 
 export class CompletedModal extends Component {
@@ -21,7 +16,28 @@ export class CompletedModal extends Component {
     }
   };
   render() {
-    const { open, publishStatus } = this.props;
+    const { open, pending, success, error } = this.props;
+    let content;
+    if (pending) {
+      content = (
+        <div>
+          <Loader active inline="centered">
+            Saving snapshot...
+          </Loader>
+        </div>
+      );
+    } else if (success) {
+      content = (
+        <div className={styles.saveSuccess}>
+          <div>
+            <Icon name="check circle" color="green" size="big" />
+          </div>
+          Snapshot saved.
+        </div>
+      );
+    } else if (error) {
+      content = <div>Error occurred while saving: {error}</div>;
+    }
     return (
       <Modal
         size="small"
@@ -29,27 +45,8 @@ export class CompletedModal extends Component {
         open={open}
         className={styles.modal}
       >
-        <Modal.Content>
-          {publishStatus === REQUEST_PENDING && (
-            <div>
-              <Loader active inline="centered">
-                Saving snapshot...
-              </Loader>
-            </div>
-          )}
-          {publishStatus === REQUEST_SUCCESS && (
-            <div className={styles.saveSuccess}>
-              <div>
-                <Icon name="check circle" color="green" size="big" />
-              </div>
-              Snapshot saved.
-            </div>
-          )}
-          {publishStatus === REQUEST_ERROR && (
-            <div>Error occurred while saving.</div>
-          )}
-        </Modal.Content>
-        {publishStatus === REQUEST_SUCCESS && (
+        <Modal.Content>{content}</Modal.Content>
+        {success && (
           <Modal.Actions>
             <Button secondary onClick={this.handlePrint}>
               Print Plates
@@ -66,7 +63,9 @@ export class CompletedModal extends Component {
 
 CompletedModal.propTypes = {
   open: PropTypes.bool,
-  publishStatus: PropTypes.string,
+  pending: PropTypes.bool,
+  success: PropTypes.bool,
+  error: PropTypes.string,
   onBackToActivityClick: PropTypes.func,
   onPrintClick: PropTypes.func,
 };

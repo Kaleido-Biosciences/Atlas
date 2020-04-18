@@ -8,9 +8,10 @@ const initialState = {
   description: null,
   containerCollections: null,
   data: null,
-  publishStatus: null,
-  publishedContainerCollectionDetails: null,
   containerCollectionsStale: true,
+  publishSuccess: false,
+  publishError: null,
+  publishedContainerCollectionDetails: null,
 };
 
 const activity = createSlice({
@@ -32,15 +33,23 @@ const activity = createSlice({
       state.initialized = true;
       state.containerCollectionsStale = false;
     },
-    setPublishStatus(state, action) {
-      state.publishStatus = action.payload.status;
+    setContainerCollectionsStale(state, action) {
+      state.containerCollectionsStale = action.payload.stale;
+    },
+    setPublishSuccess(state, action) {
+      state.publishSuccess = action.payload.publishSuccess;
+    },
+    setPublishError(state, action) {
+      state.publishError = action.payload.publishError;
     },
     setPublishedContainerCollectionDetails(state, action) {
       state.publishedContainerCollectionDetails =
         action.payload.containerCollectionDetails;
     },
-    setContainerCollectionsStale(state, action) {
-      state.containerCollectionsStale = action.payload.stale;
+    resetPublishState(state, action) {
+      state.publishSuccess = false;
+      state.publishError = null;
+      state.publishedContainerCollectionDetails = null;
     },
   },
 });

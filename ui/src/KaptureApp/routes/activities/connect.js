@@ -4,13 +4,19 @@ import { Activities } from './Activities';
 import { selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
-const { loadActivity, resetActivity, publishActivityGrids } = actions.activity;
+const {
+  loadActivity,
+  resetActivity,
+  publishActivityGrids,
+  resetPublishState,
+} = actions.activity;
 
 const {
   selectActivityInitialized,
   selectActivityInitializationError,
   selectActivityId,
-  selectActivityPublishStatus,
+  selectActivityPublishSuccess,
+  selectActivityPublishError,
   selectActivityPublishedContainerCollectionDetails,
   selectActivityContainerCollectionsStale,
   selectPrintInitialized,
@@ -24,12 +30,20 @@ const mapState = (state, props) => {
   if (!initialized && !error) {
     loading = true;
   }
+  const publishSuccess = selectActivityPublishSuccess(state);
+  const publishError = selectActivityPublishError(state);
+  let publishPending = false;
+  if (!publishSuccess && !publishError) {
+    publishPending = true;
+  }
   return {
     initialized,
     loading,
     error,
     activityId: selectActivityId(state),
-    publishStatus: selectActivityPublishStatus(state),
+    publishPending,
+    publishSuccess,
+    publishError,
     publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
       state
     ),
@@ -43,6 +57,7 @@ const mapDispatch = {
   loadActivity,
   onMarkAsCompleted: publishActivityGrids,
   onUnmount: resetActivity,
+  onCompletedModalClose: resetPublishState,
 };
 
 const connected = connect(mapState, mapDispatch)(Activities);
