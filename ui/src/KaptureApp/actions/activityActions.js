@@ -1,22 +1,21 @@
 import bigInt from 'big-integer';
-import { activityActions } from 'AtlasUI/store';
-import { selectors } from 'KaptureApp/store';
+import { activityActions, selectors } from 'KaptureApp/store';
+import { api } from 'KaptureApp/api';
+import { createContainerCollection } from 'KaptureApp/models';
+import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
 import {
   REQUEST_PENDING,
   REQUEST_SUCCESS,
   REQUEST_ERROR,
   STATUS_COMPLETED,
 } from 'KaptureApp/config/constants';
-import { api } from 'KaptureApp/api';
-import { createContainerCollection } from 'KaptureApp/models';
-import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
-} from '../config/componentTypes';
+} from 'KaptureApp/config/componentTypes';
 
 const {
   selectActivityName,
