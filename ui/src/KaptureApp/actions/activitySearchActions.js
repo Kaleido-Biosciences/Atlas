@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { api } from '../api';
+import { api } from 'KaptureApp/api';
 import { activitySearchActions } from 'AtlasUI/store';
 
 const {

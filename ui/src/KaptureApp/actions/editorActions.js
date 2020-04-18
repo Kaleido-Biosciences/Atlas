@@ -25,7 +25,7 @@ import {
   REQUEST_ERROR,
   DEFAULT_COMPONENT_COLOR_CODES,
 } from '../constants';
-import { api } from '../api';
+import { api } from 'KaptureApp/api';
 import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
 import { GRID_ROW_HEADERS } from '../config/grid';
 

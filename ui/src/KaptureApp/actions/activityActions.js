@@ -6,7 +6,7 @@ import {
   REQUEST_ERROR,
   STATUS_COMPLETED,
 } from '../constants';
-import { api } from '../api';
+import { api } from 'KaptureApp/api';
 import { createContainerCollection, exportGrids, importGrids } from '../models';
 import {
   COMPONENT_TYPE_COMMUNITY,
