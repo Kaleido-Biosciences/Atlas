@@ -6,7 +6,7 @@ import {
   DYNAMODB_ACCESS_KEY_ID,
   DYNAMODB_SECRET_ACCESS_KEY,
   DYNAMODB_TABLE,
-} from '../config';
+} from 'KaptureApp/config/api';
 
 AWS.config.update({
   region: 'us-east-1',

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { API_URL } from '../config';
+import { API_URL } from 'KaptureApp/config/api';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
