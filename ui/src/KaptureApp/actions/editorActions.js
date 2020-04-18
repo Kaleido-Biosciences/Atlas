@@ -1,5 +1,5 @@
-import { editorActions } from 'AtlasUI/store';
-import { editorToolsActions, selectors } from 'KaptureApp/store';
+import { editorActions, editorToolsActions, selectors } from 'KaptureApp/store';
+import { api } from 'KaptureApp/api';
 import {
   getContainerCollection,
   importContainerCollection,
@@ -11,7 +11,7 @@ import {
   addContainersToGrid,
   createContainer,
   createComponent,
-} from '../models';
+} from 'KaptureApp/models';
 import { exportGrids } from 'KaptureApp/utils/containerFunctions';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -25,9 +25,8 @@ import {
   REQUEST_ERROR,
   DEFAULT_COMPONENT_COLOR_CODES,
 } from 'KaptureApp/config/constants';
-import { api } from 'KaptureApp/api';
-import { CONTAINER_TYPES_KEYED } from '../config/containerTypes';
-import { GRID_ROW_HEADERS } from '../config/grid';
+import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
+import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const {
   setInitialized: _setInitialized,
