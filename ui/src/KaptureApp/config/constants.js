@@ -44,7 +44,3 @@ export const DEFAULT_COMPONENT_COLOR_CODES = {
   [COMPONENT_TYPE_ATTRIBUTE]: '#db2828',
   default: '#9a9a9a',
 };
-
-export const REQUEST_PENDING = 'PENDING';
-export const REQUEST_SUCCESS = 'SUCCESS';
-export const REQUEST_ERROR = 'ERROR';
