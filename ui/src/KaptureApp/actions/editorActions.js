@@ -19,13 +19,11 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
+  COMPONENT_TYPES,
 } from 'KaptureApp/config/componentTypes';
-import {
-  COMPONENT_TYPES_PLURAL_TO_SINGULAR,
-  DEFAULT_COMPONENT_COLOR_CODES,
-} from 'KaptureApp/config/constants';
 import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
+import { DEFAULT_COMPONENT_COLOR_CODES } from 'KaptureApp/config/constants';
 
 const {
   setInitialized: _setInitialized,
@@ -44,13 +42,14 @@ const {
   setLastSaveTime: _setLastSaveTime,
   setSaveError: _setSaveError,
   setContainerTypes: _setContainerTypes,
+  setComponentTypes: _setComponentTypes,
 } = editorActions;
 
 const { setClickMode: _setClickMode } = editorToolsActions;
 
 const {
   selectEditorClickMode,
-  selectEditorClearMode,
+  selectEditorComponentTypesToClear,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorGrids,
@@ -90,6 +89,7 @@ export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
       dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES_KEYED }));
+      dispatch(_setComponentTypes({ componentTypes: COMPONENT_TYPES }));
       const collection = await dispatch(
         getContainerCollection(status, version)
       );
@@ -196,19 +196,7 @@ export const handleContainerClick = wrapWithChangeHandler(
       } else if (clickMode === 'select') {
         dispatch(_toggleGridSelected({ gridId, positions }));
       } else if (clickMode === 'clear') {
-        const clearMode = selectEditorClearMode(getState());
-        let typesToClear;
-        if (clearMode === 'all') {
-          typesToClear = [
-            COMPONENT_TYPE_COMMUNITY,
-            COMPONENT_TYPE_COMPOUND,
-            COMPONENT_TYPE_MEDIUM,
-            COMPONENT_TYPE_SUPPLEMENT,
-            COMPONENT_TYPE_ATTRIBUTE,
-          ];
-        } else {
-          typesToClear = [COMPONENT_TYPES_PLURAL_TO_SINGULAR[clearMode]];
-        }
+        const typesToClear = selectEditorComponentTypesToClear(getState());
         dispatch(_clearGridContainers({ gridId, positions, typesToClear }));
       }
     };

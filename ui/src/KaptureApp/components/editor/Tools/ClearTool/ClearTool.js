@@ -1,86 +1,56 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Checkbox } from 'semantic-ui-react';
+import { Form, Checkbox, Message } from 'semantic-ui-react';
 
 import styles from './ClearTool.module.css';
 
 export class ClearTool extends Component {
   handleChange = (e, data) => {
+    const { checked, value } = data;
     if (this.props.onChange) {
-      this.props.onChange({ clearMode: data.value });
+      const newValues = this.props.componentTypesToClear.slice();
+      if (checked) {
+        newValues.push(value);
+      } else {
+        const index = newValues.findIndex((type) => {
+          return type === value;
+        });
+        if (index > -1) {
+          newValues.splice(index, 1);
+        }
+      }
+      this.props.onChange({ componentTypesToClear: newValues });
     }
   };
+  renderFields() {
+    const { componentTypes, componentTypesToClear } = this.props;
+    return componentTypes.map((type) => {
+      return (
+        <Form.Field key={type.name}>
+          <Checkbox
+            value={type.name}
+            label={type.plural}
+            onClick={this.handleChange}
+            checked={componentTypesToClear.includes(type.name)}
+          />
+        </Form.Field>
+      );
+    });
+  }
   render() {
     return (
       <div className={styles.clearTool}>
-        <Form>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="All"
-              name="clearRadioGroup"
-              value="all"
-              checked={this.props.clearMode === 'all'}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Communities"
-              name="clearRadioGroup"
-              value="communities"
-              checked={this.props.clearMode === 'communities'}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Compounds"
-              name="clearRadioGroup"
-              value="compounds"
-              checked={this.props.clearMode === 'compounds'}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Media"
-              name="clearRadioGroup"
-              value="media"
-              checked={this.props.clearMode === 'media'}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Supplements"
-              name="clearRadioGroup"
-              value="supplements"
-              checked={this.props.clearMode === 'supplements'}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Attributes"
-              name="clearRadioGroup"
-              value="attributes"
-              checked={this.props.clearMode === 'attributes'}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-        </Form>
+        <Message size="tiny">
+          Select the component types to clear on click.
+        </Message>
+        <Form>{this.renderFields()}</Form>
       </div>
     );
   }
 }
 
 ClearTool.propTypes = {
-  clearMode: PropTypes.string.isRequired,
+  componentTypesToClear: PropTypes.array.isRequired,
+  componentTypes: PropTypes.array.isRequired,
   onChange: PropTypes.func,
 };

@@ -121,6 +121,9 @@ export const selectEditorSaveError = createSelector(['editor.saveError']);
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',
 ]);
+export const selectEditorComponentTypes = createSelector([
+  'editor.componentTypes',
+]);
 
 /* Print */
 export const selectPrintInitialized = createSelector(['print.initialized']);

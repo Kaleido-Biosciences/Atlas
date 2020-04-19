@@ -4,13 +4,19 @@ import { ClearTool } from './ClearTool';
 import { selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
-const { selectEditorClearMode } = selectors;
-const { setClearMode } = actions.editorTools;
+const {
+  selectEditorComponentTypesToClear,
+  selectEditorComponentTypes,
+} = selectors;
+const { setComponentTypesToClear } = actions.editorTools;
 
 const mapState = (state, props) => {
-  return { clearMode: selectEditorClearMode(state) };
+  return {
+    componentTypesToClear: selectEditorComponentTypesToClear(state),
+    componentTypes: selectEditorComponentTypes(state),
+  };
 };
-const mapDispatch = { onChange: setClearMode };
+const mapDispatch = { onChange: setComponentTypesToClear };
 
 const connected = connect(mapState, mapDispatch)(ClearTool);
 export { connected as ClearTool };

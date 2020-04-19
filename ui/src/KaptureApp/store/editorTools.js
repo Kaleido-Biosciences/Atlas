@@ -7,7 +7,7 @@ const initialState = {
   toolComponents: [],
   toolComponentsValid: true,
   clickMode: 'apply',
-  clearMode: 'all',
+  componentTypesToClear: [],
 };
 
 const editorTools = createSlice({
@@ -25,8 +25,8 @@ const editorTools = createSlice({
     setClickMode(state, action) {
       state.clickMode = action.payload.clickMode;
     },
-    setClearMode(state, action) {
-      state.clearMode = action.payload.clearMode;
+    setComponentTypesToClear(state, action) {
+      state.componentTypesToClear = action.payload.componentTypesToClear;
     },
     selectToolComponents(state, action) {
       const { components } = action.payload;

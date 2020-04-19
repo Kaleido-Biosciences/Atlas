@@ -2,7 +2,7 @@ import { editorToolsActions } from 'KaptureApp/store';
 
 export const {
   addComponentToToolComponents,
-  setClearMode,
+  setComponentTypesToClear,
   selectToolComponents,
   deselectToolComponents,
   removeToolComponents,

@@ -19,6 +19,7 @@ const initialState = {
   lastSaveTime: null,
   componentCounts: {},
   containerTypes: {},
+  componentTypes: [],
 };
 
 const editor = createSlice({
@@ -188,6 +189,9 @@ const editor = createSlice({
     },
     setContainerTypes(state, action) {
       state.containerTypes = action.payload.containerTypes;
+    },
+    setComponentTypes(state, action) {
+      state.componentTypes = action.payload.componentTypes;
     },
   },
 });
