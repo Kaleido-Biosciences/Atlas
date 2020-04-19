@@ -9,8 +9,8 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
-import { DEFAULT_COMPONENT_COLOR_CODES } from 'KaptureApp/config/constants';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const createEditorComponentFromKaptureData = (
@@ -28,7 +28,7 @@ const createEditorComponentFromKaptureData = (
         return Object.assign({}, timepoint);
       }),
     },
-    color: DEFAULT_COMPONENT_COLOR_CODES[type],
+    color: COMPONENT_TYPES_KEYED[type].colorCode,
     data: kaptureData,
     tooltip: getComponentTooltip(kaptureData, type),
   });
@@ -162,7 +162,7 @@ const importContainer = (containerData, kaptureComponents) => {
           value_type: value_type,
           value_unit: value_unit,
         },
-        color: DEFAULT_COMPONENT_COLOR_CODES[COMPONENT_TYPE_ATTRIBUTE],
+        color: COMPONENT_TYPES_KEYED[COMPONENT_TYPE_ATTRIBUTE].colorCode,
       });
     }
   );

@@ -20,10 +20,10 @@ import {
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPES,
+  COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
 import { CONTAINER_TYPES } from 'KaptureApp/config/containerTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-import { DEFAULT_COMPONENT_COLOR_CODES } from 'KaptureApp/config/constants';
 
 const {
   setInitialized: _setInitialized,
@@ -362,7 +362,7 @@ function transformToolComponent({ id, name, type, data, timepoints, tooltip }) {
     options: { timepoints },
     data,
     tooltip,
-    color: DEFAULT_COMPONENT_COLOR_CODES[type],
+    color: COMPONENT_TYPES_KEYED[type].colorCode,
   });
 }
 

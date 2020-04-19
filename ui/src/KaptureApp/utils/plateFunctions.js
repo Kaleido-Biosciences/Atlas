@@ -4,14 +4,13 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
+  COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
 import {
   DEFAULT_TIMEPOINT_TIME,
   DEFAULT_TIMEPOINT_CONCENTRATION,
   DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
   DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
-  COMPONENT_TYPE_COLORS,
-  COMPONENT_TYPE_ABBREVIATIONS,
 } from 'KaptureApp/config/constants';
 
 export function createComponent(data, type) {
@@ -24,8 +23,8 @@ export function createComponent(data, type) {
     isValid: true,
     timepoints: [createTimepoint(type)],
     tooltip: getComponentTooltip(data, type),
-    color: COMPONENT_TYPE_COLORS[type],
-    abbreviation: COMPONENT_TYPE_ABBREVIATIONS[type],
+    color: COMPONENT_TYPES_KEYED[type].typeColor,
+    abbreviation: COMPONENT_TYPES_KEYED[type].abbreviation,
   };
 }
 
