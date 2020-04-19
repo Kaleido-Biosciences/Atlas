@@ -6,11 +6,11 @@ import {
   addContainersToGrid,
 } from 'AtlasUI/models';
 import {
-  DEFAULT_COMPONENT_COLOR_CODES,
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_COMPOUND,
-} from 'KaptureApp/config/constants';
+} from 'KaptureApp/config/componentTypes';
+import { DEFAULT_COMPONENT_COLOR_CODES } from 'KaptureApp/config/constants';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const createEditorComponentFromKaptureData = (

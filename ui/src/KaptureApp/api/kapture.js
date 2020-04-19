@@ -6,7 +6,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
-} from 'KaptureApp/config/constants';
+} from 'KaptureApp/config/componentTypes';
 import { createComponent } from 'KaptureApp/utils/plateFunctions';
 
 export function searchActivities(page, size, nameContains, descContains) {
