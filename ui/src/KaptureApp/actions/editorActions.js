@@ -21,7 +21,7 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPES,
 } from 'KaptureApp/config/componentTypes';
-import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
+import { CONTAINER_TYPES } from 'KaptureApp/config/containerTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { DEFAULT_COMPONENT_COLOR_CODES } from 'KaptureApp/config/constants';
 
@@ -88,7 +88,7 @@ export const {
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
-      dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES_KEYED }));
+      dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES }));
       dispatch(_setComponentTypes({ componentTypes: COMPONENT_TYPES }));
       const collection = await dispatch(
         getContainerCollection(status, version)

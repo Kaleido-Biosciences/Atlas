@@ -18,7 +18,7 @@ const initialState = {
   saveError: null,
   lastSaveTime: null,
   componentCounts: {},
-  containerTypes: {},
+  containerTypes: [],
   componentTypes: [],
 };
 
@@ -200,6 +200,10 @@ export const { actions: editorActions, reducer: editorReducer } = editor;
 
 function assignGridNames(grids, containerTypes) {
   const typeCounts = {};
+  const containerTypesKeyed = containerTypes.reduce((keyed, type) => {
+    keyed[type.type] = type;
+    return keyed;
+  }, {});
   grids.forEach((grid) => {
     if (!typeCounts[grid.containerType]) {
       typeCounts[grid.containerType] = 1;
@@ -207,8 +211,8 @@ function assignGridNames(grids, containerTypes) {
       typeCounts[grid.containerType]++;
     }
     let containerTypeName;
-    if (containerTypes && containerTypes[grid.containerType]) {
-      containerTypeName = containerTypes[grid.containerType].name;
+    if (containerTypesKeyed[grid.containerType]) {
+      containerTypeName = containerTypesKeyed[grid.containerType].name;
     } else {
       containerTypeName = grid.containerType;
     }
