@@ -4,13 +4,18 @@ import { EditorActions } from './EditorActions';
 import { selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
-const { selectEditorSaveStatus, selectEditorLastSaveTime } = selectors;
+const {
+  selectEditorSavePending,
+  selectEditorLastSaveTime,
+  selectEditorSaveError,
+} = selectors;
 const { addBarcodes } = actions.editor;
 
 const mapState = (state, props) => {
   return {
-    saveStatus: selectEditorSaveStatus(state),
+    savePending: selectEditorSavePending(state),
     lastSaveTime: selectEditorLastSaveTime(state),
+    saveError: selectEditorSaveError(state),
   };
 };
 

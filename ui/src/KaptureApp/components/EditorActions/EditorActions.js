@@ -5,38 +5,29 @@ import memoize from 'memoize-one';
 import classNames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 
-import {
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
-} from 'KaptureApp/config/constants';
 import { MarkAsCompletedButton } from './MarkAsCompletedButton';
 import { ImportBarcodesButton } from './ImportBarcodesButton';
 import styles from './EditorActions.module.css';
 
 export class EditorActions extends Component {
-  renderSaveInfo = memoize((saveStatus, lastSaveTime) => {
-    const saveTime = moment(lastSaveTime);
+  renderSaveInfo = memoize((savePending, lastSaveTime, saveError) => {
     let message;
-    switch (saveStatus) {
-      case REQUEST_PENDING:
-        message = 'Saving containers...';
-        break;
-      case REQUEST_SUCCESS:
-        message = `Autosaved at ${saveTime.format('LT')}`;
-        break;
-      case REQUEST_ERROR:
-        message = 'An error occurred while saving. Changes may not be saved.';
-        break;
-      default:
-        message = '';
+    if (savePending) {
+      message = 'Saving containers...';
+    } else if (lastSaveTime) {
+      const saveTime = moment(lastSaveTime);
+      message = `Autosaved at ${saveTime.format('LT')}`;
+    } else if (saveError) {
+      message = 'An error occurred while saving. Changes may not be saved.';
+    } else {
+      message = '';
     }
     const saveClass = classNames(styles.lastSave, {
-      [styles.error]: saveStatus === REQUEST_ERROR,
+      [styles.error]: saveError,
     });
     return (
       <div className={saveClass}>
-        {saveStatus === REQUEST_ERROR ? <Icon name="warning sign" /> : null}
+        {saveError ? <Icon name="warning sign" /> : null}
         {message}
       </div>
     );
@@ -52,10 +43,10 @@ export class EditorActions extends Component {
     }
   };
   render() {
-    const { saveStatus, lastSaveTime } = this.props;
+    const { savePending, lastSaveTime, saveError } = this.props;
     return (
       <React.Fragment>
-        <div>{this.renderSaveInfo(saveStatus, lastSaveTime)}</div>
+        <div>{this.renderSaveInfo(savePending, lastSaveTime, saveError)}</div>
         <ImportBarcodesButton onImport={this.handleImportBarcodes} />
         <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
       </React.Fragment>
@@ -64,8 +55,9 @@ export class EditorActions extends Component {
 }
 
 EditorActions.propTypes = {
-  saveStatus: PropTypes.string,
+  savePending: PropTypes.bool,
   lastSaveTime: PropTypes.number,
+  saveError: PropTypes.string,
   onMarkAsCompleted: PropTypes.func,
   onImportBarcodes: PropTypes.func,
 };

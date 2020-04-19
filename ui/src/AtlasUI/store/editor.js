@@ -14,7 +14,8 @@ const initialState = {
       outerPadding: 2,
     },
   },
-  saveStatus: null,
+  savePending: false,
+  saveError: null,
   lastSaveTime: null,
   componentCounts: {},
   containerTypes: {},
@@ -171,12 +172,19 @@ const editor = createSlice({
       const { settings } = action.payload;
       state.settings = Object.assign(state.settings, settings);
     },
-    setSaveStatus(state, action) {
-      const { saveStatus, lastSaveTime } = action.payload;
-      state.saveStatus = saveStatus;
-      if (lastSaveTime) {
-        state.lastSaveTime = lastSaveTime;
-      }
+    setSavePending(state, action) {
+      state.savePending = true;
+      state.saveError = null;
+      state.lastSaveTime = null;
+    },
+    setLastSaveTime(state, action) {
+      state.savePending = false;
+      state.saveError = null;
+      state.lastSaveTime = action.payload.lastSaveTime;
+    },
+    setSaveError(state, action) {
+      state.savePending = false;
+      state.saveError = action.payload.error;
     },
     setContainerTypes(state, action) {
       state.containerTypes = action.payload.containerTypes;

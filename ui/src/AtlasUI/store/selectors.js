@@ -115,8 +115,9 @@ export const selectEditorSelectedContainersSummary = createSelector(
     return selectedContainersSummary;
   }
 );
-export const selectEditorSaveStatus = createSelector(['editor.saveStatus']);
+export const selectEditorSavePending = createSelector(['editor.savePending']);
 export const selectEditorLastSaveTime = createSelector(['editor.lastSaveTime']);
+export const selectEditorSaveError = createSelector(['editor.saveError']);
 export const selectEditorComponentCounts = createSelector([
   'editor.componentCounts',
 ]);

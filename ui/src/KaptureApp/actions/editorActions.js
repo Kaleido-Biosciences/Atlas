@@ -22,9 +22,6 @@ import {
 } from 'KaptureApp/config/componentTypes';
 import {
   COMPONENT_TYPES_PLURAL_TO_SINGULAR,
-  REQUEST_PENDING,
-  REQUEST_SUCCESS,
-  REQUEST_ERROR,
   DEFAULT_COMPONENT_COLOR_CODES,
 } from 'KaptureApp/config/constants';
 import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
@@ -43,7 +40,9 @@ const {
   clearGridContainers: _clearGridContainers,
   deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
-  setSaveStatus: _setSaveStatus,
+  setSavePending: _setSavePending,
+  setLastSaveTime: _setLastSaveTime,
+  setSaveError: _setSaveError,
   setContainerTypes: _setContainerTypes,
 } = editorActions;
 
@@ -63,19 +62,18 @@ const wrapWithChangeHandler = (fn) => {
   return function () {
     return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      dispatch(_setSaveStatus({ saveStatus: REQUEST_PENDING }));
+      dispatch(_setSavePending());
       const activityName = selectActivityName(getState());
       const exportedGrids = exportGrids(selectEditorGrids(getState()));
       try {
         await api.saveActivityGrids(activityName, exportedGrids);
         dispatch(
-          _setSaveStatus({
-            saveStatus: REQUEST_SUCCESS,
+          _setLastSaveTime({
             lastSaveTime: Date.now(),
           })
         );
-      } catch (err) {
-        dispatch(_setSaveStatus({ saveStatus: REQUEST_ERROR }));
+      } catch (error) {
+        dispatch(_setSaveError({ error: error.message }));
       }
     };
   };
