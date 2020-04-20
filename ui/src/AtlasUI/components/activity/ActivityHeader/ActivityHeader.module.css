@@ -1,0 +1,25 @@
+.activityHeader {
+  height: 2.8em;
+  padding: 0.4em 0.4em 0.4em 1.1em;
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 2.8em;
+  justify-content: space-between;
+  /* border-bottom: 1px solid rgba(34, 36, 38, 0.15); */
+  align-items: center;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.1);
+}
+
+.name {
+  font-size: 1.1em;
+}
+
+.name :global(a) {
+  color: inherit;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
