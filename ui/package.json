@@ -23,7 +23,7 @@
     "react-draggable": "^3.3.0",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.1",
     "react-split-pane": "^0.1.87",
     "react-to-print": "^2.3.0",
     "redux-logger": "^3.0.6",
