@@ -8,7 +8,7 @@ import { MediaSection } from './MediaSection';
 import { SupplementsSection } from './SupplementsSection';
 import { AttributesSection } from './AttributesSection';
 import { SelectedContainers } from './SelectedContainers';
-import { groupComponents } from 'KaptureApp/utils/plateFunctions';
+import { groupComponents } from 'KaptureApp/utils/toolComponentFunctions';
 import styles from './ApplyTool.module.css';
 
 export class ApplyTool extends Component {

@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit';
 import validate from 'validate.js';
 
-import { createTimepoint } from 'KaptureApp/utils/plateFunctions';
+import { createTimepoint } from 'KaptureApp/utils/toolComponentFunctions';
 
 const initialState = {
   toolComponents: [],

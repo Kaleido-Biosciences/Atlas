@@ -1,6 +1,6 @@
 import { createSlice } from 'redux-starter-kit';
 
-import { createComponent } from 'KaptureApp/utils/plateFunctions';
+import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
 
 const initialState = {
   components: [],
