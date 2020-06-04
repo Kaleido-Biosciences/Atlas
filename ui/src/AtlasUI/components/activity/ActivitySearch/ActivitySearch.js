@@ -12,12 +12,12 @@ export class ActivitySearch extends Component {
   }
   handleSearchChange = (e, { value }) => {
     if (this.props.onChange) {
-      this.props.onChange({ searchTerm: value });
+      this.props.onChange(value);
     }
   };
   handleResultSelect = (e, { result }) => {
     if (this.props.onSelect) {
-      this.props.onSelect({ activityId: result.id });
+      this.props.onSelect(result.id);
     }
   };
   render() {

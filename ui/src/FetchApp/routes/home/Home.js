@@ -4,7 +4,7 @@ import { ActivitySearch } from 'FetchApp/components';
 import styles from './Home.module.css';
 
 export class Home extends Component {
-  handleSelect = ({ activityId }) => {
+  handleSelect = (activityId) => {
     this.props.history.push(`/activities/${activityId}`);
   };
 
