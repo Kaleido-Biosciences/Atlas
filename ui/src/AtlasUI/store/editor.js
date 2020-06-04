@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   initialized: false,
@@ -23,7 +23,7 @@ const initialState = {
 };
 
 const editor = createSlice({
-  slice: 'editor',
+  name: 'editor',
   initialState,
   reducers: {
     setInitialized(state, action) {
