@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import { activitySearchReducer } from 'AtlasUI/store';
+import { activityReducer } from './activity';
 
 const middleware = getDefaultMiddleware();
 if (process.env.NODE_ENV === `development`) {
@@ -11,6 +12,7 @@ if (process.env.NODE_ENV === `development`) {
 export const store = configureStore({
   reducer: {
     activitySearch: activitySearchReducer,
+    activity: activityReducer,
   },
   middleware,
 });

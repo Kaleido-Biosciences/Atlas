@@ -1,5 +1,4 @@
-import { activitySearchActions } from 'AtlasUI/store';
-
 export { store } from './store';
 export { selectors } from './selectors';
-export { activitySearchActions };
+export { activityActions } from './activity';
+export { activitySearchActions } from 'AtlasUI/store';
