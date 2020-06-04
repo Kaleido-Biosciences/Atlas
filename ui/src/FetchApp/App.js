@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { Header } from 'AtlasUI/components';
 import { store } from 'FetchApp/store';
+import { Home } from 'FetchApp/routes';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -13,6 +14,13 @@ class App extends Component {
         <BrowserRouter>
           <React.Fragment>
             <Header />
+            <div className={styles.mainContainer}>
+              <Switch>
+                <Route path="/" exact component={Home} />
+                {/* <Route path="/activities/:activityId" component={Activities} /> */}
+                <Route component={() => <Redirect to="/" />} />
+              </Switch>
+            </div>
           </React.Fragment>
         </BrowserRouter>
       </Provider>

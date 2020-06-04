@@ -1,0 +1,10 @@
+.home {
+  width: 480px;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.title {
+  text-align: center;
+  font-weight: normal;
+}
