@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from 'KaptureApp/App';
+import App from 'FetchApp/App';
 import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
