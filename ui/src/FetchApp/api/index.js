@@ -1,5 +1,5 @@
-import { searchActivities } from './fetch';
+import * as fetch from './fetch';
 
 export const api = {
-  searchActivities,
+  ...fetch,
 };

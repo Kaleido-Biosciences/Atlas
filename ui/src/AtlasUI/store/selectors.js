@@ -9,13 +9,10 @@ export const selectActivitySearchError = (state) => state.activitySearch.error;
 export const selectActivitySearchResults = (state) =>
   state.activitySearch.results;
 
-// /* Activity */
-// export const selectActivityInitialized = createSelector([
-//   'activity.initialized',
-// ]);
-// export const selectActivityInitializationError = createSelector([
-//   'activity.initializationError',
-// ]);
+/* Activity */
+export const selectActivityInitialized = (state) => state.activity.initialized;
+export const selectActivityInitializationError = (state) =>
+  state.activity.initializationError;
 // export const selectActivityId = createSelector(['activity.id']);
 // export const selectActivityName = createSelector(['activity.name']);
 // export const selectActivityDescription = createSelector([

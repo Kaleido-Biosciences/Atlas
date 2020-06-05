@@ -6,8 +6,8 @@ const initialState = {
   id: null,
   name: null,
   description: null,
-  containerCollections: null,
   data: null,
+  containerCollections: null,
   containerCollectionsStale: true,
   publishSuccess: false,
   publishError: null,
@@ -30,8 +30,6 @@ const activity = createSlice({
     setActivity(state, action) {
       const { activity } = action.payload;
       Object.assign(state, activity);
-      state.initialized = true;
-      state.containerCollectionsStale = false;
     },
     setContainerCollectionsStale(state, action) {
       state.containerCollectionsStale = action.payload.stale;

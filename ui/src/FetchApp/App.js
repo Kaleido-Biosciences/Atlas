@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { Header } from 'AtlasUI/components';
 import { store } from 'FetchApp/store';
-import { Home } from 'FetchApp/routes';
+import { Home, Activities } from 'FetchApp/routes';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -17,7 +17,7 @@ class App extends Component {
             <div className={styles.mainContainer}>
               <Switch>
                 <Route path="/" exact component={Home} />
-                {/* <Route path="/activities/:activityId" component={Activities} /> */}
+                <Route path="/activities/:activityId" component={Activities} />
                 <Route component={() => <Redirect to="/" />} />
               </Switch>
             </div>
