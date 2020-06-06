@@ -13,8 +13,8 @@ export const selectActivitySearchResults = (state) =>
 export const selectActivityInitialized = (state) => state.activity.initialized;
 export const selectActivityInitializationError = (state) =>
   state.activity.initializationError;
-// export const selectActivityId = createSelector(['activity.id']);
-// export const selectActivityName = createSelector(['activity.name']);
+export const selectActivityId = (state) => state.activity.id;
+export const selectActivityName = (state) => state.activity.name;
 // export const selectActivityDescription = createSelector([
 //   'activity.description',
 // ]);

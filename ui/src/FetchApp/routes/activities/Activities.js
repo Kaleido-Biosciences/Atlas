@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Loader, Message } from 'semantic-ui-react';
 import { Route, Switch } from 'react-router-dom';
 
+import { ActivityDetails } from 'FetchApp/components';
 import styles from './Activities.module.css';
 
 export class Activities extends Component {
@@ -37,13 +38,7 @@ export class Activities extends Component {
       content = (
         <React.Fragment>
           <Switch>
-            <Route
-              path={`${match.path}`}
-              exact
-              render={(routeProps) => {
-                return <div>Details</div>;
-              }}
-            />
+            <Route path={`${match.path}`} exact component={ActivityDetails} />
             <Route
               path={`${match.path}/editor`}
               render={(routeProps) => {

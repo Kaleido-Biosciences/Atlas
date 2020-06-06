@@ -16,7 +16,7 @@ export const loadActivity = (id) => {
       dispatch(
         _setActivity({
           activity: {
-            id: activity.id,
+            id: activity.name,
             name: activity.name,
             description: activity.description,
             data: activity,
