@@ -5,10 +5,11 @@ import { ActivityHeader } from 'FetchApp/components';
 import styles from './ActivityDetails.module.css';
 
 export class ActivityDetails extends Component {
+  componentDidMount() {
+    if (this.props.onMount) this.props.onMount();
+  }
   componentWillUnmount() {
-    if (this.props.onUnmount) {
-      this.props.onUnmount();
-    }
+    if (this.props.onUnmount) this.props.onUnmount();
   }
   render() {
     return (
@@ -20,5 +21,6 @@ export class ActivityDetails extends Component {
 }
 
 ActivityDetails.propTypes = {
+  onMount: PropTypes.func,
   onUnmount: PropTypes.func,
 };

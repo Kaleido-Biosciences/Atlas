@@ -1,1 +1,1 @@
-export { ActivityDetails } from './ActivityDetails';
+export { ActivityDetails } from './ActivityDetailsConnected';
