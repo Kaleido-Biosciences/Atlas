@@ -4,6 +4,7 @@ import * as printActions from './printActions';
 import * as editorActions from './editorActions';
 import * as editorToolsActions from './editorToolsActions';
 import * as editorComponentsActions from './editorComponentsActions';
+import * as editorImportActions from './editorImportActions';
 
 export const actions = {
   activitySearch: {
@@ -14,4 +15,5 @@ export const actions = {
   editor: { ...editorActions },
   editorTools: { ...editorToolsActions },
   editorComponents: { ...editorComponentsActions },
+  editorImport: { ...editorImportActions },
 };

@@ -55,6 +55,7 @@ const {
   selectEditorGrids,
   selectEditorActiveGridId,
   selectActivityName,
+  selectEditorImportImportedComponents,
 } = selectors;
 
 const wrapWithChangeHandler = (fn) => {
@@ -245,6 +246,43 @@ export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
     };
   }
 );
+
+export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
+  return (dispatch, getState) => {
+    const grids = selectEditorGrids(getState());
+    const grid = findGridById(gridId, grids);
+    const importedComponents = selectEditorImportImportedComponents(getState());
+    const actionPositions = [];
+    const gridPositions = grid.data.flat();
+    importedComponents.forEach((position) => {
+      const gridPosition = gridPositions.find((gridPosition) => {
+        return (
+          gridPosition.row === position.row &&
+          gridPosition.column === position.column
+        );
+      });
+      if (gridPosition && gridPosition.container) {
+        const newComponents = applyComponentsToContainer(
+          gridPosition.container,
+          [position.component]
+        );
+        actionPositions.push({
+          row: position.row,
+          column: position.column,
+          components: newComponents,
+        });
+      }
+    });
+    if (actionPositions.length) {
+      dispatch(
+        _setGridComponents({
+          gridId,
+          positions: actionPositions,
+        })
+      );
+    }
+  };
+});
 
 export const cloneGrid = wrapWithChangeHandler(
   ({ gridId, componentTypesToClone }) => {

@@ -12,6 +12,9 @@ export const COMPONENT_TYPES = [
     abbreviation: 'C',
     typeColor: 'green',
     colorCode: '#21ba45',
+    allowExcelImport: true,
+    defaultConcentration: 1.0,
+    defaultTime: 0,
   },
   {
     name: COMPONENT_TYPE_COMPOUND,
@@ -20,6 +23,9 @@ export const COMPONENT_TYPES = [
     abbreviation: 'B',
     typeColor: 'blue',
     colorCode: '#2185d0',
+    allowExcelImport: true,
+    defaultConcentration: 0.5,
+    defaultTime: 0,
   },
   {
     name: COMPONENT_TYPE_MEDIUM,
@@ -28,6 +34,9 @@ export const COMPONENT_TYPES = [
     abbreviation: 'M',
     typeColor: 'orange',
     colorCode: '#f2711c',
+    allowExcelImport: true,
+    defaultConcentration: null,
+    defaultTime: 0,
   },
   {
     name: COMPONENT_TYPE_SUPPLEMENT,
@@ -36,6 +45,9 @@ export const COMPONENT_TYPES = [
     abbreviation: 'S',
     typeColor: 'black',
     colorCode: '#1b1c1d',
+    allowExcelImport: true,
+    defaultConcentration: 0.5,
+    defaultTime: 0,
   },
   {
     name: COMPONENT_TYPE_ATTRIBUTE,
@@ -44,6 +56,7 @@ export const COMPONENT_TYPES = [
     abbreviation: 'A',
     typeColor: 'red',
     colorCode: '#db2828',
+    allowExcelImport: false,
   },
 ];
 

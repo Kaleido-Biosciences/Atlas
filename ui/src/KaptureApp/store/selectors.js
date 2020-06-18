@@ -19,6 +19,19 @@ const kaptureSelectors = {
       return toolComponents.filter((component) => component.selected);
     }
   ),
+  selectEditorImportImportStarted: createSelector([
+    'editorImport.importStarted',
+  ]),
+  selectEditorImportImportPending: createSelector([
+    'editorImport.importPending',
+  ]),
+  selectEditorImportImportError: createSelector(['editorImport.importError']),
+  selectEditorImportImportedComponents: createSelector([
+    'editorImport.importedComponents',
+  ]),
+  selectEditorComponentImportErrors: createSelector([
+    'editorImport.componentImportErrors',
+  ]),
 };
 
 export { kaptureSelectors as selectors };

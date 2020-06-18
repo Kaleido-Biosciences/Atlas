@@ -6,6 +6,11 @@ import { Grid } from '../Grid';
 import styles from './ActiveGrid.module.css';
 
 export class ActiveGrid extends Component {
+  handleApplyImportedComponents = () => {
+    if (this.props.onImportApplyClick) {
+      this.props.onImportApplyClick(this.props.activeGrid.id);
+    }
+  };
   render() {
     const {
       activeGrid,
@@ -19,6 +24,16 @@ export class ActiveGrid extends Component {
       onSettingsChange,
       headerSize,
       rowHeaders,
+      importStarted,
+      importPending,
+      importError,
+      importedComponents,
+      componentImportErrors,
+      componentTypes,
+      onImportComponentsClick,
+      onImportFixClick,
+      onImportFixAllClick,
+      onImportStartOverClick,
     } = this.props;
     if (activeGrid) {
       return (
@@ -32,6 +47,17 @@ export class ActiveGrid extends Component {
               onBarcodeSelect={onBarcodeSelect}
               settings={settings}
               onSettingsChange={onSettingsChange}
+              importStarted={importStarted}
+              importPending={importPending}
+              importError={importError}
+              importedComponents={importedComponents}
+              componentImportErrors={componentImportErrors}
+              componentTypes={componentTypes}
+              onImportComponentsClick={onImportComponentsClick}
+              onImportApplyClick={this.handleApplyImportedComponents}
+              onImportFixClick={onImportFixClick}
+              onImportFixAllClick={onImportFixAllClick}
+              onImportStartOverClick={onImportStartOverClick}
             />
           </div>
           <div className={styles.gridContainer}>
@@ -65,4 +91,15 @@ ActiveGrid.propTypes = {
   onSettingsChange: PropTypes.func,
   headerSize: PropTypes.number.isRequired,
   rowHeaders: PropTypes.array.isRequired,
+  importStarted: PropTypes.bool,
+  importPending: PropTypes.bool,
+  importError: PropTypes.string,
+  importedComponents: PropTypes.array,
+  componentImportErrors: PropTypes.array,
+  componentTypes: PropTypes.array,
+  onImportComponentsClick: PropTypes.func,
+  onImportApplyClick: PropTypes.func,
+  onImportFixClick: PropTypes.func,
+  onImportFixAllClick: PropTypes.func,
+  onImportStartOverClick: PropTypes.func,
 };
