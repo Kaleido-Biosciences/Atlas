@@ -6,12 +6,6 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
-import {
-  DEFAULT_TIMEPOINT_TIME,
-  DEFAULT_TIMEPOINT_CONCENTRATION,
-  DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION,
-  DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION,
-} from 'KaptureApp/config/constants';
 
 export function createComponent(data, type) {
   return {
@@ -47,21 +41,13 @@ export function getName(data) {
   return name;
 }
 
-export function createTimepoint(
-  componentType,
-  time = DEFAULT_TIMEPOINT_TIME,
-  concentration
-) {
-  if (!concentration && componentType) {
-    if (componentType === 'community') {
-      concentration = DEFAULT_TIMEPOINT_COMMUNITY_CONCENTRATION;
-    } else if (componentType === 'medium') {
-      concentration = DEFAULT_TIMEPOINT_MEDIUM_CONCENTRATION;
-    } else {
-      concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
-    }
-  } else if (!concentration) {
-    concentration = DEFAULT_TIMEPOINT_CONCENTRATION;
+export function createTimepoint(componentType, time, concentration) {
+  const config = COMPONENT_TYPES_KEYED[componentType];
+  if (!time) {
+    time = config.defaultTime;
+  }
+  if (!concentration) {
+    concentration = config.defaultConcentration;
   }
   return { time, concentration };
 }
