@@ -1,30 +1,7 @@
-import {
-  searchActivities,
-  fetchActivity,
-  fetchCommunity,
-  fetchCompound,
-  fetchMedium,
-  fetchSupplement,
-  findComponent,
-  searchComponents,
-} from './kapture';
-import {
-  fetchActivityVersions,
-  fetchVersion,
-  publishActivityGrids,
-  saveActivityGrids,
-} from './aws';
+import * as kapture from './kapture';
+import * as aws from './aws';
+
 export const api = {
-  searchActivities,
-  fetchActivity,
-  fetchActivityVersions,
-  fetchVersion,
-  publishActivityGrids,
-  fetchCommunity,
-  fetchCompound,
-  fetchMedium,
-  fetchSupplement,
-  saveActivityGrids,
-  findComponent,
-  searchComponents,
+  ...aws,
+  ...kapture,
 };

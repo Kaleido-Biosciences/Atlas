@@ -10,6 +10,12 @@ const {
   selectEditorActiveGrid,
   selectEditorBarcodeOptions,
   selectEditorSettings,
+  selectEditorImportImportStarted,
+  selectEditorImportImportPending,
+  selectEditorImportImportError,
+  selectEditorImportImportedComponents,
+  selectEditorComponentImportErrors,
+  selectEditorComponentTypes,
 } = selectors;
 
 const {
@@ -18,7 +24,15 @@ const {
   setGridBarcode,
   addBarcodes,
   setSettings,
+  applyImportedComponentsToGrid,
 } = actions.editor;
+
+const {
+  importComponents,
+  fixComponent,
+  fixAllComponents,
+  resetEditorImport,
+} = actions.editorImport;
 
 const mapState = (state, props) => {
   return {
@@ -28,6 +42,12 @@ const mapState = (state, props) => {
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
     headerSize: GRID_HEADER_SIZE,
     rowHeaders: GRID_ROW_HEADERS,
+    importStarted: selectEditorImportImportStarted(state),
+    importPending: selectEditorImportImportPending(state),
+    importError: selectEditorImportImportError(state),
+    importedComponents: selectEditorImportImportedComponents(state),
+    componentImportErrors: selectEditorComponentImportErrors(state),
+    componentTypes: selectEditorComponentTypes(state),
   };
 };
 
@@ -37,6 +57,11 @@ const mapDispatch = {
   onBarcodeSelect: setGridBarcode,
   onBarcodeAdd: addBarcodes,
   onSettingsChange: setSettings,
+  onImportComponentsClick: importComponents,
+  onImportApplyClick: applyImportedComponentsToGrid,
+  onImportFixClick: fixComponent,
+  onImportFixAllClick: fixAllComponents,
+  onImportStartOverClick: resetEditorImport,
 };
 
 const connected = connect(mapState, mapDispatch)(ActiveGrid);

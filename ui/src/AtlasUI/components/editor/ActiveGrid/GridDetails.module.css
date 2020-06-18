@@ -16,6 +16,16 @@
   font-size: inherit;
 }
 
+.gridActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.importButton {
+  margin-right: 1em !important;
+}
+
 .settings :global(i) {
   margin: 0 !important;
 }

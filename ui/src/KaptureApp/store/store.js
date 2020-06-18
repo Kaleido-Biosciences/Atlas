@@ -9,6 +9,7 @@ import {
 } from 'AtlasUI/store';
 import { editorComponentsReducer } from './editorComponents';
 import { editorToolsReducer } from './editorTools';
+import { editorImportReducer } from './editorImport';
 import './validators';
 
 const middleware = getDefaultMiddleware();
@@ -23,6 +24,7 @@ export const store = configureStore({
     editor: editorReducer,
     editorComponents: editorComponentsReducer,
     editorTools: editorToolsReducer,
+    editorImport: editorImportReducer,
     print: printReducer,
   },
   middleware,
