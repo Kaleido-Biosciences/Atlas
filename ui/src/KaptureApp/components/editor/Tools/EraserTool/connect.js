@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { ClearTool } from './ClearTool';
+import { EraserTool } from './EraserTool';
 import { selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
@@ -18,5 +18,5 @@ const mapState = (state, props) => {
 };
 const mapDispatch = { onChange: setComponentTypesToClear };
 
-const connected = connect(mapState, mapDispatch)(ClearTool);
-export { connected as ClearTool };
+const connected = connect(mapState, mapDispatch)(EraserTool);
+export { connected as EraserTool };
