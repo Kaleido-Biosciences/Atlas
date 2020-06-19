@@ -4,7 +4,7 @@ import { Menu, Icon } from 'semantic-ui-react';
 
 import { Header } from './Header';
 import { ApplyTool } from './ApplyTool';
-import { ClearTool } from './ClearTool';
+import { EraserTool } from './EraserTool';
 import styles from './Tools.module.css';
 
 export class Tools extends Component {
@@ -18,7 +18,7 @@ export class Tools extends Component {
     if (clickMode === 'apply' || clickMode === 'select') {
       return <ApplyTool />;
     } else if (clickMode === 'clear') {
-      return <ClearTool />;
+      return <EraserTool />;
     }
   }
   render() {

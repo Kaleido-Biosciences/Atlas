@@ -34,12 +34,9 @@ export class GridTabs extends Component {
   closeDeleteModal = () => {
     this.setState({ deleteModalOpen: false });
   };
-  handleCloneSubmit = ({ typesToClone }) => {
+  handleCloneSubmit = (typesToClone, quantity) => {
     if (this.props.onClone) {
-      this.props.onClone({
-        gridId: this.props.activeGridId,
-        componentTypesToClone: typesToClone,
-      });
+      this.props.onClone(this.props.activeGridId, typesToClone, quantity);
     }
     this.closeCloneModal();
   };
@@ -71,7 +68,7 @@ export class GridTabs extends Component {
     const { cloneModalOpen, deleteModalOpen } = this.state;
     const {
       componentTypes,
-      onAddPlate,
+      onAddPlates,
       onAddRack,
       onAddContainer,
       containerTypeOptions,
@@ -80,7 +77,7 @@ export class GridTabs extends Component {
       <div className={styles.gridTabs}>
         <AddContainerButton
           className={styles.addContainerButton}
-          onAddPlate={onAddPlate}
+          onAddPlates={onAddPlates}
           onAddRack={onAddRack}
           onAddContainer={onAddContainer}
           containerTypeOptions={containerTypeOptions}
@@ -93,7 +90,12 @@ export class GridTabs extends Component {
             <div className={styles.tabContainer}>{this.renderTabs()}</div>
           </Scrollbars>
         </div>
-        <Modal size="mini" open={cloneModalOpen} onClose={this.closeCloneModal}>
+        <Modal
+          size="mini"
+          open={cloneModalOpen}
+          onClose={this.closeCloneModal}
+          closeIcon
+        >
           <Header icon="clone outline" content="Clone Plate" />
           <Modal.Content>
             <CloneForm
@@ -121,7 +123,7 @@ GridTabs.propTypes = {
   tabs: PropTypes.array,
   activeGridId: PropTypes.string,
   onTabClick: PropTypes.func,
-  onAddPlate: PropTypes.func,
+  onAddPlates: PropTypes.func,
   onAddRack: PropTypes.func,
   onAddContainer: PropTypes.func,
   onClone: PropTypes.func,

@@ -1,8 +1,11 @@
+import _ from 'lodash';
+
 import { editorActions, editorToolsActions, selectors } from 'KaptureApp/store';
 import { api } from 'KaptureApp/api';
 import {
   getContainerCollection,
   importContainerCollection,
+  setContainerCollectionsStale,
 } from './activityActions';
 import {
   createGrid,
@@ -31,6 +34,7 @@ const {
   setContainerCollection: _setContainerCollection,
   setGrids: _setGrids,
   addGrid: _addGrid,
+  addGrids: _addGrids,
   addContainerToGrid: _addContainerToGrid,
   setGridComponents: _setGridComponents,
   deselectGridContainers: _deselectGridContainers,
@@ -58,23 +62,33 @@ const {
   selectEditorImportImportedComponents,
 } = selectors;
 
-const wrapWithChangeHandler = (fn) => {
+let lastSaveData = '';
+
+const saveGrids = _.debounce(async (dispatch, getState) => {
+  const exportedGrids = exportGrids(selectEditorGrids(getState()));
+  const stringifiedGrids = JSON.stringify(exportedGrids);
+  if (stringifiedGrids !== lastSaveData) {
+    dispatch(_setSavePending());
+    const activityName = selectActivityName(getState());
+    try {
+      await api.saveActivityGrids(activityName, exportedGrids);
+      dispatch(
+        _setLastSaveTime({
+          lastSaveTime: Date.now(),
+        })
+      );
+      lastSaveData = stringifiedGrids;
+    } catch (error) {
+      dispatch(_setSaveError({ error: error.message }));
+    }
+  }
+}, 500);
+
+export const wrapWithChangeHandler = (fn) => {
   return function () {
     return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      dispatch(_setSavePending());
-      const activityName = selectActivityName(getState());
-      const exportedGrids = exportGrids(selectEditorGrids(getState()));
-      try {
-        await api.saveActivityGrids(activityName, exportedGrids);
-        dispatch(
-          _setLastSaveTime({
-            lastSaveTime: Date.now(),
-          })
-        );
-      } catch (error) {
-        dispatch(_setSaveError({ error: error.message }));
-      }
+      saveGrids(dispatch, getState);
     };
   };
 };
@@ -98,28 +112,35 @@ export const loadContainerCollection = (status, version) => {
       const importData = await importContainerCollection(collection);
       dispatch(addBarcodes({ barcodes: importData.barcodes }));
       dispatch(_setGrids({ grids: importData.grids }));
+      const exportedGrids = exportGrids(selectEditorGrids(getState()));
+      lastSaveData = JSON.stringify(exportedGrids);
       dispatch(_setInitialized({ initialized: true }));
+      dispatch(setContainerCollectionsStale({ stale: true }));
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));
     }
   };
 };
 
-export const addNewPlate = wrapWithChangeHandler(({ dimensions }) => {
+export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
   return (dispatch, getState) => {
-    const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
-    const grid = createGrid({
-      containerType: 'Plate',
-      dimensions: dimensions,
-      data: gridData,
-    });
-    const containerPositions = createContainersForGrid(
-      dimensions,
-      'PlateWell',
-      GRID_ROW_HEADERS
-    );
-    addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
-    dispatch(_addGrid({ grid }));
+    const grids = [];
+    for (let i = 0; i < quantity; i++) {
+      const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+      const grid = createGrid({
+        containerType: 'Plate',
+        dimensions: dimensions,
+        data: gridData,
+      });
+      const containerPositions = createContainersForGrid(
+        dimensions,
+        'PlateWell',
+        GRID_ROW_HEADERS
+      );
+      addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
+      grids.push(grid);
+    }
+    dispatch(_addGrids({ grids, activeGridId: grids[0].id }));
   };
 });
 
@@ -285,7 +306,7 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
 });
 
 export const cloneGrid = wrapWithChangeHandler(
-  ({ gridId, componentTypesToClone }) => {
+  (gridId, componentTypesToClone, quantity) => {
     return (dispatch, getState) => {
       const grids = selectEditorGrids(getState());
       const grid = findGridById(gridId, grids);
@@ -308,14 +329,21 @@ export const cloneGrid = wrapWithChangeHandler(
           });
         }
       });
-      const gridData = createGridData({ ...grid.dimensions }, GRID_ROW_HEADERS);
-      const newGrid = createGrid({
-        containerType: grid.containerType,
-        dimensions: grid.dimensions,
-        data: gridData,
-      });
-      addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
-      dispatch(_addGrid({ grid: newGrid }));
+      const newGrids = [];
+      for (let i = 0; i < quantity; i++) {
+        const gridData = createGridData(
+          { ...grid.dimensions },
+          GRID_ROW_HEADERS
+        );
+        const newGrid = createGrid({
+          containerType: grid.containerType,
+          dimensions: grid.dimensions,
+          data: gridData,
+        });
+        addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
+        newGrids.push(newGrid);
+      }
+      dispatch(_addGrids({ grids: newGrids, activeGridId: gridId }));
     };
   }
 );

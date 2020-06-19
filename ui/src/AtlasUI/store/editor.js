@@ -52,6 +52,12 @@ const editor = createSlice({
       state.activeGridId = action.payload.grid.id;
       assignGridNames(state.grids, state.containerTypes);
     },
+    addGrids(state, action) {
+      const { grids, activeGridId } = action.payload;
+      state.grids = state.grids.concat(grids);
+      state.activeGridId = activeGridId || state.grids[0].id;
+      assignGridNames(state.grids, state.containerTypes);
+    },
     setActiveGridId(state, action) {
       state.activeGridId = action.payload.gridId;
     },
