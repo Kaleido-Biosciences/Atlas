@@ -5,6 +5,7 @@ import { api } from 'KaptureApp/api';
 import {
   getContainerCollection,
   importContainerCollection,
+  setContainerCollectionsStale,
 } from './activityActions';
 import {
   createGrid,
@@ -113,6 +114,7 @@ export const loadContainerCollection = (status, version) => {
       const exportedGrids = exportGrids(selectEditorGrids(getState()));
       lastSaveData = JSON.stringify(exportedGrids);
       dispatch(_setInitialized({ initialized: true }));
+      dispatch(setContainerCollectionsStale({ stale: true }));
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));
     }
