@@ -60,11 +60,11 @@ export class AddContainerButton extends Component {
         >
           <Dropdown.Menu>
             <Dropdown.Item onClick={this.openPlateModal} text="Add Plate..." />
-            <Dropdown.Item onClick={this.openRackModal} text="Add Rack..." />
+            {/* <Dropdown.Item onClick={this.openRackModal} text="Add Rack..." />
             <Dropdown.Item
               onClick={this.openContainerModal}
               text="Add Container..."
-            />
+            /> */}
           </Dropdown.Menu>
         </Dropdown>
         <AddPlateModal

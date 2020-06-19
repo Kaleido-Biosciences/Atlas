@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
 import pako from 'pako';
+import lzutf8 from 'lzutf8';
+import { COMPONENT_TYPE_ATTRIBUTE } from 'KaptureApp/config/componentTypes';
 import { STATUS_COMPLETED, STATUS_DRAFT } from 'KaptureApp/config/constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
@@ -236,10 +238,17 @@ export function scanTable() {
 }
 
 function compressGrids(grids) {
-  const gridsString = JSON.stringify(grids);
-  const gzipped = pako.gzip(gridsString, { to: 'string' });
-  return btoa(gzipped);
+  const convertedGrids = convertNewToOld(grids);
+  return lzutf8.compress(JSON.stringify(convertedGrids), {
+    outputEncoding: 'Base64',
+  });
 }
+
+// function compressGrids(grids) {
+//   const gridsString = JSON.stringify(grids);
+//   const gzipped = pako.gzip(gridsString, { to: 'string' });
+//   return btoa(gzipped);
+// }
 
 function decompressGrids(compressedGrids) {
   const decoded = atob(compressedGrids);
@@ -251,11 +260,113 @@ function processResponse(response) {
   const versions = [];
   if (response.Count > 0) {
     response.Items.forEach(({ plateMaps, ...rest }) => {
+      const data = JSON.parse(
+        lzutf8.decompress(plateMaps, {
+          inputEncoding: 'Base64',
+        })
+      );
       versions.push({
-        plateMaps: decompressGrids(plateMaps),
+        plateMaps: convertOldToNew(data),
         ...rest,
       });
     });
   }
   return versions;
 }
+
+function convertNewToOld(grids) {
+  return grids.map((grid, i) => {
+    const oldData = grid.data.map((well) => {
+      const oldWell = {};
+      oldWell.id = well.row + well.col;
+      const oldComponents = well.components.map(({ type, ...rest }) => {
+        return {
+          type: type.toLowerCase(),
+          ...rest,
+        };
+      });
+      well.attributes.forEach((attribute) => {
+        oldComponents.push({
+          id: `${attribute.key}_${attribute.value}`,
+          type: 'attribute',
+          attributeValues: {
+            id: `${attribute.key}_${attribute.value}`,
+            name: `${attribute.key}(${attribute.value}${attribute.value_unit})`,
+            key: attribute.key,
+            value: attribute.value,
+            value_type: attribute.value_type,
+            value_unit: attribute.value_unit,
+          },
+        });
+      });
+      oldWell.components = oldComponents;
+      return oldWell;
+    });
+    const platemap = {
+      id: i + 1,
+      barcode: grid.barcode,
+      data: [],
+    };
+    for (let i = 0, j = oldData.length; i < j; i += grid.columns) {
+      platemap.data.push(oldData.slice(i, i + grid.columns));
+    }
+    return platemap;
+  });
+}
+
+function convertOldToNew(oldPlatemaps) {
+  const newPlatemaps = oldPlatemaps.map((oldPlatemap, i) => {
+    const newPlatemap = {};
+    newPlatemap.id = oldPlatemap.id;
+    newPlatemap.rows = oldPlatemap.data.length;
+    newPlatemap.columns = oldPlatemap.data[0].length;
+    newPlatemap.name = `Plate ${i + 1}`;
+    newPlatemap.containerType = 'Plate';
+    newPlatemap.barcode = oldPlatemap.barcode;
+    const oldPlatemapData = oldPlatemap.data.flat();
+    newPlatemap.data = oldPlatemapData.map((well) => {
+      const wellComponents = well.components.map(({ type, ...rest }) => {
+        return {
+          ...rest,
+          type: type.charAt(0).toUpperCase() + type.slice(1),
+        };
+      });
+      const components = [],
+        attributes = [];
+      wellComponents.forEach((component) => {
+        if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
+          const { id, name, ...rest } = component.attributeValues;
+          attributes.push({
+            ...rest,
+          });
+        } else {
+          components.push(component);
+        }
+      });
+      return {
+        name: null,
+        containerType: 'PlateWell',
+        row: well.id.charAt(0),
+        col: parseInt(well.id.slice(1)),
+        barcode: null,
+        components,
+        attributes,
+      };
+    });
+    return newPlatemap;
+  });
+  return newPlatemaps;
+}
+
+// function processResponse(response) {
+//   const versions = [];
+//   if (response.Count > 0) {
+//     response.Items.forEach(({ plateMaps, ...rest }) => {
+//       versions.push({
+//         plateMaps: decompressGrids(plateMaps),
+//         ...rest,
+//       });
+//     });
+//   }
+//   return versions;
+// }
