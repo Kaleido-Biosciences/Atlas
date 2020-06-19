@@ -34,12 +34,9 @@ export class GridTabs extends Component {
   closeDeleteModal = () => {
     this.setState({ deleteModalOpen: false });
   };
-  handleCloneSubmit = ({ typesToClone }) => {
+  handleCloneSubmit = (typesToClone, quantity) => {
     if (this.props.onClone) {
-      this.props.onClone({
-        gridId: this.props.activeGridId,
-        componentTypesToClone: typesToClone,
-      });
+      this.props.onClone(this.props.activeGridId, typesToClone, quantity);
     }
     this.closeCloneModal();
   };
@@ -93,7 +90,12 @@ export class GridTabs extends Component {
             <div className={styles.tabContainer}>{this.renderTabs()}</div>
           </Scrollbars>
         </div>
-        <Modal size="mini" open={cloneModalOpen} onClose={this.closeCloneModal}>
+        <Modal
+          size="mini"
+          open={cloneModalOpen}
+          onClose={this.closeCloneModal}
+          closeIcon
+        >
           <Header icon="clone outline" content="Clone Plate" />
           <Modal.Content>
             <CloneForm

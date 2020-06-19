@@ -34,6 +34,7 @@ const {
   setContainerCollection: _setContainerCollection,
   setGrids: _setGrids,
   addGrid: _addGrid,
+  addGrids: _addGrids,
   addContainerToGrid: _addContainerToGrid,
   setGridComponents: _setGridComponents,
   deselectGridContainers: _deselectGridContainers,
@@ -301,7 +302,7 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
 });
 
 export const cloneGrid = wrapWithChangeHandler(
-  ({ gridId, componentTypesToClone }) => {
+  (gridId, componentTypesToClone, quantity) => {
     return (dispatch, getState) => {
       const grids = selectEditorGrids(getState());
       const grid = findGridById(gridId, grids);
@@ -324,14 +325,21 @@ export const cloneGrid = wrapWithChangeHandler(
           });
         }
       });
-      const gridData = createGridData({ ...grid.dimensions }, GRID_ROW_HEADERS);
-      const newGrid = createGrid({
-        containerType: grid.containerType,
-        dimensions: grid.dimensions,
-        data: gridData,
-      });
-      addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
-      dispatch(_addGrid({ grid: newGrid }));
+      const newGrids = [];
+      for (let i = 0; i < quantity; i++) {
+        const gridData = createGridData(
+          { ...grid.dimensions },
+          GRID_ROW_HEADERS
+        );
+        const newGrid = createGrid({
+          containerType: grid.containerType,
+          dimensions: grid.dimensions,
+          data: gridData,
+        });
+        addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
+        newGrids.push(newGrid);
+      }
+      dispatch(_addGrids({ grids: newGrids, activeGridId: gridId }));
     };
   }
 );

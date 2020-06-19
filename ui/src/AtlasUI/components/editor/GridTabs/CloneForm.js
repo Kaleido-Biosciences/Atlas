@@ -1,38 +1,61 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Checkbox, Button, Message } from 'semantic-ui-react';
+import { Form, Checkbox, Button, Input } from 'semantic-ui-react';
 
 import styles from './CloneForm.module.css';
 
 export class CloneForm extends Component {
   constructor(props) {
     super(props);
-    this.state = props.componentTypes.reduce((state, type) => {
-      state[type.name] = false;
-      return state;
-    }, {});
+    this.state = {
+      typeSelections: [],
+      quantity: 1,
+    };
   }
-  handleCheckboxClick = (e, data) => {
-    const { checked, value } = data;
+  handleCheckboxClick = (e, { checked, value }) => {
+    let typeSelections;
+    if (checked) {
+      typeSelections = this.state.typeSelections.slice();
+      typeSelections.push(value);
+    } else {
+      typeSelections = this.state.typeSelections.filter((selection) => {
+        return selection !== value;
+      });
+    }
     this.setState({
-      [value]: checked,
+      typeSelections,
     });
+  };
+  handleSelectAll = () => {
+    const { componentTypes } = this.props;
+    this.setState({
+      typeSelections: componentTypes.map((type) => {
+        return type.name;
+      }),
+    });
+  };
+  handleQuantityChange = (e, { value }) => {
+    if (value) this.setState({ quantity: parseInt(value) });
+    else this.setState({ quantity: '' });
   };
   handleSubmit = (e) => {
     e.preventDefault();
     if (this.props.onSubmit) {
-      const entries = Object.entries(this.state);
-      const selections = [];
-      entries.forEach((selection) => {
-        if (selection[1]) {
-          selections.push(selection[0]);
-        }
-      });
-      this.props.onSubmit({ typesToClone: selections });
+      const selections = this.state.typeSelections.slice();
+      this.props.onSubmit(selections, this.state.quantity);
     }
+  };
+  checkStateValid = () => {
+    return (
+      this.state.typeSelections.length > 0 &&
+      this.state.quantity &&
+      this.state.quantity >= 1 &&
+      Number.isInteger(this.state.quantity)
+    );
   };
   renderFields() {
     const { componentTypes } = this.props;
+    const { typeSelections } = this.state;
     return componentTypes.map((type) => {
       return (
         <Form.Field key={`CLONE_${type.name}`}>
@@ -40,25 +63,39 @@ export class CloneForm extends Component {
             value={type.name}
             label={type.plural}
             onClick={this.handleCheckboxClick}
-            checked={this.state[type.name]}
+            checked={typeSelections.includes(type.name)}
           />
         </Form.Field>
       );
     });
   }
   render() {
-    const selections = Object.entries(this.state);
-    const selected = selections.find((option) => {
-      return option[1];
-    });
-    const buttonDisabled = selected ? false : true;
+    const buttonDisabled = !this.checkStateValid();
     return (
       <div>
         <Form>
-          <Message size="tiny">
-            Select the component types to copy to the new container.
-          </Message>
+          <Form.Field>
+            <label>Component types to copy</label>
+            <Button
+              compact
+              className={styles.selectAllButton}
+              size="mini"
+              onClick={this.handleSelectAll}
+            >
+              Select All
+            </Button>
+          </Form.Field>
           {this.renderFields()}
+          <div>
+            <Form.Field>
+              <label>Quantity</label>
+              <Input
+                onChange={this.handleQuantityChange}
+                value={this.state.quantity}
+                type="number"
+              />
+            </Form.Field>
+          </div>
           <div className={styles.buttonContainer}>
             <Button
               className={styles.submitButton}
