@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
 import axios from 'axios';
 import pako from 'pako';
+import lzutf8 from 'lzutf8';
+import { COMPONENT_TYPE_ATTRIBUTE } from 'KaptureApp/config/componentTypes';
 import { STATUS_COMPLETED, STATUS_DRAFT } from 'KaptureApp/config/constants';
 import {
   DYNAMODB_ACCESS_KEY_ID,
@@ -251,11 +253,73 @@ function processResponse(response) {
   const versions = [];
   if (response.Count > 0) {
     response.Items.forEach(({ plateMaps, ...rest }) => {
+      const data = JSON.parse(
+        lzutf8.decompress(plateMaps, {
+          inputEncoding: 'Base64',
+        })
+      );
       versions.push({
-        plateMaps: decompressGrids(plateMaps),
+        plateMaps: convertOldToNew(data),
         ...rest,
       });
     });
   }
   return versions;
 }
+
+function convertOldToNew(oldPlatemaps) {
+  const newPlatemaps = oldPlatemaps.map((oldPlatemap, i) => {
+    const newPlatemap = {};
+    newPlatemap.id = oldPlatemap.id;
+    newPlatemap.rows = oldPlatemap.data.length;
+    newPlatemap.columns = oldPlatemap.data[0].length;
+    newPlatemap.name = `Plate ${i + 1}`;
+    newPlatemap.containerType = 'Plate';
+    newPlatemap.barcode = oldPlatemap.barcode;
+    const oldPlatemapData = oldPlatemap.data.flat();
+    newPlatemap.data = oldPlatemapData.map((well) => {
+      const wellComponents = well.components.map(({ type, ...rest }) => {
+        return {
+          ...rest,
+          type: type.charAt(0).toUpperCase() + type.slice(1),
+        };
+      });
+      const components = [],
+        attributes = [];
+      wellComponents.forEach((component) => {
+        if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
+          const { id, name, ...rest } = component.attributeValues;
+          attributes.push({
+            ...rest,
+          });
+        } else {
+          components.push(component);
+        }
+      });
+      return {
+        name: null,
+        containerType: 'PlateWell',
+        row: well.id.charAt(0),
+        col: parseInt(well.id.slice(1)),
+        barcode: null,
+        components,
+        attributes,
+      };
+    });
+    return newPlatemap;
+  });
+  return newPlatemaps;
+}
+
+// function processResponse(response) {
+//   const versions = [];
+//   if (response.Count > 0) {
+//     response.Items.forEach(({ plateMaps, ...rest }) => {
+//       versions.push({
+//         plateMaps: decompressGrids(plateMaps),
+//         ...rest,
+//       });
+//     });
+//   }
+//   return versions;
+// }
