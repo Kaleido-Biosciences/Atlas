@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { editorActions, editorToolsActions, selectors } from 'KaptureApp/store';
 import { api } from 'KaptureApp/api';
 import {
@@ -58,23 +60,33 @@ const {
   selectEditorImportImportedComponents,
 } = selectors;
 
-const wrapWithChangeHandler = (fn) => {
+let lastSaveData = '';
+
+const saveGrids = _.debounce(async (dispatch, getState) => {
+  const exportedGrids = exportGrids(selectEditorGrids(getState()));
+  const stringifiedGrids = JSON.stringify(exportedGrids);
+  if (stringifiedGrids !== lastSaveData) {
+    dispatch(_setSavePending());
+    const activityName = selectActivityName(getState());
+    try {
+      await api.saveActivityGrids(activityName, exportedGrids);
+      dispatch(
+        _setLastSaveTime({
+          lastSaveTime: Date.now(),
+        })
+      );
+      lastSaveData = stringifiedGrids;
+    } catch (error) {
+      dispatch(_setSaveError({ error: error.message }));
+    }
+  }
+}, 500);
+
+export const wrapWithChangeHandler = (fn) => {
   return function () {
     return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      dispatch(_setSavePending());
-      const activityName = selectActivityName(getState());
-      const exportedGrids = exportGrids(selectEditorGrids(getState()));
-      try {
-        await api.saveActivityGrids(activityName, exportedGrids);
-        dispatch(
-          _setLastSaveTime({
-            lastSaveTime: Date.now(),
-          })
-        );
-      } catch (error) {
-        dispatch(_setSaveError({ error: error.message }));
-      }
+      saveGrids(dispatch, getState);
     };
   };
 };
@@ -98,6 +110,8 @@ export const loadContainerCollection = (status, version) => {
       const importData = await importContainerCollection(collection);
       dispatch(addBarcodes({ barcodes: importData.barcodes }));
       dispatch(_setGrids({ grids: importData.grids }));
+      const exportedGrids = exportGrids(selectEditorGrids(getState()));
+      lastSaveData = JSON.stringify(exportedGrids);
       dispatch(_setInitialized({ initialized: true }));
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));
