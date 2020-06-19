@@ -122,21 +122,25 @@ export const loadContainerCollection = (status, version) => {
   };
 };
 
-export const addNewPlate = wrapWithChangeHandler(({ dimensions }) => {
+export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
   return (dispatch, getState) => {
-    const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
-    const grid = createGrid({
-      containerType: 'Plate',
-      dimensions: dimensions,
-      data: gridData,
-    });
-    const containerPositions = createContainersForGrid(
-      dimensions,
-      'PlateWell',
-      GRID_ROW_HEADERS
-    );
-    addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
-    dispatch(_addGrid({ grid }));
+    const grids = [];
+    for (let i = 0; i < quantity; i++) {
+      const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+      const grid = createGrid({
+        containerType: 'Plate',
+        dimensions: dimensions,
+        data: gridData,
+      });
+      const containerPositions = createContainersForGrid(
+        dimensions,
+        'PlateWell',
+        GRID_ROW_HEADERS
+      );
+      addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
+      grids.push(grid);
+    }
+    dispatch(_addGrids({ grids, activeGridId: grids[0].id }));
   };
 });
 

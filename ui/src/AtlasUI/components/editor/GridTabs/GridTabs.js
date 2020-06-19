@@ -68,7 +68,7 @@ export class GridTabs extends Component {
     const { cloneModalOpen, deleteModalOpen } = this.state;
     const {
       componentTypes,
-      onAddPlate,
+      onAddPlates,
       onAddRack,
       onAddContainer,
       containerTypeOptions,
@@ -77,7 +77,7 @@ export class GridTabs extends Component {
       <div className={styles.gridTabs}>
         <AddContainerButton
           className={styles.addContainerButton}
-          onAddPlate={onAddPlate}
+          onAddPlates={onAddPlates}
           onAddRack={onAddRack}
           onAddContainer={onAddContainer}
           containerTypeOptions={containerTypeOptions}
@@ -123,7 +123,7 @@ GridTabs.propTypes = {
   tabs: PropTypes.array,
   activeGridId: PropTypes.string,
   onTabClick: PropTypes.func,
-  onAddPlate: PropTypes.func,
+  onAddPlates: PropTypes.func,
   onAddRack: PropTypes.func,
   onAddContainer: PropTypes.func,
   onClone: PropTypes.func,

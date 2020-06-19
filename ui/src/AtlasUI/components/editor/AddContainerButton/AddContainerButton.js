@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Icon } from 'semantic-ui-react';
 
-import { AddPlateModal } from './AddPlateModal';
+import { AddPlatesModal } from './AddPlatesModal';
 import { AddRackModal } from './AddRackModal';
 import { AddContainerModal } from './AddContainerModal';
 
@@ -28,8 +28,8 @@ export class AddContainerButton extends Component {
       containerModalOpen: false,
     });
   };
-  handleAddPlate = ({ dimensions }) => {
-    if (this.props.onAddPlate) this.props.onAddPlate({ dimensions });
+  handleAddPlates = (dimensions, quantity) => {
+    if (this.props.onAddPlates) this.props.onAddPlates(dimensions, quantity);
     this.closeModals();
   };
   handleAddRack = ({ dimensions }) => {
@@ -59,7 +59,7 @@ export class AddContainerButton extends Component {
           icon={null}
         >
           <Dropdown.Menu>
-            <Dropdown.Item onClick={this.openPlateModal} text="Add Plate..." />
+            <Dropdown.Item onClick={this.openPlateModal} text="Add Plates..." />
             {/* <Dropdown.Item onClick={this.openRackModal} text="Add Rack..." />
             <Dropdown.Item
               onClick={this.openContainerModal}
@@ -67,10 +67,10 @@ export class AddContainerButton extends Component {
             /> */}
           </Dropdown.Menu>
         </Dropdown>
-        <AddPlateModal
+        <AddPlatesModal
           open={plateModalOpen}
           onClose={this.closeModals}
-          onAddClick={this.handleAddPlate}
+          onAddClick={this.handleAddPlates}
         />
         <AddRackModal
           open={rackModalOpen}
@@ -90,7 +90,7 @@ export class AddContainerButton extends Component {
 
 AddContainerButton.propTypes = {
   className: PropTypes.string,
-  onAddPlate: PropTypes.func,
+  onAddPlates: PropTypes.func,
   onAddRack: PropTypes.func,
   onAddContainer: PropTypes.func,
   containerTypeOptions: PropTypes.array,

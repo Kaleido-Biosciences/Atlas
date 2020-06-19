@@ -8,7 +8,7 @@ import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 
 const {
   setActiveGridId,
-  addNewPlate,
+  addNewPlates,
   addNewRack,
   addNewContainer,
   cloneGrid,
@@ -28,7 +28,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onTabClick: setActiveGridId,
-  onAddPlate: addNewPlate,
+  onAddPlates: addNewPlates,
   onAddRack: addNewRack,
   onAddContainer: addNewContainer,
   onClone: cloneGrid,
