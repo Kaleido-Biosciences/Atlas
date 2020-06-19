@@ -238,10 +238,17 @@ export function scanTable() {
 }
 
 function compressGrids(grids) {
-  const gridsString = JSON.stringify(grids);
-  const gzipped = pako.gzip(gridsString, { to: 'string' });
-  return btoa(gzipped);
+  const convertedGrids = convertNewToOld(grids);
+  return lzutf8.compress(JSON.stringify(convertedGrids), {
+    outputEncoding: 'Base64',
+  });
 }
+
+// function compressGrids(grids) {
+//   const gridsString = JSON.stringify(grids);
+//   const gzipped = pako.gzip(gridsString, { to: 'string' });
+//   return btoa(gzipped);
+// }
 
 function decompressGrids(compressedGrids) {
   const decoded = atob(compressedGrids);
@@ -265,6 +272,46 @@ function processResponse(response) {
     });
   }
   return versions;
+}
+
+function convertNewToOld(grids) {
+  return grids.map((grid, i) => {
+    const oldData = grid.data.map((well) => {
+      const oldWell = {};
+      oldWell.id = well.row + well.col;
+      const oldComponents = well.components.map(({ type, ...rest }) => {
+        return {
+          type: type.toLowerCase(),
+          ...rest,
+        };
+      });
+      well.attributes.forEach((attribute) => {
+        oldComponents.push({
+          id: `${attribute.key}_${attribute.value}`,
+          type: 'attribute',
+          attributeValues: {
+            id: `${attribute.key}_${attribute.value}`,
+            name: `${attribute.key}(${attribute.value}${attribute.value_unit})`,
+            key: attribute.key,
+            value: attribute.value,
+            value_type: attribute.value_type,
+            value_unit: attribute.value_unit,
+          },
+        });
+      });
+      oldWell.components = oldComponents;
+      return oldWell;
+    });
+    const platemap = {
+      id: i + 1,
+      barcode: grid.barcode,
+      data: [],
+    };
+    for (let i = 0, j = oldData.length; i < j; i += grid.columns) {
+      platemap.data.push(oldData.slice(i, i + grid.columns));
+    }
+    return platemap;
+  });
 }
 
 function convertOldToNew(oldPlatemaps) {
