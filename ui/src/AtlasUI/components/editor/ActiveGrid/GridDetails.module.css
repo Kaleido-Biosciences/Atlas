@@ -1,0 +1,31 @@
+.gridDetails {
+  padding: 0.4em 0.8em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gridDetails :global(.dropdown) {
+  font-size: 0.8em !important;
+}
+
+.gridDetails :global(.ui.dropdown .menu > .item) {
+  font-size: inherit;
+}
+
+.gridActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.importButton {
+  margin-right: 1em !important;
+}
+
+.settings :global(i) {
+  margin: 0 !important;
+}

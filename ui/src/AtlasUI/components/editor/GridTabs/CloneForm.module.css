@@ -1,0 +1,13 @@
+.selectAllButton {
+  margin-top: 0.5em !important;
+}
+
+.buttonContainer {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  margin: 0;
+}

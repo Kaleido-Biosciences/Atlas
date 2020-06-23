@@ -1,0 +1,88 @@
+.grid {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.cornerCell {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.body {
+  display: flex;
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+.columnHeader {
+  display: flex;
+  overflow: hidden;
+}
+
+.rowHeader {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.headerCellContainer {
+  flex-shrink: 0;
+}
+
+.headerCell {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.headerCell:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.row {
+  display: flex;
+}
+
+.gridPositionContainer {
+  flex-shrink: 0;
+  padding: 5px;
+}
+
+.gridPosition {
+  height: 100%;
+  width: 100%;
+  border-color: #f3f3f3;
+  border-style: solid;
+}
+
+.addContainer {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  cursor: pointer;
+}
+
+.addContainer :global(i) {
+  opacity: 0 !important;
+  transition: all 0.1s ease;
+}
+
+.addContainer:hover :global(i) {
+  opacity: 1 !important;
+}
