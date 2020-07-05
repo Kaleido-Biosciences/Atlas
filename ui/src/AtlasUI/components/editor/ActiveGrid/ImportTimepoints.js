@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Icon } from 'semantic-ui-react';
 
-import { Timepoint } from 'KaptureApp/components/editor/Tools/ApplyTool/Timepoint';
+import { Timepoint } from 'AtlasUI/components';
 import styles from './ExcelImportModal.module.css';
 
 export class ImportTimepoints extends Component {
