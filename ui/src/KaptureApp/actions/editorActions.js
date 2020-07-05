@@ -406,6 +406,9 @@ function applyComponentsToContainer(container, toolComponentsToApply) {
             component.options.timepoints.push(eTimepoint);
           }
         });
+        component.options.timepoints.sort((a, b) => {
+          return a.time - b.time;
+        });
       }
       const index = containerComponents.findIndex(
         (eComponent) => eComponent.id === component.id
@@ -425,7 +428,7 @@ function transformToolComponent({ id, name, type, data, timepoints, tooltip }) {
     id,
     type,
     name,
-    options: { timepoints },
+    options: { timepoints: timepoints.slice() },
     data,
     tooltip,
     color: COMPONENT_TYPES_KEYED[type].colorCode,

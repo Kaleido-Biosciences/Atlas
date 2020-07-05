@@ -27,13 +27,9 @@ export class Timepoint extends Component {
     const { timepoint, allowDelete, allowTimeChange } = this.props;
     return (
       <div className={styles.timepoint}>
-        <div className={styles.concField}>
-          <Icon
-            className={styles.fieldIcon}
-            name="percent"
-            title="Concentration"
-          />
-          <div className={styles.concInputContainer}>
+        <div className={styles.field}>
+          <label>Conc.</label>
+          <div className={styles.inputContainer}>
             <Input
               fluid
               name="concentration"
@@ -44,13 +40,9 @@ export class Timepoint extends Component {
           </div>
         </div>
         {allowTimeChange && (
-          <div className={styles.timeField}>
-            <Icon
-              className={styles.fieldIcon}
-              name="clock"
-              title="Time in hours"
-            />
-            <div className={styles.timeInputContainer}>
+          <div className={styles.field}>
+            <label>Time</label>
+            <div className={styles.inputContainer}>
               <Input
                 fluid
                 name="time"

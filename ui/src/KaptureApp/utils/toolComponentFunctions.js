@@ -7,7 +7,7 @@ import {
   COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
 
-export function createComponent(data, type) {
+export function createComponent(data, type, timepoints) {
   return {
     id: `${type.toUpperCase()}_${data.id}`,
     name: getName(data),
@@ -15,7 +15,7 @@ export function createComponent(data, type) {
     data,
     selected: true,
     isValid: true,
-    timepoints: [createTimepoint(type)],
+    timepoints: timepoints || [createTimepoint(type)],
     tooltip: getComponentTooltip(data, type),
     color: COMPONENT_TYPES_KEYED[type].typeColor,
     abbreviation: COMPONENT_TYPES_KEYED[type].abbreviation,

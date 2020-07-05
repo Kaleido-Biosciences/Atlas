@@ -34,7 +34,7 @@ const {
 
 export const resetEditorImport = resetState;
 
-export const importComponents = (componentType, componentNames) => {
+export const importComponents = (componentType, componentNames, timepoints) => {
   return async (dispatch, getState) => {
     try {
       dispatch(setImportPending());
@@ -101,7 +101,11 @@ export const importComponents = (componentType, componentNames) => {
         return {
           row: position.row,
           column: position.column,
-          component: createComponent(position.component, componentType),
+          component: createComponent(
+            position.component,
+            componentType,
+            timepoints
+          ),
         };
       });
       const errorIndex = {};
@@ -123,7 +127,7 @@ export const importComponents = (componentType, componentNames) => {
         const data = errorIndex[error.component];
         if (data) {
           error.options = data.map((component) => {
-            return createComponent(component, componentType);
+            return createComponent(component, componentType, timepoints);
           });
         }
       });

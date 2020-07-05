@@ -15,6 +15,8 @@ export const COMPONENT_TYPES = [
     allowExcelImport: true,
     defaultConcentration: 1.0,
     defaultTime: 0,
+    allowAddTimepoint: true,
+    enableOptions: ['concentration'],
   },
   {
     name: COMPONENT_TYPE_COMPOUND,
@@ -26,6 +28,8 @@ export const COMPONENT_TYPES = [
     allowExcelImport: true,
     defaultConcentration: 0.5,
     defaultTime: 0,
+    allowAddTimepoint: false,
+    enableOptions: ['concentration'],
   },
   {
     name: COMPONENT_TYPE_MEDIUM,
@@ -37,6 +41,8 @@ export const COMPONENT_TYPES = [
     allowExcelImport: true,
     defaultConcentration: null,
     defaultTime: 0,
+    allowAddTimepoint: false,
+    enableOptions: [],
   },
   {
     name: COMPONENT_TYPE_SUPPLEMENT,
@@ -48,6 +54,8 @@ export const COMPONENT_TYPES = [
     allowExcelImport: true,
     defaultConcentration: 0.5,
     defaultTime: 0,
+    allowAddTimepoint: true,
+    enableOptions: ['concentration'],
   },
   {
     name: COMPONENT_TYPE_ATTRIBUTE,
