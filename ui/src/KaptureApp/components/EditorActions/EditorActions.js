@@ -43,12 +43,20 @@ export class EditorActions extends Component {
     }
   };
   render() {
-    const { savePending, lastSaveTime, saveError } = this.props;
+    const {
+      savePending,
+      lastSaveTime,
+      saveError,
+      allGridBarcodesSet,
+    } = this.props;
     return (
       <React.Fragment>
         <div>{this.renderSaveInfo(savePending, lastSaveTime, saveError)}</div>
         <ImportBarcodesButton onImport={this.handleImportBarcodes} />
-        <MarkAsCompletedButton onConfirm={this.handleMarkAsCompleted} />
+        <MarkAsCompletedButton
+          onConfirm={this.handleMarkAsCompleted}
+          allGridBarcodesSet={allGridBarcodesSet}
+        />
       </React.Fragment>
     );
   }
@@ -60,4 +68,5 @@ EditorActions.propTypes = {
   saveError: PropTypes.string,
   onMarkAsCompleted: PropTypes.func,
   onImportBarcodes: PropTypes.func,
+  allGridBarcodesSet: PropTypes.bool,
 };

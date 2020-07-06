@@ -124,6 +124,15 @@ export const selectEditorComponentCounts = createSelector([
 export const selectEditorComponentTypes = createSelector([
   'editor.componentTypes',
 ]);
+export const selectEditorAllGridBarcodesSet = createSelector(
+  ['editor.grids'],
+  (grids) => {
+    const index = grids.findIndex((grid) => {
+      return !grid.barcode;
+    });
+    return !(index > -1);
+  }
+);
 
 /* Print */
 export const selectPrintInitialized = createSelector(['print.initialized']);
