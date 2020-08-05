@@ -13,24 +13,16 @@
   align-items: center;
 }
 
-.timeField {
-  composes: field;
-}
-
-.concField {
-  composes: field;
+.field:first-child {
   margin-right: 1em;
 }
 
-.timeInputContainer {
-  width: 6em;
+.field :global(label) {
+  margin-right: 0.5em;
 }
 
-.concInputContainer {
+.inputContainer {
   width: 6em;
-}
-
-.fieldIcon {
 }
 
 .removeIcon {

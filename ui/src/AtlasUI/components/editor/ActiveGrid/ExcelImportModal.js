@@ -11,11 +11,21 @@ import {
   Icon,
   Message,
 } from 'semantic-ui-react';
+import validate from 'validate.js';
 
 import { ErrorRow } from './ErrorRow';
+import { ImportTimepoints } from './ImportTimepoints';
+
 import styles from './ExcelImportModal.module.css';
 
-const initialState = { componentType: '', importText: '' };
+const initialState = {
+  componentType: '',
+  importText: '',
+  displayTimepoints: false,
+  allowAddTimepoint: false,
+  timepoints: [],
+  timepointErrors: null,
+};
 
 export class ExcelImportModal extends Component {
   state = initialState;
@@ -35,19 +45,79 @@ export class ExcelImportModal extends Component {
     });
   }
   handleSelectChange = (e, { value }) => {
-    this.setState({ componentType: value });
+    let displayTimepoints = false;
+    const type = this.props.componentTypes.find((type) => {
+      return type.name === value;
+    });
+    if (
+      type &&
+      type.enableOptions &&
+      type.enableOptions.includes('concentration')
+    ) {
+      displayTimepoints = true;
+    }
+    const timepoint = {
+      concentration: type.defaultConcentration,
+      time: type.defaultTime,
+    };
+    this.setState({
+      componentType: value,
+      displayTimepoints,
+      allowAddTimepoint: type.allowAddTimepoint,
+      timepoints: [timepoint],
+    });
   };
   handleTextareaChange = (e, { value }) => {
     this.setState({ importText: value });
   };
+  handleTimepointChange = ({ name, index, value }) => {
+    const newTimepoints = this.state.timepoints.slice();
+    const newTimepoint = {
+      ...newTimepoints[index],
+      [name]: value,
+    };
+    newTimepoints.splice(index, 1, newTimepoint);
+    const errors = validate.single(
+      newTimepoints,
+      { timepoints: true },
+      { fullMessages: false }
+    );
+    this.setState({
+      timepoints: newTimepoints,
+      timepointErrors: errors || null,
+    });
+  };
+  handleAddTimepointClick = () => {
+    const { timepoints } = this.state;
+    let maxTime = 0;
+    timepoints.forEach((timepoint) => {
+      if (timepoint.time > maxTime) maxTime = timepoint.time;
+    });
+    const lastPoint = timepoints[timepoints.length - 1];
+    const timepoint = {
+      concentration: lastPoint.concentration,
+      time: maxTime + 24,
+    };
+    const newTimepoints = [...timepoints, timepoint];
+    this.setState({
+      timepoints: newTimepoints,
+    });
+  };
+  handleTimepointDeleteClick = ({ index }) => {
+    const newTimepoints = this.state.timepoints.slice();
+    newTimepoints.splice(index, 1);
+    this.setState({
+      timepoints: newTimepoints,
+    });
+  };
   handleImport = () => {
-    const { componentType, importText } = this.state;
+    const { componentType, importText, timepoints } = this.state;
     let components = importText.split('\n');
     components = components.map((row) => {
       return row.split('\t');
     });
     if (this.props.onImportComponentsClick) {
-      this.props.onImportComponentsClick(componentType, components);
+      this.props.onImportComponentsClick(componentType, components, timepoints);
     }
   };
   handleStartOver = () => {
@@ -91,7 +161,14 @@ export class ExcelImportModal extends Component {
     );
   }
   renderForm() {
-    const { componentType, importText } = this.state;
+    const {
+      componentType,
+      importText,
+      displayTimepoints,
+      timepoints,
+      timepointErrors,
+      allowAddTimepoint,
+    } = this.state;
     return (
       <div>
         <Form>
@@ -109,6 +186,16 @@ export class ExcelImportModal extends Component {
             <label>Paste plate data here:</label>
             <TextArea onChange={this.handleTextareaChange} value={importText} />
           </Form.Field>
+          {displayTimepoints && (
+            <ImportTimepoints
+              timepoints={timepoints}
+              errors={timepointErrors}
+              allowAddTimepoint={allowAddTimepoint}
+              onTimepointChange={this.handleTimepointChange}
+              onAddClick={this.handleAddTimepointClick}
+              onDeleteClick={this.handleTimepointDeleteClick}
+            />
+          )}
         </Form>
       </div>
     );
@@ -124,6 +211,25 @@ export class ExcelImportModal extends Component {
       </div>
     );
   }
+  isStateValid() {
+    const {
+      componentType,
+      importText,
+      displayTimepoints,
+      timepointErrors,
+    } = this.state;
+    let valid = true;
+    if (!componentType) {
+      valid = false;
+    }
+    if (!importText) {
+      valid = false;
+    }
+    if (displayTimepoints && timepointErrors && timepointErrors.length) {
+      valid = false;
+    }
+    return valid;
+  }
   render() {
     const {
       open,
@@ -134,7 +240,7 @@ export class ExcelImportModal extends Component {
       importedComponents,
       componentImportErrors,
     } = this.props;
-    const importDisabled = !this.state.componentType || !this.state.importText;
+    const importDisabled = !this.isStateValid();
     return (
       <Modal
         open={open}

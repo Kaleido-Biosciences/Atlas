@@ -8,6 +8,7 @@ const {
   selectEditorSavePending,
   selectEditorLastSaveTime,
   selectEditorSaveError,
+  selectEditorAllGridBarcodesSet,
 } = selectors;
 const { addBarcodes } = actions.editor;
 
@@ -16,6 +17,7 @@ const mapState = (state, props) => {
     savePending: selectEditorSavePending(state),
     lastSaveTime: selectEditorLastSaveTime(state),
     saveError: selectEditorSaveError(state),
+    allGridBarcodesSet: selectEditorAllGridBarcodesSet(state),
   };
 };
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, Icon, Segment } from 'semantic-ui-react';
 import classNames from 'classnames';
 
-import { Timepoint } from '../Timepoint';
+import { Timepoint } from 'AtlasUI/components';
 import styles from './ToolComponent.module.css';
 
 export class ToolComponent extends Component {

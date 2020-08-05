@@ -76,7 +76,7 @@ export class Settings extends Component {
           />
         }
         className={styles.settings}
-        pinned="true"
+        pinned={true}
       >
         <Form>
           <Form.Group inline>

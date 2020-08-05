@@ -31,7 +31,7 @@ export class PopupButton extends Component {
           />
         }
         on="click"
-        position="bottom left"
+        position="top right"
         open={this.state.popupOpen}
         onOpen={this.handlePopupOpen}
         onClose={this.handlePopupClose}
