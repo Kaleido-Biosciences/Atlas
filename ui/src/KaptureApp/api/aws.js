@@ -265,6 +265,7 @@ function processResponse(response) {
           inputEncoding: 'Base64',
         })
       );
+      console.log('AWS version (old structure)\n', data);
       versions.push({
         plateMaps: convertOldToNew(data),
         ...rest,

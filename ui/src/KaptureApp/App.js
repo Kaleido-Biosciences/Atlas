@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Header } from 'AtlasUI/components';
 import { store } from 'KaptureApp/store';
 import { Home, Activities } from 'KaptureApp/routes';
+import { FetchTest } from 'KaptureApp/routes';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/activities/:activityId" component={Activities} />
+                <Route path="/fetchtest" component={FetchTest} />
                 <Route component={() => <Redirect to="/" />} />
               </Switch>
             </div>
