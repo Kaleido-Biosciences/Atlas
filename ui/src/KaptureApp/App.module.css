@@ -12,7 +12,6 @@
 :global(.Resizer) {
   background: #000;
   opacity: 0.2;
-  z-index: 1;
   box-sizing: border-box;
   background-clip: padding-box;
 }
