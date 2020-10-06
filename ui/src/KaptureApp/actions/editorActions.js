@@ -428,7 +428,7 @@ function transformToolComponent({ id, name, type, data, timepoints, tooltip }) {
     id,
     type,
     name,
-    options: { timepoints: timepoints.slice() },
+    options: { timepoints: timepoints ? timepoints.slice() : null },
     data,
     tooltip,
     color: COMPONENT_TYPES_KEYED[type].colorCode,
