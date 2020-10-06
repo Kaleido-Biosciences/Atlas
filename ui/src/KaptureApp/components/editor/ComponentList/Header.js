@@ -19,12 +19,18 @@ export class Header extends Component {
     return (
       <div className={styles.header}>
         <div className={styles.headerContent}>Components</div>
-        <Icon name="download" onClick={this.openModal} link title="Import Components"/>
+        <Icon
+          name="download"
+          onClick={this.openModal}
+          link
+          title="Import Components"
+        />
         <Modal
           open={modalOpen}
           onClose={this.closeModal}
-          centered={false}
           closeIcon
+          size="small"
+          dimmer="inverted"
         >
           <SemanticHeader icon="download" content="Import Components" />
           <Modal.Content>
