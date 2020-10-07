@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 import validate from 'validate.js';
 
 import { createTimepoint } from 'KaptureApp/utils/toolComponentFunctions';
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const editorTools = createSlice({
-  slice: 'editorTools',
+  name: 'editorTools',
   initialState,
   reducers: {
     addComponentToToolComponents(state, action) {

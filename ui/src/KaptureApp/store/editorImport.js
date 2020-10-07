@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   importStarted: false,
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const editorImport = createSlice({
-  slice: 'editorImport',
+  name: 'editorImport',
   initialState,
   reducers: {
     setImportPending(state, action) {

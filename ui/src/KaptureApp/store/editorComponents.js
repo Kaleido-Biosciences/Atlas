@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
 
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const editorComponents = createSlice({
-  slice: 'editorComponents',
+  name: 'editorComponents',
   initialState,
   reducers: {
     // TODO This should be changed to take normal components
