@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   initialized: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const print = createSlice({
-  slice: 'print',
+  name: 'print',
   initialState,
   reducers: {
     setGrids(state, action) {

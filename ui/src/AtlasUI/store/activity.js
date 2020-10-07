@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   initialized: false,
@@ -15,7 +15,7 @@ const initialState = {
 };
 
 const activity = createSlice({
-  slice: 'activity',
+  name: 'activity',
   initialState,
   reducers: {
     setInitialized(state, action) {

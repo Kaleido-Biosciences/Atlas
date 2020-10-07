@@ -1,4 +1,4 @@
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   searchTerm: '',
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const activitySearch = createSlice({
-  slice: 'activitySearch',
+  name: 'activitySearch',
   initialState,
   reducers: {
     setSearchTerm(state, action) {

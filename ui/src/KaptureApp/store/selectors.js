@@ -1,37 +1,31 @@
-import { createSelector } from 'redux-starter-kit';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { selectors } from 'AtlasUI/store';
 
+const selectEditorToolComponents = (state) => state.editorTools.toolComponents;
+
 const kaptureSelectors = {
   ...selectors,
-  selectEditorComponents: createSelector(['editorComponents.components']),
-  selectEditorToolComponents: createSelector(['editorTools.toolComponents']),
-  selectEditorToolComponentsValid: createSelector([
-    'editorTools.toolComponentsValid',
-  ]),
-  selectEditorClickMode: createSelector(['editorTools.clickMode']),
-  selectEditorComponentTypesToClear: createSelector([
-    'editorTools.componentTypesToClear',
-  ]),
+  selectEditorComponents: (state) => state.editorComponents.components,
+  selectEditorToolComponents,
+  selectEditorToolComponentsValid: (state) =>
+    state.editorTools.toolComponentsValid,
+  selectEditorClickMode: (state) => state.editorTools.clickMode,
+  selectEditorComponentTypesToClear: (state) =>
+    state.editorTools.componentTypesToClear,
   selectEditorSelectedToolComponents: createSelector(
-    ['editorTools.toolComponents'],
+    [selectEditorToolComponents],
     (toolComponents) => {
       return toolComponents.filter((component) => component.selected);
     }
   ),
-  selectEditorImportImportStarted: createSelector([
-    'editorImport.importStarted',
-  ]),
-  selectEditorImportImportPending: createSelector([
-    'editorImport.importPending',
-  ]),
-  selectEditorImportImportError: createSelector(['editorImport.importError']),
-  selectEditorImportImportedComponents: createSelector([
-    'editorImport.importedComponents',
-  ]),
-  selectEditorComponentImportErrors: createSelector([
-    'editorImport.componentImportErrors',
-  ]),
+  selectEditorImportImportStarted: (state) => state.editorImport.importStarted,
+  selectEditorImportImportPending: (state) => state.editorImport.importPending,
+  selectEditorImportImportError: (state) => state.editorImport.importError,
+  selectEditorImportImportedComponents: (state) =>
+    state.editorImport.importedComponents,
+  selectEditorComponentImportErrors: (state) =>
+    state.editorImport.componentImportErrors,
 };
 
 export { kaptureSelectors as selectors };
