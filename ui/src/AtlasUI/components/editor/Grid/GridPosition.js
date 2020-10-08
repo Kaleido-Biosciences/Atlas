@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 import { Container } from '../Container';
 import styles from './Grid.module.css';
 
-export class GridPosition extends Component {
+export class GridPosition extends PureComponent {
   handleAddContainerClick = () => {
     if (this.props.onAddContainerClick) {
       this.props.onAddContainerClick({
