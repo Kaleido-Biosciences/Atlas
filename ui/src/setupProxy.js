@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/activities',
     createProxyMiddleware({
-      target: 'https://fetch-staging.apps.kaleidobio.com',
+      target: 'https://fetch-staging.apps.kaleidobio.com/api',
       changeOrigin: true,
     })
   );
