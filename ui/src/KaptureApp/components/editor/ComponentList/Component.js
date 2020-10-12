@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Label, Popup } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 
 import { ComponentTooltip, ComponentTypeCircle } from 'AtlasUI/components';
 import styles from './ComponentList.module.css';
@@ -9,10 +8,9 @@ import styles from './ComponentList.module.css';
 export class Component extends React.Component {
   handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick({ component: this.props.component });
+      this.props.onClick(this.props.component);
     }
   };
-
   renderComponent() {
     const { component } = this.props;
     const renderedComponent = (
@@ -37,16 +35,10 @@ export class Component extends React.Component {
       return renderedComponent;
     }
   }
-
   render() {
-    const { count } = this.props;
-    const componentClass = classNames(styles.component, {
-      [styles.notUsed]: !count,
-    });
     return (
-      <div onClick={this.handleClick} className={componentClass}>
+      <div onClick={this.handleClick} className={styles.component}>
         {this.renderComponent()}
-        {count && <Label className={styles.componentLabel}>{count}</Label>}
       </div>
     );
   }
@@ -54,6 +46,5 @@ export class Component extends React.Component {
 
 Component.propTypes = {
   component: PropTypes.object.isRequired,
-  count: PropTypes.number,
   onClick: PropTypes.func,
 };

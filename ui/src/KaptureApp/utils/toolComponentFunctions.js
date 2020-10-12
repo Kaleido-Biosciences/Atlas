@@ -52,22 +52,6 @@ export function createTimepoint(componentType, time, concentration) {
   return { time, concentration };
 }
 
-export function getComponentCounts(plates) {
-  const counts = {};
-  const allWells = plates
-    .map((plate) => {
-      return plate.wells.flat();
-    })
-    .flat();
-  allWells.forEach((well) => {
-    well.components.forEach((component) => {
-      if (counts[component.id]) counts[component.id]++;
-      else counts[component.id] = 1;
-    });
-  });
-  return counts;
-}
-
 export const groupComponents = (components) => {
   const groups = {
     communities: [],

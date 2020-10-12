@@ -5,25 +5,40 @@ import { selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
 const { addComponentToToolComponents } = actions.editorTools;
-const { addComponentToComponents } = actions.editorComponents;
-const { selectEditorComponents, selectEditorComponentCounts } = selectors;
+const {
+  searchComponents,
+  addComponentToComponents,
+  resetComponents,
+} = actions.editorComponents;
+const {
+  selectEditorComponentsSearchTerm,
+  selectEditorComponentsFilteredComponents,
+  selectEditorComponentsSearchPending,
+  selectEditorComponentsSearchComplete,
+  selectEditorComponentsSearchError,
+} = selectors;
 
-const onComponentClick = ({ component }) => {
+const mapState = (state, props) => {
+  return {
+    filteredComponents: selectEditorComponentsFilteredComponents(state),
+    searchTerm: selectEditorComponentsSearchTerm(state),
+    searchPending: selectEditorComponentsSearchPending(state),
+    searchComplete: selectEditorComponentsSearchComplete(state),
+    searchError: selectEditorComponentsSearchError(state),
+  };
+};
+
+const onComponentClick = (component) => {
   return (dispatch, getState) => {
+    dispatch(resetComponents());
     dispatch(addComponentToComponents({ component }));
     dispatch(addComponentToToolComponents({ component }));
   };
 };
 
-const mapState = (state, props) => {
-  return {
-    components: selectEditorComponents(state),
-    componentCounts: selectEditorComponentCounts(state),
-  };
-};
-
 const mapDispatch = {
   onComponentClick,
+  onSearchChange: searchComponents,
 };
 
 const connected = connect(mapState, mapDispatch)(ComponentList);

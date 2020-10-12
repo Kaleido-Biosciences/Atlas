@@ -5,32 +5,33 @@ import { Component } from './Component';
 import styles from './ComponentList.module.css';
 
 export class List extends React.Component {
-  handleComponentClick = ({ component }) => {
+  handleComponentClick = (component) => {
     if (this.props.onComponentClick) {
-      this.props.onComponentClick({ component });
+      this.props.onComponentClick(component);
     }
   };
-  renderComponents(components, counts) {
-    return components.map(component => {
+  renderComponents(components) {
+    return components.map((component) => {
       return (
         <Component
           key={component.id}
           component={component}
           onClick={this.handleComponentClick}
-          count={counts[component.id]}
         />
       );
     });
   }
   render() {
-    const { components, counts } = this.props;
+    const { components } = this.props;
     const showComponents = components && components.length;
     return (
       <div className={styles.list}>
         {showComponents ? (
-          this.renderComponents(components, counts)
+          this.renderComponents(components)
         ) : (
-          <div className={styles.noComponentsMessage}>No components to display.</div>
+          <div className={styles.noComponentsMessage}>
+            No components to display.
+          </div>
         )}
       </div>
     );
@@ -39,6 +40,5 @@ export class List extends React.Component {
 
 List.propTypes = {
   components: PropTypes.array,
-  counts: PropTypes.object,
   onComponentClick: PropTypes.func,
 };

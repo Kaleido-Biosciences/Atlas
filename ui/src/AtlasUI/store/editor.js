@@ -17,7 +17,6 @@ const initialState = {
   savePending: false,
   saveError: null,
   lastSaveTime: null,
-  componentCounts: {},
   containerTypes: [],
   componentTypes: [],
 };

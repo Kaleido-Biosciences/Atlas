@@ -102,8 +102,6 @@ export const selectEditorSelectedContainersSummary = createSelector(
 export const selectEditorSavePending = (state) => state.editor.savePending;
 export const selectEditorLastSaveTime = (state) => state.editor.lastSaveTime;
 export const selectEditorSaveError = (state) => state.editor.saveError;
-export const selectEditorComponentCounts = (state) =>
-  state.editor.componentCounts;
 export const selectEditorComponentTypes = (state) =>
   state.editor.componentTypes;
 export const selectEditorAllGridBarcodesSet = createSelector(
