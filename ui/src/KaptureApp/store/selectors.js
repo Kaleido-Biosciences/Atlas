@@ -49,6 +49,20 @@ const kaptureSelectors = {
       return finalArray;
     }
   ),
+  selectEditorComponentsImportText: (state) =>
+    state.editorComponents.importText,
+  selectEditorComponentsImportComponentNames: (state) =>
+    state.editorComponents.importComponentNames,
+  selectEditorComponentsImportFound: (state) =>
+    state.editorComponents.importFound,
+  selectEditorComponentsImportNotFound: (state) =>
+    state.editorComponents.importNotFound,
+  selectEditorComponentsImportPending: (state) =>
+    state.editorComponents.importPending,
+  selectEditorComponentsImportComplete: (state) =>
+    state.editorComponents.importComplete,
+  selectEditorComponentsImportError: (state) =>
+    state.editorComponents.importError,
   selectEditorToolComponents,
   selectEditorToolComponentsValid: (state) =>
     state.editorTools.toolComponentsValid,

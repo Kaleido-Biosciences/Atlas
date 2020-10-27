@@ -5,18 +5,16 @@ import { Progress, Button } from 'semantic-ui-react';
 import styles from './ImportComponents.module.css';
 
 export class ImportResults extends Component {
-  handleBack = () => {
-    if (this.props.onBack) {
-      this.props.onBack();
+  handleBackClick = () => {
+    if (this.props.onBackClick) {
+      this.props.onBackClick();
     }
   };
-
-  handleAdd = () => {
-    if (this.props.onAdd) {
-      this.props.onAdd();
+  handleAddClick = () => {
+    if (this.props.onAddClick) {
+      this.props.onAddClick();
     }
   };
-
   render() {
     const { found, notFound, total, completed } = this.props;
     const progressValue = found.length + notFound.length;
@@ -34,7 +32,7 @@ export class ImportResults extends Component {
           <div className={styles.found}>
             <h5 className={styles.header}>Found: {found.length}</h5>
             <div className={styles.results}>
-              {found.map(result => {
+              {found.map((result) => {
                 return <div key={result.name}>{result.name}</div>;
               })}
             </div>
@@ -42,18 +40,18 @@ export class ImportResults extends Component {
           <div className={styles.notFound}>
             <h5 className={styles.header}>Not Found: {notFound.length}</h5>
             <div className={styles.results}>
-              {notFound.map(result => {
+              {notFound.map((result) => {
                 return <div key={result.name}>{result.name}</div>;
               })}
             </div>
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <Button onClick={this.handleBack} size="small">
+          <Button onClick={this.handleBackClick} size="small">
             Back
           </Button>
           <Button
-            onClick={this.handleAdd}
+            onClick={this.handleAddClick}
             disabled={!completed}
             size="small"
             primary
@@ -70,6 +68,6 @@ ImportResults.propTypes = {
   found: PropTypes.array,
   notFound: PropTypes.array,
   total: PropTypes.number,
-  onBack: PropTypes.func,
-  onAdd: PropTypes.func,
+  onBackClick: PropTypes.func,
+  onAddClick: PropTypes.func,
 };

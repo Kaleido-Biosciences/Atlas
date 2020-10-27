@@ -50,10 +50,10 @@ export class ComponentList extends Component {
     }
   }
   render() {
-    const { searchTerm, searchPending } = this.props;
+    const { searchTerm, searchPending, onImportModalClose } = this.props;
     return (
       <div className={styles.componentList}>
-        <Header />
+        <Header onImportModalClose={onImportModalClose} />
         <div className={styles.search}>
           <Search
             value={searchTerm}
@@ -75,4 +75,5 @@ ComponentList.propTypes = {
   searchError: PropTypes.string,
   onSearchChange: PropTypes.func,
   onComponentClick: PropTypes.func,
+  onImportModalClose: PropTypes.func,
 };

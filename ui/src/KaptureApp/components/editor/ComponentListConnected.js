@@ -7,8 +7,9 @@ import { actions } from 'KaptureApp/actions';
 const { addComponentToToolComponents } = actions.editorTools;
 const {
   searchComponents,
-  addComponentToComponents,
+  addComponents,
   resetComponents,
+  resetImport,
 } = actions.editorComponents;
 const {
   selectEditorComponentsSearchTerm,
@@ -31,7 +32,7 @@ const mapState = (state, props) => {
 const onComponentClick = (component) => {
   return (dispatch, getState) => {
     dispatch(resetComponents());
-    dispatch(addComponentToComponents({ component }));
+    dispatch(addComponents([component]));
     dispatch(addComponentToToolComponents({ component }));
   };
 };
@@ -39,6 +40,7 @@ const onComponentClick = (component) => {
 const mapDispatch = {
   onComponentClick,
   onSearchChange: searchComponents,
+  onImportModalClose: resetImport,
 };
 
 const connected = connect(mapState, mapDispatch)(ComponentList);

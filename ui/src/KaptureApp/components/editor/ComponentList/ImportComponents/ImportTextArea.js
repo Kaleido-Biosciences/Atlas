@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { Form, TextArea, Button } from 'semantic-ui-react';
+
 import styles from './ImportComponents.module.css';
 
 export class ImportTextArea extends Component {
-  state = {
-    componentNames: [],
+  handleChange = (e, { value }) => {
+    if (this.props.onChange) {
+      this.props.onChange(value);
+    }
   };
-  handleChange = (e, data) => {
-    this.setState({ componentNames: data.value.trim().split(/\r|\n/) });
-  };
-  handleImport = (e) => {
+  handleImportClick = (e) => {
     e.preventDefault();
-    if (this.props.onImport) {
-      this.props.onImport({ componentNames: this.state.componentNames });
+    if (this.props.onImportClick) {
+      this.props.onImportClick();
     }
   };
   render() {
-    const { componentNames } = this.state;
-    const count = componentNames.length;
+    const { value, componentNameCount: count } = this.props;
     const buttonDisabled = count === 0;
     const buttonText =
       count > 0 ? `Import ${count} components` : 'Import components';
@@ -29,12 +27,13 @@ export class ImportTextArea extends Component {
           <div className={styles.textAreaContainer}>
             <TextArea
               placeholder="Enter components to import. Components should be newline separated."
+              value={value}
               onChange={this.handleChange}
               className={styles.textArea}
             />
             <Button
               disabled={buttonDisabled}
-              onClick={this.handleImport}
+              onClick={this.handleImportClick}
               className={styles.importButton}
             >
               {buttonText}
@@ -47,5 +46,8 @@ export class ImportTextArea extends Component {
 }
 
 ImportTextArea.propTypes = {
-  onImport: PropTypes.func,
+  value: PropTypes.string,
+  componentNameCount: PropTypes.number,
+  onChange: PropTypes.func,
+  onImportClick: PropTypes.func,
 };

@@ -1,41 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
-
 const initialState = {
+  components: [],
   searchTerm: '',
   searchResults: [],
   searchPending: false,
   searchComplete: false,
   searchError: '',
-  components: [],
+  importText: '',
+  importComponentNames: [],
+  importFound: [],
+  importNotFound: [],
+  importPending: false,
+  importComplete: false,
+  importError: '',
 };
 
 const editorComponents = createSlice({
   name: 'editorComponents',
   initialState,
   reducers: {
-    // TODO This should be changed to take normal components
-    addKaptureComponentsToComponents(state, action) {
-      const { kaptureComponents } = action.payload;
-      const { components } = state;
-      kaptureComponents.forEach((kaptureComponent) => {
-        const { data, type, id } = kaptureComponent;
-        const existingComponent = components.find(
-          (component) => component.data.id === id
+    addComponents(state, action) {
+      const { components } = action.payload;
+      components.forEach((newComponent) => {
+        const existingComponent = findComponent(
+          newComponent.id,
+          state.components
         );
         if (!existingComponent) {
-          components.unshift(createComponent(data, type));
+          state.components.unshift(newComponent);
         }
       });
-    },
-    addComponentToComponents(state, action) {
-      const { component } = action.payload;
-      const { components } = state;
-      const existingComponent = findComponent(component.id, components);
-      if (!existingComponent) {
-        components.unshift(component);
-      }
     },
     setSearchTerm(state, action) {
       state.searchTerm = action.payload.searchTerm;
@@ -65,6 +60,35 @@ const editorComponents = createSlice({
       state.searchPending = false;
       state.searchComplete = false;
       state.searchError = '';
+    },
+    setImportText(state, action) {
+      const importText = action.payload.importText;
+      state.importText = importText;
+      state.importComponentNames = importText.trim().split(/\r|\n/);
+    },
+    addImportResult(state, action) {
+      const { result } = action.payload;
+      if (result.found) {
+        state.importFound = [result].concat(state.importFound);
+      } else {
+        state.importNotFound = [result].concat(state.importNotFound);
+      }
+    },
+    setImportPending(state, action) {
+      state.importPending = true;
+    },
+    setImportComplete(state, action) {
+      state.importPending = false;
+      state.importComplete = true;
+    },
+    resetImport(state, action) {
+      state.importText = '';
+      state.importComponentNames = [];
+      state.importFound = [];
+      state.importNotFound = [];
+      state.importPending = false;
+      state.importComplete = false;
+      state.importError = '';
     },
   },
 });

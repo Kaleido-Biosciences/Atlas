@@ -1,92 +1,90 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Modal, Header } from 'semantic-ui-react';
 
-import { api } from 'KaptureApp/api';
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
-
 import styles from './ImportComponents.module.css';
 
-const INITIAL_STATE = {
-  view: 'textarea',
-  found: [],
-  notFound: [],
-  total: null,
-  completed: false,
-};
-
 export class ImportComponents extends Component {
-  componentNames = [];
-  currentSearchIndex = 0;
-  state = INITIAL_STATE;
-
-  searchNext = async () => {
-    const index = this.currentSearchIndex;
-    const result = await api.findComponent(this.componentNames[index]);
-    if (result.found) {
-      this.setState({ found: [result].concat(this.state.found) });
-    } else {
-      this.setState({ notFound: [result].concat(this.state.notFound) });
-    }
-    this.currentSearchIndex++;
-    if (this.componentNames[this.currentSearchIndex]) {
-      this.searchNext();
-    } else {
-      this.setState({ completed: true });
-    }
-  };
-
-  handleImport = ({ componentNames }) => {
-    this.setState({
-      view: 'results',
-      total: componentNames.length,
-      found: [],
-      notFound: [],
-      completed: false,
-    });
-    this.componentNames = componentNames;
-    this.currentSearchIndex = 0;
-    this.searchNext();
-  };
-
-  backToImport = () => {
-    this.setState(INITIAL_STATE);
-  };
-
-  addComponents = () => {
-    if (this.props.onAdd) {
-      const kaptureComponents = this.state.found.map(({ type, data }) => {
-        return { type, data };
-      });
-      this.props.onAdd({ kaptureComponents });
-      if (this.props.afterAdd) {
-        this.props.afterAdd();
+  handleAddClick = () => {
+    if (this.props.onAddClick) {
+      this.props.onAddClick();
+      if (this.props.onClose) {
+        this.props.onClose();
       }
     }
   };
-
   render() {
-    const { view, found, notFound, total, completed } = this.state;
+    const {
+      open,
+      onClose,
+      importPending,
+      importComplete,
+      importError,
+      textAreaValue,
+      componentNames,
+      onTextAreaChange,
+      onImportClick,
+      foundResults,
+      notFoundResults,
+      onBackClick,
+    } = this.props;
+    let view,
+      componentNameCount = 0;
+    if (componentNames && componentNames.length) {
+      componentNameCount = componentNames.length;
+    }
+    if (!importPending && !importComplete && !importError) {
+      view = (
+        <ImportTextArea
+          value={textAreaValue}
+          componentNameCount={componentNameCount}
+          onChange={onTextAreaChange}
+          onImportClick={onImportClick}
+        />
+      );
+    } else {
+      view = (
+        <ImportResults
+          found={foundResults}
+          notFound={notFoundResults}
+          total={componentNameCount}
+          completed={importComplete}
+          onBackClick={onBackClick}
+          onAddClick={this.handleAddClick}
+        />
+      );
+    }
     return (
-      <div className={styles.importComponents}>
-        {view === 'textarea' ? (
-          <ImportTextArea onImport={this.handleImport} />
-        ) : (
-          <ImportResults
-            found={found}
-            notFound={notFound}
-            total={total}
-            completed={completed}
-            onBack={this.backToImport}
-            onAdd={this.addComponents}
-          />
-        )}
-      </div>
+      <Modal
+        open={open}
+        onClose={onClose}
+        closeIcon
+        size="small"
+        dimmer="inverted"
+      >
+        <Header icon="download" content="Import Components" />
+        <Modal.Content>
+          <div className={styles.importComponents}>{view}</div>
+        </Modal.Content>
+      </Modal>
     );
   }
 }
 
 ImportComponents.propTypes = {
-  onAdd: PropTypes.func,
-  afterAdd: PropTypes.func,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
+  importPending: PropTypes.bool,
+  importComplete: PropTypes.bool,
+  importError: PropTypes.string,
+  textAreaValue: PropTypes.string,
+  componentNames: PropTypes.array,
+  onTextAreaChange: PropTypes.func,
+  onImportClick: PropTypes.func,
+  foundResults: PropTypes.array,
+  notFoundResults: PropTypes.array,
+  onAddClick: PropTypes.func,
+  onBackClick: PropTypes.func,
 };
