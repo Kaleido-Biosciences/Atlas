@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Progress, Button } from 'semantic-ui-react';
 
-import styles from './ImportComponents.module.css';
+import styles from './ImportComponentsModal.module.css';
 
 export class ImportResults extends Component {
   handleBackClick = () => {
@@ -18,6 +18,11 @@ export class ImportResults extends Component {
   render() {
     const { found, notFound, total, completed } = this.props;
     const progressValue = found.length + notFound.length;
+    const addDisabled = !completed || found.length === 0;
+    let buttonText = 'Add components';
+    if (completed && !addDisabled) {
+      buttonText = `Add ${found.length} components`;
+    }
     return (
       <div className={styles.importResults}>
         <div className={styles.progressContainer}>
@@ -52,11 +57,11 @@ export class ImportResults extends Component {
           </Button>
           <Button
             onClick={this.handleAddClick}
-            disabled={!completed}
+            disabled={addDisabled}
             size="small"
             primary
           >
-            Add components
+            {buttonText}
           </Button>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, TextArea, Button } from 'semantic-ui-react';
 
-import styles from './ImportComponents.module.css';
+import styles from './ImportComponentsModal.module.css';
 
 export class ImportTextArea extends Component {
   handleChange = (e, { value }) => {

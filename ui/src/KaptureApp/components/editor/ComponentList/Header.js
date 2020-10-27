@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
-import { ImportComponents } from './ImportComponents';
+import { ImportComponentsModal } from './ImportComponentsModal';
 import styles from './ComponentList.module.css';
 
 export class Header extends Component {
@@ -29,7 +29,7 @@ export class Header extends Component {
           link
           title="Import Components"
         />
-        <ImportComponents
+        <ImportComponentsModal
           open={modalOpen}
           onClose={this.closeImportComponentsModal}
         />

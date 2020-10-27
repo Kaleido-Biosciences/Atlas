@@ -4,9 +4,9 @@ import { Modal, Header } from 'semantic-ui-react';
 
 import { ImportTextArea } from './ImportTextArea';
 import { ImportResults } from './ImportResults';
-import styles from './ImportComponents.module.css';
+import styles from './ImportComponentsModal.module.css';
 
-export class ImportComponents extends Component {
+export class ImportComponentsModal extends Component {
   handleAddClick = () => {
     if (this.props.onAddClick) {
       this.props.onAddClick();
@@ -73,7 +73,7 @@ export class ImportComponents extends Component {
   }
 }
 
-ImportComponents.propTypes = {
+ImportComponentsModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   importPending: PropTypes.bool,

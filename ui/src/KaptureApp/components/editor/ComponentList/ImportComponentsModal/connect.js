@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { ImportComponents } from './ImportComponents';
+import { ImportComponentsModal } from './ImportComponentsModal';
 import { actions } from 'KaptureApp/actions';
 import { selectors } from 'KaptureApp/store';
 
@@ -39,5 +39,5 @@ const mapDispatch = {
   onBackClick: resetImport,
 };
 
-const connected = connect(mapState, mapDispatch)(ImportComponents);
-export { connected as ImportComponents };
+const connected = connect(mapState, mapDispatch)(ImportComponentsModal);
+export { connected as ImportComponentsModal };
