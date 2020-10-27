@@ -1,1 +1,1 @@
-export { Tools } from './Tools';
+export { Tools } from './connect';

@@ -1,1 +1,1 @@
-export { ComponentList } from './ComponentList';
+export { ComponentList } from './connect';

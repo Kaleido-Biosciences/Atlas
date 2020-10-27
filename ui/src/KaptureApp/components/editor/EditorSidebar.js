@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import SplitPane from 'react-split-pane';
 
-import { ComponentList } from './ComponentListConnected';
-import { Tools } from './ToolsConnected';
+import { ComponentList } from './ComponentList';
+import { Tools } from './Tools';
 
 export class EditorSidebar extends Component {
   render() {
