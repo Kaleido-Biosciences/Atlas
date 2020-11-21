@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { selectors } from 'AtlasUI/store';
-import * as editorToolsSelectors from './editorToolsSelectors';
+import { editorTools } from './editorTools';
 
 const selectEditorToolComponents = (state) => state.editorTools.toolComponents;
 const selectEditorComponents = (state) => state.editorComponents.components;
@@ -12,7 +12,7 @@ const selectEditorComponentsSearchTerm = (state) =>
 
 const kaptureSelectors = {
   ...selectors,
-  ...editorToolsSelectors,
+  ...editorTools.selectors,
   selectEditorComponents,
   selectEditorComponentsSearchResults,
   selectEditorComponentsSearchTerm,

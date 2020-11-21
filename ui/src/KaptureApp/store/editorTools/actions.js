@@ -1,6 +1,6 @@
-import { editorTools } from './editorTools';
+import { actions } from './slice';
 
-const { setActiveTool: _setActiveTool } = editorTools.actions;
+const { setActiveTool: _setActiveTool } = actions;
 
 export const {
   addComponentToToolComponents,
@@ -12,7 +12,7 @@ export const {
   updateTimepoint,
   deleteTimepoint,
   setClickMode,
-} = editorTools.actions;
+} = actions;
 
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {

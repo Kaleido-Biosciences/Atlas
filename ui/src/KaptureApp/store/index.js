@@ -4,16 +4,16 @@ import {
   editorActions,
   printActions,
 } from 'AtlasUI/store';
-import * as editorToolsActions from './editorToolsActions';
+import { editorTools } from './editorTools';
 
 const actions = {
-  editorTools: { ...editorToolsActions },
+  editorTools: { ...editorTools.actions },
 };
 
 export { store } from './store';
 export { selectors } from './selectors';
 export { editorComponentsActions } from './editorComponents';
-export { editorToolsActions };
 export { editorImportActions } from './editorImport';
 export { activityActions, activitySearchActions, editorActions, printActions };
 export { actions };
+export const editorToolsActions = editorTools.actions;
