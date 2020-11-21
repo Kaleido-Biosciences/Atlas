@@ -1,4 +1,4 @@
-import { editorToolsActions } from 'KaptureApp/store';
+import { editorTools } from './editorTools';
 
 export const {
   addComponentToToolComponents,
@@ -9,4 +9,5 @@ export const {
   addTimepointToComponent,
   updateTimepoint,
   deleteTimepoint,
-} = editorToolsActions;
+  setClickMode,
+} = editorTools.actions;
