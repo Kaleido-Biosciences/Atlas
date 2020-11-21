@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SplitPane from 'react-split-pane';
 
 import { ComponentList } from './ComponentList';
-import { Tools } from './Tools';
+import { Tools } from './NewTools';
 
 export class EditorSidebar extends Component {
   render() {

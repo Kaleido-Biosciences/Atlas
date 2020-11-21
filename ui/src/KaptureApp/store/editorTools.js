@@ -4,6 +4,7 @@ import validate from 'validate.js';
 import { createTimepoint } from 'KaptureApp/utils/toolComponentFunctions';
 
 const initialState = {
+  activeTool: 'apply',
   toolComponents: [],
   toolComponentsValid: true,
   clickMode: 'apply',
@@ -14,6 +15,9 @@ export const editorTools = createSlice({
   name: 'editorTools',
   initialState,
   reducers: {
+    setActiveTool(state, action) {
+      state.activeTool = action.payload.tool;
+    },
     addComponentToToolComponents(state, action) {
       const { component } = action.payload;
       const { toolComponents } = state;
