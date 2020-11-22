@@ -19,3 +19,9 @@ export const setActiveTool = (tool) => {
     dispatch(_setActiveTool({ tool }));
   };
 };
+
+export const searchComponents = (searchTerm) => {
+  return (dispatch, getState) => {
+    console.log(searchTerm);
+  };
+};

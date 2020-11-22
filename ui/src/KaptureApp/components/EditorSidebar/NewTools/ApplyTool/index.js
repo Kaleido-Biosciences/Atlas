@@ -1,1 +1,1 @@
-export { ApplyTool } from './ApplyTool';
+export { ApplyTool } from './connect';
