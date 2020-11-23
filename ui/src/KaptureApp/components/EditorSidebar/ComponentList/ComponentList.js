@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Component } from './Component';
-import styles from './Components.module.css';
+import styles from './ComponentList.module.css';
 
-export class List extends React.Component {
+export class ComponentList extends React.Component {
   handleComponentClick = (component) => {
     if (this.props.onComponentClick) {
       this.props.onComponentClick(component);
@@ -14,8 +14,8 @@ export class List extends React.Component {
     return components.map((component) => {
       return (
         <Component
-          key={component.id}
           component={component}
+          key={component.id}
           onClick={this.handleComponentClick}
         />
       );
@@ -25,7 +25,7 @@ export class List extends React.Component {
     const { components } = this.props;
     const showComponents = components && components.length;
     return (
-      <div className={styles.list}>
+      <div className={styles.componentList}>
         {showComponents ? (
           this.renderComponents(components)
         ) : (
@@ -38,7 +38,7 @@ export class List extends React.Component {
   }
 }
 
-List.propTypes = {
+ComponentList.propTypes = {
   components: PropTypes.array,
   onComponentClick: PropTypes.func,
 };

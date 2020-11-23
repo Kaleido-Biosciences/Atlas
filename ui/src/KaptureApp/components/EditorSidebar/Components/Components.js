@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Header } from './Header';
-import { List } from './List';
+import { ComponentList } from 'KaptureApp/components/EditorSidebar/ComponentList';
 import { Search } from 'KaptureApp/components/EditorSidebar/Search';
 import styles from './Components.module.css';
 
@@ -17,7 +17,7 @@ export class Components extends Component {
       this.props.onComponentClick(component);
     }
   };
-  renderList() {
+  renderComponentList() {
     const {
       filteredComponents,
       searchTerm,
@@ -26,7 +26,7 @@ export class Components extends Component {
     } = this.props;
     if (filteredComponents.length) {
       return (
-        <List
+        <ComponentList
           components={filteredComponents}
           onComponentClick={this.handleComponentClick}
         />
@@ -62,7 +62,7 @@ export class Components extends Component {
             value={searchTerm}
           />
         </div>
-        {this.renderList()}
+        {this.renderComponentList()}
       </div>
     );
   }

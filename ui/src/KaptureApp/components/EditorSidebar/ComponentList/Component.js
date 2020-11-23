@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Popup } from 'semantic-ui-react';
 
 import { ComponentTooltip, ComponentTypeCircle } from 'AtlasUI/components';
-import styles from './Components.module.css';
+import styles from './ComponentList.module.css';
 
 export class Component extends React.Component {
   handleClick = () => {
@@ -16,9 +16,9 @@ export class Component extends React.Component {
     const renderedComponent = (
       <div>
         <ComponentTypeCircle
+          className={styles.typeCircle}
           color={component.color}
           text={component.abbreviation}
-          className={styles.typeCircle}
         />
         {component.name}
       </div>
@@ -37,7 +37,7 @@ export class Component extends React.Component {
   }
   render() {
     return (
-      <div onClick={this.handleClick} className={styles.component}>
+      <div className={styles.component} onClick={this.handleClick}>
         {this.renderComponent()}
       </div>
     );
