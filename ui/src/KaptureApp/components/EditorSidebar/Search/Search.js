@@ -4,20 +4,20 @@ import { Search as SemanticUISearch } from 'semantic-ui-react';
 
 export class Search extends Component {
   handleChange = (e, { value }) => {
-    if (this.props.onChange) {
-      this.props.onChange(value);
+    if (this.props.onSearchChange) {
+      this.props.onSearchChange(value);
     }
   };
   render() {
-    const { value, loading } = this.props;
+    const { loading, placeholder, value } = this.props;
     return (
       <SemanticUISearch
         fluid
         input={{ fluid: true }}
         loading={loading}
         onSearchChange={this.handleChange}
+        placeholder={placeholder}
         showNoResults={false}
-        placeholder="Search components"
         value={value}
       />
     );
@@ -25,7 +25,8 @@ export class Search extends Component {
 }
 
 Search.propTypes = {
-  value: PropTypes.string,
   loading: PropTypes.bool,
-  onChange: PropTypes.func,
+  onSearchChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
 };

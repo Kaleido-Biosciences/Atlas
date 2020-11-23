@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Header } from './Header';
-import { Search } from './Search';
 import { List } from './List';
+import { Search } from 'KaptureApp/components/EditorSidebar/Search';
 import styles from './ComponentList.module.css';
 
 export class ComponentList extends Component {
@@ -56,9 +56,10 @@ export class ComponentList extends Component {
         <Header onImportModalClose={onImportModalClose} />
         <div className={styles.search}>
           <Search
-            value={searchTerm}
             loading={searchPending}
-            onChange={this.handleSearchChange}
+            onSearchChange={this.handleSearchChange}
+            placeholder="Search components"
+            value={searchTerm}
           />
         </div>
         {this.renderList()}
