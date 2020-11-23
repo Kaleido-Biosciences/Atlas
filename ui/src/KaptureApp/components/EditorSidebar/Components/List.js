@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Component } from './Component';
-import styles from './ComponentList.module.css';
+import styles from './Components.module.css';
 
 export class List extends React.Component {
   handleComponentClick = (component) => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SplitPane from 'react-split-pane';
 
-import { ComponentList } from './ComponentList';
+import { Components } from './Components';
 import { Tools } from './NewTools';
 
 export class EditorSidebar extends Component {
@@ -12,7 +12,7 @@ export class EditorSidebar extends Component {
         defaultSize={250}
         pane2Style={{ overflow: 'hidden' }}
       >
-        <ComponentList />
+        <Components />
         <Tools />
       </SplitPane>
     );

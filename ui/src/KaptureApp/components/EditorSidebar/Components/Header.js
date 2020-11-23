@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 import { ImportComponentsModal } from './ImportComponentsModal';
-import styles from './ComponentList.module.css';
+import styles from './Components.module.css';
 
 export class Header extends Component {
   state = {

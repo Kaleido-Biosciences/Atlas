@@ -1,1 +1,0 @@
-export { ComponentList } from './connect';

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Header } from './Header';
 import { List } from './List';
 import { Search } from 'KaptureApp/components/EditorSidebar/Search';
-import styles from './ComponentList.module.css';
+import styles from './Components.module.css';
 
-export class ComponentList extends Component {
+export class Components extends Component {
   handleSearchChange = (value) => {
     if (this.props.onSearchChange) {
       this.props.onSearchChange(value);
@@ -52,7 +52,7 @@ export class ComponentList extends Component {
   render() {
     const { searchTerm, searchPending, onImportModalClose } = this.props;
     return (
-      <div className={styles.componentList}>
+      <div className={styles.components}>
         <Header onImportModalClose={onImportModalClose} />
         <div className={styles.search}>
           <Search
@@ -68,7 +68,7 @@ export class ComponentList extends Component {
   }
 }
 
-ComponentList.propTypes = {
+Components.propTypes = {
   filteredComponents: PropTypes.array,
   searchTerm: PropTypes.string,
   searchPending: PropTypes.bool,
