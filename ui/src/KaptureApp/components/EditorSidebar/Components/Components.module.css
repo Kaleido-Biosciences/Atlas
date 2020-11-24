@@ -45,3 +45,8 @@
   padding: 0.8em;
   flex: 0 0 0%;
 }
+
+.componentList {
+  flex: 1;
+  overflow: auto;
+}

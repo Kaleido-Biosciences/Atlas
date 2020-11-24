@@ -1,0 +1,15 @@
+.tools {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolButtons {
+  flex: 0;
+  padding: 0.4em 0.8em;
+}
+
+.activeTool {
+  flex: 1 1 100%;
+  overflow: hidden;
+}

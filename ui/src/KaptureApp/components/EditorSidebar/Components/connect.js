@@ -4,7 +4,7 @@ import { Components } from './Components';
 import { selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
-const { addComponentToToolComponents } = actions.editorTools;
+const { addToolComponent } = actions.editorTools;
 const {
   searchComponents,
   addComponents,
@@ -33,7 +33,7 @@ const onComponentClick = (component) => {
   return (dispatch, getState) => {
     dispatch(resetComponents());
     dispatch(addComponents([component]));
-    dispatch(addComponentToToolComponents({ component }));
+    dispatch(addToolComponent(component));
   };
 };
 

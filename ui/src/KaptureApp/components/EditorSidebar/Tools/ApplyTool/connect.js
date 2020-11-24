@@ -12,7 +12,7 @@ const {
 } = selectors;
 
 const { applySelectedToolComponentsToSelectedGrids } = actions.editor;
-const { addComponentToToolComponents } = actions.editorTools;
+const { addToolComponent } = actions.editorTools;
 
 const mapState = (state, props) => {
   return {
@@ -25,7 +25,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onApplyClick: applySelectedToolComponentsToSelectedGrids,
-  onAddAttribute: addComponentToToolComponents,
+  onAddAttribute: addToolComponent,
 };
 
 const connected = connect(mapState, mapDispatch)(ApplyTool);

@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react';
 
 import { ApplyTool } from './ApplyTool';
 import { EraserTool } from './EraserTool';
+import styles from './Tools.module.css';
 
 export class Tools extends React.Component {
   handleToolClick = (e, { name }) => {
@@ -22,22 +23,26 @@ export class Tools extends React.Component {
   render() {
     const { activeTool } = this.props;
     return (
-      <div>
-        <Button.Group>
-          <Button
-            name="apply"
-            icon="paint brush"
-            onClick={this.handleToolClick}
-            active={activeTool === 'apply'}
-          />
-          <Button
-            name="eraser"
-            icon="eraser"
-            onClick={this.handleToolClick}
-            active={activeTool === 'eraser'}
-          />
-        </Button.Group>
-        {this.renderTool()}
+      <div className={styles.tools}>
+        <div className={styles.toolButtons}>
+          <Button.Group>
+            <Button
+              name="apply"
+              icon="paint brush"
+              onClick={this.handleToolClick}
+              active={activeTool === 'apply'}
+              size="mini"
+            />
+            <Button
+              name="eraser"
+              icon="eraser"
+              onClick={this.handleToolClick}
+              active={activeTool === 'eraser'}
+              size="mini"
+            />
+          </Button.Group>
+        </div>
+        <div className={styles.activeTool}>{this.renderTool()}</div>
       </div>
     );
   }

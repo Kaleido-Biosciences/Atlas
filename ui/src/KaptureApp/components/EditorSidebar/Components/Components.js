@@ -26,10 +26,12 @@ export class Components extends Component {
     } = this.props;
     if (filteredComponents.length) {
       return (
-        <ComponentList
-          components={filteredComponents}
-          onComponentClick={this.handleComponentClick}
-        />
+        <div className={styles.componentList}>
+          <ComponentList
+            components={filteredComponents}
+            onComponentClick={this.handleComponentClick}
+          />
+        </div>
       );
     } else {
       if (searchTerm && searchComplete) {

@@ -5,6 +5,11 @@ import { createTimepoint } from 'KaptureApp/utils/toolComponentFunctions';
 
 const initialState = {
   activeTool: 'apply',
+  componentSearchTerm: '',
+  componentSearchResults: [],
+  componentSearchPending: false,
+  componentSearchComplete: false,
+  componentSearchError: '',
   toolComponents: [],
   toolComponentsValid: true,
   clickMode: 'apply',
@@ -18,7 +23,37 @@ const editorTools = createSlice({
     setActiveTool(state, action) {
       state.activeTool = action.payload.tool;
     },
-    addComponentToToolComponents(state, action) {
+    setComponentSearchTerm(state, action) {
+      state.componentSearchTerm = action.payload.searchTerm;
+      state.componentSearchResults = [];
+      state.componentSearchPending = false;
+      state.componentSearchComplete = false;
+      state.componentSearchError = '';
+    },
+    setComponentSearchPending(state, action) {
+      state.componentSearchPending = true;
+      state.componentSearchComplete = false;
+      state.componentSearchError = '';
+    },
+    setComponentSearchResults(state, action) {
+      state.componentSearchResults = action.payload.results;
+      state.componentSearchPending = false;
+      state.componentSearchComplete = true;
+      state.componentSearchError = '';
+    },
+    setComponentSearchError(state, action) {
+      state.componentSearchPending = false;
+      state.componentSearchComplete = false;
+      state.componentSearchError = action.payload.error;
+    },
+    resetComponentSearch(state, action) {
+      state.componentSearchTerm = '';
+      state.componentSearchResults = [];
+      state.componentSearchPending = false;
+      state.componentSearchComplete = false;
+      state.componentSearchError = '';
+    },
+    addToolComponent(state, action) {
       const { component } = action.payload;
       const { toolComponents } = state;
       const existingComponent = findComponent(component.id, toolComponents);
