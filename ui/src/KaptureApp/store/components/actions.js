@@ -1,6 +1,8 @@
 import _ from 'lodash';
+
 import { api } from 'KaptureApp/api';
-import { editorComponentsActions, selectors } from 'KaptureApp/store';
+import { actions } from './slice';
+import { selectImportComponentNames, selectImportFound } from './selectors';
 import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
 
 const {
@@ -8,18 +10,20 @@ const {
   setSearchPending,
   setSearchResults,
   setSearchError,
-  setImportText: _setImportText,
   addComponents: _addComponents,
+  setImportText: _setImportText,
   setImportPending,
   setImportComplete,
   addImportResult,
-} = editorComponentsActions;
-const {
-  selectEditorComponentsImportComponentNames,
-  selectEditorComponentsImportFound,
-} = selectors;
+} = actions;
 
-export const { resetComponents, resetImport } = editorComponentsActions;
+export const { resetComponentSearch, resetImport } = actions;
+
+export const addComponents = (components) => {
+  return (dispatch, getState) => {
+    dispatch(_addComponents({ components }));
+  };
+};
 
 export const searchComponents = (searchTerm) => {
   return async (dispatch, getState) => {
@@ -65,9 +69,7 @@ export const setImportText = (importText) => {
 export const importComponents = () => {
   return async (dispatch, getState) => {
     dispatch(setImportPending());
-    const componentNames = selectEditorComponentsImportComponentNames(
-      getState()
-    );
+    const componentNames = selectImportComponentNames(getState());
     for (let i = 0; i < componentNames.length; i++) {
       const result = await api.findComponent(componentNames[i]);
       dispatch(addImportResult({ result }));
@@ -78,16 +80,10 @@ export const importComponents = () => {
 
 export const addImportedResultsToComponents = () => {
   return (dispatch, getState) => {
-    const foundResults = selectEditorComponentsImportFound(getState());
+    const foundResults = selectImportFound(getState());
     const components = foundResults.map(({ type, data }) => {
       return createComponent(data, type);
     });
-    dispatch(_addComponents({ components }));
-  };
-};
-
-export const addComponents = (components) => {
-  return (dispatch, getState) => {
     dispatch(_addComponents({ components }));
   };
 };

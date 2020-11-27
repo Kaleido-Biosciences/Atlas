@@ -1,42 +1,25 @@
 import { connect } from 'react-redux';
 
 import { ImportComponentsModal } from './ImportComponentsModal';
-import { actions } from 'KaptureApp/actions';
-import { selectors } from 'KaptureApp/store';
-
-const {
-  selectEditorComponentsImportText,
-  selectEditorComponentsImportComponentNames,
-  selectEditorComponentsImportFound,
-  selectEditorComponentsImportNotFound,
-  selectEditorComponentsImportPending,
-  selectEditorComponentsImportComplete,
-  selectEditorComponentsImportError,
-} = selectors;
-const {
-  setImportText,
-  importComponents,
-  addImportedResultsToComponents,
-  resetImport,
-} = actions.editorComponents;
+import { components } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    textAreaValue: selectEditorComponentsImportText(state),
-    componentNames: selectEditorComponentsImportComponentNames(state),
-    foundResults: selectEditorComponentsImportFound(state),
-    notFoundResults: selectEditorComponentsImportNotFound(state),
-    importPending: selectEditorComponentsImportPending(state),
-    importComplete: selectEditorComponentsImportComplete(state),
-    importError: selectEditorComponentsImportError(state),
+    componentNames: components.selectImportComponentNames(state),
+    foundResults: components.selectImportFound(state),
+    importComplete: components.selectImportComplete(state),
+    importError: components.selectImportError(state),
+    importPending: components.selectImportPending(state),
+    notFoundResults: components.selectImportNotFound(state),
+    textAreaValue: components.selectImportText(state),
   };
 };
 
 const mapDispatch = {
-  onTextAreaChange: setImportText,
-  onImportClick: importComponents,
-  onAddClick: addImportedResultsToComponents,
-  onBackClick: resetImport,
+  onAddClick: components.addImportedResultsToComponents,
+  onBackClick: components.resetImport,
+  onImportClick: components.importComponents,
+  onTextAreaChange: components.setImportText,
 };
 
 const connected = connect(mapState, mapDispatch)(ImportComponentsModal);

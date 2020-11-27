@@ -16,22 +16,10 @@ const initialState = {
   importError: '',
 };
 
-const editorComponents = createSlice({
-  name: 'editorComponents',
+const components = createSlice({
+  name: 'components',
   initialState,
   reducers: {
-    addComponents(state, action) {
-      const { components } = action.payload;
-      components.forEach((newComponent) => {
-        const existingComponent = findComponent(
-          newComponent.id,
-          state.components
-        );
-        if (!existingComponent) {
-          state.components.unshift(newComponent);
-        }
-      });
-    },
     setSearchTerm(state, action) {
       state.searchTerm = action.payload.searchTerm;
       state.searchResults = [];
@@ -54,17 +42,36 @@ const editorComponents = createSlice({
       state.searchPending = false;
       state.searchComplete = false;
     },
-    resetComponents(state, action) {
+    resetComponentSearch(state, action) {
       state.searchTerm = '';
       state.searchResults = [];
       state.searchPending = false;
       state.searchComplete = false;
       state.searchError = '';
     },
+    addComponents(state, action) {
+      const { components } = action.payload;
+      components.forEach((newComponent) => {
+        const existingComponent = findComponent(
+          newComponent.id,
+          state.components
+        );
+        if (!existingComponent) {
+          state.components.unshift(newComponent);
+        }
+      });
+    },
     setImportText(state, action) {
       const importText = action.payload.importText;
       state.importText = importText;
       state.importComponentNames = importText.trim().split(/\r|\n/);
+    },
+    setImportPending(state, action) {
+      state.importPending = true;
+    },
+    setImportComplete(state, action) {
+      state.importPending = false;
+      state.importComplete = true;
     },
     addImportResult(state, action) {
       const { result } = action.payload;
@@ -73,13 +80,6 @@ const editorComponents = createSlice({
       } else {
         state.importNotFound = [result].concat(state.importNotFound);
       }
-    },
-    setImportPending(state, action) {
-      state.importPending = true;
-    },
-    setImportComplete(state, action) {
-      state.importPending = false;
-      state.importComplete = true;
     },
     resetImport(state, action) {
       state.importText = '';
@@ -93,10 +93,7 @@ const editorComponents = createSlice({
   },
 });
 
-export const {
-  actions: editorComponentsActions,
-  reducer: editorComponentsReducer,
-} = editorComponents;
+export const { actions, reducer } = components;
 
 function findComponent(componentId, componentArray) {
   return componentArray.find((component) => component.id === componentId);
