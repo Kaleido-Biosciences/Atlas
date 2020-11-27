@@ -16,8 +16,8 @@ const initialState = {
   componentTypesToClear: [],
 };
 
-const editorTools = createSlice({
-  name: 'editorTools',
+const tools = createSlice({
+  name: 'tools',
   initialState,
   reducers: {
     setActiveTool(state, action) {
@@ -147,7 +147,7 @@ const editorTools = createSlice({
   },
 });
 
-export const { reducer, actions } = editorTools;
+export const { reducer, actions } = tools;
 
 function findComponent(componentId, componentArray) {
   return componentArray.find((component) => component.id === componentId);

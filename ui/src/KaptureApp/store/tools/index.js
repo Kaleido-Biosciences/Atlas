@@ -2,8 +2,8 @@ import { reducer } from './slice';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
-export const editorTools = {
+export const tools = {
   reducer,
-  actions,
-  selectors,
+  ...actions,
+  ...selectors,
 };

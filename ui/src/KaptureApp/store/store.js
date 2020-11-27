@@ -8,7 +8,7 @@ import {
   editorReducer,
 } from 'AtlasUI/store';
 import { editorComponentsReducer } from './editorComponents';
-import { editorTools } from './editorTools';
+import { tools } from './tools';
 import { editorImportReducer } from './editorImport';
 import './validators';
 
@@ -28,7 +28,7 @@ export const store = configureStore({
     activity: activityReducer,
     editor: editorReducer,
     editorComponents: editorComponentsReducer,
-    editorTools: editorTools.reducer,
+    tools: tools.reducer,
     editorImport: editorImportReducer,
     print: printReducer,
   },

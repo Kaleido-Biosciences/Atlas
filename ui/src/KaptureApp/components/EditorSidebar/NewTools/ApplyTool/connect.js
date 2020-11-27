@@ -1,28 +1,24 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import { actions, selectors } from 'KaptureApp/store';
+import { tools } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    componentSearchComplete: selectors.selectToolsComponentSearchComplete(
+    componentSearchComplete: tools.selectApplyToolComponentSearchComplete(
       state
     ),
-    componentSearchPending: selectors.selectEditorToolsComponentSearchPending(
-      state
-    ),
-    componentSearchResults: selectors.selectEditorToolsComponentSearchResults(
-      state
-    ),
-    componentSearchTerm: selectors.selectEditorToolsComponentSearchTerm(state),
+    componentSearchPending: tools.selectApplyToolComponentSearchPending(state),
+    componentSearchResults: tools.selectApplyToolComponentSearchResults(state),
+    componentSearchTerm: tools.selectApplyToolComponentSearchTerm(state),
   };
 };
 
 const mapDispatch = {
-  onAddComponent: actions.editorTools.addToolComponent,
-  onComponentSearchChange: actions.editorTools.searchComponents,
-  onComponentSearchClose: actions.editorTools.resetComponentSearch,
-  onUnmount: actions.editorTools.resetComponentSearch,
+  onAddComponent: tools.addToolComponent,
+  onComponentSearchChange: tools.searchComponents,
+  onComponentSearchClose: tools.resetComponentSearch,
+  onUnmount: tools.resetComponentSearch,
 };
 
 const connected = connect(mapState, mapDispatch)(ApplyTool);

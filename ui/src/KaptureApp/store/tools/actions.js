@@ -12,17 +12,7 @@ const {
   addToolComponent: _addToolComponent,
 } = actions;
 
-export const {
-  resetComponentSearch,
-  setComponentTypesToClear,
-  selectToolComponents,
-  deselectToolComponents,
-  removeToolComponents,
-  addTimepointToComponent,
-  updateTimepoint,
-  deleteTimepoint,
-  setClickMode,
-} = actions;
+export const { resetComponentSearch } = actions;
 
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {

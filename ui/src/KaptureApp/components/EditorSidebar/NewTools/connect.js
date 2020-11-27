@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 
 import { Tools } from './Tools';
-import { selectors, actions } from 'KaptureApp/store';
+import { tools } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
-  return { activeTool: selectors.selectEditorToolsActiveTool(state) };
+  return { activeTool: tools.selectActiveTool(state) };
 };
 
 const mapDispatch = {
-  onToolButtonClick: actions.editorTools.setActiveTool,
+  onToolButtonClick: tools.setActiveTool,
 };
 
 const connected = connect(mapState, mapDispatch)(Tools);
