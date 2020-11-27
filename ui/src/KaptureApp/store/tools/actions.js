@@ -9,7 +9,7 @@ const {
   setComponentSearchPending: _setComponentSearchPending,
   setComponentSearchResults: _setComponentSearchResults,
   setComponentSearchError: _setComponentSearchError,
-  addToolComponent: _addToolComponent,
+  addApplyToolComponent: _addApplyToolComponent,
 } = actions;
 
 export const { resetComponentSearch } = actions;
@@ -17,6 +17,12 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
+  };
+};
+
+export const addApplyToolComponent = (component) => {
+  return (dispatch, getState) => {
+    dispatch(_addApplyToolComponent({ component }));
   };
 };
 
@@ -54,9 +60,3 @@ const loadResults = _.debounce(async (searchTerm, dispatch) => {
     }
   }
 }, 500);
-
-export const addToolComponent = (component) => {
-  return (dispatch, getState) => {
-    dispatch(_addToolComponent({ component }));
-  };
-};

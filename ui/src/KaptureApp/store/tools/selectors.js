@@ -1,9 +1,9 @@
 export const selectActiveTool = (state) => state.tools.activeTool;
-export const selectApplyToolComponentSearchTerm = (state) =>
+export const selectComponentSearchTerm = (state) =>
   state.tools.componentSearchTerm;
-export const selectApplyToolComponentSearchComplete = (state) =>
+export const selectComponentSearchComplete = (state) =>
   state.tools.componentSearchComplete;
-export const selectApplyToolComponentSearchPending = (state) =>
+export const selectComponentSearchPending = (state) =>
   state.tools.componentSearchPending;
-export const selectApplyToolComponentSearchResults = (state) =>
+export const selectComponentSearchResults = (state) =>
   state.tools.componentSearchResults;
