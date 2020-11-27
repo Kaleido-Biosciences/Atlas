@@ -2,7 +2,6 @@ import * as activitySearchActions from './activitySearchActions';
 import * as activityActions from './activityActions';
 import * as printActions from './printActions';
 import * as editorActions from './editorActions';
-import { editorToolsActions } from 'KaptureApp/store';
 import * as editorComponentsActions from './editorComponentsActions';
 import * as editorImportActions from './editorImportActions';
 
@@ -13,7 +12,6 @@ export const actions = {
   activity: { ...activityActions },
   print: { ...printActions },
   editor: { ...editorActions },
-  editorTools: { ...editorToolsActions },
   editorComponents: { ...editorComponentsActions },
   editorImport: { ...editorImportActions },
 };

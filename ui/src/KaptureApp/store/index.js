@@ -16,4 +16,3 @@ export { editorComponentsActions } from './editorComponents';
 export { editorImportActions } from './editorImport';
 export { activityActions, activitySearchActions, editorActions, printActions };
 export { actions };
-export const editorToolsActions = editorTools.actions;

@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 
 import { Components } from './Components';
-import { selectors } from 'KaptureApp/store';
+import { actions as storeActions, selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
-const { addToolComponent } = actions.editorTools;
 const {
   searchComponents,
   addComponents,
@@ -33,7 +32,7 @@ const onComponentClick = (component) => {
   return (dispatch, getState) => {
     dispatch(resetComponents());
     dispatch(addComponents([component]));
-    dispatch(addToolComponent(component));
+    dispatch(storeActions.editorTools.addToolComponent(component));
   };
 };
 

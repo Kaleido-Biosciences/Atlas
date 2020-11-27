@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { editorActions, editorToolsActions, selectors } from 'KaptureApp/store';
+import { editorActions, selectors } from 'KaptureApp/store';
 import { api } from 'KaptureApp/api';
 import {
   getContainerCollection,
@@ -48,8 +48,6 @@ const {
   setContainerTypes: _setContainerTypes,
   setComponentTypes: _setComponentTypes,
 } = editorActions;
-
-const { setClickMode: _setClickMode } = editorToolsActions;
 
 const {
   selectEditorClickMode,
@@ -225,15 +223,15 @@ export const handleContainerClick = wrapWithChangeHandler(
   }
 );
 
-export const setClickMode = ({ clickMode }) => {
-  return (dispatch, getState) => {
-    dispatch(_setClickMode({ clickMode }));
-    const activeId = selectEditorActiveGridId(getState());
-    if (activeId) {
-      dispatch(_deselectGridContainers({ gridIds: [activeId] }));
-    }
-  };
-};
+// export const setClickMode = ({ clickMode }) => {
+//   return (dispatch, getState) => {
+//     dispatch(_setClickMode({ clickMode }));
+//     const activeId = selectEditorActiveGridId(getState());
+//     if (activeId) {
+//       dispatch(_deselectGridContainers({ gridIds: [activeId] }));
+//     }
+//   };
+// };
 
 export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
   ({ gridId }) => {
