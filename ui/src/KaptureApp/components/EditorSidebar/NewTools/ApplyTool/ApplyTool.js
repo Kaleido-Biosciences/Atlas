@@ -17,22 +17,22 @@ export class ApplyTool extends React.Component {
     }
   }
   showComponentSearch = () => {
+    this.hideAddAttributeForm();
     this.setState({
       showComponentSearch: true,
-      showAddAttributeForm: false,
     });
   };
   hideComponentSearch = () => {
     this.setState({
       showComponentSearch: false,
     });
-    if (this.props.onComponentSearchClose) {
-      this.props.onComponentSearchClose();
+    if (this.props.onComponentSearchHide) {
+      this.props.onComponentSearchHide();
     }
   };
   showAddAttributeForm = () => {
+    this.hideComponentSearch();
     this.setState({
-      showComponentSearch: false,
       showAddAttributeForm: true,
     });
   };
@@ -91,6 +91,6 @@ ApplyTool.propTypes = {
   componentSearchTerm: PropTypes.string,
   onAddComponent: PropTypes.func,
   onComponentSearchChange: PropTypes.func,
-  onComponentSearchClose: PropTypes.func,
+  onComponentSearchHide: PropTypes.func,
   onUnmount: PropTypes.func,
 };

@@ -15,7 +15,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onAddComponent: tools.addApplyToolComponent,
   onComponentSearchChange: tools.searchComponents,
-  onComponentSearchClose: tools.resetComponentSearch,
+  onComponentSearchHide: tools.resetComponentSearch,
   onUnmount: tools.resetComponentSearch,
 };
 
