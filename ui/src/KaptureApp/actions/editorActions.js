@@ -37,7 +37,7 @@ const {
   addGrids: _addGrids,
   addContainerToGrid: _addContainerToGrid,
   setGridComponents: _setGridComponents,
-  deselectGridContainers: _deselectGridContainers,
+  // deselectGridContainers: _deselectGridContainers,
   toggleGridContainersSelected: _toggleGridSelected,
   clearGridContainers: _clearGridContainers,
   deleteGrid: _deleteGrid,
@@ -55,7 +55,7 @@ const {
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
   selectEditorGrids,
-  selectEditorActiveGridId,
+  // selectEditorActiveGridId,
   selectActivityName,
   selectEditorImportImportedComponents,
 } = selectors;
