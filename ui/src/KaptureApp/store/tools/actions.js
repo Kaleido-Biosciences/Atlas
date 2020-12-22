@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { actions } from './slice';
+import { selectApplyToolComponents } from './selectors';
 import { api } from 'KaptureApp/api';
 
 const {
@@ -29,11 +30,11 @@ export const addApplyToolComponent = (component) => {
 export const searchComponents = (searchTerm) => {
   return (dispatch, getState) => {
     dispatch(_setComponentSearchTerm({ searchTerm }));
-    loadResults(searchTerm, dispatch);
+    loadResults(searchTerm, dispatch, getState);
   };
 };
 
-const loadResults = _.debounce(async (searchTerm, dispatch) => {
+const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
   if (searchTerm) {
     try {
       dispatch(_setComponentSearchPending());
@@ -54,7 +55,12 @@ const loadResults = _.debounce(async (searchTerm, dispatch) => {
         }
         return value;
       });
-      dispatch(_setComponentSearchResults({ results }));
+      const toolComponents = selectApplyToolComponents(getState());
+      const ids = toolComponents.map((toolComponent) => toolComponent.id);
+      const filtered = results.filter((result) => {
+        return !ids.includes(result.id);
+      });
+      dispatch(_setComponentSearchResults({ results: filtered }));
     } catch (error) {
       dispatch(_setComponentSearchError({ error: error.message }));
     }

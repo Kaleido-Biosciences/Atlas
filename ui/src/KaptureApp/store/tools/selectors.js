@@ -7,3 +7,5 @@ export const selectComponentSearchPending = (state) =>
   state.tools.componentSearchPending;
 export const selectComponentSearchResults = (state) =>
   state.tools.componentSearchResults;
+export const selectApplyToolComponents = (state) =>
+  state.tools.applyToolComponents;
