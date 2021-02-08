@@ -102,7 +102,12 @@ export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
       dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES }));
-      dispatch(_setComponentTypes({ componentTypes: COMPONENT_TYPES }));
+      const componentTypes = COMPONENT_TYPES.map(
+        ({ createToolComponent, ...rest }) => {
+          return rest;
+        }
+      );
+      dispatch(_setComponentTypes({ componentTypes: componentTypes }));
       const collection = await dispatch(
         getContainerCollection(status, version)
       );

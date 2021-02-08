@@ -1,62 +1,31 @@
+import { community } from './community';
+import { compound } from './compound';
+import { medium } from './medium';
+import { supplement } from './supplement';
+
 export const COMPONENT_TYPE_COMMUNITY = 'Community';
 export const COMPONENT_TYPE_COMPOUND = 'Compound';
 export const COMPONENT_TYPE_MEDIUM = 'Medium';
 export const COMPONENT_TYPE_SUPPLEMENT = 'Supplement';
 export const COMPONENT_TYPE_ATTRIBUTE = 'Attribute';
 
+export const createToolComponent = (data, type, timepoints) => {
+  if (type === COMPONENT_TYPE_COMMUNITY) {
+    return community.createToolComponent(data, timepoints);
+  } else if (type === COMPONENT_TYPE_COMPOUND) {
+    return compound.createToolComponent(data, timepoints);
+  } else if (type === COMPONENT_TYPE_MEDIUM) {
+    return medium.createToolComponent(data, timepoints);
+  } else if (type === COMPONENT_TYPE_SUPPLEMENT) {
+    return supplement.createToolComponent(data, timepoints);
+  }
+};
+
 export const COMPONENT_TYPES = [
-  {
-    name: COMPONENT_TYPE_COMMUNITY,
-    singular: COMPONENT_TYPE_COMMUNITY,
-    plural: 'Communities',
-    abbreviation: 'C',
-    typeColor: 'green',
-    colorCode: '#21ba45',
-    allowExcelImport: true,
-    defaultConcentration: 1.0,
-    defaultTime: 0,
-    allowAddTimepoint: true,
-    enableOptions: ['concentration'],
-  },
-  {
-    name: COMPONENT_TYPE_COMPOUND,
-    singular: COMPONENT_TYPE_COMPOUND,
-    plural: 'Compounds',
-    abbreviation: 'B',
-    typeColor: 'blue',
-    colorCode: '#2185d0',
-    allowExcelImport: true,
-    defaultConcentration: 0.5,
-    defaultTime: 0,
-    allowAddTimepoint: false,
-    enableOptions: ['concentration'],
-  },
-  {
-    name: COMPONENT_TYPE_MEDIUM,
-    singular: COMPONENT_TYPE_MEDIUM,
-    plural: 'Media',
-    abbreviation: 'M',
-    typeColor: 'orange',
-    colorCode: '#f2711c',
-    allowExcelImport: true,
-    defaultConcentration: null,
-    defaultTime: 0,
-    allowAddTimepoint: false,
-    enableOptions: [],
-  },
-  {
-    name: COMPONENT_TYPE_SUPPLEMENT,
-    singular: COMPONENT_TYPE_SUPPLEMENT,
-    plural: 'Supplements',
-    abbreviation: 'S',
-    typeColor: 'black',
-    colorCode: '#1b1c1d',
-    allowExcelImport: true,
-    defaultConcentration: 0.5,
-    defaultTime: 0,
-    allowAddTimepoint: true,
-    enableOptions: ['concentration'],
-  },
+  community,
+  compound,
+  medium,
+  supplement,
   {
     name: COMPONENT_TYPE_ATTRIBUTE,
     singular: COMPONENT_TYPE_ATTRIBUTE,
