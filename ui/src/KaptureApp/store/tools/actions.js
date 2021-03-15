@@ -11,6 +11,8 @@ const {
   setComponentSearchResults: _setComponentSearchResults,
   setComponentSearchError: _setComponentSearchError,
   addApplyToolComponent: _addApplyToolComponent,
+  updateApplyToolComponentSelections: _updateApplyToolComponentSelections,
+  removeApplyToolComponents: _removeApplyToolComponents,
 } = actions;
 
 export const { resetComponentSearch } = actions;
@@ -66,3 +68,15 @@ const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
     }
   }
 }, 500);
+
+export const updateApplyToolComponentSelections = (componentIds, selected) => {
+  return (dispatch, getState) => {
+    dispatch(_updateApplyToolComponentSelections({ componentIds, selected }));
+  };
+};
+
+export const removeApplyToolComponents = (componentIds) => {
+  return (dispatch, getState) => {
+    dispatch(_removeApplyToolComponents({ componentIds }));
+  };
+};

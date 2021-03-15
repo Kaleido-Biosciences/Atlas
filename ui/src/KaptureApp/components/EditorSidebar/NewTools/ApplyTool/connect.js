@@ -9,6 +9,7 @@ const mapState = (state, props) => {
     componentSearchPending: tools.selectComponentSearchPending(state),
     componentSearchResults: tools.selectComponentSearchResults(state),
     componentSearchTerm: tools.selectComponentSearchTerm(state),
+    toolComponents: tools.selectApplyToolComponents(state),
   };
 };
 
@@ -16,6 +17,8 @@ const mapDispatch = {
   onAddComponent: tools.addApplyToolComponent,
   onComponentSearchChange: tools.searchComponents,
   onComponentSearchHide: tools.resetComponentSearch,
+  onComponentSelectionsChange: tools.updateApplyToolComponentSelections,
+  onRemoveComponent: tools.removeApplyToolComponents,
   onUnmount: tools.resetComponentSearch,
 };
 

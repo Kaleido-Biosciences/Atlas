@@ -64,44 +64,25 @@ const tools = createSlice({
         applyToolComponents.unshift(component);
       }
     },
+    updateApplyToolComponentSelections(state, action) {
+      const { componentIds, selected } = action.payload;
+      componentIds.forEach((id) => {
+        const stateComponent = findComponent(id, state.applyToolComponents);
+        stateComponent.selected = selected;
+      });
+    },
+    removeApplyToolComponents(state, action) {
+      const { componentIds } = action.payload;
+      const { applyToolComponents } = state;
+      state.applyToolComponents = applyToolComponents.filter((component) => {
+        return !componentIds.includes(component.id);
+      });
+    },
     // setClickMode(state, action) {
     //   state.clickMode = action.payload.clickMode;
     // },
     // setComponentTypesToClear(state, action) {
     //   state.componentTypesToClear = action.payload.componentTypesToClear;
-    // },
-    // selectToolComponents(state, action) {
-    //   const { components } = action.payload;
-    //   components.forEach((component) => {
-    //     const stateComponent = findComponent(
-    //       component.id,
-    //       state.toolComponents
-    //     );
-    //     stateComponent.selected = true;
-    //   });
-    // },
-    // deselectToolComponents(state, action) {
-    //   const { components } = action.payload;
-    //   components.forEach((component) => {
-    //     const stateComponent = findComponent(
-    //       component.id,
-    //       state.toolComponents
-    //     );
-    //     stateComponent.selected = false;
-    //   });
-    // },
-    // removeToolComponents(state, action) {
-    //   const componentsToRemove = action.payload.components;
-    //   const { toolComponents } = state;
-    //   const idsToRemove = componentsToRemove.map((component) => component.id);
-    //   idsToRemove.forEach((id) => {
-    //     const index = toolComponents.findIndex(
-    //       (component) => component.id === id
-    //     );
-    //     if (index > -1) {
-    //       toolComponents.splice(index, 1);
-    //     }
-    //   });
     // },
     // addTimepointToComponent(state, action) {
     //   const { component } = action.payload;

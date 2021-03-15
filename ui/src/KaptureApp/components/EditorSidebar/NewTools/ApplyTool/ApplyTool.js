@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react';
 
 import { ComponentSearch } from './ComponentSearch';
 import { AddAttributeForm } from './AddAttributeForm';
+import { ToolComponentList } from './ToolComponentList';
 import styles from './ApplyTool.module.css';
 
 export class ApplyTool extends React.Component {
@@ -65,6 +66,13 @@ export class ApplyTool extends React.Component {
             size="mini"
           />
         </div>
+        {!showComponentSearch && !showAddAttributeForm && (
+          <ToolComponentList
+            toolComponents={this.props.toolComponents}
+            onSelectionsChange={this.props.onComponentSelectionsChange}
+            onRemove={this.props.onRemoveComponent}
+          />
+        )}
         {showComponentSearch && (
           <ComponentSearch
             searchComplete={this.props.componentSearchComplete}
@@ -92,5 +100,8 @@ ApplyTool.propTypes = {
   onAddComponent: PropTypes.func,
   onComponentSearchChange: PropTypes.func,
   onComponentSearchHide: PropTypes.func,
+  onComponentSelectionsChange: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
   onUnmount: PropTypes.func,
+  toolComponents: PropTypes.array,
 };
