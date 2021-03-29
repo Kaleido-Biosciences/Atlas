@@ -3,6 +3,10 @@ import _ from 'lodash';
 import { actions } from './slice';
 import { selectApplyToolComponents } from './selectors';
 import { api } from 'KaptureApp/api';
+import {
+  COMPONENT_TYPE_ATTRIBUTE,
+  createToolComponent,
+} from 'KaptureApp/config/componentTypes';
 
 const {
   setActiveTool: _setActiveTool,
@@ -78,5 +82,12 @@ export const updateApplyToolComponentSelections = (componentIds, selected) => {
 export const removeApplyToolComponents = (componentIds) => {
   return (dispatch, getState) => {
     dispatch(_removeApplyToolComponents({ componentIds }));
+  };
+};
+
+export const addAttributeToApplyToolComponents = (data) => {
+  return (dispatch, getState) => {
+    const component = createToolComponent(data, COMPONENT_TYPE_ATTRIBUTE);
+    dispatch(_addApplyToolComponent({ component }));
   };
 };

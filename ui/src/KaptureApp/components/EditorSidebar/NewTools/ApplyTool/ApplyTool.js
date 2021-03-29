@@ -48,6 +48,12 @@ export class ApplyTool extends React.Component {
     }
     this.hideComponentSearch();
   };
+  handleAddAttribute = (attributeData) => {
+    if (this.props.onAddAttribute) {
+      this.props.onAddAttribute(attributeData);
+    }
+    this.hideAddAttributeForm();
+  };
   render() {
     const { showComponentSearch, showAddAttributeForm } = this.state;
     return (
@@ -85,7 +91,10 @@ export class ApplyTool extends React.Component {
           />
         )}
         {showAddAttributeForm && (
-          <AddAttributeForm onClose={this.hideAddAttributeForm} />
+          <AddAttributeForm
+            onClose={this.hideAddAttributeForm}
+            onSubmit={this.handleAddAttribute}
+          />
         )}
       </div>
     );
@@ -97,6 +106,7 @@ ApplyTool.propTypes = {
   componentSearchPending: PropTypes.bool,
   componentSearchResults: PropTypes.array,
   componentSearchTerm: PropTypes.string,
+  onAddAttribute: PropTypes.func,
   onAddComponent: PropTypes.func,
   onComponentSearchChange: PropTypes.func,
   onComponentSearchHide: PropTypes.func,

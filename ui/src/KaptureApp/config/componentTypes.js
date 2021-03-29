@@ -2,6 +2,7 @@ import { community } from './community';
 import { compound } from './compound';
 import { medium } from './medium';
 import { supplement } from './supplement';
+import { attribute } from './attribute';
 
 export const COMPONENT_TYPE_COMMUNITY = 'Community';
 export const COMPONENT_TYPE_COMPOUND = 'Compound';
@@ -18,6 +19,8 @@ export const createToolComponent = (data, type, timepoints) => {
     return medium.createToolComponent(data, timepoints);
   } else if (type === COMPONENT_TYPE_SUPPLEMENT) {
     return supplement.createToolComponent(data, timepoints);
+  } else if (type === COMPONENT_TYPE_ATTRIBUTE) {
+    return attribute.createToolComponent(data);
   }
 };
 
@@ -26,15 +29,7 @@ export const COMPONENT_TYPES = [
   compound,
   medium,
   supplement,
-  {
-    name: COMPONENT_TYPE_ATTRIBUTE,
-    singular: COMPONENT_TYPE_ATTRIBUTE,
-    plural: 'Attributes',
-    abbreviation: 'A',
-    typeColor: 'red',
-    colorCode: '#db2828',
-    allowExcelImport: false,
-  },
+  attribute,
 ];
 
 export const COMPONENT_TYPES_KEYED = COMPONENT_TYPES.reduce((keyed, type) => {
