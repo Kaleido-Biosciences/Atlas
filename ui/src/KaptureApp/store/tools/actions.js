@@ -17,6 +17,7 @@ const {
   addApplyToolComponent: _addApplyToolComponent,
   updateApplyToolComponentSelections: _updateApplyToolComponentSelections,
   removeApplyToolComponents: _removeApplyToolComponents,
+  updateApplyToolComponent: _updateApplyToolComponent,
 } = actions;
 
 export const { resetComponentSearch } = actions;
@@ -24,12 +25,6 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
-  };
-};
-
-export const addApplyToolComponent = (component) => {
-  return (dispatch, getState) => {
-    dispatch(_addApplyToolComponent({ component }));
   };
 };
 
@@ -73,6 +68,33 @@ const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
   }
 }, 500);
 
+export const addApplyToolComponent = (component) => {
+  return (dispatch, getState) => {
+    dispatch(
+      _addApplyToolComponent({
+        component: updateToolComponentDescription(component),
+      })
+    );
+  };
+};
+
+export const addAttributeToApplyToolComponents = (fields) => {
+  return (dispatch, getState) => {
+    const component = createToolComponent(fields, COMPONENT_TYPE_ATTRIBUTE);
+    dispatch(_addApplyToolComponent({ component }));
+  };
+};
+
+export const updateApplyToolComponent = (component) => {
+  return (dispatch, getState) => {
+    dispatch(
+      _updateApplyToolComponent({
+        component: updateToolComponentDescription(component),
+      })
+    );
+  };
+};
+
 export const updateApplyToolComponentSelections = (componentIds, selected) => {
   return (dispatch, getState) => {
     dispatch(_updateApplyToolComponentSelections({ componentIds, selected }));
@@ -85,9 +107,24 @@ export const removeApplyToolComponents = (componentIds) => {
   };
 };
 
-export const addAttributeToApplyToolComponents = (data) => {
-  return (dispatch, getState) => {
-    const component = createToolComponent(data, COMPONENT_TYPE_ATTRIBUTE);
-    dispatch(_addApplyToolComponent({ component }));
-  };
+const updateToolComponentDescription = (toolComponent) => {
+  const newComponent = { ...toolComponent };
+  let description = '';
+  if (
+    toolComponent.isValid &&
+    toolComponent.fields &&
+    toolComponent.fields.timepoints &&
+    toolComponent.fields.timepoints.length
+  ) {
+    const timepoints = toolComponent.fields.timepoints;
+    const timepointStrings = timepoints.map((timepoint) => {
+      if (timepoint.concentration) {
+        return `${timepoint.concentration.toFixed(2)} @ 
+              ${timepoint.time}h`;
+      } else return '';
+    });
+    description = timepointStrings.join(', ');
+  }
+  newComponent.description = description;
+  return newComponent;
 };

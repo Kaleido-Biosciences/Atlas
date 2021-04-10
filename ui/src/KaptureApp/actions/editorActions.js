@@ -103,7 +103,7 @@ export const loadContainerCollection = (status, version) => {
     try {
       dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES }));
       const componentTypes = COMPONENT_TYPES.map(
-        ({ createToolComponent, ...rest }) => {
+        ({ createToolComponent, editForm, ...rest }) => {
           return rest;
         }
       );

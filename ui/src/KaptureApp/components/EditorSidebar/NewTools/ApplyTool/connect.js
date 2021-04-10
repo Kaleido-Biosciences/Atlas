@@ -15,11 +15,12 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onAddAttribute: tools.addAttributeToApplyToolComponents,
-  onAddComponent: tools.addApplyToolComponent,
+  onAddToolComponent: tools.addApplyToolComponent,
   onComponentSearchChange: tools.searchComponents,
   onComponentSearchHide: tools.resetComponentSearch,
   onComponentSelectionsChange: tools.updateApplyToolComponentSelections,
-  onRemoveComponent: tools.removeApplyToolComponents,
+  onRemoveToolComponent: tools.removeApplyToolComponents,
+  onUpdateToolComponent: tools.updateApplyToolComponent,
   onUnmount: tools.resetComponentSearch,
 };
 

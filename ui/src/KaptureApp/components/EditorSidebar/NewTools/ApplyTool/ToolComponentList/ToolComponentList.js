@@ -24,6 +24,7 @@ export class ToolComponentList extends React.Component {
               key={component.id}
               onRemove={this.handleRemove}
               onSelectionChange={this.handleSelectionChange}
+              onUpdate={this.props.onUpdate}
               toolComponent={component}
             />
           );
@@ -37,4 +38,5 @@ ToolComponentList.propTypes = {
   toolComponents: PropTypes.array,
   onSelectionsChange: PropTypes.func,
   onRemove: PropTypes.func,
+  onUpdate: PropTypes.func,
 };

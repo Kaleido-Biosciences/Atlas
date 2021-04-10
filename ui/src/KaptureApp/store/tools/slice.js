@@ -1,7 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import validate from 'validate.js';
-
-// import { createTimepoint } from 'KaptureApp/utils/toolComponentFunctions';
 
 const initialState = {
   activeTool: 'apply',
@@ -11,7 +8,7 @@ const initialState = {
   componentSearchComplete: false,
   componentSearchError: '',
   applyToolComponents: [],
-  // applyToolComponentsValid: true,
+  applyToolComponentsValid: true,
   // clickMode: 'apply',
   // componentTypesToClear: [],
 };
@@ -64,6 +61,14 @@ const tools = createSlice({
         applyToolComponents.unshift(component);
       }
     },
+    updateApplyToolComponent(state, action) {
+      const { component } = action.payload;
+      const index = state.applyToolComponents.findIndex((c) => {
+        return component.id === c.id;
+      });
+      state.applyToolComponents.splice(index, 1, component);
+      setApplyToolComponentsValid(state);
+    },
     updateApplyToolComponentSelections(state, action) {
       const { componentIds, selected } = action.payload;
       componentIds.forEach((id) => {
@@ -77,56 +82,13 @@ const tools = createSlice({
       state.applyToolComponents = applyToolComponents.filter((component) => {
         return !componentIds.includes(component.id);
       });
+      setApplyToolComponentsValid(state);
     },
     // setClickMode(state, action) {
     //   state.clickMode = action.payload.clickMode;
     // },
     // setComponentTypesToClear(state, action) {
     //   state.componentTypesToClear = action.payload.componentTypesToClear;
-    // },
-    // addTimepointToComponent(state, action) {
-    //   const { component } = action.payload;
-    //   const stateComponent = findComponent(component.id, state.toolComponents);
-    //   const { timepoints } = stateComponent;
-    //   let time;
-    //   if (timepoints.length > 0) {
-    //     const max = timepoints.reduce((highest, current) => {
-    //       return current.time > highest ? current.time : highest;
-    //     }, 0);
-    //     time = max + 24;
-    //   }
-    //   timepoints.push(createTimepoint(component.type, time));
-    // },
-    // updateTimepoint(state, action) {
-    //   const { component, name, value, index } = action.payload;
-    //   const stateComponent = findComponent(component.id, state.toolComponents);
-    //   const { timepoints } = stateComponent;
-    //   const timepoint = timepoints[index];
-    //   timepoint[name] = value;
-    //   const errors = validate.single(
-    //     timepoints,
-    //     { timepoints: true },
-    //     { fullMessages: false }
-    //   );
-    //   if (!errors) {
-    //     stateComponent.isValid = true;
-    //     stateComponent.errors = [];
-    //     state.toolComponentsValid = true;
-    //   } else {
-    //     stateComponent.isValid = false;
-    //     stateComponent.errors = errors;
-    //     state.toolComponentsValid = false;
-    //   }
-    // },
-    // deleteTimepoint(state, action) {
-    //   const { component, index } = action.payload;
-    //   if (index > 0) {
-    //     const stateComponent = findComponent(
-    //       component.id,
-    //       state.toolComponents
-    //     );
-    //     stateComponent.timepoints.splice(index, 1);
-    //   }
     // },
   },
 });
@@ -135,4 +97,11 @@ export const { reducer, actions } = tools;
 
 function findComponent(componentId, componentArray) {
   return componentArray.find((component) => component.id === componentId);
+}
+
+function setApplyToolComponentsValid(state) {
+  const invalidFound = state.applyToolComponents.find((component) => {
+    return !component.isValid;
+  });
+  state.applyToolComponentsValid = !invalidFound;
 }

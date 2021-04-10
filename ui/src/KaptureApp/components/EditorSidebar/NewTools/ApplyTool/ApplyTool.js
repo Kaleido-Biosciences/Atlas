@@ -43,8 +43,8 @@ export class ApplyTool extends React.Component {
     });
   };
   handleAddComponent = (component) => {
-    if (this.props.onAddComponent) {
-      this.props.onAddComponent(component);
+    if (this.props.onAddToolComponent) {
+      this.props.onAddToolComponent(component);
     }
     this.hideComponentSearch();
   };
@@ -76,7 +76,8 @@ export class ApplyTool extends React.Component {
           <ToolComponentList
             toolComponents={this.props.toolComponents}
             onSelectionsChange={this.props.onComponentSelectionsChange}
-            onRemove={this.props.onRemoveComponent}
+            onRemove={this.props.onRemoveToolComponent}
+            onUpdate={this.props.onUpdateToolComponent}
           />
         )}
         {showComponentSearch && (
@@ -107,11 +108,12 @@ ApplyTool.propTypes = {
   componentSearchResults: PropTypes.array,
   componentSearchTerm: PropTypes.string,
   onAddAttribute: PropTypes.func,
-  onAddComponent: PropTypes.func,
+  onAddToolComponent: PropTypes.func,
   onComponentSearchChange: PropTypes.func,
   onComponentSearchHide: PropTypes.func,
   onComponentSelectionsChange: PropTypes.func,
-  onRemoveComponent: PropTypes.func,
+  onRemoveToolComponent: PropTypes.func,
   onUnmount: PropTypes.func,
+  onUpdateToolComponent: PropTypes.func,
   toolComponents: PropTypes.array,
 };

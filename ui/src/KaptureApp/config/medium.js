@@ -10,13 +10,19 @@ const ABBREVIATION = 'M';
 function createToolComponent(data, timepoints) {
   return {
     id: `${TYPE.toUpperCase()}_${data.id}`,
-    name: getName(data),
     type: TYPE,
+    name: getName(data),
+    description: '',
     data,
     selected: true,
+    editable: false,
+    displayEditForm: false,
+    fields: {
+      timepoints:
+        timepoints || getDefaultTimepoints(DEFAULT_CONCENTRATION, DEFAULT_TIME),
+    },
     isValid: true,
-    timepoints:
-      timepoints || getDefaultTimepoints(DEFAULT_CONCENTRATION, DEFAULT_TIME),
+    errors: [],
     tooltip: [],
     color: COLOR,
     colorCode: COLOR_CODE,
