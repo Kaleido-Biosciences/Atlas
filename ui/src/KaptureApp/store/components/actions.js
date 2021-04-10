@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { api } from 'KaptureApp/api';
 import { actions } from './slice';
 import { selectImportComponentNames, selectImportFound } from './selectors';
-import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
+import { createToolComponent } from 'KaptureApp/config/componentTypes';
 
 const {
   setSearchTerm,
@@ -82,7 +82,7 @@ export const addImportedResultsToComponents = () => {
   return (dispatch, getState) => {
     const foundResults = selectImportFound(getState());
     const components = foundResults.map(({ type, data }) => {
-      return createComponent(data, type);
+      return createToolComponent(data, type);
     });
     dispatch(_addComponents({ components }));
   };
