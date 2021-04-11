@@ -9,3 +9,4 @@ export const selectComponentSearchResults = (state) =>
   state.tools.componentSearchResults;
 export const selectApplyToolComponents = (state) =>
   state.tools.applyToolComponents;
+export const selectClickMode = (state) => state.tools.clickMode;

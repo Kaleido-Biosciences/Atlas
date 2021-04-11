@@ -4,9 +4,24 @@
   flex-direction: column;
 }
 
-.toolButtons {
+.header {
   flex: 0;
+  display: flex;
   padding: 0.4em 0.8em;
+}
+
+.clickMode {
+  display: flex;
+  align-items: center;
+}
+
+.clickMode :global(form) {
+  font-size: 0.8rem !important;
+  padding-left: 1em;
+}
+
+.clickMode :global(.inline.fields) {
+  margin: 0 !important;
 }
 
 .activeTool {

@@ -10,6 +10,7 @@ import {
 
 const {
   setActiveTool: _setActiveTool,
+  setClickMode: _setClickMode,
   setComponentSearchTerm: _setComponentSearchTerm,
   setComponentSearchPending: _setComponentSearchPending,
   setComponentSearchResults: _setComponentSearchResults,
@@ -25,6 +26,12 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
+  };
+};
+
+export const setClickMode = (clickMode) => {
+  return (dispatch, getState) => {
+    dispatch(_setClickMode({ clickMode }));
   };
 };
 

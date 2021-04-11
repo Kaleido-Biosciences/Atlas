@@ -9,7 +9,7 @@ const initialState = {
   componentSearchError: '',
   applyToolComponents: [],
   applyToolComponentsValid: true,
-  // clickMode: 'apply',
+  clickMode: 'apply',
   // componentTypesToClear: [],
 };
 
@@ -84,9 +84,9 @@ const tools = createSlice({
       });
       setApplyToolComponentsValid(state);
     },
-    // setClickMode(state, action) {
-    //   state.clickMode = action.payload.clickMode;
-    // },
+    setClickMode(state, action) {
+      state.clickMode = action.payload.clickMode;
+    },
     // setComponentTypesToClear(state, action) {
     //   state.componentTypesToClear = action.payload.componentTypesToClear;
     // },
