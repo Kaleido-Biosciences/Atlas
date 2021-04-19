@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { ActiveGrid } from 'AtlasUI/components';
 import { actions } from 'KaptureApp/actions';
-import { selectors } from 'KaptureApp/store';
+import { selectors, tools } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
@@ -20,7 +20,6 @@ const {
 
 const {
   addNewContainerToGrid,
-  handleContainerClick,
   setGridBarcode,
   addBarcodes,
   setSettings,
@@ -52,7 +51,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onContainerClick: handleContainerClick,
+  onContainerClick: tools.handleContainerClick,
   onAddContainer: addNewContainerToGrid,
   onBarcodeSelect: setGridBarcode,
   onBarcodeAdd: addBarcodes,

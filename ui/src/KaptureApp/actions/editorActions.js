@@ -38,7 +38,7 @@ const {
   addContainerToGrid: _addContainerToGrid,
   setGridComponents: _setGridComponents,
   // deselectGridContainers: _deselectGridContainers,
-  toggleGridContainersSelected: _toggleGridSelected,
+  toggleGridContainerSelections: _toggleGridContainerSelections,
   clearGridContainers: _clearGridContainers,
   deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
@@ -219,7 +219,7 @@ export const handleContainerClick = wrapWithChangeHandler(
           );
         }
       } else if (clickMode === 'select') {
-        dispatch(_toggleGridSelected({ gridId, positions }));
+        dispatch(_toggleGridContainerSelections({ gridId, positions }));
       } else if (clickMode === 'clear') {
         const typesToClear = selectEditorComponentTypesToClear(getState());
         dispatch(_clearGridContainers({ gridId, positions, typesToClear }));

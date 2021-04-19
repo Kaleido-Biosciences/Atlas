@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
 import { actions } from './slice';
-import { selectApplyToolComponents } from './selectors';
+import * as selectors from './selectors';
+import { editor } from '../editor';
 import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
@@ -32,6 +33,12 @@ export const setActiveTool = (tool) => {
 export const setClickMode = (clickMode) => {
   return (dispatch, getState) => {
     dispatch(_setClickMode({ clickMode }));
+    if (clickMode === 'apply') {
+      const activeId = editor.selectActiveGridId(getState());
+      if (activeId) {
+        dispatch(editor.deselectGridContainers([activeId]));
+      }
+    }
   };
 };
 
@@ -63,7 +70,7 @@ const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
         }
         return value;
       });
-      const toolComponents = selectApplyToolComponents(getState());
+      const toolComponents = selectors.selectApplyToolComponents(getState());
       const ids = toolComponents.map((toolComponent) => toolComponent.id);
       const filtered = results.filter((result) => {
         return !ids.includes(result.id);
@@ -111,6 +118,17 @@ export const updateApplyToolComponentSelections = (componentIds, selected) => {
 export const removeApplyToolComponents = (componentIds) => {
   return (dispatch, getState) => {
     dispatch(_removeApplyToolComponents({ componentIds }));
+  };
+};
+
+export const handleContainerClick = (gridId, positions) => {
+  return (dispatch, getState) => {
+    const clickMode = selectors.selectClickMode(getState());
+    if (clickMode === 'apply') {
+      console.log('apply', gridId, positions);
+    } else if (clickMode === 'select') {
+      dispatch(editor.toggleGridContainerSelections(gridId, positions));
+    }
   };
 };
 

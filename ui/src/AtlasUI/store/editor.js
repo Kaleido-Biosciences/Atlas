@@ -90,7 +90,7 @@ const editor = createSlice({
         });
       });
     },
-    toggleGridContainersSelected(state, action) {
+    toggleGridContainerSelections(state, action) {
       const { gridId, positions } = action.payload;
       const shortPositions = positions.map(
         (position) => position.row + position.column
