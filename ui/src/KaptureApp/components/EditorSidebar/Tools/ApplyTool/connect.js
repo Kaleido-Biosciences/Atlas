@@ -1,14 +1,12 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import { selectors } from 'KaptureApp/store';
+import { selectors, editor } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
 const {
   selectEditorToolComponents,
   selectEditorToolComponentsValid,
-  selectEditorSelectedContainersSummary,
-  selectEditorActiveGridId,
 } = selectors;
 
 const { applySelectedToolComponentsToSelectedGrids } = actions.editor;
@@ -18,8 +16,8 @@ const mapState = (state, props) => {
   return {
     toolComponents: selectEditorToolComponents(state),
     toolComponentsValid: selectEditorToolComponentsValid(state),
-    selectedContainersSummary: selectEditorSelectedContainersSummary(state),
-    activeGridId: selectEditorActiveGridId(state),
+    selectedContainersSummary: editor.selectSelectedContainersSummary(state),
+    activeGridId: editor.selectActiveGridId(state),
   };
 };
 

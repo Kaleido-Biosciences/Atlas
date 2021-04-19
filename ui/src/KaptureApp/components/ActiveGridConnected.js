@@ -2,14 +2,11 @@ import { connect } from 'react-redux';
 
 import { ActiveGrid } from 'AtlasUI/components';
 import { actions } from 'KaptureApp/actions';
-import { selectors, tools } from 'KaptureApp/store';
+import { selectors, editor, tools } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const {
-  selectEditorActiveGrid,
-  selectEditorBarcodeOptions,
-  selectEditorSettings,
   selectEditorImportImportStarted,
   selectEditorImportImportPending,
   selectEditorImportImportError,
@@ -35,9 +32,9 @@ const {
 
 const mapState = (state, props) => {
   return {
-    activeGrid: selectEditorActiveGrid(state),
-    barcodeOptions: selectEditorBarcodeOptions(state),
-    settings: selectEditorSettings(state),
+    activeGrid: editor.selectActiveGrid(state),
+    barcodeOptions: editor.selectBarcodeOptions(state),
+    settings: editor.selectSettings(state),
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
     headerSize: GRID_HEADER_SIZE,
     rowHeaders: GRID_ROW_HEADERS,

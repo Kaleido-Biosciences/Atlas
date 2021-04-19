@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
-import { selectors } from 'KaptureApp/store';
+import { selectors as oldSelectors } from 'KaptureApp/store';
 import { actions as editorActions } from 'KaptureApp/store/editor/slice';
+import * as selectors from 'KaptureApp/store/editor/selectors';
 import { api } from 'KaptureApp/api';
 import {
   getContainerCollection,
@@ -55,16 +56,14 @@ const {
   selectEditorComponentTypesToClear,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
-  selectEditorGrids,
-  // selectEditorActiveGridId,
   selectActivityName,
   selectEditorImportImportedComponents,
-} = selectors;
+} = oldSelectors;
 
 let lastSaveData = '';
 
 const saveGrids = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = exportGrids(selectEditorGrids(getState()));
+  const exportedGrids = exportGrids(selectors.selectGrids(getState()));
   const stringifiedGrids = JSON.stringify(exportedGrids);
   if (stringifiedGrids !== lastSaveData) {
     dispatch(_setSavePending());
@@ -116,7 +115,7 @@ export const loadContainerCollection = (status, version) => {
       const importData = await importContainerCollection(collection);
       dispatch(addBarcodes({ barcodes: importData.barcodes }));
       dispatch(_setGrids({ grids: importData.grids }));
-      const exportedGrids = exportGrids(selectEditorGrids(getState()));
+      const exportedGrids = exportGrids(selectors.selectGrids(getState()));
       lastSaveData = JSON.stringify(exportedGrids);
       dispatch(_setInitialized({ initialized: true }));
       dispatch(setContainerCollectionsStale({ stale: true }));
@@ -229,21 +228,11 @@ export const handleContainerClick = wrapWithChangeHandler(
   }
 );
 
-// export const setClickMode = ({ clickMode }) => {
-//   return (dispatch, getState) => {
-//     dispatch(_setClickMode({ clickMode }));
-//     const activeId = selectEditorActiveGridId(getState());
-//     if (activeId) {
-//       dispatch(_deselectGridContainers({ gridIds: [activeId] }));
-//     }
-//   };
-// };
-
 export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
   ({ gridId }) => {
     return (dispatch, getState) => {
       const components = selectEditorSelectedToolComponents(getState());
-      const grids = selectEditorGrids(getState());
+      const grids = selectors.selectGrids(getState());
       const grid = findGridById(gridId, grids);
       const actionPositions = [];
       const positions = grid.data.flat();
@@ -274,7 +263,7 @@ export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
 
 export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
   return (dispatch, getState) => {
-    const grids = selectEditorGrids(getState());
+    const grids = selectors.selectGrids(getState());
     const grid = findGridById(gridId, grids);
     const importedComponents = selectEditorImportImportedComponents(getState());
     const actionPositions = [];
@@ -312,7 +301,7 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
 export const cloneGrid = wrapWithChangeHandler(
   (gridId, componentTypesToClone, quantity) => {
     return (dispatch, getState) => {
-      const grids = selectEditorGrids(getState());
+      const grids = selectors.selectGrids(getState());
       const grid = findGridById(gridId, grids);
       const containerPositions = [];
       const positions = grid.data.flat();

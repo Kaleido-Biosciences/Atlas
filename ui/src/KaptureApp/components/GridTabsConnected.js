@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { GridTabs } from 'AtlasUI/components';
-import { selectors } from 'KaptureApp/store';
+import { editor } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
@@ -15,12 +15,10 @@ const {
   deleteGrid,
 } = actions.editor;
 
-const { selectEditorGridTabs, selectEditorActiveGridId } = selectors;
-
 const mapState = (state, props) => {
   return {
-    tabs: selectEditorGridTabs(state),
-    activeGridId: selectEditorActiveGridId(state),
+    tabs: editor.selectGridTabs(state),
+    activeGridId: editor.selectActiveGridId(state),
     componentTypes: COMPONENT_TYPES,
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
   };

@@ -1,6 +1,6 @@
 import bigInt from 'big-integer';
 
-import { activityActions, selectors } from 'KaptureApp/store';
+import { activityActions, selectors, editor } from 'KaptureApp/store';
 import { api } from 'KaptureApp/api';
 import { createContainerCollection } from 'KaptureApp/models';
 import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
@@ -13,11 +13,7 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
 } from 'KaptureApp/config/componentTypes';
 
-const {
-  selectActivityName,
-  selectActivityContainerCollections,
-  selectEditorGrids,
-} = selectors;
+const { selectActivityName, selectActivityContainerCollections } = selectors;
 
 const {
   setInitialized: _setInitialized,
@@ -95,7 +91,7 @@ export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishSuccess({ publishSuccess: false }));
     const activityName = selectActivityName(getState());
-    const exportedGrids = exportGrids(selectEditorGrids(getState()));
+    const exportedGrids = exportGrids(editor.selectGrids(getState()));
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishedContainerCollectionDetails(data));
