@@ -5,9 +5,9 @@ import {
   activitySearchReducer,
   activityReducer,
   printReducer,
-  editorReducer,
 } from 'AtlasUI/store';
 import { components } from './components';
+import { editor } from './editor';
 import { tools } from './tools';
 import { editorImportReducer } from './editorImport';
 import './validators';
@@ -24,12 +24,12 @@ if (process.env.NODE_ENV === `development`) {
 
 export const store = configureStore({
   reducer: {
-    activitySearch: activitySearchReducer,
     activity: activityReducer,
-    editor: editorReducer,
+    activitySearch: activitySearchReducer,
     components: components.reducer,
-    tools: tools.reducer,
+    editor: editor.reducer,
     editorImport: editorImportReducer,
+    tools: tools.reducer,
     print: printReducer,
   },
   middleware,

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
-import { editorActions, selectors } from 'KaptureApp/store';
+import { selectors } from 'KaptureApp/store';
+import { actions as editorActions } from 'KaptureApp/store/editor/slice';
 import { api } from 'KaptureApp/api';
 import {
   getContainerCollection,

@@ -201,7 +201,7 @@ const editor = createSlice({
   },
 });
 
-export const { actions: editorActions, reducer: editorReducer } = editor;
+export const { actions, reducer } = editor;
 
 function assignGridNames(grids, containerTypes) {
   const typeCounts = {};

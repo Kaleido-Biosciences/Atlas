@@ -1,9 +1,9 @@
-import { editorActions } from 'AtlasUI/store';
+import { actions } from './slice';
 
 const {
   toggleGridContainerSelections: _toggleGridContainerSelections,
   deselectGridContainers: _deselectGridContainers,
-} = editorActions;
+} = actions;
 
 export const toggleGridContainerSelections = (gridId, positions) => {
   return (dispatch, getState) => {
