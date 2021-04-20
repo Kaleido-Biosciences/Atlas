@@ -1,5 +1,5 @@
 .addAttributeForm {
-  padding: 0.8em;
+  padding: 0 0.8em;
 }
 
 .addAttributeForm :global(.ui.form) {

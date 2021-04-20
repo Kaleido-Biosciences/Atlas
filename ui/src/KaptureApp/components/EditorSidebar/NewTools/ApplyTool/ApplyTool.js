@@ -5,6 +5,7 @@ import { Button } from 'semantic-ui-react';
 import { ComponentSearch } from './ComponentSearch';
 import { AddAttributeForm } from './AddAttributeForm';
 import { ToolComponentList } from './ToolComponentList';
+import { SelectedContainers } from './SelectedContainers';
 import styles from './ApplyTool.module.css';
 
 export class ApplyTool extends React.Component {
@@ -54,6 +55,9 @@ export class ApplyTool extends React.Component {
     }
     this.hideAddAttributeForm();
   };
+  handleApplyClick = () => {
+    console.log('apply');
+  };
   render() {
     const { showComponentSearch, showAddAttributeForm } = this.state;
     return (
@@ -73,12 +77,31 @@ export class ApplyTool extends React.Component {
           />
         </div>
         {!showComponentSearch && !showAddAttributeForm && (
-          <ToolComponentList
-            toolComponents={this.props.toolComponents}
-            onSelectionsChange={this.props.onComponentSelectionsChange}
-            onRemove={this.props.onRemoveToolComponent}
-            onUpdate={this.props.onUpdateToolComponent}
-          />
+          <div className={styles.toolComponentsContainer}>
+            <div className={styles.toolComponentListContainer}>
+              <ToolComponentList
+                toolComponents={this.props.toolComponents}
+                onSelectionsChange={this.props.onComponentSelectionsChange}
+                onRemove={this.props.onRemoveToolComponent}
+                onUpdate={this.props.onUpdateToolComponent}
+              />
+            </div>
+            {this.props.clickMode === 'select' && (
+              <div className={styles.selectedContainersContainer}>
+                <SelectedContainers
+                  selectedContainersSummary={
+                    this.props.selectedContainersSummary
+                  }
+                  showButton={true}
+                  buttonDisabled={
+                    !this.props.toolComponentsValid ||
+                    this.props.toolComponents.length === 0
+                  }
+                  onApplyClick={this.handleApplyClick}
+                />
+              </div>
+            )}
+          </div>
         )}
         {showComponentSearch && (
           <ComponentSearch
@@ -103,6 +126,7 @@ export class ApplyTool extends React.Component {
 }
 
 ApplyTool.propTypes = {
+  clickMode: PropTypes.string,
   componentSearchComplete: PropTypes.bool,
   componentSearchPending: PropTypes.bool,
   componentSearchResults: PropTypes.array,
@@ -115,5 +139,7 @@ ApplyTool.propTypes = {
   onRemoveToolComponent: PropTypes.func,
   onUnmount: PropTypes.func,
   onUpdateToolComponent: PropTypes.func,
+  selectedContainersSummary: PropTypes.object,
   toolComponents: PropTypes.array,
+  toolComponentsValid: PropTypes.bool,
 };

@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
-import { tools } from 'KaptureApp/store';
+import { tools, editor } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
+    clickMode: tools.selectClickMode(state),
     componentSearchComplete: tools.selectComponentSearchComplete(state),
     componentSearchPending: tools.selectComponentSearchPending(state),
     componentSearchResults: tools.selectComponentSearchResults(state),
     componentSearchTerm: tools.selectComponentSearchTerm(state),
+    selectedContainersSummary: editor.selectSelectedContainersSummary(state),
     toolComponents: tools.selectApplyToolComponents(state),
+    toolComponentsValid: tools.selectApplyToolComponentsValid(state),
   };
 };
 

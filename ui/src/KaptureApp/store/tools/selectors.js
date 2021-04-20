@@ -10,3 +10,5 @@ export const selectComponentSearchResults = (state) =>
 export const selectApplyToolComponents = (state) =>
   state.tools.applyToolComponents;
 export const selectClickMode = (state) => state.tools.clickMode;
+export const selectApplyToolComponentsValid = (state) =>
+  state.tools.applyToolComponentsValid;
