@@ -5,6 +5,7 @@ import { tools, editor } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
+    activeGridId: editor.selectActiveGridId(state),
     clickMode: tools.selectClickMode(state),
     componentSearchComplete: tools.selectComponentSearchComplete(state),
     componentSearchPending: tools.selectComponentSearchPending(state),
@@ -19,6 +20,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onAddAttribute: tools.addAttributeToApplyToolComponents,
   onAddToolComponent: tools.addApplyToolComponent,
+  onApplyClick: tools.applySelectedToolComponentsToSelectedContainers,
   onComponentSearchChange: tools.searchComponents,
   onComponentSearchHide: tools.resetComponentSearch,
   onComponentSelectionsChange: tools.updateApplyToolComponentSelections,

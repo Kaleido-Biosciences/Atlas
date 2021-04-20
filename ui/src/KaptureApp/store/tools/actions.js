@@ -7,6 +7,10 @@ import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createToolComponent,
+  sortComponentsByType,
+  getComponentFromToolComponent,
+  updateToolComponentDescription,
+  updateComponentDescription,
 } from 'KaptureApp/config/componentTypes';
 
 const {
@@ -125,31 +129,104 @@ export const handleContainerClick = (gridId, positions) => {
   return (dispatch, getState) => {
     const clickMode = selectors.selectClickMode(getState());
     if (clickMode === 'apply') {
-      console.log('apply', gridId, positions);
+      dispatch(applySelectedToolComponentsToContainers(gridId, positions));
     } else if (clickMode === 'select') {
       dispatch(editor.toggleGridContainerSelections(gridId, positions));
     }
   };
 };
 
-const updateToolComponentDescription = (toolComponent) => {
-  const newComponent = { ...toolComponent };
-  let description = '';
-  if (
-    toolComponent.isValid &&
-    toolComponent.fields &&
-    toolComponent.fields.timepoints &&
-    toolComponent.fields.timepoints.length
-  ) {
-    const timepoints = toolComponent.fields.timepoints;
-    const timepointStrings = timepoints.map((timepoint) => {
-      if (timepoint.concentration) {
-        return `${timepoint.concentration.toFixed(2)} @ 
-              ${timepoint.time}h`;
-      } else return '';
-    });
-    description = timepointStrings.join(', ');
-  }
-  newComponent.description = description;
-  return newComponent;
+export const applySelectedToolComponentsToContainers = (gridId, positions) => {
+  return (dispatch, getState) => {
+    if (selectors.selectApplyToolComponentsValid(getState())) {
+      const toolComponents = selectors.selectSelectedApplyToolComponents(
+        getState()
+      );
+      const actionPositions = applyToolComponentsToPositions(
+        positions,
+        toolComponents
+      );
+      dispatch(editor.setGridComponents(gridId, actionPositions));
+    }
+  };
+};
+
+export const applySelectedToolComponentsToSelectedContainers = (gridId) => {
+  return (dispatch, getState) => {
+    if (selectors.selectApplyToolComponentsValid(getState())) {
+      const toolComponents = selectors.selectSelectedApplyToolComponents(
+        getState()
+      );
+      const grids = editor.selectGrids(getState());
+      const grid = grids.find((grid) => grid.id === gridId);
+      const positions = [];
+      const flattened = grid.data.flat();
+      flattened.forEach((position) => {
+        if (position.container && position.container.selected) {
+          positions.push(position);
+        }
+      });
+      const actionPositions = applyToolComponentsToPositions(
+        positions,
+        toolComponents
+      );
+      dispatch(editor.setGridComponents(gridId, actionPositions));
+    }
+  };
+};
+
+const applyToolComponentsToPositions = (positions, toolComponents) => {
+  const actionPositions = [];
+  positions.forEach((position) => {
+    if (position.container) {
+      const newComponents = updateContainerComponents(
+        position.container,
+        toolComponents
+      );
+      actionPositions.push({
+        row: position.row,
+        column: position.column,
+        components: newComponents,
+      });
+    }
+  });
+  return actionPositions;
+};
+
+const updateContainerComponents = (container, toolComponentsToApply) => {
+  const containerComponents = container.components.slice();
+  const componentsToApply = toolComponentsToApply.map((toolComponent) => {
+    return getComponentFromToolComponent(toolComponent);
+  });
+  componentsToApply.forEach((component) => {
+    const existingComponent = containerComponents.find(
+      (comp) => comp.id === component.id
+    );
+    if (!existingComponent) {
+      containerComponents.push(updateComponentDescription(component));
+    } else {
+      if (existingComponent.options.timepoints) {
+        existingComponent.options.timepoints.forEach((eTimepoint) => {
+          const index = component.options.timepoints.findIndex(
+            (timepoint) => timepoint.time === eTimepoint.time
+          );
+          if (index === -1) {
+            component.options.timepoints.push(eTimepoint);
+          }
+        });
+        component.options.timepoints.sort((a, b) => {
+          return a.time - b.time;
+        });
+      }
+      const index = containerComponents.findIndex(
+        (eComponent) => eComponent.id === component.id
+      );
+      containerComponents.splice(
+        index,
+        1,
+        updateComponentDescription(component)
+      );
+    }
+  });
+  return sortComponentsByType(containerComponents);
 };

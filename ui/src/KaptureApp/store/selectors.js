@@ -12,6 +12,7 @@ const kaptureSelectors = {
   selectEditorClickMode: (state) => state.editorTools.clickMode,
   selectEditorComponentTypesToClear: (state) =>
     state.editorTools.componentTypesToClear,
+  //delete this
   selectEditorSelectedToolComponents: createSelector(
     [selectEditorToolComponents],
     (toolComponents) => {

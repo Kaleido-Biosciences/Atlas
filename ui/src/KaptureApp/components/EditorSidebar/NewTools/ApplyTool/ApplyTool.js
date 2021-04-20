@@ -56,7 +56,9 @@ export class ApplyTool extends React.Component {
     this.hideAddAttributeForm();
   };
   handleApplyClick = () => {
-    console.log('apply');
+    if (this.props.onApplyClick) {
+      this.props.onApplyClick(this.props.activeGridId);
+    }
   };
   render() {
     const { showComponentSearch, showAddAttributeForm } = this.state;
@@ -126,6 +128,7 @@ export class ApplyTool extends React.Component {
 }
 
 ApplyTool.propTypes = {
+  activeGridId: PropTypes.string,
   clickMode: PropTypes.string,
   componentSearchComplete: PropTypes.bool,
   componentSearchPending: PropTypes.bool,
@@ -133,6 +136,7 @@ ApplyTool.propTypes = {
   componentSearchTerm: PropTypes.string,
   onAddAttribute: PropTypes.func,
   onAddToolComponent: PropTypes.func,
+  onApplyClick: PropTypes.func,
   onComponentSearchChange: PropTypes.func,
   onComponentSearchHide: PropTypes.func,
   onComponentSelectionsChange: PropTypes.func,
