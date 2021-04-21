@@ -1,1 +1,1 @@
-export { EraserTool } from './EraserTool';
+export { EraserTool } from './connect';

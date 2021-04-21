@@ -22,7 +22,11 @@ export class Tools extends React.Component {
     if (activeTool === 'apply') {
       return <ApplyTool />;
     } else if (activeTool === 'eraser') {
-      return <EraserTool />;
+      return (
+        <div className={styles.eraserToolContainer}>
+          <EraserTool />
+        </div>
+      );
     }
   }
   render() {
@@ -50,12 +54,22 @@ export class Tools extends React.Component {
             <Form>
               <Form.Group inline>
                 <label>Click to:</label>
-                <Form.Radio
-                  label="Apply"
-                  value="apply"
-                  checked={this.props.clickMode === 'apply'}
-                  onChange={this.handleClickModeChange}
-                />
+                {activeTool === 'apply' && (
+                  <Form.Radio
+                    label="Apply"
+                    value="apply"
+                    checked={this.props.clickMode === 'apply'}
+                    onChange={this.handleClickModeChange}
+                  />
+                )}
+                {activeTool === 'eraser' && (
+                  <Form.Radio
+                    label="Erase"
+                    value="erase"
+                    checked={this.props.clickMode === 'erase'}
+                    onChange={this.handleClickModeChange}
+                  />
+                )}
                 <Form.Radio
                   label="Select"
                   value="select"

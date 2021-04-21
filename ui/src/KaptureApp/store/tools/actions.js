@@ -24,6 +24,7 @@ const {
   updateApplyToolComponentSelections: _updateApplyToolComponentSelections,
   removeApplyToolComponents: _removeApplyToolComponents,
   updateApplyToolComponent: _updateApplyToolComponent,
+  setComponentTypesToClear: _setComponentTypesToClear,
 } = actions;
 
 export const { resetComponentSearch } = actions;
@@ -31,6 +32,12 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
+    const clickMode = selectors.selectClickMode(getState());
+    if (tool === 'eraser' && clickMode === 'apply') {
+      dispatch(_setClickMode({ clickMode: 'erase' }));
+    } else if (tool === 'apply' && clickMode === 'erase') {
+      dispatch(_setClickMode({ clickMode: 'apply' }));
+    }
   };
 };
 
@@ -229,4 +236,10 @@ const updateContainerComponents = (container, toolComponentsToApply) => {
     }
   });
   return sortComponentsByType(containerComponents);
+};
+
+export const setComponentTypesToClear = (componentTypes) => {
+  return (dispatch, getState) => {
+    dispatch(_setComponentTypesToClear({ componentTypes }));
+  };
 };

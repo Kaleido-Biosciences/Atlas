@@ -10,6 +10,7 @@ const kaptureSelectors = {
   selectEditorToolComponentsValid: (state) =>
     state.editorTools.toolComponentsValid,
   selectEditorClickMode: (state) => state.editorTools.clickMode,
+  // delete
   selectEditorComponentTypesToClear: (state) =>
     state.editorTools.componentTypesToClear,
   //delete this
