@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 
-import { EraserToolOption } from './EraserToolOption';
+import { RemoveToolOption } from './RemoveToolOption';
 import { SelectedContainers } from '../SelectedContainers';
-import styles from './EraserTool.module.css';
+import styles from './RemoveTool.module.css';
 
-export class EraserTool extends Component {
+export class RemoveTool extends Component {
   handleChange = (e, data) => {
     const { checked, value } = data;
     if (this.props.onChange) {
-      const newValues = this.props.componentTypesToClear.slice();
+      const newValues = this.props.componentTypesToRemove.slice();
       if (checked) {
         newValues.push(value);
       } else {
@@ -38,9 +38,9 @@ export class EraserTool extends Component {
     return this.props.componentTypes.map((type) => {
       return (
         <Form.Field key={type.name}>
-          <EraserToolOption
+          <RemoveToolOption
             componentType={type}
-            checked={this.props.componentTypesToClear.includes(type.name)}
+            checked={this.props.componentTypesToRemove.includes(type.name)}
             onClick={this.handleChange}
           />
         </Form.Field>
@@ -49,10 +49,10 @@ export class EraserTool extends Component {
   }
   render() {
     return (
-      <div className={styles.eraserTool}>
+      <div className={styles.removeTool}>
         <div className={styles.body}>
           <div className={styles.message}>
-            Select the component types to clear
+            Select the component types to remove
           </div>
           <div className={styles.buttons}>
             <Button compact size="mini" onClick={this.handleSelectAll}>
@@ -79,9 +79,9 @@ export class EraserTool extends Component {
   }
 }
 
-EraserTool.propTypes = {
+RemoveTool.propTypes = {
   clickMode: PropTypes.string.isRequired,
-  componentTypesToClear: PropTypes.array.isRequired,
+  componentTypesToRemove: PropTypes.array.isRequired,
   componentTypes: PropTypes.array.isRequired,
   onChange: PropTypes.func,
   selectedContainersSummary: PropTypes.object.isRequired,

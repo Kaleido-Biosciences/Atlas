@@ -20,5 +20,5 @@ export const selectSelectedApplyToolComponents = createSelector(
 export const selectClickMode = (state) => state.tools.clickMode;
 export const selectApplyToolComponentsValid = (state) =>
   state.tools.applyToolComponentsValid;
-export const selectComponentTypesToClear = (state) =>
-  state.tools.componentTypesToClear;
+export const selectComponentTypesToRemove = (state) =>
+  state.tools.componentTypesToRemove;

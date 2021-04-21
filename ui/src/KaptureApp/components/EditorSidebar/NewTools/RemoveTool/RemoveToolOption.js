@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'semantic-ui-react';
 
-import styles from './EraserTool.module.css';
+import styles from './RemoveTool.module.css';
 
-export class EraserToolOption extends Component {
+export class RemoveToolOption extends Component {
   handleClick = () => {
     if (this.props.onClick) {
       this.props.onClick(null, {
@@ -34,7 +34,7 @@ export class EraserToolOption extends Component {
   }
 }
 
-EraserToolOption.propTypes = {
+RemoveToolOption.propTypes = {
   componentType: PropTypes.object,
   checked: PropTypes.bool,
   onClick: PropTypes.func,

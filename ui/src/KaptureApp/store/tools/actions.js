@@ -24,7 +24,7 @@ const {
   updateApplyToolComponentSelections: _updateApplyToolComponentSelections,
   removeApplyToolComponents: _removeApplyToolComponents,
   updateApplyToolComponent: _updateApplyToolComponent,
-  setComponentTypesToClear: _setComponentTypesToClear,
+  setComponentTypesToRemove: _setComponentTypesToRemove,
 } = actions;
 
 export const { resetComponentSearch } = actions;
@@ -33,9 +33,9 @@ export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
     const clickMode = selectors.selectClickMode(getState());
-    if (tool === 'eraser' && clickMode === 'apply') {
-      dispatch(_setClickMode({ clickMode: 'erase' }));
-    } else if (tool === 'apply' && clickMode === 'erase') {
+    if (tool === 'remove' && clickMode === 'apply') {
+      dispatch(_setClickMode({ clickMode: 'remove' }));
+    } else if (tool === 'apply' && clickMode === 'remove') {
       dispatch(_setClickMode({ clickMode: 'apply' }));
     }
   };
@@ -44,7 +44,7 @@ export const setActiveTool = (tool) => {
 export const setClickMode = (clickMode) => {
   return (dispatch, getState) => {
     dispatch(_setClickMode({ clickMode }));
-    if (clickMode === 'apply' || clickMode === 'erase') {
+    if (clickMode === 'apply' || clickMode === 'remove') {
       const activeId = editor.selectActiveGridId(getState());
       if (activeId) {
         dispatch(editor.deselectGridContainers([activeId]));
@@ -238,8 +238,8 @@ const updateContainerComponents = (container, toolComponentsToApply) => {
   return sortComponentsByType(containerComponents);
 };
 
-export const setComponentTypesToClear = (componentTypes) => {
+export const setComponentTypesToRemove = (componentTypes) => {
   return (dispatch, getState) => {
-    dispatch(_setComponentTypesToClear({ componentTypes }));
+    dispatch(_setComponentTypesToRemove({ componentTypes }));
   };
 };

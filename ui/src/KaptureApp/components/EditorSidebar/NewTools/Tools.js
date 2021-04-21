@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form } from 'semantic-ui-react';
 
 import { ApplyTool } from './ApplyTool';
-import { EraserTool } from './EraserTool';
+import { RemoveTool } from './RemoveTool';
 import styles from './Tools.module.css';
 
 export class Tools extends React.Component {
@@ -21,8 +21,8 @@ export class Tools extends React.Component {
     const { activeTool } = this.props;
     if (activeTool === 'apply') {
       return <ApplyTool />;
-    } else if (activeTool === 'eraser') {
-      return <EraserTool />;
+    } else if (activeTool === 'remove') {
+      return <RemoveTool />;
     }
   }
   render() {
@@ -39,11 +39,12 @@ export class Tools extends React.Component {
               size="mini"
             />
             <Button
-              name="eraser"
-              icon="eraser"
+              name="remove"
+              icon="remove circle"
               onClick={this.handleToolClick}
-              active={activeTool === 'eraser'}
+              active={activeTool === 'remove'}
               size="mini"
+              title="Remove Tool"
             />
           </Button.Group>
           <div className={styles.clickMode}>
@@ -58,11 +59,11 @@ export class Tools extends React.Component {
                     onChange={this.handleClickModeChange}
                   />
                 )}
-                {activeTool === 'eraser' && (
+                {activeTool === 'remove' && (
                   <Form.Radio
-                    label="Erase"
-                    value="erase"
-                    checked={this.props.clickMode === 'erase'}
+                    label="Remove"
+                    value="remove"
+                    checked={this.props.clickMode === 'remove'}
                     onChange={this.handleClickModeChange}
                   />
                 )}

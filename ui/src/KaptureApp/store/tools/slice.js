@@ -10,7 +10,7 @@ const initialState = {
   applyToolComponents: [],
   applyToolComponentsValid: true,
   clickMode: 'apply',
-  componentTypesToClear: [],
+  componentTypesToRemove: [],
 };
 
 const tools = createSlice({
@@ -87,8 +87,8 @@ const tools = createSlice({
     setClickMode(state, action) {
       state.clickMode = action.payload.clickMode;
     },
-    setComponentTypesToClear(state, action) {
-      state.componentTypesToClear = action.payload.componentTypes;
+    setComponentTypesToRemove(state, action) {
+      state.componentTypesToRemove = action.payload.componentTypes;
     },
   },
 });
