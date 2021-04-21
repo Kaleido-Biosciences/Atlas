@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react';
 import { ComponentSearch } from './ComponentSearch';
 import { AddAttributeForm } from './AddAttributeForm';
 import { ToolComponentList } from './ToolComponentList';
-import { SelectedContainers } from './SelectedContainers';
+import { SelectedContainers } from '../SelectedContainers';
 import styles from './ApplyTool.module.css';
 
 export class ApplyTool extends React.Component {

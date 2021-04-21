@@ -22,11 +22,7 @@ export class Tools extends React.Component {
     if (activeTool === 'apply') {
       return <ApplyTool />;
     } else if (activeTool === 'eraser') {
-      return (
-        <div className={styles.eraserToolContainer}>
-          <EraserTool />
-        </div>
-      );
+      return <EraserTool />;
     }
   }
   render() {

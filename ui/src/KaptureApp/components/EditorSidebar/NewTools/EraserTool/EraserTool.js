@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 
 import { EraserToolOption } from './EraserToolOption';
+import { SelectedContainers } from '../SelectedContainers';
 import styles from './EraserTool.module.css';
 
 export class EraserTool extends Component {
@@ -48,26 +49,40 @@ export class EraserTool extends Component {
   }
   render() {
     return (
-      <div>
-        <div className={styles.message}>
-          Select the component types to clear
+      <div className={styles.eraserTool}>
+        <div className={styles.body}>
+          <div className={styles.message}>
+            Select the component types to clear
+          </div>
+          <div className={styles.buttons}>
+            <Button compact size="mini" onClick={this.handleSelectAll}>
+              Select All
+            </Button>
+            <Button compact size="mini" onClick={this.handleDeselectAll}>
+              Deselect All
+            </Button>
+          </div>
+          <Form>{this.renderFields()}</Form>
         </div>
-        <div className={styles.buttons}>
-          <Button compact size="mini" onClick={this.handleSelectAll}>
-            Select All
-          </Button>
-          <Button compact size="mini" onClick={this.handleDeselectAll}>
-            Deselect All
-          </Button>
-        </div>
-        <Form>{this.renderFields()}</Form>
+        {this.props.clickMode === 'select' && (
+          <div className={styles.selectedContainersContainer}>
+            <SelectedContainers
+              selectedContainersSummary={this.props.selectedContainersSummary}
+              showButton={true}
+              buttonDisabled={false}
+              onApplyClick={this.handleApplyClick}
+            />
+          </div>
+        )}
       </div>
     );
   }
 }
 
 EraserTool.propTypes = {
+  clickMode: PropTypes.string.isRequired,
   componentTypesToClear: PropTypes.array.isRequired,
   componentTypes: PropTypes.array.isRequired,
   onChange: PropTypes.func,
+  selectedContainersSummary: PropTypes.object.isRequired,
 };

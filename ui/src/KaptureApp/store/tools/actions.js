@@ -44,7 +44,7 @@ export const setActiveTool = (tool) => {
 export const setClickMode = (clickMode) => {
   return (dispatch, getState) => {
     dispatch(_setClickMode({ clickMode }));
-    if (clickMode === 'apply') {
+    if (clickMode === 'apply' || clickMode === 'erase') {
       const activeId = editor.selectActiveGridId(getState());
       if (activeId) {
         dispatch(editor.deselectGridContainers([activeId]));
