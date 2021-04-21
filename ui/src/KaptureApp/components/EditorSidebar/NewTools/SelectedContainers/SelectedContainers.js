@@ -5,61 +5,52 @@ import { Header, Button } from 'semantic-ui-react';
 import styles from './SelectedContainers.module.css';
 
 export class SelectedContainers extends Component {
-  handleApplyClick = () => {
-    if (this.props.onApplyClick) {
-      this.props.onApplyClick();
-    }
+  handleButtonClick = () => {
+    if (this.props.onButtonClick) this.props.onButtonClick();
   };
   renderSelectedContainersSummary() {
-    const { selectedContainersSummary } = this.props;
-    if (selectedContainersSummary) {
-      let headerText;
-      if (selectedContainersSummary.count > 0) {
-        headerText = 'Selected Containers';
-      } else {
-        headerText = 'No containers selected.';
-      }
-      return (
-        <div className={styles.text}>
-          <Header size="tiny">{headerText}</Header>
-          {selectedContainersSummary.text}
-        </div>
-      );
+    let headerText;
+    if (this.props.selectedContainersSummary.count > 0) {
+      headerText = 'Selected Containers';
+    } else {
+      headerText = 'No containers selected.';
     }
+    return (
+      <div className={styles.text}>
+        <Header size="tiny">{headerText}</Header>
+        {this.props.selectedContainersSummary.text}
+      </div>
+    );
   }
   render() {
-    const {
-      selectedContainersSummary,
-      showButton,
-      buttonDisabled,
-    } = this.props;
-    let disabled = buttonDisabled;
-    if (selectedContainersSummary && selectedContainersSummary.count === 0) {
+    const { selectedContainersSummary, buttonDisabled } = this.props;
+    let disabled = buttonDisabled || false;
+    if (selectedContainersSummary.count === 0) {
       disabled = true;
     }
+    const containerText =
+      selectedContainersSummary.count === 1 ? 'container' : 'containers';
     return (
       <div className={styles.selectedContainers}>
         {this.renderSelectedContainersSummary()}
-        {showButton ? (
-          <div className={styles.buttonContainer}>
-            <Button
-              disabled={disabled}
-              primary
-              onClick={this.handleApplyClick}
-              size="mini"
-            >
-              Apply to {selectedContainersSummary.count} containers
-            </Button>
-          </div>
-        ) : null}
+        <div className={styles.buttonContainer}>
+          <Button
+            disabled={disabled}
+            primary
+            onClick={this.handleButtonClick}
+            size="mini"
+          >
+            {`${this.props.buttonText} ${selectedContainersSummary.count} ${containerText}`}
+          </Button>
+        </div>
       </div>
     );
   }
 }
 
 SelectedContainers.propTypes = {
-  selectedContainersSummary: PropTypes.object,
-  showButton: PropTypes.bool,
   buttonDisabled: PropTypes.bool,
-  onApplyClick: PropTypes.func,
+  buttonText: PropTypes.string.isRequired,
+  selectedContainersSummary: PropTypes.object.isRequired,
+  onButtonClick: PropTypes.func,
 };

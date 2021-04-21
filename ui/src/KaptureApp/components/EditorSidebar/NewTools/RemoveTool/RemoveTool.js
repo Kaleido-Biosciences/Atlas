@@ -72,10 +72,10 @@ export class RemoveTool extends Component {
         {this.props.clickMode === 'select' && (
           <div className={styles.selectedContainersContainer}>
             <SelectedContainers
-              selectedContainersSummary={this.props.selectedContainersSummary}
-              showButton={true}
               buttonDisabled={false}
-              onApplyClick={this.handleRemoveClick}
+              buttonText="Remove from"
+              selectedContainersSummary={this.props.selectedContainersSummary}
+              onButtonClick={this.handleRemoveClick}
             />
           </div>
         )}

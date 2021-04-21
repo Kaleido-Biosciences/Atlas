@@ -91,15 +91,15 @@ export class ApplyTool extends React.Component {
             {this.props.clickMode === 'select' && (
               <div className={styles.selectedContainersContainer}>
                 <SelectedContainers
-                  selectedContainersSummary={
-                    this.props.selectedContainersSummary
-                  }
-                  showButton={true}
                   buttonDisabled={
                     !this.props.toolComponentsValid ||
                     this.props.toolComponents.length === 0
                   }
-                  onApplyClick={this.handleApplyClick}
+                  buttonText="Add to"
+                  selectedContainersSummary={
+                    this.props.selectedContainersSummary
+                  }
+                  onButtonClick={this.handleApplyClick}
                 />
               </div>
             )}
