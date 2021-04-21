@@ -1,11 +1,8 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-import {
-  activitySearchReducer,
-  activityReducer,
-  printReducer,
-} from 'AtlasUI/store';
+import { activitySearchReducer, printReducer } from 'AtlasUI/store';
+import { activity } from './activity';
 import { components } from './components';
 import { editor } from './editor';
 import { tools } from './tools';
@@ -24,7 +21,7 @@ if (process.env.NODE_ENV === `development`) {
 
 export const store = configureStore({
   reducer: {
-    activity: activityReducer,
+    activity: activity.reducer,
     activitySearch: activitySearchReducer,
     components: components.reducer,
     editor: editor.reducer,

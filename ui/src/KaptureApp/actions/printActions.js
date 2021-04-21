@@ -1,8 +1,4 @@
-import { printActions } from 'KaptureApp/store';
-import {
-  getContainerCollection,
-  importContainerCollection,
-} from './activityActions';
+import { printActions, activity } from 'KaptureApp/store';
 import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
 
 const {
@@ -18,9 +14,9 @@ export const loadContainerCollection = (status, version) => {
     try {
       dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES_KEYED }));
       const collection = await dispatch(
-        getContainerCollection(status, version)
+        activity.getContainerCollection(status, version)
       );
-      const importData = await importContainerCollection(collection);
+      const importData = await activity.importContainerCollection(collection);
       if (importData.grids.length) {
         dispatch(_setGrids({ grids: importData.grids }));
       } else {

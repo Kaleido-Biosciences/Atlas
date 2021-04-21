@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import { Print } from 'AtlasUI/components';
-import { selectors } from 'KaptureApp/store';
+import { activity, selectors } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 import { GRID_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
@@ -11,8 +11,6 @@ const {
   selectPrintInitialized,
   selectPrintInitializationError,
   selectPrintGrids,
-  selectActivityName,
-  selectActivityDescription,
 } = selectors;
 const { loadContainerCollection, resetPrint } = actions.print;
 
@@ -37,8 +35,8 @@ const mapState = (state, props) => {
     grids: selectPrintGrids(state),
     gridTypes: GRID_TYPES_KEYED,
     rowHeaders: GRID_ROW_HEADERS,
-    activityName: selectActivityName(state),
-    activityDescription: selectActivityDescription(state),
+    activityName: activity.selectName(state),
+    activityDescription: activity.selectDescription(state),
   };
 };
 

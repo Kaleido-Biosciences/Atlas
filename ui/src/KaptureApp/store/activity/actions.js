@@ -1,6 +1,8 @@
 import bigInt from 'big-integer';
 
-import { activityActions, selectors, editor } from 'KaptureApp/store';
+import { actions } from './slice';
+import * as selectors from './selectors';
+import { editor } from '../editor';
 import { api } from 'KaptureApp/api';
 import { createContainerCollection } from 'KaptureApp/models';
 import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
@@ -13,8 +15,6 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
 } from 'KaptureApp/config/componentTypes';
 
-const { selectActivityName, selectActivityContainerCollections } = selectors;
-
 const {
   setInitialized: _setInitialized,
   setInitializationError: _setInitializationError,
@@ -22,13 +22,13 @@ const {
   setPublishSuccess: _setPublishSuccess,
   setPublishError: _setPublishError,
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
-} = activityActions;
+} = actions;
 
 export const {
   resetState: resetActivity,
   setContainerCollectionsStale,
   resetPublishState,
-} = activityActions;
+} = actions;
 
 export const loadActivity = (id) => {
   return async (dispatch, getState) => {
@@ -66,7 +66,9 @@ export const loadActivity = (id) => {
 export const getContainerCollection = (status, timestamp) => {
   return async (dispatch, getState) => {
     const parsedTimestamp = parseInt(timestamp);
-    const containerCollections = selectActivityContainerCollections(getState());
+    const containerCollections = selectors.selectContainerCollections(
+      getState()
+    );
     let collection = containerCollections.find((collection) => {
       return (
         collection.data.experiment_status === status &&
@@ -90,7 +92,7 @@ export const importContainerCollection = async (containerCollection) => {
 export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishSuccess({ publishSuccess: false }));
-    const activityName = selectActivityName(getState());
+    const activityName = selectors.selectName(getState());
     const exportedGrids = exportGrids(editor.selectGrids(getState()));
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);

@@ -54,4 +54,4 @@ const activity = createSlice({
   },
 });
 
-export const { actions: activityActions, reducer: activityReducer } = activity;
+export const { actions, reducer } = activity;

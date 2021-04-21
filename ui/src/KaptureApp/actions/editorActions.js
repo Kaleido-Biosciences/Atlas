@@ -1,14 +1,10 @@
 import _ from 'lodash';
 
-import { selectors as oldSelectors } from 'KaptureApp/store';
+import { selectors as oldSelectors, activity } from 'KaptureApp/store';
 import { actions as editorActions } from 'KaptureApp/store/editor/slice';
 import * as selectors from 'KaptureApp/store/editor/selectors';
 import { api } from 'KaptureApp/api';
-import {
-  getContainerCollection,
-  importContainerCollection,
-  setContainerCollectionsStale,
-} from './activityActions';
+
 import {
   createGrid,
   createGridData,
@@ -56,7 +52,6 @@ const {
   selectEditorComponentTypesToClear,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
-  selectActivityName,
   selectEditorImportImportedComponents,
 } = oldSelectors;
 
@@ -67,7 +62,7 @@ const saveGrids = _.debounce(async (dispatch, getState) => {
   const stringifiedGrids = JSON.stringify(exportedGrids);
   if (stringifiedGrids !== lastSaveData) {
     dispatch(_setSavePending());
-    const activityName = selectActivityName(getState());
+    const activityName = activity.selectName(getState());
     try {
       await api.saveActivityGrids(activityName, exportedGrids);
       dispatch(
@@ -109,16 +104,16 @@ export const loadContainerCollection = (status, version) => {
       );
       dispatch(_setComponentTypes({ componentTypes: componentTypes }));
       const collection = await dispatch(
-        getContainerCollection(status, version)
+        activity.getContainerCollection(status, version)
       );
       dispatch(_setContainerCollection({ collection }));
-      const importData = await importContainerCollection(collection);
+      const importData = await activity.importContainerCollection(collection);
       dispatch(addBarcodes({ barcodes: importData.barcodes }));
       dispatch(_setGrids({ grids: importData.grids }));
       const exportedGrids = exportGrids(selectors.selectGrids(getState()));
       lastSaveData = JSON.stringify(exportedGrids);
       dispatch(_setInitialized({ initialized: true }));
-      dispatch(setContainerCollectionsStale({ stale: true }));
+      dispatch(activity.setContainerCollectionsStale({ stale: true }));
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));
     }

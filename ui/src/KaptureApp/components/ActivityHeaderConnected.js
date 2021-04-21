@@ -1,14 +1,12 @@
 import { connect } from 'react-redux';
 
 import { ActivityHeader } from 'AtlasUI/components';
-import { selectors } from 'KaptureApp/store';
-
-const { selectActivityId, selectActivityName } = selectors;
+import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    name: selectActivityName(state),
-    linkUrl: `/activities/${selectActivityId(state)}`,
+    name: activity.selectName(state),
+    linkUrl: `/activities/${activity.selectId(state)}`,
   };
 };
 
