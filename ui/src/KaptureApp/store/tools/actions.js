@@ -139,6 +139,8 @@ export const handleContainerClick = (gridId, positions) => {
       dispatch(applySelectedToolComponentsToContainers(gridId, positions));
     } else if (clickMode === 'select') {
       dispatch(editor.toggleGridContainerSelections(gridId, positions));
+    } else if (clickMode === 'remove') {
+      dispatch(removeComponentsFromContainers(gridId, positions));
     }
   };
 };
@@ -242,4 +244,58 @@ export const setComponentTypesToRemove = (componentTypes) => {
   return (dispatch, getState) => {
     dispatch(_setComponentTypesToRemove({ componentTypes }));
   };
+};
+
+export const removeComponentsFromContainers = (gridId, positions) => {
+  return (dispatch, getState) => {
+    const componentTypesToRemove = selectors.selectComponentTypesToRemove(
+      getState()
+    );
+    const actionPositions = removeComponentsFromPositions(
+      positions,
+      componentTypesToRemove
+    );
+    dispatch(editor.setGridComponents(gridId, actionPositions));
+  };
+};
+
+export const removeComponentsFromSelectedContainers = (gridId) => {
+  return (dispatch, getState) => {
+    const grids = editor.selectGrids(getState());
+    const grid = grids.find((grid) => grid.id === gridId);
+    const positions = [];
+    const flattened = grid.data.flat();
+    flattened.forEach((position) => {
+      if (position.container && position.container.selected) {
+        positions.push(position);
+      }
+    });
+    const componentTypesToRemove = selectors.selectComponentTypesToRemove(
+      getState()
+    );
+    const actionPositions = removeComponentsFromPositions(
+      positions,
+      componentTypesToRemove
+    );
+    dispatch(editor.setGridComponents(gridId, actionPositions));
+  };
+};
+
+const removeComponentsFromPositions = (positions, componentTypesToRemove) => {
+  const actionPositions = [];
+  positions.forEach((position) => {
+    if (position.container) {
+      const newComponents = position.container.components.filter(
+        (component) => {
+          return !componentTypesToRemove.includes(component.type);
+        }
+      );
+      actionPositions.push({
+        row: position.row,
+        column: position.column,
+        components: newComponents,
+      });
+    }
+  });
+  return actionPositions;
 };

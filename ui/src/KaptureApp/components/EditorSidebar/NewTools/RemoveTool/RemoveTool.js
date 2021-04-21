@@ -34,6 +34,11 @@ export class RemoveTool extends Component {
       this.props.onChange([]);
     }
   };
+  handleRemoveClick = () => {
+    if (this.props.onRemoveClick) {
+      this.props.onRemoveClick(this.props.activeGridId);
+    }
+  };
   renderFields() {
     return this.props.componentTypes.map((type) => {
       return (
@@ -70,7 +75,7 @@ export class RemoveTool extends Component {
               selectedContainersSummary={this.props.selectedContainersSummary}
               showButton={true}
               buttonDisabled={false}
-              onApplyClick={this.handleApplyClick}
+              onApplyClick={this.handleRemoveClick}
             />
           </div>
         )}
@@ -80,9 +85,11 @@ export class RemoveTool extends Component {
 }
 
 RemoveTool.propTypes = {
+  activeGridId: PropTypes.string,
   clickMode: PropTypes.string.isRequired,
   componentTypesToRemove: PropTypes.array.isRequired,
   componentTypes: PropTypes.array.isRequired,
   onChange: PropTypes.func,
+  onRemoveClick: PropTypes.func,
   selectedContainersSummary: PropTypes.object.isRequired,
 };
