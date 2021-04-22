@@ -28,7 +28,7 @@ const print = createSlice({
   },
 });
 
-export const { actions: printActions, reducer: printReducer } = print;
+export const { actions, reducer } = print;
 
 function assignGridNames(grids, containerTypes) {
   const typeCounts = {};

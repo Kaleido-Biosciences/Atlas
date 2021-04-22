@@ -1,13 +1,14 @@
-import { printActions, activity } from 'KaptureApp/store';
+import { actions } from './slice';
+import { activity } from '../activity';
 import { CONTAINER_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
 
 const {
   setGrids: _setGrids,
   setInitializationError: _setInitializationError,
   setContainerTypes: _setContainerTypes,
-} = printActions;
+} = actions;
 
-export const { resetState: resetPrint } = printActions;
+export const { resetState: resetPrint } = actions;
 
 export const loadContainerCollection = (status, version) => {
   return async (dispatch, getState) => {

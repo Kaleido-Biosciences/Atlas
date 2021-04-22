@@ -1,11 +1,11 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
-import { printReducer } from 'AtlasUI/store';
 import { activity } from './activity';
 import { activitySearch } from './activitySearch';
 import { components } from './components';
 import { editor } from './editor';
+import { print } from './print';
 import { tools } from './tools';
 import { editorImportReducer } from './editorImport';
 import './validators';
@@ -28,7 +28,7 @@ export const store = configureStore({
     editor: editor.reducer,
     editorImport: editorImportReducer,
     tools: tools.reducer,
-    print: printReducer,
+    print: print.reducer,
   },
   middleware,
 });

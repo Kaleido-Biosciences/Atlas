@@ -1,29 +1,21 @@
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import { Print } from 'AtlasUI/components';
-import { activity, selectors } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
+import { Print as PrintComponent } from 'AtlasUI/components';
+import { activity, print } from 'KaptureApp/store';
 import { GRID_TYPES_KEYED } from 'KaptureApp/config/containerTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-
-const {
-  selectPrintInitialized,
-  selectPrintInitializationError,
-  selectPrintGrids,
-} = selectors;
-const { loadContainerCollection, resetPrint } = actions.print;
 
 const onMount = (query) => {
   return async (dispatch) => {
     const params = queryString.parse(query);
-    dispatch(loadContainerCollection(params.status, params.version));
+    dispatch(print.loadContainerCollection(params.status, params.version));
   };
 };
 
 const mapState = (state, props) => {
-  const initialized = selectPrintInitialized(state);
-  const error = selectPrintInitializationError(state);
+  const initialized = print.selectInitialized(state);
+  const error = print.selectInitializationError(state);
   let loading = false;
   if (!initialized && !error) {
     loading = true;
@@ -32,7 +24,7 @@ const mapState = (state, props) => {
     loading,
     error,
     initialized,
-    grids: selectPrintGrids(state),
+    grids: print.selectGrids(state),
     gridTypes: GRID_TYPES_KEYED,
     rowHeaders: GRID_ROW_HEADERS,
     activityName: activity.selectName(state),
@@ -42,8 +34,8 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
-  onUnmount: resetPrint,
+  onUnmount: print.resetPrint,
 };
 
-const connected = connect(mapState, mapDispatch)(Print);
+const connected = connect(mapState, mapDispatch)(PrintComponent);
 export { connected as Print };

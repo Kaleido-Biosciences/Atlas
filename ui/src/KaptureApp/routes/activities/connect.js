@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 
 import { Activities } from './Activities';
-import { activity, selectors, editor } from 'KaptureApp/store';
-
-const { selectPrintInitialized } = selectors;
+import { activity, editor, print } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   const initialized = activity.selectInitialized(state);
@@ -31,7 +29,7 @@ const mapState = (state, props) => {
     ),
     containerCollectionsStale: activity.selectContainerCollectionsStale(state),
     editorInitialized: editor.selectInitialized(state),
-    printInitialized: selectPrintInitialized(state),
+    printInitialized: print.selectInitialized(state),
   };
 };
 
