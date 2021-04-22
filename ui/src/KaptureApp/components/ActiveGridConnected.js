@@ -5,6 +5,7 @@ import { actions } from 'KaptureApp/actions';
 import { selectors, editor, tools } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
+import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 
 const {
   selectEditorImportImportStarted,
@@ -12,7 +13,6 @@ const {
   selectEditorImportImportError,
   selectEditorImportImportedComponents,
   selectEditorComponentImportErrors,
-  selectEditorComponentTypes,
 } = selectors;
 
 const {
@@ -43,7 +43,7 @@ const mapState = (state, props) => {
     importError: selectEditorImportImportError(state),
     importedComponents: selectEditorImportImportedComponents(state),
     componentImportErrors: selectEditorComponentImportErrors(state),
-    componentTypes: selectEditorComponentTypes(state),
+    componentTypes: COMPONENT_TYPES,
   };
 };
 

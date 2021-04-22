@@ -1,11 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { selectors } from 'AtlasUI/store';
-
 const selectEditorToolComponents = (state) => state.editorTools.toolComponents;
 
 const kaptureSelectors = {
-  ...selectors,
   selectEditorToolComponents,
   selectEditorToolComponentsValid: (state) =>
     state.editorTools.toolComponentsValid,
