@@ -1,6 +1,10 @@
 import _ from 'lodash';
 
-import { selectors as oldSelectors, activity } from 'KaptureApp/store';
+import {
+  selectors as oldSelectors,
+  activity,
+  editorImport,
+} from 'KaptureApp/store';
 import { actions as editorActions } from 'KaptureApp/store/editor/slice';
 import * as selectors from 'KaptureApp/store/editor/selectors';
 import { api } from 'KaptureApp/api';
@@ -52,7 +56,6 @@ const {
   selectEditorComponentTypesToClear,
   selectEditorToolComponentsValid,
   selectEditorSelectedToolComponents,
-  selectEditorImportImportedComponents,
 } = oldSelectors;
 
 let lastSaveData = '';
@@ -260,7 +263,9 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
   return (dispatch, getState) => {
     const grids = selectors.selectGrids(getState());
     const grid = findGridById(gridId, grids);
-    const importedComponents = selectEditorImportImportedComponents(getState());
+    const importedComponents = editorImport.selectImportedComponents(
+      getState()
+    );
     const actionPositions = [];
     const gridPositions = grid.data.flat();
     importedComponents.forEach((position) => {

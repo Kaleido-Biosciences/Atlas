@@ -32,7 +32,4 @@ const editorImport = createSlice({
   },
 });
 
-export const {
-  actions: editorImportActions,
-  reducer: editorImportReducer,
-} = editorImport;
+export const { actions, reducer } = editorImport;

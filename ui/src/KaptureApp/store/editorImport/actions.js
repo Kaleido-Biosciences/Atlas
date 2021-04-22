@@ -1,4 +1,5 @@
-import { editorImportActions, selectors } from 'KaptureApp/store';
+import { actions } from './slice';
+import * as selectors from './selectors';
 import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -9,49 +10,26 @@ import {
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
 
-const {
-  fetchCommunityByName,
-  searchCommunities,
-  fetchCompoundByName,
-  searchCompounds,
-  fetchMediumByName,
-  searchMedia,
-  fetchSupplementByName,
-  searchSupplements,
-} = api;
-
-const {
-  selectEditorImportImportedComponents,
-  selectEditorComponentImportErrors,
-} = selectors;
-
-const {
-  setImportPending,
-  setImportResults,
-  setImportError,
-  resetState,
-} = editorImportActions;
-
-export const resetEditorImport = resetState;
+export const { resetState: resetEditorImport } = actions;
 
 export const importComponents = (componentType, componentNames, timepoints) => {
   return async (dispatch, getState) => {
     try {
-      dispatch(setImportPending());
+      dispatch(actions.setImportPending());
       let fetchMethod;
       let searchMethod;
       if (componentType === COMPONENT_TYPE_COMMUNITY) {
-        fetchMethod = fetchCommunityByName;
-        searchMethod = searchCommunities;
+        fetchMethod = api.fetchCommunityByName;
+        searchMethod = api.searchCommunities;
       } else if (componentType === COMPONENT_TYPE_COMPOUND) {
-        fetchMethod = fetchCompoundByName;
-        searchMethod = searchCompounds;
+        fetchMethod = api.fetchCompoundByName;
+        searchMethod = api.searchCompounds;
       } else if (componentType === COMPONENT_TYPE_MEDIUM) {
-        fetchMethod = fetchMediumByName;
-        searchMethod = searchMedia;
+        fetchMethod = api.fetchMediumByName;
+        searchMethod = api.searchMedia;
       } else if (componentType === COMPONENT_TYPE_SUPPLEMENT) {
-        fetchMethod = fetchSupplementByName;
-        searchMethod = searchSupplements;
+        fetchMethod = api.fetchSupplementByName;
+        searchMethod = api.searchSupplements;
       }
       const positions = [];
       const imported = [];
@@ -139,21 +117,21 @@ export const importComponents = (componentType, componentNames, timepoints) => {
         else return 0;
       });
       dispatch(
-        setImportResults({
+        actions.setImportResults({
           importedComponents,
           componentImportErrors: importErrors,
         })
       );
     } catch (error) {
-      dispatch(setImportError({ error: error.message }));
+      dispatch(actions.setImportError({ error: error.message }));
     }
   };
 };
 
 export const fixComponent = (row, column, componentId) => {
   return (dispatch, getState) => {
-    const importedComponents = selectEditorImportImportedComponents(getState());
-    const importErrors = selectEditorComponentImportErrors(getState());
+    const importedComponents = selectors.selectImportedComponents(getState());
+    const importErrors = selectors.selectComponentImportErrors(getState());
     const errorIndex = importErrors.findIndex((importError) => {
       return importError.row === row && importError.column === column;
     });
@@ -170,7 +148,7 @@ export const fixComponent = (row, column, componentId) => {
     const newErrors = importErrors.slice();
     newErrors.splice(errorIndex, 1);
     dispatch(
-      setImportResults({
+      actions.setImportResults({
         importedComponents: newImportedComponents,
         componentImportErrors: newErrors,
       })
@@ -180,8 +158,8 @@ export const fixComponent = (row, column, componentId) => {
 
 export const fixAllComponents = (row, column, componentId) => {
   return (dispatch, getState) => {
-    const importedComponents = selectEditorImportImportedComponents(getState());
-    const importErrors = selectEditorComponentImportErrors(getState());
+    const importedComponents = selectors.selectImportedComponents(getState());
+    const importErrors = selectors.selectComponentImportErrors(getState());
     const newImportedComponents = importedComponents.slice();
     const newErrors = [];
     const error = importErrors.find((importError) => {
@@ -202,7 +180,7 @@ export const fixAllComponents = (row, column, componentId) => {
       }
     });
     dispatch(
-      setImportResults({
+      actions.setImportResults({
         importedComponents: newImportedComponents,
         componentImportErrors: newErrors,
       })

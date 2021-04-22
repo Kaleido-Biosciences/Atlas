@@ -17,13 +17,6 @@ const kaptureSelectors = {
       return toolComponents.filter((component) => component.selected);
     }
   ),
-  selectEditorImportImportStarted: (state) => state.editorImport.importStarted,
-  selectEditorImportImportPending: (state) => state.editorImport.importPending,
-  selectEditorImportImportError: (state) => state.editorImport.importError,
-  selectEditorImportImportedComponents: (state) =>
-    state.editorImport.importedComponents,
-  selectEditorComponentImportErrors: (state) =>
-    state.editorImport.componentImportErrors,
 };
 
 export { kaptureSelectors as selectors };

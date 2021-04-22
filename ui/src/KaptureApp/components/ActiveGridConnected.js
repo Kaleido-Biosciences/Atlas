@@ -2,18 +2,10 @@ import { connect } from 'react-redux';
 
 import { ActiveGrid } from 'AtlasUI/components';
 import { actions } from 'KaptureApp/actions';
-import { selectors, editor, tools } from 'KaptureApp/store';
+import { editor, editorImport, tools } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
-
-const {
-  selectEditorImportImportStarted,
-  selectEditorImportImportPending,
-  selectEditorImportImportError,
-  selectEditorImportImportedComponents,
-  selectEditorComponentImportErrors,
-} = selectors;
 
 const {
   addNewContainerToGrid,
@@ -23,13 +15,6 @@ const {
   applyImportedComponentsToGrid,
 } = actions.editor;
 
-const {
-  importComponents,
-  fixComponent,
-  fixAllComponents,
-  resetEditorImport,
-} = actions.editorImport;
-
 const mapState = (state, props) => {
   return {
     activeGrid: editor.selectActiveGrid(state),
@@ -38,11 +23,11 @@ const mapState = (state, props) => {
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
     headerSize: GRID_HEADER_SIZE,
     rowHeaders: GRID_ROW_HEADERS,
-    importStarted: selectEditorImportImportStarted(state),
-    importPending: selectEditorImportImportPending(state),
-    importError: selectEditorImportImportError(state),
-    importedComponents: selectEditorImportImportedComponents(state),
-    componentImportErrors: selectEditorComponentImportErrors(state),
+    importStarted: editorImport.selectImportStarted(state),
+    importPending: editorImport.selectImportPending(state),
+    importError: editorImport.selectImportError(state),
+    importedComponents: editorImport.selectImportedComponents(state),
+    componentImportErrors: editorImport.selectComponentImportErrors(state),
     componentTypes: COMPONENT_TYPES,
   };
 };
@@ -53,11 +38,11 @@ const mapDispatch = {
   onBarcodeSelect: setGridBarcode,
   onBarcodeAdd: addBarcodes,
   onSettingsChange: setSettings,
-  onImportComponentsClick: importComponents,
+  onImportComponentsClick: editorImport.importComponents,
   onImportApplyClick: applyImportedComponentsToGrid,
-  onImportFixClick: fixComponent,
-  onImportFixAllClick: fixAllComponents,
-  onImportStartOverClick: resetEditorImport,
+  onImportFixClick: editorImport.fixComponent,
+  onImportFixAllClick: editorImport.fixAllComponents,
+  onImportStartOverClick: editorImport.resetEditorImport,
 };
 
 const connected = connect(mapState, mapDispatch)(ActiveGrid);

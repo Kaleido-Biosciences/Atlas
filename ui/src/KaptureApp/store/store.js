@@ -7,7 +7,7 @@ import { components } from './components';
 import { editor } from './editor';
 import { print } from './print';
 import { tools } from './tools';
-import { editorImportReducer } from './editorImport';
+import { editorImport } from './editorImport';
 import './validators';
 
 const middleware = getDefaultMiddleware();
@@ -26,7 +26,7 @@ export const store = configureStore({
     activitySearch: activitySearch.reducer,
     components: components.reducer,
     editor: editor.reducer,
-    editorImport: editorImportReducer,
+    editorImport: editorImport.reducer,
     tools: tools.reducer,
     print: print.reducer,
   },
