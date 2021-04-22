@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { activitySearchActions } from 'KaptureApp/store';
+import { actions } from './slice';
 import { api } from 'KaptureApp/api';
 
 const {
@@ -8,9 +8,9 @@ const {
   setLoading: _setLoading,
   setResults: _setResults,
   setError: _setError,
-} = activitySearchActions;
+} = actions;
 
-export const { resetState: resetActivitySearch } = activitySearchActions;
+export const { resetState: resetActivitySearch } = actions;
 
 export const searchActivities = ({ searchTerm }) => {
   return async (dispatch, getState) => {

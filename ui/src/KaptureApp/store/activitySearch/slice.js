@@ -36,7 +36,4 @@ const activitySearch = createSlice({
   },
 });
 
-export const {
-  actions: activitySearchActions,
-  reducer: activitySearchReducer,
-} = activitySearch;
+export const { actions, reducer } = activitySearch;

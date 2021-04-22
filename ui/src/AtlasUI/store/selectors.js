@@ -1,12 +1,3 @@
-/* Activity Search */
-export const selectActivitySearchSearchTerm = (state) =>
-  state.activitySearch.searchTerm;
-export const selectActivitySearchLoading = (state) =>
-  state.activitySearch.loading;
-export const selectActivitySearchError = (state) => state.activitySearch.error;
-export const selectActivitySearchResults = (state) =>
-  state.activitySearch.results;
-
 /* Editor */
 export const selectEditorComponentTypes = (state) =>
   state.editor.componentTypes;

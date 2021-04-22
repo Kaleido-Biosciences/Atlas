@@ -1,35 +1,25 @@
 import { connect } from 'react-redux';
 
-import { ActivitySearch } from 'AtlasUI/components';
-import { selectors } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
-
-const { searchActivities, resetActivitySearch } = actions.activitySearch;
-
-const {
-  selectActivitySearchSearchTerm,
-  selectActivitySearchLoading,
-  selectActivitySearchError,
-  selectActivitySearchResults,
-} = selectors;
+import { ActivitySearch as ActivitySearchComponent } from 'AtlasUI/components';
+import { activitySearch } from 'KaptureApp/store';
 
 const onUnmount = () => {
-  return resetActivitySearch();
+  return activitySearch.resetActivitySearch();
 };
 
 const mapState = (state, props) => {
   return {
-    value: selectActivitySearchSearchTerm(state),
-    loading: selectActivitySearchLoading(state),
-    error: selectActivitySearchError(state),
-    results: selectActivitySearchResults(state),
+    value: activitySearch.selectSearchTerm(state),
+    loading: activitySearch.selectLoading(state),
+    error: activitySearch.selectError(state),
+    results: activitySearch.selectResults(state),
   };
 };
 
 const mapDispatch = {
-  onChange: searchActivities,
+  onChange: activitySearch.searchActivities,
   onUnmount,
 };
 
-const connected = connect(mapState, mapDispatch)(ActivitySearch);
+const connected = connect(mapState, mapDispatch)(ActivitySearchComponent);
 export { connected as ActivitySearch };
