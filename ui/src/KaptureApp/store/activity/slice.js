@@ -12,6 +12,9 @@ const initialState = {
   publishSuccess: false,
   publishError: null,
   publishedContainerCollectionDetails: null,
+  savePending: false,
+  saveError: null,
+  lastSaveTime: null,
 };
 
 const activity = createSlice({
@@ -50,6 +53,20 @@ const activity = createSlice({
       state.publishSuccess = false;
       state.publishError = null;
       state.publishedContainerCollectionDetails = null;
+    },
+    setSavePending(state, action) {
+      state.savePending = true;
+      state.saveError = null;
+      state.lastSaveTime = null;
+    },
+    setLastSaveTime(state, action) {
+      state.savePending = false;
+      state.saveError = null;
+      state.lastSaveTime = action.payload.lastSaveTime;
+    },
+    setSaveError(state, action) {
+      state.savePending = false;
+      state.saveError = action.payload.error;
     },
   },
 });

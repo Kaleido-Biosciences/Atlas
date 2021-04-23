@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {
   selectors as oldSelectors,
   activity,
@@ -7,7 +5,6 @@ import {
 } from 'KaptureApp/store';
 import { actions as editorActions } from 'KaptureApp/store/editor/slice';
 import * as selectors from 'KaptureApp/store/editor/selectors';
-import { api } from 'KaptureApp/api';
 
 import {
   createGrid,
@@ -17,7 +14,6 @@ import {
   createContainer,
   createComponent,
 } from 'KaptureApp/models';
-import { exportGrids } from 'KaptureApp/utils/containerFunctions';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
@@ -38,9 +34,6 @@ const {
   clearGridContainers: _clearGridContainers,
   deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
-  setSavePending: _setSavePending,
-  setLastSaveTime: _setLastSaveTime,
-  setSaveError: _setSaveError,
 } = editorActions;
 
 const {
@@ -50,43 +43,14 @@ const {
   selectEditorSelectedToolComponents,
 } = oldSelectors;
 
-let lastSaveData = '';
-
-const saveGrids = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = exportGrids(selectors.selectGrids(getState()));
-  const stringifiedGrids = JSON.stringify(exportedGrids);
-  if (stringifiedGrids !== lastSaveData) {
-    dispatch(_setSavePending());
-    const activityName = activity.selectName(getState());
-    try {
-      await api.saveActivityGrids(activityName, exportedGrids);
-      dispatch(
-        _setLastSaveTime({
-          lastSaveTime: Date.now(),
-        })
-      );
-      lastSaveData = stringifiedGrids;
-    } catch (error) {
-      dispatch(_setSaveError({ error: error.message }));
-    }
-  }
-}, 500);
-
-export const wrapWithChangeHandler = (fn) => {
-  return function () {
-    return async (dispatch, getState) => {
-      dispatch(fn.apply(this, arguments));
-      saveGrids(dispatch, getState);
-    };
-  };
-};
-
 export const {
   setActiveGridId,
   addBarcodes,
   setSettings,
   resetState: resetEditor,
 } = editorActions;
+
+const { wrapWithChangeHandler } = activity;
 
 export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
   return (dispatch, getState) => {

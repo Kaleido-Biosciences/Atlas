@@ -1,4 +1,5 @@
 import bigInt from 'big-integer';
+import _ from 'lodash';
 
 import { actions } from './slice';
 import * as selectors from './selectors';
@@ -25,9 +26,41 @@ const {
   setPublishError: _setPublishError,
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
   setContainerCollectionsStale: _setContainerCollectionsStale,
+  setSavePending: _setSavePending,
+  setLastSaveTime: _setLastSaveTime,
+  setSaveError: _setSaveError,
 } = actions;
 
 let lastSaveData = '';
+
+const saveGrids = _.debounce(async (dispatch, getState) => {
+  const exportedGrids = exportGrids(editor.selectGrids(getState()));
+  const stringifiedGrids = JSON.stringify(exportedGrids);
+  if (stringifiedGrids !== lastSaveData) {
+    dispatch(_setSavePending());
+    const activityName = selectors.selectName(getState());
+    try {
+      await api.saveActivityGrids(activityName, exportedGrids);
+      dispatch(
+        _setLastSaveTime({
+          lastSaveTime: Date.now(),
+        })
+      );
+      lastSaveData = stringifiedGrids;
+    } catch (error) {
+      dispatch(_setSaveError({ error: error.message }));
+    }
+  }
+}, 500);
+
+export const wrapWithChangeHandler = (fn) => {
+  return function () {
+    return async (dispatch, getState) => {
+      dispatch(fn.apply(this, arguments));
+      saveGrids(dispatch, getState);
+    };
+  };
+};
 
 export const { resetState: resetActivity, resetPublishState } = actions;
 

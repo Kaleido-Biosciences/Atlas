@@ -67,9 +67,6 @@ export const selectSelectedContainersSummary = createSelector(
     return selectedContainersSummary;
   }
 );
-export const selectSavePending = (state) => state.editor.savePending;
-export const selectLastSaveTime = (state) => state.editor.lastSaveTime;
-export const selectSaveError = (state) => state.editor.saveError;
 export const selectAllGridBarcodesSet = createSelector(
   [selectGrids],
   (grids) => {

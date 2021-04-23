@@ -13,3 +13,6 @@ export const selectPublishSuccess = (state) => state.activity.publishSuccess;
 export const selectPublishError = (state) => state.activity.publishError;
 export const selectPublishedContainerCollectionDetails = (state) =>
   state.activity.publishedContainerCollectionDetails;
+export const selectSavePending = (state) => state.activity.savePending;
+export const selectLastSaveTime = (state) => state.activity.lastSaveTime;
+export const selectSaveError = (state) => state.activity.saveError;
