@@ -4,7 +4,6 @@ const initialState = {
   initialized: false,
   initializationError: null,
   grids: [],
-  containerTypes: {},
 };
 
 const print = createSlice({
@@ -21,9 +20,6 @@ const print = createSlice({
     },
     resetState(state, action) {
       Object.assign(state, initialState);
-    },
-    setContainerTypes(state, action) {
-      state.containerTypes = action.payload.containerTypes;
     },
   },
 });

@@ -10,7 +10,9 @@ const { resetEditor } = actions.editor;
 const onMount = (query) => {
   return async (dispatch, getState) => {
     const params = queryString.parse(query);
-    dispatch(activity.loadContainerCollection(params.status, params.version));
+    dispatch(
+      activity.loadEditorContainerCollection(params.status, params.version)
+    );
   };
 };
 

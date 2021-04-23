@@ -3,6 +3,7 @@ import bigInt from 'big-integer';
 import { actions } from './slice';
 import * as selectors from './selectors';
 import { editor } from '../editor';
+import { print } from '../print';
 import { api } from 'KaptureApp/api';
 import { createContainerCollection } from 'KaptureApp/models';
 import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
@@ -63,7 +64,7 @@ export const loadActivity = (id) => {
   };
 };
 
-export const loadContainerCollection = (status, version) => {
+export const loadEditorContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
       dispatch(editor.setContainerTypes(CONTAINER_TYPES));
@@ -80,6 +81,28 @@ export const loadContainerCollection = (status, version) => {
       dispatch(_setContainerCollectionsStale({ stale: true }));
     } catch (error) {
       dispatch(editor.setInitializationError(error.message));
+    }
+  };
+};
+
+export const loadPrintContainerCollection = (status, version) => {
+  return async (dispatch, getState) => {
+    try {
+      const collection = await dispatch(
+        getContainerCollection(status, version)
+      );
+      const importData = await importContainerCollection(collection);
+      if (importData.grids.length) {
+        dispatch(print.setGrids(importData.grids));
+      } else {
+        dispatch(
+          print.setInitializationError(
+            'There are no containers in this collection.'
+          )
+        );
+      }
+    } catch (error) {
+      dispatch(print.setInitializationError(error.message));
     }
   };
 };

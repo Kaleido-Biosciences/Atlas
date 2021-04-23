@@ -9,7 +9,9 @@ import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 const onMount = (query) => {
   return async (dispatch) => {
     const params = queryString.parse(query);
-    dispatch(print.loadContainerCollection(params.status, params.version));
+    dispatch(
+      activity.loadPrintContainerCollection(params.status, params.version)
+    );
   };
 };
 
