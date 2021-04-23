@@ -14,6 +14,7 @@ import {
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
 } from 'KaptureApp/config/componentTypes';
+import { CONTAINER_TYPES } from 'KaptureApp/config/containerTypes';
 
 const {
   setInitialized: _setInitialized,
@@ -22,13 +23,12 @@ const {
   setPublishSuccess: _setPublishSuccess,
   setPublishError: _setPublishError,
   setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
+  setContainerCollectionsStale: _setContainerCollectionsStale,
 } = actions;
 
-export const {
-  resetState: resetActivity,
-  setContainerCollectionsStale,
-  resetPublishState,
-} = actions;
+let lastSaveData = '';
+
+export const { resetState: resetActivity, resetPublishState } = actions;
 
 export const loadActivity = (id) => {
   return async (dispatch, getState) => {
@@ -59,6 +59,27 @@ export const loadActivity = (id) => {
       );
     } catch (error) {
       dispatch(_setInitializationError({ error: error.message }));
+    }
+  };
+};
+
+export const loadContainerCollection = (status, version) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(editor.setContainerTypes(CONTAINER_TYPES));
+      const collection = await dispatch(
+        getContainerCollection(status, version)
+      );
+      dispatch(editor.setContainerCollection(collection));
+      const importData = await importContainerCollection(collection);
+      dispatch(editor.addBarcodes(importData.barcodes));
+      dispatch(editor.setGrids(importData.grids));
+      const exportedGrids = exportGrids(editor.selectGrids(getState()));
+      lastSaveData = JSON.stringify(exportedGrids);
+      dispatch(editor.setInitialized(true));
+      dispatch(_setContainerCollectionsStale({ stale: true }));
+    } catch (error) {
+      dispatch(editor.setInitializationError(error.message));
     }
   };
 };
@@ -97,11 +118,17 @@ export const publishActivityGrids = () => {
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishedContainerCollectionDetails(data));
-      dispatch(setContainerCollectionsStale({ stale: true }));
+      dispatch(_setContainerCollectionsStale({ stale: true }));
       dispatch(_setPublishSuccess({ publishSuccess: true }));
     } catch (error) {
       dispatch(_setPublishError({ publishError: error.message }));
     }
+  };
+};
+
+export const setContainerCollectionsStale = (stale) => {
+  return (dispatch, getState) => {
+    dispatch(_setContainerCollectionsStale({ stale }));
   };
 };
 

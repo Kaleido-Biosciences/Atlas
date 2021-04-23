@@ -24,17 +24,11 @@ import {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
-  COMPONENT_TYPES,
   COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
-import { CONTAINER_TYPES } from 'KaptureApp/config/containerTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const {
-  setInitialized: _setInitialized,
-  setInitializationError: _setInitializationError,
-  setContainerCollection: _setContainerCollection,
-  setGrids: _setGrids,
   addGrid: _addGrid,
   addGrids: _addGrids,
   addContainerToGrid: _addContainerToGrid,
@@ -47,8 +41,6 @@ const {
   setSavePending: _setSavePending,
   setLastSaveTime: _setLastSaveTime,
   setSaveError: _setSaveError,
-  setContainerTypes: _setContainerTypes,
-  setComponentTypes: _setComponentTypes,
 } = editorActions;
 
 const {
@@ -95,33 +87,6 @@ export const {
   setSettings,
   resetState: resetEditor,
 } = editorActions;
-
-export const loadContainerCollection = (status, version) => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(_setContainerTypes({ containerTypes: CONTAINER_TYPES }));
-      const componentTypes = COMPONENT_TYPES.map(
-        ({ createToolComponent, editForm, ...rest }) => {
-          return rest;
-        }
-      );
-      dispatch(_setComponentTypes({ componentTypes: componentTypes }));
-      const collection = await dispatch(
-        activity.getContainerCollection(status, version)
-      );
-      dispatch(_setContainerCollection({ collection }));
-      const importData = await activity.importContainerCollection(collection);
-      dispatch(addBarcodes({ barcodes: importData.barcodes }));
-      dispatch(_setGrids({ grids: importData.grids }));
-      const exportedGrids = exportGrids(selectors.selectGrids(getState()));
-      lastSaveData = JSON.stringify(exportedGrids);
-      dispatch(_setInitialized({ initialized: true }));
-      dispatch(activity.setContainerCollectionsStale({ stale: true }));
-    } catch (error) {
-      dispatch(_setInitializationError({ error: error.message }));
-    }
-  };
-};
 
 export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
   return (dispatch, getState) => {

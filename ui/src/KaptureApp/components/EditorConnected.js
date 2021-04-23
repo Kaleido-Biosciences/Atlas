@@ -2,15 +2,15 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import { Editor as EditorComponent } from 'AtlasUI/components';
-import { editor } from 'KaptureApp/store';
+import { activity, editor } from 'KaptureApp/store';
 import { actions } from 'KaptureApp/actions';
 
-const { loadContainerCollection, resetEditor } = actions.editor;
+const { resetEditor } = actions.editor;
 
 const onMount = (query) => {
   return async (dispatch, getState) => {
     const params = queryString.parse(query);
-    dispatch(loadContainerCollection(params.status, params.version));
+    dispatch(activity.loadContainerCollection(params.status, params.version));
   };
 };
 

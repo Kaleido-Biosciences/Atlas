@@ -11,7 +11,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onUnmount: () => {
-    return activity.setContainerCollectionsStale({ stale: true });
+    return activity.setContainerCollectionsStale(true);
   },
 };
 
