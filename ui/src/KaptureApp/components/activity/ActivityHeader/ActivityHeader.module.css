@@ -1,0 +1,43 @@
+.activityHeader {
+  align-items: center;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.1);
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 2.8em;
+  height: 2.8em;
+  justify-content: space-between;
+  padding: 0.4em 0.4em 0.4em 1.1em;
+}
+
+.headerContainer {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 1.1em;
+}
+
+.name :global(a) {
+  color: inherit;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.lastSave {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.8em;
+  margin-right: 1em;
+}
+
+.error {
+  color: #db2828;
+  font-weight: bold;
+}
