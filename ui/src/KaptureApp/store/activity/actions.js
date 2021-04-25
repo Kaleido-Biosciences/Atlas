@@ -3,7 +3,8 @@ import _ from 'lodash';
 
 import { actions } from './slice';
 import * as selectors from './selectors';
-import { editor } from '../editor';
+import { actions as editorActions } from '../editor/slice';
+import * as editorSelectors from '../editor/selectors';
 import { print } from '../print';
 import { api } from 'KaptureApp/api';
 import { createContainerCollection } from 'KaptureApp/models';
@@ -34,7 +35,7 @@ const {
 let lastSaveData = '';
 
 const saveGrids = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = exportGrids(editor.selectGrids(getState()));
+  const exportedGrids = exportGrids(editorSelectors.selectGrids(getState()));
   const stringifiedGrids = JSON.stringify(exportedGrids);
   if (stringifiedGrids !== lastSaveData) {
     dispatch(_setSavePending());
@@ -100,20 +101,28 @@ export const loadActivity = (id) => {
 export const loadEditorContainerCollection = (status, version) => {
   return async (dispatch, getState) => {
     try {
-      dispatch(editor.setContainerTypes(CONTAINER_TYPES));
+      dispatch(
+        editorActions.setContainerTypes({ containerTypes: CONTAINER_TYPES })
+      );
       const collection = await dispatch(
         getContainerCollection(status, version)
       );
-      dispatch(editor.setContainerCollection(collection));
+      dispatch(
+        editorActions.setContainerCollection({
+          containerCollection: collection,
+        })
+      );
       const importData = await importContainerCollection(collection);
-      dispatch(editor.addBarcodes(importData.barcodes));
-      dispatch(editor.setGrids(importData.grids));
-      const exportedGrids = exportGrids(editor.selectGrids(getState()));
+      dispatch(editorActions.addBarcodes({ barcodes: importData.barcodes }));
+      dispatch(editorActions.setGrids({ grids: importData.grids }));
+      const exportedGrids = exportGrids(
+        editorSelectors.selectGrids(getState())
+      );
       lastSaveData = JSON.stringify(exportedGrids);
-      dispatch(editor.setInitialized(true));
+      dispatch(editorActions.setInitialized({ initialized: true }));
       dispatch(_setContainerCollectionsStale({ stale: true }));
     } catch (error) {
-      dispatch(editor.setInitializationError(error.message));
+      dispatch(editorActions.setInitializationError({ error: error.message }));
     }
   };
 };
@@ -170,7 +179,7 @@ export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishSuccess({ publishSuccess: false }));
     const activityName = selectors.selectName(getState());
-    const exportedGrids = exportGrids(editor.selectGrids(getState()));
+    const exportedGrids = exportGrids(editorSelectors.selectGrids(getState()));
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishedContainerCollectionDetails(data));
