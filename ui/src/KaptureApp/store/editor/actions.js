@@ -1,6 +1,18 @@
 import { actions } from './slice';
+import { activity } from '../activity';
+import {
+  createGrid,
+  createGridData,
+  createContainersForGrid,
+  addContainersToGrid,
+  createContainer,
+} from 'KaptureApp/models';
+import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const {
+  addGrid: _addGrid,
+  addGrids: _addGrids,
+  addContainerToGrid: _addContainerToGrid,
   toggleGridContainerSelections: _toggleGridContainerSelections,
   deselectGridContainers: _deselectGridContainers,
   setGridComponents: _setGridComponents,
@@ -11,6 +23,75 @@ const {
   setInitialized: _setInitialized,
   setInitializationError: _setInitializationError,
 } = actions;
+
+const { wrapWithChangeHandler } = activity;
+
+export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
+  return (dispatch, getState) => {
+    const grids = [];
+    for (let i = 0; i < quantity; i++) {
+      const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+      const grid = createGrid({
+        containerType: 'Plate',
+        dimensions: dimensions,
+        data: gridData,
+      });
+      const containerPositions = createContainersForGrid(
+        dimensions,
+        'PlateWell',
+        GRID_ROW_HEADERS
+      );
+      addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
+      grids.push(grid);
+    }
+    dispatch(_addGrids({ grids, activeGridId: grids[0].id }));
+  };
+});
+
+export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
+  return (dispatch, getState) => {
+    const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+    const grid = createGrid({
+      containerType: 'Rack',
+      dimensions: dimensions,
+      data: gridData,
+    });
+    dispatch(_addGrid({ grid }));
+  };
+});
+
+export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
+  return (dispatch, getState) => {
+    const gridData = createGridData({ rows: 1, columns: 1 }, GRID_ROW_HEADERS);
+    const grid = createGrid({
+      containerType,
+      dimensions: { rows: 1, columns: 1 },
+      data: gridData,
+    });
+    const containerPositions = createContainersForGrid(
+      { rows: 1, columns: 1 },
+      containerType,
+      GRID_ROW_HEADERS
+    );
+    addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
+    dispatch(_addGrid({ grid }));
+  };
+});
+
+export const addNewContainerToGrid = wrapWithChangeHandler(
+  ({ gridId, position, containerType }) => {
+    return (dispatch, getState) => {
+      const container = createContainer({ containerType });
+      dispatch(
+        _addContainerToGrid({
+          gridId,
+          position,
+          container,
+        })
+      );
+    };
+  }
+);
 
 export const toggleGridContainerSelections = (gridId, positions) => {
   return (dispatch, getState) => {
