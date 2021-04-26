@@ -42,7 +42,7 @@ export class GridTabs extends Component {
   };
   handleDeleteSubmit = () => {
     if (this.props.onDelete) {
-      this.props.onDelete({ gridId: this.props.activeGridId });
+      this.props.onDelete(this.props.activeGridId);
     }
     this.closeDeleteModal();
   };

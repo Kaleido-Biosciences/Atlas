@@ -22,7 +22,6 @@ import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 const {
   addGrids: _addGrids,
   setGridComponents: _setGridComponents,
-  deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
 } = editorActions;
 
@@ -116,12 +115,6 @@ export const cloneGrid = wrapWithChangeHandler(
     };
   }
 );
-
-export const deleteGrid = wrapWithChangeHandler(({ gridId }) => {
-  return (dispatch, getState) => {
-    dispatch(_deleteGrid({ gridId }));
-  };
-});
 
 export const setGridBarcode = wrapWithChangeHandler(_setGridBarcode);
 

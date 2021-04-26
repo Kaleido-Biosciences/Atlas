@@ -22,6 +22,7 @@ const {
   setGrids: _setGrids,
   setInitialized: _setInitialized,
   setInitializationError: _setInitializationError,
+  deleteGrid: _deleteGrid,
 } = actions;
 
 const { wrapWithChangeHandler } = activity;
@@ -152,3 +153,9 @@ export const setInitializationError = (error) => {
     dispatch(_setInitializationError({ error }));
   };
 };
+
+export const deleteGrid = wrapWithChangeHandler((gridId) => {
+  return (dispatch, getState) => {
+    dispatch(_deleteGrid({ gridId }));
+  };
+});

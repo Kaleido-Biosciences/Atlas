@@ -121,15 +121,17 @@ const editor = createSlice({
       const indexToRemove = state.grids.findIndex(
         (container) => container.id === gridId
       );
-      state.grids.splice(indexToRemove, 1);
-      if (state.grids.length) {
-        if (state.grids[indexToRemove]) {
-          state.activeGridId = state.grids[indexToRemove].id;
-        } else {
-          state.activeGridId = state.grids[indexToRemove - 1].id;
+      if (indexToRemove > -1) {
+        state.grids.splice(indexToRemove, 1);
+        if (state.grids.length) {
+          if (state.grids[indexToRemove]) {
+            state.activeGridId = state.grids[indexToRemove].id;
+          } else {
+            state.activeGridId = state.grids[indexToRemove - 1].id;
+          }
         }
+        assignGridNames(state.grids, state.containerTypes);
       }
-      assignGridNames(state.grids, state.containerTypes);
     },
     addBarcodes(state, action) {
       const { barcodes } = action.payload;
