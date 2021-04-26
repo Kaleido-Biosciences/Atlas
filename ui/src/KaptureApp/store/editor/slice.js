@@ -116,26 +116,6 @@ const editor = createSlice({
         }
       });
     },
-    clearGridContainers(state, action) {
-      const { gridId, positions, typesToClear } = action.payload;
-      const grid = findGrid(gridId, state.grids);
-      const shortPositions = positions.map(
-        (position) => position.row + position.column
-      );
-      const flatPositions = grid.data.flat();
-      const filteredPositions = flatPositions.filter((position) =>
-        shortPositions.includes(position.row + position.column)
-      );
-      filteredPositions.forEach((position) => {
-        if (position.container) {
-          position.container.components = position.container.components.filter(
-            (component) => {
-              return !typesToClear.includes(component.type);
-            }
-          );
-        }
-      });
-    },
     deleteGrid(state, action) {
       const { gridId } = action.payload;
       const indexToRemove = state.grids.findIndex(

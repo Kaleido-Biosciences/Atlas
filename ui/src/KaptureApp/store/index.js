@@ -6,5 +6,3 @@ export { editor } from './editor';
 export { editorImport } from './editorImport';
 export { print } from './print';
 export { tools } from './tools';
-
-export { selectors } from './selectors';

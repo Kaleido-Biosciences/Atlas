@@ -1,8 +1,4 @@
-import {
-  selectors as oldSelectors,
-  activity,
-  editorImport,
-} from 'KaptureApp/store';
+import { activity, editorImport } from 'KaptureApp/store';
 import { actions as editorActions } from 'KaptureApp/store/editor/slice';
 import * as selectors from 'KaptureApp/store/editor/selectors';
 
@@ -26,19 +22,9 @@ import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 const {
   addGrids: _addGrids,
   setGridComponents: _setGridComponents,
-  // deselectGridContainers: _deselectGridContainers,
-  toggleGridContainerSelections: _toggleGridContainerSelections,
-  clearGridContainers: _clearGridContainers,
   deleteGrid: _deleteGrid,
   setGridBarcode: _setGridBarcode,
 } = editorActions;
-
-const {
-  selectEditorClickMode,
-  selectEditorComponentTypesToClear,
-  selectEditorToolComponentsValid,
-  selectEditorSelectedToolComponents,
-} = oldSelectors;
 
 export const {
   setActiveGridId,
@@ -48,75 +34,6 @@ export const {
 } = editorActions;
 
 const { wrapWithChangeHandler } = activity;
-
-export const handleContainerClick = wrapWithChangeHandler(
-  ({ gridId, positions }) => {
-    return (dispatch, getState) => {
-      const clickMode = selectEditorClickMode(getState());
-      if (clickMode === 'apply') {
-        if (selectEditorToolComponentsValid(getState())) {
-          const components = selectEditorSelectedToolComponents(getState());
-          const actionPositions = [];
-          positions.forEach((position) => {
-            const newComponents = applyComponentsToContainer(
-              position.container,
-              components
-            );
-            actionPositions.push({
-              row: position.row,
-              column: position.column,
-              components: newComponents,
-            });
-          });
-          dispatch(
-            _setGridComponents({
-              gridId,
-              positions: actionPositions,
-            })
-          );
-        }
-      } else if (clickMode === 'select') {
-        dispatch(_toggleGridContainerSelections({ gridId, positions }));
-      } else if (clickMode === 'clear') {
-        const typesToClear = selectEditorComponentTypesToClear(getState());
-        dispatch(_clearGridContainers({ gridId, positions, typesToClear }));
-      }
-    };
-  }
-);
-
-export const applySelectedToolComponentsToSelectedGrids = wrapWithChangeHandler(
-  ({ gridId }) => {
-    return (dispatch, getState) => {
-      const components = selectEditorSelectedToolComponents(getState());
-      const grids = selectors.selectGrids(getState());
-      const grid = findGridById(gridId, grids);
-      const actionPositions = [];
-      const positions = grid.data.flat();
-      positions.forEach((position) => {
-        if (position.container && position.container.selected) {
-          const newComponents = applyComponentsToContainer(
-            position.container,
-            components
-          );
-          actionPositions.push({
-            row: position.row,
-            column: position.column,
-            components: newComponents,
-          });
-        }
-      });
-      if (actionPositions.length) {
-        dispatch(
-          _setGridComponents({
-            gridId,
-            positions: actionPositions,
-          })
-        );
-      }
-    };
-  }
-);
 
 export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
   return (dispatch, getState) => {
