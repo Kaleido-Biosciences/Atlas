@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { actions } from './slice';
 import * as selectors from './selectors';
 import { editor } from '../editor';
+import { activity } from '../activity';
 import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
@@ -12,6 +13,8 @@ import {
   updateToolComponentDescription,
   updateComponentDescription,
 } from 'KaptureApp/config/componentTypes';
+
+const { wrapWithChangeHandler } = activity;
 
 const {
   setActiveTool: _setActiveTool,
@@ -145,44 +148,48 @@ export const handleContainerClick = (gridId, positions) => {
   };
 };
 
-export const applySelectedToolComponentsToContainers = (gridId, positions) => {
-  return (dispatch, getState) => {
-    if (selectors.selectApplyToolComponentsValid(getState())) {
-      const toolComponents = selectors.selectSelectedApplyToolComponents(
-        getState()
-      );
-      const actionPositions = applyToolComponentsToPositions(
-        positions,
-        toolComponents
-      );
-      dispatch(editor.setGridComponents(gridId, actionPositions));
-    }
-  };
-};
+export const applySelectedToolComponentsToContainers = wrapWithChangeHandler(
+  (gridId, positions) => {
+    return (dispatch, getState) => {
+      if (selectors.selectApplyToolComponentsValid(getState())) {
+        const toolComponents = selectors.selectSelectedApplyToolComponents(
+          getState()
+        );
+        const actionPositions = applyToolComponentsToPositions(
+          positions,
+          toolComponents
+        );
+        dispatch(editor.setGridComponents(gridId, actionPositions));
+      }
+    };
+  }
+);
 
-export const applySelectedToolComponentsToSelectedContainers = (gridId) => {
-  return (dispatch, getState) => {
-    if (selectors.selectApplyToolComponentsValid(getState())) {
-      const toolComponents = selectors.selectSelectedApplyToolComponents(
-        getState()
-      );
-      const grids = editor.selectGrids(getState());
-      const grid = grids.find((grid) => grid.id === gridId);
-      const positions = [];
-      const flattened = grid.data.flat();
-      flattened.forEach((position) => {
-        if (position.container && position.container.selected) {
-          positions.push(position);
-        }
-      });
-      const actionPositions = applyToolComponentsToPositions(
-        positions,
-        toolComponents
-      );
-      dispatch(editor.setGridComponents(gridId, actionPositions));
-    }
-  };
-};
+export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHandler(
+  (gridId) => {
+    return (dispatch, getState) => {
+      if (selectors.selectApplyToolComponentsValid(getState())) {
+        const toolComponents = selectors.selectSelectedApplyToolComponents(
+          getState()
+        );
+        const grids = editor.selectGrids(getState());
+        const grid = grids.find((grid) => grid.id === gridId);
+        const positions = [];
+        const flattened = grid.data.flat();
+        flattened.forEach((position) => {
+          if (position.container && position.container.selected) {
+            positions.push(position);
+          }
+        });
+        const actionPositions = applyToolComponentsToPositions(
+          positions,
+          toolComponents
+        );
+        dispatch(editor.setGridComponents(gridId, actionPositions));
+      }
+    };
+  }
+);
 
 const applyToolComponentsToPositions = (positions, toolComponents) => {
   const actionPositions = [];
@@ -246,40 +253,44 @@ export const setComponentTypesToRemove = (componentTypes) => {
   };
 };
 
-export const removeComponentsFromContainers = (gridId, positions) => {
-  return (dispatch, getState) => {
-    const componentTypesToRemove = selectors.selectComponentTypesToRemove(
-      getState()
-    );
-    const actionPositions = removeComponentsFromPositions(
-      positions,
-      componentTypesToRemove
-    );
-    dispatch(editor.setGridComponents(gridId, actionPositions));
-  };
-};
+export const removeComponentsFromContainers = wrapWithChangeHandler(
+  (gridId, positions) => {
+    return (dispatch, getState) => {
+      const componentTypesToRemove = selectors.selectComponentTypesToRemove(
+        getState()
+      );
+      const actionPositions = removeComponentsFromPositions(
+        positions,
+        componentTypesToRemove
+      );
+      dispatch(editor.setGridComponents(gridId, actionPositions));
+    };
+  }
+);
 
-export const removeComponentsFromSelectedContainers = (gridId) => {
-  return (dispatch, getState) => {
-    const grids = editor.selectGrids(getState());
-    const grid = grids.find((grid) => grid.id === gridId);
-    const positions = [];
-    const flattened = grid.data.flat();
-    flattened.forEach((position) => {
-      if (position.container && position.container.selected) {
-        positions.push(position);
-      }
-    });
-    const componentTypesToRemove = selectors.selectComponentTypesToRemove(
-      getState()
-    );
-    const actionPositions = removeComponentsFromPositions(
-      positions,
-      componentTypesToRemove
-    );
-    dispatch(editor.setGridComponents(gridId, actionPositions));
-  };
-};
+export const removeComponentsFromSelectedContainers = wrapWithChangeHandler(
+  (gridId) => {
+    return (dispatch, getState) => {
+      const grids = editor.selectGrids(getState());
+      const grid = grids.find((grid) => grid.id === gridId);
+      const positions = [];
+      const flattened = grid.data.flat();
+      flattened.forEach((position) => {
+        if (position.container && position.container.selected) {
+          positions.push(position);
+        }
+      });
+      const componentTypesToRemove = selectors.selectComponentTypesToRemove(
+        getState()
+      );
+      const actionPositions = removeComponentsFromPositions(
+        positions,
+        componentTypesToRemove
+      );
+      dispatch(editor.setGridComponents(gridId, actionPositions));
+    };
+  }
+);
 
 const removeComponentsFromPositions = (positions, componentTypesToRemove) => {
   const actionPositions = [];
