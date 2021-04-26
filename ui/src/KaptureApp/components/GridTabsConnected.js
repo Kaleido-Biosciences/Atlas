@@ -6,7 +6,7 @@ import { actions } from 'KaptureApp/actions';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 
-const { setActiveGridId, cloneGrid } = actions.editor;
+const { cloneGrid } = actions.editor;
 
 const mapState = (state, props) => {
   return {
@@ -18,7 +18,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onTabClick: setActiveGridId,
+  onTabClick: editor.setActiveGridId,
   onAddPlates: editor.addNewPlates,
   onAddRack: editor.addNewRack,
   onAddContainer: editor.addNewContainer,

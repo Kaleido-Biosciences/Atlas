@@ -26,7 +26,6 @@ const {
 } = editorActions;
 
 export const {
-  setActiveGridId,
   addBarcodes,
   setSettings,
   resetState: resetEditor,
