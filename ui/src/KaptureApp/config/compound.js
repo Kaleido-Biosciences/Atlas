@@ -133,5 +133,12 @@ export const compound = {
   allowAddTimepoint: false,
   enableOptions: ['concentration'],
   createComponent,
+  exportComponent: (component) => {
+    return {
+      type: component.type,
+      id: component.data.id,
+      timepoints: component.fields.timepoints,
+    };
+  },
   editForm: editForm,
 };

@@ -45,4 +45,11 @@ export const medium = {
   allowAddTimepoint: false,
   enableOptions: [],
   createComponent,
+  exportComponent: (component) => {
+    return {
+      type: component.type,
+      id: component.data.id,
+      timepoints: component.fields.timepoints,
+    };
+  },
 };

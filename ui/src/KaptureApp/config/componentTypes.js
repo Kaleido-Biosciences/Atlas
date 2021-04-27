@@ -47,6 +47,20 @@ export const createComponent = (data, type, timepoints) => {
   }
 };
 
+export const exportComponent = (component) => {
+  if (component.type === COMPONENT_TYPE_COMMUNITY) {
+    return community.exportComponent(component);
+  } else if (component.type === COMPONENT_TYPE_COMPOUND) {
+    return compound.exportComponent(component);
+  } else if (component.type === COMPONENT_TYPE_MEDIUM) {
+    return medium.exportComponent(component);
+  } else if (component.type === COMPONENT_TYPE_SUPPLEMENT) {
+    return supplement.exportComponent(component);
+  } else if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
+    return attribute.exportComponent(component);
+  }
+};
+
 //needs to removed
 export const getComponentFromToolComponent = (toolComponent) => {
   return createAtlasComponent({

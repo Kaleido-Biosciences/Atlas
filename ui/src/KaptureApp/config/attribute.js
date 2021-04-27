@@ -56,4 +56,12 @@ export const attribute = {
   allowAddTimepoint: false,
   enableOptions: ['concentration'],
   createComponent,
+  exportComponent: (component) => {
+    return {
+      key: component.fields.key,
+      value: component.fields.value,
+      value_type: component.fields.value_type,
+      value_unit: component.fields.value_unit,
+    };
+  },
 };

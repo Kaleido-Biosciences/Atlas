@@ -1,5 +1,4 @@
 import {
-  createComponent,
   createContainer,
   createGrid,
   createGridData,
@@ -7,32 +6,10 @@ import {
 } from 'AtlasUI/models';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
-  COMPONENT_TYPE_SUPPLEMENT,
-  COMPONENT_TYPE_COMPOUND,
-  COMPONENT_TYPES_KEYED,
+  createComponent,
+  exportComponent,
 } from 'KaptureApp/config/componentTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-
-const createEditorComponentFromKaptureData = (
-  kaptureData,
-  type,
-  timepoints
-) => {
-  return createComponent({
-    id: `${type.toUpperCase()}_${kaptureData.id}`,
-    type,
-    name: getName(kaptureData),
-    description: getDescription(timepoints),
-    options: {
-      timepoints: timepoints.map((timepoint) => {
-        return Object.assign({}, timepoint);
-      }),
-    },
-    color: COMPONENT_TYPES_KEYED[type].colorCode,
-    data: kaptureData,
-    tooltip: getComponentTooltip(kaptureData, type),
-  });
-};
 
 const exportGrids = (grids) => {
   const exportedGrids = grids.map((grid, i) => {
@@ -77,18 +54,9 @@ const exportContainer = (container, row, column) => {
   if (container.components && container.components.length) {
     container.components.forEach((component) => {
       if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
-        exportedContainer.attributes.push({
-          key: component.data.key,
-          value: component.data.value,
-          value_type: component.data.value_type,
-          value_unit: component.data.value_unit,
-        });
+        exportedContainer.attributes.push(exportComponent(component));
       } else {
-        exportedContainer.components.push({
-          type: component.type,
-          id: component.data.id,
-          timepoints: component.options.timepoints,
-        });
+        exportedContainer.components.push(exportComponent(component));
       }
     });
   }
@@ -139,7 +107,7 @@ const importContainer = (containerData, kaptureComponents) => {
     const kaptureComponent = kaptureComponents[component.type].find(
       (kaptureComponent) => kaptureComponent.id === component.id
     );
-    return createEditorComponentFromKaptureData(
+    return createComponent(
       kaptureComponent,
       component.type,
       component.timepoints
@@ -147,23 +115,15 @@ const importContainer = (containerData, kaptureComponents) => {
   });
   const editorAttributes = containerData.attributes.map(
     ({ key, value, value_type, value_unit }) => {
-      const id = value ? (key + '_' + value).replace(/ /g, '_') : key;
-      const unit = value ? (value_unit ? value_unit : '') : '';
-      const name = value ? key + ': ' + value + unit : key;
-      return createComponent({
-        id,
-        type: COMPONENT_TYPE_ATTRIBUTE,
-        name,
-        data: {
-          id: id,
-          name,
-          key: key,
-          value: value,
-          value_type: value_type,
-          value_unit: value_unit,
+      return createComponent(
+        {
+          key,
+          value,
+          valueType: value_type,
+          valueUnit: value_unit,
         },
-        color: COMPONENT_TYPES_KEYED[COMPONENT_TYPE_ATTRIBUTE].colorCode,
-      });
+        COMPONENT_TYPE_ATTRIBUTE
+      );
     }
   );
   const containerComponents = editorComponents.concat(editorAttributes);
@@ -172,82 +132,6 @@ const importContainer = (containerData, kaptureComponents) => {
     barcode: containerData.barcode,
     components: containerComponents,
   });
-};
-
-const getName = (data) => {
-  let name = data.name;
-  if (data.alias) {
-    //For communities
-    name += ` : (${data.alias})`;
-  } else if (data.aliases && data.aliases.length > 0) {
-    //This is for compounds
-    data.aliases.forEach(
-      (aliasElement) => (name += ` : (${aliasElement.alias})`)
-    );
-  }
-  return name;
-};
-
-const getDescription = (timepoints) => {
-  const timepointStrings = timepoints.map((timepoint) => {
-    if (timepoint.concentration) {
-      return `${timepoint.concentration.toFixed(2)} @ 
-            ${timepoint.time}h`;
-    } else return '';
-  });
-  return timepointStrings.join(', ');
-};
-
-const getComponentTooltip = (data, type) => {
-  const tooltip = [];
-  if (type === COMPONENT_TYPE_SUPPLEMENT) {
-    if (data.source) {
-      tooltip.push({ key: 'Source', value: data.source });
-    }
-    if (data.registrationDate) {
-      tooltip.push({ key: 'Registration Date', value: data.registrationDate });
-    }
-  } else if (type === COMPONENT_TYPE_COMPOUND) {
-    if (data.aveDP) {
-      tooltip.push({
-        key: 'Avg. DP',
-        value: data.aveDP.toFixed(2),
-      });
-    }
-    if (data.glycanComposition) {
-      tooltip.push({
-        key: 'Glycan Composition',
-        value: data.glycanComposition,
-      });
-    }
-    if (data.dataRecordName) {
-      tooltip.push({ key: 'Data record name', value: data.dataRecordName });
-    }
-    if (data.createdBy) {
-      tooltip.push({ key: 'Created by', value: data.createdBy });
-    }
-    if (data.dateCreated) {
-      tooltip.push({
-        key: 'Created date',
-        value: formatDate(data.dateCreated),
-      });
-    }
-    if (data.notes) {
-      tooltip.push({ key: 'Notes', value: data.notes });
-    }
-  }
-  return tooltip;
-};
-
-const formatDate = (iso_text) => {
-  let d = new Date(iso_text),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
 };
 
 export { exportGrids, importGrids };

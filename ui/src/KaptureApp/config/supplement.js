@@ -101,5 +101,12 @@ export const supplement = {
   allowAddTimepoint: true,
   enableOptions: ['concentration'],
   createComponent,
+  exportComponent: (component) => {
+    return {
+      type: component.type,
+      id: component.data.id,
+      timepoints: component.fields.timepoints,
+    };
+  },
   editForm: editForm,
 };
