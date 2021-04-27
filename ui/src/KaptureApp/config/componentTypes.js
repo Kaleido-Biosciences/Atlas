@@ -1,4 +1,4 @@
-import { createComponent } from 'KaptureApp/models';
+import { createComponent as createAtlasComponent } from 'KaptureApp/models';
 import { community } from './community';
 import { compound } from './compound';
 import { medium } from './medium';
@@ -24,22 +24,23 @@ export const COMPONENT_TYPES_KEYED = COMPONENT_TYPES.reduce((keyed, type) => {
   return keyed;
 }, {});
 
-export const createToolComponent = (data, type, timepoints) => {
+export const createComponent = (data, type, timepoints) => {
   if (type === COMPONENT_TYPE_COMMUNITY) {
-    return community.createToolComponent(data, timepoints);
+    return community.createComponent(data, timepoints);
   } else if (type === COMPONENT_TYPE_COMPOUND) {
-    return compound.createToolComponent(data, timepoints);
+    return compound.createComponent(data, timepoints);
   } else if (type === COMPONENT_TYPE_MEDIUM) {
-    return medium.createToolComponent(data, timepoints);
+    return medium.createComponent(data, timepoints);
   } else if (type === COMPONENT_TYPE_SUPPLEMENT) {
-    return supplement.createToolComponent(data, timepoints);
+    return supplement.createComponent(data, timepoints);
   } else if (type === COMPONENT_TYPE_ATTRIBUTE) {
-    return attribute.createToolComponent(data);
+    return attribute.createComponent(data);
   }
 };
 
+//needs to removed
 export const getComponentFromToolComponent = (toolComponent) => {
-  return createComponent({
+  return createAtlasComponent({
     id: toolComponent.id,
     type: toolComponent.type,
     name: toolComponent.name,

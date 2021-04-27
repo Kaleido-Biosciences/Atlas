@@ -7,7 +7,7 @@ import { activity } from '../activity';
 import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
-  createToolComponent,
+  createComponent,
   sortComponentsByType,
   getComponentFromToolComponent,
   updateToolComponentDescription,
@@ -108,7 +108,7 @@ export const addApplyToolComponent = (component) => {
 
 export const addAttributeToApplyToolComponents = (fields) => {
   return (dispatch, getState) => {
-    const component = createToolComponent(fields, COMPONENT_TYPE_ATTRIBUTE);
+    const component = createComponent(fields, COMPONENT_TYPE_ATTRIBUTE);
     dispatch(_addApplyToolComponent({ component }));
   };
 };

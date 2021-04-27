@@ -12,7 +12,7 @@ const COLOR = 'black';
 const COLOR_CODE = '#1b1c1d';
 const ABBREVIATION = 'S';
 
-function createToolComponent(data, timepoints) {
+function createComponent(data, timepoints) {
   return {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
@@ -97,6 +97,6 @@ export const supplement = {
   defaultTime: DEFAULT_TIME,
   allowAddTimepoint: true,
   enableOptions: ['concentration'],
-  createToolComponent,
+  createComponent,
   editForm: editForm,
 };

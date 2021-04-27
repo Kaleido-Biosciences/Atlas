@@ -12,7 +12,7 @@ const COLOR = 'blue';
 const COLOR_CODE = '#2185d0';
 const ABBREVIATION = 'B';
 
-function createToolComponent(data, timepoints) {
+function createComponent(data, timepoints) {
   return {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
@@ -129,6 +129,6 @@ export const compound = {
   defaultTime: DEFAULT_TIME,
   allowAddTimepoint: false,
   enableOptions: ['concentration'],
-  createToolComponent,
+  createComponent,
   editForm: editForm,
 };

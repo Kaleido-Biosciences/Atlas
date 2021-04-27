@@ -3,7 +3,7 @@ const COLOR = 'red';
 const COLOR_CODE = '#db2828';
 const ABBREVIATION = 'A';
 
-function createToolComponent(data) {
+function createComponent(data) {
   const { key, value, valueType, valueUnit } = data;
   const id = value ? `${key}_${value}`.replace(/ /g, '_') : key;
   const unit = value && valueUnit ? valueUnit : '';
@@ -59,5 +59,5 @@ export const attribute = {
   defaultTime: null,
   allowAddTimepoint: false,
   enableOptions: ['concentration'],
-  createToolComponent,
+  createComponent,
 };

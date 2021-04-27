@@ -12,7 +12,7 @@ const COLOR = 'green';
 const COLOR_CODE = '#21ba45';
 const ABBREVIATION = 'C';
 
-function createToolComponent(data, timepoints) {
+function createComponent(data, timepoints) {
   return {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
@@ -86,6 +86,6 @@ export const community = {
   defaultTime: DEFAULT_TIME,
   allowAddTimepoint: true,
   enableOptions: ['concentration'],
-  createToolComponent,
+  createComponent,
   editForm: editForm,
 };

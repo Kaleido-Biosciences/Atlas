@@ -7,7 +7,7 @@ const COLOR = 'orange';
 const COLOR_CODE = '#f2711c';
 const ABBREVIATION = 'M';
 
-function createToolComponent(data, timepoints) {
+function createComponent(data, timepoints) {
   return {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
@@ -42,5 +42,5 @@ export const medium = {
   defaultTime: DEFAULT_TIME,
   allowAddTimepoint: false,
   enableOptions: [],
-  createToolComponent,
+  createComponent,
 };
