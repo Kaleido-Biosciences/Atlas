@@ -44,7 +44,7 @@ export const getTimepointsString = (timepoints) => {
   const timepointStrings = timepoints.map((timepoint) => {
     if (timepoint.concentration) {
       return `${timepoint.concentration.toFixed(2)} @ ${timepoint.time}h`;
-    } else return '';
+    } else return `@ ${timepoint.time}h`;
   });
   return timepointStrings.join(', ');
 };
