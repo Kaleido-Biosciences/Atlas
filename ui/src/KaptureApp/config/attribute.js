@@ -1,3 +1,5 @@
+import { getDescription } from './utils';
+
 const TYPE = 'Attribute';
 const COLOR = 'red';
 const COLOR_CODE = '#db2828';
@@ -8,19 +10,11 @@ function createComponent(data) {
   const id = value ? `${key}_${value}`.replace(/ /g, '_') : key;
   const unit = value && valueUnit ? valueUnit : '';
   const name = value ? `${key}: ${value}${unit}` : key;
-  let description = valueType;
-  if (description === 'Float') {
-    description = 'Decimal';
-  } else if (description === 'String') {
-    description = 'Text';
-  } else if (description === 'Boolean') {
-    description = 'True/False';
-  }
-  return {
+  const component = {
     id: `${TYPE.toUpperCase()}_${id}`,
     type: TYPE,
     name,
-    description,
+    description: '',
     data: {
       id,
       name,
@@ -45,6 +39,8 @@ function createComponent(data) {
     colorCode: COLOR_CODE,
     abbreviation: ABBREVIATION,
   };
+  component.description = getDescription(component);
+  return component;
 }
 
 export const attribute = {

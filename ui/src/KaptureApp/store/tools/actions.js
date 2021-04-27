@@ -10,7 +10,6 @@ import {
   createComponent,
   sortComponentsByType,
   getComponentFromToolComponent,
-  updateToolComponentDescription,
   updateComponentDescription,
 } from 'KaptureApp/config/componentTypes';
 
@@ -98,11 +97,7 @@ const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
 
 export const addApplyToolComponent = (component) => {
   return (dispatch, getState) => {
-    dispatch(
-      _addApplyToolComponent({
-        component: updateToolComponentDescription(component),
-      })
-    );
+    dispatch(_addApplyToolComponent({ component }));
   };
 };
 
@@ -115,11 +110,7 @@ export const addAttributeToApplyToolComponents = (fields) => {
 
 export const updateApplyToolComponent = (component) => {
   return (dispatch, getState) => {
-    dispatch(
-      _updateApplyToolComponent({
-        component: updateToolComponentDescription(component),
-      })
-    );
+    dispatch(_updateApplyToolComponent({ component }));
   };
 };
 

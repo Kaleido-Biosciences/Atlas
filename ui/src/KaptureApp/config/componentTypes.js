@@ -4,12 +4,21 @@ import { compound } from './compound';
 import { medium } from './medium';
 import { supplement } from './supplement';
 import { attribute } from './attribute';
+import {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
+} from './constants';
 
-export const COMPONENT_TYPE_COMMUNITY = 'Community';
-export const COMPONENT_TYPE_COMPOUND = 'Compound';
-export const COMPONENT_TYPE_MEDIUM = 'Medium';
-export const COMPONENT_TYPE_SUPPLEMENT = 'Supplement';
-export const COMPONENT_TYPE_ATTRIBUTE = 'Attribute';
+export {
+  COMPONENT_TYPE_COMMUNITY,
+  COMPONENT_TYPE_COMPOUND,
+  COMPONENT_TYPE_MEDIUM,
+  COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
+};
 
 export const COMPONENT_TYPES = [
   community,
@@ -50,22 +59,6 @@ export const getComponentFromToolComponent = (toolComponent) => {
     tooltip: toolComponent.tooltip,
     color: toolComponent.colorCode,
   });
-};
-
-//attributes?
-export const updateToolComponentDescription = (toolComponent) => {
-  const newComponent = { ...toolComponent };
-  let description = '';
-  if (
-    toolComponent.isValid &&
-    toolComponent.fields &&
-    toolComponent.fields.timepoints &&
-    toolComponent.fields.timepoints.length
-  ) {
-    description = getDescription(toolComponent.fields.timepoints);
-  }
-  newComponent.description = description;
-  return newComponent;
 };
 
 //attributes?

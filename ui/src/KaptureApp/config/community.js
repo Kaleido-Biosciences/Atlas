@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 
-import { getName, getDefaultTimepoints } from './utils';
+import { getName, getDefaultTimepoints, getDescription } from './utils';
 import { Timepoints } from './Timepoints';
 
 const TYPE = 'Community';
@@ -13,7 +13,7 @@ const COLOR_CODE = '#21ba45';
 const ABBREVIATION = 'C';
 
 function createComponent(data, timepoints) {
-  return {
+  const component = {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: getName(data),
@@ -33,6 +33,8 @@ function createComponent(data, timepoints) {
     colorCode: COLOR_CODE,
     abbreviation: ABBREVIATION,
   };
+  component.description = getDescription(component);
+  return component;
 }
 
 class editForm extends React.Component {
@@ -55,6 +57,7 @@ class editForm extends React.Component {
         newComponent.isValid = false;
         newComponent.errors = errors;
       }
+      newComponent.description = getDescription(newComponent);
       this.props.onChange(newComponent);
     }
   };

@@ -1,4 +1,4 @@
-import { getName, getDefaultTimepoints } from './utils';
+import { getName, getDefaultTimepoints, getDescription } from './utils';
 
 const TYPE = 'Medium';
 const DEFAULT_CONCENTRATION = null;
@@ -8,7 +8,7 @@ const COLOR_CODE = '#f2711c';
 const ABBREVIATION = 'M';
 
 function createComponent(data, timepoints) {
-  return {
+  const component = {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: getName(data),
@@ -28,6 +28,8 @@ function createComponent(data, timepoints) {
     colorCode: COLOR_CODE,
     abbreviation: ABBREVIATION,
   };
+  component.description = getDescription(component);
+  return component;
 }
 
 export const medium = {
