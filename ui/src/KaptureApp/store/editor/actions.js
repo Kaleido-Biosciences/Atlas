@@ -26,6 +26,7 @@ const {
   setInitializationError: _setInitializationError,
   deleteGrid: _deleteGrid,
   setActiveGridId: _setActiveGridId,
+  setGridBarcode: _setGridBarcode,
 } = actions;
 
 const { wrapWithChangeHandler } = activity;
@@ -211,3 +212,9 @@ export const cloneGrid = wrapWithChangeHandler(
     };
   }
 );
+
+export const setGridBarcode = wrapWithChangeHandler((gridId, barcode) => {
+  return (dispatch, getState) => {
+    dispatch(_setGridBarcode({ gridId, barcode }));
+  };
+});

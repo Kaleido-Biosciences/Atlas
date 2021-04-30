@@ -32,10 +32,7 @@ export class GridDetails extends Component {
   };
   handleChange = (e, { value }) => {
     if (this.props.onBarcodeSelect) {
-      this.props.onBarcodeSelect({
-        gridId: this.props.gridId,
-        barcode: value,
-      });
+      this.props.onBarcodeSelect(this.props.gridId, value);
     }
   };
   render() {

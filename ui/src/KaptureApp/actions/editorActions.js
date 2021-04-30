@@ -12,10 +12,7 @@ import {
   COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
 
-const {
-  setGridComponents: _setGridComponents,
-  setGridBarcode: _setGridBarcode,
-} = editorActions;
+const { setGridComponents: _setGridComponents } = editorActions;
 
 export const {
   addBarcodes,
@@ -63,8 +60,6 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
     }
   };
 });
-
-export const setGridBarcode = wrapWithChangeHandler(_setGridBarcode);
 
 function applyComponentsToContainer(container, toolComponentsToApply) {
   const containerComponents = container.components.slice();

@@ -8,7 +8,6 @@ import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 
 const {
-  setGridBarcode,
   addBarcodes,
   setSettings,
   applyImportedComponentsToGrid,
@@ -34,7 +33,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onContainerClick: tools.handleContainerClick,
   onAddContainer: editor.addNewContainerToGrid,
-  onBarcodeSelect: setGridBarcode,
+  onBarcodeSelect: editor.setGridBarcode,
   onBarcodeAdd: addBarcodes,
   onSettingsChange: setSettings,
   onImportComponentsClick: editorImport.importComponents,
