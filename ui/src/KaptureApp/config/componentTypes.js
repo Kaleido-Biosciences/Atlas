@@ -69,6 +69,16 @@ export const cloneComponent = (component) => {
   };
 };
 
+export const cloneComponents = (components, componentTypesToClone) => {
+  const clonedComponents = [];
+  components.forEach((component) => {
+    if (componentTypesToClone.includes(component.type)) {
+      clonedComponents.push(cloneComponent(component));
+    }
+  });
+  return clonedComponents;
+};
+
 export const sortComponentsByType = (components) => {
   const sortValues = {
     [COMPONENT_TYPE_COMMUNITY]: 1,

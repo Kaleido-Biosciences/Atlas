@@ -1,4 +1,5 @@
 import { actions } from './slice';
+import * as selectors from './selectors';
 import { activity } from '../activity';
 import {
   createGrid,
@@ -8,6 +9,7 @@ import {
   createContainer,
 } from 'KaptureApp/models';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
+import { cloneComponents } from 'KaptureApp/config/componentTypes';
 
 const {
   addGrid: _addGrid,
@@ -166,3 +168,46 @@ export const setActiveGridId = (gridId) => {
     dispatch(_setActiveGridId({ gridId }));
   };
 };
+
+export const cloneGrid = wrapWithChangeHandler(
+  (gridId, componentTypesToClone, quantity) => {
+    return (dispatch, getState) => {
+      const grids = selectors.selectGrids(getState());
+      const grid = grids.find((grid) => grid.id === gridId);
+      const containerPositions = [];
+      const positions = grid.data.flat();
+      positions.forEach((position) => {
+        if (position.container) {
+          const clonedComponents = cloneComponents(
+            position.container.components,
+            componentTypesToClone
+          );
+          const newContainer = createContainer({
+            containerType: position.container.containerType,
+            components: clonedComponents,
+          });
+          containerPositions.push({
+            row: position.row,
+            column: position.column,
+            container: newContainer,
+          });
+        }
+      });
+      const newGrids = [];
+      for (let i = 0; i < quantity; i++) {
+        const gridData = createGridData(
+          { ...grid.dimensions },
+          GRID_ROW_HEADERS
+        );
+        const newGrid = createGrid({
+          containerType: grid.containerType,
+          dimensions: grid.dimensions,
+          data: gridData,
+        });
+        addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
+        newGrids.push(newGrid);
+      }
+      dispatch(_addGrids({ grids: newGrids, activeGridId: gridId }));
+    };
+  }
+);

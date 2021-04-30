@@ -2,13 +2,7 @@ import { activity, editorImport } from 'KaptureApp/store';
 import { actions as editorActions } from 'KaptureApp/store/editor/slice';
 import * as selectors from 'KaptureApp/store/editor/selectors';
 
-import {
-  createGrid,
-  createGridData,
-  addContainersToGrid,
-  createContainer,
-  createComponent,
-} from 'KaptureApp/models';
+import { createComponent } from 'KaptureApp/models';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
@@ -17,10 +11,8 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
   COMPONENT_TYPES_KEYED,
 } from 'KaptureApp/config/componentTypes';
-import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 const {
-  addGrids: _addGrids,
   setGridComponents: _setGridComponents,
   setGridBarcode: _setGridBarcode,
 } = editorActions;
@@ -72,79 +64,7 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
   };
 });
 
-export const cloneGrid = wrapWithChangeHandler(
-  (gridId, componentTypesToClone, quantity) => {
-    return (dispatch, getState) => {
-      const grids = selectors.selectGrids(getState());
-      const grid = findGridById(gridId, grids);
-      const containerPositions = [];
-      const positions = grid.data.flat();
-      positions.forEach((position) => {
-        if (position.container) {
-          const clonedComponents = cloneComponents(
-            position.container.components,
-            componentTypesToClone
-          );
-          const newContainer = createContainer({
-            containerType: position.container.containerType,
-            components: clonedComponents,
-          });
-          containerPositions.push({
-            row: position.row,
-            column: position.column,
-            container: newContainer,
-          });
-        }
-      });
-      const newGrids = [];
-      for (let i = 0; i < quantity; i++) {
-        const gridData = createGridData(
-          { ...grid.dimensions },
-          GRID_ROW_HEADERS
-        );
-        const newGrid = createGrid({
-          containerType: grid.containerType,
-          dimensions: grid.dimensions,
-          data: gridData,
-        });
-        addContainersToGrid(newGrid, containerPositions, GRID_ROW_HEADERS);
-        newGrids.push(newGrid);
-      }
-      dispatch(_addGrids({ grids: newGrids, activeGridId: gridId }));
-    };
-  }
-);
-
 export const setGridBarcode = wrapWithChangeHandler(_setGridBarcode);
-
-function cloneComponents(components, componentTypesToClone) {
-  const clonedComponents = [];
-  components.forEach((component) => {
-    if (componentTypesToClone.includes(component.type)) {
-      const clonedOptions = {};
-      if (component.options && component.options.timepoints) {
-        clonedOptions.timepoints = component.options.timepoints.map(
-          (timepoint) => {
-            return Object.assign({}, timepoint);
-          }
-        );
-      }
-      clonedComponents.push(
-        createComponent({
-          id: component.id,
-          type: component.type,
-          name: component.name,
-          description: component.description,
-          options: clonedOptions,
-          tooltip: component.tooltip,
-          color: component.color,
-          data: component.data,
-        })
-      );
-    }
-  });
-  return clonedComponents;
-}
 
 function applyComponentsToContainer(container, toolComponentsToApply) {
   const containerComponents = container.components.slice();
