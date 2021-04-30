@@ -9,8 +9,8 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
   sortComponentsByType,
-  getComponentFromToolComponent,
-  updateComponentDescription,
+  cloneComponent,
+  getDescription,
 } from 'KaptureApp/config/componentTypes';
 
 const { wrapWithChangeHandler } = activity;
@@ -203,36 +203,33 @@ const applyToolComponentsToPositions = (positions, toolComponents) => {
 const updateContainerComponents = (container, toolComponentsToApply) => {
   const containerComponents = container.components.slice();
   const componentsToApply = toolComponentsToApply.map((toolComponent) => {
-    return getComponentFromToolComponent(toolComponent);
+    return cloneComponent(toolComponent);
   });
   componentsToApply.forEach((component) => {
     const existingComponent = containerComponents.find(
       (comp) => comp.id === component.id
     );
     if (!existingComponent) {
-      containerComponents.push(updateComponentDescription(component));
+      containerComponents.push(component);
     } else {
-      if (existingComponent.options.timepoints) {
-        existingComponent.options.timepoints.forEach((eTimepoint) => {
-          const index = component.options.timepoints.findIndex(
+      if (existingComponent.fields.timepoints) {
+        existingComponent.fields.timepoints.forEach((eTimepoint) => {
+          const index = component.fields.timepoints.findIndex(
             (timepoint) => timepoint.time === eTimepoint.time
           );
           if (index === -1) {
-            component.options.timepoints.push(eTimepoint);
+            component.fields.timepoints.push(eTimepoint);
           }
         });
-        component.options.timepoints.sort((a, b) => {
+        component.fields.timepoints.sort((a, b) => {
           return a.time - b.time;
         });
       }
       const index = containerComponents.findIndex(
         (eComponent) => eComponent.id === component.id
       );
-      containerComponents.splice(
-        index,
-        1,
-        updateComponentDescription(component)
-      );
+      component.description = getDescription(component);
+      containerComponents.splice(index, 1, component);
     }
   });
   return sortComponentsByType(containerComponents);

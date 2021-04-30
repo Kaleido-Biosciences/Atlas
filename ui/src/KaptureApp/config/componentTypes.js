@@ -1,4 +1,3 @@
-import { createComponent as createAtlasComponent } from 'KaptureApp/models';
 import { community } from './community';
 import { compound } from './compound';
 import { medium } from './medium';
@@ -11,6 +10,8 @@ import {
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
 } from './constants';
+
+export { getDescription } from './utils';
 
 export {
   COMPONENT_TYPE_COMMUNITY,
@@ -61,33 +62,11 @@ export const exportComponent = (component) => {
   }
 };
 
-//needs to removed
-export const getComponentFromToolComponent = (toolComponent) => {
-  return createAtlasComponent({
-    id: toolComponent.id,
-    type: toolComponent.type,
-    name: toolComponent.name,
-    description: toolComponent.description,
-    data: toolComponent.data,
-    options: JSON.parse(JSON.stringify(toolComponent.fields)),
-    tooltip: toolComponent.tooltip,
-    color: toolComponent.colorCode,
-  });
-};
-
-//attributes?
-export const updateComponentDescription = (component) => {
-  const newComponent = { ...component };
-  let description = '';
-  if (
-    component.options &&
-    component.options.timepoints &&
-    component.options.timepoints.length
-  ) {
-    description = getDescription(component.options.timepoints);
-  }
-  newComponent.description = description;
-  return newComponent;
+export const cloneComponent = (component) => {
+  return {
+    ...component,
+    fields: JSON.parse(JSON.stringify(component.fields)),
+  };
 };
 
 export const sortComponentsByType = (components) => {
@@ -102,14 +81,4 @@ export const sortComponentsByType = (components) => {
   return arrayToSort.sort((a, b) => {
     return sortValues[a.type] - sortValues[b.type];
   });
-};
-
-const getDescription = (timepoints) => {
-  const timepointStrings = timepoints.map((timepoint) => {
-    if (timepoint.concentration) {
-      return `${timepoint.concentration.toFixed(2)} @ 
-              ${timepoint.time}h`;
-    } else return '';
-  });
-  return timepointStrings.join(', ');
 };
