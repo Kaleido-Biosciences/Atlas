@@ -1,1 +1,0 @@
-export { EraserTool } from './connect';
