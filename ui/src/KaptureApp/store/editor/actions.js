@@ -31,6 +31,7 @@ const {
   deleteGrid: _deleteGrid,
   setActiveGridId: _setActiveGridId,
   setGridBarcode: _setGridBarcode,
+  setSettings: _setSettings,
 } = actions;
 
 const { wrapWithChangeHandler } = activity;
@@ -261,3 +262,9 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
     }
   };
 });
+
+export const setSettings = (settings) => {
+  return (dispatch, getState) => {
+    dispatch(_setSettings({ settings }));
+  };
+};

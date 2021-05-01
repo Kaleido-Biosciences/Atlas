@@ -1,13 +1,10 @@
 import { connect } from 'react-redux';
 
 import { ActiveGrid } from 'AtlasUI/components';
-import { actions } from 'KaptureApp/actions';
 import { editor, editorImport, tools } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
-
-const { setSettings } = actions.editor;
 
 const mapState = (state, props) => {
   return {
@@ -31,7 +28,7 @@ const mapDispatch = {
   onAddContainer: editor.addNewContainerToGrid,
   onBarcodeSelect: editor.setGridBarcode,
   onBarcodeAdd: editor.addBarcodes,
-  onSettingsChange: setSettings,
+  onSettingsChange: editor.setSettings,
   onImportComponentsClick: editorImport.importComponents,
   onImportApplyClick: editor.applyImportedComponentsToGrid,
   onImportFixClick: editorImport.fixComponent,
