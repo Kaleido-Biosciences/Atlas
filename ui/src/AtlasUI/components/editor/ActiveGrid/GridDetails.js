@@ -27,7 +27,7 @@ export class GridDetails extends Component {
   };
   handleAddition = (e, { value }) => {
     if (this.props.onBarcodeAdd) {
-      this.props.onBarcodeAdd({ barcodes: [value] });
+      this.props.onBarcodeAdd([value]);
     }
   };
   handleChange = (e, { value }) => {

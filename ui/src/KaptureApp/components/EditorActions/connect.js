@@ -2,9 +2,6 @@ import { connect } from 'react-redux';
 
 import { EditorActions } from './EditorActions';
 import { editor } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
-
-const { addBarcodes } = actions.editor;
 
 const mapState = (state, props) => {
   return {
@@ -13,7 +10,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onImportBarcodes: addBarcodes,
+  onImportBarcodes: editor.addBarcodes,
 };
 
 const connected = connect(mapState, mapDispatch)(EditorActions);

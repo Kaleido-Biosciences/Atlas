@@ -12,7 +12,7 @@ export class EditorActions extends Component {
   };
   handleImportBarcodes = ({ barcodes }) => {
     if (this.props.onImportBarcodes) {
-      this.props.onImportBarcodes({ barcodes });
+      this.props.onImportBarcodes(barcodes);
     }
   };
   render() {
