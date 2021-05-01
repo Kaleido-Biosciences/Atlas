@@ -3,9 +3,6 @@ import queryString from 'query-string';
 
 import { Editor as EditorComponent } from 'AtlasUI/components';
 import { activity, editor } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
-
-const { resetEditor } = actions.editor;
 
 const onMount = (query) => {
   return async (dispatch, getState) => {
@@ -30,7 +27,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
-  onUnmount: resetEditor,
+  onUnmount: editor.resetEditor,
 };
 
 const connected = connect(mapState, mapDispatch)(EditorComponent);

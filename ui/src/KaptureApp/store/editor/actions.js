@@ -32,6 +32,7 @@ const {
   setActiveGridId: _setActiveGridId,
   setGridBarcode: _setGridBarcode,
   setSettings: _setSettings,
+  resetState: _resetState,
 } = actions;
 
 const { wrapWithChangeHandler } = activity;
@@ -266,5 +267,11 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
 export const setSettings = (settings) => {
   return (dispatch, getState) => {
     dispatch(_setSettings({ settings }));
+  };
+};
+
+export const resetEditor = () => {
+  return (dispatch, getState) => {
+    dispatch(_resetState());
   };
 };
