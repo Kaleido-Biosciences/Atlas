@@ -1,6 +1,7 @@
 import { actions } from './slice';
 import * as selectors from './selectors';
 import { activity } from '../activity';
+import { editorImport } from '../editorImport';
 import {
   createGrid,
   createGridData,
@@ -9,7 +10,10 @@ import {
   createContainer,
 } from 'KaptureApp/models';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-import { cloneComponents } from 'KaptureApp/config/componentTypes';
+import {
+  cloneComponents,
+  applyComponentsToContainer,
+} from 'KaptureApp/config/componentTypes';
 
 const {
   addGrid: _addGrid,
@@ -216,5 +220,44 @@ export const cloneGrid = wrapWithChangeHandler(
 export const setGridBarcode = wrapWithChangeHandler((gridId, barcode) => {
   return (dispatch, getState) => {
     dispatch(_setGridBarcode({ gridId, barcode }));
+  };
+});
+
+export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
+  return (dispatch, getState) => {
+    const grids = selectors.selectGrids(getState());
+    const grid = grids.find((grid) => grid.id === gridId);
+    const importedComponents = editorImport.selectImportedComponents(
+      getState()
+    );
+    const actionPositions = [];
+    const gridPositions = grid.data.flat();
+    importedComponents.forEach((position) => {
+      const gridPosition = gridPositions.find((gridPosition) => {
+        return (
+          gridPosition.row === position.row &&
+          gridPosition.column === position.column
+        );
+      });
+      if (gridPosition && gridPosition.container) {
+        const newComponents = applyComponentsToContainer(
+          gridPosition.container,
+          [position.component]
+        );
+        actionPositions.push({
+          row: position.row,
+          column: position.column,
+          components: newComponents,
+        });
+      }
+    });
+    if (actionPositions.length) {
+      dispatch(
+        _setGridComponents({
+          gridId,
+          positions: actionPositions,
+        })
+      );
+    }
   };
 });

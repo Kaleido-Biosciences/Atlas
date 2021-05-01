@@ -6,9 +6,9 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
+  createComponent,
 } from 'KaptureApp/config/componentTypes';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-import { createComponent } from 'KaptureApp/utils/toolComponentFunctions';
 
 export const { resetState: resetEditorImport } = actions;
 

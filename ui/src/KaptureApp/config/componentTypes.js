@@ -10,8 +10,7 @@ import {
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
 } from './constants';
-
-export { getDescription } from './utils';
+import { getDescription } from './utils';
 
 export {
   COMPONENT_TYPE_COMMUNITY,
@@ -19,6 +18,7 @@ export {
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
   COMPONENT_TYPE_ATTRIBUTE,
+  getDescription,
 };
 
 export const COMPONENT_TYPES = [
@@ -91,4 +91,39 @@ export const sortComponentsByType = (components) => {
   return arrayToSort.sort((a, b) => {
     return sortValues[a.type] - sortValues[b.type];
   });
+};
+
+export const applyComponentsToContainer = (container, components) => {
+  const containerComponents = container.components.slice();
+  const componentsToApply = components.map((component) => {
+    return cloneComponent(component);
+  });
+  componentsToApply.forEach((component) => {
+    const existingComponent = containerComponents.find(
+      (comp) => comp.id === component.id
+    );
+    if (!existingComponent) {
+      containerComponents.push(component);
+    } else {
+      if (existingComponent.fields.timepoints) {
+        existingComponent.fields.timepoints.forEach((eTimepoint) => {
+          const index = component.fields.timepoints.findIndex(
+            (timepoint) => timepoint.time === eTimepoint.time
+          );
+          if (index === -1) {
+            component.fields.timepoints.push(eTimepoint);
+          }
+        });
+        component.fields.timepoints.sort((a, b) => {
+          return a.time - b.time;
+        });
+      }
+      const index = containerComponents.findIndex(
+        (eComponent) => eComponent.id === component.id
+      );
+      component.description = getDescription(component);
+      containerComponents.splice(index, 1, component);
+    }
+  });
+  return sortComponentsByType(containerComponents);
 };

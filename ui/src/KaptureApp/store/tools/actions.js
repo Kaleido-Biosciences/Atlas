@@ -8,9 +8,7 @@ import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
-  sortComponentsByType,
-  cloneComponent,
-  getDescription,
+  applyComponentsToContainer,
 } from 'KaptureApp/config/componentTypes';
 
 const { wrapWithChangeHandler } = activity;
@@ -186,7 +184,7 @@ const applyToolComponentsToPositions = (positions, toolComponents) => {
   const actionPositions = [];
   positions.forEach((position) => {
     if (position.container) {
-      const newComponents = updateContainerComponents(
+      const newComponents = applyComponentsToContainer(
         position.container,
         toolComponents
       );
@@ -198,41 +196,6 @@ const applyToolComponentsToPositions = (positions, toolComponents) => {
     }
   });
   return actionPositions;
-};
-
-const updateContainerComponents = (container, toolComponentsToApply) => {
-  const containerComponents = container.components.slice();
-  const componentsToApply = toolComponentsToApply.map((toolComponent) => {
-    return cloneComponent(toolComponent);
-  });
-  componentsToApply.forEach((component) => {
-    const existingComponent = containerComponents.find(
-      (comp) => comp.id === component.id
-    );
-    if (!existingComponent) {
-      containerComponents.push(component);
-    } else {
-      if (existingComponent.fields.timepoints) {
-        existingComponent.fields.timepoints.forEach((eTimepoint) => {
-          const index = component.fields.timepoints.findIndex(
-            (timepoint) => timepoint.time === eTimepoint.time
-          );
-          if (index === -1) {
-            component.fields.timepoints.push(eTimepoint);
-          }
-        });
-        component.fields.timepoints.sort((a, b) => {
-          return a.time - b.time;
-        });
-      }
-      const index = containerComponents.findIndex(
-        (eComponent) => eComponent.id === component.id
-      );
-      component.description = getDescription(component);
-      containerComponents.splice(index, 1, component);
-    }
-  });
-  return sortComponentsByType(containerComponents);
 };
 
 export const setComponentTypesToRemove = (componentTypes) => {
