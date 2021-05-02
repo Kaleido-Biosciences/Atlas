@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import classNames from 'classnames';
 
-import { COMPONENT_TYPES_KEYED } from 'KaptureApp/config/componentTypes';
 import styles from './ToolComponentList.module.css';
 
 export class ToolComponent extends React.Component {
@@ -40,7 +39,7 @@ export class ToolComponent extends React.Component {
   };
   render() {
     const { toolComponent } = this.props;
-    const EditForm = COMPONENT_TYPES_KEYED[toolComponent.type].editForm;
+    const EditForm = this.props.editForm;
     const style = {
       background: toolComponent.colorCode,
     };
@@ -72,7 +71,7 @@ export class ToolComponent extends React.Component {
             <Icon link name="remove" size="large" />
           </div>
         </div>
-        {toolComponent.displayEditForm ? (
+        {toolComponent.displayEditForm && EditForm ? (
           <div className={styles.editForm}>
             <EditForm
               component={toolComponent}
@@ -91,6 +90,7 @@ export class ToolComponent extends React.Component {
 }
 
 ToolComponent.propTypes = {
+  editForm: PropTypes.func,
   onRemove: PropTypes.func,
   onSelectionChange: PropTypes.func,
   onUpdate: PropTypes.func,

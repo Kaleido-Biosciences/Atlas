@@ -29,11 +29,6 @@ export const COMPONENT_TYPES = [
   attribute,
 ];
 
-export const COMPONENT_TYPES_KEYED = COMPONENT_TYPES.reduce((keyed, type) => {
-  keyed[type.name] = type;
-  return keyed;
-}, {});
-
 export const createComponent = (data, type, timepoints) => {
   if (type === COMPONENT_TYPE_COMMUNITY) {
     return community.createComponent(data, timepoints);

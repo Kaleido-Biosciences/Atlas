@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import { ApplyTool } from './ApplyTool';
 import { tools, editor } from 'KaptureApp/store';
+import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 
 const mapState = (state, props) => {
   return {
@@ -11,6 +12,7 @@ const mapState = (state, props) => {
     componentSearchPending: tools.selectComponentSearchPending(state),
     componentSearchResults: tools.selectComponentSearchResults(state),
     componentSearchTerm: tools.selectComponentSearchTerm(state),
+    componentTypes: COMPONENT_TYPES,
     selectedContainersSummary: editor.selectSelectedContainersSummary(state),
     toolComponents: tools.selectApplyToolComponents(state),
     toolComponentsValid: tools.selectApplyToolComponentsValid(state),

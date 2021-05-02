@@ -82,10 +82,11 @@ export class ApplyTool extends React.Component {
           <div className={styles.toolComponentsContainer}>
             <div className={styles.toolComponentListContainer}>
               <ToolComponentList
-                toolComponents={this.props.toolComponents}
+                componentTypes={this.props.componentTypes}
                 onSelectionsChange={this.props.onComponentSelectionsChange}
                 onRemove={this.props.onRemoveToolComponent}
                 onUpdate={this.props.onUpdateToolComponent}
+                toolComponents={this.props.toolComponents}
               />
             </div>
             {this.props.clickMode === 'select' && (
@@ -134,6 +135,7 @@ ApplyTool.propTypes = {
   componentSearchPending: PropTypes.bool,
   componentSearchResults: PropTypes.array,
   componentSearchTerm: PropTypes.string,
+  componentTypes: PropTypes.array,
   onAddAttribute: PropTypes.func,
   onAddToolComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
