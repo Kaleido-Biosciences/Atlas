@@ -8,7 +8,6 @@ import * as editorSelectors from '../editor/selectors';
 import { print } from '../print';
 import { api } from 'KaptureApp/api';
 import { createContainerCollection } from 'KaptureApp/models';
-import { exportGrids, importGrids } from 'KaptureApp/utils/containerFunctions';
 import { STATUS_COMPLETED } from 'KaptureApp/config/constants';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -35,7 +34,9 @@ const {
 let lastSaveData = '';
 
 const saveGrids = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = exportGrids(editorSelectors.selectGrids(getState()));
+  const exportedGrids = api.exportGrids(
+    editorSelectors.selectGrids(getState())
+  );
   const stringifiedGrids = JSON.stringify(exportedGrids);
   if (stringifiedGrids !== lastSaveData) {
     dispatch(_setSavePending());
@@ -115,7 +116,7 @@ export const loadEditorContainerCollection = (status, version) => {
       const importData = await importContainerCollection(collection);
       dispatch(editorActions.addBarcodes({ barcodes: importData.barcodes }));
       dispatch(editorActions.setGrids({ grids: importData.grids }));
-      const exportedGrids = exportGrids(
+      const exportedGrids = api.exportGrids(
         editorSelectors.selectGrids(getState())
       );
       lastSaveData = JSON.stringify(exportedGrids);
@@ -172,14 +173,16 @@ export const getContainerCollection = (status, timestamp) => {
 export const importContainerCollection = async (containerCollection) => {
   const grids = containerCollection.data.plateMaps;
   const kaptureComponents = await fetchComponentsForContainers(grids);
-  return importGrids(grids, kaptureComponents);
+  return api.importGrids(grids, kaptureComponents);
 };
 
 export const publishActivityGrids = () => {
   return async (dispatch, getState) => {
     dispatch(_setPublishSuccess({ publishSuccess: false }));
     const activityName = selectors.selectName(getState());
-    const exportedGrids = exportGrids(editorSelectors.selectGrids(getState()));
+    const exportedGrids = api.exportGrids(
+      editorSelectors.selectGrids(getState())
+    );
     try {
       const data = await api.publishActivityGrids(activityName, exportedGrids);
       dispatch(_setPublishedContainerCollectionDetails(data));
