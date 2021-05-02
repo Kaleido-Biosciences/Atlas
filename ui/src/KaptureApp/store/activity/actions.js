@@ -7,7 +7,6 @@ import { actions as editorActions } from '../editor/slice';
 import * as editorSelectors from '../editor/selectors';
 import { print } from '../print';
 import { api } from 'KaptureApp/api';
-import { createContainerCollection } from 'KaptureApp/models';
 import { STATUS_COMPLETED } from 'KaptureApp/config/constants';
 import {
   COMPONENT_TYPE_COMMUNITY,
@@ -17,6 +16,7 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
 } from 'KaptureApp/config/componentTypes';
 import { CONTAINER_TYPES } from 'KaptureApp/config/containerTypes';
+import { createContainerCollection } from 'AtlasUI/models';
 
 const {
   setInitialized: _setInitialized,

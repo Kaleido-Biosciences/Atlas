@@ -2,18 +2,18 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import { activity } from '../activity';
 import { editorImport } from '../editorImport';
+import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
+import {
+  cloneComponents,
+  applyComponentsToContainer,
+} from 'KaptureApp/config/componentTypes';
 import {
   createGrid,
   createGridData,
   createContainersForGrid,
   addContainersToGrid,
   createContainer,
-} from 'KaptureApp/models';
-import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-import {
-  cloneComponents,
-  applyComponentsToContainer,
-} from 'KaptureApp/config/componentTypes';
+} from 'AtlasUI/models';
 
 const {
   addGrid: _addGrid,
