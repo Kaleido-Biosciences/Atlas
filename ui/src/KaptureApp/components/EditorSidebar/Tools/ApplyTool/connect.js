@@ -27,6 +27,7 @@ const mapDispatch = {
   onComponentSearchHide: tools.resetComponentSearch,
   onComponentSelectionsChange: tools.updateApplyToolComponentSelections,
   onRemoveToolComponent: tools.removeApplyToolComponents,
+  onToolComponentEditClick: tools.toggleComponentDisplayEditForm,
   onUpdateToolComponent: tools.updateApplyToolComponent,
   onUnmount: tools.resetComponentSearch,
 };

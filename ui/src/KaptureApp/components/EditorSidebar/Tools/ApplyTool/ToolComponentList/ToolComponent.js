@@ -20,10 +20,8 @@ export class ToolComponent extends React.Component {
   };
   handleEditClick = () => {
     if (this.props.toolComponent.editable) {
-      if (this.props.onUpdate) {
-        const updatedComponent = { ...this.props.toolComponent };
-        updatedComponent.displayEditForm = !updatedComponent.displayEditForm;
-        this.props.onUpdate(updatedComponent);
+      if (this.props.onEditClick) {
+        this.props.onEditClick(this.props.toolComponent);
       }
     }
   };
@@ -91,6 +89,7 @@ export class ToolComponent extends React.Component {
 
 ToolComponent.propTypes = {
   editForm: PropTypes.func,
+  onEditClick: PropTypes.func,
   onRemove: PropTypes.func,
   onSelectionChange: PropTypes.func,
   onUpdate: PropTypes.func,

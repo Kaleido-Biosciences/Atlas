@@ -33,6 +33,7 @@ export class ToolComponentList extends React.Component {
             <ToolComponent
               editForm={editForm}
               key={component.id}
+              onEditClick={this.props.onEditClick}
               onRemove={this.handleRemove}
               onSelectionChange={this.handleSelectionChange}
               onUpdate={this.props.onUpdate}
@@ -47,6 +48,7 @@ export class ToolComponentList extends React.Component {
 
 ToolComponentList.propTypes = {
   componentTypes: PropTypes.array,
+  onEditClick: PropTypes.func,
   onSelectionsChange: PropTypes.func,
   onRemove: PropTypes.func,
   onUpdate: PropTypes.func,

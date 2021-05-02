@@ -261,3 +261,18 @@ const removeComponentsFromPositions = (positions, componentTypesToRemove) => {
   });
   return actionPositions;
 };
+
+export const toggleComponentDisplayEditForm = (component) => {
+  return (dispatch, getState) => {
+    if (component.editable) {
+      dispatch(
+        _updateApplyToolComponent({
+          component: {
+            ...component,
+            displayEditForm: !component.displayEditForm,
+          },
+        })
+      );
+    }
+  };
+};

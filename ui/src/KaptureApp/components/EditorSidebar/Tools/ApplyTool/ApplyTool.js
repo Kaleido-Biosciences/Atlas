@@ -83,6 +83,7 @@ export class ApplyTool extends React.Component {
             <div className={styles.toolComponentListContainer}>
               <ToolComponentList
                 componentTypes={this.props.componentTypes}
+                onEditClick={this.props.onToolComponentEditClick}
                 onSelectionsChange={this.props.onComponentSelectionsChange}
                 onRemove={this.props.onRemoveToolComponent}
                 onUpdate={this.props.onUpdateToolComponent}
@@ -143,6 +144,7 @@ ApplyTool.propTypes = {
   onComponentSearchHide: PropTypes.func,
   onComponentSelectionsChange: PropTypes.func,
   onRemoveToolComponent: PropTypes.func,
+  onToolComponentEditClick: PropTypes.func,
   onUnmount: PropTypes.func,
   onUpdateToolComponent: PropTypes.func,
   selectedContainersSummary: PropTypes.object,
