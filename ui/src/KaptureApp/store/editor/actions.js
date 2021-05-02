@@ -104,63 +104,9 @@ export const addNewContainerToGrid = wrapWithChangeHandler(
   }
 );
 
-export const toggleGridContainerSelections = (gridId, positions) => {
-  return (dispatch, getState) => {
-    dispatch(_toggleGridContainerSelections({ gridId, positions }));
-  };
-};
-
-export const deselectGridContainers = (gridIds) => {
-  return (dispatch, getState) => {
-    dispatch(_deselectGridContainers({ gridIds }));
-  };
-};
-
-// wrap with change handler
-export const setGridComponents = (gridId, actionPositions) => {
-  return (dispatch, getState) => {
-    dispatch(
-      _setGridComponents({
-        gridId,
-        positions: actionPositions,
-      })
-    );
-  };
-};
-
-export const setContainerTypes = (containerTypes) => {
-  return (dispatch, getState) => {
-    dispatch(_setContainerTypes({ containerTypes }));
-  };
-};
-
-export const setContainerCollection = (containerCollection) => {
-  return (dispatch, getState) => {
-    dispatch(_setContainerCollection({ containerCollection }));
-  };
-};
-
-export const addBarcodes = (barcodes) => {
-  return (dispatch, getState) => {
-    dispatch(_addBarcodes({ barcodes }));
-  };
-};
-
 export const setGrids = (grids) => {
   return (dispatch, getState) => {
     dispatch(_setGrids({ grids }));
-  };
-};
-
-export const setInitialized = (initialized) => {
-  return (dispatch, getState) => {
-    dispatch(_setInitialized({ initialized }));
-  };
-};
-
-export const setInitializationError = (error) => {
-  return (dispatch, getState) => {
-    dispatch(_setInitializationError({ error }));
   };
 };
 
@@ -219,12 +165,6 @@ export const cloneGrid = wrapWithChangeHandler(
   }
 );
 
-export const setGridBarcode = wrapWithChangeHandler((gridId, barcode) => {
-  return (dispatch, getState) => {
-    dispatch(_setGridBarcode({ gridId, barcode }));
-  };
-});
-
 export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
   return (dispatch, getState) => {
     const grids = selectors.selectGrids(getState());
@@ -263,6 +203,65 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
     }
   };
 });
+
+export const setGridBarcode = wrapWithChangeHandler((gridId, barcode) => {
+  return (dispatch, getState) => {
+    dispatch(_setGridBarcode({ gridId, barcode }));
+  };
+});
+
+export const toggleGridContainerSelections = (gridId, positions) => {
+  return (dispatch, getState) => {
+    dispatch(_toggleGridContainerSelections({ gridId, positions }));
+  };
+};
+
+export const deselectGridContainers = (gridIds) => {
+  return (dispatch, getState) => {
+    dispatch(_deselectGridContainers({ gridIds }));
+  };
+};
+
+export const setGridComponents = (gridId, actionPositions) => {
+  return (dispatch, getState) => {
+    dispatch(
+      _setGridComponents({
+        gridId,
+        positions: actionPositions,
+      })
+    );
+  };
+};
+
+export const setInitialized = (initialized) => {
+  return (dispatch, getState) => {
+    dispatch(_setInitialized({ initialized }));
+  };
+};
+
+export const setInitializationError = (error) => {
+  return (dispatch, getState) => {
+    dispatch(_setInitializationError({ error }));
+  };
+};
+
+export const setContainerTypes = (containerTypes) => {
+  return (dispatch, getState) => {
+    dispatch(_setContainerTypes({ containerTypes }));
+  };
+};
+
+export const setContainerCollection = (containerCollection) => {
+  return (dispatch, getState) => {
+    dispatch(_setContainerCollection({ containerCollection }));
+  };
+};
+
+export const addBarcodes = (barcodes) => {
+  return (dispatch, getState) => {
+    dispatch(_addBarcodes({ barcodes }));
+  };
+};
 
 export const setSettings = (settings) => {
   return (dispatch, getState) => {
