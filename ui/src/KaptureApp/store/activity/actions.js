@@ -7,7 +7,7 @@ import { actions as editorActions } from '../editor/slice';
 import * as editorSelectors from '../editor/selectors';
 import { print } from '../print';
 import { api } from 'KaptureApp/api';
-import { STATUS_COMPLETED } from 'KaptureApp/config/constants';
+import { STATUS_DRAFT, STATUS_COMPLETED } from 'KaptureApp/config/constants';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,
@@ -72,10 +72,14 @@ export const loadActivity = (id) => {
     try {
       const activity = await api.fetchActivity(id);
       const versions = await api.fetchActivityVersions(activity.name);
-      if (!versions.length) {
-        versions.push({
+      const draftStatus = `${activity.name}_${STATUS_DRAFT}`;
+      const draftVersion = versions.find((version) => {
+        return version.experiment_status === draftStatus;
+      });
+      if (!draftVersion) {
+        versions.unshift({
           plateMaps: [],
-          experiment_status: `${activity.name}_DRAFT`,
+          experiment_status: draftStatus,
           version: 0,
         });
       }
