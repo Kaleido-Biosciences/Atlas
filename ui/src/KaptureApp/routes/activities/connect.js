@@ -1,37 +1,17 @@
 import { connect } from 'react-redux';
 
 import { Activities } from './Activities';
-import { selectors } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
-
-const {
-  loadActivity,
-  resetActivity,
-  publishActivityGrids,
-  resetPublishState,
-} = actions.activity;
-
-const {
-  selectActivityInitialized,
-  selectActivityInitializationError,
-  selectActivityId,
-  selectActivityPublishSuccess,
-  selectActivityPublishError,
-  selectActivityPublishedContainerCollectionDetails,
-  selectActivityContainerCollectionsStale,
-  selectPrintInitialized,
-  selectEditorInitialized,
-} = selectors;
+import { activity, editor, print } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
-  const initialized = selectActivityInitialized(state);
-  const error = selectActivityInitializationError(state);
+  const initialized = activity.selectInitialized(state);
+  const error = activity.selectInitializationError(state);
   let loading = false;
   if (!initialized && !error) {
     loading = true;
   }
-  const publishSuccess = selectActivityPublishSuccess(state);
-  const publishError = selectActivityPublishError(state);
+  const publishSuccess = activity.selectPublishSuccess(state);
+  const publishError = activity.selectPublishError(state);
   let publishPending = false;
   if (!publishSuccess && !publishError) {
     publishPending = true;
@@ -40,24 +20,24 @@ const mapState = (state, props) => {
     initialized,
     loading,
     error,
-    activityId: selectActivityId(state),
+    activityId: activity.selectId(state),
     publishPending,
     publishSuccess,
     publishError,
-    publishedContainerCollectionDetails: selectActivityPublishedContainerCollectionDetails(
+    publishedContainerCollectionDetails: activity.selectPublishedContainerCollectionDetails(
       state
     ),
-    containerCollectionsStale: selectActivityContainerCollectionsStale(state),
-    editorInitialized: selectEditorInitialized(state),
-    printInitialized: selectPrintInitialized(state),
+    containerCollectionsStale: activity.selectContainerCollectionsStale(state),
+    editorInitialized: editor.selectInitialized(state),
+    printInitialized: print.selectInitialized(state),
   };
 };
 
 const mapDispatch = {
-  loadActivity,
-  onMarkAsCompleted: publishActivityGrids,
-  onUnmount: resetActivity,
-  onCompletedModalClose: resetPublishState,
+  loadActivity: activity.loadActivity,
+  onMarkAsCompleted: activity.publishActivityGrids,
+  onUnmount: activity.resetActivity,
+  onCompletedModalClose: activity.resetPublishState,
 };
 
 const connected = connect(mapState, mapDispatch)(Activities);

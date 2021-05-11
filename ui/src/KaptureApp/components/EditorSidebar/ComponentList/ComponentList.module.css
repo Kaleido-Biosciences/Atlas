@@ -1,0 +1,25 @@
+.noComponentsMessage {
+  padding: 1em;
+  text-align: center;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.component {
+  cursor: pointer;
+  transition: all 0.1s ease;
+  padding: 0.2em 1em;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.component:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.typeCircle {
+  margin-right: 1em !important;
+}

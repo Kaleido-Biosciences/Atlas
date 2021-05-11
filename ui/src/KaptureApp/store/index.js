@@ -1,13 +1,8 @@
-import {
-  activityActions,
-  activitySearchActions,
-  editorActions,
-  printActions,
-} from 'AtlasUI/store';
-
 export { store } from './store';
-export { selectors } from './selectors';
-export { editorComponentsActions } from './editorComponents';
-export { editorToolsActions } from './editorTools';
-export { editorImportActions } from './editorImport';
-export { activityActions, activitySearchActions, editorActions, printActions };
+export { activity } from './activity';
+export { activitySearch } from './activitySearch';
+export { components } from './components';
+export { editor } from './editor';
+export { editorImport } from './editorImport';
+export { print } from './print';
+export { tools } from './tools';

@@ -1,9 +1,9 @@
 export { ActivitySearch } from './ActivitySearchConnected';
-export { ActivityHeader } from './ActivityHeaderConnected';
+export { ActivityHeader } from './activity/ActivityHeader';
 export { ActivityDetails } from './ActivityDetailsConnected';
 export { Editor } from './EditorConnected';
 export { GridTabs } from './GridTabsConnected';
 export { ActiveGrid } from './ActiveGridConnected';
 export { EditorActions } from './EditorActions';
-export { EditorSidebar } from './editor';
+export { EditorSidebar } from './EditorSidebar';
 export { Print } from './PrintConnected';

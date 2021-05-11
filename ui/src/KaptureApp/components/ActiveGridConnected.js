@@ -1,67 +1,39 @@
 import { connect } from 'react-redux';
 
 import { ActiveGrid } from 'AtlasUI/components';
-import { actions } from 'KaptureApp/actions';
-import { selectors } from 'KaptureApp/store';
+import { editor, editorImport, tools } from 'KaptureApp/store';
 import { CONTAINER_TYPE_OPTIONS } from 'KaptureApp/config/containerTypes';
 import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
-
-const {
-  selectEditorActiveGrid,
-  selectEditorBarcodeOptions,
-  selectEditorSettings,
-  selectEditorImportImportStarted,
-  selectEditorImportImportPending,
-  selectEditorImportImportError,
-  selectEditorImportImportedComponents,
-  selectEditorComponentImportErrors,
-  selectEditorComponentTypes,
-} = selectors;
-
-const {
-  addNewContainerToGrid,
-  handleContainerClick,
-  setGridBarcode,
-  addBarcodes,
-  setSettings,
-  applyImportedComponentsToGrid,
-} = actions.editor;
-
-const {
-  importComponents,
-  fixComponent,
-  fixAllComponents,
-  resetEditorImport,
-} = actions.editorImport;
+import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 
 const mapState = (state, props) => {
   return {
-    activeGrid: selectEditorActiveGrid(state),
-    barcodeOptions: selectEditorBarcodeOptions(state),
-    settings: selectEditorSettings(state),
+    activeGrid: editor.selectActiveGrid(state),
+    barcodeOptions: editor.selectBarcodeOptions(state),
+    settings: editor.selectSettings(state),
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
     headerSize: GRID_HEADER_SIZE,
     rowHeaders: GRID_ROW_HEADERS,
-    importStarted: selectEditorImportImportStarted(state),
-    importPending: selectEditorImportImportPending(state),
-    importError: selectEditorImportImportError(state),
-    importedComponents: selectEditorImportImportedComponents(state),
-    componentImportErrors: selectEditorComponentImportErrors(state),
-    componentTypes: selectEditorComponentTypes(state),
+    importStarted: editorImport.selectImportStarted(state),
+    importPending: editorImport.selectImportPending(state),
+    importError: editorImport.selectImportError(state),
+    importedComponents: editorImport.selectImportedComponents(state),
+    componentImportErrors: editorImport.selectComponentImportErrors(state),
+    componentTypes: COMPONENT_TYPES,
   };
 };
 
 const mapDispatch = {
-  onContainerClick: handleContainerClick,
-  onAddContainer: addNewContainerToGrid,
-  onBarcodeSelect: setGridBarcode,
-  onBarcodeAdd: addBarcodes,
-  onSettingsChange: setSettings,
-  onImportComponentsClick: importComponents,
-  onImportApplyClick: applyImportedComponentsToGrid,
-  onImportFixClick: fixComponent,
-  onImportFixAllClick: fixAllComponents,
-  onImportStartOverClick: resetEditorImport,
+  onContainerClick: tools.handleContainerClick,
+  onAddContainer: editor.addNewContainerToGrid,
+  onBarcodeSelect: editor.setGridBarcode,
+  onBarcodeAdd: editor.addBarcodes,
+  onSettingsChange: editor.setSettings,
+  onImportComponentsClick: editorImport.importComponents,
+  onImportApplyClick: editor.applyImportedComponentsToGrid,
+  onImportFixClick: editorImport.fixComponent,
+  onImportFixAllClick: editorImport.fixAllComponents,
+  onImportStartOverClick: editorImport.resetEditorImport,
 };
 
 const connected = connect(mapState, mapDispatch)(ActiveGrid);

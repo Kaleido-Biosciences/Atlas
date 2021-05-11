@@ -21,10 +21,7 @@ export class Grid extends Component {
   };
   handleContainerClick = ({ position }) => {
     if (this.props.onClick) {
-      this.props.onClick({
-        gridId: this.props.grid.id,
-        positions: [position],
-      });
+      this.props.onClick(this.props.grid.id, [position]);
     }
   };
   handleHeaderCellClick = ({ cellType, index }) => {
@@ -38,10 +35,7 @@ export class Grid extends Component {
       } else if (cellType === 'row') {
         positions = gridData[index];
       }
-      this.props.onClick({
-        gridId: this.props.grid.id,
-        positions,
-      });
+      this.props.onClick(this.props.grid.id, positions);
     }
   };
   render() {

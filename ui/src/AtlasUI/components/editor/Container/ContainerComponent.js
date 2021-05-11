@@ -8,7 +8,7 @@ import styles from './ContainerComponent.module.css';
 export class ContainerComponent extends Component {
   renderComponent(component) {
     const style = {
-      background: component.color,
+      background: component.colorCode,
     };
     const renderedComponent = (
       <div className={styles.containerComponent} style={style}>
