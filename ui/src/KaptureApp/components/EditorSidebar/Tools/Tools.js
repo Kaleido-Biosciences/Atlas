@@ -37,10 +37,11 @@ export class Tools extends React.Component {
               onClick={this.handleToolClick}
               active={activeTool === 'apply'}
               size="mini"
+              title="Apply Tool"
             />
             <Button
               name="remove"
-              icon="remove circle"
+              icon="trash"
               onClick={this.handleToolClick}
               active={activeTool === 'remove'}
               size="mini"
