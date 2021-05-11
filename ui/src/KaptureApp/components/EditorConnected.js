@@ -13,6 +13,13 @@ const onMount = (query) => {
   };
 };
 
+const onUnmount = () => {
+  return (dispatch, getState) => {
+    dispatch(activity.resetSaveTime());
+    dispatch(editor.resetEditor());
+  };
+};
+
 const mapState = (state, props) => {
   const initialized = editor.selectInitialized(state);
   const error = editor.selectInitializationError(state);
@@ -27,7 +34,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onMount,
-  onUnmount: editor.resetEditor,
+  onUnmount,
 };
 
 const connected = connect(mapState, mapDispatch)(EditorComponent);

@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialSaveTime = {
+  savePending: false,
+  saveError: null,
+  lastSaveTime: null,
+};
+
 const initialState = {
   initialized: false,
   initializationError: null,
@@ -12,9 +18,7 @@ const initialState = {
   publishSuccess: false,
   publishError: null,
   publishedContainerCollectionDetails: null,
-  savePending: false,
-  saveError: null,
-  lastSaveTime: null,
+  ...initialSaveTime,
 };
 
 const activity = createSlice({
@@ -67,6 +71,9 @@ const activity = createSlice({
     setSaveError(state, action) {
       state.savePending = false;
       state.saveError = action.payload.error;
+    },
+    resetSaveTime(state, action) {
+      Object.assign(state, initialSaveTime);
     },
   },
 });

@@ -64,7 +64,11 @@ export const wrapWithChangeHandler = (fn) => {
   };
 };
 
-export const { resetState: resetActivity, resetPublishState } = actions;
+export const {
+  resetState: resetActivity,
+  resetPublishState,
+  resetSaveTime,
+} = actions;
 
 export const loadActivity = (id) => {
   return async (dispatch, getState) => {
