@@ -7,6 +7,8 @@ import { GRID_HEADER_SIZE, GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 
 const mapState = (state, props) => {
+  const enableRemoveComponent =
+    tools.selectActiveTool(state) === 'remove' ? true : false;
   return {
     activeGrid: editor.selectActiveGrid(state),
     barcodeOptions: editor.selectBarcodeOptions(state),
@@ -20,6 +22,7 @@ const mapState = (state, props) => {
     importedComponents: editorImport.selectImportedComponents(state),
     componentImportErrors: editorImport.selectComponentImportErrors(state),
     componentTypes: COMPONENT_TYPES,
+    enableRemoveComponent,
   };
 };
 
@@ -34,6 +37,7 @@ const mapDispatch = {
   onImportFixClick: editorImport.fixComponent,
   onImportFixAllClick: editorImport.fixAllComponents,
   onImportStartOverClick: editorImport.resetEditorImport,
+  onRemoveComponent: tools.removeComponentFromPosition,
 };
 
 const connected = connect(mapState, mapDispatch)(ActiveGrid);

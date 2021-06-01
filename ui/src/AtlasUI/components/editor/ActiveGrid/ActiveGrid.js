@@ -11,6 +11,15 @@ export class ActiveGrid extends Component {
       this.props.onImportApplyClick(this.props.activeGrid.id);
     }
   };
+  handleRemoveComponent = (position, componentId) => {
+    if (this.props.onRemoveComponent) {
+      this.props.onRemoveComponent(
+        this.props.activeGrid.id,
+        position,
+        componentId
+      );
+    }
+  };
   render() {
     const {
       activeGrid,
@@ -69,6 +78,8 @@ export class ActiveGrid extends Component {
               onAddContainer={onAddContainer}
               headerSize={headerSize}
               rowHeaders={rowHeaders}
+              enableRemoveComponent={this.props.enableRemoveComponent}
+              onRemoveComponent={this.handleRemoveComponent}
             />
           </div>
         </div>
@@ -102,4 +113,6 @@ ActiveGrid.propTypes = {
   onImportFixClick: PropTypes.func,
   onImportFixAllClick: PropTypes.func,
   onImportStartOverClick: PropTypes.func,
+  enableRemoveComponent: PropTypes.bool,
+  onRemoveComponent: PropTypes.func,
 };
