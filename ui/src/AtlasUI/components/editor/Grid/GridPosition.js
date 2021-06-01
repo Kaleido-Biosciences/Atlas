@@ -20,18 +20,28 @@ export class GridPosition extends PureComponent {
       });
     }
   };
+  handleRemoveComponent = (componentId) => {
+    if (this.props.onRemoveComponent) {
+      this.props.onRemoveComponent(this.props.position, componentId);
+    }
+  };
   renderContainer() {
     const { container } = this.props.position;
     return (
-      <Container container={container} onClick={this.handleContainerClick} />
+      <Container
+        container={container}
+        enableRemoveComponent={this.props.enableRemoveComponent}
+        onClick={this.handleContainerClick}
+        onRemoveComponent={this.handleRemoveComponent}
+      />
     );
   }
   renderAddContainer() {
     return (
       <div
         className={styles.addContainer}
-        title="Add Container"
         onClick={this.handleAddContainerClick}
+        title="Add Container"
       >
         <Icon name="add circle" size="huge" />
       </div>
@@ -63,11 +73,13 @@ export class GridPosition extends PureComponent {
 }
 
 GridPosition.propTypes = {
-  position: PropTypes.object,
+  enableRemoveComponent: PropTypes.bool,
   height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
   innerPadding: PropTypes.number.isRequired,
-  outerPadding: PropTypes.number.isRequired,
   onAddContainerClick: PropTypes.func,
   onContainerClick: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
+  outerPadding: PropTypes.number.isRequired,
+  position: PropTypes.object,
+  width: PropTypes.number.isRequired,
 };

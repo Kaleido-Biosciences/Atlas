@@ -114,8 +114,8 @@ export const applySelectedToolComponentsToContainers = wrapWithChangeHandler(
   }
 );
 
-export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHandler(
-  (gridId) => {
+export const applySelectedToolComponentsToSelectedContainers =
+  wrapWithChangeHandler((gridId) => {
     return (dispatch, getState) => {
       if (selectors.selectApplyToolComponentsValid(getState())) {
         const toolComponents = selectors.selectSelectedApplyToolComponents(
@@ -137,8 +137,7 @@ export const applySelectedToolComponentsToSelectedContainers = wrapWithChangeHan
         dispatch(editor.setGridComponents(gridId, actionPositions));
       }
     };
-  }
-);
+  });
 
 const applyToolComponentsToPositions = (positions, toolComponents) => {
   const actionPositions = [];
@@ -221,6 +220,38 @@ const removeComponentsFromPositions = (positions, componentTypesToRemove) => {
   });
   return actionPositions;
 };
+
+export const removeComponentFromPosition = wrapWithChangeHandler(
+  (gridId, position, componentId) => {
+    return (dispatch, getState) => {
+      const grids = editor.selectGrids(getState());
+      const grid = grids.find((grid) => grid.id === gridId);
+      const flattened = grid.data.flat();
+      const gridPosition = flattened.find((gridPosition) => {
+        return (
+          gridPosition.row === position.row &&
+          gridPosition.column === position.column
+        );
+      });
+      if (gridPosition.container) {
+        const newComponents = gridPosition.container.components.filter(
+          (component) => {
+            return component.id !== componentId;
+          }
+        );
+        dispatch(
+          editor.setGridComponents(gridId, [
+            {
+              row: position.row,
+              column: position.column,
+              components: newComponents,
+            },
+          ])
+        );
+      }
+    };
+  }
+);
 
 export const toggleComponentDisplayEditForm = (component) => {
   return (dispatch, getState) => {
