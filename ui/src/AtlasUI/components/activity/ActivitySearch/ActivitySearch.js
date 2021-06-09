@@ -17,18 +17,15 @@ export class ActivitySearch extends Component {
   };
   handleResultSelect = (e, { result }) => {
     if (this.props.onSelect) {
-      this.props.onSelect({ activityId: result.id });
+      this.props.onSelect({
+        id: result.id,
+        name: result.title,
+      });
     }
   };
   render() {
-    const {
-      value,
-      loading,
-      error,
-      results,
-      placeholder,
-      autoFocus,
-    } = this.props;
+    const { value, loading, error, results, placeholder, autoFocus } =
+      this.props;
     let showNoResults = false,
       noResultsMessage = '';
     if (error) {
