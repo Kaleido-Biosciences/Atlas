@@ -87,10 +87,14 @@ export class Activities extends Component {
     url = url.endsWith('/') ? url.slice(0, -1) : url;
     this.props.history.push(url + route);
   };
-  goToActivity = () => {
+  goToActivityDetails = () => {
     const { activityId } = this.props;
     this.closeCompletedModal();
     this.props.history.push(`/activities/${activityId}`);
+  };
+  goToActivity = (id) => {
+    this.props.history.push(`/activities/${id}`);
+    this.props.loadActivity(id);
   };
   goToPrint = () => {
     const { publishedContainerCollectionDetails, activityId } = this.props;
@@ -151,7 +155,10 @@ export class Activities extends Component {
       }
       content = (
         <React.Fragment>
-          <ActivityHeader actions={actions} />
+          <ActivityHeader
+            actions={actions}
+            onGoToActivityClick={this.goToActivity}
+          />
           <Switch>
             <Route
               path={`${match.path}`}
@@ -195,7 +202,7 @@ export class Activities extends Component {
             pending={publishPending}
             success={publishSuccess}
             error={publishError}
-            onBackToActivityClick={this.goToActivity}
+            onBackToActivityClick={this.goToActivityDetails}
             onPrintClick={this.goToPrint}
           />
         </React.Fragment>
