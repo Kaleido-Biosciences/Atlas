@@ -24,12 +24,12 @@ const {
   setActivity: _setActivity,
   setPublishSuccess: _setPublishSuccess,
   setPublishError: _setPublishError,
-  setPublishedContainerCollectionDetails: _setPublishedContainerCollectionDetails,
+  setPublishedContainerCollectionDetails:
+    _setPublishedContainerCollectionDetails,
   setContainerCollectionsStale: _setContainerCollectionsStale,
-  setSavePending: _setSavePending,
-  setLastSaveTime: _setLastSaveTime,
-  setSaveError: _setSaveError,
 } = actions;
+
+export const { resetCloneState } = actions;
 
 let lastSaveData = '';
 
@@ -39,18 +39,19 @@ const saveGrids = _.debounce(async (dispatch, getState) => {
   );
   const stringifiedGrids = JSON.stringify(exportedGrids);
   if (stringifiedGrids !== lastSaveData) {
-    dispatch(_setSavePending());
+    dispatch(actions.setSavePending());
     const activityName = selectors.selectName(getState());
     try {
       await api.saveActivityGrids(activityName, exportedGrids);
+      dispatch(actions.updateDraftPlateMaps({ plateMaps: exportedGrids }));
       dispatch(
-        _setLastSaveTime({
+        actions.setLastSaveTime({
           lastSaveTime: Date.now(),
         })
       );
       lastSaveData = stringifiedGrids;
     } catch (error) {
-      dispatch(_setSaveError({ error: error.message }));
+      dispatch(actions.setSaveError({ error: error.message }));
     }
   }
 }, 500);
@@ -205,6 +206,57 @@ export const publishActivityGrids = () => {
 export const setContainerCollectionsStale = (stale) => {
   return (dispatch, getState) => {
     dispatch(_setContainerCollectionsStale({ stale }));
+  };
+};
+
+export const setCloneTarget = (id, name) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(actions.setCloneTarget({ id, name }));
+      const versions = await api.fetchActivityVersions(name);
+      const draft = versions.find((version) => {
+        return version.experiment_status === `${name}_${STATUS_DRAFT}`;
+      });
+      dispatch(
+        actions.setCloneTargetVersion({
+          version: draft ? draft : null,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        actions.setCloneTargetVersionFetchError({ error: error.message })
+      );
+    }
+  };
+};
+
+export const cloneActivity = (mode) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(actions.setClonePending());
+      const sourceVersion = selectors.selectDraftVersion(getState());
+      let targetPlateMaps = sourceVersion.plateMaps.map((plateMap) => {
+        return { ...plateMap, barcode: null };
+      });
+      if (mode === 'add') {
+        const targetVersion = selectors.selectCloneTargetVersion(getState());
+        targetPlateMaps = targetVersion.plateMaps.concat(targetPlateMaps);
+      }
+      targetPlateMaps = targetPlateMaps.map((plateMap, i) => {
+        return {
+          ...plateMap,
+          id: i + 1,
+          name: `Plate ${i + 1}`,
+        };
+      });
+      await api.saveActivityGrids(
+        selectors.selectCloneTargetName(getState()),
+        targetPlateMaps
+      );
+      dispatch(actions.setCloneSuccess());
+    } catch (error) {
+      dispatch(actions.setCloneError({ error: error.message }));
+    }
   };
 };
 

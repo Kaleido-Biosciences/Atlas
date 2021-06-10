@@ -5,6 +5,7 @@ import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
+    cloneSourceVersion: activity.selectDraftVersion(state),
     lastSaveTime: activity.selectLastSaveTime(state),
     linkUrl: `/activities/${activity.selectId(state)}`,
     name: activity.selectName(state),
@@ -13,5 +14,7 @@ const mapState = (state, props) => {
   };
 };
 
-const connected = connect(mapState, null)(ActivityHeader);
+const mapDispatch = {};
+
+const connected = connect(mapState, mapDispatch)(ActivityHeader);
 export { connected as ActivityHeader };

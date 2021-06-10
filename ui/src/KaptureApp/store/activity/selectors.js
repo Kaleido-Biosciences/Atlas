@@ -1,3 +1,6 @@
+import { createSelector } from '@reduxjs/toolkit';
+import { STATUS_DRAFT } from 'KaptureApp/config/constants';
+
 export const selectInitialized = (state) => state.activity.initialized;
 export const selectInitializationError = (state) =>
   state.activity.initializationError;
@@ -16,3 +19,20 @@ export const selectPublishedContainerCollectionDetails = (state) =>
 export const selectSavePending = (state) => state.activity.savePending;
 export const selectLastSaveTime = (state) => state.activity.lastSaveTime;
 export const selectSaveError = (state) => state.activity.saveError;
+
+export const selectCloneTargetId = (state) => state.activity.cloneTargetId;
+export const selectCloneTargetName = (state) => state.activity.cloneTargetName;
+export const selectCloneTargetVersion = (state) =>
+  state.activity.cloneTargetVersion;
+export const selectCloneTargetVersionFetchStatus = (state) =>
+  state.activity.cloneTargetVersionFetchStatus;
+export const selectCloneStatus = (state) => state.activity.cloneStatus;
+export const selectDraftVersion = createSelector(
+  [selectContainerCollections],
+  (collections) => {
+    const collection = collections.find((collection) => {
+      return collection.name === STATUS_DRAFT;
+    });
+    return collection.data;
+  }
+);

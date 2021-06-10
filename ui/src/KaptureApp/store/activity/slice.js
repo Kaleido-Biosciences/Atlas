@@ -1,9 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 
 const initialSaveTime = {
   savePending: false,
   saveError: null,
   lastSaveTime: null,
+};
+
+const initialCloneState = {
+  cloneTargetId: null,
+  cloneTargetName: null,
+  cloneTargetVersion: null,
+  cloneTargetVersionFetchStatus: {
+    pending: false,
+    success: false,
+    error: null,
+  },
+  cloneStatus: {
+    pending: false,
+    success: false,
+    error: null,
+  },
 };
 
 const initialState = {
@@ -19,6 +36,7 @@ const initialState = {
   publishError: null,
   publishedContainerCollectionDetails: null,
   ...initialSaveTime,
+  ...initialCloneState,
 };
 
 const activity = createSlice({
@@ -74,6 +92,64 @@ const activity = createSlice({
     },
     resetSaveTime(state, action) {
       Object.assign(state, initialSaveTime);
+    },
+    setCloneTarget(state, action) {
+      state.cloneTargetId = action.payload.id;
+      state.cloneTargetName = action.payload.name;
+      state.cloneTargetVersionFetchStatus = {
+        pending: true,
+        success: false,
+        error: null,
+      };
+      state.cloneTargetVersion = null;
+    },
+    setCloneTargetVersion(state, action) {
+      state.cloneTargetVersionFetchStatus = {
+        pending: false,
+        success: true,
+        error: null,
+      };
+      state.cloneTargetVersion = action.payload.version;
+    },
+    setCloneTargetVersionFetchError(state, action) {
+      state.cloneTargetVersionFetchStatus = {
+        pending: false,
+        success: false,
+        error: action.payload.error,
+      };
+      state.cloneTargetVersion = null;
+    },
+    setClonePending(state, action) {
+      state.cloneStatus = {
+        pending: true,
+        success: false,
+        error: null,
+      };
+    },
+    setCloneSuccess(state, action) {
+      state.cloneStatus = {
+        pending: false,
+        success: true,
+        error: null,
+      };
+    },
+    setCloneError(state, action) {
+      state.cloneStatus = {
+        pending: false,
+        success: false,
+        error: action.payload.error,
+      };
+    },
+    resetCloneState(state, action) {
+      Object.assign(state, initialCloneState);
+    },
+    updateDraftPlateMaps(state, action) {
+      const draft = state.containerCollections.find((collection) => {
+        return collection.name === STATUS_DRAFT;
+      });
+      if (draft) {
+        draft.data.plateMaps = action.payload.plateMaps;
+      }
     },
   },
 });
