@@ -56,6 +56,20 @@
   display: flex;
 }
 
+.verticalTrack {
+  border-radius: 5px;
+  bottom: 2px;
+  right: 2px;
+  top: 2px;
+}
+
+.horizontalTrack {
+  border-radius: 5px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+}
+
 .gridPositionContainer {
   flex-shrink: 0;
   padding: 5px;
