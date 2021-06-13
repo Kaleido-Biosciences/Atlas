@@ -38,6 +38,24 @@ export class Grid extends Component {
       this.props.onClick(this.props.grid.id, positions);
     }
   };
+  renderTrackHorizontal({ style, ...props }) {
+    return (
+      <div
+        className={styles.horizontalTrack}
+        style={{ ...style, height: '10px' }}
+        {...props}
+      />
+    );
+  }
+  renderTrackVertical({ style, ...props }) {
+    return (
+      <div
+        className={styles.verticalTrack}
+        style={{ ...style, width: '10px' }}
+        {...props}
+      />
+    );
+  }
   render() {
     const cornerStyle = {
       height: this.props.headerSize + 'px',
@@ -66,6 +84,8 @@ export class Grid extends Component {
           />
           <Scrollbars
             onScrollFrame={this.handleScroll}
+            renderTrackHorizontal={this.renderTrackHorizontal}
+            renderTrackVertical={this.renderTrackVertical}
             style={{ height: '100%', width: '100%' }}
           >
             <GridData
