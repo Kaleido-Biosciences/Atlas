@@ -58,6 +58,10 @@ export class RemoveTool extends Component {
       this.props.selectedContainersSummary.count
         ? true
         : false;
+    const selectedContainersButtonDisabled = this.props.componentTypesToRemove
+      .length
+      ? false
+      : true;
     return (
       <div className={styles.removeTool}>
         <div className={styles.body}>
@@ -77,7 +81,7 @@ export class RemoveTool extends Component {
         {showSelectedContainers && (
           <div className={styles.selectedContainersContainer}>
             <SelectedContainers
-              buttonDisabled={false}
+              buttonDisabled={selectedContainersButtonDisabled}
               buttonText="Remove from"
               onButtonClick={this.handleRemoveClick}
               selectedContainersSummary={this.props.selectedContainersSummary}
