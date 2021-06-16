@@ -5,7 +5,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "aws-sdk": "^2.499.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "big-integer": "^1.6.48",
     "classnames": "^2.2.6",
     "fomantic-ui-css": "^2.8.7",
