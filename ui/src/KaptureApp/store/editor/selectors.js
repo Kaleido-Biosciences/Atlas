@@ -57,9 +57,7 @@ export const selectSelectedContainersSummary = createSelector(
           (position) => position.row + position.column
         );
         if (mapped.length) {
-          selectedContainersSummary.text = `${activeGrid.name}: ${mapped.join(
-            ','
-          )}`;
+          selectedContainersSummary.text = `${mapped.join(', ')}`;
           selectedContainersSummary.count = mapped.length;
         }
       }

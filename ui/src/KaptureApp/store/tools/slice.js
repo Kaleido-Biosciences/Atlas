@@ -19,6 +19,7 @@ const tools = createSlice({
   reducers: {
     setActiveTool(state, action) {
       state.activeTool = action.payload.tool;
+      state.clickMode = action.payload.tool;
     },
     setComponentSearchTerm(state, action) {
       state.componentSearchTerm = action.payload.searchTerm;

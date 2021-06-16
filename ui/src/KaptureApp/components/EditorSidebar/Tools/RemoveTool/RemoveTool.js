@@ -53,6 +53,15 @@ export class RemoveTool extends Component {
     });
   }
   render() {
+    const showSelectedContainers =
+      this.props.selectedContainersSummary &&
+      this.props.selectedContainersSummary.count
+        ? true
+        : false;
+    const selectedContainersButtonDisabled = this.props.componentTypesToRemove
+      .length
+      ? false
+      : true;
     return (
       <div className={styles.removeTool}>
         <div className={styles.body}>
@@ -69,13 +78,14 @@ export class RemoveTool extends Component {
           </div>
           <Form>{this.renderFields()}</Form>
         </div>
-        {this.props.clickMode === 'select' && (
+        {showSelectedContainers && (
           <div className={styles.selectedContainersContainer}>
             <SelectedContainers
-              buttonDisabled={false}
+              buttonDisabled={selectedContainersButtonDisabled}
               buttonText="Remove from"
-              selectedContainersSummary={this.props.selectedContainersSummary}
               onButtonClick={this.handleRemoveClick}
+              selectedContainersSummary={this.props.selectedContainersSummary}
+              showButton={true}
             />
           </div>
         )}
@@ -86,7 +96,6 @@ export class RemoveTool extends Component {
 
 RemoveTool.propTypes = {
   activeGridId: PropTypes.string,
-  clickMode: PropTypes.string.isRequired,
   componentTypesToRemove: PropTypes.array.isRequired,
   componentTypes: PropTypes.array.isRequired,
   onChange: PropTypes.func,

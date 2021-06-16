@@ -9,9 +9,12 @@ export class SelectedContainers extends Component {
     if (this.props.onButtonClick) this.props.onButtonClick();
   };
   renderSelectedContainersSummary() {
+    const count = this.props.selectedContainersSummary.count;
     let headerText;
-    if (this.props.selectedContainersSummary.count > 0) {
-      headerText = 'Selected Containers';
+    if (count > 0) {
+      headerText = `${count} Selected ${
+        count === 1 ? 'Container' : 'Containers'
+      }`;
     } else {
       headerText = 'No containers selected.';
     }
@@ -33,16 +36,18 @@ export class SelectedContainers extends Component {
     return (
       <div className={styles.selectedContainers}>
         {this.renderSelectedContainersSummary()}
-        <div className={styles.buttonContainer}>
-          <Button
-            disabled={disabled}
-            primary
-            onClick={this.handleButtonClick}
-            size="mini"
-          >
-            {`${this.props.buttonText} ${selectedContainersSummary.count} ${containerText}`}
-          </Button>
-        </div>
+        {this.props.showButton && (
+          <div className={styles.buttonContainer}>
+            <Button
+              disabled={disabled}
+              primary
+              onClick={this.handleButtonClick}
+              size="mini"
+            >
+              {`${this.props.buttonText} ${selectedContainersSummary.count} ${containerText}`}
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -50,7 +55,8 @@ export class SelectedContainers extends Component {
 
 SelectedContainers.propTypes = {
   buttonDisabled: PropTypes.bool,
-  buttonText: PropTypes.string.isRequired,
-  selectedContainersSummary: PropTypes.object.isRequired,
+  buttonText: PropTypes.string,
   onButtonClick: PropTypes.func,
+  selectedContainersSummary: PropTypes.object.isRequired,
+  showButton: PropTypes.bool,
 };

@@ -15,7 +15,6 @@ const { wrapWithChangeHandler } = activity;
 
 const {
   setActiveTool: _setActiveTool,
-  setClickMode: _setClickMode,
   setComponentSearchTerm: _setComponentSearchTerm,
   setComponentSearchPending: _setComponentSearchPending,
   setComponentSearchResults: _setComponentSearchResults,
@@ -32,26 +31,26 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
-    const clickMode = selectors.selectClickMode(getState());
-    if (tool === 'remove' && clickMode === 'apply') {
-      dispatch(_setClickMode({ clickMode: 'remove' }));
-    } else if (tool === 'apply' && clickMode === 'remove') {
-      dispatch(_setClickMode({ clickMode: 'apply' }));
-    }
+    // const clickMode = selectors.selectClickMode(getState());
+    // if (tool === 'remove' && clickMode === 'apply') {
+    //   dispatch(_setClickMode({ clickMode: 'remove' }));
+    // } else if (tool === 'apply' && clickMode === 'remove') {
+    //   dispatch(_setClickMode({ clickMode: 'apply' }));
+    // }
   };
 };
 
-export const setClickMode = (clickMode) => {
-  return (dispatch, getState) => {
-    dispatch(_setClickMode({ clickMode }));
-    if (clickMode === 'apply' || clickMode === 'remove') {
-      const activeId = editor.selectActiveGridId(getState());
-      if (activeId) {
-        dispatch(editor.deselectGridContainers([activeId]));
-      }
-    }
-  };
-};
+// export const setClickMode = (clickMode) => {
+//   return (dispatch, getState) => {
+//     dispatch(_setClickMode({ clickMode }));
+//     if (clickMode === 'apply' || clickMode === 'remove') {
+//       const activeId = editor.selectActiveGridId(getState());
+//       if (activeId) {
+//         dispatch(editor.deselectGridContainers([activeId]));
+//       }
+//     }
+//   };
+// };
 
 export const addApplyToolComponent = (component) => {
   return (dispatch, getState) => {

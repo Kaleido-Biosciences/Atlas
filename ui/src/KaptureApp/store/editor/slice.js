@@ -74,18 +74,18 @@ const editor = createSlice({
         }
       });
     },
-    deselectGridContainers(state, action) {
-      const { gridIds } = action.payload;
-      gridIds.forEach((gridId) => {
-        const grid = findGrid(gridId, state.grids);
-        const positions = grid.data.flat();
-        positions.forEach((position) => {
-          if (position.container) {
-            position.container.selected = false;
-          }
-        });
-      });
-    },
+    // deselectGridContainers(state, action) {
+    //   const { gridIds } = action.payload;
+    //   gridIds.forEach((gridId) => {
+    //     const grid = findGrid(gridId, state.grids);
+    //     const positions = grid.data.flat();
+    //     positions.forEach((position) => {
+    //       if (position.container) {
+    //         position.container.selected = false;
+    //       }
+    //     });
+    //   });
+    // },
     toggleGridContainerSelections(state, action) {
       const { gridId, positions } = action.payload;
       const shortPositions = positions.map(
@@ -113,6 +113,76 @@ const editor = createSlice({
       filteredPositions.forEach((position) => {
         if (position.container) {
           position.container.selected = newSelectionStatus;
+        }
+      });
+    },
+    selectAllGridContainers(state, action) {
+      const { gridId } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const flattened = grid.data.flat();
+      flattened.forEach((position) => {
+        if (position.container) {
+          position.container.selected = true;
+        }
+      });
+    },
+    deselectAllGridContainers(state, action) {
+      const { gridId } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      const flattened = grid.data.flat();
+      flattened.forEach((position) => {
+        if (position.container) {
+          position.container.selected = false;
+        }
+      });
+    },
+    selectBorderGridContainers(state, action) {
+      const { gridId } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      grid.data.forEach((row, i) => {
+        if (i === 0 || i === grid.data.length - 1) {
+          row.forEach((position) => {
+            if (position.container) {
+              position.container.selected = true;
+            }
+          });
+        } else {
+          row.forEach((position, i) => {
+            if (i === 0 || i === row.length - 1) {
+              if (position.container) {
+                position.container.selected = true;
+              }
+            } else {
+              if (position.container) {
+                position.container.selected = false;
+              }
+            }
+          });
+        }
+      });
+    },
+    selectInteriorGridContainers(state, action) {
+      const { gridId } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      grid.data.forEach((row, i) => {
+        if (i === 0 || i === grid.data.length - 1) {
+          row.forEach((position) => {
+            if (position.container) {
+              position.container.selected = false;
+            }
+          });
+        } else {
+          row.forEach((position, i) => {
+            if (i === 0 || i === row.length - 1) {
+              if (position.container) {
+                position.container.selected = false;
+              }
+            } else {
+              if (position.container) {
+                position.container.selected = true;
+              }
+            }
+          });
         }
       });
     },
