@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { version } from '../../package.json';
 
 import { Header } from 'AtlasUI/components';
 import { store } from 'KaptureApp/store';
@@ -13,7 +14,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <React.Fragment>
-            <Header />
+            <Header version={version} />
             <div className={styles.mainContainer}>
               <Switch>
                 <Route path="/" exact component={Home} />
