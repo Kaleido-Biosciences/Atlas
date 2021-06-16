@@ -22,6 +22,7 @@ export class Container extends Component {
           enableRemove={this.props.enableRemoveComponent}
           key={component.id}
           onRemove={this.props.onRemoveComponent}
+          position={this.props.position}
         />
       );
     });
@@ -42,4 +43,5 @@ Container.propTypes = {
   enableRemoveComponent: PropTypes.bool,
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
+  position: PropTypes.object.isRequired,
 };
