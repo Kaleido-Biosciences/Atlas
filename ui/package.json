@@ -24,6 +24,7 @@
     "react-scripts": "^3.4.3",
     "react-split-pane": "^0.1.87",
     "react-to-print": "^2.3.0",
+    "react-tooltip": "^4.2.21",
     "redux-logger": "^3.0.6",
     "semantic-ui-react": "^2.0.0",
     "uuid": "^3.4.0",

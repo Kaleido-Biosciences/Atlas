@@ -26,13 +26,17 @@ export class GridPosition extends PureComponent {
     }
   };
   renderContainer() {
-    const { container } = this.props.position;
+    const { position } = this.props;
     return (
       <Container
-        container={container}
+        container={position.container}
         enableRemoveComponent={this.props.enableRemoveComponent}
         onClick={this.handleContainerClick}
         onRemoveComponent={this.handleRemoveComponent}
+        position={{
+          row: position.row,
+          column: position.column,
+        }}
       />
     );
   }

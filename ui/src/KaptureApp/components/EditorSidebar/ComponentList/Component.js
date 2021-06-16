@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popup } from 'semantic-ui-react';
 
 import { ComponentTooltip, ComponentTypeCircle } from 'AtlasUI/components';
 import styles from './ComponentList.module.css';
@@ -11,34 +10,31 @@ export class Component extends React.Component {
       this.props.onClick(this.props.component);
     }
   };
-  renderComponent() {
-    const { component } = this.props;
-    const renderedComponent = (
-      <div>
-        <ComponentTypeCircle
-          className={styles.typeCircle}
-          color={component.color}
-          text={component.abbreviation}
-        />
-        {component.name}
-      </div>
-    );
-    if (component.tooltip.length) {
-      return (
-        <Popup position="top center" trigger={renderedComponent}>
-          <Popup.Content>
-            <ComponentTooltip tooltip={component.tooltip} />
-          </Popup.Content>
-        </Popup>
-      );
-    } else {
-      return renderedComponent;
-    }
-  }
   render() {
+    const { component } = this.props;
+    const divProps = {
+      className: styles.content,
+    };
+    if (component.tooltip.length) {
+      divProps['data-tip'] = true;
+      divProps['data-for'] = `list-component-${component.id}`;
+    }
     return (
       <div className={styles.component} onClick={this.handleClick}>
-        {this.renderComponent()}
+        <div {...divProps}>
+          <ComponentTypeCircle
+            className={styles.typeCircle}
+            color={component.color}
+            text={component.abbreviation}
+          />
+          {component.name}
+        </div>
+        {component.tooltip.length > 0 && (
+          <ComponentTooltip
+            id={`list-component-${component.id}`}
+            tooltip={component.tooltip}
+          />
+        )}
       </div>
     );
   }

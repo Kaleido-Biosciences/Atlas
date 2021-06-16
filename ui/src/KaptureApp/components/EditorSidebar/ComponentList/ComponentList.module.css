@@ -8,12 +8,15 @@
 .component {
   cursor: pointer;
   transition: all 0.1s ease;
-  padding: 0.2em 1em;
   font-size: 0.8em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.content {
+  padding: 0.2em 1em;
 }
 
 .component:hover {

@@ -1,28 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { List } from 'semantic-ui-react';
+import ReactTooltip from 'react-tooltip';
 
 import styles from './ComponentTooltip.module.css';
 
 export class ComponentTooltip extends Component {
   render() {
-    const { tooltip } = this.props;
-    const renderedItems = tooltip.map((item) => {
+    const renderedItems = this.props.tooltip.map((item) => {
       return (
-        <List.Item key={item.key}>
-          <List.Header>{item.key}</List.Header>
-          {item.value}
-        </List.Item>
+        <div className={styles.item} key={item.key}>
+          <div className={styles.label}>{item.key}</div>
+          <div className={styles.value}>{item.value}</div>
+        </div>
       );
     });
     return (
-      <div className={styles.componentTooltip}>
-        <List>{renderedItems}</List>
-      </div>
+      <ReactTooltip
+        backgroundColor="#FFF"
+        border={true}
+        borderColor="#d4d4d5"
+        className={styles.reactTooltip}
+        id={this.props.id}
+        type="info"
+      >
+        <div className={styles.componentTooltip}>{renderedItems}</div>
+      </ReactTooltip>
     );
   }
 }
 
 ComponentTooltip.propTypes = {
+  id: PropTypes.string.isRequired,
   tooltip: PropTypes.array.isRequired,
 };
