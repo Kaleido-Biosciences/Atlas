@@ -137,7 +137,6 @@ export class ApplyTool extends React.Component {
 
 ApplyTool.propTypes = {
   activeGridId: PropTypes.string,
-  clickMode: PropTypes.string,
   componentSearchComplete: PropTypes.bool,
   componentSearchPending: PropTypes.bool,
   componentSearchResults: PropTypes.array,

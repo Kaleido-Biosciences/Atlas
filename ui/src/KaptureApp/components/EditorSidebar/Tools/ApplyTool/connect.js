@@ -7,7 +7,6 @@ import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
 const mapState = (state, props) => {
   return {
     activeGridId: editor.selectActiveGridId(state),
-    clickMode: tools.selectClickMode(state),
     componentSearchComplete: tools.selectComponentSearchComplete(state),
     componentSearchPending: tools.selectComponentSearchPending(state),
     componentSearchResults: tools.selectComponentSearchResults(state),
