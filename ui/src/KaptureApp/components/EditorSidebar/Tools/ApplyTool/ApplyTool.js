@@ -62,6 +62,11 @@ export class ApplyTool extends React.Component {
   };
   render() {
     const { showComponentSearch, showAddAttributeForm } = this.state;
+    const showSelectedContainers =
+      this.props.selectedContainersSummary &&
+      this.props.selectedContainersSummary.count
+        ? true
+        : false;
     return (
       <div className={styles.applyTool}>
         <div className={styles.addButtonsContainer}>
@@ -90,7 +95,7 @@ export class ApplyTool extends React.Component {
                 toolComponents={this.props.toolComponents}
               />
             </div>
-            {this.props.clickMode === 'select' && (
+            {showSelectedContainers && (
               <div className={styles.selectedContainersContainer}>
                 <SelectedContainers
                   buttonDisabled={
@@ -98,10 +103,11 @@ export class ApplyTool extends React.Component {
                     this.props.toolComponents.length === 0
                   }
                   buttonText="Add to"
+                  onButtonClick={this.handleApplyClick}
                   selectedContainersSummary={
                     this.props.selectedContainersSummary
                   }
-                  onButtonClick={this.handleApplyClick}
+                  showButton={true}
                 />
               </div>
             )}

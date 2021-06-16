@@ -6,12 +6,10 @@ import { tools } from 'KaptureApp/store';
 const mapState = (state, props) => {
   return {
     activeTool: tools.selectActiveTool(state),
-    clickMode: tools.selectClickMode(state),
   };
 };
 
 const mapDispatch = {
-  onClickModeChange: tools.setClickMode,
   onToolButtonClick: tools.setActiveTool,
 };
 

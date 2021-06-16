@@ -32,12 +32,12 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
-    const clickMode = selectors.selectClickMode(getState());
-    if (tool === 'remove' && clickMode === 'apply') {
-      dispatch(_setClickMode({ clickMode: 'remove' }));
-    } else if (tool === 'apply' && clickMode === 'remove') {
-      dispatch(_setClickMode({ clickMode: 'apply' }));
-    }
+    // const clickMode = selectors.selectClickMode(getState());
+    // if (tool === 'remove' && clickMode === 'apply') {
+    //   dispatch(_setClickMode({ clickMode: 'remove' }));
+    // } else if (tool === 'apply' && clickMode === 'remove') {
+    //   dispatch(_setClickMode({ clickMode: 'apply' }));
+    // }
   };
 };
 

@@ -33,16 +33,18 @@ export class SelectedContainers extends Component {
     return (
       <div className={styles.selectedContainers}>
         {this.renderSelectedContainersSummary()}
-        <div className={styles.buttonContainer}>
-          <Button
-            disabled={disabled}
-            primary
-            onClick={this.handleButtonClick}
-            size="mini"
-          >
-            {`${this.props.buttonText} ${selectedContainersSummary.count} ${containerText}`}
-          </Button>
-        </div>
+        {this.props.showButton && (
+          <div className={styles.buttonContainer}>
+            <Button
+              disabled={disabled}
+              primary
+              onClick={this.handleButtonClick}
+              size="mini"
+            >
+              {`${this.props.buttonText} ${selectedContainersSummary.count} ${containerText}`}
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -50,7 +52,8 @@ export class SelectedContainers extends Component {
 
 SelectedContainers.propTypes = {
   buttonDisabled: PropTypes.bool,
-  buttonText: PropTypes.string.isRequired,
-  selectedContainersSummary: PropTypes.object.isRequired,
+  buttonText: PropTypes.string,
   onButtonClick: PropTypes.func,
+  selectedContainersSummary: PropTypes.object.isRequired,
+  showButton: PropTypes.bool,
 };
