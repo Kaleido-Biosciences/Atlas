@@ -20,7 +20,6 @@ const {
   addGrids: _addGrids,
   addContainerToGrid: _addContainerToGrid,
   toggleGridContainerSelections: _toggleGridContainerSelections,
-  deselectGridContainers: _deselectGridContainers,
   setGridComponents: _setGridComponents,
   setContainerTypes: _setContainerTypes,
   setContainerCollection: _setContainerCollection,
@@ -216,9 +215,33 @@ export const toggleGridContainerSelections = (gridId, positions) => {
   };
 };
 
-export const deselectGridContainers = (gridIds) => {
+// export const deselectGridContainers = (gridIds) => {
+//   return (dispatch, getState) => {
+//     dispatch(_deselectGridContainers({ gridIds }));
+//   };
+// };
+
+export const selectAllGridContainers = (gridId) => {
   return (dispatch, getState) => {
-    dispatch(_deselectGridContainers({ gridIds }));
+    dispatch(actions.selectAllGridContainers({ gridId }));
+  };
+};
+
+export const deselectAllGridContainers = (gridId) => {
+  return (dispatch, getState) => {
+    dispatch(actions.deselectAllGridContainers({ gridId }));
+  };
+};
+
+export const selectBorderGridContainers = (gridId) => {
+  return (dispatch, getState) => {
+    dispatch(actions.selectBorderGridContainers({ gridId }));
+  };
+};
+
+export const selectInteriorGridContainers = (gridId) => {
+  return (dispatch, getState) => {
+    dispatch(actions.selectInteriorGridContainers({ gridId }));
   };
 };
 

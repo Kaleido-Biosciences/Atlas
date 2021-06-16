@@ -39,7 +39,7 @@ export class Tools extends React.Component {
             />
             <Button
               name="select"
-              icon="expand"
+              icon="check square"
               onClick={this.handleToolClick}
               active={activeTool === 'select'}
               size="mini"

@@ -10,7 +10,12 @@ const mapState = (state, props) => {
   };
 };
 
-const mapDispatch = {};
+const mapDispatch = {
+  onAllClick: editor.selectAllGridContainers,
+  onBorderClick: editor.selectBorderGridContainers,
+  onDeselectAllClick: editor.deselectAllGridContainers,
+  onInteriorClick: editor.selectInteriorGridContainers,
+};
 
 const connected = connect(mapState, mapDispatch)(SelectTool);
 export { connected as SelectTool };

@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   overflow: auto;
+  padding-top: 0.4em;
 }
 
 .shortcutsContainer {
@@ -10,6 +11,10 @@
   overflow: auto;
   padding: 0 0.8em;
   width: 100%;
+}
+
+.buttonGroup {
+  margin-bottom: 0.4em;
 }
 
 .selectedContainersContainer {

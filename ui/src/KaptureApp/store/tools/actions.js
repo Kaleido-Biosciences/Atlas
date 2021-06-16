@@ -15,7 +15,6 @@ const { wrapWithChangeHandler } = activity;
 
 const {
   setActiveTool: _setActiveTool,
-  setClickMode: _setClickMode,
   setComponentSearchTerm: _setComponentSearchTerm,
   setComponentSearchPending: _setComponentSearchPending,
   setComponentSearchResults: _setComponentSearchResults,
@@ -41,17 +40,17 @@ export const setActiveTool = (tool) => {
   };
 };
 
-export const setClickMode = (clickMode) => {
-  return (dispatch, getState) => {
-    dispatch(_setClickMode({ clickMode }));
-    if (clickMode === 'apply' || clickMode === 'remove') {
-      const activeId = editor.selectActiveGridId(getState());
-      if (activeId) {
-        dispatch(editor.deselectGridContainers([activeId]));
-      }
-    }
-  };
-};
+// export const setClickMode = (clickMode) => {
+//   return (dispatch, getState) => {
+//     dispatch(_setClickMode({ clickMode }));
+//     if (clickMode === 'apply' || clickMode === 'remove') {
+//       const activeId = editor.selectActiveGridId(getState());
+//       if (activeId) {
+//         dispatch(editor.deselectGridContainers([activeId]));
+//       }
+//     }
+//   };
+// };
 
 export const addApplyToolComponent = (component) => {
   return (dispatch, getState) => {
