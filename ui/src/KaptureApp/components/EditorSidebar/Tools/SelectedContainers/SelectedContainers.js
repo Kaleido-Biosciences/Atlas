@@ -9,9 +9,12 @@ export class SelectedContainers extends Component {
     if (this.props.onButtonClick) this.props.onButtonClick();
   };
   renderSelectedContainersSummary() {
+    const count = this.props.selectedContainersSummary.count;
     let headerText;
-    if (this.props.selectedContainersSummary.count > 0) {
-      headerText = 'Selected Containers';
+    if (count > 0) {
+      headerText = `${count} Selected ${
+        count === 1 ? 'Container' : 'Containers'
+      }`;
     } else {
       headerText = 'No containers selected.';
     }

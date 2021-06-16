@@ -102,7 +102,7 @@ export class ApplyTool extends React.Component {
                     !this.props.toolComponentsValid ||
                     this.props.toolComponents.length === 0
                   }
-                  buttonText="Add to"
+                  buttonText="Apply to"
                   onButtonClick={this.handleApplyClick}
                   selectedContainersSummary={
                     this.props.selectedContainersSummary
