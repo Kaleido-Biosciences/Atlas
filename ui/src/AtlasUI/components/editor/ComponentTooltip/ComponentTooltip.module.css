@@ -1,3 +1,25 @@
 .componentTooltip {
-  font-size: 0.84em;
+  line-height: 1rem;
+  max-width: 18rem;
+  padding: 1rem;
+}
+
+.item {
+  margin-bottom: 0.4rem;
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 0.1rem;
+}
+
+.reactTooltip {
+  color: inherit !important;
+  font-size: 0.8rem !important;
+  opacity: 1 !important;
+  padding: 0 !important;
 }

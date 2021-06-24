@@ -21,10 +21,7 @@ export class Grid extends Component {
   };
   handleContainerClick = ({ position }) => {
     if (this.props.onClick) {
-      this.props.onClick({
-        gridId: this.props.grid.id,
-        positions: [position],
-      });
+      this.props.onClick(this.props.grid.id, [position]);
     }
   };
   handleHeaderCellClick = ({ cellType, index }) => {
@@ -38,52 +35,67 @@ export class Grid extends Component {
       } else if (cellType === 'row') {
         positions = gridData[index];
       }
-      this.props.onClick({
-        gridId: this.props.grid.id,
-        positions,
-      });
+      this.props.onClick(this.props.grid.id, positions);
     }
   };
+  renderTrackHorizontal({ style, ...props }) {
+    return (
+      <div
+        className={styles.horizontalTrack}
+        style={{ ...style, height: '10px' }}
+        {...props}
+      />
+    );
+  }
+  renderTrackVertical({ style, ...props }) {
+    return (
+      <div
+        className={styles.verticalTrack}
+        style={{ ...style, width: '10px' }}
+        {...props}
+      />
+    );
+  }
   render() {
-    const {
-      grid,
-      settings,
-      containerTypeOptions,
-      headerSize,
-      rowHeaders,
-    } = this.props;
-    const cornerStyle = { height: headerSize + 'px', width: headerSize + 'px' };
+    const cornerStyle = {
+      height: this.props.headerSize + 'px',
+      width: this.props.headerSize + 'px',
+    };
     return (
       <div className={styles.grid}>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell} style={cornerStyle}></div>
           <ColumnHeader
-            ref={this.columnHeaderRef}
-            numberOfColumns={grid.data[0].length}
-            containerSize={settings.containerSize}
+            containerSize={this.props.settings.containerSize}
+            headerSize={this.props.headerSize}
+            numberOfColumns={this.props.grid.data[0].length}
             onClick={this.handleHeaderCellClick}
-            headerSize={headerSize}
+            ref={this.columnHeaderRef}
           />
         </div>
         <div className={styles.body}>
           <RowHeader
-            ref={this.rowHeaderRef}
-            numberOfRows={grid.data.length}
-            containerSize={settings.containerSize}
+            containerSize={this.props.settings.containerSize}
+            headerSize={this.props.headerSize}
+            numberOfRows={this.props.grid.data.length}
             onClick={this.handleHeaderCellClick}
-            headerSize={headerSize}
-            rowHeaders={rowHeaders}
+            ref={this.rowHeaderRef}
+            rowHeaders={this.props.rowHeaders}
           />
           <Scrollbars
-            style={{ height: '100%', width: '100%' }}
             onScrollFrame={this.handleScroll}
+            renderTrackHorizontal={this.renderTrackHorizontal}
+            renderTrackVertical={this.renderTrackVertical}
+            style={{ height: '100%', width: '100%' }}
           >
             <GridData
-              grid={grid}
-              settings={settings}
-              onContainerClick={this.handleContainerClick}
-              containerTypeOptions={containerTypeOptions}
+              containerTypeOptions={this.props.containerTypeOptions}
+              enableRemoveComponent={this.props.enableRemoveComponent}
+              grid={this.props.grid}
+              settings={this.props.settings}
               onAddContainer={this.handleAddContainer}
+              onContainerClick={this.handleContainerClick}
+              onRemoveComponent={this.props.onRemoveComponent}
             />
           </Scrollbars>
         </div>
@@ -93,11 +105,13 @@ export class Grid extends Component {
 }
 
 Grid.propTypes = {
-  grid: PropTypes.object,
-  settings: PropTypes.object,
-  onClick: PropTypes.func,
   containerTypeOptions: PropTypes.array,
-  onAddContainer: PropTypes.func,
+  enableRemoveComponent: PropTypes.bool,
+  grid: PropTypes.object,
   headerSize: PropTypes.number.isRequired,
+  onAddContainer: PropTypes.func,
+  onClick: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
   rowHeaders: PropTypes.array.isRequired,
+  settings: PropTypes.object,
 };

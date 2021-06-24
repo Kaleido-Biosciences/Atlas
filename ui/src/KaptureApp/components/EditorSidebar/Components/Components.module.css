@@ -1,0 +1,52 @@
+.components {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.header {
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+  padding: 0.4em 0.4em 0.4em 0.6em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 2.2em;
+  flex: 0 0 2.2em;
+  align-items: center;
+}
+
+.header :global(i) {
+  margin-top: -0.3em !important;
+}
+
+.headerContent {
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.noComponentsMessage {
+  padding: 1em;
+  text-align: center;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.errorMessage {
+  padding: 1em;
+  text-align: center;
+  width: 100%;
+  color: #db2828;
+}
+
+.search {
+  font-size: 0.8em;
+  padding: 0.8em;
+  flex: 0 0 0%;
+}
+
+.componentList {
+  flex: 1;
+  overflow: auto;
+}

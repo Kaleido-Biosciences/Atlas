@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Menu, Image } from 'semantic-ui-react';
 
@@ -15,7 +16,14 @@ export class Header extends Component {
             Atlas
           </Link>
         </Menu.Item>
+        <Menu.Item position={'right'}>
+          <span className={styles.version}>Version {this.props.version}</span>
+        </Menu.Item>
       </Menu>
     );
   }
 }
+
+Header.propTypes = {
+  version: PropTypes.string,
+};

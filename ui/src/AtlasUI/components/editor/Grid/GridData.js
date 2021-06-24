@@ -47,14 +47,16 @@ export class GridData extends Component {
         const positionKey = `${id}_POSITION_${position.row}${position.column}`;
         return (
           <GridPosition
-            key={positionKey}
+            enableRemoveComponent={this.props.enableRemoveComponent}
             height={settings.containerSize.size}
-            width={settings.containerSize.size}
             innerPadding={settings.containerSize.innerPadding}
-            outerPadding={settings.containerSize.outerPadding}
-            position={position}
+            key={positionKey}
             onAddContainerClick={this.handleAddContainerClick}
             onContainerClick={this.handleContainerClick}
+            onRemoveComponent={this.props.onRemoveComponent}
+            outerPadding={settings.containerSize.outerPadding}
+            position={position}
+            width={settings.containerSize.size}
           />
         );
       });
@@ -79,9 +81,11 @@ export class GridData extends Component {
 }
 
 GridData.propTypes = {
-  grid: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired,
-  onContainerClick: PropTypes.func,
   containerTypeOptions: PropTypes.array,
+  enableRemoveComponent: PropTypes.bool,
+  grid: PropTypes.object.isRequired,
   onAddContainer: PropTypes.func,
+  onContainerClick: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
+  settings: PropTypes.object.isRequired,
 };

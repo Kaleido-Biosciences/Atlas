@@ -1,0 +1,23 @@
+.actions {
+  margin-top: 1em;
+}
+
+.buttons {
+  margin-top: 1em;
+}
+
+.message {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.messageText {
+  font-size: 1.2em;
+  margin-top: 0.5em;
+}
+
+.messageButton {
+  margin-top: 1em !important;
+}

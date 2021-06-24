@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 
 import { AddPlatesModal } from './AddPlatesModal';
 import { AddRackModal } from './AddRackModal';
@@ -45,7 +45,16 @@ export class AddContainerButton extends Component {
     const { plateModalOpen, rackModalOpen, containerModalOpen } = this.state;
     return (
       <div>
-        <Dropdown
+        <div className={className}>
+          <Icon
+            link
+            name="plus circle"
+            onClick={this.openPlateModal}
+            size="large"
+            title="Add Plate"
+          />
+        </div>
+        {/* <Dropdown
           trigger={
             <div className={className}>
               <Icon
@@ -60,13 +69,13 @@ export class AddContainerButton extends Component {
         >
           <Dropdown.Menu>
             <Dropdown.Item onClick={this.openPlateModal} text="Add Plates..." />
-            {/* <Dropdown.Item onClick={this.openRackModal} text="Add Rack..." />
+            <Dropdown.Item onClick={this.openRackModal} text="Add Rack..." />
             <Dropdown.Item
               onClick={this.openContainerModal}
               text="Add Container..."
-            /> */}
+            />
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
         <AddPlatesModal
           open={plateModalOpen}
           onClose={this.closeModals}

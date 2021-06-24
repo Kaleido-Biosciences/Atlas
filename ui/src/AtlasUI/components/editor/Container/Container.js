@@ -15,8 +15,16 @@ export class Container extends Component {
     }
   };
   renderComponents() {
-    return this.props.container.components.map(component => {
-      return <ContainerComponent key={component.id} component={component} />;
+    return this.props.container.components.map((component) => {
+      return (
+        <ContainerComponent
+          component={component}
+          enableRemove={this.props.enableRemoveComponent}
+          key={component.id}
+          onRemove={this.props.onRemoveComponent}
+          position={this.props.position}
+        />
+      );
     });
   }
   render() {
@@ -32,5 +40,8 @@ export class Container extends Component {
 
 Container.propTypes = {
   container: PropTypes.object.isRequired,
+  enableRemoveComponent: PropTypes.bool,
   onClick: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
+  position: PropTypes.object.isRequired,
 };

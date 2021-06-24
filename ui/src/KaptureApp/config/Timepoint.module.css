@@ -1,0 +1,41 @@
+.timepoint {
+  display: flex;
+  margin-top: 0.5em;
+  align-items: center;
+  font-size: 1.1em;
+}
+
+.timepoint:first-child {
+  margin-top: 0;
+}
+
+.timepoint:last-child {
+  margin-bottom: 6px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+}
+
+.field:first-child {
+  margin-right: 1em;
+}
+
+.field :global(label) {
+  margin-right: 0.5em;
+}
+
+.inputContainer {
+  width: 6em;
+}
+
+.removeIcon {
+  cursor: pointer;
+  margin-left: 0.5em !important;
+}
+
+.addTimepoint {
+  cursor: pointer;
+  padding-bottom: 4px;
+}

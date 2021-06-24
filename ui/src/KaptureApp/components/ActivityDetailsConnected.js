@@ -1,21 +1,17 @@
 import { connect } from 'react-redux';
 
 import { ActivityDetails } from 'AtlasUI/components';
-import { selectors } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
-
-const { selectActivityContainerCollections } = selectors;
-const { setContainerCollectionsStale } = actions.activity;
+import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    containerCollections: selectActivityContainerCollections(state),
+    containerCollections: activity.selectContainerCollections(state),
   };
 };
 
 const mapDispatch = {
   onUnmount: () => {
-    return setContainerCollectionsStale({ stale: true });
+    return activity.setContainerCollectionsStale(true);
   },
 };
 

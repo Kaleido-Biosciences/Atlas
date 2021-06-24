@@ -35,3 +35,13 @@
   font-size: 1.2em;
   margin-top: 0.5em;
 }
+
+.addTimepoint {
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.timepointErrors {
+  color: #db2828;
+  margin-top: 0.5em;
+}

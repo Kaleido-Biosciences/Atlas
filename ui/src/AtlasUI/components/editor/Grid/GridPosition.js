@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 
 import { Container } from '../Container';
 import styles from './Grid.module.css';
 
-export class GridPosition extends Component {
+export class GridPosition extends PureComponent {
   handleAddContainerClick = () => {
     if (this.props.onAddContainerClick) {
       this.props.onAddContainerClick({
@@ -20,18 +20,32 @@ export class GridPosition extends Component {
       });
     }
   };
+  handleRemoveComponent = (componentId) => {
+    if (this.props.onRemoveComponent) {
+      this.props.onRemoveComponent(this.props.position, componentId);
+    }
+  };
   renderContainer() {
-    const { container } = this.props.position;
+    const { position } = this.props;
     return (
-      <Container container={container} onClick={this.handleContainerClick} />
+      <Container
+        container={position.container}
+        enableRemoveComponent={this.props.enableRemoveComponent}
+        onClick={this.handleContainerClick}
+        onRemoveComponent={this.handleRemoveComponent}
+        position={{
+          row: position.row,
+          column: position.column,
+        }}
+      />
     );
   }
   renderAddContainer() {
     return (
       <div
         className={styles.addContainer}
-        title="Add Container"
         onClick={this.handleAddContainerClick}
+        title="Add Container"
       >
         <Icon name="add circle" size="huge" />
       </div>
@@ -63,11 +77,13 @@ export class GridPosition extends Component {
 }
 
 GridPosition.propTypes = {
-  position: PropTypes.object,
+  enableRemoveComponent: PropTypes.bool,
   height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
   innerPadding: PropTypes.number.isRequired,
-  outerPadding: PropTypes.number.isRequired,
   onAddContainerClick: PropTypes.func,
   onContainerClick: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
+  outerPadding: PropTypes.number.isRequired,
+  position: PropTypes.object,
+  width: PropTypes.number.isRequired,
 };

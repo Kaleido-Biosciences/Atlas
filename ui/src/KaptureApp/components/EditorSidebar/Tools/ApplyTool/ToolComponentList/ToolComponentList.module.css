@@ -1,0 +1,60 @@
+.toolComponentList {
+  padding-bottom: 0.4em;
+}
+
+.toolComponent {
+  border-radius: 4px;
+  color: #fff;
+  font-size: 9px;
+  margin-bottom: 4px;
+  opacity: 0.3;
+  overflow: auto;
+  padding: 0 6px;
+}
+
+.selected {
+  opacity: 1;
+}
+
+.body {
+  align-items: center;
+  display: flex;
+}
+
+.body :global(i) {
+  margin: 0 !important;
+  width: auto !important;
+}
+
+.nameContainer {
+  flex: 1;
+  padding: 6px 8px;
+}
+
+.editable {
+  cursor: pointer;
+}
+
+.name {
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 10px;
+}
+
+.description {
+  font-size: 9px;
+  line-height: 9px;
+  margin-top: 2px;
+  min-height: 9px;
+  opacity: 0.6;
+}
+
+.editForm {
+  margin-top: 0.8em;
+}
+
+.validationErrors {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding-bottom: 6px;
+}

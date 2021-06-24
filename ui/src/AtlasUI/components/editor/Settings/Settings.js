@@ -43,9 +43,7 @@ export class Settings extends Component {
       const option = containerSizeOptions.find((option) => {
         return option.name === value;
       });
-      this.props.onChange({
-        settings: { containerSize: option },
-      });
+      this.props.onChange({ containerSize: option });
     }
   };
   renderOptions = () => {
@@ -76,7 +74,7 @@ export class Settings extends Component {
           />
         }
         className={styles.settings}
-        pinned="true"
+        pinned={true}
       >
         <Form>
           <Form.Group inline>

@@ -1,26 +1,16 @@
 import { connect } from 'react-redux';
 
 import { EditorActions } from './EditorActions';
-import { selectors } from 'KaptureApp/store';
-import { actions } from 'KaptureApp/actions';
-
-const {
-  selectEditorSavePending,
-  selectEditorLastSaveTime,
-  selectEditorSaveError,
-} = selectors;
-const { addBarcodes } = actions.editor;
+import { editor } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    savePending: selectEditorSavePending(state),
-    lastSaveTime: selectEditorLastSaveTime(state),
-    saveError: selectEditorSaveError(state),
+    allGridBarcodesSet: editor.selectAllGridBarcodesSet(state),
   };
 };
 
 const mapDispatch = {
-  onImportBarcodes: addBarcodes,
+  onImportBarcodes: editor.addBarcodes,
 };
 
 const connected = connect(mapState, mapDispatch)(EditorActions);

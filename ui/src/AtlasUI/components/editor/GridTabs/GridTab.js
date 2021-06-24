@@ -10,9 +10,8 @@ export class GridTab extends Component {
     styles: {},
   };
   handleClick = () => {
-    const { gridId } = this.props;
     if (this.props.onClick) {
-      this.props.onClick({ gridId });
+      this.props.onClick(this.props.gridId);
     }
   };
   handleItemClick = (e, data) => {
