@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Image } from 'semantic-ui-react';
 
 import styles from './Header.module.css';
-const logo = require('./kaleido_logo.png');
+import logo from './logo512.png';
 
 export class Header extends Component {
   render() {
