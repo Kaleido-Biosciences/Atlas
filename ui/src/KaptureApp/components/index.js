@@ -1,3 +1,4 @@
+export { Header } from './Header';
 export { ActivitySearch } from './ActivitySearchConnected';
 export { ActivityHeader } from './activity/ActivityHeader';
 export { ActivityDetails } from './ActivityDetailsConnected';

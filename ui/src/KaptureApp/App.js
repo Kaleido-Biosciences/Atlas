@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { version } from '../../package.json';
 
-import { Header } from 'AtlasUI/components';
+import { Header } from 'KaptureApp/components';
 import { store } from 'KaptureApp/store';
 import { Home, Activities } from 'KaptureApp/routes';
 import styles from './App.module.css';
