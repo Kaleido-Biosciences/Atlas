@@ -3,7 +3,12 @@
   "version": "2021.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.2.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.15",
     "@reduxjs/toolkit": "^1.6.1",
+    "@tailwindcss/forms": "^0.3.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -11,7 +16,6 @@
     "axios": "^0.21.1",
     "big-integer": "^1.6.48",
     "classnames": "^2.3.1",
-    "fomantic-ui-css": "^2.8.8",
     "lodash": "^4.17.21",
     "lzutf8": "^0.6.0",
     "memoize-one": "^5.2.1",
@@ -35,9 +39,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -58,5 +62,10 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://kapture-staging.apps.kaleidobio.com/api"
+  "proxy": "https://kapture-staging.apps.kaleidobio.com/api",
+  "devDependencies": {
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.36",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
+  }
 }

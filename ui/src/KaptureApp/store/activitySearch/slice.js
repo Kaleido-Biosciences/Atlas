@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   searchTerm: '',
   loading: false,
-  error: null,
-  results: null,
+  error: '',
+  results: [],
 };
 
 const activitySearch = createSlice({

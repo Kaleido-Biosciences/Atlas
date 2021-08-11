@@ -12,7 +12,7 @@ const {
 
 export const { resetState: resetActivitySearch } = actions;
 
-export const searchActivities = ({ searchTerm }) => {
+export const searchActivities = (searchTerm) => {
   return async (dispatch, getState) => {
     dispatch(_setSearchTerm({ searchTerm }));
     loadResults(searchTerm, dispatch);
@@ -26,7 +26,7 @@ const loadResults = _.debounce(async (value, dispatch) => {
       const response = await api.searchActivities(0, 5, value);
       const results = response.data.map((activity) => {
         return {
-          title: activity.name,
+          name: activity.name,
           description: activity.description,
           id: activity.id,
         };
