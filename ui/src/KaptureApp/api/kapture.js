@@ -6,6 +6,7 @@ import {
   COMPONENT_TYPE_COMPOUND,
   COMPONENT_TYPE_MEDIUM,
   COMPONENT_TYPE_SUPPLEMENT,
+  COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
 } from 'KaptureApp/config/componentTypes';
 
@@ -152,4 +153,61 @@ export async function searchComponents(page, size, query) {
     }
     return components;
   }
+}
+
+export async function fetchComponentsForGrids(grids) {
+  const components = {
+    [COMPONENT_TYPE_COMMUNITY]: [],
+    [COMPONENT_TYPE_COMPOUND]: [],
+    [COMPONENT_TYPE_MEDIUM]: [],
+    [COMPONENT_TYPE_SUPPLEMENT]: [],
+    [COMPONENT_TYPE_ATTRIBUTE]: [],
+  };
+  const response = {
+    [COMPONENT_TYPE_COMMUNITY]: [],
+    [COMPONENT_TYPE_COMPOUND]: [],
+    [COMPONENT_TYPE_MEDIUM]: [],
+    [COMPONENT_TYPE_SUPPLEMENT]: [],
+    [COMPONENT_TYPE_ATTRIBUTE]: [],
+  };
+  grids.forEach((grid) => {
+    grid.data.forEach((position) => {
+      position.components.forEach((component) => {
+        const cType = component.type;
+        if (!components[cType].includes(component.id)) {
+          components[cType].push(component.id);
+        }
+      });
+    });
+  });
+  let promises, results;
+  promises = components[COMPONENT_TYPE_COMMUNITY].map((id) => {
+    return fetchCommunity(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach((result) => {
+    response[COMPONENT_TYPE_COMMUNITY].push(result.data);
+  });
+  promises = components[COMPONENT_TYPE_COMPOUND].map((id) => {
+    return fetchCompound(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach((result) => {
+    response[COMPONENT_TYPE_COMPOUND].push(result.data);
+  });
+  promises = components[COMPONENT_TYPE_MEDIUM].map((id) => {
+    return fetchMedium(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach((result) => {
+    response[COMPONENT_TYPE_MEDIUM].push(result.data);
+  });
+  promises = components[COMPONENT_TYPE_SUPPLEMENT].map((id) => {
+    return fetchSupplement(id);
+  });
+  results = await Promise.all(promises);
+  results.forEach((result) => {
+    response[COMPONENT_TYPE_SUPPLEMENT].push(result.data);
+  });
+  return response;
 }
