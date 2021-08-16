@@ -20,7 +20,6 @@
     "lzutf8": "^0.6.0",
     "memoize-one": "^5.2.1",
     "moment": "^2.29.1",
-    "pako": "^2.0.4",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
