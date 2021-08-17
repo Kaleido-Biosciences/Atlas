@@ -37,6 +37,7 @@ function importGrid(importData, kaptureComponents) {
     barcode: importData.barcode,
     dimensions: { rows: importData.rows, columns: importData.columns },
     data: gridData,
+    name: importData.name,
   });
   const containerPositions = importData.data.map((containerData) => {
     return {

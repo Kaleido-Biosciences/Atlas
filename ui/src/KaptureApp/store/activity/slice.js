@@ -1,89 +1,72 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 
 const initialSaveTime = {
   savePending: false,
-  saveError: null,
+  saveError: '',
   lastSaveTime: null,
 };
 
-const initialCloneState = {
-  cloneTargetId: null,
-  cloneTargetName: null,
-  cloneTargetVersion: null,
-  cloneTargetVersionFetchStatus: {
-    pending: false,
-    success: false,
-    error: null,
-  },
-  cloneStatus: {
-    pending: false,
-    success: false,
-    error: null,
-  },
-};
-
 const initialState = {
+  loading: false,
   initialized: false,
-  initializationError: null,
+  initializationError: '',
   id: null,
-  name: null,
-  description: null,
-  containerCollections: null,
-  data: null,
-  containerCollectionsStale: true,
-  publishSuccess: false,
-  publishError: null,
-  publishedContainerCollectionDetails: null,
+  name: '',
+  description: '',
+  grids: [],
+  views: [],
+  status: '',
+  createdTime: null,
+  updatedTime: null,
   ...initialSaveTime,
-  ...initialCloneState,
 };
 
 const activity = createSlice({
   name: 'activity',
   initialState,
   reducers: {
-    setInitialized(state, action) {
-      state.initialized = action.payload.initialized;
+    setLoading(state, action) {
+      state.loading = true;
+      state.initialized = false;
+      state.initializationError = '';
     },
     setInitializationError(state, action) {
+      state.loading = false;
+      state.initialized = false;
       state.initializationError = action.payload.error;
-    },
-    resetState(state, action) {
-      Object.assign(state, initialState);
     },
     setActivity(state, action) {
       const { activity } = action.payload;
       Object.assign(state, activity);
+      state.loading = false;
       state.initialized = true;
-      state.containerCollectionsStale = false;
+      state.initializationError = '';
     },
-    setContainerCollectionsStale(state, action) {
-      state.containerCollectionsStale = action.payload.stale;
+    resetState(state, action) {
+      Object.assign(state, initialState);
     },
-    setPublishSuccess(state, action) {
-      state.publishSuccess = action.payload.publishSuccess;
-    },
-    setPublishError(state, action) {
-      state.publishError = action.payload.publishError;
-    },
-    setPublishedContainerCollectionDetails(state, action) {
-      state.publishedContainerCollectionDetails =
-        action.payload.containerCollectionDetails;
-    },
-    resetPublishState(state, action) {
-      state.publishSuccess = false;
-      state.publishError = null;
-      state.publishedContainerCollectionDetails = null;
+    addGrids(state, action) {
+      const { grids } = action.payload;
+      let highestUntitled = 0;
+      state.grids.forEach((grid) => {
+        if (grid.name.startsWith('Untitled')) {
+          highestUntitled = grid.name.slice(-1);
+        }
+      });
+      grids.forEach((grid) => {
+        highestUntitled++;
+        grid.name = `Untitled${highestUntitled}`;
+      });
+      state.grids = state.grids.concat(grids);
     },
     setSavePending(state, action) {
       state.savePending = true;
-      state.saveError = null;
+      state.saveError = '';
       state.lastSaveTime = null;
     },
     setLastSaveTime(state, action) {
       state.savePending = false;
-      state.saveError = null;
+      state.saveError = '';
       state.lastSaveTime = action.payload.lastSaveTime;
     },
     setSaveError(state, action) {
@@ -92,64 +75,6 @@ const activity = createSlice({
     },
     resetSaveTime(state, action) {
       Object.assign(state, initialSaveTime);
-    },
-    setCloneTarget(state, action) {
-      state.cloneTargetId = action.payload.id;
-      state.cloneTargetName = action.payload.name;
-      state.cloneTargetVersionFetchStatus = {
-        pending: true,
-        success: false,
-        error: null,
-      };
-      state.cloneTargetVersion = null;
-    },
-    setCloneTargetVersion(state, action) {
-      state.cloneTargetVersionFetchStatus = {
-        pending: false,
-        success: true,
-        error: null,
-      };
-      state.cloneTargetVersion = action.payload.version;
-    },
-    setCloneTargetVersionFetchError(state, action) {
-      state.cloneTargetVersionFetchStatus = {
-        pending: false,
-        success: false,
-        error: action.payload.error,
-      };
-      state.cloneTargetVersion = null;
-    },
-    setClonePending(state, action) {
-      state.cloneStatus = {
-        pending: true,
-        success: false,
-        error: null,
-      };
-    },
-    setCloneSuccess(state, action) {
-      state.cloneStatus = {
-        pending: false,
-        success: true,
-        error: null,
-      };
-    },
-    setCloneError(state, action) {
-      state.cloneStatus = {
-        pending: false,
-        success: false,
-        error: action.payload.error,
-      };
-    },
-    resetCloneState(state, action) {
-      Object.assign(state, initialCloneState);
-    },
-    updateDraftPlateMaps(state, action) {
-      const draft = state.containerCollections.find((collection) => {
-        return collection.name === STATUS_DRAFT;
-      });
-      if (draft) {
-        draft.data.plateMaps = action.payload.plateMaps;
-      }
     },
   },
 });
