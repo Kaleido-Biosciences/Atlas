@@ -8,3 +8,4 @@ export { ActiveGrid } from './ActiveGridConnected';
 export { EditorActions } from './EditorActions';
 export { EditorSidebar } from './EditorSidebar';
 export { Print } from './PrintConnected';
+export { Activity } from './activity/Activity';
