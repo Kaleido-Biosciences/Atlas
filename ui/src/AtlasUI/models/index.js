@@ -5,5 +5,6 @@ export {
   createGrid,
   createGridData,
   createContainersForGrid,
+  createGridPosition,
   addContainersToGrid,
 } from './grid';

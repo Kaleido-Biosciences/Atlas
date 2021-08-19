@@ -1,4 +1,4 @@
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export const createContainer = ({
   id = null,
@@ -9,7 +9,7 @@ export const createContainer = ({
   attributes = [],
 }) => {
   return {
-    id: id || uuidv1(),
+    id: id || uuidv4(),
     type: 'Container',
     containerType,
     name,

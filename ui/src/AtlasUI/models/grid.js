@@ -1,8 +1,36 @@
-import { v1 as uuidv1 } from 'uuid';
-
+import { v4 as uuidv4 } from 'uuid';
 import { createContainer } from './container';
 
-export const createGrid = ({
+const rowHeaders = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+];
+
+export function createGrid({
   id = null,
   containerType = null,
   name = null,
@@ -10,9 +38,19 @@ export const createGrid = ({
   dimensions = null,
   data = null,
   attributes = [],
-}) => {
+}) {
+  let rHeaders = [],
+    cHeaders = [];
+  if (dimensions.rows > 0) {
+    rHeaders = rowHeaders.slice(0, dimensions.rows);
+  }
+  if (dimensions.columns > 0) {
+    for (let i = 0; i < dimensions.columns; i++) {
+      cHeaders.push(i + 1);
+    }
+  }
   return {
-    id: id || uuidv1(),
+    id: id || uuidv4(),
     type: 'Grid',
     containerType,
     name,
@@ -20,55 +58,51 @@ export const createGrid = ({
     dimensions,
     data,
     attributes,
+    rowHeaders: rHeaders,
+    columnHeaders: cHeaders,
   };
-};
+}
 
-export const createGridData = (dimensions, rowHeaders) => {
+export function createGridData(dimensions) {
   const data = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
-    const row = [];
     const rowLetter = rowHeaders[i];
     for (let j = 0; j < columns; j++) {
-      const position = {
-        row: rowLetter,
-        column: j + 1,
-        container: null,
-      };
-      row.push(position);
+      data.push(createGridPosition(rowLetter, j + 1));
     }
-    data.push(row);
   }
   return data;
-};
+}
 
-export const createContainersForGrid = (
-  dimensions,
-  containerType,
-  rowHeaders
-) => {
+export function createContainersForGrid(dimensions, containerType) {
   const positions = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
     const rowLetter = rowHeaders[i];
     for (let j = 0; j < columns; j++) {
-      const position = {
-        row: rowLetter,
-        column: j + 1,
-        container: createContainer({ containerType }),
-      };
-      positions.push(position);
+      positions.push(
+        createGridPosition(rowLetter, j + 1, createContainer({ containerType }))
+      );
     }
   }
   return positions;
-};
+}
 
-export const addContainersToGrid = (grid, containerPositions, rowHeaders) => {
+export function createGridPosition(row, column, container) {
+  return {
+    row,
+    column,
+    container: container || null,
+    name: `${row}${column}`,
+  };
+}
+
+export function addContainersToGrid(grid, containerPositions) {
   containerPositions.forEach((containerPosition) => {
-    const rowIndex = rowHeaders.findIndex(
-      (rowLetter) => rowLetter === containerPosition.row
-    );
-    grid.data[rowIndex][containerPosition.column - 1].container =
-      containerPosition.container;
+    const gridPosition = grid.data.find((gridPosition) => {
+      return gridPosition.name === containerPosition.name;
+    });
+    gridPosition.container = containerPosition.container;
   });
-};
+}

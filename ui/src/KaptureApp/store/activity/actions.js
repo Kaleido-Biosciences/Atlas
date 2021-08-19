@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { v1 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { actions } from './slice';
 import * as selectors from './selectors';
 import { api } from 'KaptureApp/api';
@@ -9,7 +9,6 @@ import {
   createContainersForGrid,
   addContainersToGrid,
 } from 'AtlasUI/models';
-import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 
 export const { resetState: resetActivity, resetSaveTime } = actions;
@@ -96,7 +95,7 @@ export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
   return (dispatch, getState) => {
     const grids = [];
     for (let i = 0; i < quantity; i++) {
-      const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+      const gridData = createGridData(dimensions);
       const grid = createGrid({
         containerType: 'Plate',
         dimensions: dimensions,
@@ -104,10 +103,9 @@ export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
       });
       const containerPositions = createContainersForGrid(
         dimensions,
-        'PlateWell',
-        GRID_ROW_HEADERS
+        'PlateWell'
       );
-      addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
+      addContainersToGrid(grid, containerPositions);
       grids.push(grid);
     }
     dispatch(actions.addGrids({ grids, activeGridId: grids[0].id }));

@@ -4,15 +4,15 @@ import {
 } from 'KaptureApp/config/componentTypes';
 
 export const exportGrids = (grids) => {
-  const exportedGrids = grids.map((grid, i) => {
-    return exportGrid(grid, i + 1);
+  const exportedGrids = grids.map((grid) => {
+    return exportGrid(grid);
   });
   return exportedGrids;
 };
 
-function exportGrid(grid, id) {
+function exportGrid(grid) {
   const exportedGrid = {
-    id,
+    id: grid.id,
     rows: grid.dimensions.rows,
     columns: grid.dimensions.columns,
     name: grid.name || null,
@@ -21,7 +21,7 @@ function exportGrid(grid, id) {
     data: [],
   };
   if (grid.data && grid.data.length) {
-    const positions = grid.data.flat();
+    const positions = grid.data;
     positions.forEach((position) => {
       if (position.container) {
         exportedGrid.data.push(

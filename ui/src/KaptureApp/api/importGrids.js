@@ -2,13 +2,13 @@ import {
   createContainer,
   createGrid,
   createGridData,
+  createGridPosition,
   addContainersToGrid,
 } from 'AtlasUI/models';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
 } from 'KaptureApp/config/componentTypes';
-import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 
 export const importGrids = (grids, kaptureComponents) => {
   const importData = {
@@ -25,14 +25,12 @@ export const importGrids = (grids, kaptureComponents) => {
 };
 
 function importGrid(importData, kaptureComponents) {
-  const gridData = createGridData(
-    {
-      rows: importData.rows,
-      columns: importData.columns,
-    },
-    GRID_ROW_HEADERS
-  );
+  const gridData = createGridData({
+    rows: importData.rows,
+    columns: importData.columns,
+  });
   const grid = createGrid({
+    id: importData.id,
     containerType: importData.containerType,
     barcode: importData.barcode,
     dimensions: { rows: importData.rows, columns: importData.columns },
@@ -40,13 +38,13 @@ function importGrid(importData, kaptureComponents) {
     name: importData.name,
   });
   const containerPositions = importData.data.map((containerData) => {
-    return {
-      row: containerData.row,
-      column: containerData.col,
-      container: importContainer(containerData, kaptureComponents),
-    };
+    return createGridPosition(
+      containerData.row,
+      containerData.col,
+      importContainer(containerData, kaptureComponents)
+    );
   });
-  addContainersToGrid(grid, containerPositions, GRID_ROW_HEADERS);
+  addContainersToGrid(grid, containerPositions);
   return grid;
 }
 
