@@ -63,6 +63,7 @@ export const loadActivity = (id) => {
               name: 'Overview',
               type: 'Overview',
               active: true,
+              data: {},
             },
           ],
           createdTime: time,
@@ -116,3 +117,25 @@ export const importGrids = async (grids) => {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);
   return api.importGrids(grids, kaptureComponents);
 };
+
+export const addView = wrapWithChangeHandler((viewData) => {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.addView({
+        view: {
+          id: uuidv4(),
+          name: 'Untitled1',
+          type: viewData.type,
+          active: false,
+          data: viewData.data,
+        },
+      })
+    );
+  };
+});
+
+export const setActiveView = wrapWithChangeHandler((viewId) => {
+  return (dispatch, getState) => {
+    dispatch(actions.setActiveView({ viewId }));
+  };
+});

@@ -12,6 +12,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onAddPlate: activity.addNewPlates,
+  onViewTabClick: activity.setActiveView,
 };
 
 const connected = connect(mapState, mapDispatch)(Activity);

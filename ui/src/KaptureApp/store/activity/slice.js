@@ -59,6 +59,18 @@ const activity = createSlice({
       });
       state.grids = state.grids.concat(grids);
     },
+    addView(state, action) {
+      const { view } = action.payload;
+      state.views.push(view);
+    },
+    setActiveView(state, action) {
+      const { viewId } = action.payload;
+      state.views.forEach((view) => {
+        if (view.id === viewId) {
+          view.active = true;
+        } else view.active = false;
+      });
+    },
     setSavePending(state, action) {
       state.savePending = true;
       state.saveError = '';

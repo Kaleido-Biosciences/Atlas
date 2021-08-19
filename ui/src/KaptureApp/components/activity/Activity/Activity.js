@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Overview } from '../Overview';
+import { MultiPlateTable } from './MultiPlateTable';
+import { ViewTab } from './ViewTab';
 
 export class Activity extends Component {
+  handleViewTabClick = (viewId) => {
+    if (this.props.onViewTabClick) {
+      this.props.onViewTabClick(viewId);
+    }
+  };
   renderViewTabs() {
     return this.props.views.map((view) => {
-      return <div key={view.id}>{view.name}</div>;
+      return (
+        <ViewTab key={view.id} view={view} onClick={this.handleViewTabClick} />
+      );
     });
   }
   renderActiveView() {
@@ -14,6 +23,8 @@ export class Activity extends Component {
       return (
         <Overview grids={this.props.grids} onAddPlate={this.props.onAddPlate} />
       );
+    } else if (activeView.type === 'MultiPlateTable') {
+      return <MultiPlateTable grids={this.props.grids} />;
     }
   }
   render() {
@@ -30,5 +41,6 @@ Activity.propTypes = {
   activeView: PropTypes.object.isRequired,
   grids: PropTypes.array.isRequired,
   onAddPlate: PropTypes.func,
+  onViewTabClick: PropTypes.func,
   views: PropTypes.array.isRequired,
 };

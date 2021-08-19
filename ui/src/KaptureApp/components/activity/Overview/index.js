@@ -1,1 +1,1 @@
-export { Overview } from './Overview';
+export { Overview } from './connect';

@@ -1,0 +1,1 @@
+export { MultiPlateTable } from './MultiPlateTable';
