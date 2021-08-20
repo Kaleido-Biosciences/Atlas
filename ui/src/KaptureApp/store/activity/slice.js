@@ -61,6 +61,15 @@ const activity = createSlice({
     },
     addView(state, action) {
       const { view } = action.payload;
+      if (!view.name) {
+        let highestUntitled = 0;
+        state.views.forEach((view) => {
+          if (view.name.startsWith('View')) {
+            highestUntitled = parseInt(view.name.slice(-1));
+          }
+        });
+        view.name = `View${highestUntitled + 1}`;
+      }
       state.views.push(view);
     },
     setActiveView(state, action) {

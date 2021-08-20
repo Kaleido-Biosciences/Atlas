@@ -124,7 +124,6 @@ export const addView = wrapWithChangeHandler((viewData) => {
       actions.addView({
         view: {
           id: uuidv4(),
-          name: 'Untitled1',
           type: viewData.type,
           active: false,
           data: viewData.data,
