@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Overview } from '../Overview';
 import { MultiPlateTable } from './MultiPlateTable';
+import { PlateTable } from '../PlateTable';
 import { ViewTab } from './ViewTab';
 
 export class Activity extends Component {
@@ -25,13 +26,15 @@ export class Activity extends Component {
       );
     } else if (activeView.type === 'MultiPlateTable') {
       return <MultiPlateTable grids={this.props.grids} />;
+    } else if (activeView.type === 'PlateTable') {
+      return <PlateTable grids={activeView.grids} />;
     }
   }
   render() {
     return (
       <div>
         <div>{this.renderViewTabs()}</div>
-        <div>{this.renderActiveView()}</div>
+        <div className="border border-black">{this.renderActiveView()}</div>
       </div>
     );
   }

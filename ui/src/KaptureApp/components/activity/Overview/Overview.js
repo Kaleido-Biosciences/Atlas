@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from './Grid';
 
 export class Overview extends Component {
   handleAddPlate = () => {
@@ -17,9 +18,19 @@ export class Overview extends Component {
       });
     }
   };
+  handleGridClick = (gridId) => {
+    if (this.props.onAddView) {
+      this.props.onAddView({
+        type: 'PlateTable',
+        data: {
+          gridIds: [gridId],
+        },
+      });
+    }
+  };
   renderGrids() {
     return this.props.grids.map((grid) => {
-      return <div key={grid.id}>{grid.name}</div>;
+      return <Grid key={grid.id} grid={grid} onClick={this.handleGridClick} />;
     });
   }
   render() {
