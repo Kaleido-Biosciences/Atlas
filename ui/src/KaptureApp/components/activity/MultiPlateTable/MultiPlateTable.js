@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 export class MultiPlateTable extends Component {
   renderGrids() {
-    return this.props.grids.map((grid) => {
+    const { view } = this.props;
+    return view.data.grids.map((grid) => {
       return (
         <tr key={grid.id}>
           <td>{grid.name}</td>
@@ -14,6 +15,7 @@ export class MultiPlateTable extends Component {
   render() {
     return (
       <div>
+        Multi Plate Table View
         <table>
           <tbody>{this.renderGrids()}</tbody>
         </table>
@@ -23,5 +25,5 @@ export class MultiPlateTable extends Component {
 }
 
 MultiPlateTable.propTypes = {
-  grids: PropTypes.array.isRequired,
+  view: PropTypes.object.isRequired,
 };

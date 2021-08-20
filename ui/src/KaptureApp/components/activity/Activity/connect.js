@@ -5,7 +5,6 @@ import { activity } from 'KaptureApp/store';
 const mapState = (state, props) => {
   return {
     activeView: activity.selectActiveView(state),
-    grids: activity.selectGrids(state),
     views: activity.selectViews(state),
   };
 };

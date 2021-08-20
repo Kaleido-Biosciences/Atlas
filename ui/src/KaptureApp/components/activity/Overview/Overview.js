@@ -10,10 +10,11 @@ export class Overview extends Component {
   };
   handleAddMultiTableView = () => {
     if (this.props.onAddView) {
+      const gridIds = this.props.view.data.grids.map((grid) => grid.id);
       this.props.onAddView({
         type: 'MultiPlateTable',
         data: {
-          gridIds: this.props.grids.map((grid) => grid.id),
+          gridIds,
         },
       });
     }
@@ -29,13 +30,15 @@ export class Overview extends Component {
     }
   };
   renderGrids() {
-    return this.props.grids.map((grid) => {
+    const { grids } = this.props.view.data;
+    return grids.map((grid) => {
       return <Grid key={grid.id} grid={grid} onClick={this.handleGridClick} />;
     });
   }
   render() {
     return (
       <div>
+        Overview
         <button onClick={this.handleAddPlate}>Add Plate</button>
         <button onClick={this.handleAddMultiTableView}>
           Add multi table view
@@ -47,7 +50,7 @@ export class Overview extends Component {
 }
 
 Overview.propTypes = {
-  grids: PropTypes.array.isRequired,
+  view: PropTypes.object.isRequired,
   onAddPlate: PropTypes.func,
   onAddView: PropTypes.func,
 };

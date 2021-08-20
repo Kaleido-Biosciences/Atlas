@@ -12,17 +12,24 @@ export const selectViews = (state) => state.activity.views;
 export const selectActiveView = createSelector(
   [selectViews, selectGrids],
   (views, grids) => {
-    const view = views.find((view) => view.active);
-    const viewGrids = [];
-    if (view.data && view.data.gridIds) {
-      view.data.gridIds.forEach((gridId) => {
-        const grid = grids.find((grid) => grid.id === gridId);
-        if (grid) viewGrids.push(grid);
-      });
+    const activeView = views.find((view) => view.active);
+    let viewGrids = [];
+    if (activeView.type === 'Overview') {
+      viewGrids = grids;
+    } else {
+      if (activeView.data && activeView.data.gridIds) {
+        activeView.data.gridIds.forEach((gridId) => {
+          const grid = grids.find((grid) => grid.id === gridId);
+          if (grid) viewGrids.push(grid);
+        });
+      }
     }
     return {
-      ...view,
-      grids: viewGrids,
+      ...activeView,
+      data: {
+        ...activeView.data,
+        grids: viewGrids,
+      },
     };
   }
 );

@@ -21,13 +21,11 @@ export class Activity extends Component {
   renderActiveView() {
     const { activeView } = this.props;
     if (activeView.type === 'Overview') {
-      return (
-        <Overview grids={this.props.grids} onAddPlate={this.props.onAddPlate} />
-      );
+      return <Overview view={activeView} onAddPlate={this.props.onAddPlate} />;
     } else if (activeView.type === 'MultiPlateTable') {
-      return <MultiPlateTable grids={this.props.grids} />;
+      return <MultiPlateTable view={activeView} />;
     } else if (activeView.type === 'PlateTable') {
-      return <PlateTable grids={activeView.grids} />;
+      return <PlateTable view={activeView} />;
     }
   }
   render() {
@@ -42,7 +40,6 @@ export class Activity extends Component {
 
 Activity.propTypes = {
   activeView: PropTypes.object.isRequired,
-  grids: PropTypes.array.isRequired,
   onAddPlate: PropTypes.func,
   onViewTabClick: PropTypes.func,
   views: PropTypes.array.isRequired,
