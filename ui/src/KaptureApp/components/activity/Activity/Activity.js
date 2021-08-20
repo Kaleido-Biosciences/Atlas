@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Overview } from '../Overview';
-import { MultiPlateTable } from './MultiPlateTable';
+import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTab } from './ViewTab';
 
