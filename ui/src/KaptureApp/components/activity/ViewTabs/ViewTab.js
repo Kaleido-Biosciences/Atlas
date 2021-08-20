@@ -9,7 +9,7 @@ export class ViewTab extends Component {
   };
   render() {
     return (
-      <div onClick={this.handleClick}>
+      <div className="px-2 py-1" onClick={this.handleClick}>
         <div>{this.props.view.name}</div>
       </div>
     );

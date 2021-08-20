@@ -3,21 +3,9 @@ import PropTypes from 'prop-types';
 import { Overview } from '../Overview';
 import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
-import { ViewTab } from './ViewTab';
+import { ViewTabs } from '../ViewTabs';
 
 export class Activity extends Component {
-  handleViewTabClick = (viewId) => {
-    if (this.props.onViewTabClick) {
-      this.props.onViewTabClick(viewId);
-    }
-  };
-  renderViewTabs() {
-    return this.props.views.map((view) => {
-      return (
-        <ViewTab key={view.id} view={view} onClick={this.handleViewTabClick} />
-      );
-    });
-  }
   renderActiveView() {
     const { activeView } = this.props;
     if (activeView.type === 'Overview') {
@@ -31,7 +19,12 @@ export class Activity extends Component {
   render() {
     return (
       <div className="h-full">
-        <div>{this.renderViewTabs()}</div>
+        <div>
+          <ViewTabs
+            views={this.props.views}
+            onTabClick={this.props.onViewTabClick}
+          />
+        </div>
         <div className="border border-black">{this.renderActiveView()}</div>
       </div>
     );
