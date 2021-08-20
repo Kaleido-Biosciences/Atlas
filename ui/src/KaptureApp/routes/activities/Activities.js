@@ -21,7 +21,7 @@ export class Activities extends Component {
     } else if (this.props.initialized) {
       content = <Activity />;
     }
-    return <div>{content}</div>;
+    return <div className="h-full">{content}</div>;
   }
 }
 

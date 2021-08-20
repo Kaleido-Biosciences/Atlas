@@ -6,7 +6,7 @@ import logo from './logo512.png';
 export class Header extends Component {
   render() {
     return (
-      <div className="flex fixed h-10 w-full bg-gray-800 text-white flex-row items-center justify-between">
+      <div className="flex h-full w-full bg-gray-800 text-white flex-row items-center justify-between">
         <div>
           <Link
             to="/"

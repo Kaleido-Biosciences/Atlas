@@ -1,10 +1,12 @@
-:global(html, body, #root) {
-  height: 100%;
+.headerContainer {
+  position: fixed;
+  height: 2.5rem;
+  width: 100%;
 }
 
 .mainContainer {
-  height: calc(100% - 3em);
-  margin-top: 3em;
+  height: calc(100% - 2.5rem);
+  margin-top: 2.5rem;
   display: inline-block;
   width: 100%;
 }

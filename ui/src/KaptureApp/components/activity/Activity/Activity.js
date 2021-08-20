@@ -30,7 +30,7 @@ export class Activity extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="h-full">
         <div>{this.renderViewTabs()}</div>
         <div className="border border-black">{this.renderActiveView()}</div>
       </div>

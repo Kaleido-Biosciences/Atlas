@@ -14,7 +14,9 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <React.Fragment>
-            <Header version={version} />
+            <div className={styles.headerContainer}>
+              <Header version={version} />
+            </div>
             <div className={styles.mainContainer}>
               <Switch>
                 <Route path="/" exact component={Home} />
