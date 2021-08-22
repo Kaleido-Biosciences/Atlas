@@ -1,6 +1,5 @@
 export { Header } from './Header';
 export { ActivitySearch } from './ActivitySearchConnected';
-export { ActivityHeader } from './activity/ActivityHeader';
 export { ActivityDetails } from './ActivityDetailsConnected';
 export { Editor } from './EditorConnected';
 export { GridTabs } from './GridTabsConnected';
@@ -9,3 +8,4 @@ export { EditorActions } from './EditorActions';
 export { EditorSidebar } from './EditorSidebar';
 export { Print } from './PrintConnected';
 export { Activity } from './activity/Activity';
+export { Button } from './Button';

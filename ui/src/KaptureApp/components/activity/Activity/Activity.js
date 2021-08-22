@@ -4,6 +4,7 @@ import { Overview } from '../Overview';
 import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTabs } from '../ViewTabs';
+import { Header } from '../Header';
 
 export class Activity extends Component {
   renderActiveView() {
@@ -18,14 +19,17 @@ export class Activity extends Component {
   }
   render() {
     return (
-      <div className="h-full">
+      <div className="h-full flex flex-col">
+        <Header name={this.props.name} />
         <div>
           <ViewTabs
             views={this.props.views}
             onTabClick={this.props.onViewTabClick}
           />
         </div>
-        <div className="border border-black">{this.renderActiveView()}</div>
+        <div className="border border-black flex-1">
+          {this.renderActiveView()}
+        </div>
       </div>
     );
   }
@@ -33,6 +37,7 @@ export class Activity extends Component {
 
 Activity.propTypes = {
   activeView: PropTypes.object.isRequired,
+  name: PropTypes.string,
   onAddPlate: PropTypes.func,
   onViewTabClick: PropTypes.func,
   views: PropTypes.array.isRequired,
