@@ -17,8 +17,8 @@ export class ViewTabs extends Component {
   }
   render() {
     return (
-      <div className="w-full bg-gray-100">
-        <div className="flex flex-row">{this.renderViewTabs()}</div>
+      <div className="w-full bg-gray-200 flex flex-row pt-2 pl-2">
+        {this.renderViewTabs()}
       </div>
     );
   }
