@@ -4,9 +4,14 @@ import { Grid } from './Grid';
 import { Button } from 'KaptureApp/components';
 
 export class Overview extends Component {
-  handleAddPlate = () => {
+  handleAdd96WellPlate = () => {
     if (this.props.onAddPlate) {
       this.props.onAddPlate({ rows: 8, columns: 12 }, 1);
+    }
+  };
+  handleAdd384WellPlate = () => {
+    if (this.props.onAddPlate) {
+      this.props.onAddPlate({ rows: 16, columns: 24 }, 1);
     }
   };
   handleAddMultiTableView = () => {
@@ -41,8 +46,14 @@ export class Overview extends Component {
       <div>
         <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
           <Button
-            onClick={this.handleAddPlate}
-            content="Add Plate"
+            onClick={this.handleAdd96WellPlate}
+            content="Add 96-Well Plate"
+            secondary
+            className="mr-2"
+          />
+          <Button
+            onClick={this.handleAdd384WellPlate}
+            content="Add 384-Well Plate"
             secondary
             className="mr-2"
           />
