@@ -15,11 +15,13 @@ export class Grid extends Component {
       'border',
       'border-gray-300',
       'p-1',
-      'text-xs'
+      'text-xs',
+      'cursor-pointer'
     );
     return (
       <div className={className} onClick={this.handleClick}>
-        {this.props.grid.name}
+        <div>{this.props.grid.name}</div>
+        <div className="text-gray-400">{`${this.props.grid.data.length} wells`}</div>
       </div>
     );
   }
