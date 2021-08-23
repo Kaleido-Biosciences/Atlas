@@ -27,9 +27,7 @@ export class Activity extends Component {
             onTabClick={this.props.onViewTabClick}
           />
         </div>
-        <div className="border border-black flex-1">
-          {this.renderActiveView()}
-        </div>
+        <div className="flex-1">{this.renderActiveView()}</div>
       </div>
     );
   }

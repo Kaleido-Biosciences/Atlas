@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from './Grid';
+import { Button } from 'KaptureApp/components';
 
 export class Overview extends Component {
   handleAddPlate = () => {
@@ -38,12 +39,22 @@ export class Overview extends Component {
   render() {
     return (
       <div>
-        Overview
-        <button onClick={this.handleAddPlate}>Add Plate</button>
-        <button onClick={this.handleAddMultiTableView}>
-          Add multi table view
-        </button>
-        <div>{this.renderGrids()}</div>
+        <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
+          <Button
+            onClick={this.handleAddPlate}
+            content="Add Plate"
+            secondary
+            className="mr-2"
+          />
+          <Button
+            onClick={this.handleAddMultiTableView}
+            content="Add Multi Plate Table"
+            secondary
+          />
+        </div>
+        <div className="flex flex-row flex-wrap p-4 justify-start">
+          {this.renderGrids()}
+        </div>
       </div>
     );
   }

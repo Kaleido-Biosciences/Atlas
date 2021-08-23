@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from './Grid.module.css';
+import classNames from 'classnames';
 
 export class Grid extends Component {
   handleClick = () => {
@@ -8,7 +10,18 @@ export class Grid extends Component {
     }
   };
   render() {
-    return <div onClick={this.handleClick}>{this.props.grid.name}</div>;
+    const className = classNames(
+      styles.grid,
+      'border',
+      'border-gray-300',
+      'p-1',
+      'text-xs'
+    );
+    return (
+      <div className={className} onClick={this.handleClick}>
+        {this.props.grid.name}
+      </div>
+    );
   }
 }
 
