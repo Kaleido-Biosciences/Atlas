@@ -17,11 +17,11 @@ let lastSaveData = '';
 
 const saveGrids = _.debounce(async (dispatch, getState) => {
   const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
-  const stringifiedGrids = JSON.stringify(exportedGrids);
-  if (stringifiedGrids !== lastSaveData) {
+  const views = selectors.selectViews(getState());
+  const stringifiedData = JSON.stringify(exportedGrids) + JSON.stringify(views);
+  if (stringifiedData !== lastSaveData) {
     dispatch(actions.setSavePending());
     const activityName = selectors.selectName(getState());
-    const views = selectors.selectViews(getState());
     try {
       await api.updateActivityData(activityName, exportedGrids, views);
       dispatch(
@@ -29,7 +29,7 @@ const saveGrids = _.debounce(async (dispatch, getState) => {
           lastSaveTime: Date.now(),
         })
       );
-      lastSaveData = stringifiedGrids;
+      lastSaveData = stringifiedData;
     } catch (error) {
       dispatch(actions.setSaveError({ error: error.message }));
     }
@@ -86,6 +86,11 @@ export const loadActivity = (id) => {
           },
         })
       );
+      const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
+      const views = selectors.selectViews(getState());
+      const stringifiedData =
+        JSON.stringify(exportedGrids) + JSON.stringify(views);
+      lastSaveData = stringifiedData;
     } catch (error) {
       dispatch(actions.setInitializationError({ error: error.message }));
     }
