@@ -5,6 +5,7 @@ import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTabs } from '../ViewTabs';
 import { Header } from '../Header';
+import styles from './Activity.module.css';
 
 export class Activity extends Component {
   renderActiveView() {
@@ -27,7 +28,7 @@ export class Activity extends Component {
             onTabClick={this.props.onViewTabClick}
           />
         </div>
-        <div className="flex-1">{this.renderActiveView()}</div>
+        <div className={styles.activeView}>{this.renderActiveView()}</div>
       </div>
     );
   }
