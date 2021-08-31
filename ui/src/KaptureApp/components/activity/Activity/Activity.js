@@ -5,6 +5,7 @@ import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTabs } from '../ViewTabs';
 import { Header } from '../Header';
+import SplitPane from 'react-split-pane';
 import styles from './Activity.module.css';
 
 export class Activity extends Component {
@@ -22,13 +23,26 @@ export class Activity extends Component {
     return (
       <div className="h-full flex flex-col">
         <Header name={this.props.name} />
-        <div>
-          <ViewTabs
-            views={this.props.views}
-            onTabClick={this.props.onViewTabClick}
-          />
+        <div className={styles.container}>
+          <SplitPane
+            primary="second"
+            defaultSize={300}
+            minSize={200}
+            pane1Style={{ overflow: 'hidden' }}
+            pane2Style={{ height: '100%' }}
+          >
+            <div>
+              <div>
+                <ViewTabs
+                  views={this.props.views}
+                  onTabClick={this.props.onViewTabClick}
+                />
+              </div>
+              <div className={styles.activeView}>{this.renderActiveView()}</div>
+            </div>
+            <div>sidebar</div>
+          </SplitPane>
         </div>
-        <div className={styles.activeView}>{this.renderActiveView()}</div>
       </div>
     );
   }
