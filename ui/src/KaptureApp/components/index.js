@@ -9,3 +9,4 @@ export { EditorSidebar } from './EditorSidebar';
 export { Print } from './PrintConnected';
 export { Activity } from './activity/Activity';
 export { Button } from './Button';
+export { Scrollbars } from './Scrollbars';

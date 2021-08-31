@@ -21,7 +21,7 @@ export class Activity extends Component {
   }
   render() {
     return (
-      <div className="h-full flex flex-col">
+      <div className={styles.activity}>
         <Header name={this.props.name} />
         <div className={styles.container}>
           <SplitPane
@@ -31,13 +31,11 @@ export class Activity extends Component {
             pane1Style={{ overflow: 'hidden' }}
             pane2Style={{ height: '100%' }}
           >
-            <div>
-              <div>
-                <ViewTabs
-                  views={this.props.views}
-                  onTabClick={this.props.onViewTabClick}
-                />
-              </div>
+            <div className={styles.leftPanelContainer}>
+              <ViewTabs
+                views={this.props.views}
+                onTabClick={this.props.onViewTabClick}
+              />
               <div className={styles.activeView}>{this.renderActiveView()}</div>
             </div>
             <div>sidebar</div>

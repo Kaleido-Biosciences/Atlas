@@ -1,0 +1,9 @@
+.overview {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollContainer {
+  flex: 1 1 100%;
+}

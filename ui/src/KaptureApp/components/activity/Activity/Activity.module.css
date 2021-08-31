@@ -1,12 +1,24 @@
+.activity {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .activeView {
   flex: 1 1 100%;
   overflow: hidden;
 }
 
 .container {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  position: relative;
   width: 100%;
+}
+
+.leftPanelContainer {
   display: flex;
   flex-direction: column;
-  flex: 1 1 100%;
-  position: relative;
+  height: 100%;
 }

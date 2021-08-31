@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from './Grid';
-import { Button } from 'KaptureApp/components';
+import { Button, Scrollbars } from 'KaptureApp/components';
+import styles from './Overview.module.css';
 
 export class Overview extends Component {
   handleAdd96WellPlate = () => {
@@ -43,7 +44,7 @@ export class Overview extends Component {
   }
   render() {
     return (
-      <div>
+      <div className={styles.overview}>
         <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
           <Button
             onClick={this.handleAdd96WellPlate}
@@ -63,8 +64,12 @@ export class Overview extends Component {
             secondary
           />
         </div>
-        <div className="flex flex-row flex-wrap p-4 justify-start">
-          {this.renderGrids()}
+        <div className={styles.scrollContainer}>
+          <Scrollbars>
+            <div className="flex flex-row flex-wrap p-4 justify-start">
+              {this.renderGrids()}
+            </div>
+          </Scrollbars>
         </div>
       </div>
     );
