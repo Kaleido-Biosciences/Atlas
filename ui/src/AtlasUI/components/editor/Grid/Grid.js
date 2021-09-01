@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ColumnHeaders } from './ColumnHeaders';
 import { ColumnHeader } from './ColumnHeader';
-import { RowHeader } from './RowHeader';
+import { RowHeaders } from './RowHeaders';
 import { GridData } from './GridData';
 import styles from './Grid.module.css';
 
@@ -82,6 +82,13 @@ export class Grid extends Component {
           /> */}
         </div>
         <div className={styles.body}>
+          <RowHeaders
+            cellHeight={settings.containerSize.size}
+            cellWidth={this.props.headerSize}
+            cellXPadding={0}
+            cellYPadding={settings.containerSize.outerPadding}
+            values={grid.rowHeaders}
+          />
           {/* <RowHeader
             containerSize={this.props.settings.containerSize}
             headerSize={this.props.headerSize}
