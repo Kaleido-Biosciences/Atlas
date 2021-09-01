@@ -5,6 +5,7 @@ import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTabs } from '../ViewTabs';
 import { Header } from '../Header';
+import { Editor } from '../Editor';
 import SplitPane from 'react-split-pane';
 import styles from './Activity.module.css';
 
@@ -17,6 +18,8 @@ export class Activity extends Component {
       return <MultiPlateTable view={activeView} />;
     } else if (activeView.type === 'PlateTable') {
       return <PlateTable view={activeView} />;
+    } else if (activeView.type === 'Editor') {
+      return <Editor view={activeView} />;
     }
   }
   render() {

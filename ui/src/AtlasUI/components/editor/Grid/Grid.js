@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
-
+import { ColumnHeaders } from './ColumnHeaders';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeader } from './RowHeader';
 import { GridData } from './GridData';
@@ -57,6 +57,7 @@ export class Grid extends Component {
     );
   }
   render() {
+    const { grid, settings } = this.props;
     const cornerStyle = {
       height: this.props.headerSize + 'px',
       width: this.props.headerSize + 'px',
@@ -65,16 +66,23 @@ export class Grid extends Component {
       <div className={styles.grid}>
         <div className={styles.topHeader}>
           <div className={styles.cornerCell} style={cornerStyle}></div>
-          <ColumnHeader
+          <ColumnHeaders
+            cellHeight={this.props.headerSize}
+            cellWidth={settings.containerSize.size}
+            cellXPadding={settings.containerSize.outerPadding}
+            cellYPadding={0}
+            values={grid.columnHeaders}
+          />
+          {/* <ColumnHeader
             containerSize={this.props.settings.containerSize}
             headerSize={this.props.headerSize}
             numberOfColumns={this.props.grid.data[0].length}
             onClick={this.handleHeaderCellClick}
             ref={this.columnHeaderRef}
-          />
+          /> */}
         </div>
         <div className={styles.body}>
-          <RowHeader
+          {/* <RowHeader
             containerSize={this.props.settings.containerSize}
             headerSize={this.props.headerSize}
             numberOfRows={this.props.grid.data.length}
@@ -97,7 +105,7 @@ export class Grid extends Component {
               onContainerClick={this.handleContainerClick}
               onRemoveComponent={this.props.onRemoveComponent}
             />
-          </Scrollbars>
+          </Scrollbars> */}
         </div>
       </div>
     );
@@ -108,10 +116,13 @@ Grid.propTypes = {
   containerTypeOptions: PropTypes.array,
   enableRemoveComponent: PropTypes.bool,
   grid: PropTypes.object,
-  headerSize: PropTypes.number.isRequired,
+  headerSize: PropTypes.number,
   onAddContainer: PropTypes.func,
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
-  rowHeaders: PropTypes.array.isRequired,
   settings: PropTypes.object,
+};
+
+Grid.defaultProps = {
+  headerSize: 24,
 };

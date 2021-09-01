@@ -9,3 +9,4 @@ export { Editor } from './editor/Editor';
 export { GridTabs } from './editor/GridTabs';
 export { ActiveGrid } from './editor/ActiveGrid';
 export { Timepoint } from './editor/Timepoint';
+export { Grid } from './editor/Grid';

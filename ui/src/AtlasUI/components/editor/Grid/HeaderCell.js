@@ -5,17 +5,22 @@ import styles from './Grid.module.css';
 
 export class HeaderCell extends Component {
   handleClick = () => {
-    const { index } = this.props;
     if (this.props.onClick) {
-      this.props.onClick({ index });
+      this.props.onClick(this.props.index);
     }
   };
   render() {
-    const { label, style } = this.props;
+    const style = {
+      height: `${this.props.height}px`,
+      width: `${this.props.width}px`,
+      padding: `${this.props.yPadding}px ${this.props.xPadding}px`,
+    };
     return (
       <div style={style} className={styles.headerCellContainer}>
         <div className={styles.headerCell} onClick={this.handleClick}>
-          <span>{label}</span>
+          <span className="text-xs text-gray-600 font-semibold">
+            {this.props.label}
+          </span>
         </div>
       </div>
     );
@@ -23,8 +28,11 @@ export class HeaderCell extends Component {
 }
 
 HeaderCell.propTypes = {
+  height: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  style: PropTypes.object,
   onClick: PropTypes.func,
+  width: PropTypes.number.isRequired,
+  xPadding: PropTypes.number.isRequired,
+  yPadding: PropTypes.number.isRequired,
 };

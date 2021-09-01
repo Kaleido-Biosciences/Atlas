@@ -15,6 +15,13 @@ const initialState = {
   description: '',
   grids: [],
   views: [],
+  settings: {
+    containerSize: {
+      size: 120,
+      innerPadding: 4,
+      outerPadding: 2,
+    },
+  },
   status: '',
   createdTime: null,
   updatedTime: null,

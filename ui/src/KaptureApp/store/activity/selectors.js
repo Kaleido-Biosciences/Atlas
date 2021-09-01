@@ -33,6 +33,7 @@ export const selectActiveView = createSelector(
     };
   }
 );
+export const selectSettings = (state) => state.activity.settings;
 export const selectSavePending = (state) => state.activity.savePending;
 export const selectLastSaveTime = (state) => state.activity.lastSaveTime;
 export const selectSaveError = (state) => state.activity.saveError;

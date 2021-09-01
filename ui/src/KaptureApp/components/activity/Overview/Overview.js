@@ -29,7 +29,7 @@ export class Overview extends Component {
   handleGridClick = (gridId) => {
     if (this.props.onAddView) {
       this.props.onAddView({
-        type: 'PlateTable',
+        type: 'Editor',
         data: {
           gridIds: [gridId],
         },
