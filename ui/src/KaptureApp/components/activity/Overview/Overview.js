@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from './Grid';
-import { Button, Scrollbars } from 'KaptureApp/components';
+import { Button } from 'KaptureApp/components';
+import { Scrollbars } from 'AtlasUI/components';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
