@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { ColumnHeaders } from './ColumnHeaders';
 import { ColumnHeader } from './ColumnHeader';
 import { RowHeaders } from './RowHeaders';
 import { GridData } from './GridData';
 import styles from './Grid.module.css';
+import { Scrollbars } from '../../Scrollbars';
 
 export class Grid extends Component {
-  columnHeaderRef = React.createRef();
-  rowHeaderRef = React.createRef();
+  columnHeadersRef = React.createRef();
+  rowHeadersRef = React.createRef();
   handleScroll = (values) => {
-    this.columnHeaderRef.current.setScrollPos(values.scrollLeft);
-    this.rowHeaderRef.current.setScrollPos(values.scrollTop);
+    this.columnHeadersRef.current.setScrollPos(values.scrollLeft);
+    this.rowHeadersRef.current.setScrollPos(values.scrollTop);
   };
   handleAddContainer = (options) => {
     if (this.props.onAddContainer) {
@@ -71,6 +71,7 @@ export class Grid extends Component {
             cellWidth={settings.containerSize.size}
             cellXPadding={settings.containerSize.outerPadding}
             cellYPadding={0}
+            ref={this.columnHeadersRef}
             values={grid.columnHeaders}
           />
           {/* <ColumnHeader
@@ -87,17 +88,20 @@ export class Grid extends Component {
             cellWidth={this.props.headerSize}
             cellXPadding={0}
             cellYPadding={settings.containerSize.outerPadding}
+            ref={this.rowHeadersRef}
             values={grid.rowHeaders}
           />
-          <GridData
-            containerTypeOptions={this.props.containerTypeOptions}
-            enableRemoveComponent={this.props.enableRemoveComponent}
-            grid={this.props.grid}
-            settings={this.props.settings}
-            onAddContainer={this.handleAddContainer}
-            onContainerClick={this.handleContainerClick}
-            onRemoveComponent={this.props.onRemoveComponent}
-          />
+          <Scrollbars onScrollFrame={this.handleScroll}>
+            <GridData
+              containerTypeOptions={this.props.containerTypeOptions}
+              enableRemoveComponent={this.props.enableRemoveComponent}
+              grid={this.props.grid}
+              settings={this.props.settings}
+              onAddContainer={this.handleAddContainer}
+              onContainerClick={this.handleContainerClick}
+              onRemoveComponent={this.props.onRemoveComponent}
+            />
+          </Scrollbars>
           {/* <RowHeader
             containerSize={this.props.settings.containerSize}
             headerSize={this.props.headerSize}
