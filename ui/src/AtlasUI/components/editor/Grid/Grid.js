@@ -89,6 +89,15 @@ export class Grid extends Component {
             cellYPadding={settings.containerSize.outerPadding}
             values={grid.rowHeaders}
           />
+          <GridData
+            containerTypeOptions={this.props.containerTypeOptions}
+            enableRemoveComponent={this.props.enableRemoveComponent}
+            grid={this.props.grid}
+            settings={this.props.settings}
+            onAddContainer={this.handleAddContainer}
+            onContainerClick={this.handleContainerClick}
+            onRemoveComponent={this.props.onRemoveComponent}
+          />
           {/* <RowHeader
             containerSize={this.props.settings.containerSize}
             headerSize={this.props.headerSize}

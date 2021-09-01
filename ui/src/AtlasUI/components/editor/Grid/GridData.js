@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { GridPosition } from './GridPosition';
 import { AddContainerModal } from '../AddContainerButton';
 import styles from './Grid.module.css';
@@ -38,13 +37,16 @@ export class GridData extends Component {
     }
   };
   render() {
-    const { grid, settings, containerTypeOptions } = this.props;
-    const { data } = grid;
-    const id = grid.id;
-    const renderedGrid = data.map((row, i) => {
-      const rowKey = `${id}_ROW_${i}`;
+    const { grid, settings } = this.props;
+    const { rows, columns } = grid.dimensions;
+    const renderedGrid = [];
+    for (let i = 0; i < rows; i++) {
+      const rowKey = `${grid.id}_ROW_${i}`;
+      const start = i * columns;
+      const end = (i + 1) * columns;
+      const row = grid.data.slice(start, end);
       const positions = row.map((position, i) => {
-        const positionKey = `${id}_POSITION_${position.row}${position.column}`;
+        const positionKey = `${grid.id}_POSITION_${position.row}${position.column}`;
         return (
           <GridPosition
             enableRemoveComponent={this.props.enableRemoveComponent}
@@ -60,19 +62,19 @@ export class GridData extends Component {
           />
         );
       });
-      return (
+      renderedGrid.push(
         <div key={rowKey} className={styles.row}>
           {positions}
         </div>
       );
-    });
+    }
     return (
       <div>
         {renderedGrid}
         <AddContainerModal
           open={this.state.addContainerModalOpen}
           onClose={this.handleAddContainerModalClose}
-          containerTypeOptions={containerTypeOptions}
+          containerTypeOptions={this.props.containerTypeOptions}
           onAddClick={this.handleAddContainer}
         />
       </div>
