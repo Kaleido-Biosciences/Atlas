@@ -9,6 +9,7 @@ export class Editor extends Component {
         containerTypeOptions={this.props.containerTypeOptions}
         grid={grid}
         settings={this.props.settings}
+        onClick={this.props.onContainerClick}
       />
     );
   }

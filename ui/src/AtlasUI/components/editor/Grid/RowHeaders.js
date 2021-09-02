@@ -8,9 +8,9 @@ export class RowHeaders extends Component {
   setScrollPos = (scrollPos) => {
     this.divRef.current.scrollTop = scrollPos;
   };
-  handleCellClick = ({ index }) => {
+  handleCellClick = (index) => {
     if (this.props.onClick) {
-      this.props.onClick({ cellType: 'row', index });
+      this.props.onClick('row', index);
     }
   };
   render() {

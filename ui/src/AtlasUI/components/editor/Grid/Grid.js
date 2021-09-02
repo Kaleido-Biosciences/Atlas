@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ColumnHeaders } from './ColumnHeaders';
-import { ColumnHeader } from './ColumnHeader';
 import { RowHeaders } from './RowHeaders';
 import { GridData } from './GridData';
 import styles from './Grid.module.css';
@@ -24,18 +23,39 @@ export class Grid extends Component {
       this.props.onClick(this.props.grid.id, [position]);
     }
   };
-  handleHeaderCellClick = ({ cellType, index }) => {
+  // handleHeaderCellClick = (cellType, index) => {
+  //   if (this.props.onClick) {
+  //     const gridData = this.props.grid.data;
+  //     let positions;
+  //     if (cellType === 'column') {
+  //       positions = gridData.map((row) => {
+  //         return row[index];
+  //       });
+  //     } else if (cellType === 'row') {
+  //       positions = gridData[index];
+  //     }
+  //     this.props.onClick(this.props.grid.id, positions);
+  //   }
+  // };
+  handleHeaderCellClick = (cellType, index) => {
     if (this.props.onClick) {
-      const gridData = this.props.grid.data;
-      let positions;
+      const { grid } = this.props;
+      const rows = [];
+      for (let i = 0; i < grid.dimensions.rows; i++) {
+        const start = i * grid.dimensions.columns;
+        const end = (i + 1) * grid.dimensions.columns;
+        const row = grid.data.slice(start, end);
+        rows.push(row);
+      }
+      let positions = [];
       if (cellType === 'column') {
-        positions = gridData.map((row) => {
+        positions = rows.map((row) => {
           return row[index];
         });
       } else if (cellType === 'row') {
-        positions = gridData[index];
+        positions = rows[index];
       }
-      this.props.onClick(this.props.grid.id, positions);
+      this.props.onClick(grid.id, positions);
     }
   };
   renderTrackHorizontal({ style, ...props }) {
@@ -71,16 +91,10 @@ export class Grid extends Component {
             cellWidth={settings.containerSize.size}
             cellXPadding={settings.containerSize.outerPadding}
             cellYPadding={0}
+            onClick={this.handleHeaderCellClick}
             ref={this.columnHeadersRef}
             values={grid.columnHeaders}
           />
-          {/* <ColumnHeader
-            containerSize={this.props.settings.containerSize}
-            headerSize={this.props.headerSize}
-            numberOfColumns={this.props.grid.data[0].length}
-            onClick={this.handleHeaderCellClick}
-            ref={this.columnHeaderRef}
-          /> */}
         </div>
         <div className={styles.body}>
           <RowHeaders
@@ -88,6 +102,7 @@ export class Grid extends Component {
             cellWidth={this.props.headerSize}
             cellXPadding={0}
             cellYPadding={settings.containerSize.outerPadding}
+            onClick={this.handleHeaderCellClick}
             ref={this.rowHeadersRef}
             values={grid.rowHeaders}
           />
@@ -102,30 +117,6 @@ export class Grid extends Component {
               onRemoveComponent={this.props.onRemoveComponent}
             />
           </Scrollbars>
-          {/* <RowHeader
-            containerSize={this.props.settings.containerSize}
-            headerSize={this.props.headerSize}
-            numberOfRows={this.props.grid.data.length}
-            onClick={this.handleHeaderCellClick}
-            ref={this.rowHeaderRef}
-            rowHeaders={this.props.rowHeaders}
-          />
-          <Scrollbars
-            onScrollFrame={this.handleScroll}
-            renderTrackHorizontal={this.renderTrackHorizontal}
-            renderTrackVertical={this.renderTrackVertical}
-            style={{ height: '100%', width: '100%' }}
-          >
-            <GridData
-              containerTypeOptions={this.props.containerTypeOptions}
-              enableRemoveComponent={this.props.enableRemoveComponent}
-              grid={this.props.grid}
-              settings={this.props.settings}
-              onAddContainer={this.handleAddContainer}
-              onContainerClick={this.handleContainerClick}
-              onRemoveComponent={this.props.onRemoveComponent}
-            />
-          </Scrollbars> */}
         </div>
       </div>
     );

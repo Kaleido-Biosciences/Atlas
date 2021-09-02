@@ -8,9 +8,9 @@ export class ColumnHeaders extends Component {
   setScrollPos = (scrollPos) => {
     this.divRef.current.scrollLeft = scrollPos;
   };
-  handleCellClick = ({ index }) => {
+  handleCellClick = (index) => {
     if (this.props.onClick) {
-      this.props.onClick({ cellType: 'column', index });
+      this.props.onClick('column', index);
     }
   };
   render() {
