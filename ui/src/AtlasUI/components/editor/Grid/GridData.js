@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { GridPosition } from './GridPosition';
 import { AddContainerModal } from '../AddContainerButton';
+import { getGridRows } from '../../../utils/grid';
 import styles from './Grid.module.css';
 
 export class GridData extends Component {
@@ -38,13 +39,9 @@ export class GridData extends Component {
   };
   render() {
     const { grid, settings } = this.props;
-    const { rows, columns } = grid.dimensions;
-    const renderedGrid = [];
-    for (let i = 0; i < rows; i++) {
+    const rows = getGridRows(grid);
+    const renderedGrid = rows.map((row, i) => {
       const rowKey = `${grid.id}_ROW_${i}`;
-      const start = i * columns;
-      const end = (i + 1) * columns;
-      const row = grid.data.slice(start, end);
       const positions = row.map((position, i) => {
         const positionKey = `${grid.id}_POSITION_${position.row}${position.column}`;
         return (
@@ -62,12 +59,12 @@ export class GridData extends Component {
           />
         );
       });
-      renderedGrid.push(
+      return (
         <div key={rowKey} className={styles.row}>
           {positions}
         </div>
       );
-    }
+    });
     return (
       <div>
         {renderedGrid}
