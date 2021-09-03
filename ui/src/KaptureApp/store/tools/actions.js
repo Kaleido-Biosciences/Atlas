@@ -107,7 +107,7 @@ export const applySelectedToolComponentsToContainers = wrapWithChangeHandler(
           positions,
           toolComponents
         );
-        dispatch(editor.setGridComponents(gridId, actionPositions));
+        dispatch(activity.setGridComponents(gridId, actionPositions));
       }
     };
   }

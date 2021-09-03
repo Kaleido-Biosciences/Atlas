@@ -64,6 +64,16 @@ const activity = createSlice({
       });
       state.grids = state.grids.concat(grids);
     },
+    setGridComponents(state, action) {
+      const { gridId, positions } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      positions.forEach((position) => {
+        const gridPosition = findPosition(position, grid.data);
+        if (gridPosition.container) {
+          gridPosition.container.components = position.components;
+        }
+      });
+    },
     addView(state, action) {
       const { view } = action.payload;
       if (!view.name) {
@@ -110,3 +120,13 @@ const activity = createSlice({
 });
 
 export const { actions, reducer } = activity;
+
+function findGrid(gridId, grids) {
+  return grids.find((grid) => grid.id === gridId);
+}
+
+function findPosition(position, positions) {
+  return positions.find(
+    (pos) => pos.row === position.row && pos.column === position.column
+  );
+}

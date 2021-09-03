@@ -92,6 +92,9 @@ export function loadActivity(id) {
 }
 
 export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
+export const setGridComponents = wrapWithChangeHandler(
+  gridActions.setGridComponents
+);
 
 export const addView = wrapWithChangeHandler(viewActions.addView);
 export const setActiveView = wrapWithChangeHandler(viewActions.setActiveView);

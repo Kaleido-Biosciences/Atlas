@@ -6,7 +6,7 @@ import {
   addContainersToGrid,
 } from 'AtlasUI/models';
 
-export const addNewPlates = (dimensions, quantity) => {
+export function addNewPlates(dimensions, quantity) {
   return (dispatch, getState) => {
     const grids = [];
     for (let i = 0; i < quantity; i++) {
@@ -25,4 +25,15 @@ export const addNewPlates = (dimensions, quantity) => {
     }
     dispatch(actions.addGrids({ grids }));
   };
-};
+}
+
+export function setGridComponents(gridId, actionPositions) {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.setGridComponents({
+        gridId,
+        positions: actionPositions,
+      })
+    );
+  };
+}
