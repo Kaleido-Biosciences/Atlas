@@ -16,7 +16,8 @@ const grids = createSlice({
       let highestUntitled = 0;
       state.grids.forEach((grid) => {
         if (grid.name.startsWith('Untitled')) {
-          highestUntitled = parseInt(grid.name.substring(8));
+          const gridNum = parseInt(grid.name.substring(8));
+          if (gridNum > highestUntitled) highestUntitled = gridNum;
         }
       });
       grids.forEach((grid) => {

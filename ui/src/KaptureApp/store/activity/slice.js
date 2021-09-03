@@ -57,7 +57,8 @@ const activity = createSlice({
         let highestUntitled = 0;
         state.views.forEach((view) => {
           if (view.name.startsWith('View')) {
-            highestUntitled = parseInt(view.name.slice(-1));
+            const viewNum = parseInt(view.name.substring(4));
+            if (viewNum > highestUntitled) highestUntitled = viewNum;
           }
         });
         view.name = `View${highestUntitled + 1}`;
