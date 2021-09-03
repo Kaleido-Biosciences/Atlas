@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import { activity } from './activity';
@@ -10,16 +10,6 @@ import { tools } from './tools';
 import { editorImport } from './editorImport';
 import './validators';
 
-const middleware = getDefaultMiddleware();
-// Disable checks for performance
-// const middleware = getDefaultMiddleware({
-//   immutableCheck: false,
-//   serializableCheck: false,
-// });
-if (process.env.NODE_ENV === `development`) {
-  middleware.push(logger);
-}
-
 export const store = configureStore({
   reducer: {
     activity: activity.reducer,
@@ -30,5 +20,17 @@ export const store = configureStore({
     tools: tools.reducer,
     print: print.reducer,
   },
-  middleware,
+  middleware: (getDefaultMiddleware) => {
+    if (process.env.NODE_ENV === `development`) {
+      return getDefaultMiddleware().concat(logger);
+    } else return getDefaultMiddleware();
+  },
+  // middleware: (getDefaultMiddleware) => {
+  //   if (process.env.NODE_ENV === `development`) {
+  //     return getDefaultMiddleware({
+  //       immutableCheck: false,
+  //       serializableCheck: false,
+  //     }).concat(logger);
+  //   } else return getDefaultMiddleware();
+  // },
 });
