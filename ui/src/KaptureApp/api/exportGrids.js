@@ -20,9 +20,8 @@ function exportGrid(grid) {
     barcode: grid.barcode || null,
     data: [],
   };
-  if (grid.data && grid.data.length) {
-    const positions = grid.data;
-    positions.forEach((position) => {
+  if (grid.positions && grid.positions.length) {
+    grid.positions.forEach((position) => {
       if (position.container) {
         exportedGrid.data.push(
           exportContainer(position.container, position.row, position.column)

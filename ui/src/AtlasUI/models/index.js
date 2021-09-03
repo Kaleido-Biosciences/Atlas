@@ -3,7 +3,7 @@ export { createContainer } from './container';
 export { createContainerCollection } from './containerCollection';
 export {
   createGrid,
-  createGridData,
+  createGridPositions,
   createContainersForGrid,
   createGridPosition,
   addContainersToGrid,

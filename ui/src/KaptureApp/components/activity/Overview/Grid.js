@@ -21,7 +21,7 @@ export class Grid extends Component {
     return (
       <div className={className} onClick={this.handleClick}>
         <div>{this.props.grid.name}</div>
-        <div className="text-gray-400">{`${this.props.grid.data.length} wells`}</div>
+        <div className="text-gray-400">{`${this.props.grid.positions.length} wells`}</div>
       </div>
     );
   }

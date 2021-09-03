@@ -36,7 +36,7 @@ export function createGrid({
   name = null,
   barcode = null,
   dimensions = null,
-  data = null,
+  positions = null,
   attributes = [],
 }) {
   let rHeaders = [],
@@ -56,23 +56,23 @@ export function createGrid({
     name,
     barcode,
     dimensions,
-    data,
+    positions,
     attributes,
     rowHeaders: rHeaders,
     columnHeaders: cHeaders,
   };
 }
 
-export function createGridData(dimensions) {
-  const data = [];
+export function createGridPositions(dimensions) {
+  const positions = [];
   const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
     const rowLetter = rowHeaders[i];
     for (let j = 0; j < columns; j++) {
-      data.push(createGridPosition(rowLetter, j + 1));
+      positions.push(createGridPosition(rowLetter, j + 1));
     }
   }
-  return data;
+  return positions;
 }
 
 export function createContainersForGrid(dimensions, containerType) {
@@ -100,7 +100,7 @@ export function createGridPosition(row, column, container) {
 
 export function addContainersToGrid(grid, containerPositions) {
   containerPositions.forEach((containerPosition) => {
-    const gridPosition = grid.data.find((gridPosition) => {
+    const gridPosition = grid.positions.find((gridPosition) => {
       return gridPosition.name === containerPosition.name;
     });
     gridPosition.container = containerPosition.container;

@@ -1,7 +1,7 @@
 import { actions } from './slice';
 import {
   createGrid,
-  createGridData,
+  createGridPositions,
   createContainersForGrid,
   addContainersToGrid,
 } from 'AtlasUI/models';
@@ -10,11 +10,11 @@ export function addNewPlates(dimensions, quantity) {
   return (dispatch, getState) => {
     const grids = [];
     for (let i = 0; i < quantity; i++) {
-      const gridData = createGridData(dimensions);
+      const gridPositions = createGridPositions(dimensions);
       const grid = createGrid({
         containerType: 'Plate',
         dimensions: dimensions,
-        data: gridData,
+        positions: gridPositions,
       });
       const containerPositions = createContainersForGrid(
         dimensions,

@@ -9,7 +9,7 @@ import {
 } from 'KaptureApp/config/componentTypes';
 import {
   createGrid,
-  createGridData,
+  createGridPositions,
   createContainersForGrid,
   addContainersToGrid,
   createContainer,
@@ -40,7 +40,7 @@ export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
   return (dispatch, getState) => {
     const grids = [];
     for (let i = 0; i < quantity; i++) {
-      const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+      const gridData = createGridPositions(dimensions, GRID_ROW_HEADERS);
       const grid = createGrid({
         containerType: 'Plate',
         dimensions: dimensions,
@@ -60,7 +60,7 @@ export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
 
 export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
   return (dispatch, getState) => {
-    const gridData = createGridData(dimensions, GRID_ROW_HEADERS);
+    const gridData = createGridPositions(dimensions, GRID_ROW_HEADERS);
     const grid = createGrid({
       containerType: 'Rack',
       dimensions: dimensions,
@@ -72,7 +72,10 @@ export const addNewRack = wrapWithChangeHandler(({ dimensions }) => {
 
 export const addNewContainer = wrapWithChangeHandler(({ containerType }) => {
   return (dispatch, getState) => {
-    const gridData = createGridData({ rows: 1, columns: 1 }, GRID_ROW_HEADERS);
+    const gridData = createGridPositions(
+      { rows: 1, columns: 1 },
+      GRID_ROW_HEADERS
+    );
     const grid = createGrid({
       containerType,
       dimensions: { rows: 1, columns: 1 },
@@ -147,7 +150,7 @@ export const cloneGrid = wrapWithChangeHandler(
       });
       const newGrids = [];
       for (let i = 0; i < quantity; i++) {
-        const gridData = createGridData(
+        const gridData = createGridPositions(
           { ...grid.dimensions },
           GRID_ROW_HEADERS
         );

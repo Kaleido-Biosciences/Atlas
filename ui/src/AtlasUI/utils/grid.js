@@ -3,7 +3,7 @@ export function getGridRows(grid) {
   for (let i = 0; i < grid.dimensions.rows; i++) {
     const start = i * grid.dimensions.columns;
     const end = (i + 1) * grid.dimensions.columns;
-    const row = grid.data.slice(start, end);
+    const row = grid.positions.slice(start, end);
     rows.push(row);
   }
   return rows;

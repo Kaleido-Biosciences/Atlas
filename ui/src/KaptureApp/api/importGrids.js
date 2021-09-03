@@ -1,7 +1,7 @@
 import {
   createContainer,
   createGrid,
-  createGridData,
+  createGridPositions,
   createGridPosition,
   addContainersToGrid,
 } from 'AtlasUI/models';
@@ -25,7 +25,7 @@ export const importGrids = (grids, kaptureComponents) => {
 };
 
 function importGrid(importData, kaptureComponents) {
-  const gridData = createGridData({
+  const gridPositions = createGridPositions({
     rows: importData.rows,
     columns: importData.columns,
   });
@@ -34,7 +34,7 @@ function importGrid(importData, kaptureComponents) {
     containerType: importData.containerType,
     barcode: importData.barcode,
     dimensions: { rows: importData.rows, columns: importData.columns },
-    data: gridData,
+    positions: gridPositions,
     name: importData.name,
   });
   const containerPositions = importData.data.map((containerData) => {

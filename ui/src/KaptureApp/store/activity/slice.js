@@ -68,7 +68,7 @@ const activity = createSlice({
       const { gridId, positions } = action.payload;
       const grid = findGrid(gridId, state.grids);
       positions.forEach((position) => {
-        const gridPosition = findPosition(position, grid.data);
+        const gridPosition = findPosition(position, grid.positions);
         if (gridPosition.container) {
           gridPosition.container.components = position.components;
         }
