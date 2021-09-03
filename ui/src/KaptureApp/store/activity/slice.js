@@ -13,6 +13,7 @@ const initialState = {
   id: null,
   name: '',
   description: '',
+  grids: [],
   views: [],
   settings: {
     containerSize: {
@@ -48,8 +49,20 @@ const activity = createSlice({
       state.initialized = true;
       state.initializationError = '';
     },
-    resetState(state, action) {
-      Object.assign(state, initialState);
+    addGrids(state, action) {
+      const { grids } = action.payload;
+      let highestUntitled = 0;
+      state.grids.forEach((grid) => {
+        if (grid.name.startsWith('Untitled')) {
+          const gridNum = parseInt(grid.name.substring(8));
+          if (gridNum > highestUntitled) highestUntitled = gridNum;
+        }
+      });
+      grids.forEach((grid) => {
+        highestUntitled++;
+        grid.name = `Untitled${highestUntitled}`;
+      });
+      state.grids = state.grids.concat(grids);
     },
     addView(state, action) {
       const { view } = action.payload;
@@ -72,6 +85,9 @@ const activity = createSlice({
           view.active = true;
         } else view.active = false;
       });
+    },
+    resetState(state, action) {
+      Object.assign(state, initialState);
     },
     setSavePending(state, action) {
       state.savePending = true;

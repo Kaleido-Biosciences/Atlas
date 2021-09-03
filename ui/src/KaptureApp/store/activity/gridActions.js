@@ -1,5 +1,4 @@
 import { actions } from './slice';
-import { activity } from '../activity';
 import {
   createGrid,
   createGridData,
@@ -7,15 +6,7 @@ import {
   addContainersToGrid,
 } from 'AtlasUI/models';
 
-const { wrapWithChangeHandler } = activity;
-
-export const setGrids = (grids) => {
-  return (dispatch, getState) => {
-    dispatch(actions.setGrids({ grids }));
-  };
-};
-
-export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
+export const addNewPlates = (dimensions, quantity) => {
   return (dispatch, getState) => {
     const grids = [];
     for (let i = 0; i < quantity; i++) {
@@ -34,4 +25,4 @@ export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
     }
     dispatch(actions.addGrids({ grids }));
   };
-});
+};

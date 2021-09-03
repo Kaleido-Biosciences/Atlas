@@ -2,19 +2,19 @@ import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { actions } from './slice';
 import * as selectors from './selectors';
+import * as gridActions from './gridActions';
+import * as viewActions from './viewActions';
 import { api } from 'KaptureApp/api';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
-import { actions as gridActions } from '../grids/slice';
-import * as gridSelectors from '../grids/selectors';
 
 export const { resetState: resetActivity, resetSaveTime } = actions;
 
 let lastSaveData = '';
 
-const saveGrids = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = api.exportGrids(gridSelectors.selectGrids(getState()));
+const saveActivity = _.debounce(async (dispatch, getState) => {
+  const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
   const views = selectors.selectViews(getState());
-  const stringifiedData = JSON.stringify(exportedGrids) + JSON.stringify(views);
+  const stringifiedData = getStringifiedData(exportedGrids, views);
   if (stringifiedData !== lastSaveData) {
     dispatch(actions.setSavePending());
     const activityName = selectors.selectName(getState());
@@ -32,16 +32,16 @@ const saveGrids = _.debounce(async (dispatch, getState) => {
   }
 }, 500);
 
-export const wrapWithChangeHandler = (fn) => {
+export function wrapWithChangeHandler(fn) {
   return function () {
     return async (dispatch, getState) => {
       dispatch(fn.apply(this, arguments));
-      saveGrids(dispatch, getState);
+      saveActivity(dispatch, getState);
     };
   };
-};
+}
 
-export const loadActivity = (id) => {
+export function loadActivity(id) {
   return async (dispatch, getState) => {
     dispatch(actions.setLoading());
     try {
@@ -74,6 +74,7 @@ export const loadActivity = (id) => {
             id: activity.id,
             name: activity.name,
             description: activity.description,
+            grids: importData.grids,
             views: atlasData.views,
             status: atlasData.status,
             createdTime: atlasData.createdTime,
@@ -81,42 +82,25 @@ export const loadActivity = (id) => {
           },
         })
       );
-      dispatch(gridActions.setGrids({ grids: importData.grids }));
-      const exportedGrids = api.exportGrids(
-        gridSelectors.selectGrids(getState())
-      );
+      const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
       const views = selectors.selectViews(getState());
-      const stringifiedData =
-        JSON.stringify(exportedGrids) + JSON.stringify(views);
-      lastSaveData = stringifiedData;
+      lastSaveData = getStringifiedData(exportedGrids, views);
     } catch (error) {
       dispatch(actions.setInitializationError({ error: error.message }));
     }
   };
-};
+}
 
-export const importGrids = async (grids) => {
+export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
+
+export const addView = wrapWithChangeHandler(viewActions.addView);
+export const setActiveView = wrapWithChangeHandler(viewActions.setActiveView);
+
+async function importGrids(grids) {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);
   return api.importGrids(grids, kaptureComponents);
-};
+}
 
-export const addView = wrapWithChangeHandler((viewData) => {
-  return (dispatch, getState) => {
-    dispatch(
-      actions.addView({
-        view: {
-          id: uuidv4(),
-          type: viewData.type,
-          active: false,
-          data: viewData.data,
-        },
-      })
-    );
-  };
-});
-
-export const setActiveView = wrapWithChangeHandler((viewId) => {
-  return (dispatch, getState) => {
-    dispatch(actions.setActiveView({ viewId }));
-  };
-});
+function getStringifiedData(grids, views) {
+  return JSON.stringify(grids) + JSON.stringify(views);
+}

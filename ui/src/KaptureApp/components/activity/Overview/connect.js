@@ -1,15 +1,13 @@
 import { connect } from 'react-redux';
 import { Overview } from './Overview';
-import { activity, grids } from 'KaptureApp/store';
+import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
-  return {
-    grids: grids.selectGrids(state),
-  };
+  return {};
 };
 
 const mapDispatch = {
-  onAddPlate: grids.addNewPlates,
+  onAddPlate: activity.addNewPlates,
   onAddView: activity.addView,
 };
 
