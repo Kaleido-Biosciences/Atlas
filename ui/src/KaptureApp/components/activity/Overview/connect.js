@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { Overview } from './Overview';
-import { activity } from 'KaptureApp/store';
+import { activity, grids } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    grids: activity.selectGrids(state),
+    grids: grids.selectGrids(state),
   };
 };
 

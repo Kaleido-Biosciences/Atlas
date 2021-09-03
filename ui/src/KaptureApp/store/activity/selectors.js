@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+import * as gridSelectors from '../grids/selectors';
 
 export const selectLoading = (state) => state.activity.loading;
 export const selectInitialized = (state) => state.activity.initialized;
@@ -7,10 +8,9 @@ export const selectInitializationError = (state) =>
 export const selectId = (state) => state.activity.id;
 export const selectName = (state) => state.activity.name;
 export const selectDescription = (state) => state.activity.description;
-export const selectGrids = (state) => state.activity.grids;
 export const selectViews = (state) => state.activity.views;
 export const selectActiveView = createSelector(
-  [selectViews, selectGrids],
+  [selectViews, gridSelectors.selectGrids],
   (views, grids) => {
     const activeView = views.find((view) => view.active);
     let viewGrids = [];

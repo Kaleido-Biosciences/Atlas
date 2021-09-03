@@ -3,6 +3,7 @@ import logger from 'redux-logger';
 
 import { activity } from './activity';
 import { activitySearch } from './activitySearch';
+import { grids } from './grids';
 import { components } from './components';
 import { editor } from './editor';
 import { print } from './print';
@@ -24,6 +25,7 @@ export const store = configureStore({
   reducer: {
     activity: activity.reducer,
     activitySearch: activitySearch.reducer,
+    grids: grids.reducer,
     components: components.reducer,
     editor: editor.reducer,
     editorImport: editorImport.reducer,

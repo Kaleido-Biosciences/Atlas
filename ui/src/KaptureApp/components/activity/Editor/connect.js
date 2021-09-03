@@ -6,12 +6,11 @@ import { activity, tools } from 'KaptureApp/store';
 const mapState = (state, props) => {
   return {
     containerTypeOptions: CONTAINER_TYPE_OPTIONS,
-    onContainerClick: tools.handleContainerClick,
     settings: activity.selectSettings(state),
   };
 };
 
-const mapDispatch = {};
+const mapDispatch = { onContainerClick: tools.handleContainerClick };
 
 const connected = connect(mapState, mapDispatch)(Editor);
 export { connected as Editor };

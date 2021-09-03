@@ -1,6 +1,7 @@
 export { store } from './store';
 export { activity } from './activity';
 export { activitySearch } from './activitySearch';
+export { grids } from './grids';
 export { components } from './components';
 export { editor } from './editor';
 export { editorImport } from './editorImport';

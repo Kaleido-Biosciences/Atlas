@@ -10,13 +10,15 @@ import {
   addContainersToGrid,
 } from 'AtlasUI/models';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
+import { actions as gridActions } from '../grids/slice';
+import * as gridSelectors from '../grids/selectors';
 
 export const { resetState: resetActivity, resetSaveTime } = actions;
 
 let lastSaveData = '';
 
 const saveGrids = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
+  const exportedGrids = api.exportGrids(gridSelectors.selectGrids(getState()));
   const views = selectors.selectViews(getState());
   const stringifiedData = JSON.stringify(exportedGrids) + JSON.stringify(views);
   if (stringifiedData !== lastSaveData) {
@@ -78,7 +80,6 @@ export const loadActivity = (id) => {
             id: activity.id,
             name: activity.name,
             description: activity.description,
-            grids: importData.grids,
             views: atlasData.views,
             status: atlasData.status,
             createdTime: atlasData.createdTime,
@@ -86,7 +87,10 @@ export const loadActivity = (id) => {
           },
         })
       );
-      const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
+      dispatch(gridActions.setGrids({ grids: importData.grids }));
+      const exportedGrids = api.exportGrids(
+        gridSelectors.selectGrids(getState())
+      );
       const views = selectors.selectViews(getState());
       const stringifiedData =
         JSON.stringify(exportedGrids) + JSON.stringify(views);
