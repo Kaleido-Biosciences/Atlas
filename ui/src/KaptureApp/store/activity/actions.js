@@ -30,7 +30,7 @@ const saveActivity = _.debounce(async (dispatch, getState) => {
       dispatch(actions.setSaveError({ error: error.message }));
     }
   }
-}, 500);
+}, 1000);
 
 export function wrapWithChangeHandler(fn) {
   return function () {
