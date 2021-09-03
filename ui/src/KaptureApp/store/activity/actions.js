@@ -3,12 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { actions } from './slice';
 import * as selectors from './selectors';
 import { api } from 'KaptureApp/api';
-import {
-  createGrid,
-  createGridData,
-  createContainersForGrid,
-  addContainersToGrid,
-} from 'AtlasUI/models';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 import { actions as gridActions } from '../grids/slice';
 import * as gridSelectors from '../grids/selectors';
@@ -100,27 +94,6 @@ export const loadActivity = (id) => {
     }
   };
 };
-
-export const addNewPlates = wrapWithChangeHandler((dimensions, quantity) => {
-  return (dispatch, getState) => {
-    const grids = [];
-    for (let i = 0; i < quantity; i++) {
-      const gridData = createGridData(dimensions);
-      const grid = createGrid({
-        containerType: 'Plate',
-        dimensions: dimensions,
-        data: gridData,
-      });
-      const containerPositions = createContainersForGrid(
-        dimensions,
-        'PlateWell'
-      );
-      addContainersToGrid(grid, containerPositions);
-      grids.push(grid);
-    }
-    dispatch(actions.addGrids({ grids, activeGridId: grids[0].id }));
-  };
-});
 
 export const importGrids = async (grids) => {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);

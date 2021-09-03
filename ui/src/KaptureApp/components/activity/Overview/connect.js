@@ -9,7 +9,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddPlate: activity.addNewPlates,
+  onAddPlate: grids.addNewPlates,
   onAddView: activity.addView,
 };
 

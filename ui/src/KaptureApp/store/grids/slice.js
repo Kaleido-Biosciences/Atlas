@@ -11,6 +11,20 @@ const grids = createSlice({
     setGrids(state, action) {
       state.grids = action.payload.grids;
     },
+    addGrids(state, action) {
+      const { grids } = action.payload;
+      let highestUntitled = 0;
+      state.grids.forEach((grid) => {
+        if (grid.name.startsWith('Untitled')) {
+          highestUntitled = parseInt(grid.name.substring(8));
+        }
+      });
+      grids.forEach((grid) => {
+        highestUntitled++;
+        grid.name = `Untitled${highestUntitled}`;
+      });
+      state.grids = state.grids.concat(grids);
+    },
     resetState(state, action) {
       Object.assign(state, initialState);
     },
