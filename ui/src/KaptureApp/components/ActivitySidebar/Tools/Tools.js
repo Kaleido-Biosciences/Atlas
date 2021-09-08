@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
-
 import { ApplyTool } from './ApplyTool';
 import { RemoveTool } from './RemoveTool';
 import { SelectTool } from './SelectTool';
+import { ButtonGroup } from 'KaptureApp/components/ButtonGroup';
 import styles from './Tools.module.css';
 
 export class Tools extends React.Component {
-  handleToolClick = (e, { name }) => {
+  handleToolClick = (e) => {
     if (this.props.onToolButtonClick) {
-      this.props.onToolButtonClick(name);
+      this.props.onToolButtonClick(e.currentTarget.name);
     }
   };
   renderTool() {
@@ -28,32 +27,31 @@ export class Tools extends React.Component {
     return (
       <div className={styles.tools}>
         <div className={styles.header}>
-          <Button.Group>
-            <Button
-              name="apply"
-              icon="paint brush"
-              onClick={this.handleToolClick}
-              active={activeTool === 'apply'}
-              size="mini"
-              title="Apply Tool"
-            />
-            <Button
-              name="select"
-              icon="check square"
-              onClick={this.handleToolClick}
-              active={activeTool === 'select'}
-              size="mini"
-              title="Select Tool"
-            />
-            <Button
-              name="remove"
-              icon="trash"
-              onClick={this.handleToolClick}
-              active={activeTool === 'remove'}
-              size="mini"
-              title="Remove Tool"
-            />
-          </Button.Group>
+          <ButtonGroup
+            buttons={[
+              {
+                name: 'apply',
+                icon: 'paint-brush',
+                onClick: this.handleToolClick,
+                active: activeTool === 'apply',
+                title: 'Apply Tool',
+              },
+              {
+                name: 'select',
+                icon: 'check-square',
+                onClick: this.handleToolClick,
+                active: activeTool === 'select',
+                title: 'Select Tool',
+              },
+              {
+                name: 'remove',
+                icon: 'trash',
+                onClick: this.handleToolClick,
+                active: activeTool === 'remove',
+                title: 'Remove Tool',
+              },
+            ]}
+          />
         </div>
         <div className={styles.activeTool}>{this.renderTool()}</div>
       </div>
