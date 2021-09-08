@@ -1,0 +1,21 @@
+.addAttributeForm {
+  padding: 0 0.8em;
+}
+
+.addAttributeForm :global(.ui.form) {
+  font-size: 0.8rem !important;
+}
+
+.addAttributeForm :global(.menu > .item) {
+  font-size: 0.8rem !important;
+}
+
+.addAttributeForm :global(.dropdown) {
+  font-size: 0.8rem !important;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.2em;
+}

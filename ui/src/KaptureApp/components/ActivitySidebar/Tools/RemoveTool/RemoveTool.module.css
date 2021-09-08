@@ -1,0 +1,53 @@
+.removeTool {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
+.body {
+  flex: 1 1 100%;
+  padding: 0 0.8em 0 0.8em;
+}
+
+.selectedContainersContainer {
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  flex: 0 1;
+}
+
+.message {
+  font-size: 0.8em;
+  margin-bottom: 1em;
+}
+
+.buttons {
+  margin-bottom: 1em !important;
+}
+
+.typeCircle {
+  width: 17px;
+  height: 17px;
+  border-radius: 17px;
+  line-height: 17px;
+  margin-right: 6px;
+  margin-left: 6px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  height: 17px;
+}
+
+.optionName {
+  margin-top: 0px;
+  line-height: 17px;
+  font-size: 0.9em;
+}
