@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { ContainerComponent } from './ContainerComponent';
+import { ContainerComponent } from '../../ContainerComponent';
 import styles from './Container.module.css';
 
 export class Container extends Component {

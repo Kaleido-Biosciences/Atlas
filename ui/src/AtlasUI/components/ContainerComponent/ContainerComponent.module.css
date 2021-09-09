@@ -9,14 +9,14 @@
   padding: 6px 4px;
 }
 
-.containerComponentName {
+.name {
   font-size: 10px;
   font-weight: bold;
   line-height: 10px;
   margin-left: 4px;
 }
 
-.containerComponentDescription {
+.description {
   font-size: 9px;
   line-height: 9px;
   margin-left: 4px;

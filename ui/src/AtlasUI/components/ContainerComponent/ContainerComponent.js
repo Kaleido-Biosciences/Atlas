@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
-
-import { ComponentTooltip } from 'AtlasUI/components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ComponentTooltip } from '../ComponentTooltip';
 import styles from './ContainerComponent.module.css';
 
 export class ContainerComponent extends Component {
@@ -26,19 +25,15 @@ export class ContainerComponent extends Component {
       divProps['data-for'] = `${stringPosition}-${component.id}`;
     }
     return (
-      <div className={styles.wrapper}>
+      <div>
         <div {...divProps}>
           <div>
-            <div
-              className={styles.containerComponentName}
-            >{`${component.name}`}</div>
-            <div className={styles.containerComponentDescription}>
-              {component.description}
-            </div>
+            <div className={styles.name}>{`${component.name}`}</div>
+            <div className={styles.description}>{component.description}</div>
           </div>
           {this.props.enableRemove ? (
             <div onClick={this.handleRemoveClick}>
-              <Icon link name="remove" />
+              <FontAwesomeIcon icon="times" />
             </div>
           ) : null}
         </div>
