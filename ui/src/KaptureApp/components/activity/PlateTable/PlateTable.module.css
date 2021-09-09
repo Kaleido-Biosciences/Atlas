@@ -1,0 +1,9 @@
+.containerComponent {
+  width: 120px;
+  margin-right: 4px;
+}
+
+.components {
+  display: flex;
+  flex-direction: row;
+}
