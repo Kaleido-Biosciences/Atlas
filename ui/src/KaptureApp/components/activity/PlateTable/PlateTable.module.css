@@ -1,3 +1,13 @@
+.plateTable {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.scrollContainer {
+  flex: 1 1 100%;
+}
+
 .containerComponent {
   width: 120px;
   margin-right: 4px;

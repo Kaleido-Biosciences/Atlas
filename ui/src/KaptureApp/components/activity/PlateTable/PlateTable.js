@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ContainerComponent } from 'AtlasUI/components';
+import { GridHeader } from '../GridHeader';
+import { Scrollbars } from 'AtlasUI/components';
 import styles from './PlateTable.module.css';
 
 export class PlateTable extends Component {
@@ -42,27 +44,33 @@ export class PlateTable extends Component {
     });
   }
   render() {
+    const grid = this.props.view.data.grids[0];
     return (
-      <div className="h-full overflow-auto">
-        <table className="h-full min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Well
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Components
-              </th>
-            </tr>
-          </thead>
-          <tbody>{this.renderPlate()}</tbody>
-        </table>
+      <div className={styles.plateTable}>
+        <GridHeader grid={grid} />
+        <div className={styles.scrollContainer}>
+          <Scrollbars>
+            <table className="h-full min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Well
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Components
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{this.renderPlate()}</tbody>
+            </table>
+          </Scrollbars>
+        </div>
       </div>
     );
   }
