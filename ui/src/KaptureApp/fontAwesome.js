@@ -4,6 +4,7 @@ import {
   faPaintBrush,
   faCheckSquare,
   faTrash,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faSearch, faPaintBrush, faCheckSquare, faTrash);
+library.add(faSearch, faPaintBrush, faCheckSquare, faTrash, faTimes);
