@@ -95,6 +95,7 @@ export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
 export const setGridComponents = wrapWithChangeHandler(
   gridActions.setGridComponents
 );
+export const setGridName = wrapWithChangeHandler(gridActions.setGridName);
 
 export const addView = wrapWithChangeHandler(viewActions.addView);
 export const setActiveView = wrapWithChangeHandler(viewActions.setActiveView);

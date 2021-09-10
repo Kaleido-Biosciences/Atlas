@@ -74,6 +74,11 @@ const activity = createSlice({
         }
       });
     },
+    setGridName(state, action) {
+      const { gridId, name } = action.payload;
+      const grid = findGrid(gridId, state.grids);
+      grid.name = name;
+    },
     addView(state, action) {
       const { view } = action.payload;
       if (!view.name) {

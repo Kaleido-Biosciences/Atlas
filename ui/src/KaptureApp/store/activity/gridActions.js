@@ -37,3 +37,14 @@ export function setGridComponents(gridId, actionPositions) {
     );
   };
 }
+
+export function setGridName(gridId, name) {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.setGridName({
+        gridId,
+        name,
+      })
+    );
+  };
+}

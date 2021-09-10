@@ -1,1 +1,1 @@
-export { GridHeader } from './GridHeader';
+export { GridHeader } from './connect';
