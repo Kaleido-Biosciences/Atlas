@@ -9,6 +9,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onAddPlate: activity.addNewPlates,
   onAddView: activity.addView,
+  onSaveGridName: activity.setGridName,
 };
 
 const connected = connect(mapState, mapDispatch)(Overview);

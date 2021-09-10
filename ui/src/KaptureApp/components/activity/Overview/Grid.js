@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Grid.module.css';
 import classNames from 'classnames';
+import { EditableText } from '../../EditableText';
 
 export class Grid extends Component {
   handleClick = () => {
     if (this.props.onClick) {
       this.props.onClick(this.props.grid.id);
+    }
+  };
+  handleSaveName = (value) => {
+    if (this.props.onSaveName) {
+      this.props.onSaveName(this.props.grid.id, value);
     }
   };
   render() {
@@ -20,7 +26,12 @@ export class Grid extends Component {
     );
     return (
       <div className={className} onClick={this.handleClick}>
-        <div>{this.props.grid.name}</div>
+        <div className="text-xs">
+          <EditableText
+            onSave={this.handleSaveName}
+            value={this.props.grid.name}
+          />
+        </div>
         <div className="text-gray-400">{`${this.props.grid.positions.length} wells`}</div>
       </div>
     );
@@ -30,4 +41,5 @@ export class Grid extends Component {
 Grid.propTypes = {
   grid: PropTypes.object,
   onClick: PropTypes.func,
+  onSaveName: PropTypes.func,
 };

@@ -40,7 +40,14 @@ export class Overview extends Component {
   renderGrids() {
     const { grids } = this.props.view.data;
     return grids.map((grid) => {
-      return <Grid key={grid.id} grid={grid} onClick={this.handleGridClick} />;
+      return (
+        <Grid
+          key={grid.id}
+          grid={grid}
+          onClick={this.handleGridClick}
+          onSaveName={this.props.onSaveGridName}
+        />
+      );
     });
   }
   render() {
@@ -81,4 +88,5 @@ Overview.propTypes = {
   view: PropTypes.object.isRequired,
   onAddPlate: PropTypes.func,
   onAddView: PropTypes.func,
+  onSaveGridName: PropTypes.func,
 };
