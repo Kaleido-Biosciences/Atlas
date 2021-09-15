@@ -1,6 +1,35 @@
 .grid {
-  height: 80px;
-  width: 120px;
+  height: 142px;
+  width: 181px;
   margin-right: 10px;
   margin-bottom: 10px;
+  padding: 4px 6px 6px 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.container {
+  height: 6px;
+  width: 6px;
+  border-radius: 6px;
+  border: 1px solid;
+  margin-right: 1px;
+}
+
+.container:last-child {
+  margin-right: 0;
+}
+
+.gridContainer {
+  flex: 1 1 100%;
 }
