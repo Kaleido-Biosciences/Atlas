@@ -7,6 +7,7 @@ import {
   faTimes,
   faPlusCircle,
   faClone,
+  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -16,5 +17,6 @@ library.add(
   faTrash,
   faTimes,
   faPlusCircle,
-  faClone
+  faClone,
+  faSave
 );

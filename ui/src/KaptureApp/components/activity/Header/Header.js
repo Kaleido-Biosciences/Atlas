@@ -9,6 +9,12 @@ export class Header extends Component {
         <div>{this.props.name}</div>
         <div>
           <Button content="Clone" icon="clone" secondary className="ml-2" />
+          <Button
+            content="Save to Kapture"
+            icon="save"
+            secondary
+            className="ml-2"
+          />
         </div>
       </div>
     );
