@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button } from 'KaptureApp/components/Button';
 
 import { ComponentSearch } from './ComponentSearch';
 import { AddAttributeForm } from './AddAttributeForm';
@@ -72,15 +72,15 @@ export class ApplyTool extends React.Component {
         <div className={styles.addButtonsContainer}>
           <Button
             content="Component"
-            icon="plus circle"
+            icon="plus-circle"
             onClick={this.showComponentSearch}
-            size="mini"
+            className="mr-1"
           />
           <Button
             content="Attribute"
-            icon="plus circle"
+            icon="plus-circle"
             onClick={this.showAddAttributeForm}
-            size="mini"
+            secondary
           />
         </div>
         {!showComponentSearch && !showAddAttributeForm && (
