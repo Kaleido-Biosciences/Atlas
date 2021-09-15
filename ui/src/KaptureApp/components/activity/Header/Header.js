@@ -8,9 +8,7 @@ export class Header extends Component {
       <div className="h-12 w-full flex flex-row flex-none items-center pl-4 border-b border-gray-300">
         <div>{this.props.name}</div>
         <div>
-          <Button content="Add Plates" secondary className="ml-4" />
-          <Button content="Clone" secondary className="ml-2" />
-          <Button content="Submit to Kapture" secondary className="ml-2" />
+          <Button content="Clone" icon="clone" secondary className="ml-2" />
         </div>
       </div>
     );

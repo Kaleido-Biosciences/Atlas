@@ -56,20 +56,17 @@ export class Overview extends Component {
         <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
           <Button
             onClick={this.handleAdd96WellPlate}
-            content="Add 96-Well Plate"
+            content="96-Well Plate"
+            icon="plus-circle"
             secondary
             className="mr-2"
           />
           <Button
             onClick={this.handleAdd384WellPlate}
-            content="Add 384-Well Plate"
+            content="384-Well Plate"
+            icon="plus-circle"
             secondary
             className="mr-2"
-          />
-          <Button
-            onClick={this.handleAddMultiTableView}
-            content="Add Multi Plate Table"
-            secondary
           />
         </div>
         <div className={styles.scrollContainer}>
