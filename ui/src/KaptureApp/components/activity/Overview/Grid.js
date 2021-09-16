@@ -27,8 +27,11 @@ export class Grid extends Component {
       const positions = row.map((position) => {
         return (
           <div
-            className={classNames(styles.container, 'border-gray-400', {
+            className={classNames(styles.container, 'border-gray-300', {
+              'border-gray-400': position.container.components.length > 0,
               'bg-gray-400': position.container.components.length > 0,
+              'border-gray-200': position.container.components.length === 0,
+              'bg-gray-200': position.container.components.length === 0,
             })}
             key={position.name}
           ></div>
@@ -63,14 +66,14 @@ export class Grid extends Component {
               type="checkbox"
             />
           </div>
-          <div className="text-xxs font-bold">
+          <div className="text-xs font-medium">
             <EditableText
               onSave={this.handleSaveName}
               value={this.props.grid.name}
             />
           </div>
         </div>
-        <div className={styles.gridContainer}>{this.renderGrid()}</div>
+        <div>{this.renderGrid()}</div>
       </div>
     );
   }
