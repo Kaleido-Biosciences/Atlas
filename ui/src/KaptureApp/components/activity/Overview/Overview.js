@@ -37,7 +37,7 @@ export class Overview extends Component {
     //   });
     // }
   };
-  handleGridCheckboxClick = (gridId) => {
+  handleGridCheckboxChange = (gridId) => {
     if (this.props.onToggleGridSelection) {
       this.props.onToggleGridSelection(gridId, this.props.view.id);
     }
@@ -50,7 +50,7 @@ export class Overview extends Component {
         <Grid
           key={grid.id}
           grid={grid}
-          onCheckboxClick={this.handleGridCheckboxClick}
+          onCheckboxChange={this.handleGridCheckboxChange}
           onClick={this.handleGridClick}
           onSaveName={this.props.onSaveGridName}
           selected={selected}

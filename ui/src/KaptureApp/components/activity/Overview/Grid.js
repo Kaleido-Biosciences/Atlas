@@ -16,9 +16,9 @@ export class Grid extends Component {
       this.props.onSaveName(this.props.grid.id, value);
     }
   };
-  handleCheckboxClick = (e) => {
-    if (this.props.onCheckboxClick) {
-      this.props.onCheckboxClick(this.props.grid.id);
+  handleCheckboxChange = (e) => {
+    if (this.props.onCheckboxChange) {
+      this.props.onCheckboxChange(this.props.grid.id);
     }
   };
   renderGrid() {
@@ -58,7 +58,7 @@ export class Grid extends Component {
               name="selected"
               checked={this.props.selected}
               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2"
-              onClick={this.handleCheckboxClick}
+              onChange={this.handleCheckboxChange}
               type="checkbox"
             />
           </div>
@@ -79,6 +79,6 @@ Grid.propTypes = {
   grid: PropTypes.object,
   onClick: PropTypes.func,
   onSaveName: PropTypes.func,
-  onCheckboxClick: PropTypes.func,
+  onCheckboxChange: PropTypes.func,
   selected: PropTypes.bool,
 };
