@@ -23,17 +23,22 @@ export class Grid extends Component {
   };
   renderGrid() {
     const rows = getGridRows(this.props.grid);
-    const renderedRows = rows.map((row) => {
+    const renderedRows = rows.map((row, i) => {
       const positions = row.map((position) => {
         return (
           <div
             className={classNames(styles.container, 'border-gray-400', {
               'bg-gray-400': position.container.components.length > 0,
             })}
+            key={position.name}
           ></div>
         );
       });
-      return <div className={styles.row}>{positions}</div>;
+      return (
+        <div className={styles.row} key={`ROW${i}`}>
+          {positions}
+        </div>
+      );
     });
     return <div>{renderedRows}</div>;
   }
