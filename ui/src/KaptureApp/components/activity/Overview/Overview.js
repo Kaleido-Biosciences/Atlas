@@ -64,6 +64,20 @@ export class Overview extends Component {
         <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
           <Button
             onClick={this.handleAdd96WellPlate}
+            content="Select All"
+            icon="check-square"
+            secondary
+            className="mr-2"
+          />
+          <Button
+            onClick={this.handleAdd96WellPlate}
+            content="Deselect All"
+            icon={['far', 'square']}
+            secondary
+            className="mr-2"
+          />
+          <Button
+            onClick={this.handleAdd96WellPlate}
             content="96-Well Plate"
             icon="plus-circle"
             secondary
@@ -76,10 +90,24 @@ export class Overview extends Component {
             secondary
             className="mr-2"
           />
+          <Button
+            onClick={this.handleAdd384WellPlate}
+            content="Clone"
+            icon="clone"
+            secondary
+            className="mr-2"
+          />
+          <Button
+            onClick={this.handleAdd384WellPlate}
+            content="Import from Excel"
+            icon="file-import"
+            secondary
+            className="mr-2"
+          />
         </div>
         <div className={styles.scrollContainer}>
           <Scrollbars>
-            <div className="h-full flex flex-row flex-wrap content-start p-4 bg-gray-100">
+            <div className="flex flex-row flex-wrap content-start p-4 bg-gray-100">
               {this.renderGrids()}
             </div>
           </Scrollbars>
