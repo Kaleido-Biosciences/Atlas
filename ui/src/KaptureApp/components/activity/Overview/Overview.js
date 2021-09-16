@@ -28,24 +28,32 @@ export class Overview extends Component {
     }
   };
   handleGridClick = (gridId) => {
-    if (this.props.onAddView) {
-      this.props.onAddView({
-        type: 'Editor',
-        data: {
-          gridIds: [gridId],
-        },
-      });
+    // if (this.props.onAddView) {
+    //   this.props.onAddView({
+    //     type: 'Editor',
+    //     data: {
+    //       gridIds: [gridId],
+    //     },
+    //   });
+    // }
+  };
+  handleGridCheckboxClick = (gridId) => {
+    if (this.props.onToggleGridSelection) {
+      this.props.onToggleGridSelection(gridId, this.props.view.id);
     }
   };
   renderGrids() {
-    const { grids } = this.props.view.data;
+    const { grids, selectedGrids } = this.props.view.data;
     return grids.map((grid) => {
+      const selected = selectedGrids.includes(grid.id);
       return (
         <Grid
           key={grid.id}
           grid={grid}
+          onCheckboxClick={this.handleGridCheckboxClick}
           onClick={this.handleGridClick}
           onSaveName={this.props.onSaveGridName}
+          selected={selected}
         />
       );
     });
@@ -86,4 +94,5 @@ Overview.propTypes = {
   onAddPlate: PropTypes.func,
   onAddView: PropTypes.func,
   onSaveGridName: PropTypes.func,
+  onToggleGridSelection: PropTypes.func,
 };

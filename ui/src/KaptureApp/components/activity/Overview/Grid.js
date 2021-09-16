@@ -16,6 +16,11 @@ export class Grid extends Component {
       this.props.onSaveName(this.props.grid.id, value);
     }
   };
+  handleCheckboxClick = (e) => {
+    if (this.props.onCheckboxClick) {
+      this.props.onCheckboxClick(this.props.grid.id);
+    }
+  };
   renderGrid() {
     const rows = getGridRows(this.props.grid);
     const renderedRows = rows.map((row) => {
@@ -42,11 +47,22 @@ export class Grid extends Component {
     );
     return (
       <div className={className} onClick={this.handleClick}>
-        <div className="text-xxs font-bold">
-          <EditableText
-            onSave={this.handleSaveName}
-            value={this.props.grid.name}
-          />
+        <div className={styles.header}>
+          <div>
+            <input
+              name="selected"
+              checked={this.props.selected}
+              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2"
+              onClick={this.handleCheckboxClick}
+              type="checkbox"
+            />
+          </div>
+          <div className="text-xxs font-bold">
+            <EditableText
+              onSave={this.handleSaveName}
+              value={this.props.grid.name}
+            />
+          </div>
         </div>
         <div className={styles.gridContainer}>{this.renderGrid()}</div>
       </div>
@@ -58,4 +74,6 @@ Grid.propTypes = {
   grid: PropTypes.object,
   onClick: PropTypes.func,
   onSaveName: PropTypes.func,
+  onCheckboxClick: PropTypes.func,
+  selected: PropTypes.bool,
 };

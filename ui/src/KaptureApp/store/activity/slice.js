@@ -101,6 +101,20 @@ const activity = createSlice({
         } else view.active = false;
       });
     },
+    toggleGridSelection(state, action) {
+      const { gridId, viewId } = action.payload;
+      const view = findView(viewId, state.views);
+      if (view.data.selectedGrids) {
+        const index = view.data.selectedGrids.findIndex(
+          (selectedGridId) => selectedGridId === gridId
+        );
+        if (index > -1) {
+          view.data.selectedGrids.splice(index, 1);
+        } else {
+          view.data.selectedGrids.push(gridId);
+        }
+      }
+    },
     resetState(state, action) {
       Object.assign(state, initialState);
     },
@@ -134,4 +148,8 @@ function findPosition(position, positions) {
   return positions.find(
     (pos) => pos.row === position.row && pos.column === position.column
   );
+}
+
+function findView(viewId, views) {
+  return views.find((view) => view.id === viewId);
 }

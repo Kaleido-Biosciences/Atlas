@@ -10,6 +10,7 @@ const mapDispatch = {
   onAddPlate: activity.addNewPlates,
   onAddView: activity.addView,
   onSaveGridName: activity.setGridName,
+  onToggleGridSelection: activity.toggleGridSelection,
 };
 
 const connected = connect(mapState, mapDispatch)(Overview);

@@ -59,7 +59,7 @@ export function loadActivity(id) {
               name: 'Overview',
               type: 'Overview',
               active: true,
-              data: {},
+              data: { selectedGrids: [] },
             },
           ],
           createdTime: time,
@@ -90,6 +90,12 @@ export function loadActivity(id) {
     }
   };
 }
+
+export const toggleGridSelection = wrapWithChangeHandler((gridId, viewId) => {
+  return (dispatch, getState) => {
+    dispatch(actions.toggleGridSelection({ gridId, viewId }));
+  };
+});
 
 export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
 export const setGridComponents = wrapWithChangeHandler(
