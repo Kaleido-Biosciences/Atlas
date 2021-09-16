@@ -45,8 +45,9 @@ export class Grid extends Component {
   render() {
     const className = classNames(
       styles.grid,
-      'border',
-      'border-gray-300',
+      'bg-white',
+      'shadow',
+      'rounded-lg',
       'text-xs',
       'cursor-pointer'
     );

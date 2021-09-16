@@ -79,7 +79,7 @@ export class Overview extends Component {
         </div>
         <div className={styles.scrollContainer}>
           <Scrollbars>
-            <div className="flex flex-row flex-wrap p-4 justify-start">
+            <div className="h-full flex flex-row flex-wrap content-start p-4 bg-gray-100">
               {this.renderGrids()}
             </div>
           </Scrollbars>
