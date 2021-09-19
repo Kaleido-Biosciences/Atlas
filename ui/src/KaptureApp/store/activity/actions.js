@@ -44,52 +44,76 @@ export function wrapWithChangeHandler(fn) {
 export function loadActivity(id) {
   return async (dispatch, getState) => {
     dispatch(actions.setLoading());
-    try {
-      const activity = await api.fetchActivity(id);
-      let atlasData = await api.fetchActivityData(activity.name);
-      if (!atlasData) {
-        const time = Date.now();
-        atlasData = {
-          activityId: activity.name,
-          status: STATUS_DRAFT,
-          grids: [],
-          views: [
-            {
-              id: uuidv4(),
-              name: 'Overview',
-              type: 'Overview',
-              active: true,
-              data: { selectedGrids: [] },
-            },
-          ],
-          createdTime: time,
-          updatedTime: time,
-        };
-        await api.createActivityData(atlasData);
-      }
-      const importData = await importGrids(atlasData.grids);
-      dispatch(
-        actions.setActivity({
-          activity: {
-            id: activity.id,
-            name: activity.name,
-            description: activity.description,
-            grids: importData.grids,
-            views: atlasData.views,
-            status: atlasData.status,
-            createdTime: atlasData.createdTime,
-            updatedTime: atlasData.updatedTime,
-          },
-        })
-      );
-      const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
-      const views = selectors.selectViews(getState());
-      lastSaveData = getStringifiedData(exportedGrids, views);
-    } catch (error) {
-      dispatch(actions.setInitializationError({ error: error.message }));
-    }
+    // try {
+    const activity = await api.fetchActivity(id);
+    dispatch(
+      actions.setActivity({
+        activity: {
+          id: activity.id,
+          name: activity.name,
+          description: activity.description,
+          createdTime: activity.createdTime,
+          updatedTime: activity.updatedTime,
+          grids: activity.grids,
+          views: [viewActions.getOverview(true, activity.grids)],
+        },
+      })
+    );
+    // } catch (error) {
+    //   dispatch(actions.setInitializationError({ error: error.message }));
+    // }
   };
 }
+
+// export function loadActivity(id) {
+//   return async (dispatch, getState) => {
+//     dispatch(actions.setLoading());
+//     try {
+//       const activity = await api.fetchActivity(id);
+//       let atlasData = await api.fetchActivityData(activity.name);
+//       if (!atlasData) {
+//         const time = Date.now();
+//         atlasData = {
+//           activityId: activity.name,
+//           status: STATUS_DRAFT,
+//           grids: [],
+//           views: [
+//             {
+//               id: uuidv4(),
+//               name: 'Overview',
+//               type: 'Overview',
+//               active: true,
+//               data: { selectedGrids: [] },
+//             },
+//           ],
+//           createdTime: time,
+//           updatedTime: time,
+//         };
+//         await api.createActivityData(atlasData);
+//       }
+//       const importData = await importGrids(atlasData.grids);
+//       dispatch(
+//         actions.setActivity({
+//           activity: {
+//             id: activity.id,
+//             name: activity.name,
+//             description: activity.description,
+//             grids: importData.grids,
+//             views: atlasData.views,
+//             status: atlasData.status,
+//             createdTime: atlasData.createdTime,
+//             updatedTime: atlasData.updatedTime,
+//           },
+//         })
+//       );
+//       const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
+//       const views = selectors.selectViews(getState());
+//       lastSaveData = getStringifiedData(exportedGrids, views);
+//     } catch (error) {
+//       dispatch(actions.setInitializationError({ error: error.message }));
+//     }
+//   };
+// }
 
 export const toggleGridSelection = wrapWithChangeHandler((gridId, viewId) => {
   return (dispatch, getState) => {

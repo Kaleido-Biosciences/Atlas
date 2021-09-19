@@ -28,22 +28,51 @@ export async function fetchActivityData(activityId) {
   };
   const response = await docClient.query(params).promise();
   if (response.Count > 0) {
-    return processItem(response.Items[0]);
+    return response.Items[0].data;
   } else return null;
 }
 
-export async function createActivityData(data) {
-  const grids = compressGrids(data.grids);
+// export async function fetchActivityData(activityId) {
+//   const params = {
+//     TableName: DYNAMODB_TABLE,
+//     KeyConditionExpression: '#e = :e',
+//     ExpressionAttributeNames: {
+//       '#e': 'activityId',
+//     },
+//     ExpressionAttributeValues: {
+//       ':e': activityId,
+//     },
+//   };
+//   const response = await docClient.query(params).promise();
+//   if (response.Count > 0) {
+//     return processItem(response.Items[0]);
+//   } else return null;
+// }
+
+export async function createActivityData(activityId, data) {
   const params = {
     TableName: DYNAMODB_TABLE,
     Item: {
-      ...data,
-      grids,
+      activityId,
+      data,
     },
   };
   const response = await docClient.put(params).promise();
   return response;
 }
+
+// export async function createActivityData(data) {
+//   const grids = compressGrids(data.grids);
+//   const params = {
+//     TableName: DYNAMODB_TABLE,
+//     Item: {
+//       ...data,
+//       grids,
+//     },
+//   };
+//   const response = await docClient.put(params).promise();
+//   return response;
+// }
 
 export async function updateActivityData(activityId, grids, views) {
   const params = {

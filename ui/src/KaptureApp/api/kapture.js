@@ -23,10 +23,10 @@ export function searchActivities(page, size, nameContains, descContains) {
   return axios.get(API_URL + '/experiments' + queryString);
 }
 
-export async function fetchActivity(id) {
-  const response = await axios.get(`${API_URL}/experiments/${id}`);
-  return response.data;
-}
+// export async function fetchActivity(id) {
+//   const response = await axios.get(`${API_URL}/experiments/${id}`);
+//   return response.data;
+// }
 
 export function fetchCommunity(id) {
   return axios.get(API_URL + '/communities/' + id);

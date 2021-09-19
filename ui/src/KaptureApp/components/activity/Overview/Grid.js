@@ -8,21 +8,21 @@ import { getGridRows } from 'AtlasUI/utils/grid';
 export class Grid extends Component {
   handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick(this.props.grid.id);
+      this.props.onClick(this.props.viewGrid.id);
     }
   };
   handleSaveName = (value) => {
     if (this.props.onSaveName) {
-      this.props.onSaveName(this.props.grid.id, value);
+      this.props.onSaveName(this.props.viewGrid.id, value);
     }
   };
   handleCheckboxChange = (e) => {
     if (this.props.onCheckboxChange) {
-      this.props.onCheckboxChange(this.props.grid.id);
+      this.props.onCheckboxChange(this.props.viewGrid.id);
     }
   };
   renderGrid() {
-    const rows = getGridRows(this.props.grid);
+    const rows = getGridRows(this.props.viewGrid.grid);
     const renderedRows = rows.map((row, i) => {
       const positions = row.map((position) => {
         return (
@@ -46,6 +46,7 @@ export class Grid extends Component {
     return <div>{renderedRows}</div>;
   }
   render() {
+    const { viewGrid } = this.props;
     const className = classNames(
       styles.grid,
       'bg-white',
@@ -60,7 +61,7 @@ export class Grid extends Component {
           <div>
             <input
               name="selected"
-              checked={this.props.selected}
+              checked={viewGrid.selected}
               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2"
               onChange={this.handleCheckboxChange}
               type="checkbox"
@@ -69,7 +70,7 @@ export class Grid extends Component {
           <div className="text-xs font-medium">
             <EditableText
               onSave={this.handleSaveName}
-              value={this.props.grid.name}
+              value={viewGrid.grid.name}
             />
           </div>
         </div>
@@ -80,9 +81,8 @@ export class Grid extends Component {
 }
 
 Grid.propTypes = {
-  grid: PropTypes.object,
+  viewGrid: PropTypes.object,
   onClick: PropTypes.func,
   onSaveName: PropTypes.func,
   onCheckboxChange: PropTypes.func,
-  selected: PropTypes.bool,
 };

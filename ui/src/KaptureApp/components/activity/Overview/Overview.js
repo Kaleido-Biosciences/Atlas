@@ -43,17 +43,15 @@ export class Overview extends Component {
     }
   };
   renderGrids() {
-    const { grids, selectedGrids } = this.props.view.data;
-    return grids.map((grid) => {
-      const selected = selectedGrids.includes(grid.id);
+    const { viewGrids } = this.props.view.data;
+    return viewGrids.map((viewGrid) => {
       return (
         <Grid
-          key={grid.id}
-          grid={grid}
+          key={viewGrid.id}
+          viewGrid={viewGrid}
           onCheckboxChange={this.handleGridCheckboxChange}
           onClick={this.handleGridClick}
           onSaveName={this.props.onSaveGridName}
-          selected={selected}
         />
       );
     });

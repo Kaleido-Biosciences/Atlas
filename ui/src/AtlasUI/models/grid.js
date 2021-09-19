@@ -32,34 +32,38 @@ const rowHeaders = [
 
 export function createGrid({
   id = null,
+  rows = null,
+  columns = null,
   containerType = null,
   name = null,
   barcode = null,
-  dimensions = null,
   positions = null,
   attributes = [],
+  sortKey = null,
 }) {
   let rHeaders = [],
     cHeaders = [];
-  if (dimensions.rows > 0) {
-    rHeaders = rowHeaders.slice(0, dimensions.rows);
+  if (rows) {
+    rHeaders = rowHeaders.slice(0, rows);
   }
-  if (dimensions.columns > 0) {
-    for (let i = 0; i < dimensions.columns; i++) {
+  if (columns) {
+    for (let i = 0; i < columns; i++) {
       cHeaders.push(i + 1);
     }
   }
   return {
     id: id || uuidv4(),
     type: 'Grid',
+    rows,
+    columns,
     containerType,
     name,
     barcode,
-    dimensions,
     positions,
     attributes,
     rowHeaders: rHeaders,
     columnHeaders: cHeaders,
+    sortKey,
   };
 }
 

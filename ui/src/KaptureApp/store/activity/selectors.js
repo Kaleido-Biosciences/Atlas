@@ -16,22 +16,18 @@ export const selectActiveView = createSelector(
   [selectViews, selectGrids],
   (views, grids) => {
     const activeView = views.find((view) => view.active);
-    let viewGrids = [];
-    if (activeView.type === 'Overview') {
-      viewGrids = grids;
-    } else {
-      if (activeView.data && activeView.data.gridIds) {
-        activeView.data.gridIds.forEach((gridId) => {
-          const grid = grids.find((grid) => grid.id === gridId);
-          if (grid) viewGrids.push(grid);
-        });
-      }
-    }
+    const viewGrids = activeView.data.viewGrids.map((viewGrid) => {
+      const grid = grids.find((grid) => grid.id === viewGrid.id);
+      return {
+        ...viewGrid,
+        grid,
+      };
+    });
     return {
       ...activeView,
       data: {
         ...activeView.data,
-        grids: viewGrids,
+        viewGrids,
       },
     };
   }
