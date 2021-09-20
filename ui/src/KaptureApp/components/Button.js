@@ -28,6 +28,6 @@ export class Button extends Component {
 
 Button.propTypes = {
   content: PropTypes.string.isRequired,
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   secondary: PropTypes.bool,
 };
