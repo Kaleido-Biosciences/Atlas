@@ -27,6 +27,12 @@ export function addNewPlates(dimensions, quantity) {
   };
 }
 
+export function setGridSize(gridIds, rows, columns) {
+  return (dispatch, getState) => {
+    dispatch(actions.setGridSize({ gridIds, rows, columns }));
+  };
+}
+
 export function setGridComponents(gridId, actionPositions) {
   return (dispatch, getState) => {
     dispatch(

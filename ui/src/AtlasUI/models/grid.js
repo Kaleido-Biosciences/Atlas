@@ -79,9 +79,8 @@ export function createGridPositions(dimensions) {
   return positions;
 }
 
-export function createContainersForGrid(dimensions, containerType) {
+export function createContainersForGrid(rows, columns, containerType) {
   const positions = [];
-  const { rows, columns } = dimensions;
   for (let i = 0; i < rows; i++) {
     const rowLetter = rowHeaders[i];
     for (let j = 0; j < columns; j++) {

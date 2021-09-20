@@ -6,14 +6,24 @@ import { Scrollbars } from 'AtlasUI/components';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
-  handleAdd96WellPlate = () => {
-    if (this.props.onAddPlate) {
-      this.props.onAddPlate({ rows: 8, columns: 12 }, 1);
+  getSelectedGridIds = () => {
+    const { viewGrids } = this.props.view.data;
+    const selectedIds = [];
+    viewGrids.forEach((viewGrid) => {
+      if (viewGrid.selected) {
+        selectedIds.push(viewGrid.id);
+      }
+    });
+    return selectedIds;
+  };
+  handleSet96Wells = () => {
+    if (this.props.onSetGridSize) {
+      this.props.onSetGridSize(this.getSelectedGridIds(), 8, 12);
     }
   };
-  handleAdd384WellPlate = () => {
-    if (this.props.onAddPlate) {
-      this.props.onAddPlate({ rows: 16, columns: 24 }, 1);
+  handleSet384Wells = () => {
+    if (this.props.onSetGridSize) {
+      this.props.onSetGridSize(this.getSelectedGridIds(), 16, 24);
     }
   };
   handleAddMultiTableView = () => {
@@ -85,15 +95,15 @@ export class Overview extends Component {
             className="mr-2"
           />
           <Button
-            onClick={this.handleAdd96WellPlate}
-            content="96-Well Plate"
+            onClick={this.handleSet96Wells}
+            content="Set as 96 Wells"
             icon="plus-circle"
             secondary
             className="mr-2"
           />
           <Button
-            onClick={this.handleAdd384WellPlate}
-            content="384-Well Plate"
+            onClick={this.handleSet384Wells}
+            content="Set as 384 Wells"
             icon="plus-circle"
             secondary
             className="mr-2"
@@ -118,5 +128,6 @@ Overview.propTypes = {
   onDeselectAll: PropTypes.func,
   onSaveGridName: PropTypes.func,
   onSelectAll: PropTypes.func,
+  onSetGridSize: PropTypes.func,
   onToggleGridSelection: PropTypes.func,
 };

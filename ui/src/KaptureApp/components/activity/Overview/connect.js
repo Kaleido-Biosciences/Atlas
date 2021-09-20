@@ -12,6 +12,7 @@ const mapDispatch = {
   onDeselectAll: activity.setAllViewGridsSelected,
   onSaveGridName: activity.setGridName,
   onSelectAll: activity.setAllViewGridsSelected,
+  onSetGridSize: activity.setGridSize,
   onToggleGridSelection: activity.toggleGridSelection,
 };
 

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createContainersForGrid } from 'AtlasUI/models';
 
 const initialSaveTime = {
   savePending: false,
@@ -63,6 +64,15 @@ const activity = createSlice({
         grid.name = `Untitled${highestUntitled}`;
       });
       state.grids = state.grids.concat(grids);
+    },
+    setGridSize(state, action) {
+      const { gridIds, rows, columns } = action.payload;
+      gridIds.forEach((gridId) => {
+        const grid = findGrid(gridId, state.grids);
+        grid.rows = rows;
+        grid.columns = columns;
+        grid.positions = createContainersForGrid(rows, columns, 'PlateWell');
+      });
     },
     setGridComponents(state, action) {
       const { gridId, positions } = action.payload;
