@@ -9,7 +9,9 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onAddPlate: activity.addNewPlates,
   onAddView: activity.addView,
+  onDeselectAll: activity.setAllViewGridsSelected,
   onSaveGridName: activity.setGridName,
+  onSelectAll: activity.setAllViewGridsSelected,
   onToggleGridSelection: activity.toggleGridSelection,
 };
 

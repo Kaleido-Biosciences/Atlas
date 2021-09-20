@@ -115,6 +115,12 @@ export function loadActivity(id) {
 //   };
 // }
 
+export const setAllViewGridsSelected = (viewId, selected) => {
+  return (dispatch, getState) => {
+    dispatch(actions.setAllViewGridsSelected({ viewId, selected }));
+  };
+};
+
 export const toggleGridSelection = wrapWithChangeHandler((gridId, viewId) => {
   return (dispatch, getState) => {
     dispatch(actions.toggleGridSelection({ gridId, viewId }));

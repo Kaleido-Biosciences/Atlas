@@ -42,6 +42,16 @@ export class Overview extends Component {
       this.props.onToggleGridSelection(gridId, this.props.view.id);
     }
   };
+  handleSelectAll = () => {
+    if (this.props.onSelectAll) {
+      this.props.onSelectAll(this.props.view.id, true);
+    }
+  };
+  handleDeselectAll = () => {
+    if (this.props.onDeselectAll) {
+      this.props.onDeselectAll(this.props.view.id, false);
+    }
+  };
   renderGrids() {
     const { viewGrids } = this.props.view.data;
     return viewGrids.map((viewGrid) => {
@@ -61,14 +71,14 @@ export class Overview extends Component {
       <div className={styles.overview}>
         <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
           <Button
-            onClick={this.handleAdd96WellPlate}
+            onClick={this.handleSelectAll}
             content="Select All"
             icon="check-square"
             secondary
             className="mr-2"
           />
           <Button
-            onClick={this.handleAdd96WellPlate}
+            onClick={this.handleDeselectAll}
             content="Deselect All"
             icon={['far', 'square']}
             secondary
@@ -105,6 +115,8 @@ Overview.propTypes = {
   view: PropTypes.object.isRequired,
   onAddPlate: PropTypes.func,
   onAddView: PropTypes.func,
+  onDeselectAll: PropTypes.func,
   onSaveGridName: PropTypes.func,
+  onSelectAll: PropTypes.func,
   onToggleGridSelection: PropTypes.func,
 };

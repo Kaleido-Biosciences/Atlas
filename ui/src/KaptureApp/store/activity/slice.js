@@ -101,6 +101,13 @@ const activity = createSlice({
         } else view.active = false;
       });
     },
+    setAllViewGridsSelected(state, action) {
+      const { viewId, selected } = action.payload;
+      const view = findView(viewId, state.views);
+      view.data.viewGrids.forEach((viewGrid) => {
+        viewGrid.selected = selected;
+      });
+    },
     toggleGridSelection(state, action) {
       const { gridId, viewId } = action.payload;
       const view = findView(viewId, state.views);
