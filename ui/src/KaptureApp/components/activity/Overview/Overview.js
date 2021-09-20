@@ -88,20 +88,6 @@ export class Overview extends Component {
             secondary
             className="mr-2"
           />
-          <Button
-            onClick={this.handleAdd384WellPlate}
-            content="Clone"
-            icon="clone"
-            secondary
-            className="mr-2"
-          />
-          <Button
-            onClick={this.handleAdd384WellPlate}
-            content="Import from Excel"
-            icon="file-import"
-            secondary
-            className="mr-2"
-          />
         </div>
         <div className={styles.scrollContainer}>
           <Scrollbars>
