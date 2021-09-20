@@ -121,15 +121,11 @@ const activity = createSlice({
     toggleGridSelection(state, action) {
       const { gridId, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      if (view.data.selectedGrids) {
-        const index = view.data.selectedGrids.findIndex(
-          (selectedGridId) => selectedGridId === gridId
+      if (view.data.viewGrids) {
+        const viewGrid = view.data.viewGrids.find(
+          (viewGrid) => viewGrid.id === gridId
         );
-        if (index > -1) {
-          view.data.selectedGrids.splice(index, 1);
-        } else {
-          view.data.selectedGrids.push(gridId);
-        }
+        viewGrid.selected = !viewGrid.selected;
       }
     },
     resetState(state, action) {

@@ -121,11 +121,11 @@ export const setAllViewGridsSelected = (viewId, selected) => {
   };
 };
 
-export const toggleGridSelection = wrapWithChangeHandler((gridId, viewId) => {
+export const toggleGridSelection = (gridId, viewId) => {
   return (dispatch, getState) => {
     dispatch(actions.toggleGridSelection({ gridId, viewId }));
   };
-});
+};
 
 export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
 export const setGridSize = gridActions.setGridSize;
