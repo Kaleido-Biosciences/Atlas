@@ -133,6 +133,12 @@ export const setGridComponents = wrapWithChangeHandler(
   gridActions.setGridComponents
 );
 export const setGridName = wrapWithChangeHandler(gridActions.setGridName);
+export const selectAllGridContainers = gridActions.selectAllGridContainers;
+export const deselectAllGridContainers = gridActions.deselectAllGridContainers;
+export const selectInteriorGridContainers =
+  gridActions.selectInteriorGridContainers;
+export const selectBorderGridContainers =
+  gridActions.selectBorderGridContainers;
 
 export const addView = wrapWithChangeHandler(viewActions.addView);
 export const setActiveView = wrapWithChangeHandler(viewActions.setActiveView);

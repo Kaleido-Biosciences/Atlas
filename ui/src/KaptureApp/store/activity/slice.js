@@ -128,6 +128,65 @@ const activity = createSlice({
         viewGrid.selected = !viewGrid.selected;
       }
     },
+    selectAllGridContainers(state, action) {
+      const { gridIds, viewId } = action.payload;
+      const view = findView(viewId, state.views);
+      gridIds.forEach((gridId) => {
+        const grid = findGrid(gridId, state.grids);
+        const viewGrid = findGrid(gridId, view.data.viewGrids);
+        viewGrid.selectedContainers = [];
+        grid.positions.forEach((position) => {
+          viewGrid.selectedContainers.push(position.name);
+        });
+      });
+    },
+    deselectAllGridContainers(state, action) {
+      const { gridIds, viewId } = action.payload;
+      const view = findView(viewId, state.views);
+      gridIds.forEach((gridId) => {
+        const viewGrid = findGrid(gridId, view.data.viewGrids);
+        viewGrid.selectedContainers = [];
+      });
+    },
+    selectInteriorGridContainers(state, action) {
+      const { gridIds, viewId } = action.payload;
+      const view = findView(viewId, state.views);
+      gridIds.forEach((gridId) => {
+        const grid = findGrid(gridId, state.grids);
+        const viewGrid = findGrid(gridId, view.data.viewGrids);
+        viewGrid.selectedContainers = [];
+        for (let i = 1; i < grid.rows - 1; i++) {
+          const start = i * grid.columns;
+          const end = (i + 1) * grid.columns;
+          const row = grid.positions.slice(start + 1, end - 1);
+          row.forEach((position) => {
+            viewGrid.selectedContainers.push(position.name);
+          });
+        }
+      });
+    },
+    selectBorderGridContainers(state, action) {
+      const { gridIds, viewId } = action.payload;
+      const view = findView(viewId, state.views);
+      gridIds.forEach((gridId) => {
+        const grid = findGrid(gridId, state.grids);
+        const viewGrid = findGrid(gridId, view.data.viewGrids);
+        viewGrid.selectedContainers = [];
+        for (let i = 0; i < grid.rows; i++) {
+          const start = i * grid.columns;
+          const end = (i + 1) * grid.columns;
+          const row = grid.positions.slice(start, end);
+          if (i === 0 || i === grid.rows - 1) {
+            row.forEach((position) => {
+              viewGrid.selectedContainers.push(position.name);
+            });
+          } else {
+            viewGrid.selectedContainers.push(row[0].name);
+            viewGrid.selectedContainers.push(row[grid.columns - 1].name);
+          }
+        }
+      });
+    },
     resetState(state, action) {
       Object.assign(state, initialState);
     },

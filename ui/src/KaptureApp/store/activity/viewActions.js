@@ -27,7 +27,7 @@ export function getOverview(active, grids) {
     return {
       id: grid.id,
       selected: false,
-      selectedPositions: {},
+      selectedContainers: [],
     };
   });
   return {

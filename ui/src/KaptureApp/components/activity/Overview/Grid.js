@@ -23,19 +23,25 @@ export class Grid extends Component {
   };
   renderGrid() {
     const rows = getGridRows(this.props.viewGrid.grid);
+    const selections = this.props.viewGrid.selectedContainers;
+    let className;
     const renderedRows = rows.map((row, i) => {
       const positions = row.map((position) => {
-        return (
-          <div
-            className={classNames(styles.container, 'border-gray-300', {
-              'border-gray-400': position.container.components.length > 0,
-              'bg-gray-400': position.container.components.length > 0,
-              'border-gray-200': position.container.components.length === 0,
-              'bg-gray-200': position.container.components.length === 0,
-            })}
-            key={position.name}
-          ></div>
-        );
+        if (selections.includes(position.name)) {
+          className = classNames(
+            styles.container,
+            'bg-blue-200',
+            'border-blue-200'
+          );
+        } else {
+          className = classNames(styles.container, {
+            'border-gray-400': position.container.components.length > 0,
+            'bg-gray-400': position.container.components.length > 0,
+            'border-gray-200': position.container.components.length === 0,
+            'bg-gray-200': position.container.components.length === 0,
+          });
+        }
+        return <div className={className} key={position.name}></div>;
       });
       return (
         <div className={styles.row} key={`ROW${i}`}>

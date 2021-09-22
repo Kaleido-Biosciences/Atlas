@@ -1,29 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
-
+import { Button } from '../../../Button';
 import { SelectedContainers } from '../SelectedContainers';
 import styles from './SelectTool.module.css';
 
 export class SelectTool extends React.Component {
+  getSelectedGridIds = () => {
+    const { viewGrids } = this.props.activeView.data;
+    const selectedIds = [];
+    viewGrids.forEach((viewGrid) => {
+      if (viewGrid.selected) {
+        selectedIds.push(viewGrid.id);
+      }
+    });
+    return selectedIds;
+  };
   handleAllClick = () => {
     if (this.props.onAllClick) {
-      this.props.onAllClick(this.props.activeGridId);
+      this.props.onAllClick(
+        this.getSelectedGridIds(),
+        this.props.activeView.id
+      );
     }
   };
   handleBorderClick = () => {
     if (this.props.onBorderClick) {
-      this.props.onBorderClick(this.props.activeGridId);
+      this.props.onBorderClick(
+        this.getSelectedGridIds(),
+        this.props.activeView.id
+      );
     }
   };
   handleInteriorClick = () => {
     if (this.props.onInteriorClick) {
-      this.props.onInteriorClick(this.props.activeGridId);
+      this.props.onInteriorClick(
+        this.getSelectedGridIds(),
+        this.props.activeView.id
+      );
     }
   };
   handleDeselectAllClick = () => {
     if (this.props.onDeselectAllClick) {
-      this.props.onDeselectAllClick(this.props.activeGridId);
+      this.props.onDeselectAllClick(
+        this.getSelectedGridIds(),
+        this.props.activeView.id
+      );
     }
   };
   render() {
@@ -33,44 +54,42 @@ export class SelectTool extends React.Component {
           <div className={styles.buttonGroup}>
             <Button
               content="All"
-              icon="check square"
+              icon="check-square"
               onClick={this.handleAllClick}
-              primary
-              size="mini"
+              secondary
               title="Selects all containers"
             />
           </div>
           <div className={styles.buttonGroup}>
             <Button
-              content="Only Border"
-              icon="check square"
-              onClick={this.handleBorderClick}
-              primary
-              size="mini"
-              title="Selects all border containers and deselects all interior containers"
+              className="mr-1"
+              content="Only Interior"
+              icon="check-square"
+              onClick={this.handleInteriorClick}
+              secondary
+              title="Selects all interior containers and deselects all border containers"
             />
             <Button
-              content="Only Interior"
-              icon="check square"
-              onClick={this.handleInteriorClick}
-              primary
-              size="mini"
-              title="Selects all interior containers and deselects all border containers"
+              content="Only Border"
+              icon="check-square"
+              onClick={this.handleBorderClick}
+              secondary
+              title="Selects all border containers and deselects all interior containers"
             />
           </div>
           <div className={styles.buttonGroup}>
             <Button
               content="Deselect All"
-              icon="square outline"
+              icon={['far', 'square']}
               onClick={this.handleDeselectAllClick}
-              size="mini"
+              secondary
               title="Deselects all containers"
             />
           </div>
         </div>
         <div className={styles.selectedContainersContainer}>
           <SelectedContainers
-            selectedContainersSummary={this.props.selectedContainersSummary}
+            activeView={this.props.activeView}
             showButton={false}
           />
         </div>
@@ -80,10 +99,9 @@ export class SelectTool extends React.Component {
 }
 
 SelectTool.propTypes = {
-  activeGridId: PropTypes.string,
+  activeView: PropTypes.object,
   onAllClick: PropTypes.func,
   onBorderClick: PropTypes.func,
   onDeselectAllClick: PropTypes.func,
   onInteriorClick: PropTypes.func,
-  selectedContainersSummary: PropTypes.object,
 };

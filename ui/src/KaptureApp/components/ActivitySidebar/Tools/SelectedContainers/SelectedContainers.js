@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Header, Button } from 'semantic-ui-react';
+import { Button } from '../../../Button';
 
 import styles from './SelectedContainers.module.css';
 
@@ -8,43 +8,60 @@ export class SelectedContainers extends Component {
   handleButtonClick = () => {
     if (this.props.onButtonClick) this.props.onButtonClick();
   };
-  renderSelectedContainersSummary() {
-    const count = this.props.selectedContainersSummary.count;
-    let headerText;
-    if (count > 0) {
-      headerText = `${count} Selected ${
-        count === 1 ? 'Container' : 'Containers'
-      }`;
-    } else {
-      headerText = 'No containers selected.';
+  isContainerSelected() {
+    const { activeView } = this.props;
+    const gridWithSelected = activeView.data.viewGrids.find((viewGrid) => {
+      return viewGrid.selectedContainers.length > 0;
+    });
+    if (gridWithSelected) return true;
+    else return false;
+  }
+  getSelectedContainerCount() {
+    const { activeView } = this.props;
+    let selectedContainerCount = 0;
+    activeView.data.viewGrids.forEach((viewGrid) => {
+      selectedContainerCount += viewGrid.selectedContainers.length;
+    });
+    return selectedContainerCount;
+  }
+  renderSelectedContainerCounts() {
+    const { activeView } = this.props;
+    let content = 'No containers selected';
+    if (this.isContainerSelected()) {
+      const counts = [];
+      activeView.data.viewGrids.forEach((viewGrid) => {
+        if (viewGrid.selectedContainers.length > 0) {
+          counts.push(
+            <div key={viewGrid.id}>
+              {viewGrid.grid.name}: {viewGrid.selectedContainers.length}
+            </div>
+          );
+        }
+      });
+      content = counts;
     }
     return (
       <div className={styles.text}>
-        <Header size="tiny">{headerText}</Header>
-        {this.props.selectedContainersSummary.text}
+        <h1 className="font-bold mb-1">Selected container counts</h1>
+        {content}
       </div>
     );
   }
   render() {
-    const { selectedContainersSummary, buttonDisabled } = this.props;
+    const { buttonDisabled } = this.props;
     let disabled = buttonDisabled || false;
-    if (selectedContainersSummary.count === 0) {
+    if (!this.isContainerSelected()) {
       disabled = true;
     }
-    const containerText =
-      selectedContainersSummary.count === 1 ? 'container' : 'containers';
+    const count = this.getSelectedContainerCount();
+    const containerText = count === 1 ? 'container' : 'containers';
     return (
       <div className={styles.selectedContainers}>
-        {this.renderSelectedContainersSummary()}
+        {this.renderSelectedContainerCounts()}
         {this.props.showButton && (
           <div className={styles.buttonContainer}>
-            <Button
-              disabled={disabled}
-              primary
-              onClick={this.handleButtonClick}
-              size="mini"
-            >
-              {`${this.props.buttonText} ${selectedContainersSummary.count} ${containerText}`}
+            <Button disabled={disabled} onClick={this.handleButtonClick}>
+              {`${this.props.buttonText} ${count} ${containerText}`}
             </Button>
           </div>
         )}
@@ -54,9 +71,9 @@ export class SelectedContainers extends Component {
 }
 
 SelectedContainers.propTypes = {
+  activeView: PropTypes.object,
   buttonDisabled: PropTypes.bool,
   buttonText: PropTypes.string,
   onButtonClick: PropTypes.func,
-  selectedContainersSummary: PropTypes.object.isRequired,
   showButton: PropTypes.bool,
 };
