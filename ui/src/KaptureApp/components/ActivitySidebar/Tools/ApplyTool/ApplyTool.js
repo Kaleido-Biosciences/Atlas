@@ -57,16 +57,11 @@ export class ApplyTool extends React.Component {
   };
   handleApplyClick = () => {
     if (this.props.onApplyClick) {
-      this.props.onApplyClick(this.props.activeGridId);
+      this.props.onApplyClick(this.props.activeView.id);
     }
   };
   render() {
     const { showComponentSearch, showAddAttributeForm } = this.state;
-    const showSelectedContainers =
-      this.props.selectedContainersSummary &&
-      this.props.selectedContainersSummary.count
-        ? true
-        : false;
     return (
       <div className={styles.applyTool}>
         <div className={styles.addButtonsContainer}>
@@ -95,22 +90,18 @@ export class ApplyTool extends React.Component {
                 toolComponents={this.props.toolComponents}
               />
             </div>
-            {showSelectedContainers && (
-              <div className={styles.selectedContainersContainer}>
-                <SelectedContainers
-                  buttonDisabled={
-                    !this.props.toolComponentsValid ||
-                    this.props.toolComponents.length === 0
-                  }
-                  buttonText="Apply to"
-                  onButtonClick={this.handleApplyClick}
-                  selectedContainersSummary={
-                    this.props.selectedContainersSummary
-                  }
-                  showButton={true}
-                />
-              </div>
-            )}
+            <div className={styles.selectedContainersContainer}>
+              <SelectedContainers
+                activeView={this.props.activeView}
+                buttonDisabled={
+                  !this.props.toolComponentsValid ||
+                  this.props.toolComponents.length === 0
+                }
+                buttonText="Apply to"
+                onButtonClick={this.handleApplyClick}
+                showButton={true}
+              />
+            </div>
           </div>
         )}
         {showComponentSearch && (
@@ -136,7 +127,7 @@ export class ApplyTool extends React.Component {
 }
 
 ApplyTool.propTypes = {
-  activeGridId: PropTypes.string,
+  activeView: PropTypes.object,
   componentSearchComplete: PropTypes.bool,
   componentSearchPending: PropTypes.bool,
   componentSearchResults: PropTypes.array,
@@ -152,7 +143,6 @@ ApplyTool.propTypes = {
   onToolComponentEditClick: PropTypes.func,
   onUnmount: PropTypes.func,
   onUpdateToolComponent: PropTypes.func,
-  selectedContainersSummary: PropTypes.object,
   toolComponents: PropTypes.array,
   toolComponentsValid: PropTypes.bool,
 };

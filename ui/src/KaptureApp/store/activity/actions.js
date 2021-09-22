@@ -129,9 +129,8 @@ export const toggleGridSelection = (gridId, viewId) => {
 
 export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
 export const setGridSize = gridActions.setGridSize;
-export const setGridComponents = wrapWithChangeHandler(
-  gridActions.setGridComponents
-);
+export const setGridComponents = gridActions.setGridComponents;
+
 export const setGridName = wrapWithChangeHandler(gridActions.setGridName);
 export const selectAllGridContainers = gridActions.selectAllGridContainers;
 export const deselectAllGridContainers = gridActions.deselectAllGridContainers;

@@ -113,30 +113,37 @@ export const applySelectedToolComponentsToContainers = wrapWithChangeHandler(
   }
 );
 
-export const applySelectedToolComponentsToSelectedContainers =
-  wrapWithChangeHandler((gridId) => {
-    return (dispatch, getState) => {
-      if (selectors.selectApplyToolComponentsValid(getState())) {
-        const toolComponents = selectors.selectSelectedApplyToolComponents(
-          getState()
-        );
-        const grids = editor.selectGrids(getState());
-        const grid = grids.find((grid) => grid.id === gridId);
-        const positions = [];
-        const flattened = grid.data.flat();
-        flattened.forEach((position) => {
-          if (position.container && position.container.selected) {
-            positions.push(position);
-          }
-        });
-        const actionPositions = applyToolComponentsToPositions(
-          positions,
-          toolComponents
-        );
-        dispatch(editor.setGridComponents(gridId, actionPositions));
-      }
-    };
-  });
+export const applySelectedToolComponentsToSelectedContainers = (viewId) => {
+  return (dispatch, getState) => {
+    if (selectors.selectApplyToolComponentsValid(getState())) {
+      const toolComponents = selectors.selectSelectedApplyToolComponents(
+        getState()
+      );
+      const views = activity.selectViews(getState());
+      const view = views.find((view) => view.id === viewId);
+      const grids = activity.selectGrids(getState());
+      view.data.viewGrids.forEach((viewGrid) => {
+        if (viewGrid.selectedContainers.length > 0) {
+          const grid = grids.find((grid) => grid.id === viewGrid.id);
+          const positions = [];
+          grid.positions.forEach((position) => {
+            if (
+              position.container &&
+              viewGrid.selectedContainers.includes(position.name)
+            ) {
+              positions.push(position);
+            }
+          });
+          const actionPositions = applyToolComponentsToPositions(
+            positions,
+            toolComponents
+          );
+          dispatch(activity.setGridComponents(grid.id, actionPositions));
+        }
+      });
+    }
+  };
+};
 
 const applyToolComponentsToPositions = (positions, toolComponents) => {
   const actionPositions = [];
