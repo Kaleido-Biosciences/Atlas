@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createContainersForGrid } from 'AtlasUI/models';
+import {
+  createContainersForGrid,
+  createRowHeaders,
+  createColumnHeaders,
+} from 'AtlasUI/models';
 
 const initialSaveTime = {
   savePending: false,
@@ -72,6 +76,8 @@ const activity = createSlice({
         grid.rows = rows;
         grid.columns = columns;
         grid.positions = createContainersForGrid(rows, columns, 'PlateWell');
+        grid.rowHeaders = createRowHeaders(rows);
+        grid.columnHeaders = createColumnHeaders(columns);
       });
     },
     setGridComponents(state, action) {

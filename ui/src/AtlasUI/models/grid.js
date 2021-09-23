@@ -41,16 +41,6 @@ export function createGrid({
   attributes = [],
   sortKey = null,
 }) {
-  let rHeaders = [],
-    cHeaders = [];
-  if (rows) {
-    rHeaders = rowHeaders.slice(0, rows);
-  }
-  if (columns) {
-    for (let i = 0; i < columns; i++) {
-      cHeaders.push(i + 1);
-    }
-  }
   return {
     id: id || uuidv4(),
     type: 'Grid',
@@ -61,10 +51,28 @@ export function createGrid({
     barcode,
     positions,
     attributes,
-    rowHeaders: rHeaders,
-    columnHeaders: cHeaders,
+    rowHeaders: createRowHeaders(rows),
+    columnHeaders: createColumnHeaders(columns),
     sortKey,
   };
+}
+
+export function createRowHeaders(numRows) {
+  let rHeaders = [];
+  if (numRows) {
+    rHeaders = rowHeaders.slice(0, numRows);
+  }
+  return rHeaders;
+}
+
+export function createColumnHeaders(numCols) {
+  let cHeaders = [];
+  if (numCols) {
+    for (let i = 0; i < numCols; i++) {
+      cHeaders.push(i + 1);
+    }
+  }
+  return cHeaders;
 }
 
 export function createGridPositions(dimensions) {

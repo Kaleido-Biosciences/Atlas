@@ -139,8 +139,8 @@ export const selectInteriorGridContainers =
 export const selectBorderGridContainers =
   gridActions.selectBorderGridContainers;
 
-export const addView = wrapWithChangeHandler(viewActions.addView);
-export const setActiveView = wrapWithChangeHandler(viewActions.setActiveView);
+export const addView = viewActions.addView;
+export const setActiveView = viewActions.setActiveView;
 
 async function importGrids(grids) {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);

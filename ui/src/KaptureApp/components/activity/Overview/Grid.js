@@ -4,11 +4,12 @@ import styles from './Grid.module.css';
 import classNames from 'classnames';
 import { EditableText } from '../../EditableText';
 import { getGridRows } from 'AtlasUI/utils/grid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class Grid extends Component {
-  handleClick = () => {
-    if (this.props.onClick) {
-      this.props.onClick(this.props.viewGrid.id);
+  handleEditorClick = () => {
+    if (this.props.onEditorClick) {
+      this.props.onEditorClick(this.props.viewGrid.id);
     }
   };
   handleSaveName = (value) => {
@@ -62,7 +63,7 @@ export class Grid extends Component {
       'cursor-pointer'
     );
     return (
-      <div className={className} onClick={this.handleClick}>
+      <div className={className}>
         <div className={styles.header}>
           <div>
             <input
@@ -79,6 +80,7 @@ export class Grid extends Component {
               value={viewGrid.grid.name}
             />
           </div>
+          <FontAwesomeIcon icon="th" onClick={this.handleEditorClick} />
         </div>
         <div>{this.renderGrid()}</div>
       </div>
@@ -89,6 +91,7 @@ export class Grid extends Component {
 Grid.propTypes = {
   viewGrid: PropTypes.object,
   onClick: PropTypes.func,
+  onEditorClick: PropTypes.func,
   onSaveName: PropTypes.func,
   onCheckboxChange: PropTypes.func,
 };

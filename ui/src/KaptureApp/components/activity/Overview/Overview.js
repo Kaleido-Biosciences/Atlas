@@ -37,15 +37,10 @@ export class Overview extends Component {
       });
     }
   };
-  handleGridClick = (gridId) => {
-    // if (this.props.onAddView) {
-    //   this.props.onAddView({
-    //     type: 'Editor',
-    //     data: {
-    //       gridIds: [gridId],
-    //     },
-    //   });
-    // }
+  handleAddEditorView = (gridId) => {
+    if (this.props.onAddView) {
+      this.props.onAddView('Editor', [gridId]);
+    }
   };
   handleGridCheckboxChange = (gridId) => {
     if (this.props.onToggleGridSelection) {
@@ -71,6 +66,7 @@ export class Overview extends Component {
           viewGrid={viewGrid}
           onCheckboxChange={this.handleGridCheckboxChange}
           onClick={this.handleGridClick}
+          onEditorClick={this.handleAddEditorView}
           onSaveName={this.props.onSaveGridName}
         />
       );
