@@ -96,6 +96,7 @@ export class Grid extends Component {
               onAddContainer={this.handleAddContainer}
               onContainerClick={this.handleContainerClick}
               onRemoveComponent={this.props.onRemoveComponent}
+              selectedContainers={this.props.selectedContainers}
             />
           </Scrollbars>
         </div>
@@ -112,6 +113,7 @@ Grid.propTypes = {
   onAddContainer: PropTypes.func,
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
+  selectedContainers: PropTypes.array,
   settings: PropTypes.object,
 };
 

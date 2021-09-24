@@ -28,7 +28,7 @@ export class Container extends Component {
     });
   }
   render() {
-    const { selected } = this.props.container;
+    const { selected } = this.props;
     const containerClass = classNames(styles.container, { selected });
     return (
       <div className={containerClass} onClick={this.handleClick}>
@@ -44,4 +44,5 @@ Container.propTypes = {
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   position: PropTypes.object.isRequired,
+  selected: PropTypes.bool,
 };

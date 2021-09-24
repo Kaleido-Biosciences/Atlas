@@ -6,16 +6,17 @@ import styles from './Editor.module.css';
 
 export class Editor extends Component {
   render() {
-    const grid = this.props.view.data.viewGrids[0].grid;
+    const viewGrid = this.props.view.data.viewGrids[0];
     return (
       <div className={styles.editor}>
-        <GridHeader grid={grid} />
+        <GridHeader grid={viewGrid.grid} />
         <div className={styles.gridContainer}>
           <Grid
             containerTypeOptions={this.props.containerTypeOptions}
-            grid={grid}
-            settings={this.props.settings}
+            grid={viewGrid.grid}
             onClick={this.props.onContainerClick}
+            selectedContainers={viewGrid.selectedContainers}
+            settings={this.props.settings}
           />
         </div>
       </div>

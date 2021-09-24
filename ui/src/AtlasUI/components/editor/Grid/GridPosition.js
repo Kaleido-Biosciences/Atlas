@@ -37,6 +37,7 @@ export class GridPosition extends PureComponent {
           row: position.row,
           column: position.column,
         }}
+        selected={this.props.containerSelected}
       />
     );
   }
@@ -77,6 +78,7 @@ export class GridPosition extends PureComponent {
 }
 
 GridPosition.propTypes = {
+  containerSelected: PropTypes.bool,
   enableRemoveComponent: PropTypes.bool,
   height: PropTypes.number.isRequired,
   innerPadding: PropTypes.number.isRequired,

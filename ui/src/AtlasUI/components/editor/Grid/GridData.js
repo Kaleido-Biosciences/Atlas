@@ -43,9 +43,11 @@ export class GridData extends Component {
     const renderedGrid = rows.map((row, i) => {
       const rowKey = `${grid.id}_ROW_${i}`;
       const positions = row.map((position, i) => {
+        const selected = this.props.selectedContainers.includes(position.name);
         const positionKey = `${grid.id}_POSITION_${position.row}${position.column}`;
         return (
           <GridPosition
+            containerSelected={selected}
             enableRemoveComponent={this.props.enableRemoveComponent}
             height={settings.containerSize.size}
             innerPadding={settings.containerSize.innerPadding}
@@ -86,5 +88,6 @@ GridData.propTypes = {
   onAddContainer: PropTypes.func,
   onContainerClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
+  selectedContainers: PropTypes.array,
   settings: PropTypes.object.isRequired,
 };
