@@ -96,22 +96,20 @@ export const handleContainerClick = (gridId, positions) => {
   };
 };
 
-export const applySelectedToolComponentsToContainers = wrapWithChangeHandler(
-  (gridId, positions) => {
-    return (dispatch, getState) => {
-      if (selectors.selectApplyToolComponentsValid(getState())) {
-        const toolComponents = selectors.selectSelectedApplyToolComponents(
-          getState()
-        );
-        const actionPositions = applyToolComponentsToPositions(
-          positions,
-          toolComponents
-        );
-        dispatch(activity.setGridComponents(gridId, actionPositions));
-      }
-    };
-  }
-);
+export const applySelectedToolComponentsToContainers = (gridId, positions) => {
+  return (dispatch, getState) => {
+    if (selectors.selectApplyToolComponentsValid(getState())) {
+      const toolComponents = selectors.selectSelectedApplyToolComponents(
+        getState()
+      );
+      const actionPositions = applyToolComponentsToPositions(
+        positions,
+        toolComponents
+      );
+      dispatch(activity.setGridComponents(gridId, actionPositions));
+    }
+  };
+};
 
 export const applySelectedToolComponentsToSelectedContainers = (viewId) => {
   return (dispatch, getState) => {
