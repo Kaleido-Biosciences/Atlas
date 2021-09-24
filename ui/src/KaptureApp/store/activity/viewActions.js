@@ -6,7 +6,7 @@ export function addView(type, gridIds, data) {
     const viewGrids = gridIds.map((gridId) => {
       return {
         id: gridId,
-        selected: false,
+        selected: type === 'Editor' ? true : false,
         selectedContainers: [],
       };
     });
