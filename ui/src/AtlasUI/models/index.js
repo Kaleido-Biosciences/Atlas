@@ -10,3 +10,5 @@ export {
   createGridPosition,
   addContainersToGrid,
 } from './grid';
+export { createPlate } from './plate';
+export { createWell } from './well';
