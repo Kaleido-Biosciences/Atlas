@@ -11,34 +11,34 @@ export const { resetState: resetActivity, resetSaveTime } = actions;
 
 let lastSaveData = '';
 
-const saveActivity = _.debounce(async (dispatch, getState) => {
-  const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
-  const views = selectors.selectViews(getState());
-  const stringifiedData = getStringifiedData(exportedGrids, views);
-  if (stringifiedData !== lastSaveData) {
-    dispatch(actions.setSavePending());
-    const activityName = selectors.selectName(getState());
-    try {
-      await api.updateActivityData(activityName, exportedGrids, views);
-      dispatch(
-        actions.setLastSaveTime({
-          lastSaveTime: Date.now(),
-        })
-      );
-      lastSaveData = stringifiedData;
-    } catch (error) {
-      dispatch(actions.setSaveError({ error: error.message }));
-    }
-  }
-}, 1000);
+// const saveActivity = _.debounce(async (dispatch, getState) => {
+//   const exportedGrids = api.exportGrids(selectors.selectGrids(getState()));
+//   const views = selectors.selectViews(getState());
+//   const stringifiedData = getStringifiedData(exportedGrids, views);
+//   if (stringifiedData !== lastSaveData) {
+//     dispatch(actions.setSavePending());
+//     const activityName = selectors.selectName(getState());
+//     try {
+//       await api.updateActivityData(activityName, exportedGrids, views);
+//       dispatch(
+//         actions.setLastSaveTime({
+//           lastSaveTime: Date.now(),
+//         })
+//       );
+//       lastSaveData = stringifiedData;
+//     } catch (error) {
+//       dispatch(actions.setSaveError({ error: error.message }));
+//     }
+//   }
+// }, 1000);
 
 export function wrapWithChangeHandler(fn) {
-  return function () {
-    return async (dispatch, getState) => {
-      dispatch(fn.apply(this, arguments));
-      saveActivity(dispatch, getState);
-    };
-  };
+  // return function () {
+  //   return async (dispatch, getState) => {
+  //     dispatch(fn.apply(this, arguments));
+  //     saveActivity(dispatch, getState);
+  //   };
+  // };
 }
 
 export function loadActivity(id) {
