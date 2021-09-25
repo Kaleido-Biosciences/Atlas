@@ -46,19 +46,8 @@ export function loadActivity(id) {
     dispatch(actions.setLoading());
     // try {
     const activity = await api.fetchActivity(id);
-    dispatch(
-      actions.setActivity({
-        activity: {
-          id: activity.id,
-          name: activity.name,
-          description: activity.description,
-          createdTime: activity.createdTime,
-          updatedTime: activity.updatedTime,
-          grids: activity.grids,
-          views: [viewActions.getOverview(true, activity.grids)],
-        },
-      })
-    );
+    activity.views = [viewActions.getOverview(activity.plates, true)];
+    dispatch(actions.setActivity({ activity }));
     // } catch (error) {
     //   dispatch(actions.setInitializationError({ error: error.message }));
     // }

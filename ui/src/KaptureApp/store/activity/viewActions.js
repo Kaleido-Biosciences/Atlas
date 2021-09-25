@@ -30,19 +30,19 @@ export function setActiveView(viewId) {
   };
 }
 
-export function getOverview(active, grids) {
-  const viewGrids = grids.map((grid) => {
-    return {
-      id: grid.id,
-      selected: false,
-      selectedContainers: [],
-    };
-  });
+export function getOverview(plates, active) {
   return {
     id: uuidv4(),
     name: 'Overview',
     type: 'Overview',
-    data: { viewGrids },
     active,
+    viewPlates: plates.map((plate) => {
+      return {
+        id: plate.id,
+        selected: false,
+        selectedContainers: [],
+      };
+    }),
+    data: {},
   };
 }

@@ -18,7 +18,9 @@ const initialState = {
   id: null,
   name: '',
   description: '',
-  grids: [],
+  createdTime: null,
+  updatedTime: null,
+  plates: [],
   views: [],
   settings: {
     containerSize: {
@@ -28,8 +30,7 @@ const initialState = {
     },
   },
   status: '',
-  createdTime: null,
-  updatedTime: null,
+
   ...initialSaveTime,
 };
 

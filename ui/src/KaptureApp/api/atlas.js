@@ -1,5 +1,5 @@
 import sampleJson from './sample.json';
-import { createGrid } from 'AtlasUI/models';
+import { createPlate } from 'AtlasUI/models';
 import { fetchActivityData, createActivityData } from './aws';
 
 export async function fetchActivity(id) {
@@ -9,18 +9,16 @@ export async function fetchActivity(id) {
     activityData = sampleJson;
   }
   const { platemaps: plateMaps, ...rest } = activityData;
-  const activity = { ...rest, grids: [] };
+  const activity = { ...rest, plates: [] };
   if (plateMaps) {
-    const grids = plateMaps.map((plateMap) => {
-      return createGrid({
+    activity.plates = plateMaps.map((plateMap) => {
+      return createPlate({
         id: plateMap.id,
-        containerType: 'Plate',
-        barcode: plateMap.barcode,
         name: plateMap.name || 'Untitled',
+        barcode: plateMap.barcode,
         sortKey: plateMap.plateNumber,
       });
     });
-    activity.grids = grids;
   }
   return activity;
 }
