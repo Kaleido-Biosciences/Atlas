@@ -18,7 +18,12 @@ export class Activity extends Component {
     } else if (activeView.type === 'MultiPlateTable') {
       return <MultiPlateTable view={activeView} />;
     } else if (activeView.type === 'PlateTable') {
-      return <PlateTable view={activeView} />;
+      return (
+        <PlateTable
+          view={activeView}
+          onContainerClick={this.props.onContainerClick}
+        />
+      );
     } else if (activeView.type === 'Editor') {
       return <Editor view={activeView} />;
     }
@@ -56,6 +61,7 @@ Activity.propTypes = {
   activeView: PropTypes.object.isRequired,
   name: PropTypes.string,
   onAddPlate: PropTypes.func,
+  onContainerClick: PropTypes.func,
   onViewTabClick: PropTypes.func,
   views: PropTypes.array.isRequired,
 };

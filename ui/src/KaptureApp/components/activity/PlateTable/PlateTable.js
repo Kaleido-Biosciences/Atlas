@@ -1,50 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ContainerComponent } from 'AtlasUI/components';
 import { GridHeader } from '../GridHeader';
 import { Scrollbars } from 'AtlasUI/components';
+import { Position } from './Position';
 import styles from './PlateTable.module.css';
 
 export class PlateTable extends Component {
-  renderComponents(position) {
-    if (position.container) {
-      return position.container.components.map((component) => {
-        return (
-          <div className={styles.containerComponent}>
-            <ContainerComponent
-              component={component}
-              enableRemove={this.props.enableRemoveComponent}
-              key={component.id}
-              onRemove={this.props.onRemoveComponent}
-              position={position}
-            />
-          </div>
-        );
-      });
-    } else return null;
-  }
+  handlePositionClick = (position) => {
+    if (this.props.onContainerClick) {
+      this.props.onContainerClick(this.props.view.data.viewGrids[0].id, [
+        position,
+      ]);
+    }
+  };
   renderPlate() {
-    const plate = this.props.view.data.grids[0];
+    const viewGrid = this.props.view.data.viewGrids[0];
+    const { grid: plate, selectedContainers } = viewGrid;
     return plate.positions.map((position, i) => {
+      const selected = selectedContainers.includes(position.name);
       return (
-        <tr
+        <Position
+          position={position}
+          selected={selected}
+          index={i}
           key={position.name}
-          className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
-        >
-          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {position.name}
-          </td>
-          <td className="px-6 py-4 text-sm text-gray-900">
-            <div className={styles.components}>
-              {this.renderComponents(position)}
-            </div>
-          </td>
-        </tr>
+          onClick={this.handlePositionClick}
+        />
       );
     });
   }
   render() {
-    const grid = this.props.view.data.grids[0];
+    const grid = this.props.view.data.viewGrids[0].grid;
     return (
       <div className={styles.plateTable}>
         <GridHeader grid={grid} />
@@ -78,4 +64,5 @@ export class PlateTable extends Component {
 
 PlateTable.propTypes = {
   view: PropTypes.object.isRequired,
+  onContainerClick: PropTypes.func,
 };

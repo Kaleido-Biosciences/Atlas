@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Activity } from './Activity';
-import { activity } from 'KaptureApp/store';
+import { activity, tools } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
@@ -12,6 +12,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onAddPlate: activity.addNewPlates,
+  onContainerClick: tools.handleContainerClick,
   onViewTabClick: activity.setActiveView,
 };
 

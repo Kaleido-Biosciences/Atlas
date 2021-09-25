@@ -12,6 +12,11 @@ export class Grid extends Component {
       this.props.onEditorClick(this.props.viewGrid.id);
     }
   };
+  handleTableClick = () => {
+    if (this.props.onTableClick) {
+      this.props.onTableClick(this.props.viewGrid.id);
+    }
+  };
   handleSaveName = (value) => {
     if (this.props.onSaveName) {
       this.props.onSaveName(this.props.viewGrid.id, value);
@@ -81,6 +86,7 @@ export class Grid extends Component {
             />
           </div>
           <FontAwesomeIcon icon="th" onClick={this.handleEditorClick} />
+          <FontAwesomeIcon icon="table" onClick={this.handleTableClick} />
         </div>
         <div>{this.renderGrid()}</div>
       </div>
@@ -90,8 +96,9 @@ export class Grid extends Component {
 
 Grid.propTypes = {
   viewGrid: PropTypes.object,
+  onCheckboxChange: PropTypes.func,
   onClick: PropTypes.func,
   onEditorClick: PropTypes.func,
   onSaveName: PropTypes.func,
-  onCheckboxChange: PropTypes.func,
+  onTableClick: PropTypes.func,
 };

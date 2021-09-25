@@ -42,6 +42,11 @@ export class Overview extends Component {
       this.props.onAddView('Editor', [gridId]);
     }
   };
+  handleAddPlateTableView = (gridId) => {
+    if (this.props.onAddView) {
+      this.props.onAddView('PlateTable', [gridId]);
+    }
+  };
   handleGridCheckboxChange = (gridId) => {
     if (this.props.onToggleGridSelection) {
       this.props.onToggleGridSelection(gridId, this.props.view.id);
@@ -68,6 +73,7 @@ export class Overview extends Component {
           onClick={this.handleGridClick}
           onEditorClick={this.handleAddEditorView}
           onSaveName={this.props.onSaveGridName}
+          onTableClick={this.handleAddPlateTableView}
         />
       );
     });
