@@ -55,21 +55,6 @@ const activity = createSlice({
       state.initialized = true;
       state.initializationError = '';
     },
-    addGrids(state, action) {
-      const { grids } = action.payload;
-      let highestUntitled = 0;
-      state.grids.forEach((grid) => {
-        if (grid.name.startsWith('Untitled')) {
-          const gridNum = parseInt(grid.name.substring(8));
-          if (gridNum > highestUntitled) highestUntitled = gridNum;
-        }
-      });
-      grids.forEach((grid) => {
-        highestUntitled++;
-        grid.name = `Untitled${highestUntitled}`;
-      });
-      state.grids = state.grids.concat(grids);
-    },
     setPlateSize(state, action) {
       const { plateIds, numRows, numCols } = action.payload;
       plateIds.forEach((plateId) => {

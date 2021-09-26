@@ -9,6 +9,45 @@ import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 
 export const { resetState: resetActivity, resetSaveTime } = actions;
 
+export function loadActivity(id) {
+  return async (dispatch, getState) => {
+    dispatch(actions.setLoading());
+    // try {
+    const activity = await api.fetchActivity(id);
+    activity.views = [viewActions.getOverview(activity.plates, true)];
+    dispatch(actions.setActivity({ activity }));
+    // } catch (error) {
+    //   dispatch(actions.setInitializationError({ error: error.message }));
+    // }
+  };
+}
+
+export const togglePlateSelection = gridActions.togglePlateSelection;
+export const setPlateSize = gridActions.setPlateSize;
+export const setPlateName = gridActions.setPlateName;
+
+export const setAllViewPlatesSelected = viewActions.setAllViewPlatesSelected;
+
+export const setGridComponents = gridActions.setGridComponents;
+export const selectAllGridContainers = gridActions.selectAllGridContainers;
+export const deselectAllGridContainers = gridActions.deselectAllGridContainers;
+export const selectInteriorGridContainers =
+  gridActions.selectInteriorGridContainers;
+export const selectBorderGridContainers =
+  gridActions.selectBorderGridContainers;
+
+export const addView = viewActions.addView;
+export const setActiveView = viewActions.setActiveView;
+
+async function importGrids(grids) {
+  const kaptureComponents = await api.fetchComponentsForGrids(grids);
+  return api.importGrids(grids, kaptureComponents);
+}
+
+function getStringifiedData(grids, views) {
+  return JSON.stringify(grids) + JSON.stringify(views);
+}
+
 let lastSaveData = '';
 
 // const saveActivity = _.debounce(async (dispatch, getState) => {
@@ -39,19 +78,6 @@ export function wrapWithChangeHandler(fn) {
   //     saveActivity(dispatch, getState);
   //   };
   // };
-}
-
-export function loadActivity(id) {
-  return async (dispatch, getState) => {
-    dispatch(actions.setLoading());
-    // try {
-    const activity = await api.fetchActivity(id);
-    activity.views = [viewActions.getOverview(activity.plates, true)];
-    dispatch(actions.setActivity({ activity }));
-    // } catch (error) {
-    //   dispatch(actions.setInitializationError({ error: error.message }));
-    // }
-  };
 }
 
 // export function loadActivity(id) {
@@ -103,39 +129,3 @@ export function loadActivity(id) {
 //     }
 //   };
 // }
-
-export const setAllViewPlatesSelected = (viewId, selected) => {
-  return (dispatch, getState) => {
-    dispatch(actions.setAllViewPlatesSelected({ viewId, selected }));
-  };
-};
-
-export const togglePlateSelection = (plateId, viewId) => {
-  return (dispatch, getState) => {
-    dispatch(actions.togglePlateSelection({ plateId, viewId }));
-  };
-};
-
-export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
-export const setPlateSize = gridActions.setPlateSize;
-export const setPlateName = gridActions.setPlateName;
-export const setGridComponents = gridActions.setGridComponents;
-
-export const selectAllGridContainers = gridActions.selectAllGridContainers;
-export const deselectAllGridContainers = gridActions.deselectAllGridContainers;
-export const selectInteriorGridContainers =
-  gridActions.selectInteriorGridContainers;
-export const selectBorderGridContainers =
-  gridActions.selectBorderGridContainers;
-
-export const addView = viewActions.addView;
-export const setActiveView = viewActions.setActiveView;
-
-async function importGrids(grids) {
-  const kaptureComponents = await api.fetchComponentsForGrids(grids);
-  return api.importGrids(grids, kaptureComponents);
-}
-
-function getStringifiedData(grids, views) {
-  return JSON.stringify(grids) + JSON.stringify(views);
-}
