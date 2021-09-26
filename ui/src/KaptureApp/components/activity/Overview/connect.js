@@ -7,13 +7,12 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddPlate: activity.addNewPlates,
   onAddView: activity.addView,
-  onDeselectAll: activity.setAllViewGridsSelected,
-  onSaveGridName: activity.setGridName,
-  onSelectAll: activity.setAllViewGridsSelected,
-  onSetGridSize: activity.setGridSize,
-  onToggleGridSelection: activity.toggleGridSelection,
+  onDeselectAll: activity.setAllViewPlatesSelected,
+  onSavePlateName: activity.setPlateName,
+  onSelectAll: activity.setAllViewPlatesSelected,
+  onSetPlateSize: activity.setPlateSize,
+  onTogglePlateSelection: activity.togglePlateSelection,
 };
 
 const connected = connect(mapState, mapDispatch)(Overview);

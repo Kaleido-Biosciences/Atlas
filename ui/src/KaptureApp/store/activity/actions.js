@@ -104,23 +104,23 @@ export function loadActivity(id) {
 //   };
 // }
 
-export const setAllViewGridsSelected = (viewId, selected) => {
+export const setAllViewPlatesSelected = (viewId, selected) => {
   return (dispatch, getState) => {
-    dispatch(actions.setAllViewGridsSelected({ viewId, selected }));
+    dispatch(actions.setAllViewPlatesSelected({ viewId, selected }));
   };
 };
 
-export const toggleGridSelection = (gridId, viewId) => {
+export const togglePlateSelection = (plateId, viewId) => {
   return (dispatch, getState) => {
-    dispatch(actions.toggleGridSelection({ gridId, viewId }));
+    dispatch(actions.togglePlateSelection({ plateId, viewId }));
   };
 };
 
 export const addNewPlates = wrapWithChangeHandler(gridActions.addNewPlates);
-export const setGridSize = gridActions.setGridSize;
+export const setPlateSize = gridActions.setPlateSize;
+export const setPlateName = gridActions.setPlateName;
 export const setGridComponents = gridActions.setGridComponents;
 
-export const setGridName = gridActions.setGridName;
 export const selectAllGridContainers = gridActions.selectAllGridContainers;
 export const deselectAllGridContainers = gridActions.deselectAllGridContainers;
 export const selectInteriorGridContainers =

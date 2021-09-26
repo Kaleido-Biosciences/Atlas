@@ -40,7 +40,7 @@ export function getOverview(plates, active) {
       return {
         id: plate.id,
         selected: false,
-        selectedContainers: [],
+        selectedWells: [],
       };
     }),
     data: {},

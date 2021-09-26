@@ -91,7 +91,7 @@ export class ApplyTool extends React.Component {
               />
             </div>
             <div className={styles.selectedContainersContainer}>
-              <SelectedContainers
+              {/* <SelectedContainers
                 activeView={this.props.activeView}
                 buttonDisabled={
                   !this.props.toolComponentsValid ||
@@ -100,7 +100,7 @@ export class ApplyTool extends React.Component {
                 buttonText="Apply to"
                 onButtonClick={this.handleApplyClick}
                 showButton={true}
-              />
+              /> */}
             </div>
           </div>
         )}

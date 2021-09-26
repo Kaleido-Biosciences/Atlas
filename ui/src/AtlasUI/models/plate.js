@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { createWell } from './well';
 
 const rowHeaders = [
   'A',
@@ -51,6 +52,19 @@ export function createPlate({
     columnHeaders: createColumnHeaders(numCols),
     sortKey,
   };
+}
+
+export function createWells(numRows, numCols) {
+  const wells = [];
+  for (let i = 0; i < numRows; i++) {
+    const row = rowHeaders[i];
+    for (let j = 0; j < numCols; j++) {
+      const column = j + 1;
+      const name = `${row}${column}`;
+      wells.push(createWell({ row, column, name }));
+    }
+  }
+  return wells;
 }
 
 export function createRowHeaders(numRows) {

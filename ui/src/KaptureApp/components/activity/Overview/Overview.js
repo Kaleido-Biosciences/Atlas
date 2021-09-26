@@ -1,55 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from './Grid';
+import { Plate } from './Plate';
 import { Button } from 'KaptureApp/components';
 import { Scrollbars } from 'AtlasUI/components';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
-  getSelectedGridIds = () => {
-    const { viewGrids } = this.props.view.data;
+  getSelectedPlateIds = () => {
+    const { viewPlates } = this.props.view;
     const selectedIds = [];
-    viewGrids.forEach((viewGrid) => {
-      if (viewGrid.selected) {
-        selectedIds.push(viewGrid.id);
+    viewPlates.forEach((viewPlate) => {
+      if (viewPlate.selected) {
+        selectedIds.push(viewPlate.id);
       }
     });
     return selectedIds;
   };
   handleSet96Wells = () => {
-    if (this.props.onSetGridSize) {
-      this.props.onSetGridSize(this.getSelectedGridIds(), 8, 12);
+    if (this.props.onSetPlateSize) {
+      this.props.onSetPlateSize(this.getSelectedPlateIds(), 8, 12);
     }
   };
   handleSet384Wells = () => {
-    if (this.props.onSetGridSize) {
-      this.props.onSetGridSize(this.getSelectedGridIds(), 16, 24);
+    if (this.props.onSetPlateSize) {
+      this.props.onSetPlateSize(this.getSelectedPlateIds(), 16, 24);
     }
   };
-  handleAddMultiTableView = () => {
+  handleAddEditorView = (plateId) => {
     if (this.props.onAddView) {
-      const gridIds = this.props.view.data.grids.map((grid) => grid.id);
-      this.props.onAddView({
-        type: 'MultiPlateTable',
-        data: {
-          gridIds,
-        },
-      });
+      this.props.onAddView('Editor', [plateId]);
     }
   };
-  handleAddEditorView = (gridId) => {
+  handleAddPlateTableView = (plateId) => {
     if (this.props.onAddView) {
-      this.props.onAddView('Editor', [gridId]);
+      this.props.onAddView('PlateTable', [plateId]);
     }
   };
-  handleAddPlateTableView = (gridId) => {
-    if (this.props.onAddView) {
-      this.props.onAddView('PlateTable', [gridId]);
-    }
-  };
-  handleGridCheckboxChange = (gridId) => {
-    if (this.props.onToggleGridSelection) {
-      this.props.onToggleGridSelection(gridId, this.props.view.id);
+  handlePlateCheckboxChange = (plateId) => {
+    if (this.props.onTogglePlateSelection) {
+      this.props.onTogglePlateSelection(plateId, this.props.view.id);
     }
   };
   handleSelectAll = () => {
@@ -62,17 +51,16 @@ export class Overview extends Component {
       this.props.onDeselectAll(this.props.view.id, false);
     }
   };
-  renderGrids() {
-    const { viewGrids } = this.props.view.data;
-    return viewGrids.map((viewGrid) => {
+  renderPlates() {
+    const { viewPlates } = this.props.view;
+    return viewPlates.map((viewPlate) => {
       return (
-        <Grid
-          key={viewGrid.id}
-          viewGrid={viewGrid}
-          onCheckboxChange={this.handleGridCheckboxChange}
-          onClick={this.handleGridClick}
+        <Plate
+          key={viewPlate.id}
+          viewPlate={viewPlate}
+          onCheckboxChange={this.handlePlateCheckboxChange}
           onEditorClick={this.handleAddEditorView}
-          onSaveName={this.props.onSaveGridName}
+          onSaveName={this.props.onSavePlateName}
           onTableClick={this.handleAddPlateTableView}
         />
       );
@@ -114,7 +102,7 @@ export class Overview extends Component {
         <div className={styles.scrollContainer}>
           <Scrollbars>
             <div className="flex flex-row flex-wrap content-start p-4 bg-gray-100">
-              {this.renderGrids()}
+              {this.renderPlates()}
             </div>
           </Scrollbars>
         </div>
@@ -125,11 +113,10 @@ export class Overview extends Component {
 
 Overview.propTypes = {
   view: PropTypes.object.isRequired,
-  onAddPlate: PropTypes.func,
   onAddView: PropTypes.func,
   onDeselectAll: PropTypes.func,
-  onSaveGridName: PropTypes.func,
+  onSavePlateName: PropTypes.func,
   onSelectAll: PropTypes.func,
-  onSetGridSize: PropTypes.func,
-  onToggleGridSelection: PropTypes.func,
+  onSetPlateSize: PropTypes.func,
+  onTogglePlateSelection: PropTypes.func,
 };

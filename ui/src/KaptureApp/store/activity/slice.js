@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  createContainersForGrid,
+  createWells,
   createRowHeaders,
   createColumnHeaders,
 } from 'AtlasUI/models';
@@ -70,15 +70,15 @@ const activity = createSlice({
       });
       state.grids = state.grids.concat(grids);
     },
-    setGridSize(state, action) {
-      const { gridIds, rows, columns } = action.payload;
-      gridIds.forEach((gridId) => {
-        const grid = findGrid(gridId, state.grids);
-        grid.rows = rows;
-        grid.columns = columns;
-        grid.positions = createContainersForGrid(rows, columns, 'PlateWell');
-        grid.rowHeaders = createRowHeaders(rows);
-        grid.columnHeaders = createColumnHeaders(columns);
+    setPlateSize(state, action) {
+      const { plateIds, numRows, numCols } = action.payload;
+      plateIds.forEach((plateId) => {
+        const plate = findPlate(plateId, state.plates);
+        plate.numRows = numRows;
+        plate.numCols = numCols;
+        plate.wells = createWells(numRows, numCols);
+        plate.rowHeaders = createRowHeaders(numRows);
+        plate.columnHeaders = createColumnHeaders(numCols);
       });
     },
     setGridComponents(state, action) {
@@ -91,10 +91,10 @@ const activity = createSlice({
         }
       });
     },
-    setGridName(state, action) {
-      const { gridId, name } = action.payload;
-      const grid = findGrid(gridId, state.grids);
-      grid.name = name;
+    setPlateName(state, action) {
+      const { plateId, name } = action.payload;
+      const plate = findPlate(plateId, state.plates);
+      plate.name = name;
     },
     addView(state, action) {
       const { view } = action.payload;
@@ -118,22 +118,20 @@ const activity = createSlice({
         } else view.active = false;
       });
     },
-    setAllViewGridsSelected(state, action) {
+    setAllViewPlatesSelected(state, action) {
       const { viewId, selected } = action.payload;
       const view = findView(viewId, state.views);
-      view.data.viewGrids.forEach((viewGrid) => {
-        viewGrid.selected = selected;
+      view.viewPlates.forEach((viewPlate) => {
+        viewPlate.selected = selected;
       });
     },
-    toggleGridSelection(state, action) {
-      const { gridId, viewId } = action.payload;
+    togglePlateSelection(state, action) {
+      const { plateId, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      if (view.data.viewGrids) {
-        const viewGrid = view.data.viewGrids.find(
-          (viewGrid) => viewGrid.id === gridId
-        );
-        viewGrid.selected = !viewGrid.selected;
-      }
+      const viewPlate = view.viewPlates.find(
+        (viewPlate) => viewPlate.id === plateId
+      );
+      viewPlate.selected = !viewPlate.selected;
     },
     selectAllGridContainers(state, action) {
       const { gridIds, viewId } = action.payload;
@@ -218,6 +216,10 @@ const activity = createSlice({
 });
 
 export const { actions, reducer } = activity;
+
+function findPlate(plateId, plates) {
+  return plates.find((plate) => plate.id === plateId);
+}
 
 function findGrid(gridId, grids) {
   return grids.find((grid) => grid.id === gridId);

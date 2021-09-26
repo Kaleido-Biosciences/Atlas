@@ -27,9 +27,9 @@ export function addNewPlates(dimensions, quantity) {
   };
 }
 
-export function setGridSize(gridIds, rows, columns) {
+export function setPlateSize(plateIds, numRows, numCols) {
   return (dispatch, getState) => {
-    dispatch(actions.setGridSize({ gridIds, rows, columns }));
+    dispatch(actions.setPlateSize({ plateIds, numRows, numCols }));
   };
 }
 
@@ -44,11 +44,11 @@ export function setGridComponents(gridId, actionPositions) {
   };
 }
 
-export function setGridName(gridId, name) {
+export function setPlateName(plateId, name) {
   return (dispatch, getState) => {
     dispatch(
-      actions.setGridName({
-        gridId,
+      actions.setPlateName({
+        plateId,
         name,
       })
     );

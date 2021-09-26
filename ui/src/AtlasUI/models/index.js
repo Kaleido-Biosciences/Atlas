@@ -3,12 +3,15 @@ export { createContainer } from './container';
 export { createContainerCollection } from './containerCollection';
 export {
   createGrid,
-  createRowHeaders,
-  createColumnHeaders,
   createGridPositions,
   createContainersForGrid,
   createGridPosition,
   addContainersToGrid,
 } from './grid';
-export { createPlate } from './plate';
+export {
+  createPlate,
+  createWells,
+  createRowHeaders,
+  createColumnHeaders,
+} from './plate';
 export { createWell } from './well';
