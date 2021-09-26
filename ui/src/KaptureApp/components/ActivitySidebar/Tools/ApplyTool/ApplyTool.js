@@ -5,7 +5,7 @@ import { Button } from 'KaptureApp/components/Button';
 import { ComponentSearch } from './ComponentSearch';
 import { AddAttributeForm } from './AddAttributeForm';
 import { ToolComponentList } from './ToolComponentList';
-import { SelectedContainers } from '../SelectedContainers';
+import { SelectedWells } from '../SelectedWells';
 import styles from './ApplyTool.module.css';
 
 export class ApplyTool extends React.Component {
@@ -90,8 +90,8 @@ export class ApplyTool extends React.Component {
                 toolComponents={this.props.toolComponents}
               />
             </div>
-            <div className={styles.selectedContainersContainer}>
-              {/* <SelectedContainers
+            <div className={styles.selectedWellsContainer}>
+              <SelectedWells
                 activeView={this.props.activeView}
                 buttonDisabled={
                   !this.props.toolComponentsValid ||
@@ -100,7 +100,7 @@ export class ApplyTool extends React.Component {
                 buttonText="Apply to"
                 onButtonClick={this.handleApplyClick}
                 showButton={true}
-              /> */}
+              />
             </div>
           </div>
         )}

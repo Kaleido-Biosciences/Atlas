@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 
 import { RemoveToolOption } from './RemoveToolOption';
-import { SelectedContainers } from '../SelectedContainers';
+import { SelectedWells } from '../SelectedWells';
 import styles from './RemoveTool.module.css';
 
 export class RemoveTool extends Component {
@@ -80,7 +80,7 @@ export class RemoveTool extends Component {
         </div>
         {showSelectedContainers && (
           <div className={styles.selectedContainersContainer}>
-            <SelectedContainers
+            <SelectedWells
               buttonDisabled={selectedContainersButtonDisabled}
               buttonText="Remove from"
               onButtonClick={this.handleRemoveClick}

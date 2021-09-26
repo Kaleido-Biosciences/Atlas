@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../../../Button';
-import { SelectedContainers } from '../SelectedContainers';
+import { SelectedWells } from '../SelectedWells';
 import styles from './SelectTool.module.css';
 
 export class SelectTool extends React.Component {
@@ -88,7 +88,7 @@ export class SelectTool extends React.Component {
           </div>
         </div>
         <div className={styles.selectedContainersContainer}>
-          <SelectedContainers
+          <SelectedWells
             activeView={this.props.activeView}
             showButton={false}
           />
