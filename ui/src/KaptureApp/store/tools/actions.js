@@ -83,27 +83,33 @@ export const removeApplyToolComponents = (componentIds) => {
   };
 };
 
-export const handleContainerClick = (gridId, positions) => {
+export const handleContainerClick = (plateId, wells) => {
   return (dispatch, getState) => {
     const clickMode = selectors.selectClickMode(getState());
     if (clickMode === 'apply') {
-      dispatch(applySelectedToolComponentsToContainers(gridId, positions));
+      dispatch(applySelectedToolComponentsToWells(plateId, wells));
     } else if (clickMode === 'select') {
-      dispatch(editor.toggleGridContainerSelections(gridId, positions));
+      dispatch(editor.toggleGridContainerSelections(plateId, wells));
     } else if (clickMode === 'remove') {
-      dispatch(removeComponentsFromContainers(gridId, positions));
+      dispatch(removeComponentsFromContainers(plateId, wells));
     }
   };
 };
 
-export const applySelectedToolComponentsToContainers = (gridId, positions) => {
+export const applySelectedToolComponentsToWells = (plateId, wells) => {
   return (dispatch, getState) => {
     if (selectors.selectApplyToolComponentsValid(getState())) {
       const toolComponents = selectors.selectSelectedApplyToolComponents(
         getState()
       );
-      const actionPositions = applyComponents(positions, toolComponents);
-      dispatch(activity.setGridComponents(gridId, actionPositions));
+      const updatedWells = [];
+      wells.forEach((well) => {
+        updatedWells.push({
+          ...well,
+          components: applyComponents(well.components, toolComponents),
+        });
+      });
+      dispatch(activity.updatePlateWells(plateId, updatedWells));
     }
   };
 };

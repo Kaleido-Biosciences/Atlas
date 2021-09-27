@@ -11,7 +11,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onContainerClick: tools.handleContainerClick,
+  onWellClick: tools.handleContainerClick,
   onViewTabClick: activity.setActiveView,
 };
 
