@@ -88,3 +88,9 @@ export function selectBorderPlateWells(plateIds, viewId) {
     );
   };
 }
+
+export function togglePlateWellSelections(plateId, wells, viewId) {
+  return (dispatch, getState) => {
+    dispatch(actions.togglePlateWellSelections({ plateId, wells, viewId }));
+  };
+}

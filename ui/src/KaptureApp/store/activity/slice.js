@@ -175,6 +175,30 @@ const activity = createSlice({
         }
       });
     },
+    togglePlateWellSelections(state, action) {
+      const { plateId, wells, viewId } = action.payload;
+      const view = findView(viewId, state.views);
+      const viewPlate = findPlate(plateId, view.viewPlates);
+      const status = { selected: false, deselected: false };
+      const wellNames = wells.map((well) => well.name);
+      const filteredWells = viewPlate.selectedWells.filter((selectedWell) => {
+        return !wellNames.includes(selectedWell);
+      });
+      wells.forEach((well) => {
+        if (viewPlate.selectedWells.includes(well.name)) {
+          status.selected = true;
+        } else {
+          status.deselected = true;
+        }
+      });
+      const newSelectionStatus =
+        (status.selected && status.deselected) || !status.selected
+          ? true
+          : false;
+      if (newSelectionStatus) {
+        viewPlate.selectedWells = filteredWells.concat(wellNames);
+      } else viewPlate.selectedWells = filteredWells;
+    },
     resetState(state, action) {
       Object.assign(state, initialState);
     },

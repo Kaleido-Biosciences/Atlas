@@ -83,13 +83,13 @@ export const removeApplyToolComponents = (componentIds) => {
   };
 };
 
-export const handleContainerClick = (plateId, wells) => {
+export const handleContainerClick = (plateId, wells, viewId) => {
   return (dispatch, getState) => {
     const clickMode = selectors.selectClickMode(getState());
     if (clickMode === 'apply') {
       dispatch(applySelectedToolComponentsToWells(plateId, wells));
     } else if (clickMode === 'select') {
-      dispatch(editor.toggleGridContainerSelections(plateId, wells));
+      dispatch(activity.togglePlateWellSelections(plateId, wells, viewId));
     } else if (clickMode === 'remove') {
       dispatch(removeComponentsFromContainers(plateId, wells));
     }
