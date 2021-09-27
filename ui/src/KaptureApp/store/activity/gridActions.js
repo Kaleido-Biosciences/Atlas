@@ -34,44 +34,44 @@ export function setGridComponents(gridId, actionPositions) {
   };
 }
 
-export function selectAllGridContainers(gridIds, viewId) {
+export function selectAllPlateWells(plateIds, viewId) {
   return (dispatch, getState) => {
     dispatch(
-      actions.selectAllGridContainers({
-        gridIds,
+      actions.selectAllPlateWells({
+        plateIds,
         viewId,
       })
     );
   };
 }
 
-export function deselectAllGridContainers(gridIds, viewId) {
+export function deselectAllPlateWells(plateIds, viewId) {
   return (dispatch, getState) => {
     dispatch(
-      actions.deselectAllGridContainers({
-        gridIds,
+      actions.deselectAllPlateWells({
+        plateIds,
         viewId,
       })
     );
   };
 }
 
-export function selectInteriorGridContainers(gridIds, viewId) {
+export function selectInteriorPlateWells(plateIds, viewId) {
   return (dispatch, getState) => {
     dispatch(
-      actions.selectInteriorGridContainers({
-        gridIds,
+      actions.selectInteriorPlateWells({
+        plateIds,
         viewId,
       })
     );
   };
 }
 
-export function selectBorderGridContainers(gridIds, viewId) {
+export function selectBorderPlateWells(plateIds, viewId) {
   return (dispatch, getState) => {
     dispatch(
-      actions.selectBorderGridContainers({
-        gridIds,
+      actions.selectBorderPlateWells({
+        plateIds,
         viewId,
       })
     );

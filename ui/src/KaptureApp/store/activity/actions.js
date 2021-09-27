@@ -25,17 +25,14 @@ export function loadActivity(id) {
 export const togglePlateSelection = gridActions.togglePlateSelection;
 export const setPlateSize = gridActions.setPlateSize;
 export const setPlateName = gridActions.setPlateName;
+export const selectAllPlateWells = gridActions.selectAllPlateWells;
+export const deselectAllPlateWells = gridActions.deselectAllPlateWells;
+export const selectInteriorPlateWells = gridActions.selectInteriorPlateWells;
+export const selectBorderPlateWells = gridActions.selectBorderPlateWells;
 
 export const setAllViewPlatesSelected = viewActions.setAllViewPlatesSelected;
 
 export const setGridComponents = gridActions.setGridComponents;
-export const selectAllGridContainers = gridActions.selectAllGridContainers;
-export const deselectAllGridContainers = gridActions.deselectAllGridContainers;
-export const selectInteriorGridContainers =
-  gridActions.selectInteriorGridContainers;
-export const selectBorderGridContainers =
-  gridActions.selectBorderGridContainers;
-
 export const addView = viewActions.addView;
 export const setActiveView = viewActions.setActiveView;
 

@@ -5,12 +5,12 @@ import { SelectedWells } from '../SelectedWells';
 import styles from './SelectTool.module.css';
 
 export class SelectTool extends React.Component {
-  getSelectedGridIds = () => {
-    const { viewGrids } = this.props.activeView.data;
+  getSelectedPlateIds = () => {
+    const { viewPlates } = this.props.activeView;
     const selectedIds = [];
-    viewGrids.forEach((viewGrid) => {
-      if (viewGrid.selected) {
-        selectedIds.push(viewGrid.id);
+    viewPlates.forEach((viewPlate) => {
+      if (viewPlate.selected) {
+        selectedIds.push(viewPlate.id);
       }
     });
     return selectedIds;
@@ -18,7 +18,7 @@ export class SelectTool extends React.Component {
   handleAllClick = () => {
     if (this.props.onAllClick) {
       this.props.onAllClick(
-        this.getSelectedGridIds(),
+        this.getSelectedPlateIds(),
         this.props.activeView.id
       );
     }
@@ -26,7 +26,7 @@ export class SelectTool extends React.Component {
   handleBorderClick = () => {
     if (this.props.onBorderClick) {
       this.props.onBorderClick(
-        this.getSelectedGridIds(),
+        this.getSelectedPlateIds(),
         this.props.activeView.id
       );
     }
@@ -34,7 +34,7 @@ export class SelectTool extends React.Component {
   handleInteriorClick = () => {
     if (this.props.onInteriorClick) {
       this.props.onInteriorClick(
-        this.getSelectedGridIds(),
+        this.getSelectedPlateIds(),
         this.props.activeView.id
       );
     }
@@ -42,7 +42,7 @@ export class SelectTool extends React.Component {
   handleDeselectAllClick = () => {
     if (this.props.onDeselectAllClick) {
       this.props.onDeselectAllClick(
-        this.getSelectedGridIds(),
+        this.getSelectedPlateIds(),
         this.props.activeView.id
       );
     }

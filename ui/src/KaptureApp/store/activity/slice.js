@@ -118,61 +118,61 @@ const activity = createSlice({
       );
       viewPlate.selected = !viewPlate.selected;
     },
-    selectAllGridContainers(state, action) {
-      const { gridIds, viewId } = action.payload;
+    selectAllPlateWells(state, action) {
+      const { plateIds, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      gridIds.forEach((gridId) => {
-        const grid = findGrid(gridId, state.grids);
-        const viewGrid = findGrid(gridId, view.data.viewGrids);
-        viewGrid.selectedContainers = [];
-        grid.positions.forEach((position) => {
-          viewGrid.selectedContainers.push(position.name);
+      plateIds.forEach((plateId) => {
+        const plate = findPlate(plateId, state.plates);
+        const viewPlate = findPlate(plateId, view.viewPlates);
+        viewPlate.selectedWells = [];
+        plate.wells.forEach((well) => {
+          viewPlate.selectedWells.push(well.name);
         });
       });
     },
-    deselectAllGridContainers(state, action) {
-      const { gridIds, viewId } = action.payload;
+    deselectAllPlateWells(state, action) {
+      const { plateIds, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      gridIds.forEach((gridId) => {
-        const viewGrid = findGrid(gridId, view.data.viewGrids);
-        viewGrid.selectedContainers = [];
+      plateIds.forEach((plateId) => {
+        const viewPlate = findPlate(plateId, view.viewPlates);
+        viewPlate.selectedWells = [];
       });
     },
-    selectInteriorGridContainers(state, action) {
-      const { gridIds, viewId } = action.payload;
+    selectInteriorPlateWells(state, action) {
+      const { plateIds, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      gridIds.forEach((gridId) => {
-        const grid = findGrid(gridId, state.grids);
-        const viewGrid = findGrid(gridId, view.data.viewGrids);
-        viewGrid.selectedContainers = [];
-        for (let i = 1; i < grid.rows - 1; i++) {
-          const start = i * grid.columns;
-          const end = (i + 1) * grid.columns;
-          const row = grid.positions.slice(start + 1, end - 1);
-          row.forEach((position) => {
-            viewGrid.selectedContainers.push(position.name);
+      plateIds.forEach((plateId) => {
+        const plate = findPlate(plateId, state.plates);
+        const viewPlate = findPlate(plateId, view.viewPlates);
+        viewPlate.selectedWells = [];
+        for (let i = 1; i < plate.numRows - 1; i++) {
+          const start = i * plate.numCols;
+          const end = (i + 1) * plate.numCols;
+          const row = plate.wells.slice(start + 1, end - 1);
+          row.forEach((well) => {
+            viewPlate.selectedWells.push(well.name);
           });
         }
       });
     },
-    selectBorderGridContainers(state, action) {
-      const { gridIds, viewId } = action.payload;
+    selectBorderPlateWells(state, action) {
+      const { plateIds, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      gridIds.forEach((gridId) => {
-        const grid = findGrid(gridId, state.grids);
-        const viewGrid = findGrid(gridId, view.data.viewGrids);
-        viewGrid.selectedContainers = [];
-        for (let i = 0; i < grid.rows; i++) {
-          const start = i * grid.columns;
-          const end = (i + 1) * grid.columns;
-          const row = grid.positions.slice(start, end);
-          if (i === 0 || i === grid.rows - 1) {
-            row.forEach((position) => {
-              viewGrid.selectedContainers.push(position.name);
+      plateIds.forEach((plateId) => {
+        const plate = findPlate(plateId, state.plates);
+        const viewPlate = findPlate(plateId, view.viewPlates);
+        viewPlate.selectedWells = [];
+        for (let i = 0; i < plate.numRows; i++) {
+          const start = i * plate.numCols;
+          const end = (i + 1) * plate.numCols;
+          const row = plate.wells.slice(start, end);
+          if (i === 0 || i === plate.numRows - 1) {
+            row.forEach((well) => {
+              viewPlate.selectedWells.push(well.name);
             });
           } else {
-            viewGrid.selectedContainers.push(row[0].name);
-            viewGrid.selectedContainers.push(row[grid.columns - 1].name);
+            viewPlate.selectedWells.push(row[0].name);
+            viewPlate.selectedWells.push(row[plate.numCols - 1].name);
           }
         }
       });

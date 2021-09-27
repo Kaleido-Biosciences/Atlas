@@ -10,10 +10,10 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAllClick: activity.selectAllGridContainers,
-  onBorderClick: activity.selectBorderGridContainers,
-  onDeselectAllClick: activity.deselectAllGridContainers,
-  onInteriorClick: activity.selectInteriorGridContainers,
+  onAllClick: activity.selectAllPlateWells,
+  onBorderClick: activity.selectBorderPlateWells,
+  onDeselectAllClick: activity.deselectAllPlateWells,
+  onInteriorClick: activity.selectInteriorPlateWells,
 };
 
 const connected = connect(mapState, mapDispatch)(SelectTool);
