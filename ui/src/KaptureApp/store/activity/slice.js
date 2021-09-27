@@ -66,14 +66,12 @@ const activity = createSlice({
         plate.columnHeaders = createColumnHeaders(numCols);
       });
     },
-    setGridComponents(state, action) {
-      const { gridId, positions } = action.payload;
-      const grid = findGrid(gridId, state.grids);
-      positions.forEach((position) => {
-        const gridPosition = findPosition(position, grid.positions);
-        if (gridPosition.container) {
-          gridPosition.container.components = position.components;
-        }
+    updatePlateWells(state, action) {
+      const { plateId, updatedWells } = action.payload;
+      const plate = findPlate(plateId, state.plates);
+      updatedWells.forEach((updatedWell) => {
+        const plateWell = findWell(updatedWell.name, plate.wells);
+        plateWell.components = updatedWell.components;
       });
     },
     setPlateName(state, action) {
@@ -206,14 +204,8 @@ function findPlate(plateId, plates) {
   return plates.find((plate) => plate.id === plateId);
 }
 
-function findGrid(gridId, grids) {
-  return grids.find((grid) => grid.id === gridId);
-}
-
-function findPosition(position, positions) {
-  return positions.find(
-    (pos) => pos.row === position.row && pos.column === position.column
-  );
+function findWell(name, wells) {
+  return wells.find((well) => well.name === name);
 }
 
 function findView(viewId, views) {

@@ -29,6 +29,7 @@ export const selectAllPlateWells = gridActions.selectAllPlateWells;
 export const deselectAllPlateWells = gridActions.deselectAllPlateWells;
 export const selectInteriorPlateWells = gridActions.selectInteriorPlateWells;
 export const selectBorderPlateWells = gridActions.selectBorderPlateWells;
+export const updatePlateWells = gridActions.updatePlateWells;
 
 export const setAllViewPlatesSelected = viewActions.setAllViewPlatesSelected;
 

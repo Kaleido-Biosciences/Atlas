@@ -8,7 +8,7 @@ import { api } from 'KaptureApp/api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
-  applyComponentsToContainer,
+  applyComponents,
 } from 'KaptureApp/config/componentTypes';
 
 const { wrapWithChangeHandler } = activity;
@@ -102,16 +102,13 @@ export const applySelectedToolComponentsToContainers = (gridId, positions) => {
       const toolComponents = selectors.selectSelectedApplyToolComponents(
         getState()
       );
-      const actionPositions = applyToolComponentsToPositions(
-        positions,
-        toolComponents
-      );
+      const actionPositions = applyComponents(positions, toolComponents);
       dispatch(activity.setGridComponents(gridId, actionPositions));
     }
   };
 };
 
-export const applySelectedToolComponentsToSelectedContainers = (viewId) => {
+export const applySelectedToolComponentsToSelectedWells = (viewId) => {
   return (dispatch, getState) => {
     if (selectors.selectApplyToolComponentsValid(getState())) {
       const toolComponents = selectors.selectSelectedApplyToolComponents(
@@ -119,46 +116,24 @@ export const applySelectedToolComponentsToSelectedContainers = (viewId) => {
       );
       const views = activity.selectViews(getState());
       const view = views.find((view) => view.id === viewId);
-      const grids = activity.selectGrids(getState());
-      view.data.viewGrids.forEach((viewGrid) => {
-        if (viewGrid.selectedContainers.length > 0) {
-          const grid = grids.find((grid) => grid.id === viewGrid.id);
-          const positions = [];
-          grid.positions.forEach((position) => {
-            if (
-              position.container &&
-              viewGrid.selectedContainers.includes(position.name)
-            ) {
-              positions.push(position);
+      const plates = activity.selectPlates(getState());
+      view.viewPlates.forEach((viewPlate) => {
+        if (viewPlate.selectedWells.length > 0) {
+          const plate = plates.find((plate) => plate.id === viewPlate.id);
+          const updatedWells = [];
+          plate.wells.forEach((well) => {
+            if (viewPlate.selectedWells.includes(well.name)) {
+              updatedWells.push({
+                ...well,
+                components: applyComponents(well.components, toolComponents),
+              });
             }
           });
-          const actionPositions = applyToolComponentsToPositions(
-            positions,
-            toolComponents
-          );
-          dispatch(activity.setGridComponents(grid.id, actionPositions));
+          dispatch(activity.updatePlateWells(plate.id, updatedWells));
         }
       });
     }
   };
-};
-
-const applyToolComponentsToPositions = (positions, toolComponents) => {
-  const actionPositions = [];
-  positions.forEach((position) => {
-    if (position.container) {
-      const newComponents = applyComponentsToContainer(
-        position.container,
-        toolComponents
-      );
-      actionPositions.push({
-        row: position.row,
-        column: position.column,
-        components: newComponents,
-      });
-    }
-  });
-  return actionPositions;
 };
 
 export const setComponentTypesToRemove = (componentTypes) => {

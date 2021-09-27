@@ -23,6 +23,17 @@ export function setPlateName(plateId, name) {
   };
 }
 
+export function updatePlateWells(plateId, updatedWells) {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.updatePlateWells({
+        plateId,
+        updatedWells,
+      })
+    );
+  };
+}
+
 export function setGridComponents(gridId, actionPositions) {
   return (dispatch, getState) => {
     dispatch(

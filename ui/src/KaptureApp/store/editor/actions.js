@@ -5,7 +5,7 @@ import { editorImport } from '../editorImport';
 import { GRID_ROW_HEADERS } from 'KaptureApp/config/grid';
 import {
   cloneComponents,
-  applyComponentsToContainer,
+  applyComponents,
 } from 'KaptureApp/config/componentTypes';
 import {
   createGrid,
@@ -184,10 +184,9 @@ export const applyImportedComponentsToGrid = wrapWithChangeHandler((gridId) => {
         );
       });
       if (gridPosition && gridPosition.container) {
-        const newComponents = applyComponentsToContainer(
-          gridPosition.container,
-          [position.component]
-        );
+        const newComponents = applyComponents(gridPosition.container, [
+          position.component,
+        ]);
         actionPositions.push({
           row: position.row,
           column: position.column,

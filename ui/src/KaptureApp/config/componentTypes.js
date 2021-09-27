@@ -88,37 +88,37 @@ export const sortComponentsByType = (components) => {
   });
 };
 
-export const applyComponentsToContainer = (container, components) => {
-  const containerComponents = container.components.slice();
-  const componentsToApply = components.map((component) => {
+export const applyComponents = (target, source) => {
+  const targetComponents = target.slice();
+  const sourceComponents = source.map((component) => {
     return cloneComponent(component);
   });
-  componentsToApply.forEach((component) => {
-    const existingComponent = containerComponents.find(
-      (comp) => comp.id === component.id
+  sourceComponents.forEach((sourceComponent) => {
+    const targetComponent = targetComponents.find(
+      (comp) => comp.id === sourceComponent.id
     );
-    if (!existingComponent) {
-      containerComponents.push(component);
+    if (!targetComponent) {
+      targetComponents.push(sourceComponent);
     } else {
-      if (existingComponent.fields.timepoints) {
-        existingComponent.fields.timepoints.forEach((eTimepoint) => {
-          const index = component.fields.timepoints.findIndex(
+      if (targetComponent.fields.timepoints) {
+        targetComponent.fields.timepoints.forEach((eTimepoint) => {
+          const index = sourceComponent.fields.timepoints.findIndex(
             (timepoint) => timepoint.time === eTimepoint.time
           );
           if (index === -1) {
-            component.fields.timepoints.push(eTimepoint);
+            sourceComponent.fields.timepoints.push(eTimepoint);
           }
         });
-        component.fields.timepoints.sort((a, b) => {
+        sourceComponent.fields.timepoints.sort((a, b) => {
           return a.time - b.time;
         });
       }
-      const index = containerComponents.findIndex(
-        (eComponent) => eComponent.id === component.id
+      const index = targetComponents.findIndex(
+        (tComponent) => tComponent.id === sourceComponent.id
       );
-      component.description = getDescription(component);
-      containerComponents.splice(index, 1, component);
+      sourceComponent.description = getDescription(sourceComponent);
+      targetComponents.splice(index, 1, sourceComponent);
     }
   });
-  return sortComponentsByType(containerComponents);
+  return sortComponentsByType(targetComponents);
 };
