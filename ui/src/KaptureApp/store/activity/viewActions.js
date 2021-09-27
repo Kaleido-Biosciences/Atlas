@@ -1,23 +1,24 @@
 import { v4 as uuidv4 } from 'uuid';
 import { actions } from './slice';
 
-export function addView(type, gridIds, data) {
+export function addView(type, plateIds, data) {
   return (dispatch, getState) => {
-    const viewGrids = gridIds.map((gridId) => {
-      return {
-        id: gridId,
-        selected: type === 'Editor' || type === 'PlateTable' ? true : false,
-        selectedContainers: [],
-      };
-    });
     dispatch(
       actions.addView({
         view: {
           id: uuidv4(),
           name: type,
           type: type,
-          data: { viewGrids, ...data },
           active: false,
+          viewPlates: plateIds.map((plateId) => {
+            return {
+              id: plateId,
+              selected:
+                type === 'Editor' || type === 'PlateTable' ? true : false,
+              selectedWells: [],
+            };
+          }),
+          data: { ...data },
         },
       })
     );

@@ -2,38 +2,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { GridHeader } from '../GridHeader';
 import { Scrollbars } from 'AtlasUI/components';
-import { Position } from './Position';
+import { Well } from './Well';
 import styles from './PlateTable.module.css';
 
 export class PlateTable extends Component {
-  handlePositionClick = (position) => {
-    if (this.props.onContainerClick) {
-      this.props.onContainerClick(this.props.view.data.viewGrids[0].id, [
-        position,
-      ]);
+  handleWellClick = (well) => {
+    if (this.props.onWellClick) {
+      this.props.onWellClick(this.props.view.viewPlates[0].id, [well]);
     }
   };
   renderPlate() {
-    const viewGrid = this.props.view.data.viewGrids[0];
-    const { grid: plate, selectedContainers } = viewGrid;
-    return plate.positions.map((position, i) => {
-      const selected = selectedContainers.includes(position.name);
+    const viewPlate = this.props.view.viewPlates[0];
+    const { plate, selectedWells } = viewPlate;
+    return plate.wells.map((well, i) => {
+      const selected = selectedWells.includes(well.name);
       return (
-        <Position
-          position={position}
+        <Well
+          darkBackground={i % 2 === 1}
+          key={well.name}
+          onClick={this.handleWellClick}
+          well={well}
           selected={selected}
-          index={i}
-          key={position.name}
-          onClick={this.handlePositionClick}
         />
       );
     });
   }
   render() {
-    const grid = this.props.view.data.viewGrids[0].grid;
+    const plate = this.props.view.viewPlates[0].plate;
     return (
       <div className={styles.plateTable}>
-        <GridHeader grid={grid} />
+        <GridHeader grid={plate} />
         <div className={styles.scrollContainer}>
           <Scrollbars>
             <table className="h-full min-w-full divide-y divide-gray-200">
@@ -64,5 +62,5 @@ export class PlateTable extends Component {
 
 PlateTable.propTypes = {
   view: PropTypes.object.isRequired,
-  onContainerClick: PropTypes.func,
+  onWellClick: PropTypes.func,
 };
