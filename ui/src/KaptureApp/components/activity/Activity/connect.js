@@ -11,7 +11,6 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddPlate: activity.addNewPlates,
   onContainerClick: tools.handleContainerClick,
   onViewTabClick: activity.setActiveView,
 };
