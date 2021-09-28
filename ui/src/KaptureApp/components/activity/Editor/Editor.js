@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from 'AtlasUI/components';
-import { GridHeader } from '../GridHeader';
+import { Header } from './Header';
 import styles from './Editor.module.css';
 
 export class Editor extends Component {
   render() {
-    const viewGrid = this.props.view.data.viewGrids[0];
+    const viewPlate = this.props.view.viewPlates[0];
     return (
       <div className={styles.editor}>
-        <GridHeader grid={viewGrid.grid} />
+        <Header plate={viewPlate.plate} />
         <div className={styles.gridContainer}>
-          <Grid
+          {/* <Grid
             containerTypeOptions={this.props.containerTypeOptions}
             grid={viewGrid.grid}
             onClick={this.props.onContainerClick}
             selectedContainers={viewGrid.selectedContainers}
             settings={this.props.settings}
-          />
+          /> */}
         </div>
       </div>
     );
