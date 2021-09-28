@@ -14,40 +14,36 @@ export class ColumnHeaders extends Component {
     }
   };
   render() {
-    const cells = this.props.values.map((value, i) => {
-      return (
-        <HeaderCell
-          height={this.props.cellHeight}
-          index={i}
-          key={i}
-          label={value}
-          onClick={this.handleCellClick}
-          width={this.props.cellWidth}
-          xPadding={this.props.cellXPadding}
-          yPadding={this.props.cellYPadding}
-        />
-      );
-    });
     return (
       <div ref={this.divRef} className={styles.columnHeaders}>
-        {cells}
+        {this.props.values.map((value, i) => {
+          return (
+            <HeaderCell
+              height={this.props.cellHeight}
+              index={i}
+              key={i}
+              label={value}
+              marginRight={this.props.cellMarginRight}
+              onClick={this.handleCellClick}
+              width={this.props.cellWidth}
+            />
+          );
+        })}
       </div>
     );
   }
 }
 
 ColumnHeaders.propTypes = {
-  cellHeight: PropTypes.number.isRequired,
-  cellWidth: PropTypes.number.isRequired,
-  cellXPadding: PropTypes.number.isRequired,
-  cellYPadding: PropTypes.number.isRequired,
+  cellHeight: PropTypes.number,
+  cellMarginRight: PropTypes.number,
+  cellWidth: PropTypes.number,
   onClick: PropTypes.func,
   values: PropTypes.array.isRequired,
 };
 
 ColumnHeaders.defaultProps = {
   cellHeight: 24,
+  cellMarginRight: 4,
   cellWidth: 120,
-  cellXPadding: 2,
-  cellYPadding: 0,
 };

@@ -54,36 +54,70 @@ export class PlateGrid extends Component {
   }
   render() {
     const { plate } = this.props;
+    const wellHeight = 120;
+    const wellWidth = 120;
+    const wellMarginRight = 4;
+    const wellMarginBottom = 4;
+    const headerMargin = 4;
+    const headerSize = 24;
     const settings = {
-      columnHeaderHeight: 24,
-      rowHeaderWidth: 24,
-      cellSpacing: 5,
-      headerMargin: 5,
-      wellHeight: 120,
-      wellWidth: 120,
+      columnHeaderCellHeight: headerSize,
+      columnHeaderCellWidth: wellWidth,
+      columnHeaderCellMarginRight: wellMarginRight,
+      columnHeaderBottomMargin: headerMargin,
+      rowHeaderCellHeight: wellHeight,
+      rowHeaderCellWidth: headerSize,
+      rowHeaderCellMarginBottom: wellMarginBottom,
+      rowHeaderRightMargin: headerMargin,
+      wellHeight,
+      wellWidth,
+      wellMarginRight,
+      wellMarginBottom,
     };
     const cornerStyle = {
-      height: settings.columnHeaderHeight + 'px',
-      width: settings.rowHeaderWidth + 'px',
+      height: settings.columnHeaderCellHeight + 'px',
+      width: settings.rowHeaderCellWidth + 'px',
+      marginRight: settings.rowHeaderRightMargin + 'px',
+    };
+    const topHeaderStyle = {
+      marginBottom: `${settings.columnHeaderBottomMargin}px`,
+    };
+    const rowHeaderStyle = {
+      marginRight: `${settings.rowHeaderRightMargin}px`,
     };
     return (
       <div className={styles.plateGrid}>
-        <div className={styles.topHeader}>
+        <div className={styles.topHeader} style={topHeaderStyle}>
           <div className={styles.cornerCell} style={cornerStyle}></div>
           <ColumnHeaders
+            cellHeight={settings.columnHeaderCellHeight}
+            cellMarginRight={settings.columnHeaderCellMarginRight}
+            cellWidth={settings.columnHeaderCellWidth}
             onClick={this.handleHeaderCellClick}
             ref={this.columnHeadersRef}
             values={plate.columnHeaders}
           />
         </div>
         <div className={styles.body}>
-          <RowHeaders
-            onClick={this.handleHeaderCellClick}
-            ref={this.rowHeadersRef}
-            values={plate.rowHeaders}
-          />
+          <div className={styles.rowHeader} style={rowHeaderStyle}>
+            <RowHeaders
+              cellHeight={settings.rowHeaderCellHeight}
+              cellMarginBottom={settings.rowHeaderCellMarginBottom}
+              cellWidth={settings.rowHeaderCellWidth}
+              onClick={this.handleHeaderCellClick}
+              ref={this.rowHeadersRef}
+              values={plate.rowHeaders}
+            />
+          </div>
           <Scrollbars onScrollFrame={this.handleScroll}>
-            <Wells plate={plate} selectedWells={this.props.selectedWells} />
+            <Wells
+              plate={plate}
+              selectedWells={this.props.selectedWells}
+              wellHeight={settings.wellHeight}
+              wellMarginBottom={settings.wellMarginBottom}
+              wellMarginRight={settings.wellMarginRight}
+              wellWidth={settings.wellWidth}
+            />
             {/* <GridData
               containerTypeOptions={this.props.containerTypeOptions}
               enableRemoveComponent={this.props.enableRemoveComponent}

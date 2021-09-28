@@ -33,21 +33,15 @@ export class Well extends PureComponent {
   //   );
   // }
   render() {
-    const { wells, selected } = this.props;
-    const wellContainerStyle = {
-      height: this.props.height + 'px',
-      width: this.props.width + 'px',
-      padding: this.props.outerPadding + 'px',
-    };
+    const { selected } = this.props;
     const wellStyle = {
-      borderWidth: this.props.innerPadding + 'px',
+      height: `${this.props.height}px`,
+      marginBottom: `${this.props.marginBottom}px`,
+      marginRight: `${this.props.marginRight}px`,
+      width: `${this.props.width}px`,
     };
     const wellClass = classNames(styles.well, { selected });
-    return (
-      <div className={styles.wellContainer} style={wellContainerStyle}>
-        <div className={wellClass} style={wellStyle}></div>
-      </div>
-    );
+    return <div className={wellClass} style={wellStyle}></div>;
   }
 }
 
@@ -55,17 +49,17 @@ Well.propTypes = {
   selected: PropTypes.bool,
   enableRemoveComponent: PropTypes.bool,
   height: PropTypes.number,
-  innerPadding: PropTypes.number,
+  marginBottom: PropTypes.number,
+  marginRight: PropTypes.number,
   onContainerClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
-  outerPadding: PropTypes.number,
   well: PropTypes.object,
   width: PropTypes.number,
 };
 
 Well.defaultProps = {
   height: 120,
+  marginBottom: 4,
+  marginRight: 4,
   width: 120,
-  innerPadding: 4,
-  outerPadding: 2,
 };

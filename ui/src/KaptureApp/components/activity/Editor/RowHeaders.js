@@ -14,40 +14,36 @@ export class RowHeaders extends Component {
     }
   };
   render() {
-    const cells = this.props.values.map((value, i) => {
-      return (
-        <HeaderCell
-          height={this.props.cellHeight}
-          index={i}
-          key={i}
-          label={value}
-          onClick={this.handleCellClick}
-          width={this.props.cellWidth}
-          xPadding={this.props.cellXPadding}
-          yPadding={this.props.cellYPadding}
-        />
-      );
-    });
     return (
-      <div ref={this.divRef} className={styles.rowHeader}>
-        {cells}
+      <div ref={this.divRef} className="h-full overflow-hidden">
+        {this.props.values.map((value, i) => {
+          return (
+            <HeaderCell
+              height={this.props.cellHeight}
+              index={i}
+              key={i}
+              label={value}
+              marginBottom={this.props.cellMarginBottom}
+              onClick={this.handleCellClick}
+              width={this.props.cellWidth}
+            />
+          );
+        })}
       </div>
     );
   }
 }
 
 RowHeaders.propTypes = {
-  cellHeight: PropTypes.number.isRequired,
-  cellWidth: PropTypes.number.isRequired,
-  cellXPadding: PropTypes.number.isRequired,
-  cellYPadding: PropTypes.number.isRequired,
+  cellHeight: PropTypes.number,
+  cellMarginBottom: PropTypes.number,
+  cellWidth: PropTypes.number,
   onClick: PropTypes.func,
   values: PropTypes.array.isRequired,
 };
 
 RowHeaders.defaultProps = {
   cellHeight: 120,
+  cellMarginBottom: 4,
   cellWidth: 24,
-  cellXPadding: 0,
-  cellYPadding: 2,
 };

@@ -17,7 +17,17 @@ export class Wells extends Component {
       const rowKey = `ROW_${i}`;
       const wells = row.map((well, i) => {
         const selected = this.props.selectedWells.includes(well.name);
-        return <Well key={well.name} well={well} selected={selected} />;
+        return (
+          <Well
+            height={this.props.wellHeight}
+            key={well.name}
+            marginBottom={this.props.wellMarginBottom}
+            marginRight={this.props.wellMarginRight}
+            selected={selected}
+            well={well}
+            width={this.props.wellWidth}
+          />
+        );
         //   const positionKey = `${grid.id}_POSITION_${position.row}${position.column}`;
         //   return (
         //     <GridPosition
@@ -51,4 +61,8 @@ Wells.propTypes = {
   onRemoveComponent: PropTypes.func,
   plate: PropTypes.object.isRequired,
   selectedWells: PropTypes.array.isRequired,
+  wellHeight: PropTypes.number,
+  wellMarginBottom: PropTypes.number,
+  wellMarginRight: PropTypes.number,
+  wellWidth: PropTypes.number,
 };
