@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ColumnHeaders } from './ColumnHeaders';
 import { RowHeaders } from './RowHeaders';
-// import { GridData } from './GridData';
+import { Wells } from './Wells';
 import styles from './PlateGrid.module.css';
 import { Scrollbars } from 'AtlasUI/components';
 import { getPlateRows } from 'AtlasUI/utils/plate';
@@ -54,9 +54,17 @@ export class PlateGrid extends Component {
   }
   render() {
     const { plate } = this.props;
+    const settings = {
+      columnHeaderHeight: 24,
+      rowHeaderWidth: 24,
+      cellSpacing: 5,
+      headerMargin: 5,
+      wellHeight: 120,
+      wellWidth: 120,
+    };
     const cornerStyle = {
-      height: '24px',
-      width: '24px',
+      height: settings.columnHeaderHeight + 'px',
+      width: settings.rowHeaderWidth + 'px',
     };
     return (
       <div className={styles.plateGrid}>
@@ -75,6 +83,7 @@ export class PlateGrid extends Component {
             values={plate.rowHeaders}
           />
           <Scrollbars onScrollFrame={this.handleScroll}>
+            <Wells plate={plate} selectedWells={this.props.selectedWells} />
             {/* <GridData
               containerTypeOptions={this.props.containerTypeOptions}
               enableRemoveComponent={this.props.enableRemoveComponent}
@@ -97,5 +106,5 @@ PlateGrid.propTypes = {
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   plate: PropTypes.object,
-  selectedContainers: PropTypes.array,
+  selectedWells: PropTypes.array,
 };

@@ -14,7 +14,7 @@ export class Editor extends Component {
           <PlateGrid
             plate={viewPlate.plate}
             onClick={this.props.onContainerClick}
-            selectedContainers={viewPlate.selectedContainers}
+            selectedWells={viewPlate.selectedWells}
             settings={this.props.settings}
           />
         </div>

@@ -1,5 +1,6 @@
 .plateGrid {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -12,9 +13,6 @@
 
 .cornerCell {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .body {
@@ -69,16 +67,30 @@
   right: 2px;
 }
 
-.gridPositionContainer {
+.wellContainer {
   flex-shrink: 0;
   padding: 5px;
 }
 
-.gridPosition {
+.well {
   height: 100%;
   width: 100%;
   border-color: #f3f3f3;
   border-style: solid;
+  height: 100%;
+  width: 100%;
+  padding: 2px;
+  background-color: #f3f3f3;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.well:global(.selected) {
+  background-color: #d3e6f5 !important;
+}
+
+.well:hover {
+  background-color: #ececec;
 }
 
 .addContainer {
