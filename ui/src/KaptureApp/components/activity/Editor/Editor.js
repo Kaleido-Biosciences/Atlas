@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'AtlasUI/components';
+import { PlateGrid } from './PlateGrid';
 import { Header } from './Header';
 import styles from './Editor.module.css';
 
@@ -11,13 +11,12 @@ export class Editor extends Component {
       <div className={styles.editor}>
         <Header plate={viewPlate.plate} />
         <div className={styles.gridContainer}>
-          {/* <Grid
-            containerTypeOptions={this.props.containerTypeOptions}
-            grid={viewGrid.grid}
+          <PlateGrid
+            plate={viewPlate.plate}
             onClick={this.props.onContainerClick}
-            selectedContainers={viewGrid.selectedContainers}
+            selectedContainers={viewPlate.selectedContainers}
             settings={this.props.settings}
-          /> */}
+          />
         </div>
       </div>
     );
