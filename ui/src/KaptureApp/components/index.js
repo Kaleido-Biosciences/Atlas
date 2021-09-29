@@ -6,6 +6,6 @@ export { EditorActions } from './EditorActions';
 export { EditorSidebar } from './EditorSidebar';
 export { Print } from './PrintConnected';
 export { Activity } from './activity/Activity';
-export { Button } from './Button';
+export { Button } from './ui/Button';
 export { ButtonGroup } from './ui/ButtonGroup';
 export { Scrollbars } from './ui/Scrollbars';

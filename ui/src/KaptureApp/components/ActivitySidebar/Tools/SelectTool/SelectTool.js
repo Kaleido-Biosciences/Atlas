@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '../../../Button';
+import { Button } from 'KaptureApp/components';
 import { SelectedWells } from '../SelectedWells';
 import styles from './SelectTool.module.css';
 
