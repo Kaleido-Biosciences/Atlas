@@ -17,7 +17,7 @@ export function addView(type, plateIds, data) {
             return {
               id: plateId,
               selected:
-                type === 'Editor' || type === 'PlateTable' ? true : false,
+                type === 'PlateEditor' || type === 'PlateTable' ? true : false,
               selectedWells: [],
             };
           }),
