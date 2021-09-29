@@ -14,7 +14,7 @@ export class PlateEditor extends Component {
     const viewPlate = this.props.view.viewPlates[0];
     return (
       <div className={styles.editor}>
-        <Header plate={viewPlate.plate} />
+        <Header plate={viewPlate.plate} onSaveName={this.props.onSaveName} />
         <div className={styles.gridContainer}>
           <PlateGrid
             plate={viewPlate.plate}
@@ -29,5 +29,6 @@ export class PlateEditor extends Component {
 
 PlateEditor.propTypes = {
   onGridClick: PropTypes.func,
+  onSaveName: PropTypes.func,
   view: PropTypes.object,
 };
