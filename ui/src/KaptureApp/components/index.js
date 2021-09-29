@@ -1,10 +1,6 @@
 export { Header } from './Header';
-export { Editor } from './EditorConnected';
-export { GridTabs } from './GridTabsConnected';
-export { ActiveGrid } from './ActiveGridConnected';
 export { EditorActions } from './EditorActions';
 export { EditorSidebar } from './EditorSidebar';
-export { Print } from './PrintConnected';
 export { Activity } from './activity/Activity';
 export { Button } from './ui/Button';
 export { ButtonGroup } from './ui/ButtonGroup';
