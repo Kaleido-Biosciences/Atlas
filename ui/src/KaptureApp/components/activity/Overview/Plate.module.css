@@ -1,17 +1,16 @@
 .plate {
-  height: 184px;
-  width: 231px;
+  min-width: 110px;
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 6px 8px 8px 8px;
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
 }
 
 .header {
   display: flex;
   flex-direction: row;
-  align-items: center;
   margin-bottom: 8px;
 }
 
@@ -33,4 +32,9 @@
 
 .container:last-child {
   margin-right: 0;
+}
+
+.viewContainer {
+  display: flex;
+  justify-content: space-evenly;
 }

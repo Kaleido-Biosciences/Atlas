@@ -64,8 +64,7 @@ export class Plate extends Component {
       'bg-white',
       'shadow',
       'rounded-lg',
-      'text-xs',
-      'cursor-pointer'
+      'text-xs'
     );
     return (
       <div className={className}>
@@ -74,7 +73,7 @@ export class Plate extends Component {
             <input
               name="selected"
               checked={viewPlate.selected}
-              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2"
+              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2 cursor-pointer"
               onChange={this.handleCheckboxChange}
               type="checkbox"
             />
@@ -84,11 +83,26 @@ export class Plate extends Component {
               onSave={this.handleSaveName}
               value={viewPlate.plate.name}
             />
+            <div className="text-xxs text-gray-400">
+              {viewPlate.plate.barcode}
+            </div>
           </div>
-          <FontAwesomeIcon icon="th" onClick={this.handleEditorClick} />
-          <FontAwesomeIcon icon="table" onClick={this.handleTableClick} />
         </div>
         <div>{this.renderPlate()}</div>
+        {viewPlate.plate.numRows > 0 && viewPlate.plate.numCols > 0 ? (
+          <div className="flex justify-evenly pt-2">
+            <FontAwesomeIcon
+              className="text-gray-200 hover:text-gray-500 cursor-pointer"
+              icon="th"
+              onClick={this.handleEditorClick}
+            />
+            <FontAwesomeIcon
+              className="text-gray-200 hover:text-gray-500 cursor-pointer"
+              icon="table"
+              onClick={this.handleTableClick}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }
