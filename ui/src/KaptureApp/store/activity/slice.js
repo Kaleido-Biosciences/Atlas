@@ -3,7 +3,7 @@ import {
   createWells,
   createRowHeaders,
   createColumnHeaders,
-} from 'AtlasUI/models';
+} from 'KaptureApp/models';
 
 const initialSaveTime = {
   savePending: false,

@@ -1,5 +1,5 @@
 import sampleJson from './sample.json';
-import { createPlate } from 'AtlasUI/models';
+import { createPlate } from 'KaptureApp/models';
 import { fetchActivityData, createActivityData } from './aws';
 
 export async function fetchActivity(id) {

@@ -1,6 +1,5 @@
 export { createComponent } from './component';
 export { createContainer } from './container';
-export { createContainerCollection } from './containerCollection';
 export {
   createGrid,
   createGridPositions,
@@ -13,5 +12,6 @@ export {
   createWells,
   createRowHeaders,
   createColumnHeaders,
+  getPlateRows,
 } from './plate';
 export { createWell } from './well';

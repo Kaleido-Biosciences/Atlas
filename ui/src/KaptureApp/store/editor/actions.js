@@ -13,7 +13,7 @@ import {
   createContainersForGrid,
   addContainersToGrid,
   createContainer,
-} from 'AtlasUI/models';
+} from 'KaptureApp/models';
 
 const {
   addGrid: _addGrid,

@@ -1,5 +1,3 @@
-import { DEFAULT_COMPONENT_COLOR_CODE } from '../utils/constants';
-
 export const createComponent = ({
   id = null,
   type = null,
@@ -17,7 +15,7 @@ export const createComponent = ({
     description,
     options,
     tooltip,
-    color: color || DEFAULT_COMPONENT_COLOR_CODE,
+    color: color || '#9a9a9a',
     data,
   };
 };

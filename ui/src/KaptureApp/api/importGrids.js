@@ -4,7 +4,7 @@ import {
   createGridPositions,
   createGridPosition,
   addContainersToGrid,
-} from 'AtlasUI/models';
+} from 'KaptureApp/models';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
