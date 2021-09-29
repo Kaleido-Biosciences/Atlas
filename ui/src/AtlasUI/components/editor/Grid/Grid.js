@@ -5,7 +5,7 @@ import { RowHeaders } from './RowHeaders';
 import { GridData } from './GridData';
 import styles from './Grid.module.css';
 import { Scrollbars } from '../../Scrollbars';
-import { getGridRows } from '../../../utils/grid';
+import { getGridRows } from './getGridRows';
 
 export class Grid extends Component {
   columnHeadersRef = React.createRef();

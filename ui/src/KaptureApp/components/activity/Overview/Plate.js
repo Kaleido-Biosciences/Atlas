@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './Plate.module.css';
 import classNames from 'classnames';
 import { EditableText } from '../../EditableText';
-import { getPlateRows } from 'AtlasUI/utils/plate';
+import { getPlateRows } from 'KaptureApp/models';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class Plate extends Component {

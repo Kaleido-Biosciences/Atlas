@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { GridPosition } from './GridPosition';
 import { AddContainerModal } from '../AddContainerButton';
-import { getGridRows } from '../../../utils/grid';
+import { getGridRows } from './getGridRows';
 import styles from './Grid.module.css';
 
 export class GridData extends Component {
