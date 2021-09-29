@@ -23,6 +23,7 @@ export class Wells extends Component {
             key={well.name}
             marginBottom={this.props.wellMarginBottom}
             marginRight={this.props.wellMarginRight}
+            padding={this.props.wellPadding}
             selected={selected}
             well={well}
             width={this.props.wellWidth}
@@ -64,5 +65,6 @@ Wells.propTypes = {
   wellHeight: PropTypes.number,
   wellMarginBottom: PropTypes.number,
   wellMarginRight: PropTypes.number,
+  wellPadding: PropTypes.number,
   wellWidth: PropTypes.number,
 };

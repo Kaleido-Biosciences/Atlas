@@ -58,6 +58,7 @@ export class PlateGrid extends Component {
     const wellWidth = 120;
     const wellMarginRight = 4;
     const wellMarginBottom = 4;
+    const wellPadding = 6;
     const headerMargin = 4;
     const headerSize = 24;
     const settings = {
@@ -73,6 +74,7 @@ export class PlateGrid extends Component {
       wellWidth,
       wellMarginRight,
       wellMarginBottom,
+      wellPadding,
     };
     const cornerStyle = {
       height: settings.columnHeaderCellHeight + 'px',
@@ -116,6 +118,7 @@ export class PlateGrid extends Component {
               wellHeight={settings.wellHeight}
               wellMarginBottom={settings.wellMarginBottom}
               wellMarginRight={settings.wellMarginRight}
+              wellPadding={settings.wellPadding}
               wellWidth={settings.wellWidth}
             />
             {/* <GridData
