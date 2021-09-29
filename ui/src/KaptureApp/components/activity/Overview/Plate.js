@@ -34,11 +34,12 @@ export class Plate extends Component {
     const renderedRows = rows.map((row, i) => {
       const wells = row.map((well) => {
         if (selections.includes(well.name)) {
-          className = classNames(
-            styles.container,
-            'bg-blue-200',
-            'border-blue-200'
-          );
+          className = classNames(styles.container, {
+            'border-blue-400': well.components.length > 0,
+            'bg-blue-400': well.components.length > 0,
+            'border-blue-200': well.components.length === 0,
+            'bg-blue-200': well.components.length === 0,
+          });
         } else {
           className = classNames(styles.container, {
             'border-gray-400': well.components.length > 0,
