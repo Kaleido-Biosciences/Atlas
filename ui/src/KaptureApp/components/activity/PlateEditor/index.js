@@ -1,0 +1,1 @@
+export { PlateEditor } from './connect';

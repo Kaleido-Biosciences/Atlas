@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { Editor } from './Editor';
+import { PlateEditor } from './PlateEditor';
 import { tools } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
@@ -8,5 +8,5 @@ const mapState = (state, props) => {
 
 const mapDispatch = { onGridClick: tools.handleContainerClick };
 
-const connected = connect(mapState, mapDispatch)(Editor);
-export { connected as Editor };
+const connected = connect(mapState, mapDispatch)(PlateEditor);
+export { connected as PlateEditor };

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { PlateGrid } from './PlateGrid';
 import { Header } from './Header';
-import styles from './Editor.module.css';
+import styles from './PlateEditor.module.css';
 
-export class Editor extends Component {
+export class PlateEditor extends Component {
   handleGridClick = (plateId, wells) => {
     if (this.props.onGridClick) {
       this.props.onGridClick(plateId, wells, this.props.view.id);
@@ -27,7 +27,7 @@ export class Editor extends Component {
   }
 }
 
-Editor.propTypes = {
+PlateEditor.propTypes = {
   onGridClick: PropTypes.func,
   view: PropTypes.object,
 };

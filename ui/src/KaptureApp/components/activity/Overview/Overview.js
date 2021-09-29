@@ -26,9 +26,9 @@ export class Overview extends Component {
       this.props.onSetPlateSize(this.getSelectedPlateIds(), 16, 24);
     }
   };
-  handleAddEditorView = (plateId) => {
+  handleAddPlateEditorView = (plateId) => {
     if (this.props.onAddView) {
-      this.props.onAddView('Editor', [plateId]);
+      this.props.onAddView('PlateEditor', [plateId]);
     }
   };
   handleAddPlateTableView = (plateId) => {
@@ -59,7 +59,7 @@ export class Overview extends Component {
           key={viewPlate.id}
           viewPlate={viewPlate}
           onCheckboxChange={this.handlePlateCheckboxChange}
-          onEditorClick={this.handleAddEditorView}
+          onEditorClick={this.handleAddPlateEditorView}
           onSaveName={this.props.onSavePlateName}
           onTableClick={this.handleAddPlateTableView}
         />

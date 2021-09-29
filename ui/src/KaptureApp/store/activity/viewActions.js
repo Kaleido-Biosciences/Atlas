@@ -3,12 +3,15 @@ import { actions } from './slice';
 
 export function addView(type, plateIds, data) {
   return (dispatch, getState) => {
+    let name;
+    if (type === 'PlateEditor') name = 'Editor';
+    if (type === 'PlateTable') name = 'Table';
     dispatch(
       actions.addView({
         view: {
           id: uuidv4(),
-          name: type,
-          type: type,
+          name,
+          type,
           active: false,
           viewPlates: plateIds.map((plateId) => {
             return {

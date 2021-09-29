@@ -5,7 +5,7 @@ import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTabs } from '../ViewTabs';
 import { Header } from '../Header';
-import { Editor } from '../Editor';
+import { PlateEditor } from '../PlateEditor';
 import SplitPane from 'react-split-pane';
 import styles from './Activity.module.css';
 import { ActivitySidebar } from '../../ActivitySidebar';
@@ -21,8 +21,8 @@ export class Activity extends Component {
       return (
         <PlateTable view={activeView} onWellClick={this.props.onWellClick} />
       );
-    } else if (activeView.type === 'Editor') {
-      return <Editor view={activeView} />;
+    } else if (activeView.type === 'PlateEditor') {
+      return <PlateEditor view={activeView} />;
     }
   }
   render() {
