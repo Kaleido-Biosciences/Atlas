@@ -5,7 +5,7 @@ import { RowHeaders } from './RowHeaders';
 import { Wells } from './Wells';
 import styles from './PlateGrid.module.css';
 import { Scrollbars } from 'KaptureApp/components';
-import { getPlateRows } from 'KaptureApp/models';
+import { getPlateRows } from 'models';
 
 export class PlateGrid extends Component {
   columnHeadersRef = React.createRef();

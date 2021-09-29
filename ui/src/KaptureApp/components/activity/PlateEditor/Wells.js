@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Well } from './Well';
-import { getPlateRows } from 'KaptureApp/models';
+import { getPlateRows } from 'models';
 import styles from './PlateGrid.module.css';
 
 export class Wells extends Component {

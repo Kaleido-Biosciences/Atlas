@@ -4,7 +4,7 @@ import {
   createGridPositions,
   createGridPosition,
   addContainersToGrid,
-} from 'KaptureApp/models';
+} from 'models';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,

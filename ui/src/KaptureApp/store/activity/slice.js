@@ -3,7 +3,7 @@ import {
   createWells,
   createRowHeaders,
   createColumnHeaders,
-} from 'KaptureApp/models';
+} from 'models';
 
 const initialSaveTime = {
   savePending: false,

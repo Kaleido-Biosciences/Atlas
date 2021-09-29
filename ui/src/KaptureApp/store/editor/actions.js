@@ -13,7 +13,7 @@ import {
   createContainersForGrid,
   addContainersToGrid,
   createContainer,
-} from 'KaptureApp/models';
+} from 'models';
 
 const {
   addGrid: _addGrid,
