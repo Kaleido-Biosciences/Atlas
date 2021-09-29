@@ -29,22 +29,6 @@ export class Wells extends Component {
             width={this.props.wellWidth}
           />
         );
-        //   const positionKey = `${grid.id}_POSITION_${position.row}${position.column}`;
-        //   return (
-        //     <GridPosition
-        //       containerSelected={selected}
-        //       enableRemoveComponent={this.props.enableRemoveComponent}
-        //       height={settings.containerSize.size}
-        //       innerPadding={settings.containerSize.innerPadding}
-        //       key={positionKey}
-        //       onAddContainerClick={this.handleAddContainerClick}
-        //       onContainerClick={this.handleContainerClick}
-        //       onRemoveComponent={this.props.onRemoveComponent}
-        //       outerPadding={settings.containerSize.outerPadding}
-        //       position={position}
-        //       width={settings.containerSize.size}
-        //     />
-        //   );
       });
       return (
         <div key={rowKey} className={styles.row}>

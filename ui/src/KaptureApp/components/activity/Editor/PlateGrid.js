@@ -34,24 +34,6 @@ export class PlateGrid extends Component {
       this.props.onClick(grid.id, positions);
     }
   };
-  renderTrackHorizontal({ style, ...props }) {
-    return (
-      <div
-        className={styles.horizontalTrack}
-        style={{ ...style, height: '10px' }}
-        {...props}
-      />
-    );
-  }
-  renderTrackVertical({ style, ...props }) {
-    return (
-      <div
-        className={styles.verticalTrack}
-        style={{ ...style, width: '10px' }}
-        {...props}
-      />
-    );
-  }
   render() {
     const { plate } = this.props;
     const wellHeight = 120;
@@ -121,16 +103,6 @@ export class PlateGrid extends Component {
               wellPadding={settings.wellPadding}
               wellWidth={settings.wellWidth}
             />
-            {/* <GridData
-              containerTypeOptions={this.props.containerTypeOptions}
-              enableRemoveComponent={this.props.enableRemoveComponent}
-              grid={this.props.grid}
-              settings={this.props.settings}
-              onAddContainer={this.handleAddContainer}
-              onContainerClick={this.handleContainerClick}
-              onRemoveComponent={this.props.onRemoveComponent}
-              selectedContainers={this.props.selectedContainers}
-            /> */}
           </Scrollbars>
         </div>
       </div>

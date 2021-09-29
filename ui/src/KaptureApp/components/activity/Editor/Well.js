@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styles from './PlateGrid.module.css';
 import classNames from 'classnames';
 import { ContainerComponent } from 'AtlasUI/components';
+import styles from './PlateGrid.module.css';
 
 export class Well extends PureComponent {
   handleContainerClick = () => {
@@ -33,22 +33,6 @@ export class Well extends PureComponent {
       );
     });
   }
-  // renderContainer() {
-  //   const { position } = this.props;
-  //   return (
-  //     <Container
-  //       container={position.container}
-  //       enableRemoveComponent={this.props.enableRemoveComponent}
-  //       onClick={this.handleContainerClick}
-  //       onRemoveComponent={this.handleRemoveComponent}
-  //       position={{
-  //         row: position.row,
-  //         column: position.column,
-  //       }}
-  //       selected={this.props.containerSelected}
-  //     />
-  //   );
-  // }
   render() {
     const { selected } = this.props;
     const wellStyle = {
