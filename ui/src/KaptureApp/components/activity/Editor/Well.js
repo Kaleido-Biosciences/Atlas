@@ -5,11 +5,9 @@ import { ContainerComponent } from 'AtlasUI/components';
 import styles from './PlateGrid.module.css';
 
 export class Well extends PureComponent {
-  handleContainerClick = () => {
-    if (this.props.onContainerClick) {
-      this.props.onContainerClick({
-        position: this.props.position,
-      });
+  handleClick = () => {
+    if (this.props.onClick) {
+      this.props.onClick(this.props.well);
     }
   };
   handleRemoveComponent = (componentId) => {
@@ -44,7 +42,7 @@ export class Well extends PureComponent {
     };
     const wellClass = classNames(styles.well, { selected });
     return (
-      <div className={wellClass} style={wellStyle}>
+      <div className={wellClass} style={wellStyle} onClick={this.handleClick}>
         {this.renderComponents()}
       </div>
     );
@@ -57,7 +55,7 @@ Well.propTypes = {
   height: PropTypes.number,
   marginBottom: PropTypes.number,
   marginRight: PropTypes.number,
-  onContainerClick: PropTypes.func,
+  onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   padding: PropTypes.number,
   well: PropTypes.object,

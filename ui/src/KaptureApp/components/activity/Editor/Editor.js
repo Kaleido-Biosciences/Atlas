@@ -5,6 +5,11 @@ import { Header } from './Header';
 import styles from './Editor.module.css';
 
 export class Editor extends Component {
+  handleGridClick = (plateId, wells) => {
+    if (this.props.onGridClick) {
+      this.props.onGridClick(plateId, wells, this.props.view.id);
+    }
+  };
   render() {
     const viewPlate = this.props.view.viewPlates[0];
     return (
@@ -13,9 +18,8 @@ export class Editor extends Component {
         <div className={styles.gridContainer}>
           <PlateGrid
             plate={viewPlate.plate}
-            onClick={this.props.onContainerClick}
+            onClick={this.handleGridClick}
             selectedWells={viewPlate.selectedWells}
-            settings={this.props.settings}
           />
         </div>
       </div>
@@ -24,8 +28,6 @@ export class Editor extends Component {
 }
 
 Editor.propTypes = {
-  containerTypeOptions: PropTypes.array,
-  onContainerClick: PropTypes.func,
-  settings: PropTypes.object,
+  onGridClick: PropTypes.func,
   view: PropTypes.object,
 };

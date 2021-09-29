@@ -14,24 +14,24 @@ export class PlateGrid extends Component {
     this.columnHeadersRef.current.setScrollPos(values.scrollLeft);
     this.rowHeadersRef.current.setScrollPos(values.scrollTop);
   };
-  handleContainerClick = ({ position }) => {
+  handleWellClick = (well) => {
     if (this.props.onClick) {
-      this.props.onClick(this.props.grid.id, [position]);
+      this.props.onClick(this.props.plate.id, [well]);
     }
   };
   handleHeaderCellClick = (cellType, index) => {
     if (this.props.onClick) {
-      const { grid } = this.props;
-      const rows = getPlateRows(grid);
-      let positions;
+      const { plate } = this.props;
+      const rows = getPlateRows(plate);
+      let wells;
       if (cellType === 'column') {
-        positions = rows.map((row) => {
+        wells = rows.map((row) => {
           return row[index];
         });
       } else if (cellType === 'row') {
-        positions = rows[index];
+        wells = rows[index];
       }
-      this.props.onClick(grid.id, positions);
+      this.props.onClick(plate.id, wells);
     }
   };
   render() {
@@ -95,6 +95,7 @@ export class PlateGrid extends Component {
           </div>
           <Scrollbars onScrollFrame={this.handleScroll}>
             <Wells
+              onWellClick={this.handleWellClick}
               plate={plate}
               selectedWells={this.props.selectedWells}
               wellHeight={settings.wellHeight}

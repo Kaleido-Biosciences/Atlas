@@ -5,11 +5,6 @@ import { getPlateRows } from 'AtlasUI/utils/plate';
 import styles from './PlateGrid.module.css';
 
 export class Wells extends Component {
-  handleWellClick = (well) => {
-    if (this.props.onWellClick) {
-      this.props.onWellClick(well);
-    }
-  };
   render() {
     const { plate } = this.props;
     const rows = getPlateRows(plate);
@@ -23,6 +18,7 @@ export class Wells extends Component {
             key={well.name}
             marginBottom={this.props.wellMarginBottom}
             marginRight={this.props.wellMarginRight}
+            onClick={this.props.onWellClick}
             padding={this.props.wellPadding}
             selected={selected}
             well={well}
@@ -42,8 +38,8 @@ export class Wells extends Component {
 
 Wells.propTypes = {
   enableRemoveComponent: PropTypes.bool,
-  onWellClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
+  onWellClick: PropTypes.func,
   plate: PropTypes.object.isRequired,
   selectedWells: PropTypes.array.isRequired,
   wellHeight: PropTypes.number,
