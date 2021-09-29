@@ -7,6 +7,5 @@ export { GridTabs } from './editor/GridTabs';
 export { ActiveGrid } from './editor/ActiveGrid';
 export { Timepoint } from './editor/Timepoint';
 export { Grid } from './editor/Grid';
-export { Scrollbars } from './Scrollbars';
 export { ContainerComponent } from './ContainerComponent';
 export { ComponentTooltip } from './ComponentTooltip';

@@ -4,7 +4,7 @@ import { ColumnHeaders } from './ColumnHeaders';
 import { RowHeaders } from './RowHeaders';
 import { Wells } from './Wells';
 import styles from './PlateGrid.module.css';
-import { Scrollbars } from 'AtlasUI/components';
+import { Scrollbars } from 'KaptureApp/components';
 import { getPlateRows } from 'KaptureApp/models';
 
 export class PlateGrid extends Component {

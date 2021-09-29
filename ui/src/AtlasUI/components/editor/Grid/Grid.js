@@ -4,7 +4,7 @@ import { ColumnHeaders } from './ColumnHeaders';
 import { RowHeaders } from './RowHeaders';
 import { GridData } from './GridData';
 import styles from './Grid.module.css';
-import { Scrollbars } from '../../Scrollbars';
+import { Scrollbars } from 'KaptureApp/components';
 import { getGridRows } from './getGridRows';
 
 export class Grid extends Component {

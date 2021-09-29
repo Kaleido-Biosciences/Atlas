@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Plate } from './Plate';
 import { Button } from 'KaptureApp/components';
-import { Scrollbars } from 'AtlasUI/components';
+import { Scrollbars } from 'KaptureApp/components';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
