@@ -1,6 +1,6 @@
 import { actions } from './slice';
 import * as selectors from './selectors';
-import { api } from 'KaptureApp/api';
+import { api } from 'api';
 import {
   COMPONENT_TYPE_COMMUNITY,
   COMPONENT_TYPE_COMPOUND,

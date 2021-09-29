@@ -4,7 +4,7 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import { editor } from '../editor';
 import { activity } from '../activity';
-import { api } from 'KaptureApp/api';
+import { api } from 'api';
 import {
   COMPONENT_TYPE_ATTRIBUTE,
   createComponent,

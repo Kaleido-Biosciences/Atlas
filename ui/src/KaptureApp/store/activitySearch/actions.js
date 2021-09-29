@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { actions } from './slice';
-import { api } from 'KaptureApp/api';
+import { api } from 'api';
 
 const {
   setSearchTerm: _setSearchTerm,

@@ -4,7 +4,7 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import * as gridActions from './gridActions';
 import * as viewActions from './viewActions';
-import { api } from 'KaptureApp/api';
+import { api } from 'api';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 
 export const { resetState: resetActivity, resetSaveTime } = actions;
