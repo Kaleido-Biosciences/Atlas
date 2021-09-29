@@ -1,1 +1,1 @@
-export { PlateTable } from './PlateTable';
+export { PlateTable } from './connect';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { GridHeader } from '../GridHeader';
+import { Header } from './Header';
 import { Scrollbars } from 'AtlasUI/components';
 import { Well } from './Well';
 import styles from './PlateTable.module.css';
@@ -32,7 +32,7 @@ export class PlateTable extends Component {
     const plate = this.props.view.viewPlates[0].plate;
     return (
       <div className={styles.plateTable}>
-        <GridHeader grid={plate} />
+        <Header plate={plate} onSaveName={this.props.onSaveName} />
         <div className={styles.scrollContainer}>
           <Scrollbars>
             <table className="h-full min-w-full divide-y divide-gray-200">
@@ -63,5 +63,6 @@ export class PlateTable extends Component {
 
 PlateTable.propTypes = {
   view: PropTypes.object.isRequired,
+  onSaveName: PropTypes.func,
   onWellClick: PropTypes.func,
 };

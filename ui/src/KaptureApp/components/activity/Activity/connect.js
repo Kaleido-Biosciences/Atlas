@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Activity } from './Activity';
-import { activity, tools } from 'KaptureApp/store';
+import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
@@ -11,7 +11,6 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onWellClick: tools.handleContainerClick,
   onViewTabClick: activity.setActiveView,
 };
 
