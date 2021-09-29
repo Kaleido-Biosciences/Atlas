@@ -1,6 +1,4 @@
 export { Header } from './Header';
-export { ActivitySearch } from './ActivitySearchConnected';
-export { ActivityDetails } from './ActivityDetailsConnected';
 export { Editor } from './EditorConnected';
 export { GridTabs } from './GridTabsConnected';
 export { ActiveGrid } from './ActiveGridConnected';

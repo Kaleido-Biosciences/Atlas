@@ -1,1 +1,0 @@
-export { ActivityDetails } from './ActivityDetails';
