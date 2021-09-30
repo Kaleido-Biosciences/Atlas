@@ -3,11 +3,14 @@ import { PlateEditor } from './PlateEditor';
 import { activity, tools } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
-  return {};
+  return {
+    enableRemoveComponent: tools.selectEnableRemoveComponent(state),
+  };
 };
 
 const mapDispatch = {
   onGridClick: tools.handleContainerClick,
+  onRemoveComponent: activity.removeComponentFromWell,
   onSaveName: activity.setPlateName,
 };
 

@@ -11,6 +11,7 @@ const initialState = {
   applyToolComponentsValid: true,
   clickMode: 'apply',
   componentTypesToRemove: [],
+  enableRemoveComponent: false,
 };
 
 const tools = createSlice({
@@ -20,6 +21,8 @@ const tools = createSlice({
     setActiveTool(state, action) {
       state.activeTool = action.payload.tool;
       state.clickMode = action.payload.tool;
+      if (action.payload.tool === 'remove') state.enableRemoveComponent = true;
+      else state.enableRemoveComponent = false;
     },
     setComponentSearchTerm(state, action) {
       state.componentSearchTerm = action.payload.searchTerm;

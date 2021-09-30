@@ -188,6 +188,15 @@ const activity = createSlice({
         viewPlate.selectedWells = filteredWells.concat(wellNames);
       } else viewPlate.selectedWells = filteredWells;
     },
+    removeWellComponent(state, action) {
+      const { plateId, wellId, componentId } = action.payload;
+      const plate = findPlate(plateId, state.plates);
+      const well = plate.wells.find((well) => well.id === wellId);
+      const wellIndex = well.components.findIndex(
+        (component) => component.id === componentId
+      );
+      well.components.splice(wellIndex, 1);
+    },
     resetState(state, action) {
       Object.assign(state, initialState);
     },

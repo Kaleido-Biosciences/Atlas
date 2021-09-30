@@ -12,7 +12,7 @@ export class Well extends PureComponent {
   };
   handleRemoveComponent = (componentId) => {
     if (this.props.onRemoveComponent) {
-      this.props.onRemoveComponent(this.props.position, componentId);
+      this.props.onRemoveComponent(this.props.well, componentId);
     }
   };
   renderComponents() {
@@ -22,7 +22,7 @@ export class Well extends PureComponent {
           component={component}
           enableRemove={this.props.enableRemoveComponent}
           key={component.id}
-          onRemove={this.props.onRemoveComponent}
+          onRemove={this.handleRemoveComponent}
           position={{
             row: this.props.well.row,
             column: this.props.well.column,

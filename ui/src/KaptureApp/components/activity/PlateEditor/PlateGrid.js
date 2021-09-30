@@ -34,6 +34,11 @@ export class PlateGrid extends Component {
       this.props.onClick(plate.id, wells);
     }
   };
+  handleRemoveComponent = (well, componentId) => {
+    if (this.props.onRemoveComponent) {
+      this.props.onRemoveComponent(this.props.plate.id, well, componentId);
+    }
+  };
   render() {
     const { plate } = this.props;
     const wellHeight = 120;
@@ -95,6 +100,8 @@ export class PlateGrid extends Component {
           </div>
           <Scrollbars onScrollFrame={this.handleScroll}>
             <Wells
+              enableRemoveComponent={this.props.enableRemoveComponent}
+              onRemoveComponent={this.handleRemoveComponent}
               onWellClick={this.handleWellClick}
               plate={plate}
               selectedWells={this.props.selectedWells}

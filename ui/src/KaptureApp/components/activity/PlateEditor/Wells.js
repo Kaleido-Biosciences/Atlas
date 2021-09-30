@@ -14,11 +14,13 @@ export class Wells extends Component {
         const selected = this.props.selectedWells.includes(well.name);
         return (
           <Well
+            enableRemoveComponent={this.props.enableRemoveComponent}
             height={this.props.wellHeight}
             key={well.name}
             marginBottom={this.props.wellMarginBottom}
             marginRight={this.props.wellMarginRight}
             onClick={this.props.onWellClick}
+            onRemoveComponent={this.props.onRemoveComponent}
             padding={this.props.wellPadding}
             selected={selected}
             well={well}

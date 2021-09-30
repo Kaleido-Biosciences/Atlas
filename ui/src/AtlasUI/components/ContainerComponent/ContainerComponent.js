@@ -6,10 +6,10 @@ import styles from './ContainerComponent.module.css';
 
 export class ContainerComponent extends Component {
   handleRemoveClick = (e) => {
+    e.stopPropagation();
     if (this.props.onRemove) {
       this.props.onRemove(this.props.component.id);
     }
-    e.stopPropagation();
   };
   render() {
     const { component, position } = this.props;

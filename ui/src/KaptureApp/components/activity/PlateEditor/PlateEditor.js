@@ -17,8 +17,10 @@ export class PlateEditor extends Component {
         <Header plate={viewPlate.plate} onSaveName={this.props.onSaveName} />
         <div className={styles.gridContainer}>
           <PlateGrid
+            enableRemoveComponent={this.props.enableRemoveComponent}
             plate={viewPlate.plate}
             onClick={this.handleGridClick}
+            onRemoveComponent={this.props.onRemoveComponent}
             selectedWells={viewPlate.selectedWells}
           />
         </div>
@@ -28,7 +30,9 @@ export class PlateEditor extends Component {
 }
 
 PlateEditor.propTypes = {
+  enableRemoveComponent: PropTypes.bool,
   onGridClick: PropTypes.func,
+  onRemoveComponent: PropTypes.func,
   onSaveName: PropTypes.func,
   view: PropTypes.object,
 };

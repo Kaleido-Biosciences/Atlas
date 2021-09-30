@@ -88,3 +88,44 @@ export function togglePlateWellSelections(plateId, wells, viewId) {
     dispatch(actions.togglePlateWellSelections({ plateId, wells, viewId }));
   };
 }
+
+export function removeComponentFromWell(plateId, well, componentId) {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.removeWellComponent({
+        plateId,
+        wellId: well.id,
+        componentId,
+      })
+    );
+  };
+}
+// (plateId, well, componentId) => {
+//   return (dispatch, getState) => {
+//     const grids = editor.selectGrids(getState());
+//     const grid = grids.find((grid) => grid.id === gridId);
+//     const flattened = grid.data.flat();
+//     const gridPosition = flattened.find((gridPosition) => {
+//       return (
+//         gridPosition.row === position.row &&
+//         gridPosition.column === position.column
+//       );
+//     });
+//     if (gridPosition.container) {
+//       const newComponents = gridPosition.container.components.filter(
+//         (component) => {
+//           return component.id !== componentId;
+//         }
+//       );
+//       dispatch(
+//         editor.setGridComponents(gridId, [
+//           {
+//             row: position.row,
+//             column: position.column,
+//             components: newComponents,
+//           },
+//         ])
+//       );
+//     }
+//   };
+// }
