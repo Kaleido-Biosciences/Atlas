@@ -1,11 +1,5 @@
 import { actions } from './slice';
 
-export function togglePlateSelection(plateId, viewId) {
-  return (dispatch, getState) => {
-    dispatch(actions.togglePlateSelection({ plateId, viewId }));
-  };
-}
-
 export function setPlateSize(plateIds, numRows, numCols) {
   return (dispatch, getState) => {
     dispatch(actions.setPlateSize({ plateIds, numRows, numCols }));

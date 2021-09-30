@@ -6,6 +6,7 @@ import { Scrollbars } from 'KaptureApp/components';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
+  lastClickedPlateId = null;
   getSelectedPlateIds = () => {
     const { viewPlates } = this.props.view;
     const selectedIds = [];
@@ -36,19 +37,93 @@ export class Overview extends Component {
       this.props.onAddView('PlateTable', [plateId]);
     }
   };
-  handlePlateCheckboxChange = (plateId) => {
-    if (this.props.onTogglePlateSelection) {
-      this.props.onTogglePlateSelection(plateId, this.props.view.id);
-    }
-  };
   handleSelectAll = () => {
-    if (this.props.onSelectAll) {
-      this.props.onSelectAll(this.props.view.id, true);
+    if (this.props.onPlateSelectionChange) {
+      const { view } = this.props;
+      const plateSelections = [];
+      view.viewPlates.forEach((viewPlate) => {
+        plateSelections.push({ plateId: viewPlate.id, selected: true });
+      });
+      this.props.onPlateSelectionChange(view.id, plateSelections);
     }
   };
   handleDeselectAll = () => {
-    if (this.props.onDeselectAll) {
-      this.props.onDeselectAll(this.props.view.id, false);
+    if (this.props.onPlateSelectionChange) {
+      const { view } = this.props;
+      const plateSelections = [];
+      view.viewPlates.forEach((viewPlate) => {
+        plateSelections.push({ plateId: viewPlate.id, selected: false });
+      });
+      this.props.onPlateSelectionChange(view.id, plateSelections);
+    }
+  };
+  handlePlateClick = (plateId, key) => {
+    if (this.props.onPlateSelectionChange) {
+      const { view } = this.props;
+      const plateSelections = [];
+      if (!key) {
+        view.viewPlates.forEach((viewPlate) => {
+          if (viewPlate.id === plateId) {
+            plateSelections.push({ plateId: viewPlate.id, selected: true });
+          } else
+            plateSelections.push({ plateId: viewPlate.id, selected: false });
+        });
+      } else if (key === 'shift') {
+        let clickedIndex = 0;
+        let lastClickedIndex = 0;
+        let existingSelection = false;
+        view.viewPlates.forEach((viewPlate, i) => {
+          if (viewPlate.id === plateId) clickedIndex = i;
+          if (viewPlate.selected) existingSelection = true;
+          if (viewPlate.id === this.lastClickedPlateId) lastClickedIndex = i;
+        });
+        if (!existingSelection) {
+          view.viewPlates.forEach((viewPlate, i) => {
+            if (i <= clickedIndex) {
+              plateSelections.push({ plateId: viewPlate.id, selected: true });
+            } else
+              plateSelections.push({ plateId: viewPlate.id, selected: false });
+          });
+        } else {
+          if (clickedIndex < lastClickedIndex) {
+            view.viewPlates.forEach((viewPlate, i) => {
+              if (i >= clickedIndex && i < lastClickedIndex) {
+                plateSelections.push({ plateId: viewPlate.id, selected: true });
+              } else
+                plateSelections.push({
+                  plateId: viewPlate.id,
+                  selected: viewPlate.selected,
+                });
+            });
+          } else if (clickedIndex > lastClickedIndex) {
+            view.viewPlates.forEach((viewPlate, i) => {
+              if (i > lastClickedIndex && i <= clickedIndex) {
+                plateSelections.push({ plateId: viewPlate.id, selected: true });
+              } else {
+                plateSelections.push({
+                  plateId: viewPlate.id,
+                  selected: viewPlate.selected,
+                });
+              }
+            });
+          }
+        }
+      } else if (key === 'meta' || key === 'ctrl') {
+        view.viewPlates.forEach((viewPlate) => {
+          if (viewPlate.id === plateId) {
+            plateSelections.push({
+              plateId: viewPlate.id,
+              selected: !viewPlate.selected,
+            });
+          } else
+            plateSelections.push({
+              plateId: viewPlate.id,
+              selected: viewPlate.selected,
+            });
+        });
+      }
+      this.lastClickedPlateId = plateId;
+      this.props.onPlateSelectionChange(view.id, plateSelections);
     }
   };
   renderPlates() {
@@ -58,7 +133,7 @@ export class Overview extends Component {
         <Plate
           key={viewPlate.id}
           viewPlate={viewPlate}
-          onCheckboxChange={this.handlePlateCheckboxChange}
+          onClick={this.handlePlateClick}
           onEditorClick={this.handleAddPlateEditorView}
           onSaveName={this.props.onSavePlateName}
           onTableClick={this.handleAddPlateTableView}
@@ -101,7 +176,10 @@ export class Overview extends Component {
         </div>
         <div className={styles.scrollContainer}>
           <Scrollbars>
-            <div className="min-h-full flex flex-row flex-wrap content-start p-4 bg-gray-100">
+            <div
+              onClick={this.handleDeselectAll}
+              className="min-h-full flex flex-row flex-wrap content-start p-4 bg-gray-100"
+            >
               {this.renderPlates()}
             </div>
           </Scrollbars>
@@ -114,9 +192,7 @@ export class Overview extends Component {
 Overview.propTypes = {
   view: PropTypes.object.isRequired,
   onAddView: PropTypes.func,
-  onDeselectAll: PropTypes.func,
+  onPlateSelectionChange: PropTypes.func,
   onSavePlateName: PropTypes.func,
-  onSelectAll: PropTypes.func,
   onSetPlateSize: PropTypes.func,
-  onTogglePlateSelection: PropTypes.func,
 };

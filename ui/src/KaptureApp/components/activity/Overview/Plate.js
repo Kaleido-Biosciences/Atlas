@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './Plate.module.css';
 import classNames from 'classnames';
-import { EditableText } from '../../EditableText';
-import { getPlateRows } from 'models';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getPlateRows } from 'models';
+import { EditableText } from '../../EditableText';
+import styles from './Plate.module.css';
 
 export class Plate extends Component {
-  handleEditorClick = () => {
+  handleClick = (e) => {
+    e.stopPropagation();
+    document.getSelection().removeAllRanges();
+    if (this.props.onClick) {
+      if (e.ctrlKey) {
+        this.props.onClick(this.props.viewPlate.id, 'ctrl');
+      } else if (e.shiftKey) {
+        this.props.onClick(this.props.viewPlate.id, 'shift');
+      } else if (e.metaKey) {
+        this.props.onClick(this.props.viewPlate.id, 'meta');
+      } else {
+        this.props.onClick(this.props.viewPlate.id);
+      }
+    }
+  };
+  handleEditorClick = (e) => {
+    e.stopPropagation();
     if (this.props.onEditorClick) {
       this.props.onEditorClick(this.props.viewPlate.id);
     }
   };
-  handleTableClick = () => {
+  handleTableClick = (e) => {
+    e.stopPropagation();
     if (this.props.onTableClick) {
       this.props.onTableClick(this.props.viewPlate.id);
     }
@@ -20,11 +37,6 @@ export class Plate extends Component {
   handleSaveName = (value) => {
     if (this.props.onSaveName) {
       this.props.onSaveName(this.props.viewPlate.id, value);
-    }
-  };
-  handleCheckboxChange = (e) => {
-    if (this.props.onCheckboxChange) {
-      this.props.onCheckboxChange(this.props.viewPlate.id);
     }
   };
   renderPlate() {
@@ -63,22 +75,18 @@ export class Plate extends Component {
     const className = classNames(
       styles.plate,
       'bg-white',
-      'shadow',
+      'shadow-sm',
       'rounded-lg',
-      'text-xs'
+      'text-xs',
+      'border-2',
+      'border-gray-300',
+      'cursor-pointer',
+      'hover:border-gray-400',
+      { 'border-indigo-500 hover:border-indigo-600': viewPlate.selected }
     );
     return (
-      <div className={className}>
+      <div className={className} onClick={this.handleClick}>
         <div className={styles.header}>
-          <div>
-            <input
-              name="selected"
-              checked={viewPlate.selected}
-              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2 cursor-pointer"
-              onChange={this.handleCheckboxChange}
-              type="checkbox"
-            />
-          </div>
           <div className="text-xs font-medium">
             <EditableText
               onSave={this.handleSaveName}
@@ -111,7 +119,7 @@ export class Plate extends Component {
 
 Plate.propTypes = {
   viewPlate: PropTypes.object,
-  onCheckboxChange: PropTypes.func,
+  onClick: PropTypes.func,
   onEditorClick: PropTypes.func,
   onSaveName: PropTypes.func,
   onTableClick: PropTypes.func,

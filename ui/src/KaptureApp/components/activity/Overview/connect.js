@@ -8,11 +8,9 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onAddView: activity.addView,
-  onDeselectAll: activity.setAllViewPlatesSelected,
+  onPlateSelectionChange: activity.setViewPlateSelections,
   onSavePlateName: activity.setPlateName,
-  onSelectAll: activity.setAllViewPlatesSelected,
   onSetPlateSize: activity.setPlateSize,
-  onTogglePlateSelection: activity.togglePlateSelection,
 };
 
 const connected = connect(mapState, mapDispatch)(Overview);

@@ -51,8 +51,13 @@ export function getOverview(plates, active) {
   };
 }
 
-export function setAllViewPlatesSelected(viewId, selected) {
+export function setViewPlateSelections(viewId, selections) {
   return (dispatch, getState) => {
-    dispatch(actions.setAllViewPlatesSelected({ viewId, selected }));
+    dispatch(
+      actions.setViewPlateSelections({
+        viewId,
+        selections,
+      })
+    );
   };
 }

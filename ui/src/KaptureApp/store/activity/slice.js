@@ -1,9 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  createWells,
-  createRowHeaders,
-  createColumnHeaders,
-} from 'models';
+import { createWells, createRowHeaders, createColumnHeaders } from 'models';
 
 const initialSaveTime = {
   savePending: false,
@@ -101,20 +97,13 @@ const activity = createSlice({
         } else view.active = false;
       });
     },
-    setAllViewPlatesSelected(state, action) {
-      const { viewId, selected } = action.payload;
+    setViewPlateSelections(state, action) {
+      const { viewId, selections } = action.payload;
       const view = findView(viewId, state.views);
-      view.viewPlates.forEach((viewPlate) => {
-        viewPlate.selected = selected;
+      selections.forEach((selection) => {
+        const viewPlate = findPlate(selection.plateId, view.viewPlates);
+        viewPlate.selected = selection.selected;
       });
-    },
-    togglePlateSelection(state, action) {
-      const { plateId, viewId } = action.payload;
-      const view = findView(viewId, state.views);
-      const viewPlate = view.viewPlates.find(
-        (viewPlate) => viewPlate.id === plateId
-      );
-      viewPlate.selected = !viewPlate.selected;
     },
     selectAllPlateWells(state, action) {
       const { plateIds, viewId } = action.payload;

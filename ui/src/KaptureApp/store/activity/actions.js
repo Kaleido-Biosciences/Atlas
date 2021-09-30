@@ -22,7 +22,6 @@ export function loadActivity(id) {
   };
 }
 
-export const togglePlateSelection = gridActions.togglePlateSelection;
 export const setPlateSize = gridActions.setPlateSize;
 export const setPlateName = gridActions.setPlateName;
 export const selectAllPlateWells = gridActions.selectAllPlateWells;
@@ -32,11 +31,10 @@ export const selectBorderPlateWells = gridActions.selectBorderPlateWells;
 export const updatePlateWells = gridActions.updatePlateWells;
 export const togglePlateWellSelections = gridActions.togglePlateWellSelections;
 
-export const setAllViewPlatesSelected = viewActions.setAllViewPlatesSelected;
-
 export const setGridComponents = gridActions.setGridComponents;
 export const addView = viewActions.addView;
 export const setActiveView = viewActions.setActiveView;
+export const setViewPlateSelections = viewActions.setViewPlateSelections;
 
 async function importGrids(grids) {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);
