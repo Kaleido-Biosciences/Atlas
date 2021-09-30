@@ -66,7 +66,7 @@ const activity = createSlice({
       const { plateId, updatedWells } = action.payload;
       const plate = findPlate(plateId, state.plates);
       updatedWells.forEach((updatedWell) => {
-        const plateWell = findWell(updatedWell.name, plate.wells);
+        const plateWell = findWell(updatedWell.id, plate.wells);
         plateWell.components = updatedWell.components;
       });
     },
@@ -113,7 +113,7 @@ const activity = createSlice({
         const viewPlate = findPlate(plateId, view.viewPlates);
         viewPlate.selectedWells = [];
         plate.wells.forEach((well) => {
-          viewPlate.selectedWells.push(well.name);
+          viewPlate.selectedWells.push(well.id);
         });
       });
     },
@@ -137,7 +137,7 @@ const activity = createSlice({
           const end = (i + 1) * plate.numCols;
           const row = plate.wells.slice(start + 1, end - 1);
           row.forEach((well) => {
-            viewPlate.selectedWells.push(well.name);
+            viewPlate.selectedWells.push(well.id);
           });
         }
       });
@@ -155,11 +155,11 @@ const activity = createSlice({
           const row = plate.wells.slice(start, end);
           if (i === 0 || i === plate.numRows - 1) {
             row.forEach((well) => {
-              viewPlate.selectedWells.push(well.name);
+              viewPlate.selectedWells.push(well.id);
             });
           } else {
-            viewPlate.selectedWells.push(row[0].name);
-            viewPlate.selectedWells.push(row[plate.numCols - 1].name);
+            viewPlate.selectedWells.push(row[0].id);
+            viewPlate.selectedWells.push(row[plate.numCols - 1].id);
           }
         }
       });
@@ -169,12 +169,12 @@ const activity = createSlice({
       const view = findView(viewId, state.views);
       const viewPlate = findPlate(plateId, view.viewPlates);
       const status = { selected: false, deselected: false };
-      const wellNames = wells.map((well) => well.name);
+      const wellIds = wells.map((well) => well.id);
       const filteredWells = viewPlate.selectedWells.filter((selectedWell) => {
-        return !wellNames.includes(selectedWell);
+        return !wellIds.includes(selectedWell);
       });
       wells.forEach((well) => {
-        if (viewPlate.selectedWells.includes(well.name)) {
+        if (viewPlate.selectedWells.includes(well.id)) {
           status.selected = true;
         } else {
           status.deselected = true;
@@ -185,13 +185,13 @@ const activity = createSlice({
           ? true
           : false;
       if (newSelectionStatus) {
-        viewPlate.selectedWells = filteredWells.concat(wellNames);
+        viewPlate.selectedWells = filteredWells.concat(wellIds);
       } else viewPlate.selectedWells = filteredWells;
     },
     removeWellComponent(state, action) {
       const { plateId, wellId, componentId } = action.payload;
       const plate = findPlate(plateId, state.plates);
-      const well = plate.wells.find((well) => well.id === wellId);
+      const well = findWell(wellId, plate.wells);
       const wellIndex = well.components.findIndex(
         (component) => component.id === componentId
       );
@@ -226,8 +226,8 @@ function findPlate(plateId, plates) {
   return plates.find((plate) => plate.id === plateId);
 }
 
-function findWell(name, wells) {
-  return wells.find((well) => well.name === name);
+function findWell(wellId, wells) {
+  return wells.find((well) => well.id === wellId);
 }
 
 function findView(viewId, views) {

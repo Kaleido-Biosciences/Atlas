@@ -16,11 +16,11 @@ export class PlateTable extends Component {
     const viewPlate = this.props.view.viewPlates[0];
     const { plate, selectedWells } = viewPlate;
     return plate.wells.map((well, i) => {
-      const selected = selectedWells.includes(well.name);
+      const selected = selectedWells.includes(well.id);
       return (
         <Well
           darkBackground={i % 2 === 1}
-          key={well.name}
+          key={well.id}
           onClick={this.handleWellClick}
           well={well}
           selected={selected}

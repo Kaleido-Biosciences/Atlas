@@ -1,19 +1,20 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export const createWell = ({
   id = null,
   row = null,
   column = null,
-  name = null,
   components = [],
   attributes = [],
 }) => {
+  let position;
+  if (row && column) {
+    position = `${row}${column}`;
+  }
   return {
-    id: id || uuidv4(),
+    id: id || position,
     type: 'Well',
     row,
     column,
-    name,
+    position,
     components,
     attributes,
   };

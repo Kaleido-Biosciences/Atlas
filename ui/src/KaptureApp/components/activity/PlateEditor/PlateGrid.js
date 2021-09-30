@@ -34,9 +34,9 @@ export class PlateGrid extends Component {
       this.props.onClick(plate.id, wells);
     }
   };
-  handleRemoveComponent = (well, componentId) => {
+  handleRemoveComponent = (wellId, componentId) => {
     if (this.props.onRemoveComponent) {
-      this.props.onRemoveComponent(this.props.plate.id, well, componentId);
+      this.props.onRemoveComponent(this.props.plate.id, wellId, componentId);
     }
   };
   render() {

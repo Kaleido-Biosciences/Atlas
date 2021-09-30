@@ -128,7 +128,7 @@ export const applySelectedToolComponentsToSelectedWells = (viewId) => {
           const plate = plates.find((plate) => plate.id === viewPlate.id);
           const updatedWells = [];
           plate.wells.forEach((well) => {
-            if (viewPlate.selectedWells.includes(well.name)) {
+            if (viewPlate.selectedWells.includes(well.id)) {
               updatedWells.push({
                 ...well,
                 components: applyComponents(well.components, toolComponents),

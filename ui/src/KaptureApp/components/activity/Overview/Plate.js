@@ -45,7 +45,7 @@ export class Plate extends Component {
     let className;
     const renderedRows = rows.map((row, i) => {
       const wells = row.map((well) => {
-        if (selections.includes(well.name)) {
+        if (selections.includes(well.id)) {
           className = classNames(styles.container, {
             'border-blue-400': well.components.length > 0,
             'bg-blue-400': well.components.length > 0,
@@ -60,7 +60,7 @@ export class Plate extends Component {
             'bg-gray-200': well.components.length === 0,
           });
         }
-        return <div className={className} key={well.name}></div>;
+        return <div className={className} key={well.id}></div>;
       });
       return (
         <div className={styles.row} key={`ROW${i}`}>

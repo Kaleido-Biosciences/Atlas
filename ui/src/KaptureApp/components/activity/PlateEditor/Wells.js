@@ -11,12 +11,12 @@ export class Wells extends Component {
     const renderedGrid = rows.map((row, i) => {
       const rowKey = `ROW_${i}`;
       const wells = row.map((well, i) => {
-        const selected = this.props.selectedWells.includes(well.name);
+        const selected = this.props.selectedWells.includes(well.id);
         return (
           <Well
             enableRemoveComponent={this.props.enableRemoveComponent}
             height={this.props.wellHeight}
-            key={well.name}
+            key={well.id}
             marginBottom={this.props.wellMarginBottom}
             marginRight={this.props.wellMarginRight}
             onClick={this.props.onWellClick}

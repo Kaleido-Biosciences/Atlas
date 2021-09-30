@@ -12,7 +12,7 @@ export class Well extends PureComponent {
   };
   handleRemoveComponent = (componentId) => {
     if (this.props.onRemoveComponent) {
-      this.props.onRemoveComponent(this.props.well, componentId);
+      this.props.onRemoveComponent(this.props.well.id, componentId);
     }
   };
   renderComponents() {

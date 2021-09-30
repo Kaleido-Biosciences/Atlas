@@ -89,12 +89,12 @@ export function togglePlateWellSelections(plateId, wells, viewId) {
   };
 }
 
-export function removeComponentFromWell(plateId, well, componentId) {
+export function removeComponentFromWell(plateId, wellId, componentId) {
   return (dispatch, getState) => {
     dispatch(
       actions.removeWellComponent({
         plateId,
-        wellId: well.id,
+        wellId,
         componentId,
       })
     );
