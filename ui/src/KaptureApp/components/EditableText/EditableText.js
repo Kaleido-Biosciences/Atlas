@@ -58,13 +58,14 @@ export class EditableText extends Component {
       <div>
         {this.state.editing ? (
           <input
-            className="w-full block px-1 py-0.5 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            className="block px-1 py-0.5 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             onBlur={this.handleBlur}
             onChange={this.handleChange}
             onClick={this.handleClick}
             onKeyUp={this.handleKeyUp}
             ref={this.inputRef}
             value={this.state.inputValue}
+            size="15"
           />
         ) : (
           <span
