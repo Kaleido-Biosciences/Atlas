@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getPlateRows } from 'models';
-import { EditableText } from '../../EditableText';
+import { EditableText } from 'KaptureApp/components';
 import styles from './Plate.module.css';
 
 export class Plate extends Component {

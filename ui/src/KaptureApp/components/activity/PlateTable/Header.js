@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { EditableText } from '../../EditableText';
+import { EditableText } from 'KaptureApp/components';
 
 export class Header extends Component {
   handleSaveName = (value) => {
