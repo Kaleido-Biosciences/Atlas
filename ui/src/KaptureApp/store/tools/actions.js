@@ -83,33 +83,38 @@ export const removeApplyToolComponents = (componentIds) => {
   };
 };
 
-export const handleContainerClick = (plateId, wells, viewId) => {
+export const handleContainerClick = (wellIds, plateIds, viewId) => {
   return (dispatch, getState) => {
     const clickMode = selectors.selectClickMode(getState());
     if (clickMode === 'apply') {
-      dispatch(applySelectedToolComponentsToWells(plateId, wells));
+      dispatch(applySelectedToolComponentsToWells(wellIds, plateIds));
     } else if (clickMode === 'select') {
-      dispatch(activity.togglePlateWellSelections(plateId, wells, viewId));
+      dispatch(activity.togglePlateWellSelections(wellIds, plateIds, viewId));
     } else if (clickMode === 'remove') {
-      dispatch(removeComponentsFromContainers(plateId, wells));
+      dispatch(removeComponentsFromContainers(wellIds, plateIds));
     }
   };
 };
 
-export const applySelectedToolComponentsToWells = (plateId, wells) => {
+export const applySelectedToolComponentsToWells = (wellIds, plateIds) => {
   return (dispatch, getState) => {
     if (selectors.selectApplyToolComponentsValid(getState())) {
       const toolComponents = selectors.selectSelectedApplyToolComponents(
         getState()
       );
-      const updatedWells = [];
-      wells.forEach((well) => {
-        updatedWells.push({
-          ...well,
-          components: applyComponents(well.components, toolComponents),
+      const plates = activity.selectPlates(getState());
+      plateIds.forEach((plateId) => {
+        const plate = plates.find((plate) => plate.id === plateId);
+        const wells = plate.wells.filter((well) => wellIds.includes(well.id));
+        const updatedWells = [];
+        wells.forEach((well) => {
+          updatedWells.push({
+            ...well,
+            components: applyComponents(well.components, toolComponents),
+          });
         });
+        dispatch(activity.updatePlateWells(plateId, updatedWells));
       });
-      dispatch(activity.updatePlateWells(plateId, updatedWells));
     }
   };
 };

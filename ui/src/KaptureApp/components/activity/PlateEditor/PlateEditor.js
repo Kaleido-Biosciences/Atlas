@@ -5,9 +5,9 @@ import { Header } from './Header';
 import styles from './PlateEditor.module.css';
 
 export class PlateEditor extends Component {
-  handleGridClick = (plateId, wells) => {
+  handleGridClick = (wells, plates) => {
     if (this.props.onGridClick) {
-      this.props.onGridClick(plateId, wells, this.props.view.id);
+      this.props.onGridClick(wells, plates, this.props.view.id);
     }
   };
   render() {

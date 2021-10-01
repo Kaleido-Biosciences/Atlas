@@ -14,9 +14,9 @@ export class PlateGrid extends Component {
     this.columnHeadersRef.current.setScrollPos(values.scrollLeft);
     this.rowHeadersRef.current.setScrollPos(values.scrollTop);
   };
-  handleWellClick = (well) => {
+  handleWellClick = (wellId) => {
     if (this.props.onClick) {
-      this.props.onClick(this.props.plate.id, [well]);
+      this.props.onClick([wellId], [this.props.plate.id]);
     }
   };
   handleHeaderCellClick = (cellType, index) => {
@@ -26,12 +26,12 @@ export class PlateGrid extends Component {
       let wells;
       if (cellType === 'column') {
         wells = rows.map((row) => {
-          return row[index];
+          return row[index].id;
         });
       } else if (cellType === 'row') {
-        wells = rows[index];
+        wells = rows[index].map((well) => well.id);
       }
-      this.props.onClick(plate.id, wells);
+      this.props.onClick(wells, [this.props.plate.id]);
     }
   };
   handleRemoveComponent = (wellId, componentId) => {

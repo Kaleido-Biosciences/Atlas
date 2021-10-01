@@ -165,28 +165,31 @@ const activity = createSlice({
       });
     },
     togglePlateWellSelections(state, action) {
-      const { plateId, wells, viewId } = action.payload;
+      const { wellIds, plateIds, viewId } = action.payload;
       const view = findView(viewId, state.views);
-      const viewPlate = findPlate(plateId, view.viewPlates);
-      const status = { selected: false, deselected: false };
-      const wellIds = wells.map((well) => well.id);
-      const filteredWells = viewPlate.selectedWells.filter((selectedWell) => {
-        return !wellIds.includes(selectedWell);
+      plateIds.forEach((plateId) => {
+        const viewPlate = findPlate(plateId, view.viewPlates);
+        const status = { selected: false, deselected: false };
+        const unaffectedSelectedWells = viewPlate.selectedWells.filter(
+          (selectedWell) => {
+            return !wellIds.includes(selectedWell);
+          }
+        );
+        wellIds.forEach((wellId) => {
+          if (viewPlate.selectedWells.includes(wellId)) {
+            status.selected = true;
+          } else {
+            status.deselected = true;
+          }
+        });
+        const newSelectionStatus =
+          (status.selected && status.deselected) || !status.selected
+            ? true
+            : false;
+        if (newSelectionStatus) {
+          viewPlate.selectedWells = unaffectedSelectedWells.concat(wellIds);
+        } else viewPlate.selectedWells = unaffectedSelectedWells;
       });
-      wells.forEach((well) => {
-        if (viewPlate.selectedWells.includes(well.id)) {
-          status.selected = true;
-        } else {
-          status.deselected = true;
-        }
-      });
-      const newSelectionStatus =
-        (status.selected && status.deselected) || !status.selected
-          ? true
-          : false;
-      if (newSelectionStatus) {
-        viewPlate.selectedWells = filteredWells.concat(wellIds);
-      } else viewPlate.selectedWells = filteredWells;
     },
     removeWellComponent(state, action) {
       const { plateId, wellId, componentId } = action.payload;

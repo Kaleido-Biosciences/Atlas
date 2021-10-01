@@ -7,7 +7,7 @@ import styles from './PlateGrid.module.css';
 export class Well extends PureComponent {
   handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick(this.props.well);
+      this.props.onClick(this.props.well.id);
     }
   };
   handleRemoveComponent = (componentId) => {
