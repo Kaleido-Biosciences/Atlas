@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
-
+import { Button } from 'KaptureApp/components';
 import { RemoveToolOption } from './RemoveToolOption';
 import { SelectedWells } from '../SelectedWells';
 import styles from './RemoveTool.module.css';
 
 export class RemoveTool extends Component {
-  handleChange = (e, data) => {
-    const { checked, value } = data;
-    if (this.props.onChange) {
+  handleSelectAll = () => {
+    if (this.props.onSelectionChange) {
+      this.props.onSelectionChange(
+        this.props.componentTypes.map((cType) => cType.name)
+      );
+    }
+  };
+  handleDeselectAll = () => {
+    if (this.props.onSelectionChange) {
+      this.props.onSelectionChange([]);
+    }
+  };
+  handleOptionClick = (value, selected) => {
+    if (this.props.onSelectionChange) {
       const newValues = this.props.componentTypesToRemove.slice();
-      if (checked) {
+      if (selected) {
         newValues.push(value);
       } else {
         const index = newValues.findIndex((type) => {
@@ -21,84 +31,63 @@ export class RemoveTool extends Component {
           newValues.splice(index, 1);
         }
       }
-      this.props.onChange(newValues);
-    }
-  };
-  handleSelectAll = () => {
-    if (this.props.onChange) {
-      this.props.onChange(this.props.componentTypes.map((cType) => cType.name));
-    }
-  };
-  handleDeselectAll = () => {
-    if (this.props.onChange) {
-      this.props.onChange([]);
+      this.props.onSelectionChange(newValues);
     }
   };
   handleRemoveClick = () => {
     if (this.props.onRemoveClick) {
-      this.props.onRemoveClick(this.props.activeGridId);
+      this.props.onRemoveClick(this.props.activeView.id);
     }
   };
-  renderFields() {
+  renderOptions() {
     return this.props.componentTypes.map((type) => {
       return (
-        <Form.Field key={type.name}>
-          <RemoveToolOption
-            componentType={type}
-            checked={this.props.componentTypesToRemove.includes(type.name)}
-            onClick={this.handleChange}
-          />
-        </Form.Field>
+        <RemoveToolOption
+          componentType={type}
+          key={type.name}
+          onClick={this.handleOptionClick}
+          selected={this.props.componentTypesToRemove.includes(type.name)}
+        />
       );
     });
   }
   render() {
-    const showSelectedContainers =
-      this.props.selectedContainersSummary &&
-      this.props.selectedContainersSummary.count
-        ? true
-        : false;
-    const selectedContainersButtonDisabled = this.props.componentTypesToRemove
-      .length
-      ? false
-      : true;
     return (
-      <div className={styles.removeTool}>
+      <div className="flex flex-col h-full overflow-auto">
         <div className={styles.body}>
-          <div className={styles.message}>
+          <div className="text-xxs mt-1 mb-2">
             Select the component types to remove
           </div>
-          <div className={styles.buttons}>
-            <Button compact size="mini" onClick={this.handleSelectAll}>
+          <div className="mb-4">
+            <Button className="mr-1" secondary onClick={this.handleSelectAll}>
               Select All
             </Button>
-            <Button compact size="mini" onClick={this.handleDeselectAll}>
+            <Button secondary onClick={this.handleDeselectAll}>
               Deselect All
             </Button>
           </div>
-          <Form>{this.renderFields()}</Form>
+          <div className="mb-4">{this.renderOptions()}</div>
         </div>
-        {showSelectedContainers && (
-          <div className={styles.selectedContainersContainer}>
-            <SelectedWells
-              buttonDisabled={selectedContainersButtonDisabled}
-              buttonText="Remove from"
-              onButtonClick={this.handleRemoveClick}
-              selectedContainersSummary={this.props.selectedContainersSummary}
-              showButton={true}
-            />
-          </div>
-        )}
+        <div className={styles.selectedContainersContainer}>
+          <SelectedWells
+            activeView={this.props.activeView}
+            buttonDisabled={
+              this.props.componentTypesToRemove.length ? false : true
+            }
+            buttonText="Remove from"
+            onButtonClick={this.handleRemoveClick}
+            showButton={true}
+          />
+        </div>
       </div>
     );
   }
 }
 
 RemoveTool.propTypes = {
-  activeGridId: PropTypes.string,
-  componentTypesToRemove: PropTypes.array.isRequired,
+  activeView: PropTypes.object,
   componentTypes: PropTypes.array.isRequired,
-  onChange: PropTypes.func,
+  componentTypesToRemove: PropTypes.array.isRequired,
   onRemoveClick: PropTypes.func,
-  selectedContainersSummary: PropTypes.object.isRequired,
+  onSelectionChange: PropTypes.func,
 };

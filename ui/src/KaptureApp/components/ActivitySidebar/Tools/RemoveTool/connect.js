@@ -2,19 +2,18 @@ import { connect } from 'react-redux';
 
 import { RemoveTool } from './RemoveTool';
 import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
-import { tools, editor } from 'KaptureApp/store';
+import { activity, tools } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
   return {
-    activeGridId: editor.selectActiveGridId(state),
-    componentTypesToRemove: tools.selectComponentTypesToRemove(state),
+    activeView: activity.selectActiveView(state),
     componentTypes: COMPONENT_TYPES,
-    selectedContainersSummary: editor.selectSelectedContainersSummary(state),
+    componentTypesToRemove: tools.selectComponentTypesToRemove(state),
   };
 };
 const mapDispatch = {
-  onChange: tools.setComponentTypesToRemove,
   onRemoveClick: tools.removeComponentsFromSelectedContainers,
+  onSelectionChange: tools.setComponentTypesToRemove,
 };
 
 const connected = connect(mapState, mapDispatch)(RemoveTool);

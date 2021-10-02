@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox } from 'semantic-ui-react';
-
-import styles from './RemoveTool.module.css';
 
 export class RemoveToolOption extends Component {
   handleClick = () => {
     if (this.props.onClick) {
-      this.props.onClick(null, {
-        checked: !this.props.checked,
-        value: this.props.componentType.name,
-      });
+      this.props.onClick(this.props.componentType.name, !this.props.selected);
     }
   };
   render() {
-    const { componentType, checked } = this.props;
-    const style = {
-      background: componentType.colorCode,
-    };
+    const { componentType } = this.props;
     return (
-      <div className={styles.option}>
-        <Checkbox
+      <div
+        className="flex flex-row items-center cursor-pointer mb-1"
+        onClick={this.handleClick}
+      >
+        <input
+          checked={this.props.selected}
+          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer"
+          name={componentType.name}
+          readOnly
+          type="checkbox"
           value={componentType.name}
-          onClick={this.handleClick}
-          checked={checked}
         />
-        <div className={styles.label} onClick={this.handleClick}>
-          <div className={styles.typeCircle} style={style}></div>
-          <div className={styles.optionName}>{componentType.plural}</div>
+        <div className="flex flex-row items-center">
+          <div
+            className="rounded-full h-4 w-4 ml-2 mr-1"
+            style={{
+              background: componentType.colorCode,
+            }}
+          ></div>
+          <div className="text-sm font-light">{componentType.plural}</div>
         </div>
       </div>
     );
@@ -36,6 +38,6 @@ export class RemoveToolOption extends Component {
 
 RemoveToolOption.propTypes = {
   componentType: PropTypes.object,
-  checked: PropTypes.bool,
   onClick: PropTypes.func,
+  selected: PropTypes.bool,
 };
