@@ -91,7 +91,7 @@ export const handleContainerClick = (wellIds, plateIds, viewId) => {
     } else if (clickMode === 'select') {
       dispatch(activity.togglePlateWellSelections(wellIds, plateIds, viewId));
     } else if (clickMode === 'remove') {
-      dispatch(removeComponentsFromContainers(wellIds, plateIds));
+      dispatch(removeComponentTypesFromWells(wellIds, plateIds));
     }
   };
 };
@@ -153,44 +153,41 @@ export const setComponentTypesToRemove = (componentTypes) => {
   };
 };
 
-export const removeComponentsFromContainers = wrapWithChangeHandler(
-  (gridId, positions) => {
-    return (dispatch, getState) => {
-      const componentTypesToRemove = selectors.selectComponentTypesToRemove(
-        getState()
-      );
-      const actionPositions = removeComponentsFromPositions(
-        positions,
-        componentTypesToRemove
-      );
-      dispatch(editor.setGridComponents(gridId, actionPositions));
-    };
-  }
-);
+export const removeComponentTypesFromWells = (wellIds, plateIds) => {
+  return (dispatch, getState) => {
+    const componentTypesToRemove = selectors.selectComponentTypesToRemove(
+      getState()
+    );
+    dispatch(
+      activity.removeComponentTypesFromWells(
+        componentTypesToRemove,
+        wellIds,
+        plateIds
+      )
+    );
+  };
+};
 
-export const removeComponentsFromSelectedContainers = wrapWithChangeHandler(
-  (gridId) => {
-    return (dispatch, getState) => {
-      const grids = editor.selectGrids(getState());
-      const grid = grids.find((grid) => grid.id === gridId);
-      const positions = [];
-      const flattened = grid.data.flat();
-      flattened.forEach((position) => {
-        if (position.container && position.container.selected) {
-          positions.push(position);
-        }
-      });
-      const componentTypesToRemove = selectors.selectComponentTypesToRemove(
-        getState()
-      );
-      const actionPositions = removeComponentsFromPositions(
-        positions,
-        componentTypesToRemove
-      );
-      dispatch(editor.setGridComponents(gridId, actionPositions));
-    };
-  }
-);
+export const removeComponentTypesFromSelectedWells = (viewId) => {
+  return (dispatch, getState) => {
+    const views = activity.selectViews(getState());
+    const view = views.find((view) => view.id === viewId);
+    const componentTypesToRemove = selectors.selectComponentTypesToRemove(
+      getState()
+    );
+    view.viewPlates.forEach((viewPlate) => {
+      if (viewPlate.selectedWells.length > 0) {
+        dispatch(
+          activity.removeComponentTypesFromWells(
+            componentTypesToRemove,
+            viewPlate.selectedWells,
+            [viewPlate.id]
+          )
+        );
+      }
+    });
+  };
+};
 
 const removeComponentsFromPositions = (positions, componentTypesToRemove) => {
   const actionPositions = [];

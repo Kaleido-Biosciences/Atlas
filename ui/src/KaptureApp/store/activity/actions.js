@@ -31,6 +31,8 @@ export const selectBorderPlateWells = gridActions.selectBorderPlateWells;
 export const updatePlateWells = gridActions.updatePlateWells;
 export const togglePlateWellSelections = gridActions.togglePlateWellSelections;
 export const removeComponentFromWell = gridActions.removeComponentFromWell;
+export const removeComponentTypesFromWells =
+  gridActions.removeComponentTypesFromWells;
 
 export const setGridComponents = gridActions.setGridComponents;
 export const addView = viewActions.addView;

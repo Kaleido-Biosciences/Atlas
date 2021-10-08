@@ -26,7 +26,6 @@ const initialState = {
     },
   },
   status: '',
-
   ...initialSaveTime,
 };
 
@@ -199,6 +198,18 @@ const activity = createSlice({
         (component) => component.id === componentId
       );
       well.components.splice(wellIndex, 1);
+    },
+    removeComponentTypesFromWells(state, action) {
+      const { componentTypes, wellIds, plateIds } = action.payload;
+      plateIds.forEach((plateId) => {
+        const plate = findPlate(plateId, state.plates);
+        wellIds.forEach((wellId) => {
+          const well = findWell(wellId, plate.wells);
+          well.components = well.components.filter(
+            (component) => !componentTypes.includes(component.type)
+          );
+        });
+      });
     },
     resetState(state, action) {
       Object.assign(state, initialState);

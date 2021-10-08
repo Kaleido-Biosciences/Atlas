@@ -100,6 +100,22 @@ export function removeComponentFromWell(plateId, wellId, componentId) {
     );
   };
 }
+
+export function removeComponentTypesFromWells(
+  componentTypes,
+  wellIds,
+  plateIds
+) {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.removeComponentTypesFromWells({
+        componentTypes,
+        wellIds,
+        plateIds,
+      })
+    );
+  };
+}
 // (plateId, well, componentId) => {
 //   return (dispatch, getState) => {
 //     const grids = editor.selectGrids(getState());

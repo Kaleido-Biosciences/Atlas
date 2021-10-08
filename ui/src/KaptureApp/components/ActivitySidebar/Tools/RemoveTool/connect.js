@@ -12,7 +12,7 @@ const mapState = (state, props) => {
   };
 };
 const mapDispatch = {
-  onRemoveClick: tools.removeComponentsFromSelectedContainers,
+  onRemoveClick: tools.removeComponentTypesFromSelectedWells,
   onSelectionChange: tools.setComponentTypesToRemove,
 };
 
