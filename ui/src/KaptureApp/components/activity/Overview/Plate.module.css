@@ -1,11 +1,9 @@
 .plate {
   min-width: 110px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  min-height: 60px;
   padding: 6px 8px 8px 8px;
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
 }
 
 .header {

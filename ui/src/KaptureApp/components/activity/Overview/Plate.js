@@ -74,6 +74,7 @@ export class Plate extends Component {
     const { viewPlate } = this.props;
     const className = classNames(
       styles.plate,
+      'inline-block',
       'bg-white',
       'shadow-sm',
       'rounded-lg',

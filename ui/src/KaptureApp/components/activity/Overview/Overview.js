@@ -128,16 +128,23 @@ export class Overview extends Component {
   };
   renderPlates() {
     const { viewPlates } = this.props.view;
-    return viewPlates.map((viewPlate) => {
+    return viewPlates.map((viewPlate, i) => {
+      const style = {
+        top: `${(i + 1) * 10}px`,
+        left: '10px',
+        position: 'absolute',
+        zIndex: `${viewPlates.length - i}`,
+      };
       return (
-        <Plate
-          key={viewPlate.id}
-          viewPlate={viewPlate}
-          onClick={this.handlePlateClick}
-          onEditorClick={this.handleAddPlateEditorView}
-          onSaveName={this.props.onSavePlateName}
-          onTableClick={this.handleAddPlateTableView}
-        />
+        <div key={viewPlate.id} style={style}>
+          <Plate
+            viewPlate={viewPlate}
+            onClick={this.handlePlateClick}
+            onEditorClick={this.handleAddPlateEditorView}
+            onSaveName={this.props.onSavePlateName}
+            onTableClick={this.handleAddPlateTableView}
+          />
+        </div>
       );
     });
   }
@@ -175,14 +182,14 @@ export class Overview extends Component {
           />
         </div>
         <div className={styles.scrollContainer}>
-          <Scrollbars>
-            <div
-              onClick={this.handleDeselectAll}
-              className="min-h-full flex flex-row flex-wrap content-start p-4 bg-gray-100"
-            >
-              {this.renderPlates()}
-            </div>
-          </Scrollbars>
+          {/* <Scrollbars> */}
+          <div
+            onClick={this.handleDeselectAll}
+            className="min-h-full relative bg-gray-100"
+          >
+            {this.renderPlates()}
+          </div>
+          {/* </Scrollbars> */}
         </div>
       </div>
     );
