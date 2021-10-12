@@ -16,7 +16,7 @@ export async function fetchActivity(id) {
         id: plateMap.id,
         name: plateMap.name || 'Untitled',
         barcode: plateMap.barcode,
-        sortKey: plateMap.plateNumber,
+        plateNumber: plateMap.plateNumber,
       });
     });
   }

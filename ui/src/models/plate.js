@@ -38,7 +38,9 @@ export function createPlate({
   barcode = null,
   wells = [],
   attributes = [],
-  sortKey = null,
+  plateNumber = null,
+  positionTop = null,
+  positionLeft = null,
 }) {
   return {
     id: id || uuidv4(),
@@ -50,7 +52,9 @@ export function createPlate({
     attributes,
     rowHeaders: createRowHeaders(numRows),
     columnHeaders: createColumnHeaders(numCols),
-    sortKey,
+    plateNumber,
+    positionTop,
+    positionLeft,
   };
 }
 
