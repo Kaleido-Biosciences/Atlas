@@ -19,6 +19,11 @@ export async function fetchActivity(id) {
         plateNumber: plateMap.plateNumber,
       });
     });
+    activity.plates.sort((a, b) => {
+      if (a.barcode === b.barcode) return 0;
+      else if (a.barcode < b.barcode) return -1;
+      else return 1;
+    });
   }
   return activity;
 }
