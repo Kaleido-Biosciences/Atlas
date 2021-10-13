@@ -3,11 +3,12 @@ import { createPlate } from 'models';
 import { fetchActivityData, createActivityData } from './aws';
 
 export async function fetchActivity(id) {
-  let activityData = await fetchActivityData(id);
-  if (!activityData) {
-    createActivityData(id, sampleJson);
-    activityData = sampleJson;
-  }
+  // let activityData = await fetchActivityData(id);
+  // if (!activityData) {
+  //   createActivityData(id, sampleJson);
+  //   activityData = sampleJson;
+  // }
+  let activityData = sampleJson;
   const { platemaps: plateMaps, ...rest } = activityData;
   const activity = { ...rest, plates: [] };
   if (plateMaps) {
@@ -17,6 +18,8 @@ export async function fetchActivity(id) {
         name: plateMap.name || 'Untitled',
         barcode: plateMap.barcode,
         plateNumber: plateMap.plateNumber,
+        overviewPositionTop: plateMap.overviewPositionTop,
+        overviewPositionLeft: plateMap.overviewPositionLeft,
       });
     });
     activity.plates.sort((a, b) => {

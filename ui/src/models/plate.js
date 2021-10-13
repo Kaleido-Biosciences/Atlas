@@ -39,8 +39,8 @@ export function createPlate({
   wells = [],
   attributes = [],
   plateNumber = null,
-  positionTop = null,
-  positionLeft = null,
+  overviewPositionTop = null,
+  overviewPositionLeft = null,
 }) {
   return {
     id: id || uuidv4(),
@@ -53,8 +53,8 @@ export function createPlate({
     rowHeaders: createRowHeaders(numRows),
     columnHeaders: createColumnHeaders(numCols),
     plateNumber,
-    positionTop,
-    positionLeft,
+    overviewPositionTop,
+    overviewPositionLeft,
   };
 }
 

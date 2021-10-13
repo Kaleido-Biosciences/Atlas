@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Draggable from 'react-draggable';
 import { Plate } from './Plate';
 import { Button } from 'KaptureApp/components';
 import { Scrollbars } from 'KaptureApp/components';
@@ -128,23 +129,35 @@ export class Overview extends Component {
   };
   renderPlates() {
     const { viewPlates } = this.props.view;
+    let unpositionedCount = 0;
     return viewPlates.map((viewPlate, i) => {
       const style = {
-        top: `${(i + 1) * 10}px`,
-        left: '10px',
         position: 'absolute',
         zIndex: `${viewPlates.length - i}`,
       };
+      if (
+        viewPlate.plate.overviewPositionTop !== null &&
+        viewPlate.plate.overviewPositionLeft !== null
+      ) {
+        style.top = `${viewPlate.plate.overviewPositionTop}px`;
+        style.left = `${viewPlate.plate.overviewPositionLeft}px`;
+      } else {
+        style.top = `${(unpositionedCount + 1) * 10}px`;
+        style.left = '10px';
+        unpositionedCount++;
+      }
       return (
-        <div key={viewPlate.id} style={style}>
-          <Plate
-            viewPlate={viewPlate}
-            onClick={this.handlePlateClick}
-            onEditorClick={this.handleAddPlateEditorView}
-            onSaveName={this.props.onSavePlateName}
-            onTableClick={this.handleAddPlateTableView}
-          />
-        </div>
+        <Draggable key={viewPlate.id} grid={[10, 10]}>
+          <div style={style}>
+            <Plate
+              viewPlate={viewPlate}
+              onClick={this.handlePlateClick}
+              onEditorClick={this.handleAddPlateEditorView}
+              onSaveName={this.props.onSavePlateName}
+              onTableClick={this.handleAddPlateTableView}
+            />
+          </div>
+        </Draggable>
       );
     });
   }
@@ -185,7 +198,7 @@ export class Overview extends Component {
           {/* <Scrollbars> */}
           <div
             onClick={this.handleDeselectAll}
-            className="min-h-full relative bg-gray-100"
+            className="min-h-full relative overflow-auto bg-gray-100"
           >
             {this.renderPlates()}
           </div>
