@@ -129,23 +129,13 @@ export class Overview extends Component {
   };
   renderPlates() {
     const { viewPlates } = this.props.view;
-    let unpositionedCount = 0;
     return viewPlates.map((viewPlate, i) => {
       const style = {
         position: 'absolute',
+        top: `${viewPlate.plate.overviewPositionTop}px`,
+        left: `${viewPlate.plate.overviewPositionLeft}px`,
         zIndex: `${viewPlates.length - i}`,
       };
-      if (
-        viewPlate.plate.overviewPositionTop !== null &&
-        viewPlate.plate.overviewPositionLeft !== null
-      ) {
-        style.top = `${viewPlate.plate.overviewPositionTop}px`;
-        style.left = `${viewPlate.plate.overviewPositionLeft}px`;
-      } else {
-        style.top = `${(unpositionedCount + 1) * 10}px`;
-        style.left = '10px';
-        unpositionedCount++;
-      }
       return (
         <Draggable key={viewPlate.id} grid={[10, 10]}>
           <div style={style}>

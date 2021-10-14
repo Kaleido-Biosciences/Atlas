@@ -46,7 +46,7 @@ export function createPlate({
     id: id || uuidv4(),
     numRows,
     numCols,
-    name,
+    name: name || 'Untitled',
     barcode,
     wells,
     attributes,

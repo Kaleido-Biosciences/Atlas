@@ -12,21 +12,23 @@ export async function fetchActivity(id) {
   const { platemaps: plateMaps, ...rest } = activityData;
   const activity = { ...rest, plates: [] };
   if (plateMaps) {
-    activity.plates = plateMaps.map((plateMap) => {
-      return createPlate({
-        id: plateMap.id,
-        name: plateMap.name || 'Untitled',
-        barcode: plateMap.barcode,
-        plateNumber: plateMap.plateNumber,
-        overviewPositionTop: plateMap.overviewPositionTop,
-        overviewPositionLeft: plateMap.overviewPositionLeft,
-      });
-    });
-    activity.plates.sort((a, b) => {
+    plateMaps.sort((a, b) => {
       if (a.barcode === b.barcode) return 0;
       else if (a.barcode < b.barcode) return -1;
       else return 1;
     });
+    let unpositionedCount = 0;
+    plateMaps.forEach((plateMap, i) => {
+      if (
+        isNaN(plateMap.overviewPositionTop) &&
+        isNaN(plateMap.overviewPositionLeft)
+      ) {
+        plateMap.overviewPositionTop = (unpositionedCount + 1) * 10;
+        plateMap.overviewPositionLeft = 10;
+        unpositionedCount++;
+      }
+    });
+    activity.plates = plateMaps.map((plateMap) => createPlate(plateMap));
   }
   return activity;
 }
