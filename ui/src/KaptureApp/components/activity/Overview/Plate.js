@@ -85,8 +85,25 @@ export class Plate extends Component {
       'hover:border-gray-400',
       { 'border-indigo-500 hover:border-indigo-600': viewPlate.selected }
     );
+    const style = {};
+    if (viewPlate.plate.numRows === null && viewPlate.plate.numCols === null) {
+      style.height = '60px';
+      style.width = '110px';
+    } else if (
+      viewPlate.plate.numRows === 8 &&
+      viewPlate.plate.numCols === 12
+    ) {
+      style.height = '150px';
+      style.width = '130px';
+    } else if (
+      viewPlate.plate.numRows === 16 &&
+      viewPlate.plate.numCols === 24
+    ) {
+      style.height = '230px';
+      style.width = '240px';
+    }
     return (
-      <div className={className} onClick={this.handleClick}>
+      <div className={className} onClick={this.handleClick} style={style}>
         <div className={styles.header}>
           <div className="text-xs font-medium">
             <EditableText
@@ -98,7 +115,7 @@ export class Plate extends Component {
             </div>
           </div>
         </div>
-        <div>{this.renderPlate()}</div>
+        <div className="flex justify-center">{this.renderPlate()}</div>
         {viewPlate.plate.numRows > 0 && viewPlate.plate.numCols > 0 ? (
           <div className="flex justify-evenly pt-2">
             <FontAwesomeIcon
