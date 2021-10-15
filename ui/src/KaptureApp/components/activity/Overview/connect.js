@@ -11,6 +11,7 @@ const mapDispatch = {
   onPlateSelectionChange: activity.setViewPlateSelections,
   onSavePlateName: activity.setPlateName,
   onSetPlateSize: activity.setPlateSize,
+  onUpdatePlateDetails: activity.updatePlateDetails,
 };
 
 const connected = connect(mapState, mapDispatch)(Overview);

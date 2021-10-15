@@ -24,6 +24,7 @@ export function loadActivity(id) {
 
 export const setPlateSize = gridActions.setPlateSize;
 export const setPlateName = gridActions.setPlateName;
+export const updatePlateDetails = gridActions.updatePlateDetails;
 export const selectAllPlateWells = gridActions.selectAllPlateWells;
 export const deselectAllPlateWells = gridActions.deselectAllPlateWells;
 export const selectInteriorPlateWells = gridActions.selectInteriorPlateWells;

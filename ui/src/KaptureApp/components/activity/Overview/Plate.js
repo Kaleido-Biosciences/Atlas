@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getPlateRows } from 'models';
 import { EditableText } from 'KaptureApp/components';
+import Draggable from 'react-draggable';
 import styles from './Plate.module.css';
 
 export class Plate extends Component {
@@ -39,6 +40,14 @@ export class Plate extends Component {
       this.props.onSaveName(this.props.viewPlate.id, value);
     }
   };
+  handleDragStop = (e, { lastX, lastY }) => {
+    if (this.props.onUpdatePlateDetails) {
+      this.props.onUpdatePlateDetails(this.props.viewPlate.id, {
+        overviewPositionTop: lastY,
+        overviewPositionLeft: lastX,
+      });
+    }
+  };
   renderPlate() {
     const rows = getPlateRows(this.props.viewPlate.plate);
     const selections = this.props.viewPlate.selectedWells;
@@ -71,7 +80,8 @@ export class Plate extends Component {
     return <div>{renderedRows}</div>;
   }
   render() {
-    const { viewPlate } = this.props;
+    const { viewPlate, zIndex } = this.props;
+    const { overviewPositionLeft, overviewPositionTop } = viewPlate.plate;
     const className = classNames(
       styles.plate,
       'inline-block',
@@ -85,7 +95,12 @@ export class Plate extends Component {
       'hover:border-gray-400',
       { 'border-indigo-500 hover:border-indigo-600': viewPlate.selected }
     );
-    const style = {};
+    const style = {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      zIndex,
+    };
     if (viewPlate.plate.numRows === null && viewPlate.plate.numCols === null) {
       style.height = '60px';
       style.width = '110px';
@@ -103,34 +118,43 @@ export class Plate extends Component {
       style.width = '240px';
     }
     return (
-      <div className={className} onClick={this.handleClick} style={style}>
-        <div className={styles.header}>
-          <div className="text-xs font-medium">
-            <EditableText
-              onSave={this.handleSaveName}
-              value={viewPlate.plate.name}
-            />
-            <div className="text-xxs text-gray-400">
-              {viewPlate.plate.barcode}
+      <Draggable
+        grid={[10, 10]}
+        onStop={this.handleDragStop}
+        defaultPosition={{
+          x: overviewPositionLeft,
+          y: overviewPositionTop,
+        }}
+      >
+        <div className={className} onClick={this.handleClick} style={style}>
+          <div className={styles.header}>
+            <div className="text-xs font-medium">
+              <EditableText
+                onSave={this.handleSaveName}
+                value={viewPlate.plate.name}
+              />
+              <div className="text-xxs text-gray-400">
+                {viewPlate.plate.barcode}
+              </div>
             </div>
           </div>
+          <div className="flex justify-center">{this.renderPlate()}</div>
+          {viewPlate.plate.numRows > 0 && viewPlate.plate.numCols > 0 ? (
+            <div className="flex justify-evenly pt-2">
+              <FontAwesomeIcon
+                className="text-gray-200 hover:text-gray-500 cursor-pointer"
+                icon="th"
+                onClick={this.handleEditorClick}
+              />
+              <FontAwesomeIcon
+                className="text-gray-200 hover:text-gray-500 cursor-pointer"
+                icon="table"
+                onClick={this.handleTableClick}
+              />
+            </div>
+          ) : null}
         </div>
-        <div className="flex justify-center">{this.renderPlate()}</div>
-        {viewPlate.plate.numRows > 0 && viewPlate.plate.numCols > 0 ? (
-          <div className="flex justify-evenly pt-2">
-            <FontAwesomeIcon
-              className="text-gray-200 hover:text-gray-500 cursor-pointer"
-              icon="th"
-              onClick={this.handleEditorClick}
-            />
-            <FontAwesomeIcon
-              className="text-gray-200 hover:text-gray-500 cursor-pointer"
-              icon="table"
-              onClick={this.handleTableClick}
-            />
-          </div>
-        ) : null}
-      </div>
+      </Draggable>
     );
   }
 }
@@ -141,4 +165,6 @@ Plate.propTypes = {
   onEditorClick: PropTypes.func,
   onSaveName: PropTypes.func,
   onTableClick: PropTypes.func,
+  onUpdatePlateDetails: PropTypes.func,
+  zIndex: PropTypes.string,
 };
