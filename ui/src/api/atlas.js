@@ -1,4 +1,5 @@
 import sampleJson from './sample.json';
+import plateTypesJson from './plateTypes.json';
 import { createPlate } from 'models';
 import { fetchActivityData, createActivityData } from './aws';
 
@@ -31,4 +32,8 @@ export async function fetchActivity(id) {
     activity.plates = plateMaps.map((plateMap) => createPlate(plateMap));
   }
   return activity;
+}
+
+export async function fetchPlateTypes() {
+  return plateTypesJson;
 }

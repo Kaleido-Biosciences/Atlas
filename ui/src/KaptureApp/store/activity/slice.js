@@ -18,6 +18,7 @@ const initialState = {
   updatedTime: null,
   plates: [],
   views: [],
+  plateTypes: [],
   settings: {
     containerSize: {
       size: 120,
@@ -49,6 +50,9 @@ const activity = createSlice({
       state.loading = false;
       state.initialized = true;
       state.initializationError = '';
+    },
+    setPlateTypes(state, action) {
+      state.plateTypes = action.payload.plateTypes;
     },
     setPlateSize(state, action) {
       const { plateIds, numRows, numCols } = action.payload;

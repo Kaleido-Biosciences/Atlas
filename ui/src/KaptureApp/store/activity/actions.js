@@ -14,6 +14,8 @@ export function loadActivity(id) {
     dispatch(actions.setLoading());
     // try {
     const activity = await api.fetchActivity(id);
+    const plateTypes = await api.fetchPlateTypes();
+    dispatch(actions.setPlateTypes({ plateTypes }));
     activity.views = [viewActions.getOverview(activity.plates, true)];
     dispatch(actions.setActivity({ activity }));
     // } catch (error) {
