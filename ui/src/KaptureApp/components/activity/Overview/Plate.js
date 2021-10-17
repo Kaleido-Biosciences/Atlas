@@ -100,23 +100,9 @@ export class Plate extends Component {
       top: 0,
       left: 0,
       zIndex,
+      width: viewPlate.plate.overviewWidth,
+      height: viewPlate.plate.overviewHeight,
     };
-    if (viewPlate.plate.numRows === null && viewPlate.plate.numCols === null) {
-      style.height = '60px';
-      style.width = '110px';
-    } else if (
-      viewPlate.plate.numRows === 8 &&
-      viewPlate.plate.numCols === 12
-    ) {
-      style.height = '150px';
-      style.width = '130px';
-    } else if (
-      viewPlate.plate.numRows === 16 &&
-      viewPlate.plate.numCols === 24
-    ) {
-      style.height = '230px';
-      style.width = '240px';
-    }
     return (
       <Draggable
         grid={[10, 10]}

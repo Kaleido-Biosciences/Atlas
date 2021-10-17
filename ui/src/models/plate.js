@@ -41,6 +41,8 @@ export function createPlate({
   plateNumber = null,
   overviewPositionTop = null,
   overviewPositionLeft = null,
+  overviewWidth = 110,
+  overviewHeight = 60,
 }) {
   return {
     id: id || uuidv4(),
@@ -55,6 +57,8 @@ export function createPlate({
     plateNumber,
     overviewPositionTop,
     overviewPositionLeft,
+    overviewWidth,
+    overviewHeight,
   };
 }
 

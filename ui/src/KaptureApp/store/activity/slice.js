@@ -59,6 +59,15 @@ const activity = createSlice({
       const plateType = state.plateTypes.find(
         (plateType) => plateType.id === plateTypeId
       );
+      let width, height;
+      if (plateType.numCols === 12 && plateType.numRows === 8) {
+        width = 130;
+        height = 150;
+      }
+      if (plateType.numCols === 24 && plateType.numRows === 16) {
+        width = 240;
+        height = 230;
+      }
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
         plate.plateTypeId = plateType.id;
@@ -67,6 +76,8 @@ const activity = createSlice({
         plate.wells = createWells(plateType.numRows, plateType.numCols);
         plate.rowHeaders = createRowHeaders(plateType.numRows);
         plate.columnHeaders = createColumnHeaders(plateType.numCols);
+        plate.overviewWidth = width;
+        plate.overviewHeight = height;
       });
     },
     updatePlateWells(state, action) {
