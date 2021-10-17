@@ -8,6 +8,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
+    "@headlessui/react": "^1.4.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@tailwindcss/forms": "^0.3.3",
     "@testing-library/jest-dom": "^5.14.1",

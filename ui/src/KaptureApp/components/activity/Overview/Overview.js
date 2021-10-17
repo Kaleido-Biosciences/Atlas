@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Plate } from './Plate';
 import { Button } from 'KaptureApp/components';
+import { PlateTypeDropdown } from '../PlateTypeDropdown';
 // import { Scrollbars } from 'KaptureApp/components';
 import styles from './Overview.module.css';
 
@@ -17,14 +18,9 @@ export class Overview extends Component {
     });
     return selectedIds;
   };
-  handleSet96Wells = () => {
-    if (this.props.onSetPlateSize) {
-      this.props.onSetPlateSize(this.getSelectedPlateIds(), 8, 12);
-    }
-  };
-  handleSet384Wells = () => {
-    if (this.props.onSetPlateSize) {
-      this.props.onSetPlateSize(this.getSelectedPlateIds(), 16, 24);
+  handleSetPlateType = (plateTypeId) => {
+    if (this.props.onSetPlateType) {
+      this.props.onSetPlateType(this.getSelectedPlateIds(), plateTypeId);
     }
   };
   handleAddPlateEditorView = (plateId) => {
@@ -161,19 +157,9 @@ export class Overview extends Component {
             secondary
             className="mr-2"
           />
-          <Button
-            onClick={this.handleSet96Wells}
-            content="Set as 96 Wells"
-            icon="plus-circle"
-            secondary
-            className="mr-2"
-          />
-          <Button
-            onClick={this.handleSet384Wells}
-            content="Set as 384 Wells"
-            icon="plus-circle"
-            secondary
-            className="mr-2"
+          <PlateTypeDropdown
+            onSelect={this.handleSetPlateType}
+            plateTypes={this.props.plateTypes}
           />
         </div>
         <div className={styles.scrollContainer}>
@@ -192,9 +178,9 @@ export class Overview extends Component {
 }
 
 Overview.propTypes = {
-  view: PropTypes.object.isRequired,
   onAddView: PropTypes.func,
   onPlateSelectionChange: PropTypes.func,
   onSavePlateName: PropTypes.func,
-  onSetPlateSize: PropTypes.func,
+  plateTypes: PropTypes.array,
+  view: PropTypes.object.isRequired,
 };

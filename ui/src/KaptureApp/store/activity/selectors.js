@@ -29,6 +29,7 @@ export const selectActiveView = createSelector(
     };
   }
 );
+export const selectPlateTypes = (state) => state.activity.plateTypes;
 export const selectSettings = (state) => state.activity.settings;
 export const selectSavePending = (state) => state.activity.savePending;
 export const selectLastSaveTime = (state) => state.activity.lastSaveTime;

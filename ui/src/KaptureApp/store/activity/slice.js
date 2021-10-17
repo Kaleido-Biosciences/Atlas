@@ -54,15 +54,19 @@ const activity = createSlice({
     setPlateTypes(state, action) {
       state.plateTypes = action.payload.plateTypes;
     },
-    setPlateSize(state, action) {
-      const { plateIds, numRows, numCols } = action.payload;
+    setPlateType(state, action) {
+      const { plateIds, plateTypeId } = action.payload;
+      const plateType = state.plateTypes.find(
+        (plateType) => plateType.id === plateTypeId
+      );
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        plate.numRows = numRows;
-        plate.numCols = numCols;
-        plate.wells = createWells(numRows, numCols);
-        plate.rowHeaders = createRowHeaders(numRows);
-        plate.columnHeaders = createColumnHeaders(numCols);
+        plate.plateTypeId = plateType.id;
+        plate.numRows = plateType.numRows;
+        plate.numCols = plateType.numCols;
+        plate.wells = createWells(plateType.numRows, plateType.numCols);
+        plate.rowHeaders = createRowHeaders(plateType.numRows);
+        plate.columnHeaders = createColumnHeaders(plateType.numCols);
       });
     },
     updatePlateWells(state, action) {

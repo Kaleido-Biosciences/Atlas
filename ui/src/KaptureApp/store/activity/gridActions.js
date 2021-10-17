@@ -1,8 +1,8 @@
 import { actions } from './slice';
 
-export function setPlateSize(plateIds, numRows, numCols) {
+export function setPlateType(plateIds, plateTypeId) {
   return (dispatch, getState) => {
-    dispatch(actions.setPlateSize({ plateIds, numRows, numCols }));
+    dispatch(actions.setPlateType({ plateIds, plateTypeId }));
   };
 }
 

@@ -3,14 +3,14 @@ import { Overview } from './Overview';
 import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
-  return {};
+  return { plateTypes: activity.selectPlateTypes(state) };
 };
 
 const mapDispatch = {
   onAddView: activity.addView,
   onPlateSelectionChange: activity.setViewPlateSelections,
   onSavePlateName: activity.setPlateName,
-  onSetPlateSize: activity.setPlateSize,
+  onSetPlateType: activity.setPlateType,
   onUpdatePlateDetails: activity.updatePlateDetails,
 };
 

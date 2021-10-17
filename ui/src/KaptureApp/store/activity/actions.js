@@ -24,7 +24,7 @@ export function loadActivity(id) {
   };
 }
 
-export const setPlateSize = gridActions.setPlateSize;
+export const setPlateType = gridActions.setPlateType;
 export const setPlateName = gridActions.setPlateName;
 export const updatePlateDetails = gridActions.updatePlateDetails;
 export const selectAllPlateWells = gridActions.selectAllPlateWells;
