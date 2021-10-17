@@ -28,6 +28,7 @@ export async function fetchActivity(id) {
         plateMap.overviewPositionLeft = 10;
         unpositionedCount++;
       }
+      plateMap.plateNumber = i + 1;
     });
     activity.plates = plateMaps.map((plateMap) => createPlate(plateMap));
   }

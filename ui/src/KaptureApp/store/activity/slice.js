@@ -97,6 +97,26 @@ const activity = createSlice({
       const { plateId, details } = action.payload;
       const plate = findPlate(plateId, state.plates);
       Object.assign(plate, details);
+      state.plates.sort((a, b) => {
+        const aTop = a.overviewPositionTop;
+        const aLeft = a.overviewPositionLeft;
+        const bTop = b.overviewPositionTop;
+        const bLeft = b.overviewPositionLeft;
+        if (aTop > bTop) return 1;
+        if (aTop < bTop) return -1;
+        if (aTop === bTop) {
+          if (aLeft < bLeft) return -1;
+          if (aLeft > bLeft) return 1;
+          if (aLeft === bLeft) {
+            if (a.barcode === b.barcode) return 0;
+            else if (a.barcode < b.barcode) return -1;
+            else return 1;
+          }
+        }
+      });
+      state.plates.forEach((plate, i) => {
+        plate.plateNumber = i + 1;
+      });
     },
     addView(state, action) {
       const { view } = action.payload;
