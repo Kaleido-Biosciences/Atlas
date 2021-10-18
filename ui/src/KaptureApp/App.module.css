@@ -56,3 +56,10 @@
 :global(.Resizer.disabled:hover) {
   border-color: transparent;
 }
+
+:global(.reactTooltip) {
+  color: inherit !important;
+  font-size: inherit !important;
+  opacity: 1 !important;
+  padding: 0 !important;
+}

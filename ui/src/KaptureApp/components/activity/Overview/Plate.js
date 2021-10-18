@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getPlateRows } from 'models';
 import { EditableText } from 'KaptureApp/components';
 import Draggable from 'react-draggable';
+import { PlateTooltip } from './PlateTooltip';
 import styles from './Plate.module.css';
 
 export class Plate extends Component {
@@ -114,13 +115,30 @@ export class Plate extends Component {
       >
         <div className={className} onClick={this.handleClick} style={style}>
           <div className={styles.header}>
-            <div className="text-xs font-medium">
-              <EditableText
-                onSave={this.handleSaveName}
-                value={viewPlate.plate.name}
-              />
-              <div className="text-xxs text-gray-400">
-                {viewPlate.plate.barcode}
+            <div className="text-xs font-medium flex flex-row justify-between w-full">
+              <div>
+                <EditableText
+                  onSave={this.handleSaveName}
+                  value={viewPlate.plate.name}
+                />
+                <div className="text-xxs text-gray-400">
+                  {viewPlate.plate.barcode}
+                </div>
+              </div>
+              <div>
+                <FontAwesomeIcon
+                  icon="info-circle"
+                  className="text-gray-300"
+                  data-place={
+                    viewPlate.plate.overviewPositionTop < 40 ? 'bottom' : 'top'
+                  }
+                  data-tip={true}
+                  data-for={`${viewPlate.plate.id}`}
+                />
+                <PlateTooltip
+                  id={`${viewPlate.plate.id}`}
+                  plate={viewPlate.plate}
+                />
               </div>
             </div>
           </div>
