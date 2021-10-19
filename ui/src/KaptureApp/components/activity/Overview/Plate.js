@@ -42,11 +42,17 @@ export class Plate extends Component {
     }
   };
   handleDragStop = (e, { lastX, lastY }) => {
-    if (this.props.onUpdatePlateDetails) {
-      this.props.onUpdatePlateDetails(this.props.viewPlate.id, {
-        overviewPositionTop: lastY,
-        overviewPositionLeft: lastX,
-      });
+    const { plate } = this.props.viewPlate;
+    if (
+      plate.overviewPositionTop !== lastY ||
+      plate.overviewPositionLeft !== lastX
+    ) {
+      if (this.props.onUpdatePlateDetails) {
+        this.props.onUpdatePlateDetails(this.props.viewPlate.id, {
+          overviewPositionTop: lastY,
+          overviewPositionLeft: lastX,
+        });
+      }
     }
   };
   renderPlate() {
