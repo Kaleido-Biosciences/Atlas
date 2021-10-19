@@ -6,6 +6,18 @@ export function setPlateType(plateIds, plateTypeId) {
   };
 }
 
+export function setPlateToCopy(plateId) {
+  return (dispatch, getState) => {
+    dispatch(actions.setPlateToCopy({ plateId }));
+  };
+}
+
+export function pasteToPlates(plateIds) {
+  return (dispatch, getState) => {
+    dispatch(actions.pasteToPlates({ plateIds }));
+  };
+}
+
 export function setPlateName(plateId, name) {
   return (dispatch, getState) => {
     dispatch(

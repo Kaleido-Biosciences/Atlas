@@ -122,6 +122,40 @@ export class Overview extends Component {
       this.props.onPlateSelectionChange(view.id, plateSelections);
     }
   };
+  handleKeyDown = (e) => {
+    if (e.keyCode === 67 && (e.metaKey || e.ctrlKey)) {
+      if (this.props.onCopyPlate) {
+        let selectedCount = 0,
+          plate;
+        this.props.view.viewPlates.forEach((viewPlate) => {
+          if (viewPlate.selected) {
+            selectedCount++;
+            plate = viewPlate.plate;
+          }
+        });
+        if (selectedCount === 1) {
+          if (plate.plateTypeId) {
+            this.props.onCopyPlate(plate.id);
+          }
+        } else {
+          this.props.onCopyPlate(null);
+        }
+      }
+    }
+    if (e.keyCode === 86 && (e.metaKey || e.ctrlKey)) {
+      if (this.props.onPastePlate) {
+        const plateIds = [];
+        this.props.view.viewPlates.forEach((viewPlate) => {
+          if (viewPlate.selected) {
+            plateIds.push(viewPlate.id);
+          }
+        });
+        if (plateIds.length) {
+          this.props.onPastePlate(plateIds);
+        }
+      }
+    }
+  };
   renderPlates() {
     const { viewPlates } = this.props.view;
     return viewPlates.map((viewPlate, i) => {
@@ -162,7 +196,11 @@ export class Overview extends Component {
             plateTypes={this.props.plateTypes}
           />
         </div>
-        <div className={styles.scrollContainer}>
+        <div
+          className={styles.scrollContainer}
+          onKeyDown={this.handleKeyDown}
+          tabIndex="1"
+        >
           {/* <Scrollbars> */}
           <div
             onClick={this.handleDeselectAll}
@@ -179,6 +217,8 @@ export class Overview extends Component {
 
 Overview.propTypes = {
   onAddView: PropTypes.func,
+  onCopyPlate: PropTypes.func,
+  onPastePlate: PropTypes.func,
   onPlateSelectionChange: PropTypes.func,
   onSavePlateName: PropTypes.func,
   plateTypes: PropTypes.array,

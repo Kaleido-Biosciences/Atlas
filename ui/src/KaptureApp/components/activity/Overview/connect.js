@@ -8,6 +8,8 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onAddView: activity.addView,
+  onCopyPlate: activity.setPlateToCopy,
+  onPastePlate: activity.pasteToPlates,
   onPlateSelectionChange: activity.setViewPlateSelections,
   onSavePlateName: activity.setPlateName,
   onSetPlateType: activity.setPlateType,

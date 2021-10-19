@@ -19,6 +19,7 @@ const initialState = {
   plates: [],
   views: [],
   plateTypes: [],
+  plateToCopy: null,
   settings: {
     containerSize: {
       size: 120,
@@ -117,6 +118,28 @@ const activity = createSlice({
       state.plates.forEach((plate, i) => {
         plate.plateNumber = i + 1;
       });
+    },
+    setPlateToCopy(state, action) {
+      state.plateToCopy = action.payload.plateId;
+    },
+    pasteToPlates(state, action) {
+      if (state.plateToCopy) {
+        const plateToCopy = findPlate(state.plateToCopy, state.plates);
+        if (plateToCopy && plateToCopy.plateTypeId) {
+          const targetPlateIds = action.payload.plateIds;
+          targetPlateIds.forEach((targetPlateId) => {
+            const targetPlate = findPlate(targetPlateId, state.plates);
+            targetPlate.plateTypeId = plateToCopy.plateTypeId;
+            targetPlate.numCols = plateToCopy.numCols;
+            targetPlate.numRows = plateToCopy.numRows;
+            targetPlate.columnHeaders = plateToCopy.columnHeaders;
+            targetPlate.rowHeaders = plateToCopy.rowHeaders;
+            targetPlate.overviewWidth = plateToCopy.overviewWidth;
+            targetPlate.overviewHeight = plateToCopy.overviewHeight;
+            targetPlate.wells = JSON.parse(JSON.stringify(plateToCopy.wells));
+          });
+        }
+      }
     },
     addView(state, action) {
       const { view } = action.payload;

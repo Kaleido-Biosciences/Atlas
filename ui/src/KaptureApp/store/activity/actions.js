@@ -26,6 +26,8 @@ export function loadActivity(id) {
 
 export const setPlateType = gridActions.setPlateType;
 export const setPlateName = gridActions.setPlateName;
+export const setPlateToCopy = gridActions.setPlateToCopy;
+export const pasteToPlates = gridActions.pasteToPlates;
 export const updatePlateDetails = gridActions.updatePlateDetails;
 export const selectAllPlateWells = gridActions.selectAllPlateWells;
 export const deselectAllPlateWells = gridActions.deselectAllPlateWells;
