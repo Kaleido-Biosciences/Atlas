@@ -27,7 +27,10 @@ export class PlateTypeDropdown extends Component {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 mt-2 text-xs origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+            <Menu.Items
+              style={{ zIndex: 200 }}
+              className="absolute right-0 w-56 mt-2 text-xs origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            >
               <div className="px-1 py-1 ">
                 {this.props.plateTypes.map((plateType) => {
                   return (

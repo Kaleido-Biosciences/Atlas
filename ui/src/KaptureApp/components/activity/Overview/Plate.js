@@ -9,7 +9,9 @@ import { PlateTooltip } from './PlateTooltip';
 import styles from './Plate.module.css';
 
 export class Plate extends Component {
-  state = { dragging: false };
+  state = {
+    bringForward: false,
+  };
   handleMouseDown = (e) => {
     e.stopPropagation();
     document.getSelection().removeAllRanges();
@@ -42,11 +44,17 @@ export class Plate extends Component {
       this.props.onSaveName(this.props.viewPlate.id, value);
     }
   };
+  handleTooltipEnter = () => {
+    this.setState({ bringForward: true });
+  };
+  handleTooltipLeave = () => {
+    this.setState({ bringForward: false });
+  };
   handleDragStart = (e) => {
-    this.setState({ dragging: true });
+    this.setState({ bringForward: true });
   };
   handleDragStop = (e, { lastX, lastY }) => {
-    this.setState({ dragging: false });
+    this.setState({ bringForward: false });
     const { plate } = this.props.viewPlate;
     if (
       plate.overviewPositionTop !== lastY ||
@@ -92,7 +100,13 @@ export class Plate extends Component {
     return <div>{renderedRows}</div>;
   }
   render() {
-    const { viewPlate, zIndex } = this.props;
+    const { viewPlate } = this.props;
+    let zIndex = this.props.zIndex;
+    if (this.state.bringForward) {
+      zIndex = 102;
+    } else if (viewPlate.selected) {
+      zIndex = 101;
+    }
     const { overviewPositionLeft, overviewPositionTop } = viewPlate.plate;
     const className = classNames(
       styles.plate,
@@ -111,7 +125,7 @@ export class Plate extends Component {
       position: 'absolute',
       top: 0,
       left: 0,
-      zIndex: this.state.dragging || viewPlate.selected ? '100' : zIndex,
+      zIndex,
       width: viewPlate.plate.overviewWidth,
       height: viewPlate.plate.overviewHeight,
     };
@@ -140,8 +154,10 @@ export class Plate extends Component {
               </div>
               <div>
                 <FontAwesomeIcon
+                  onMouseEnter={this.handleTooltipEnter}
+                  onMouseLeave={this.handleTooltipLeave}
                   icon="info-circle"
-                  className="text-gray-300"
+                  className="text-gray-300 focus:outline-none"
                   data-place={
                     viewPlate.plate.overviewPositionTop < 40 ? 'bottom' : 'top'
                   }
