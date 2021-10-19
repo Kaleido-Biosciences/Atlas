@@ -104,8 +104,8 @@ const activity = createSlice({
         const bTop = b.overviewPositionTop;
         const bLeft = b.overviewPositionLeft;
         if (aTop > bTop) return 1;
-        if (aTop < bTop) return -1;
-        if (aTop === bTop) {
+        else if (aTop < bTop) return -1;
+        else if (aTop === bTop) {
           if (aLeft < bLeft) return -1;
           if (aLeft > bLeft) return 1;
           if (aLeft === bLeft) {
@@ -114,6 +114,7 @@ const activity = createSlice({
             else return 1;
           }
         }
+        return 0;
       });
       state.plates.forEach((plate, i) => {
         plate.plateNumber = i + 1;
