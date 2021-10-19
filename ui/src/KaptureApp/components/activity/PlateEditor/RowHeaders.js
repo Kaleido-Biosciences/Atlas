@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { HeaderCell } from './HeaderCell';
-import styles from './PlateGrid.module.css';
 
 export class RowHeaders extends Component {
   divRef = React.createRef();
