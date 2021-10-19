@@ -9,6 +9,7 @@ import { PlateTooltip } from './PlateTooltip';
 import styles from './Plate.module.css';
 
 export class Plate extends Component {
+  state = { dragging: false };
   handleMouseDown = (e) => {
     e.stopPropagation();
     document.getSelection().removeAllRanges();
@@ -41,7 +42,11 @@ export class Plate extends Component {
       this.props.onSaveName(this.props.viewPlate.id, value);
     }
   };
+  handleDragStart = (e) => {
+    this.setState({ dragging: true });
+  };
   handleDragStop = (e, { lastX, lastY }) => {
+    this.setState({ dragging: false });
     const { plate } = this.props.viewPlate;
     if (
       plate.overviewPositionTop !== lastY ||
@@ -106,7 +111,7 @@ export class Plate extends Component {
       position: 'absolute',
       top: 0,
       left: 0,
-      zIndex,
+      zIndex: this.state.dragging || viewPlate.selected ? '100' : zIndex,
       width: viewPlate.plate.overviewWidth,
       height: viewPlate.plate.overviewHeight,
     };
@@ -118,6 +123,7 @@ export class Plate extends Component {
         }}
         grid={[10, 10]}
         onMouseDown={this.handleMouseDown}
+        onStart={this.handleDragStart}
         onStop={this.handleDragStop}
       >
         <div className={className} style={style}>
