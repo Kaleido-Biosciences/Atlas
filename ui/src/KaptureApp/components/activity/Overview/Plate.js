@@ -9,7 +9,7 @@ import { PlateTooltip } from './PlateTooltip';
 import styles from './Plate.module.css';
 
 export class Plate extends Component {
-  handleClick = (e) => {
+  handleMouseDown = (e) => {
     e.stopPropagation();
     document.getSelection().removeAllRanges();
     if (this.props.onClick) {
@@ -106,14 +106,15 @@ export class Plate extends Component {
     };
     return (
       <Draggable
-        grid={[10, 10]}
-        onStop={this.handleDragStop}
         defaultPosition={{
           x: overviewPositionLeft,
           y: overviewPositionTop,
         }}
+        grid={[10, 10]}
+        onMouseDown={this.handleMouseDown}
+        onStop={this.handleDragStop}
       >
-        <div className={className} onClick={this.handleClick} style={style}>
+        <div className={className} style={style}>
           <div className={styles.header}>
             <div className="text-xs font-medium flex flex-row justify-between w-full">
               <div>

@@ -43,14 +43,19 @@ export class Overview extends Component {
       this.props.onPlateSelectionChange(view.id, plateSelections);
     }
   };
-  handleDeselectAll = () => {
-    if (this.props.onPlateSelectionChange) {
-      const { view } = this.props;
-      const plateSelections = [];
-      view.viewPlates.forEach((viewPlate) => {
-        plateSelections.push({ plateId: viewPlate.id, selected: false });
-      });
-      this.props.onPlateSelectionChange(view.id, plateSelections);
+  handleDeselectAll = (e) => {
+    if (
+      e.target.nodeName === 'DIV' &&
+      e.target.className.includes('plateContainer')
+    ) {
+      if (this.props.onPlateSelectionChange) {
+        const { view } = this.props;
+        const plateSelections = [];
+        view.viewPlates.forEach((viewPlate) => {
+          plateSelections.push({ plateId: viewPlate.id, selected: false });
+        });
+        this.props.onPlateSelectionChange(view.id, plateSelections);
+      }
     }
   };
   handlePlateClick = (plateId, key) => {
@@ -204,7 +209,7 @@ export class Overview extends Component {
           {/* <Scrollbars> */}
           <div
             onClick={this.handleDeselectAll}
-            className="min-h-full relative overflow-auto bg-gray-100"
+            className="plateContainer min-h-full relative overflow-auto bg-gray-100"
           >
             {this.renderPlates()}
           </div>
