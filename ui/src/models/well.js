@@ -4,6 +4,7 @@ export const createWell = ({
   column = null,
   components = [],
   attributes = [],
+  selected = false,
 }) => {
   let position;
   if (row && column) {
@@ -17,5 +18,6 @@ export const createWell = ({
     position,
     components,
     attributes,
+    selected,
   };
 };

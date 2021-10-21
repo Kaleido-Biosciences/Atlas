@@ -43,6 +43,7 @@ export function createPlate({
   overviewPositionLeft = null,
   overviewWidth = 110,
   overviewHeight = 60,
+  selected = false,
 }) {
   return {
     id: id || uuidv4(),
@@ -59,6 +60,7 @@ export function createPlate({
     overviewPositionLeft,
     overviewWidth,
     overviewHeight,
+    selected,
   };
 }
 

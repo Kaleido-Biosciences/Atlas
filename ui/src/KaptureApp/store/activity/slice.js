@@ -135,6 +135,12 @@ const activity = createSlice({
         }
       }
     },
+    setPlateSelections(state, action) {
+      const { selections } = action.payload;
+      state.plates.forEach((plate) => {
+        plate.selected = selections.includes(plate.id);
+      });
+    },
     addView(state, action) {
       const { view } = action.payload;
       if (!view.name) {

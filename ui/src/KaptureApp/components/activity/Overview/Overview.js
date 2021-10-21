@@ -35,26 +35,23 @@ export class Overview extends Component {
   };
   handleSelectAll = () => {
     if (this.props.onPlateSelectionChange) {
-      const { view } = this.props;
-      const plateSelections = [];
-      view.viewPlates.forEach((viewPlate) => {
-        plateSelections.push({ plateId: viewPlate.id, selected: true });
-      });
-      this.props.onPlateSelectionChange(view.id, plateSelections);
+      this.props.onPlateSelectionChange(
+        this.props.plates.map((plate) => plate.id)
+      );
     }
   };
   handleDeselectAll = (e) => {
+    if (this.props.onPlateSelectionChange) {
+      this.props.onPlateSelectionChange([]);
+    }
+  };
+  handleDeselectClick = (e) => {
     if (
       e.target.nodeName === 'DIV' &&
       e.target.className.includes('plateContainer')
     ) {
       if (this.props.onPlateSelectionChange) {
-        const { view } = this.props;
-        const plateSelections = [];
-        view.viewPlates.forEach((viewPlate) => {
-          plateSelections.push({ plateId: viewPlate.id, selected: false });
-        });
-        this.props.onPlateSelectionChange(view.id, plateSelections);
+        this.props.onPlateSelectionChange([]);
       }
     }
   };
@@ -165,18 +162,18 @@ export class Overview extends Component {
     if (this.props.onAutoArrangePlates) this.props.onAutoArrangePlates();
   };
   renderPlates() {
-    const { viewPlates } = this.props.view;
-    return viewPlates.map((viewPlate, i) => {
+    const { plates } = this.props;
+    return plates.map((plate, i) => {
       return (
         <Plate
-          key={viewPlate.id}
+          key={plate.id}
           onClick={this.handlePlateClick}
           onEditorClick={this.handleAddPlateEditorView}
           onSaveName={this.props.onSavePlateName}
           onTableClick={this.handleAddPlateTableView}
           onUpdatePlateDetails={this.props.onUpdatePlateDetails}
-          viewPlate={viewPlate}
-          zIndex={`${viewPlates.length - i}`}
+          plate={plate}
+          zIndex={`${plates.length - i}`}
         />
       );
     });
@@ -217,7 +214,7 @@ export class Overview extends Component {
         <div className={styles.scrollContainer}>
           {/* <Scrollbars> */}
           <div
-            onClick={this.handleDeselectAll}
+            onClick={this.handleDeselectClick}
             className="plateContainer min-h-full relative overflow-auto bg-gray-100"
           >
             {this.renderPlates()}
@@ -236,6 +233,7 @@ Overview.propTypes = {
   onPastePlate: PropTypes.func,
   onPlateSelectionChange: PropTypes.func,
   onSavePlateName: PropTypes.func,
+  plates: PropTypes.array,
   plateTypes: PropTypes.array,
   view: PropTypes.object.isRequired,
 };

@@ -17,31 +17,31 @@ export class Plate extends Component {
     document.getSelection().removeAllRanges();
     if (this.props.onClick) {
       if (e.ctrlKey) {
-        this.props.onClick(this.props.viewPlate.id, 'ctrl');
+        this.props.onClick(this.props.plate.id, 'ctrl');
       } else if (e.shiftKey) {
-        this.props.onClick(this.props.viewPlate.id, 'shift');
+        this.props.onClick(this.props.plate.id, 'shift');
       } else if (e.metaKey) {
-        this.props.onClick(this.props.viewPlate.id, 'meta');
+        this.props.onClick(this.props.plate.id, 'meta');
       } else {
-        this.props.onClick(this.props.viewPlate.id);
+        this.props.onClick(this.props.plate.id);
       }
     }
   };
   handleEditorClick = (e) => {
     e.stopPropagation();
     if (this.props.onEditorClick) {
-      this.props.onEditorClick(this.props.viewPlate.id);
+      this.props.onEditorClick(this.props.plate.id);
     }
   };
   handleTableClick = (e) => {
     e.stopPropagation();
     if (this.props.onTableClick) {
-      this.props.onTableClick(this.props.viewPlate.id);
+      this.props.onTableClick(this.props.plate.id);
     }
   };
   handleSaveName = (value) => {
     if (this.props.onSaveName) {
-      this.props.onSaveName(this.props.viewPlate.id, value);
+      this.props.onSaveName(this.props.plate.id, value);
     }
   };
   handleTooltipEnter = () => {
@@ -55,13 +55,13 @@ export class Plate extends Component {
   };
   handleDragStop = (e, { lastX, lastY }) => {
     this.setState({ bringForward: false });
-    const { plate } = this.props.viewPlate;
+    const { plate } = this.props;
     if (
       plate.overviewPositionTop !== lastY ||
       plate.overviewPositionLeft !== lastX
     ) {
       if (this.props.onUpdatePlateDetails) {
-        this.props.onUpdatePlateDetails(this.props.viewPlate.id, {
+        this.props.onUpdatePlateDetails(this.props.plate.id, {
           overviewPositionTop: lastY,
           overviewPositionLeft: lastX,
         });
@@ -69,12 +69,11 @@ export class Plate extends Component {
     }
   };
   renderPlate() {
-    const rows = getPlateRows(this.props.viewPlate.plate);
-    const selections = this.props.viewPlate.selectedWells;
+    const rows = getPlateRows(this.props.plate);
     let className;
     const renderedRows = rows.map((row, i) => {
       const wells = row.map((well) => {
-        if (selections.includes(well.id)) {
+        if (well.selected) {
           className = classNames(styles.container, {
             'border-blue-400': well.components.length > 0,
             'bg-blue-400': well.components.length > 0,
@@ -100,14 +99,14 @@ export class Plate extends Component {
     return <div>{renderedRows}</div>;
   }
   render() {
-    const { viewPlate } = this.props;
+    const { plate } = this.props;
     let zIndex = this.props.zIndex;
     if (this.state.bringForward) {
       zIndex = 102;
-    } else if (viewPlate.selected) {
+    } else if (plate.selected) {
       zIndex = 101;
     }
-    const { overviewPositionLeft, overviewPositionTop } = viewPlate.plate;
+    const { overviewPositionLeft, overviewPositionTop } = plate;
     const className = classNames(
       styles.plate,
       'inline-block',
@@ -119,15 +118,15 @@ export class Plate extends Component {
       'border-gray-300',
       'cursor-pointer',
       'hover:border-gray-400',
-      { 'border-indigo-500 hover:border-indigo-600': viewPlate.selected }
+      { 'border-indigo-500 hover:border-indigo-600': plate.selected }
     );
     const style = {
       position: 'absolute',
       top: 0,
       left: 0,
       zIndex,
-      width: viewPlate.plate.overviewWidth,
-      height: viewPlate.plate.overviewHeight,
+      width: plate.overviewWidth,
+      height: plate.overviewHeight,
     };
     return (
       <Draggable
@@ -144,13 +143,8 @@ export class Plate extends Component {
           <div className={styles.header}>
             <div className="text-xs font-medium flex flex-row justify-between w-full">
               <div>
-                <EditableText
-                  onSave={this.handleSaveName}
-                  value={viewPlate.plate.name}
-                />
-                <div className="text-xxs text-gray-400">
-                  {viewPlate.plate.barcode}
-                </div>
+                <EditableText onSave={this.handleSaveName} value={plate.name} />
+                <div className="text-xxs text-gray-400">{plate.barcode}</div>
               </div>
               <div>
                 <FontAwesomeIcon
@@ -159,20 +153,17 @@ export class Plate extends Component {
                   icon="info-circle"
                   className="text-gray-300 focus:outline-none"
                   data-place={
-                    viewPlate.plate.overviewPositionTop <= 40 ? 'bottom' : 'top'
+                    plate.overviewPositionTop <= 40 ? 'bottom' : 'top'
                   }
                   data-tip={true}
-                  data-for={`${viewPlate.plate.id}`}
+                  data-for={`${plate.id}`}
                 />
-                <PlateTooltip
-                  id={`${viewPlate.plate.id}`}
-                  plate={viewPlate.plate}
-                />
+                <PlateTooltip id={`${plate.id}`} plate={plate} />
               </div>
             </div>
           </div>
           <div className="flex justify-center">{this.renderPlate()}</div>
-          {viewPlate.plate.numRows > 0 && viewPlate.plate.numCols > 0 ? (
+          {plate.numRows > 0 && plate.numCols > 0 ? (
             <div className="flex justify-evenly pt-2">
               <FontAwesomeIcon
                 className="text-gray-200 hover:text-gray-500 cursor-pointer"
@@ -193,11 +184,11 @@ export class Plate extends Component {
 }
 
 Plate.propTypes = {
-  viewPlate: PropTypes.object,
   onClick: PropTypes.func,
   onEditorClick: PropTypes.func,
   onSaveName: PropTypes.func,
   onTableClick: PropTypes.func,
   onUpdatePlateDetails: PropTypes.func,
+  plate: PropTypes.object,
   zIndex: PropTypes.string,
 };

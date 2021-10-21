@@ -3,7 +3,10 @@ import { Overview } from './Overview';
 import { activity } from 'KaptureApp/store';
 
 const mapState = (state, props) => {
-  return { plateTypes: activity.selectPlateTypes(state) };
+  return {
+    plates: activity.selectPlates(state),
+    plateTypes: activity.selectPlateTypes(state),
+  };
 };
 
 const mapDispatch = {
@@ -11,7 +14,7 @@ const mapDispatch = {
   onAutoArrangePlates: activity.autoArrangePlates,
   onCopyPlate: activity.setPlateToCopy,
   onPastePlate: activity.pasteToPlates,
-  onPlateSelectionChange: activity.setViewPlateSelections,
+  onPlateSelectionChange: activity.setPlateSelections,
   onSavePlateName: activity.setPlateName,
   onSetPlateType: activity.setPlateType,
   onUpdatePlateDetails: activity.updatePlateDetails,
