@@ -159,7 +159,7 @@ export class Plate extends Component {
                   icon="info-circle"
                   className="text-gray-300 focus:outline-none"
                   data-place={
-                    viewPlate.plate.overviewPositionTop < 40 ? 'bottom' : 'top'
+                    viewPlate.plate.overviewPositionTop <= 40 ? 'bottom' : 'top'
                   }
                   data-tip={true}
                   data-for={`${viewPlate.plate.id}`}
