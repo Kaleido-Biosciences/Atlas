@@ -24,6 +24,7 @@ export function loadActivity(id) {
   };
 }
 
+export const autoArrangePlates = actions.autoArrangePlates;
 export const setPlateType = gridActions.setPlateType;
 export const setPlateName = gridActions.setPlateName;
 export const setPlateToCopy = gridActions.setPlateToCopy;

@@ -161,6 +161,9 @@ export class Overview extends Component {
       }
     }
   };
+  handleAutoArrangePlates = () => {
+    if (this.props.onAutoArrangePlates) this.props.onAutoArrangePlates();
+  };
   renderPlates() {
     const { viewPlates } = this.props.view;
     return viewPlates.map((viewPlate, i) => {
@@ -196,6 +199,12 @@ export class Overview extends Component {
             secondary
             className="mr-2"
           />
+          <Button
+            onClick={this.handleAutoArrangePlates}
+            content="Auto Arrange"
+            secondary
+            className="mr-2"
+          />
           <PlateTypeDropdown
             onSelect={this.handleSetPlateType}
             plateTypes={this.props.plateTypes}
@@ -222,6 +231,7 @@ export class Overview extends Component {
 
 Overview.propTypes = {
   onAddView: PropTypes.func,
+  onAutoArrangePlates: PropTypes.func,
   onCopyPlate: PropTypes.func,
   onPastePlate: PropTypes.func,
   onPlateSelectionChange: PropTypes.func,

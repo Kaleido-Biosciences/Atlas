@@ -131,14 +131,14 @@ export class Plate extends Component {
     };
     return (
       <Draggable
-        defaultPosition={{
-          x: overviewPositionLeft,
-          y: overviewPositionTop,
-        }}
         grid={[10, 10]}
         onMouseDown={this.handleMouseDown}
         onStart={this.handleDragStart}
         onStop={this.handleDragStop}
+        position={{
+          x: overviewPositionLeft,
+          y: overviewPositionTop,
+        }}
       >
         <div className={className} style={style}>
           <div className={styles.header}>

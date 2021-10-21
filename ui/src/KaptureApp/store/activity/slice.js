@@ -51,6 +51,20 @@ const activity = createSlice({
       state.loading = false;
       state.initialized = true;
       state.initializationError = '';
+      const positioned = state.plates.find((plate) => {
+        return (
+          plate.overviewPositionLeft !== null &&
+          plate.overviewPositionLeft !== undefined &&
+          plate.overviewPositionTop !== null &&
+          plate.overviewPositionTop !== undefined
+        );
+      });
+      if (!positioned) {
+        arrangePlates(state.plates);
+      }
+    },
+    autoArrangePlates(state, action) {
+      arrangePlates(state.plates);
     },
     setPlateTypes(state, action) {
       state.plateTypes = action.payload.plateTypes;
@@ -98,27 +112,6 @@ const activity = createSlice({
       const { plateId, details } = action.payload;
       const plate = findPlate(plateId, state.plates);
       Object.assign(plate, details);
-      state.plates.sort((a, b) => {
-        const aTop = a.overviewPositionTop;
-        const aLeft = a.overviewPositionLeft;
-        const bTop = b.overviewPositionTop;
-        const bLeft = b.overviewPositionLeft;
-        if (aTop > bTop) return 1;
-        else if (aTop < bTop) return -1;
-        else if (aTop === bTop) {
-          if (aLeft < bLeft) return -1;
-          if (aLeft > bLeft) return 1;
-          if (aLeft === bLeft) {
-            if (a.barcode === b.barcode) return 0;
-            else if (a.barcode < b.barcode) return -1;
-            else return 1;
-          }
-        }
-        return 0;
-      });
-      state.plates.forEach((plate, i) => {
-        plate.plateNumber = i + 1;
-      });
     },
     setPlateToCopy(state, action) {
       state.plateToCopy = action.payload.plateId;
@@ -314,4 +307,15 @@ function findWell(wellId, wells) {
 
 function findView(viewId, views) {
   return views.find((view) => view.id === viewId);
+}
+
+function arrangePlates(plates) {
+  let currentLeft = 10,
+    spacing = 10,
+    top = 10;
+  plates.forEach((plate) => {
+    plate.overviewPositionLeft = currentLeft;
+    plate.overviewPositionTop = top;
+    currentLeft += plate.overviewWidth + spacing;
+  });
 }
