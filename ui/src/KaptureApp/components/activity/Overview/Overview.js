@@ -7,159 +7,72 @@ import { PlateTypeDropdown } from '../PlateTypeDropdown';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
-  lastClickedPlateId = null;
   getSelectedPlateIds = () => {
-    const { viewPlates } = this.props.view;
-    const selectedIds = [];
-    viewPlates.forEach((viewPlate) => {
-      if (viewPlate.selected) {
-        selectedIds.push(viewPlate.id);
-      }
-    });
-    return selectedIds;
+    return this.props.plates.reduce((selectedIds, plate) => {
+      if (plate.selected) selectedIds.push(plate.id);
+      return selectedIds;
+    }, []);
   };
   handleSetPlateType = (plateTypeId) => {
-    if (this.props.onSetPlateType) {
-      this.props.onSetPlateType(this.getSelectedPlateIds(), plateTypeId);
-    }
+    this.props.onSetPlateType(this.getSelectedPlateIds(), plateTypeId);
   };
   handleAddPlateEditorView = (plateId) => {
-    if (this.props.onAddView) {
-      this.props.onAddView('PlateEditor', [plateId]);
-    }
-  };
-  handleAddPlateTableView = (plateId) => {
-    if (this.props.onAddView) {
-      this.props.onAddView('PlateTable', [plateId]);
-    }
+    this.props.onAddView('PlateEditor', [plateId]);
   };
   handleSelectAll = () => {
-    if (this.props.onPlateSelectionChange) {
-      this.props.onPlateSelectionChange(
-        this.props.plates.map((plate) => plate.id)
-      );
-    }
+    this.props.onPlateSelectionChange(
+      this.props.plates.map((plate) => plate.id)
+    );
   };
   handleDeselectAll = (e) => {
-    if (this.props.onPlateSelectionChange) {
-      this.props.onPlateSelectionChange([]);
-    }
+    this.props.onPlateSelectionChange([]);
   };
   handleDeselectClick = (e) => {
     if (
       e.target.nodeName === 'DIV' &&
       e.target.className.includes('plateContainer')
     ) {
-      if (this.props.onPlateSelectionChange) {
-        this.props.onPlateSelectionChange([]);
-      }
+      this.props.onPlateSelectionChange([]);
     }
   };
   handlePlateClick = (plateId, key) => {
-    if (this.props.onPlateSelectionChange) {
-      const { view } = this.props;
-      const plateSelections = [];
-      if (!key) {
-        view.viewPlates.forEach((viewPlate) => {
-          if (viewPlate.id === plateId) {
-            plateSelections.push({ plateId: viewPlate.id, selected: true });
-          } else
-            plateSelections.push({ plateId: viewPlate.id, selected: false });
-        });
-      } else if (key === 'shift') {
-        let clickedIndex = 0;
-        let lastClickedIndex = 0;
-        let existingSelection = false;
-        view.viewPlates.forEach((viewPlate, i) => {
-          if (viewPlate.id === plateId) clickedIndex = i;
-          if (viewPlate.selected) existingSelection = true;
-          if (viewPlate.id === this.lastClickedPlateId) lastClickedIndex = i;
-        });
-        if (!existingSelection) {
-          view.viewPlates.forEach((viewPlate, i) => {
-            if (i <= clickedIndex) {
-              plateSelections.push({ plateId: viewPlate.id, selected: true });
-            } else
-              plateSelections.push({ plateId: viewPlate.id, selected: false });
-          });
-        } else {
-          if (clickedIndex < lastClickedIndex) {
-            view.viewPlates.forEach((viewPlate, i) => {
-              if (i >= clickedIndex && i < lastClickedIndex) {
-                plateSelections.push({ plateId: viewPlate.id, selected: true });
-              } else
-                plateSelections.push({
-                  plateId: viewPlate.id,
-                  selected: viewPlate.selected,
-                });
-            });
-          } else if (clickedIndex > lastClickedIndex) {
-            view.viewPlates.forEach((viewPlate, i) => {
-              if (i > lastClickedIndex && i <= clickedIndex) {
-                plateSelections.push({ plateId: viewPlate.id, selected: true });
-              } else {
-                plateSelections.push({
-                  plateId: viewPlate.id,
-                  selected: viewPlate.selected,
-                });
-              }
-            });
-          }
+    //TODO: Implement shift click similar to drag to select
+    const { plates } = this.props,
+      plateSelections = [];
+    if (!key) {
+      plateSelections.push(plateId);
+    } else if (key === 'meta' || key === 'ctrl' || key === 'shift') {
+      plates.forEach((plate) => {
+        if (
+          (plate.id === plateId && !plate.selected) ||
+          (plate.id !== plateId && plate.selected)
+        ) {
+          plateSelections.push(plate.id);
         }
-      } else if (key === 'meta' || key === 'ctrl') {
-        view.viewPlates.forEach((viewPlate) => {
-          if (viewPlate.id === plateId) {
-            plateSelections.push({
-              plateId: viewPlate.id,
-              selected: !viewPlate.selected,
-            });
-          } else
-            plateSelections.push({
-              plateId: viewPlate.id,
-              selected: viewPlate.selected,
-            });
-        });
-      }
-      this.lastClickedPlateId = plateId;
-      this.props.onPlateSelectionChange(view.id, plateSelections);
+      });
     }
+    this.props.onPlateSelectionChange(plateSelections);
   };
   handleKeyDown = (e) => {
+    const selectedIds = this.getSelectedPlateIds();
     if (e.keyCode === 67 && (e.metaKey || e.ctrlKey)) {
-      if (this.props.onCopyPlate) {
-        let selectedCount = 0,
-          plate;
-        this.props.view.viewPlates.forEach((viewPlate) => {
-          if (viewPlate.selected) {
-            selectedCount++;
-            plate = viewPlate.plate;
-          }
-        });
-        if (selectedCount === 1) {
-          if (plate.plateTypeId) {
-            this.props.onCopyPlate(plate.id);
-          }
-        } else {
-          this.props.onCopyPlate(null);
-        }
+      let plateIdToCopy = null;
+      if (selectedIds.length === 1) {
+        const plate = this.props.plates.find(
+          (plate) => plate.id === selectedIds[0]
+        );
+        if (plate.plateTypeId) plateIdToCopy = plate.id;
       }
+      this.props.onCopyPlate(plateIdToCopy);
     }
     if (e.keyCode === 86 && (e.metaKey || e.ctrlKey)) {
-      if (this.props.onPastePlate) {
-        const plateIds = [];
-        this.props.view.viewPlates.forEach((viewPlate) => {
-          if (viewPlate.selected) {
-            plateIds.push(viewPlate.id);
-          }
-        });
-        if (plateIds.length) {
-          this.props.onPastePlate(plateIds);
-        }
+      if (selectedIds.length) {
+        this.props.onPastePlate(selectedIds);
       }
     }
   };
   handleAutoArrangePlates = () => {
-    if (this.props.onAutoArrangePlates) this.props.onAutoArrangePlates();
+    this.props.onAutoArrangePlates();
   };
   renderPlates() {
     const { plates } = this.props;
@@ -227,13 +140,13 @@ export class Overview extends Component {
 }
 
 Overview.propTypes = {
-  onAddView: PropTypes.func,
-  onAutoArrangePlates: PropTypes.func,
-  onCopyPlate: PropTypes.func,
-  onPastePlate: PropTypes.func,
-  onPlateSelectionChange: PropTypes.func,
-  onSavePlateName: PropTypes.func,
-  plates: PropTypes.array,
-  plateTypes: PropTypes.array,
-  view: PropTypes.object.isRequired,
+  onAddView: PropTypes.func.isRequired,
+  onAutoArrangePlates: PropTypes.func.isRequired,
+  onCopyPlate: PropTypes.func.isRequired,
+  onPastePlate: PropTypes.func.isRequired,
+  onPlateSelectionChange: PropTypes.func.isRequired,
+  onSavePlateName: PropTypes.func.isRequired,
+  plates: PropTypes.array.isRequired,
+  plateTypes: PropTypes.array.isRequired,
+  view: PropTypes.object,
 };
