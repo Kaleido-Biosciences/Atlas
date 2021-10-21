@@ -104,7 +104,6 @@ export class PlateGrid extends Component {
               onRemoveComponent={this.handleRemoveComponent}
               onWellClick={this.handleWellClick}
               plate={plate}
-              selectedWells={this.props.selectedWells}
               wellHeight={settings.wellHeight}
               wellMarginBottom={settings.wellMarginBottom}
               wellMarginRight={settings.wellMarginRight}
@@ -123,5 +122,4 @@ PlateGrid.propTypes = {
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   plate: PropTypes.object,
-  selectedWells: PropTypes.array,
 };

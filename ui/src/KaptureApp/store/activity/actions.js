@@ -16,7 +16,10 @@ export function loadActivity(id) {
     const activity = await api.fetchActivity(id);
     const plateTypes = await api.fetchPlateTypes();
     dispatch(actions.setPlateTypes({ plateTypes }));
-    activity.views = [viewActions.getOverview(activity.plates, true)];
+    activity.views = [
+      viewActions.getOverview(activity.plates, true),
+      viewActions.getPlateEditor(activity.plates, false),
+    ];
     dispatch(actions.setActivity({ activity }));
     // } catch (error) {
     //   dispatch(actions.setInitializationError({ error: error.message }));

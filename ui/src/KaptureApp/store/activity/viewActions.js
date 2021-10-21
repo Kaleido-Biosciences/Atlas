@@ -51,6 +51,23 @@ export function getOverview(plates, active) {
   };
 }
 
+export function getPlateEditor(plates, active) {
+  return {
+    id: uuidv4(),
+    name: 'Plate Editor',
+    type: 'PlateEditor',
+    active,
+    viewPlates: plates.map((plate) => {
+      return {
+        id: plate.id,
+        selected: false,
+        selectedWells: [],
+      };
+    }),
+    data: {},
+  };
+}
+
 export function setViewPlateSelections(viewId, selections) {
   return (dispatch, getState) => {
     dispatch(

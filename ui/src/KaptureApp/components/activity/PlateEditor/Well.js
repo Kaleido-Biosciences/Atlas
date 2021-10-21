@@ -32,7 +32,6 @@ export class Well extends PureComponent {
     });
   }
   render() {
-    const { selected } = this.props;
     const wellStyle = {
       height: `${this.props.height}px`,
       marginBottom: `${this.props.marginBottom}px`,
@@ -40,7 +39,9 @@ export class Well extends PureComponent {
       padding: `${this.props.padding}px`,
       width: `${this.props.width}px`,
     };
-    const wellClass = classNames(styles.well, { selected });
+    const wellClass = classNames(styles.well, {
+      selected: this.props.well.selected,
+    });
     return (
       <div className={wellClass} style={wellStyle} onClick={this.handleClick}>
         {this.renderComponents()}
@@ -50,7 +51,6 @@ export class Well extends PureComponent {
 }
 
 Well.propTypes = {
-  selected: PropTypes.bool,
   enableRemoveComponent: PropTypes.bool,
   height: PropTypes.number,
   marginBottom: PropTypes.number,
