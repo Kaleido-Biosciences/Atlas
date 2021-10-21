@@ -14,7 +14,8 @@ export class PlateTooltip extends Component {
         type="info"
       >
         <div className="px-2 py-2 whitespace-nowrap text-xxs">
-          Plate {this.props.plate.plateNumber}
+          <div className="text-gray-400">Plate Number</div>
+          <div>{this.props.plate.plateNumber}</div>
         </div>
       </ReactTooltip>
     );
