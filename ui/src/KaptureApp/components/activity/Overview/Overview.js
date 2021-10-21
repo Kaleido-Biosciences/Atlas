@@ -183,8 +183,12 @@ export class Overview extends Component {
   }
   render() {
     return (
-      <div className={styles.overview}>
-        <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center">
+      <div
+        className={`${styles.overview} focus:outline-none`}
+        onKeyDown={this.handleKeyDown}
+        tabIndex="1"
+      >
+        <div className="px-3 py-2 bg-gray-50  flex flex-row items-center">
           <Button
             onClick={this.handleSelectAll}
             content="Select All"
@@ -210,11 +214,7 @@ export class Overview extends Component {
             plateTypes={this.props.plateTypes}
           />
         </div>
-        <div
-          className={styles.scrollContainer}
-          onKeyDown={this.handleKeyDown}
-          tabIndex="1"
-        >
+        <div className={styles.scrollContainer}>
           {/* <Scrollbars> */}
           <div
             onClick={this.handleDeselectAll}
