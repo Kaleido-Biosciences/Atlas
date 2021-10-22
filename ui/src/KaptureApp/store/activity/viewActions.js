@@ -34,6 +34,17 @@ export function setActiveView(viewId) {
   };
 }
 
+export function setActiveViewWithPlate(viewType, plateId) {
+  return (dispatch, getState) => {
+    dispatch(
+      actions.setActiveViewWithPlate({
+        viewType,
+        plateId,
+      })
+    );
+  };
+}
+
 export function getOverview(plates, active) {
   return {
     id: uuidv4(),

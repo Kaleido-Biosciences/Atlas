@@ -27,16 +27,16 @@ export class Plate extends Component {
       }
     }
   };
-  handleEditorClick = (e) => {
+  handleViewInEditor = (e) => {
     e.stopPropagation();
-    if (this.props.onEditorClick) {
-      this.props.onEditorClick(this.props.plate.id);
+    if (this.props.onViewInEditor) {
+      this.props.onViewInEditor(this.props.plate.id);
     }
   };
-  handleTableClick = (e) => {
+  handleViewInTable = (e) => {
     e.stopPropagation();
-    if (this.props.onTableClick) {
-      this.props.onTableClick(this.props.plate.id);
+    if (this.props.onViewInTable) {
+      this.props.onViewInTable(this.props.plate.id);
     }
   };
   handleSaveName = (value) => {
@@ -168,12 +168,12 @@ export class Plate extends Component {
               <FontAwesomeIcon
                 className="text-gray-200 hover:text-gray-500 cursor-pointer"
                 icon="th"
-                onClick={this.handleEditorClick}
+                onClick={this.handleViewInEditor}
               />
               <FontAwesomeIcon
                 className="text-gray-200 hover:text-gray-500 cursor-pointer"
                 icon="table"
-                onClick={this.handleTableClick}
+                onClick={this.handleViewInTable}
               />
             </div>
           ) : null}
@@ -185,10 +185,10 @@ export class Plate extends Component {
 
 Plate.propTypes = {
   onClick: PropTypes.func,
-  onEditorClick: PropTypes.func,
   onSaveName: PropTypes.func,
-  onTableClick: PropTypes.func,
   onUpdatePlateDetails: PropTypes.func,
+  onViewInEditor: PropTypes.func,
+  onViewInTable: PropTypes.func,
   plate: PropTypes.object,
   zIndex: PropTypes.string,
 };

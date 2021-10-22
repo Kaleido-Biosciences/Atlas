@@ -48,6 +48,7 @@ export const removeComponentTypesFromWells =
 export const setGridComponents = gridActions.setGridComponents;
 export const addView = viewActions.addView;
 export const setActiveView = viewActions.setActiveView;
+export const setActiveViewWithPlate = viewActions.setActiveViewWithPlate;
 export const setViewPlateSelections = viewActions.setViewPlateSelections;
 
 async function importGrids(grids) {

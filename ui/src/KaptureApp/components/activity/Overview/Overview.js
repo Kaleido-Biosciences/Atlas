@@ -16,8 +16,11 @@ export class Overview extends Component {
   handleSetPlateType = (plateTypeId) => {
     this.props.onSetPlateType(this.getSelectedPlateIds(), plateTypeId);
   };
-  handleAddPlateEditorView = (plateId) => {
-    this.props.onAddView('PlateEditor', [plateId]);
+  handleViewPlateInEditor = (plateId) => {
+    this.props.onSwitchToView('PlateEditor', plateId);
+  };
+  handleViewPlateInTable = (plateId) => {
+    this.props.onSwitchToView('PlateTable', plateId);
   };
   handleSelectAll = () => {
     this.props.onPlateSelectionChange(
@@ -81,10 +84,10 @@ export class Overview extends Component {
         <Plate
           key={plate.id}
           onClick={this.handlePlateClick}
-          onEditorClick={this.handleAddPlateEditorView}
           onSaveName={this.props.onSavePlateName}
-          onTableClick={this.handleAddPlateTableView}
           onUpdatePlateDetails={this.props.onUpdatePlateDetails}
+          onViewInEditor={this.handleViewPlateInEditor}
+          onViewInTable={this.handleViewPlateInTable}
           plate={plate}
           zIndex={`${plates.length - i}`}
         />
@@ -146,6 +149,7 @@ Overview.propTypes = {
   onPastePlate: PropTypes.func.isRequired,
   onPlateSelectionChange: PropTypes.func.isRequired,
   onSavePlateName: PropTypes.func.isRequired,
+  onSwitchToView: PropTypes.func,
   plates: PropTypes.array.isRequired,
   plateTypes: PropTypes.array.isRequired,
   view: PropTypes.object,

@@ -193,6 +193,19 @@ const activity = createSlice({
         });
       }
     },
+    setActiveViewWithPlate(state, action) {
+      const { viewType, plateId } = action.payload;
+      state.views.forEach((view) => {
+        if (view.type === viewType) {
+          view.active = true;
+        } else view.active = false;
+      });
+      state.plates.forEach((plate) => {
+        if (plate.id === plateId) {
+          plate.selected = true;
+        } else plate.selected = false;
+      });
+    },
     setViewPlateSelections(state, action) {
       const { viewId, selections } = action.payload;
       const view = findView(viewId, state.views);
