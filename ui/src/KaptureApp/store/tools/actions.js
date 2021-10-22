@@ -119,21 +119,18 @@ export const applySelectedToolComponentsToWells = (wellIds, plateIds) => {
   };
 };
 
-export const applySelectedToolComponentsToSelectedWells = (viewId) => {
+export const applySelectedToolComponentsToSelectedWells = () => {
   return (dispatch, getState) => {
     if (selectors.selectApplyToolComponentsValid(getState())) {
       const toolComponents = selectors.selectSelectedApplyToolComponents(
         getState()
       );
-      const views = activity.selectViews(getState());
-      const view = views.find((view) => view.id === viewId);
       const plates = activity.selectPlates(getState());
-      view.viewPlates.forEach((viewPlate) => {
-        if (viewPlate.selectedWells.length > 0) {
-          const plate = plates.find((plate) => plate.id === viewPlate.id);
+      plates.forEach((plate) => {
+        if (plate.selected) {
           const updatedWells = [];
           plate.wells.forEach((well) => {
-            if (viewPlate.selectedWells.includes(well.id)) {
+            if (well.selected) {
               updatedWells.push({
                 ...well,
                 components: applyComponents(well.components, toolComponents),
