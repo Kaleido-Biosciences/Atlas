@@ -9,6 +9,7 @@ const mapState = (state, props) => {
     activeView: activity.selectActiveView(state),
     componentTypes: COMPONENT_TYPES,
     componentTypesToRemove: tools.selectComponentTypesToRemove(state),
+    plates: activity.selectPlates(state),
   };
 };
 const mapDispatch = {

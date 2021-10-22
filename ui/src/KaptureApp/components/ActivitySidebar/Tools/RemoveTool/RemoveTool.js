@@ -76,6 +76,7 @@ export class RemoveTool extends Component {
             }
             buttonText="Remove from"
             onButtonClick={this.handleRemoveClick}
+            plates={this.props.plates}
             showButton={true}
           />
         </div>
@@ -90,4 +91,5 @@ RemoveTool.propTypes = {
   componentTypesToRemove: PropTypes.array.isRequired,
   onRemoveClick: PropTypes.func,
   onSelectionChange: PropTypes.func,
+  plates: PropTypes.array,
 };

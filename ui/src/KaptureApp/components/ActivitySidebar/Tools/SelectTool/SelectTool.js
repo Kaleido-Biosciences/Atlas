@@ -96,6 +96,7 @@ export class SelectTool extends React.Component {
         <div className={styles.selectedContainersContainer}>
           <SelectedWells
             activeView={this.props.activeView}
+            plates={this.props.plates}
             showButton={false}
           />
         </div>

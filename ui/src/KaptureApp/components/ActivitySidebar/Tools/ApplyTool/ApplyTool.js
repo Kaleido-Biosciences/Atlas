@@ -99,6 +99,7 @@ export class ApplyTool extends React.Component {
                 }
                 buttonText="Apply to"
                 onButtonClick={this.handleApplyClick}
+                plates={this.props.plates}
                 showButton={true}
               />
             </div>
@@ -143,6 +144,7 @@ ApplyTool.propTypes = {
   onToolComponentEditClick: PropTypes.func,
   onUnmount: PropTypes.func,
   onUpdateToolComponent: PropTypes.func,
+  plates: PropTypes.array,
   toolComponents: PropTypes.array,
   toolComponentsValid: PropTypes.bool,
 };

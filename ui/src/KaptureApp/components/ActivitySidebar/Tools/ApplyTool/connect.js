@@ -12,6 +12,7 @@ const mapState = (state, props) => {
     componentSearchResults: tools.selectComponentSearchResults(state),
     componentSearchTerm: tools.selectComponentSearchTerm(state),
     componentTypes: COMPONENT_TYPES,
+    plates: activity.selectPlates(state),
     toolComponents: tools.selectApplyToolComponents(state),
     toolComponentsValid: tools.selectApplyToolComponentsValid(state),
   };
