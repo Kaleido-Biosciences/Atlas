@@ -6,15 +6,21 @@ import styles from './SelectTool.module.css';
 
 export class SelectTool extends React.Component {
   getSelectedPlateIds = () => {
-    const { viewPlates } = this.props.activeView;
-    const selectedIds = [];
-    viewPlates.forEach((viewPlate) => {
-      if (viewPlate.selected) {
-        selectedIds.push(viewPlate.id);
-      }
-    });
-    return selectedIds;
+    return this.props.plates.reduce((selectedIds, plate) => {
+      if (plate.selected) selectedIds.push(plate.id);
+      return selectedIds;
+    }, []);
   };
+  // getSelectedPlateIds = () => {
+  //   const { viewPlates } = this.props.activeView;
+  //   const selectedIds = [];
+  //   viewPlates.forEach((viewPlate) => {
+  //     if (viewPlate.selected) {
+  //       selectedIds.push(viewPlate.id);
+  //     }
+  //   });
+  //   return selectedIds;
+  // };
   handleAllClick = () => {
     if (this.props.onAllClick) {
       this.props.onAllClick(
@@ -104,4 +110,5 @@ SelectTool.propTypes = {
   onBorderClick: PropTypes.func,
   onDeselectAllClick: PropTypes.func,
   onInteriorClick: PropTypes.func,
+  plates: PropTypes.array,
 };

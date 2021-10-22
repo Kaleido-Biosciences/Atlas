@@ -202,61 +202,60 @@ const activity = createSlice({
       });
     },
     selectAllPlateWells(state, action) {
-      const { plateIds, viewId } = action.payload;
-      const view = findView(viewId, state.views);
+      const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        const viewPlate = findPlate(plateId, view.viewPlates);
-        viewPlate.selectedWells = [];
         plate.wells.forEach((well) => {
-          viewPlate.selectedWells.push(well.id);
+          well.selected = true;
         });
       });
     },
     deselectAllPlateWells(state, action) {
-      const { plateIds, viewId } = action.payload;
-      const view = findView(viewId, state.views);
+      const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
-        const viewPlate = findPlate(plateId, view.viewPlates);
-        viewPlate.selectedWells = [];
+        const plate = findPlate(plateId, state.plates);
+        plate.wells.forEach((well) => {
+          well.selected = false;
+        });
       });
     },
     selectInteriorPlateWells(state, action) {
-      const { plateIds, viewId } = action.payload;
-      const view = findView(viewId, state.views);
+      const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        const viewPlate = findPlate(plateId, view.viewPlates);
-        viewPlate.selectedWells = [];
-        for (let i = 1; i < plate.numRows - 1; i++) {
+        for (let i = 0; i < plate.numRows; i++) {
           const start = i * plate.numCols;
           const end = (i + 1) * plate.numCols;
-          const row = plate.wells.slice(start + 1, end - 1);
-          row.forEach((well) => {
-            viewPlate.selectedWells.push(well.id);
+          const row = plate.wells.slice(start, end);
+          row.forEach((well, j) => {
+            if (i === 0 || i === plate.numRows - 1) {
+              well.selected = false;
+            } else {
+              if (j === 0 || j === plate.numCols - 1) {
+                well.selected = false;
+              } else well.selected = true;
+            }
           });
         }
       });
     },
     selectBorderPlateWells(state, action) {
-      const { plateIds, viewId } = action.payload;
-      const view = findView(viewId, state.views);
+      const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        const viewPlate = findPlate(plateId, view.viewPlates);
-        viewPlate.selectedWells = [];
         for (let i = 0; i < plate.numRows; i++) {
           const start = i * plate.numCols;
           const end = (i + 1) * plate.numCols;
           const row = plate.wells.slice(start, end);
-          if (i === 0 || i === plate.numRows - 1) {
-            row.forEach((well) => {
-              viewPlate.selectedWells.push(well.id);
-            });
-          } else {
-            viewPlate.selectedWells.push(row[0].id);
-            viewPlate.selectedWells.push(row[plate.numCols - 1].id);
-          }
+          row.forEach((well, j) => {
+            if (i === 0 || i === plate.numRows - 1) {
+              well.selected = true;
+            } else {
+              if (j === 0 || j === plate.numCols - 1) {
+                well.selected = true;
+              } else well.selected = false;
+            }
+          });
         }
       });
     },
