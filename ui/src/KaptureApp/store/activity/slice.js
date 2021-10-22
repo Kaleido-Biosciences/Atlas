@@ -218,37 +218,43 @@ const activity = createSlice({
       const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        plate.wells.forEach((well) => {
-          well.selected = true;
-        });
+        if (plate.wells) {
+          plate.wells.forEach((well) => {
+            well.selected = true;
+          });
+        }
       });
     },
     deselectAllPlateWells(state, action) {
       const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        plate.wells.forEach((well) => {
-          well.selected = false;
-        });
+        if (plate.wells) {
+          plate.wells.forEach((well) => {
+            well.selected = false;
+          });
+        }
       });
     },
     selectInteriorPlateWells(state, action) {
       const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        for (let i = 0; i < plate.numRows; i++) {
-          const start = i * plate.numCols;
-          const end = (i + 1) * plate.numCols;
-          const row = plate.wells.slice(start, end);
-          row.forEach((well, j) => {
-            if (i === 0 || i === plate.numRows - 1) {
-              well.selected = false;
-            } else {
-              if (j === 0 || j === plate.numCols - 1) {
+        if (plate.wells) {
+          for (let i = 0; i < plate.numRows; i++) {
+            const start = i * plate.numCols;
+            const end = (i + 1) * plate.numCols;
+            const row = plate.wells.slice(start, end);
+            row.forEach((well, j) => {
+              if (i === 0 || i === plate.numRows - 1) {
                 well.selected = false;
-              } else well.selected = true;
-            }
-          });
+              } else {
+                if (j === 0 || j === plate.numCols - 1) {
+                  well.selected = false;
+                } else well.selected = true;
+              }
+            });
+          }
         }
       });
     },
@@ -256,19 +262,21 @@ const activity = createSlice({
       const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
-        for (let i = 0; i < plate.numRows; i++) {
-          const start = i * plate.numCols;
-          const end = (i + 1) * plate.numCols;
-          const row = plate.wells.slice(start, end);
-          row.forEach((well, j) => {
-            if (i === 0 || i === plate.numRows - 1) {
-              well.selected = true;
-            } else {
-              if (j === 0 || j === plate.numCols - 1) {
+        if (plate.wells) {
+          for (let i = 0; i < plate.numRows; i++) {
+            const start = i * plate.numCols;
+            const end = (i + 1) * plate.numCols;
+            const row = plate.wells.slice(start, end);
+            row.forEach((well, j) => {
+              if (i === 0 || i === plate.numRows - 1) {
                 well.selected = true;
-              } else well.selected = false;
-            }
-          });
+              } else {
+                if (j === 0 || j === plate.numCols - 1) {
+                  well.selected = true;
+                } else well.selected = false;
+              }
+            });
+          }
         }
       });
     },
