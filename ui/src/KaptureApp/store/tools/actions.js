@@ -165,22 +165,27 @@ export const removeComponentTypesFromWells = (wellIds, plateIds) => {
   };
 };
 
-export const removeComponentTypesFromSelectedWells = (viewId) => {
+export const removeComponentTypesFromSelectedWells = () => {
   return (dispatch, getState) => {
-    const views = activity.selectViews(getState());
-    const view = views.find((view) => view.id === viewId);
     const componentTypesToRemove = selectors.selectComponentTypesToRemove(
       getState()
     );
-    view.viewPlates.forEach((viewPlate) => {
-      if (viewPlate.selectedWells.length > 0) {
-        dispatch(
-          activity.removeComponentTypesFromWells(
-            componentTypesToRemove,
-            viewPlate.selectedWells,
-            [viewPlate.id]
-          )
-        );
+    const plates = activity.selectPlates(getState());
+    plates.forEach((plate) => {
+      if (plate.selected && plate.wells) {
+        const selectedWellIds = [];
+        plate.wells.forEach((well) => {
+          if (well.selected) selectedWellIds.push(well.id);
+        });
+        if (selectedWellIds.length > 0) {
+          dispatch(
+            activity.removeComponentTypesFromWells(
+              componentTypesToRemove,
+              selectedWellIds,
+              [plate.id]
+            )
+          );
+        }
       }
     });
   };
