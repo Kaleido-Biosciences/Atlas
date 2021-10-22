@@ -127,7 +127,7 @@ export const applySelectedToolComponentsToSelectedWells = () => {
       );
       const plates = activity.selectPlates(getState());
       plates.forEach((plate) => {
-        if (plate.selected) {
+        if (plate.selected && plate.wells) {
           const updatedWells = [];
           plate.wells.forEach((well) => {
             if (well.selected) {
