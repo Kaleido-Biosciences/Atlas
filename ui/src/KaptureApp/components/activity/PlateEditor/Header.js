@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { EditableText } from 'KaptureApp/components';
+import { PlateDropdown } from '../PlateDropdown';
 
 export class Header extends Component {
   handleSaveName = (value) => {
@@ -10,17 +10,20 @@ export class Header extends Component {
   };
   render() {
     return (
-      <div className="h-10 bg-gray-50 pl-4 flex flex-row items-center border-b border-gray-100 text-sm">
-        <EditableText
-          onSave={this.handleSaveName}
-          value={this.props.plate.name}
-        />
+      <div className="px-3 py-2 bg-gray-50 flex flex-row items-center border-b border-gray-100 text-sm">
+        <div className="w-52">
+          <PlateDropdown
+            onChange={this.props.onPlateChange}
+            plates={this.props.plates}
+          />
+        </div>
       </div>
     );
   }
 }
 
 Header.propTypes = {
-  plate: PropTypes.object,
+  onPlateChange: PropTypes.func,
   onSaveName: PropTypes.func,
+  plates: PropTypes.array,
 };

@@ -162,6 +162,9 @@ const activity = createSlice({
           view.active = true;
         } else view.active = false;
       });
+      state.plates.forEach((plate, i) => {
+        plate.selected = false;
+      });
     },
     setViewPlateSelections(state, action) {
       const { viewId, selections } = action.payload;

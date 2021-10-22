@@ -11,6 +11,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onGridClick: tools.handleContainerClick,
+  onPlateChange: activity.setPlateSelections,
   onRemoveComponent: activity.removeComponentFromWell,
   onSaveName: activity.setPlateName,
 };
