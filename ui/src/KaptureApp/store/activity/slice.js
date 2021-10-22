@@ -234,30 +234,27 @@ const activity = createSlice({
       });
     },
     togglePlateWellSelections(state, action) {
-      const { wellIds, plateIds, viewId } = action.payload;
-      const view = findView(viewId, state.views);
+      const { wellIds, plateIds } = action.payload;
       plateIds.forEach((plateId) => {
-        const viewPlate = findPlate(plateId, view.viewPlates);
+        const plate = findPlate(plateId, state.plates);
         const status = { selected: false, deselected: false };
-        const unaffectedSelectedWells = viewPlate.selectedWells.filter(
-          (selectedWell) => {
-            return !wellIds.includes(selectedWell);
-          }
-        );
+        const wellsToUpdate = [];
         wellIds.forEach((wellId) => {
-          if (viewPlate.selectedWells.includes(wellId)) {
+          const well = findWell(wellId, plate.wells);
+          if (well.selected) {
             status.selected = true;
           } else {
             status.deselected = true;
           }
+          wellsToUpdate.push(well);
         });
         const newSelectionStatus =
           (status.selected && status.deselected) || !status.selected
             ? true
             : false;
-        if (newSelectionStatus) {
-          viewPlate.selectedWells = unaffectedSelectedWells.concat(wellIds);
-        } else viewPlate.selectedWells = unaffectedSelectedWells;
+        wellsToUpdate.forEach((well) => {
+          well.selected = newSelectionStatus;
+        });
       });
     },
     removeWellComponent(state, action) {

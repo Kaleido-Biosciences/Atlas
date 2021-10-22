@@ -7,9 +7,9 @@ import styles from './PlateTable.module.css';
 
 export class PlateTable extends Component {
   handleWellClick = (well) => {
-    const { view } = this.props;
+    const plate = this.props.plates.find((plate) => plate.selected);
     if (this.props.onWellClick) {
-      this.props.onWellClick(view.viewPlates[0].id, [well], view.id);
+      this.props.onWellClick([well.id], [plate.id], this.props.view.id);
     }
   };
   handlePlateChange = (plateId) => {
