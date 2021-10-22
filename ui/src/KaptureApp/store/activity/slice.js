@@ -157,14 +157,41 @@ const activity = createSlice({
     },
     setActiveView(state, action) {
       const { viewId } = action.payload;
+      let activeView;
       state.views.forEach((view) => {
         if (view.id === viewId) {
           view.active = true;
+          activeView = view;
         } else view.active = false;
       });
-      state.plates.forEach((plate, i) => {
-        plate.selected = false;
-      });
+      if (
+        activeView.type === 'PlateTable' ||
+        activeView.type === 'PlateEditor'
+      ) {
+        let selectedFound = false;
+        state.plates.forEach((plate, i) => {
+          if (plate.selected && !selectedFound) {
+            selectedFound = true;
+          } else {
+            plate.selected = false;
+          }
+          if (plate.wells) {
+            plate.wells.forEach((well) => {
+              well.selected = false;
+            });
+          }
+        });
+        if (!selectedFound) state.plates[0].selected = true;
+      } else {
+        state.plates.forEach((plate, i) => {
+          plate.selected = false;
+          if (plate.wells) {
+            plate.wells.forEach((well) => {
+              well.selected = false;
+            });
+          }
+        });
+      }
     },
     setViewPlateSelections(state, action) {
       const { viewId, selections } = action.payload;
