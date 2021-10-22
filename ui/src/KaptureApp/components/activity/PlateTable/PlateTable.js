@@ -12,48 +12,55 @@ export class PlateTable extends Component {
       this.props.onWellClick(view.viewPlates[0].id, [well], view.id);
     }
   };
-  renderPlate() {
-    const viewPlate = this.props.view.viewPlates[0];
-    const { plate, selectedWells } = viewPlate;
-    return plate.wells.map((well, i) => {
-      const selected = selectedWells.includes(well.id);
-      return (
-        <Well
-          darkBackground={i % 2 === 1}
-          key={well.id}
-          onClick={this.handleWellClick}
-          well={well}
-          selected={selected}
-        />
-      );
-    });
+  handlePlateChange = (plateId) => {
+    this.props.onPlateChange([plateId]);
+  };
+  renderPlate(plate) {
+    if (plate.wells && plate.wells.length > 0) {
+      return plate.wells.map((well, i) => {
+        return (
+          <Well
+            darkBackground={i % 2 === 1}
+            key={well.id}
+            onClick={this.handleWellClick}
+            well={well}
+          />
+        );
+      });
+    } else return null;
   }
   render() {
-    const plate = this.props.view.viewPlates[0].plate;
+    const plate = this.props.plates.find((plate) => plate.selected);
     return (
       <div className={styles.plateTable}>
-        <Header plate={plate} onSaveName={this.props.onSaveName} />
+        <Header
+          onPlateChange={this.handlePlateChange}
+          onSaveName={this.props.onSaveName}
+          plates={this.props.plates}
+        />
         <div className={styles.scrollContainer}>
           <Scrollbars>
-            <table className="h-full min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Well
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Components
-                  </th>
-                </tr>
-              </thead>
-              <tbody>{this.renderPlate()}</tbody>
-            </table>
+            {plate ? (
+              <table className="h-full min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Well
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Components
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderPlate(plate)}</tbody>
+              </table>
+            ) : null}
           </Scrollbars>
         </div>
       </div>
@@ -62,7 +69,8 @@ export class PlateTable extends Component {
 }
 
 PlateTable.propTypes = {
-  view: PropTypes.object.isRequired,
   onSaveName: PropTypes.func,
   onWellClick: PropTypes.func,
+  plates: PropTypes.array,
+  view: PropTypes.object.isRequired,
 };

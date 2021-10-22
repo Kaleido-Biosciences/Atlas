@@ -29,21 +29,17 @@ export class Well extends Component {
     });
   }
   render() {
-    const { darkBackground } = this.props;
+    const { darkBackground, well } = this.props;
     let bgClassName;
-    if (this.props.selected) {
+    if (well.selected) {
       bgClassName = darkBackground ? 'bg-blue-100' : 'bg-blue-50';
     } else {
       bgClassName = darkBackground ? 'bg-gray-50' : 'bg-white';
     }
     return (
-      <tr
-        key={this.props.well.id}
-        className={bgClassName}
-        onClick={this.handleClick}
-      >
+      <tr key={well.id} className={bgClassName} onClick={this.handleClick}>
         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-          {this.props.well.id}
+          {well.id}
         </td>
         <td className="px-6 py-4 text-sm text-gray-900">
           <div className={styles.components}>{this.renderComponents()}</div>
@@ -55,6 +51,5 @@ export class Well extends Component {
 
 Well.propTypes = {
   darkBackground: PropTypes.bool,
-  selected: PropTypes.bool,
   well: PropTypes.object.isRequired,
 };

@@ -19,6 +19,7 @@ export function loadActivity(id) {
     activity.views = [
       viewActions.getOverview(activity.plates, true),
       viewActions.getPlateEditor(activity.plates, false),
+      viewActions.getPlateTable(activity.plates, false),
     ];
     dispatch(actions.setActivity({ activity }));
     // } catch (error) {
