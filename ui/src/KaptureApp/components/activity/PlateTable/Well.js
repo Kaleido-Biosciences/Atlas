@@ -43,8 +43,14 @@ export class Well extends Component {
     }
     return (
       <tr key={well.id} className={bgClassName} onClick={this.handleClick}>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        <td className="w-4 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
           {well.id}
+        </td>
+        <td className="w-4 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+          {well.row}
+        </td>
+        <td className="w-4 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+          {well.column}
         </td>
         <td className="px-6 py-4 text-sm text-gray-900">
           <div className={styles.components}>{this.renderComponents()}</div>

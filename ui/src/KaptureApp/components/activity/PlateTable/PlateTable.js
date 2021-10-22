@@ -54,9 +54,21 @@ export class PlateTable extends Component {
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="w-4 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Well
+                    </th>
+                    <th
+                      scope="col"
+                      className="w-4 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Row
+                    </th>
+                    <th
+                      scope="col"
+                      className="w-4 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Column
                     </th>
                     <th
                       scope="col"
