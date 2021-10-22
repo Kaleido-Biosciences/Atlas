@@ -15,14 +15,22 @@ export class PlateTable extends Component {
   handlePlateChange = (plateId) => {
     this.props.onPlateChange([plateId]);
   };
+  handleRemoveComponent = (wellId, componentId) => {
+    if (this.props.onRemoveComponent) {
+      const plate = this.props.plates.find((plate) => plate.selected);
+      this.props.onRemoveComponent(plate.id, wellId, componentId);
+    }
+  };
   renderPlate(plate) {
     if (plate.wells && plate.wells.length > 0) {
       return plate.wells.map((well, i) => {
         return (
           <Well
             darkBackground={i % 2 === 1}
+            enableRemoveComponent={this.props.enableRemoveComponent}
             key={well.id}
             onClick={this.handleWellClick}
+            onRemoveComponent={this.handleRemoveComponent}
             well={well}
           />
         );
@@ -69,6 +77,8 @@ export class PlateTable extends Component {
 }
 
 PlateTable.propTypes = {
+  enableRemoveComponent: PropTypes.bool,
+  onRemoveComponent: PropTypes.func,
   onSaveName: PropTypes.func,
   onWellClick: PropTypes.func,
   plates: PropTypes.array,

@@ -9,6 +9,11 @@ export class Well extends Component {
       this.props.onClick(this.props.well);
     }
   };
+  handleRemoveComponent = (componentId) => {
+    if (this.props.onRemoveComponent) {
+      this.props.onRemoveComponent(this.props.well.id, componentId);
+    }
+  };
   renderComponents() {
     const { well } = this.props;
     return well.components.map((component) => {
@@ -18,7 +23,7 @@ export class Well extends Component {
             component={component}
             enableRemove={this.props.enableRemoveComponent}
             key={component.id}
-            onRemove={this.props.onRemoveComponent}
+            onRemove={this.handleRemoveComponent}
             position={{
               row: well.row,
               column: well.column,
@@ -51,5 +56,7 @@ export class Well extends Component {
 
 Well.propTypes = {
   darkBackground: PropTypes.bool,
+  enableRemoveComponent: PropTypes.bool,
+  onRemoveComponent: PropTypes.func,
   well: PropTypes.object.isRequired,
 };
