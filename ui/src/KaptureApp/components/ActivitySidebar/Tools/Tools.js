@@ -25,8 +25,8 @@ export class Tools extends React.Component {
   render() {
     const { activeTool } = this.props;
     return (
-      <div className={styles.tools}>
-        <div className={styles.header}>
+      <div className="h-full flex flex-col">
+        <div className="flex flex-none px-3 py-3">
           <ButtonGroup
             buttons={[
               {
