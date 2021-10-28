@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
-import styles from './ComponentTooltip.module.css';
-
 export class ComponentTooltip extends Component {
   render() {
     const renderedItems = this.props.tooltip.map((item) => {
       return (
-        <div className={styles.item} key={item.key}>
-          <div className={styles.label}>{item.key}</div>
-          <div className={styles.value}>{item.value}</div>
+        <div className="mb-3 last:mb-0 text-xs" key={item.key}>
+          <div className="text-gray-400">{item.key}</div>
+          <div className="text-gray-800">{item.value}</div>
         </div>
       );
     });
@@ -18,12 +16,12 @@ export class ComponentTooltip extends Component {
       <ReactTooltip
         backgroundColor="#FFF"
         border={true}
-        borderColor="#d4d4d5"
-        className={styles.reactTooltip}
+        borderColor="#d1d5db"
+        className="reactTooltip"
         id={this.props.id}
         type="info"
       >
-        <div className={styles.componentTooltip}>{renderedItems}</div>
+        <div className="p-3 max-w-xs">{renderedItems}</div>
       </ReactTooltip>
     );
   }
