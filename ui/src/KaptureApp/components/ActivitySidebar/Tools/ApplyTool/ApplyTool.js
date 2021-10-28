@@ -64,7 +64,7 @@ export class ApplyTool extends React.Component {
     const { showComponentSearch, showAddAttributeForm } = this.state;
     return (
       <div className="flex flex-col h-full overflow-auto">
-        <div className="flex flex-row flex-none px-3 pb-3">
+        <div className="flex flex-row flex-none px-3 pb-1">
           <Button
             content="Component"
             icon="plus-circle"

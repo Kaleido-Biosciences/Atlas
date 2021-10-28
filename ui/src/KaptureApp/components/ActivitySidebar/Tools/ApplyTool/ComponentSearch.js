@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
-
+import { Search } from 'KaptureApp/components/ui/Search';
+import { Button } from 'KaptureApp/components/ui/Button';
 import { ComponentList } from 'KaptureApp/components/EditorSidebar/ComponentList';
-import { Search } from 'KaptureApp/components/EditorSidebar/Search';
 import styles from './ApplyTool.module.css';
 
 export class ComponentSearch extends React.Component {
-  handleSearchChange = (value) => {
+  handleSearchChange = (e, value) => {
     if (this.props.onSearchChange) this.props.onSearchChange(value);
   };
   render() {
@@ -21,17 +20,17 @@ export class ComponentSearch extends React.Component {
     } = this.props;
     return (
       <div className={styles.componentSearch}>
-        <div className={styles.searchContainer}>
-          <div className={styles.search}>
+        <div className="flex flex-row items-center px-3 py-1">
+          <div className={`${styles.search} mr-2 text-xs`}>
             <Search
-              value={searchTerm}
               loading={searchPending}
               placeholder="Search components"
-              onSearchChange={this.handleSearchChange}
+              onChange={this.handleSearchChange}
+              value={searchTerm}
             />
           </div>
           <div className={styles.cancelContainer}>
-            <Button onClick={onClose} size="mini">
+            <Button onClick={onClose} secondary>
               Cancel
             </Button>
           </div>
