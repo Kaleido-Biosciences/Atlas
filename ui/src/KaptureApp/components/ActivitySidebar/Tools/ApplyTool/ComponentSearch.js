@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Search } from 'KaptureApp/components/ui/Search';
 import { Button } from 'KaptureApp/components/ui/Button';
-import { ComponentList } from 'KaptureApp/components/EditorSidebar/ComponentList';
+import { ComponentList } from '../ComponentList';
 import styles from './ApplyTool.module.css';
 
 export class ComponentSearch extends React.Component {
