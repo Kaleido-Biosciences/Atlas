@@ -23,14 +23,7 @@ const loadResults = _.debounce(async (value, dispatch) => {
   if (value) {
     try {
       dispatch(_setLoading({ loading: true }));
-      const response = await api.searchActivities(0, 5, value);
-      const results = response.data.map((activity) => {
-        return {
-          name: activity.name,
-          description: activity.description,
-          id: activity.id,
-        };
-      });
+      const results = await api.searchActivities(value);
       dispatch(_setResults({ results }));
     } catch (error) {
       dispatch(_setError({ error: error.message }));

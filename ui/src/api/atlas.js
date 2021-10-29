@@ -1,6 +1,8 @@
+import axios from 'axios';
+import { API_URL } from 'KaptureApp/config/api';
+import { createPlate } from 'models';
 import sampleJson from './sample.json';
 import plateTypesJson from './plateTypes.json';
-import { createPlate } from 'models';
 import { fetchActivityData, createActivityData } from './aws';
 
 export async function fetchActivity(id) {
@@ -20,4 +22,11 @@ export async function fetchActivity(id) {
 
 export async function fetchPlateTypes() {
   return plateTypesJson;
+}
+
+export async function searchActivities(searchTerm) {
+  const response = await axios.get(
+    API_URL + '/api/atlas/_search/experiments/' + searchTerm
+  );
+  return response.data;
 }
