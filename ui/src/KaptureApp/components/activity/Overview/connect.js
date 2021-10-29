@@ -10,7 +10,6 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddView: activity.addView,
   onAutoArrangePlates: activity.autoArrangePlates,
   onCopyPlate: activity.setPlateToCopy,
   onPastePlate: activity.pasteToPlates,

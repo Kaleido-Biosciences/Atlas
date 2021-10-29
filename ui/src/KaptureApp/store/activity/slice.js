@@ -141,20 +141,6 @@ const activity = createSlice({
         plate.selected = selections.includes(plate.id);
       });
     },
-    addView(state, action) {
-      const { view } = action.payload;
-      if (!view.name) {
-        let highestUntitled = 0;
-        state.views.forEach((view) => {
-          if (view.name.startsWith('View')) {
-            const viewNum = parseInt(view.name.substring(4));
-            if (viewNum > highestUntitled) highestUntitled = viewNum;
-          }
-        });
-        view.name = `View${highestUntitled + 1}`;
-      }
-      state.views.push(view);
-    },
     setActiveView(state, action) {
       const { viewId } = action.payload;
       let activeView;
@@ -204,14 +190,6 @@ const activity = createSlice({
         if (plate.id === plateId) {
           plate.selected = true;
         } else plate.selected = false;
-      });
-    },
-    setViewPlateSelections(state, action) {
-      const { viewId, selections } = action.payload;
-      const view = findView(viewId, state.views);
-      selections.forEach((selection) => {
-        const viewPlate = findPlate(selection.plateId, view.viewPlates);
-        viewPlate.selected = selection.selected;
       });
     },
     selectAllPlateWells(state, action) {

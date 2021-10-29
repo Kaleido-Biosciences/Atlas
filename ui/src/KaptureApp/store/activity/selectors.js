@@ -12,23 +12,9 @@ export const selectPlateCount = createSelector([selectPlates], (plates) => {
   return plates.length;
 });
 export const selectViews = (state) => state.activity.views;
-export const selectActiveView = createSelector(
-  [selectViews, selectPlates],
-  (views, plates) => {
-    const activeView = views.find((view) => view.active);
-    const viewPlates = activeView.viewPlates.map((viewPlate) => {
-      const plate = plates.find((plate) => plate.id === viewPlate.id);
-      return {
-        ...viewPlate,
-        plate,
-      };
-    });
-    return {
-      ...activeView,
-      viewPlates,
-    };
-  }
-);
+export const selectActiveView = createSelector([selectViews], (views) => {
+  return views.find((view) => view.active);
+});
 export const selectPlateTypes = (state) => state.activity.plateTypes;
 export const selectSettings = (state) => state.activity.settings;
 export const selectSavePending = (state) => state.activity.savePending;

@@ -11,16 +11,6 @@ export class SelectTool extends React.Component {
       return selectedIds;
     }, []);
   };
-  // getSelectedPlateIds = () => {
-  //   const { viewPlates } = this.props.activeView;
-  //   const selectedIds = [];
-  //   viewPlates.forEach((viewPlate) => {
-  //     if (viewPlate.selected) {
-  //       selectedIds.push(viewPlate.id);
-  //     }
-  //   });
-  //   return selectedIds;
-  // };
   handleAllClick = () => {
     if (this.props.onAllClick) {
       this.props.onAllClick(

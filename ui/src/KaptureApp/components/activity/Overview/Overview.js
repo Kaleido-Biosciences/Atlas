@@ -143,7 +143,6 @@ export class Overview extends Component {
 }
 
 Overview.propTypes = {
-  onAddView: PropTypes.func.isRequired,
   onAutoArrangePlates: PropTypes.func.isRequired,
   onCopyPlate: PropTypes.func.isRequired,
   onPastePlate: PropTypes.func.isRequired,

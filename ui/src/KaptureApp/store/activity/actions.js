@@ -25,11 +25,13 @@ export function loadActivity(name) {
       plates: [],
       views: [],
     };
+    // TODO merge this in code above
     if (activityData.platemaps && activityData.platemaps.length) {
       activity.plates = activityData.platemaps.map((plateMap) =>
         createPlate(plateMap)
       );
     }
+    // TODO get rid of view plates so this can be merged into code above
     activity.views = [
       viewActions.getOverview(activity.plates, true),
       viewActions.getPlateEditor(activity.plates, false),
@@ -60,10 +62,8 @@ export const removeComponentTypesFromWells =
   gridActions.removeComponentTypesFromWells;
 
 export const setGridComponents = gridActions.setGridComponents;
-export const addView = viewActions.addView;
 export const setActiveView = viewActions.setActiveView;
 export const setActiveViewWithPlate = viewActions.setActiveViewWithPlate;
-export const setViewPlateSelections = viewActions.setViewPlateSelections;
 
 async function importGrids(grids) {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);
