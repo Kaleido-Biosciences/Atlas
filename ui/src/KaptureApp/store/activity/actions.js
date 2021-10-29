@@ -13,34 +13,29 @@ export const { resetState: resetActivity, resetSaveTime } = actions;
 export function loadActivity(name) {
   return async (dispatch, getState) => {
     dispatch(actions.setLoading());
-    // try {
-    const plateTypes = await api.fetchPlateTypes();
-    dispatch(actions.setPlateTypes({ plateTypes }));
-    const activityData = await api.fetchActivity(name);
-    const activity = {
-      id: activityData.id,
-      name: activityData.name,
-      createdTime: activityData.createdTime,
-      updatedTime: activityData.updatedTime,
-      plates: [],
-      views: [],
-    };
-    // TODO merge this in code above
-    if (activityData.platemaps && activityData.platemaps.length) {
-      activity.plates = activityData.platemaps.map((plateMap) =>
-        createPlate(plateMap)
-      );
+    try {
+      const plateTypes = await api.fetchPlateTypes();
+      dispatch(actions.setPlateTypes({ plateTypes }));
+      const activityData = await api.fetchActivity(name);
+      const activity = {
+        id: activityData.id,
+        name: activityData.name,
+        createdTime: activityData.createdTime,
+        updatedTime: activityData.updatedTime,
+        plates:
+          activityData.platemaps && activityData.platemaps.length
+            ? activityData.platemaps.map((plateMap) => createPlate(plateMap))
+            : [],
+        views: [
+          viewActions.getOverview(true),
+          viewActions.getPlateEditor(false),
+          viewActions.getPlateTable(false),
+        ],
+      };
+      dispatch(actions.setActivity({ activity }));
+    } catch (error) {
+      dispatch(actions.setInitializationError({ error: error.message }));
     }
-    // TODO get rid of view plates so this can be merged into code above
-    activity.views = [
-      viewActions.getOverview(activity.plates, true),
-      viewActions.getPlateEditor(activity.plates, false),
-      viewActions.getPlateTable(activity.plates, false),
-    ];
-    dispatch(actions.setActivity({ activity }));
-    // } catch (error) {
-    //   dispatch(actions.setInitializationError({ error: error.message }));
-    // }
   };
 }
 
@@ -60,8 +55,8 @@ export const togglePlateWellSelections = gridActions.togglePlateWellSelections;
 export const removeComponentFromWell = gridActions.removeComponentFromWell;
 export const removeComponentTypesFromWells =
   gridActions.removeComponentTypesFromWells;
-
 export const setGridComponents = gridActions.setGridComponents;
+
 export const setActiveView = viewActions.setActiveView;
 export const setActiveViewWithPlate = viewActions.setActiveViewWithPlate;
 

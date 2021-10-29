@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Overview } from '../Overview';
-import { MultiPlateTable } from '../MultiPlateTable';
 import { PlateTable } from '../PlateTable';
 import { ViewTabs } from '../ViewTabs';
 import { Header } from '../Header';
@@ -13,15 +12,18 @@ import { ActivitySidebar } from '../../ActivitySidebar';
 export class Activity extends Component {
   renderActiveView() {
     const { activeView } = this.props;
-    if (activeView.type === 'Overview') {
-      return <Overview view={activeView} />;
-    } else if (activeView.type === 'MultiPlateTable') {
-      return <MultiPlateTable view={activeView} />;
-    } else if (activeView.type === 'PlateTable') {
-      return <PlateTable view={activeView} />;
-    } else if (activeView.type === 'PlateEditor') {
-      return <PlateEditor view={activeView} />;
-    }
+    if (activeView) {
+      switch (activeView.type) {
+        case 'Overview':
+          return <Overview view={activeView} />;
+        case 'PlateTable':
+          return <PlateTable view={activeView} />;
+        case 'PlateEditor':
+          return <PlateEditor view={activeView} />;
+        default:
+          return <div>No view selected</div>;
+      }
+    } else return <div>No view selected</div>;
   }
   render() {
     return (
