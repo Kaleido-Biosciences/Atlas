@@ -5,17 +5,31 @@ import * as selectors from './selectors';
 import * as gridActions from './gridActions';
 import * as viewActions from './viewActions';
 import { api } from 'api';
+import { createPlate } from 'models';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
 
 export const { resetState: resetActivity, resetSaveTime } = actions;
 
-export function loadActivity(id) {
+export function loadActivity(name) {
   return async (dispatch, getState) => {
     dispatch(actions.setLoading());
     // try {
-    const activity = await api.fetchActivity(id);
     const plateTypes = await api.fetchPlateTypes();
     dispatch(actions.setPlateTypes({ plateTypes }));
+    const activityData = await api.fetchActivity(name);
+    const activity = {
+      id: activityData.id,
+      name: activityData.name,
+      createdTime: activityData.createdTime,
+      updatedTime: activityData.updatedTime,
+      plates: [],
+      views: [],
+    };
+    if (activityData.platemaps && activityData.platemaps.length) {
+      activity.plates = activityData.platemaps.map((plateMap) =>
+        createPlate(plateMap)
+      );
+    }
     activity.views = [
       viewActions.getOverview(activity.plates, true),
       viewActions.getPlateEditor(activity.plates, false),
