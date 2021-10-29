@@ -16,7 +16,7 @@ const mapDispatch = {
   onPlateSelectionChange: activity.setPlateSelections,
   onSavePlateName: activity.setPlateName,
   onSetPlateType: activity.setPlateType,
-  onSwitchToView: activity.setActiveViewWithPlate,
+  onSwitchToView: activity.setActiveView,
   onUpdatePlateDetails: activity.updatePlateDetails,
 };
 

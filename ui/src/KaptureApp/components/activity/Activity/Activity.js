@@ -13,7 +13,7 @@ export class Activity extends Component {
   renderActiveView() {
     const { activeView } = this.props;
     if (activeView) {
-      switch (activeView.type) {
+      switch (activeView.id) {
         case 'Overview':
           return <Overview view={activeView} />;
         case 'PlateTable':

@@ -142,7 +142,7 @@ const activity = createSlice({
       });
     },
     setActiveView(state, action) {
-      const { viewId } = action.payload;
+      const { viewId, plateId } = action.payload;
       let activeView;
       state.views.forEach((view) => {
         if (view.id === viewId) {
@@ -150,47 +150,39 @@ const activity = createSlice({
           activeView = view;
         } else view.active = false;
       });
-      if (
-        activeView.type === 'PlateTable' ||
-        activeView.type === 'PlateEditor'
-      ) {
-        let selectedFound = false;
-        state.plates.forEach((plate, i) => {
-          if (plate.selected && !selectedFound) {
-            selectedFound = true;
-          } else {
-            plate.selected = false;
-          }
-          if (plate.wells) {
-            plate.wells.forEach((well) => {
-              well.selected = false;
-            });
-          }
+      if (plateId) {
+        state.plates.forEach((plate) => {
+          if (plate.id === plateId) {
+            plate.selected = true;
+          } else plate.selected = false;
         });
-        if (!selectedFound) state.plates[0].selected = true;
       } else {
-        state.plates.forEach((plate, i) => {
-          plate.selected = false;
-          if (plate.wells) {
-            plate.wells.forEach((well) => {
-              well.selected = false;
-            });
-          }
-        });
+        if (activeView.id === 'PlateTable' || activeView.id === 'PlateEditor') {
+          let selectedFound = false;
+          state.plates.forEach((plate, i) => {
+            if (plate.selected && !selectedFound) {
+              selectedFound = true;
+            } else {
+              plate.selected = false;
+            }
+            if (plate.wells) {
+              plate.wells.forEach((well) => {
+                well.selected = false;
+              });
+            }
+          });
+          if (!selectedFound) state.plates[0].selected = true;
+        } else {
+          state.plates.forEach((plate, i) => {
+            plate.selected = false;
+            if (plate.wells) {
+              plate.wells.forEach((well) => {
+                well.selected = false;
+              });
+            }
+          });
+        }
       }
-    },
-    setActiveViewWithPlate(state, action) {
-      const { viewType, plateId } = action.payload;
-      state.views.forEach((view) => {
-        if (view.type === viewType) {
-          view.active = true;
-        } else view.active = false;
-      });
-      state.plates.forEach((plate) => {
-        if (plate.id === plateId) {
-          plate.selected = true;
-        } else plate.selected = false;
-      });
     },
     selectAllPlateWells(state, action) {
       const { plateIds } = action.payload;
@@ -334,10 +326,6 @@ function findPlate(plateId, plates) {
 
 function findWell(wellId, wells) {
   return wells.find((well) => well.id === wellId);
-}
-
-function findView(viewId, views) {
-  return views.find((view) => view.id === viewId);
 }
 
 function arrangePlates(plates) {

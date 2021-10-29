@@ -1,28 +1,15 @@
-import { v4 as uuidv4 } from 'uuid';
 import { actions } from './slice';
 
-export function setActiveView(viewId) {
+export function setActiveView(viewId, plateId) {
   return (dispatch, getState) => {
-    dispatch(actions.setActiveView({ viewId }));
-  };
-}
-
-export function setActiveViewWithPlate(viewType, plateId) {
-  return (dispatch, getState) => {
-    dispatch(
-      actions.setActiveViewWithPlate({
-        viewType,
-        plateId,
-      })
-    );
+    dispatch(actions.setActiveView({ viewId, plateId }));
   };
 }
 
 export function getOverview(active) {
   return {
-    id: uuidv4(),
+    id: 'Overview',
     name: 'Overview',
-    type: 'Overview',
     active,
     data: {},
   };
@@ -30,9 +17,8 @@ export function getOverview(active) {
 
 export function getPlateEditor(active) {
   return {
-    id: uuidv4(),
+    id: 'PlateEditor',
     name: 'Plate Editor',
-    type: 'PlateEditor',
     active,
     data: {},
   };
@@ -40,9 +26,8 @@ export function getPlateEditor(active) {
 
 export function getPlateTable(active) {
   return {
-    id: uuidv4(),
+    id: 'PlateTable',
     name: 'Plate Table',
-    type: 'PlateTable',
     active,
     data: {},
   };
