@@ -19,11 +19,10 @@ export class Component extends React.Component {
           'px-3',
           'text-white',
           'text-xxs',
-          'cursor-pointer'
+          'cursor-pointer',
+          component.defaultBgClass,
+          'hover:' + component.darkBgClass
         ),
-        style: {
-          background: component.colorCode,
-        },
       };
     if (component.tooltip.length) {
       divProps['data-tip'] = true;
