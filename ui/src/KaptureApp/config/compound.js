@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 
-import { getName, getDefaultTimepoints, getDescription } from './utils';
+import { getDefaultTimepoints, getDescription } from './utils';
 import { Timepoints } from './Timepoints';
 
 const TYPE = 'Compound';
@@ -16,7 +16,7 @@ function createComponent(data, timepoints) {
   const component = {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
-    name: getName(data),
+    name: data.displayName,
     description: '',
     data,
     selected: true,
@@ -28,56 +28,13 @@ function createComponent(data, timepoints) {
     },
     isValid: true,
     errors: [],
-    tooltip: getTooltip(data),
+    tooltip: data.tooltip,
     color: COLOR,
     colorCode: COLOR_CODE,
     abbreviation: ABBREVIATION,
   };
   component.description = getDescription(component);
   return component;
-}
-
-function getTooltip(data) {
-  const tooltip = [];
-  if (data.aveDP) {
-    tooltip.push({
-      key: 'Avg. DP',
-      value: data.aveDP.toFixed(2),
-    });
-  }
-  if (data.glycanComposition) {
-    tooltip.push({
-      key: 'Glycan Composition',
-      value: data.glycanComposition,
-    });
-  }
-  if (data.dataRecordName) {
-    tooltip.push({ key: 'Data record name', value: data.dataRecordName });
-  }
-  if (data.createdBy) {
-    tooltip.push({ key: 'Created by', value: data.createdBy });
-  }
-  if (data.dateCreated) {
-    tooltip.push({
-      key: 'Created date',
-      value: formatDate(data.dateCreated),
-    });
-  }
-  if (data.notes) {
-    tooltip.push({ key: 'Notes', value: data.notes });
-  }
-  return tooltip;
-}
-
-function formatDate(iso_text) {
-  let d = new Date(iso_text),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
 }
 
 class editForm extends React.Component {

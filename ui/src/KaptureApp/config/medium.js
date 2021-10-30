@@ -1,4 +1,4 @@
-import { getName, getDefaultTimepoints, getDescription } from './utils';
+import { getDefaultTimepoints, getDescription } from './utils';
 
 const TYPE = 'Medium';
 const DEFAULT_CONCENTRATION = null;
@@ -11,7 +11,7 @@ function createComponent(data, timepoints) {
   const component = {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
-    name: getName(data),
+    name: data.displayName,
     description: '',
     data,
     selected: true,
@@ -23,7 +23,7 @@ function createComponent(data, timepoints) {
     },
     isValid: true,
     errors: [],
-    tooltip: [],
+    tooltip: data.tooltip,
     color: COLOR,
     colorCode: COLOR_CODE,
     abbreviation: ABBREVIATION,

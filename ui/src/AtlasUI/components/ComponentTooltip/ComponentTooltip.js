@@ -6,8 +6,8 @@ export class ComponentTooltip extends Component {
   render() {
     const renderedItems = this.props.tooltip.map((item) => {
       return (
-        <div className="mb-3 last:mb-0 text-xs" key={item.key}>
-          <div className="text-gray-400">{item.key}</div>
+        <div className="mb-3 last:mb-0 text-xxs" key={item.label}>
+          <div className="text-gray-400">{item.label}</div>
           <div className="text-gray-800">{item.value}</div>
         </div>
       );

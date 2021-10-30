@@ -18,7 +18,7 @@ export class Component extends React.Component {
           'py-2',
           'px-3',
           'text-white',
-          'text-xs',
+          'text-xxs',
           'cursor-pointer'
         ),
         style: {
@@ -32,8 +32,8 @@ export class Component extends React.Component {
     return (
       <div {...divProps} onClick={this.handleClick}>
         <div className="flex flex-row justify-between items-center">
-          <div className="text-xs">{component.name}</div>
-          <div className="opacity-40 text-xxs">{component.type}</div>
+          <div className="font-medium">{component.name}</div>
+          <div className="opacity-40">{component.type}</div>
         </div>
         {component.tooltip.length > 0 && (
           <ComponentTooltip

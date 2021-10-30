@@ -29,16 +29,16 @@ export const COMPONENT_TYPES = [
   attribute,
 ];
 
-export const createComponent = (data, type, timepoints) => {
-  if (type === COMPONENT_TYPE_COMMUNITY) {
+export const createComponent = (data, timepoints) => {
+  if (data.type === COMPONENT_TYPE_COMMUNITY) {
     return community.createComponent(data, timepoints);
-  } else if (type === COMPONENT_TYPE_COMPOUND) {
+  } else if (data.type === COMPONENT_TYPE_COMPOUND) {
     return compound.createComponent(data, timepoints);
-  } else if (type === COMPONENT_TYPE_MEDIUM) {
+  } else if (data.type === COMPONENT_TYPE_MEDIUM) {
     return medium.createComponent(data, timepoints);
-  } else if (type === COMPONENT_TYPE_SUPPLEMENT) {
+  } else if (data.type === COMPONENT_TYPE_SUPPLEMENT) {
     return supplement.createComponent(data, timepoints);
-  } else if (type === COMPONENT_TYPE_ATTRIBUTE) {
+  } else if (data.type === COMPONENT_TYPE_ATTRIBUTE) {
     return attribute.createComponent(data);
   }
 };

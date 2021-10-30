@@ -20,3 +20,12 @@ export async function fetchPlateTypes() {
   const response = await axios.get(API_URL + '/api/atlas/platetypes');
   return response.data;
 }
+
+export async function searchComponents(searchTerm) {
+  const response = await axios.get(
+    API_URL + '/api/atlas/components/_search/' + searchTerm
+  );
+  return response.data.map(({ componentType, tooltips, ...rest }) => {
+    return { ...rest, tooltip: tooltips, type: componentType };
+  });
+}
