@@ -44,9 +44,7 @@ export class Activity extends Component {
               />
               <div className={styles.activeView}>{this.renderActiveView()}</div>
             </div>
-            <div>
-              <ActivitySidebar />
-            </div>
+            <ActivitySidebar />
           </SplitPane>
         </div>
       </div>
