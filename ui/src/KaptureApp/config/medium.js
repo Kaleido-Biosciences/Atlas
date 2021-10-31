@@ -1,4 +1,5 @@
 import { getDefaultTimepoints, getDescription } from './utils';
+import { EditForm } from './EditForm';
 
 const TYPE = 'Medium';
 const DEFAULT_CONCENTRATION = null;
@@ -20,7 +21,7 @@ function createComponent(data, timepoints) {
     description: '',
     data,
     selected: true,
-    editable: false,
+    editable: true,
     displayEditForm: false,
     fields: {
       timepoints:
@@ -67,4 +68,5 @@ export const medium = {
       timepoints: component.fields.timepoints,
     };
   },
+  editForm: EditForm,
 };
