@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-
 import styles from './ToolComponentList.module.css';
 
 export class ToolComponent extends React.Component {
@@ -38,35 +37,40 @@ export class ToolComponent extends React.Component {
   render() {
     const { toolComponent } = this.props;
     const EditForm = this.props.editForm;
-    const style = {
-      background: toolComponent.colorCode,
-    };
-    const componentClass = classNames(styles.toolComponent, {
-      [styles.selected]: toolComponent.selected,
-    });
+    const componentClass = classNames(
+      styles.toolComponent,
+      'text-white',
+      'rounded',
+      toolComponent.defaultBgClass,
+      'hover:' + toolComponent.darkBgClass,
+      toolComponent.selected ? 'opacity-100' : 'opacity-30',
+      'mb-1'
+    );
     const nameContainerClass = classNames(styles.nameContainer, {
-      [styles.editable]: toolComponent.editable,
+      'cursor-pointer': toolComponent.editable,
     });
     return (
-      <div className={componentClass} style={style}>
-        <div className={styles.body}>
-          <div onClick={this.handleCheckboxClick}>
-            {toolComponent.selected ? (
-              <Icon link name="check square outline" size="large" />
-            ) : (
-              <Icon link name="square outline" size="large" />
-            )}
+      <div className={componentClass}>
+        <div className="flex items-center">
+          <div className="flex items-center" onClick={this.handleCheckboxClick}>
+            <FontAwesomeIcon
+              className="text-sm cursor-pointer opacity-60 hover:opacity-100"
+              icon={toolComponent.selected ? 'check-square' : 'square'}
+            />
           </div>
           <div className={nameContainerClass} onClick={this.handleEditClick}>
-            <div className={styles.name}>{`${toolComponent.name}`}</div>
+            <div className="text-12 font-medium mb-0.5">{`${toolComponent.name}`}</div>
             {toolComponent.description ? (
-              <div className={styles.description}>
+              <div className="text-10 opacity-60">
                 {toolComponent.description}
               </div>
             ) : null}
           </div>
-          <div onClick={this.handleRemoveClick}>
-            <Icon link name="remove" size="large" />
+          <div className="flex items-center" onClick={this.handleRemoveClick}>
+            <FontAwesomeIcon
+              className="text-sm cursor-pointer opacity-60 hover:opacity-100"
+              icon="times"
+            />
           </div>
         </div>
         {toolComponent.displayEditForm && EditForm ? (

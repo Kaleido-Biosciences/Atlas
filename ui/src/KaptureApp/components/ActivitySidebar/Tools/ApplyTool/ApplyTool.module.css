@@ -31,10 +31,9 @@
 }
 
 .toolComponentListContainer {
-  width: 100%;
-  overflow: auto;
   flex: 1 1;
-  padding: 0 0.8em;
+  overflow: auto;
+  width: 100%;
 }
 
 .selectedWellsContainer {

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Button } from 'KaptureApp/components';
 
 import { ComponentSearch } from './ComponentSearch';
@@ -80,7 +81,13 @@ export class ApplyTool extends React.Component {
         </div>
         {!showComponentSearch && !showAddAttributeForm && (
           <div className={styles.toolComponentsContainer}>
-            <div className={styles.toolComponentListContainer}>
+            <div
+              className={classNames(
+                styles.toolComponentListContainer,
+                'px-3',
+                'py-1'
+              )}
+            >
               <ToolComponentList
                 componentTypes={this.props.componentTypes}
                 onEditClick={this.props.onToolComponentEditClick}
