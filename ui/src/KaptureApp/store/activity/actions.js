@@ -4,6 +4,7 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import * as gridActions from './gridActions';
 import * as viewActions from './viewActions';
+import { actions as toolActions } from '../tools/slice';
 import { api } from 'api';
 import { createPlate } from 'models';
 import { STATUS_DRAFT } from 'KaptureApp/config/constants';
@@ -16,6 +17,10 @@ export function loadActivity(name) {
     try {
       const plateTypes = await api.fetchPlateTypes();
       dispatch(actions.setPlateTypes({ plateTypes }));
+      const concentrationUnits = await api.fetchConcentrationUnits();
+      dispatch(toolActions.setConcentrationUnits({ concentrationUnits }));
+      const timeUnits = await api.fetchTimeUnits();
+      dispatch(toolActions.setTimeUnits({ timeUnits }));
       const activityData = await api.fetchActivity(name);
       const activity = {
         id: activityData.id,

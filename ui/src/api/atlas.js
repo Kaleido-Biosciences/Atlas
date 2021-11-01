@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { API_URL } from 'KaptureApp/config/api';
 import activityJSON from './activity.json';
+import concentrationUnitsJSON from './concentrationUnits.json';
+import timeUnitsJSON from './timeUnits.json';
 
 export async function searchActivities(searchTerm) {
   const response = await axios.get(
@@ -28,4 +30,12 @@ export async function searchComponents(searchTerm) {
   return response.data.map(({ componentType, tooltips, ...rest }) => {
     return { ...rest, tooltip: tooltips, type: componentType };
   });
+}
+
+export async function fetchConcentrationUnits() {
+  return concentrationUnitsJSON;
+}
+
+export async function fetchTimeUnits() {
+  return timeUnitsJSON;
 }

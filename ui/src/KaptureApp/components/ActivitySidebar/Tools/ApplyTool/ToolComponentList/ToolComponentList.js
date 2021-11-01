@@ -48,9 +48,11 @@ export class ToolComponentList extends React.Component {
 
 ToolComponentList.propTypes = {
   componentTypes: PropTypes.array,
+  concentrationUnits: PropTypes.array,
   onEditClick: PropTypes.func,
   onSelectionsChange: PropTypes.func,
   onRemove: PropTypes.func,
   onUpdate: PropTypes.func,
+  timeUnits: PropTypes.array,
   toolComponents: PropTypes.array,
 };

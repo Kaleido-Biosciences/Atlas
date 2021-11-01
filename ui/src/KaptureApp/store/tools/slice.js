@@ -12,6 +12,8 @@ const initialState = {
   clickMode: 'apply',
   componentTypesToRemove: [],
   enableRemoveComponent: false,
+  concentrationUnits: [],
+  timeUnits: [],
 };
 
 const tools = createSlice({
@@ -93,6 +95,12 @@ const tools = createSlice({
     },
     setComponentTypesToRemove(state, action) {
       state.componentTypesToRemove = action.payload.componentTypes;
+    },
+    setConcentrationUnits(state, action) {
+      state.concentrationUnits = action.payload.concentrationUnits;
+    },
+    setTimeUnits(state, action) {
+      state.timeUnits = action.payload.timeUnits;
     },
   },
 });
