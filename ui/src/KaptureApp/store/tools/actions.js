@@ -270,7 +270,7 @@ const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
       dispatch(_setComponentSearchPending());
       const results = await api.searchComponents(searchTerm);
       const components = [];
-      results.slice(0, 20).forEach((result) => {
+      results.forEach((result) => {
         const component = createComponent(result);
         if (component) {
           components.push(createComponent(result));
