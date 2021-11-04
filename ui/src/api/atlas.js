@@ -31,9 +31,11 @@ export async function searchComponents(searchTerm) {
 }
 
 export async function fetchConcentrationUnits() {
-  return concentrationUnitsJSON;
+  const response = await axios.get(API_URL + '/api/atlas/units/concentration');
+  return response.data;
 }
 
 export async function fetchTimeUnits() {
-  return timeUnitsJSON;
+  const response = await axios.get(API_URL + '/api/atlas/units/time');
+  return response.data;
 }
