@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import styles from './ToolComponentList.module.css';
 
 export class ToolComponent extends React.Component {
   handleCheckboxClick = () => {
@@ -38,49 +37,50 @@ export class ToolComponent extends React.Component {
     const { toolComponent } = this.props;
     const EditForm = this.props.editForm;
     const componentClass = classNames(
-      styles.toolComponent,
-      'text-white',
+      'px-2',
       'rounded',
       toolComponent.defaultBgClass,
       'hover:' + toolComponent.darkBgClass,
       toolComponent.selected ? 'opacity-100' : 'opacity-30',
       'mb-1'
     );
-    const nameContainerClass = classNames(styles.nameContainer, {
-      'cursor-pointer': toolComponent.editable,
-    });
     return (
       <div className={componentClass}>
         <div className="flex items-center">
           <div className="flex items-center" onClick={this.handleCheckboxClick}>
             <FontAwesomeIcon
-              className="text-sm cursor-pointer opacity-60 hover:opacity-100"
+              className="text-white text-sm cursor-pointer opacity-60 hover:opacity-100"
               icon={toolComponent.selected ? 'check-square' : 'square'}
             />
           </div>
-          <div className={nameContainerClass} onClick={this.handleEditClick}>
-            <div className="text-12 font-medium mb-0.5">{`${toolComponent.name}`}</div>
+          <div
+            className="cursor-pointer px-2 py-2 flex-shrink flex-grow"
+            onClick={this.handleEditClick}
+          >
+            <div className="text-white text-12 font-medium mb-0.5">{`${toolComponent.name}`}</div>
             {toolComponent.description ? (
-              <div className="text-10 opacity-60">
+              <div className="text-white text-10 opacity-60">
                 {toolComponent.description}
               </div>
             ) : null}
           </div>
           <div className="flex items-center" onClick={this.handleRemoveClick}>
             <FontAwesomeIcon
-              className="text-sm cursor-pointer opacity-60 hover:opacity-100"
+              className="text-white text-sm cursor-pointer opacity-60 hover:opacity-100"
               icon="times"
             />
           </div>
         </div>
         {toolComponent.displayEditForm && EditForm ? (
-          <div className={styles.editForm}>
+          <div className="pb-2">
             <EditForm
               component={toolComponent}
+              concentrationUnits={this.props.concentrationUnits}
               onChange={this.handleEditFormChange}
+              timeUnits={this.props.timeUnits}
             />
             {!toolComponent.isValid && (
-              <div className={styles.validationErrors}>
+              <div className="text-xs text-white mt-2 font-bold">
                 {this.renderValidationErrors()}
               </div>
             )}
@@ -92,10 +92,12 @@ export class ToolComponent extends React.Component {
 }
 
 ToolComponent.propTypes = {
+  concentrationUnits: PropTypes.array,
   editForm: PropTypes.func,
   onEditClick: PropTypes.func,
   onRemove: PropTypes.func,
   onSelectionChange: PropTypes.func,
   onUpdate: PropTypes.func,
+  timeUnits: PropTypes.array,
   toolComponent: PropTypes.object,
 };

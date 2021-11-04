@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
-
 import { ToolComponent } from './ToolComponent';
-import styles from './ToolComponentList.module.css';
 
 export class ToolComponentList extends React.Component {
   getEditForm = memoize((componentType, componentTypes) => {
@@ -23,7 +21,7 @@ export class ToolComponentList extends React.Component {
   };
   render() {
     return (
-      <div className={styles.toolComponentList}>
+      <div className="pb-3">
         {this.props.toolComponents.map((component) => {
           const editForm = this.getEditForm(
             component.type,
@@ -31,12 +29,14 @@ export class ToolComponentList extends React.Component {
           );
           return (
             <ToolComponent
+              concentrationUnits={this.props.concentrationUnits}
               editForm={editForm}
               key={component.id}
               onEditClick={this.props.onEditClick}
               onRemove={this.handleRemove}
               onSelectionChange={this.handleSelectionChange}
               onUpdate={this.props.onUpdate}
+              timeUnits={this.props.timeUnits}
               toolComponent={component}
             />
           );

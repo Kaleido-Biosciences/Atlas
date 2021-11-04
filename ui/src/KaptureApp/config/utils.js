@@ -13,7 +13,16 @@ export const getName = (data) => {
 };
 
 export const getDefaultTimepoints = (concentration, time) => {
-  return [{ concentration, time }];
+  return [
+    {
+      concentration,
+      concentrationUnitId: null,
+      concentrationUnitAbbreviation: '',
+      time,
+      timeUnitId: null,
+      timeUnitAbbreviation: '',
+    },
+  ];
 };
 
 export const getDescription = (component) => {
@@ -42,9 +51,12 @@ export const getDescription = (component) => {
 
 export const getTimepointsString = (timepoints) => {
   const timepointStrings = timepoints.map((timepoint) => {
+    const timeString = `@ ${timepoint.time} ${timepoint.timeUnitAbbreviation}`;
     if (timepoint.concentration) {
-      return `${timepoint.concentration.toFixed(2)} @ ${timepoint.time}h`;
-    } else return `@ ${timepoint.time}h`;
+      return `${timepoint.concentration.toFixed(2)} ${
+        timepoint.concentrationUnitAbbreviation
+      } ${timeString}`;
+    } else return timeString;
   });
   return timepointStrings.join(', ');
 };

@@ -1,39 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Timepoint } from './Timepoint';
-import styles from './Timepoint.module.css';
 
 export class Timepoints extends React.Component {
   handleTimepointChange = (index, timepoint) => {
     const newTimepoints = this.props.timepoints.slice();
     newTimepoints.splice(index, 1, timepoint);
-    if (this.props.onChange) {
-      this.props.onChange(newTimepoints);
-    }
+    if (this.props.onChange) this.props.onChange(newTimepoints);
   };
   handleTimepointDeleteClick = (index) => {
     const newTimepoints = this.props.timepoints.slice();
     newTimepoints.splice(index, 1);
-    if (this.props.onChange) {
-      this.props.onChange(newTimepoints);
-    }
+    if (this.props.onChange) this.props.onChange(newTimepoints);
   };
   handleAddTimepointClick = () => {
     const newTimepoints = this.props.timepoints.slice();
-    let time;
-    if (newTimepoints.length > 0) {
-      const max = newTimepoints.reduce((highest, current) => {
-        return current.time > highest ? current.time : highest;
-      }, 0);
-      time = parseInt(max + 24);
-    }
-    const conc = newTimepoints[newTimepoints.length - 1]['concentration'];
-    newTimepoints.push({ concentration: conc, time });
-    if (this.props.onChange) {
-      this.props.onChange(newTimepoints);
-    }
+    const lastTimepoint = newTimepoints[newTimepoints.length - 1];
+    newTimepoints.push({ ...lastTimepoint });
+    if (this.props.onChange) this.props.onChange(newTimepoints);
   };
   render() {
     return (
@@ -43,33 +28,32 @@ export class Timepoints extends React.Component {
             return (
               <Timepoint
                 allowDelete={i > 0}
-                allowTimeChange={this.props.allowTimeChange}
-                concentration={timepoint.concentration}
+                concentrationUnits={this.props.concentrationUnits}
                 index={i}
                 key={i}
                 onChange={this.handleTimepointChange}
                 onDeleteClick={this.handleTimepointDeleteClick}
-                time={timepoint.time}
+                timepoint={timepoint}
+                timeUnits={this.props.timeUnits}
               />
             );
           })}
         </div>
-        {this.props.allowMultiple && (
-          <div
-            className={styles.addTimepoint}
-            onClick={this.handleAddTimepointClick}
-          >
-            <Icon link name="plus circle" title="Add timepoint" /> Add Timepoint
-          </div>
-        )}
+        <div
+          className="cursor-pointer text-white text-xs opacity-60 hover:opacity-100 flex items-center mt-4"
+          onClick={this.handleAddTimepointClick}
+        >
+          <FontAwesomeIcon icon="plus-circle" className="mr-1" />
+          Add Timepoint
+        </div>
       </div>
     );
   }
 }
 
 Timepoints.propTypes = {
-  allowMultiple: PropTypes.bool.isRequired,
-  allowTimeChange: PropTypes.bool.isRequired,
+  concentrationUnits: PropTypes.array,
   onChange: PropTypes.func,
   timepoints: PropTypes.array.isRequired,
+  timeUnits: PropTypes.array,
 };

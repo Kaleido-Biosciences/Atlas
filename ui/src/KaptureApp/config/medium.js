@@ -2,7 +2,7 @@ import { getDefaultTimepoints, getDescription } from './utils';
 import { EditForm } from './EditForm';
 
 const TYPE = 'Medium';
-const DEFAULT_CONCENTRATION = null;
+const DEFAULT_CONCENTRATION = '';
 const DEFAULT_TIME = 0;
 const COLOR = 'orange';
 const COLOR_CODE = 'rgba(245, 158, 11, 1)';
