@@ -3,6 +3,8 @@ import { EditForm } from './EditForm';
 import { COMPONENT_TYPE_COMMUNITY } from './constants';
 
 const TYPE = COMPONENT_TYPE_COMMUNITY;
+const SINGULAR = 'Community';
+const PLURAL = 'Communities';
 const DEFAULT_CONCENTRATION = 1.0;
 const DEFAULT_TIME = 0;
 const COLOR = 'green';
@@ -19,6 +21,8 @@ function createComponent(data, timepoints) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
+    singularDisplayName: SINGULAR,
+    pluralDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -46,8 +50,8 @@ function createComponent(data, timepoints) {
 
 export const community = {
   name: TYPE,
-  singular: 'Community',
-  plural: 'Communities',
+  singular: SINGULAR,
+  plural: PLURAL,
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
   colorCode: COLOR_CODE,

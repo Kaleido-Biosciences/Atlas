@@ -3,6 +3,8 @@ import { EditForm } from './EditForm';
 import { COMPONENT_TYPE_MEDIUM } from './constants';
 
 const TYPE = COMPONENT_TYPE_MEDIUM;
+const SINGULAR = 'Medium';
+const PLURAL = 'Media';
 const DEFAULT_CONCENTRATION = '';
 const DEFAULT_TIME = 0;
 const COLOR = 'orange';
@@ -19,6 +21,8 @@ function createComponent(data, timepoints) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
+    singularDisplayName: SINGULAR,
+    pluralDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -46,8 +50,8 @@ function createComponent(data, timepoints) {
 
 export const medium = {
   name: TYPE,
-  singular: 'Medium',
-  plural: 'Media',
+  singular: SINGULAR,
+  plural: PLURAL,
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
   colorCode: COLOR_CODE,

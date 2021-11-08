@@ -32,7 +32,7 @@ export class Component extends React.Component {
       <div {...divProps} onClick={this.handleClick}>
         <div className="flex flex-row justify-between items-center">
           <div className="font-medium">{component.name}</div>
-          <div className="opacity-40">{component.type}</div>
+          <div className="opacity-40">{component.singularDisplayName}</div>
         </div>
         {component.tooltip.length > 0 && (
           <ComponentTooltip

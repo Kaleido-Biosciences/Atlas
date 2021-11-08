@@ -3,6 +3,8 @@ import { EditForm } from './EditForm';
 import { COMPONENT_TYPE_SUPPLEMENT } from './constants';
 
 const TYPE = COMPONENT_TYPE_SUPPLEMENT;
+const SINGULAR = 'Supplement';
+const PLURAL = 'Supplements';
 const DEFAULT_CONCENTRATION = 0.5;
 const DEFAULT_TIME = 0;
 const COLOR = 'black';
@@ -19,6 +21,8 @@ function createComponent(data, timepoints) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
+    singularDisplayName: SINGULAR,
+    pluralDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -46,8 +50,8 @@ function createComponent(data, timepoints) {
 
 export const supplement = {
   name: TYPE,
-  singular: 'Supplement',
-  plural: 'Supplements',
+  singular: SINGULAR,
+  plural: PLURAL,
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
   colorCode: COLOR_CODE,
