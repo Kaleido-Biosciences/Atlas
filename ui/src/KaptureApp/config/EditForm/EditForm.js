@@ -29,12 +29,13 @@ export class EditForm extends Component {
     }
   };
   render() {
+    const { component } = this.props;
     return (
       <Timepoints
-        concentrationUnits={this.props.concentrationUnits}
+        concentrationUnits={component.form.units.concentration}
         onChange={this.handleChange}
-        timepoints={this.props.component.fields.timepoints}
-        timeUnits={this.props.timeUnits}
+        timepoints={component.fields.timepoints}
+        timeUnits={component.form.units.time}
       />
     );
   }
@@ -42,7 +43,5 @@ export class EditForm extends Component {
 
 EditForm.propTypes = {
   component: PropTypes.object,
-  concentrationUnits: PropTypes.array,
   onChange: PropTypes.func,
-  timeUnits: PropTypes.array,
 };

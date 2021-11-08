@@ -24,6 +24,3 @@ export const selectComponentTypesToRemove = (state) =>
   state.tools.componentTypesToRemove;
 export const selectEnableRemoveComponent = (state) =>
   state.tools.enableRemoveComponent;
-export const selectConcentrationUnits = (state) =>
-  state.tools.concentrationUnits;
-export const selectTimeUnits = (state) => state.tools.timeUnits;

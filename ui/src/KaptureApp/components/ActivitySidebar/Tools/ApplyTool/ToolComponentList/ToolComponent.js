@@ -75,9 +75,7 @@ export class ToolComponent extends React.Component {
           <div className="pb-2">
             <EditForm
               component={toolComponent}
-              concentrationUnits={this.props.concentrationUnits}
               onChange={this.handleEditFormChange}
-              timeUnits={this.props.timeUnits}
             />
             {!toolComponent.isValid && (
               <div className="text-xs text-white mt-2 font-bold">
@@ -92,12 +90,10 @@ export class ToolComponent extends React.Component {
 }
 
 ToolComponent.propTypes = {
-  concentrationUnits: PropTypes.array,
   editForm: PropTypes.func,
   onEditClick: PropTypes.func,
   onRemove: PropTypes.func,
   onSelectionChange: PropTypes.func,
   onUpdate: PropTypes.func,
-  timeUnits: PropTypes.array,
   toolComponent: PropTypes.object,
 };

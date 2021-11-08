@@ -29,16 +29,6 @@ export async function searchComponents(searchTerm) {
   return response.data;
 }
 
-export async function fetchConcentrationUnits() {
-  const response = await axios.get(API_URL + '/api/atlas/units/concentration');
-  return response.data;
-}
-
-export async function fetchTimeUnits() {
-  const response = await axios.get(API_URL + '/api/atlas/units/time');
-  return response.data;
-}
-
 export function exportPlates(plates) {
   return plates.map((plate) => {
     return exportPlate(plate);

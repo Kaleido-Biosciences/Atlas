@@ -43,6 +43,9 @@ function createComponent(data, timepoints) {
     darkBgClass: DARK_BG_CLASS,
     darkerBgClass: DARKER_BG_CLASS,
     abbreviation: ABBREVIATION,
+    form: {
+      units: data.units,
+    },
   };
   component.description = getDescription(component);
   return component;

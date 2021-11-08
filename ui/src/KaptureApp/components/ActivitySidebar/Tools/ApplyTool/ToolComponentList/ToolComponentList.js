@@ -29,14 +29,12 @@ export class ToolComponentList extends React.Component {
           );
           return (
             <ToolComponent
-              concentrationUnits={this.props.concentrationUnits}
               editForm={editForm}
               key={component.id}
               onEditClick={this.props.onEditClick}
               onRemove={this.handleRemove}
               onSelectionChange={this.handleSelectionChange}
               onUpdate={this.props.onUpdate}
-              timeUnits={this.props.timeUnits}
               toolComponent={component}
             />
           );
@@ -48,11 +46,9 @@ export class ToolComponentList extends React.Component {
 
 ToolComponentList.propTypes = {
   componentTypes: PropTypes.array,
-  concentrationUnits: PropTypes.array,
   onEditClick: PropTypes.func,
   onSelectionsChange: PropTypes.func,
   onRemove: PropTypes.func,
   onUpdate: PropTypes.func,
-  timeUnits: PropTypes.array,
   toolComponents: PropTypes.array,
 };

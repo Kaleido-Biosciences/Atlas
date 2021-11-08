@@ -90,12 +90,10 @@ export class ApplyTool extends React.Component {
             >
               <ToolComponentList
                 componentTypes={this.props.componentTypes}
-                concentrationUnits={this.props.concentrationUnits}
                 onEditClick={this.props.onToolComponentEditClick}
                 onSelectionsChange={this.props.onComponentSelectionsChange}
                 onRemove={this.props.onRemoveToolComponent}
                 onUpdate={this.props.onUpdateToolComponent}
-                timeUnits={this.props.timeUnits}
                 toolComponents={this.props.toolComponents}
               />
             </div>
@@ -143,7 +141,6 @@ ApplyTool.propTypes = {
   componentSearchResults: PropTypes.array,
   componentSearchTerm: PropTypes.string,
   componentTypes: PropTypes.array,
-  concentrationUnits: PropTypes.array,
   onAddAttribute: PropTypes.func,
   onAddToolComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
@@ -155,7 +152,6 @@ ApplyTool.propTypes = {
   onUnmount: PropTypes.func,
   onUpdateToolComponent: PropTypes.func,
   plates: PropTypes.array,
-  timeUnits: PropTypes.array,
   toolComponents: PropTypes.array,
   toolComponentsValid: PropTypes.bool,
 };
