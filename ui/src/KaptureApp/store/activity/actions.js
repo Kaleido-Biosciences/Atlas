@@ -44,6 +44,13 @@ export function loadActivity(name) {
   };
 }
 
+export function saveActivity() {
+  return async (dispatch, getState) => {
+    const plates = selectors.selectPlates(getState());
+    const exportedPlates = api.exportPlates(plates);
+  };
+}
+
 export const autoArrangePlates = actions.autoArrangePlates;
 export const setPlateType = gridActions.setPlateType;
 export const setPlateName = gridActions.setPlateName;

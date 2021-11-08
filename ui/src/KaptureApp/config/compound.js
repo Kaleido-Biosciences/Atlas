@@ -1,7 +1,8 @@
-import { getDefaultTimepoints, getDescription } from './utils';
+import { getDefaultTimepoints, getDescription, exportComponent } from './utils';
 import { EditForm } from './EditForm';
+import { COMPONENT_TYPE_COMPOUND } from './constants';
 
-const TYPE = 'Compound';
+const TYPE = COMPONENT_TYPE_COMPOUND;
 const DEFAULT_CONCENTRATION = 0.5;
 const DEFAULT_TIME = 0;
 const COLOR = 'blue';
@@ -45,7 +46,7 @@ function createComponent(data, timepoints) {
 
 export const compound = {
   name: TYPE,
-  singular: TYPE,
+  singular: 'Compound',
   plural: 'Compounds',
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
@@ -61,12 +62,6 @@ export const compound = {
   allowAddTimepoint: false,
   enableOptions: ['concentration'],
   createComponent,
-  exportComponent: (component) => {
-    return {
-      type: component.type,
-      id: component.data.id,
-      timepoints: component.fields.timepoints,
-    };
-  },
+  exportComponent,
   editForm: EditForm,
 };

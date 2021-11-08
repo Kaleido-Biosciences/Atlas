@@ -14,6 +14,7 @@ export class Header extends Component {
             icon="save"
             secondary
             className="ml-2"
+            onClick={this.props.onSave}
           />
         </div>
       </div>
@@ -23,4 +24,5 @@ export class Header extends Component {
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
+  onSave: PropTypes.func,
 };

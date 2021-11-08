@@ -1,7 +1,8 @@
-import { getDefaultTimepoints, getDescription } from './utils';
+import { getDefaultTimepoints, getDescription, exportComponent } from './utils';
 import { EditForm } from './EditForm';
+import { COMPONENT_TYPE_MEDIUM } from './constants';
 
-const TYPE = 'Medium';
+const TYPE = COMPONENT_TYPE_MEDIUM;
 const DEFAULT_CONCENTRATION = '';
 const DEFAULT_TIME = 0;
 const COLOR = 'orange';
@@ -45,7 +46,7 @@ function createComponent(data, timepoints) {
 
 export const medium = {
   name: TYPE,
-  singular: TYPE,
+  singular: 'Medium',
   plural: 'Media',
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
@@ -61,12 +62,6 @@ export const medium = {
   allowAddTimepoint: false,
   enableOptions: [],
   createComponent,
-  exportComponent: (component) => {
-    return {
-      type: component.type,
-      id: component.data.id,
-      timepoints: component.fields.timepoints,
-    };
-  },
+  exportComponent,
   editForm: EditForm,
 };

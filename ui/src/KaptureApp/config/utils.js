@@ -60,3 +60,20 @@ export const getTimepointsString = (timepoints) => {
   });
   return timepointStrings.join(', ');
 };
+
+export const exportComponent = (component) => {
+  return {
+    type: component.type,
+    id: component.data.id,
+    fields: {
+      timepoints: component.fields.timepoints.map((timepoint) => {
+        return {
+          concentration: timepoint.concentration,
+          concentrationUnitId: timepoint.concentrationUnitId,
+          time: timepoint.time,
+          timeUnitId: timepoint.timeUnitId,
+        };
+      }),
+    },
+  };
+};

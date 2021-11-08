@@ -11,6 +11,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
+  onSave: activity.saveActivity,
   onViewTabClick: activity.setActiveView,
 };
 

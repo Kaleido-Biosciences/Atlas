@@ -1,7 +1,8 @@
-import { getDefaultTimepoints, getDescription } from './utils';
+import { getDefaultTimepoints, getDescription, exportComponent } from './utils';
 import { EditForm } from './EditForm';
+import { COMPONENT_TYPE_COMMUNITY } from './constants';
 
-const TYPE = 'Community';
+const TYPE = COMPONENT_TYPE_COMMUNITY;
 const DEFAULT_CONCENTRATION = 1.0;
 const DEFAULT_TIME = 0;
 const COLOR = 'green';
@@ -45,7 +46,7 @@ function createComponent(data, timepoints) {
 
 export const community = {
   name: TYPE,
-  singular: TYPE,
+  singular: 'Community',
   plural: 'Communities',
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
@@ -61,12 +62,6 @@ export const community = {
   allowAddTimepoint: true,
   enableOptions: ['concentration'],
   createComponent,
-  exportComponent: (component) => {
-    return {
-      type: component.type,
-      id: component.data.id,
-      timepoints: component.fields.timepoints,
-    };
-  },
+  exportComponent,
   editForm: EditForm,
 };
