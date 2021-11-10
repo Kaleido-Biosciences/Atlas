@@ -1,55 +1,73 @@
-import { getDescription } from './utils';
+import { COMPONENT_TYPE_ATTRIBUTE } from './constants';
+import { AttributeEditForm } from './AttributeEditForm';
 
-const TYPE = 'Attribute';
+const TYPE = COMPONENT_TYPE_ATTRIBUTE;
+const SINGULAR = 'Attribute';
+const PLURAL = 'Attributes';
 const COLOR = 'red';
-const COLOR_CODE = '#db2828';
+const COLOR_CODE = 'rgba(220, 38, 38, 1)';
+const DARK_CODE = 'rgba(185, 28, 28, 1)';
+const DARKER_CODE = 'rgba(153, 27, 27, 1)';
+const DEFAULT_BG_CLASS = 'bg-red-600';
+const DARK_BG_CLASS = 'bg-red-700';
+const DARKER_BG_CLASS = 'bg-red-800';
 const ABBREVIATION = 'A';
 
 function createComponent(data) {
-  const { key, value, valueType, valueUnit } = data;
-  const id = value ? `${key}_${value}`.replace(/ /g, '_') : key;
-  const unit = value && valueUnit ? valueUnit : '';
-  const name = value ? `${key}: ${value}${unit}` : key;
   const component = {
-    id: `${TYPE.toUpperCase()}_${id}`,
+    id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
-    name,
+    name: data.displayName,
+    singularTypeDisplayName: SINGULAR,
+    pluralTypeDisplayName: PLURAL,
     description: '',
-    data: {
-      id,
-      name,
-      key,
-      value,
-      value_type: valueType,
-      value_unit: valueUnit,
-    },
+    data,
     selected: true,
-    editable: false,
-    displayEditForm: false,
+    editable: true,
+    displayEditForm: true,
     fields: {
-      key,
-      value,
-      value_type: valueType,
-      value_unit: valueUnit,
+      value: {
+        value: '',
+        valueUnitId: '',
+        valueUnitAbbreviation: '',
+      },
     },
-    isValid: true,
-    errors: [],
-    tooltip: [],
+    isValid: false,
+    errors: ['A value is required.'],
+    tooltip: data.tooltip,
     color: COLOR,
     colorCode: COLOR_CODE,
+    darkCode: DARK_CODE,
+    darkerCode: DARKER_CODE,
+    defaultBgClass: DEFAULT_BG_CLASS,
+    darkBgClass: DARK_BG_CLASS,
+    darkerBgClass: DARKER_BG_CLASS,
     abbreviation: ABBREVIATION,
+    form: {
+      value: {
+        value: '',
+        valueUnitId: undefined,
+        valueUnitAbbreviation: '',
+        units: data.units,
+        valueType: data.valueType,
+      },
+    },
   };
-  component.description = getDescription(component);
   return component;
 }
 
 export const attribute = {
   name: TYPE,
-  singular: TYPE,
-  plural: 'Attributes',
+  singular: SINGULAR,
+  plural: PLURAL,
   abbreviation: ABBREVIATION,
   typeColor: COLOR,
   colorCode: COLOR_CODE,
+  darkCode: DARK_CODE,
+  darkerCode: DARKER_CODE,
+  defaultBgClass: DEFAULT_BG_CLASS,
+  darkBgClass: DARK_BG_CLASS,
+  darkerBgClass: DARKER_BG_CLASS,
   allowExcelImport: false,
   defaultConcentration: null,
   defaultTime: null,
@@ -58,10 +76,9 @@ export const attribute = {
   createComponent,
   exportComponent: (component) => {
     return {
-      key: component.fields.key,
-      value: component.fields.value,
-      value_type: component.fields.value_type,
-      value_unit: component.fields.value_unit,
+      value: component.fields.value.value,
+      valueUnitId: component.fields.value.valueUnitId,
     };
   },
+  editForm: AttributeEditForm,
 };

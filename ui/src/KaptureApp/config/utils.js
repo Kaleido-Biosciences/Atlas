@@ -28,14 +28,16 @@ export const getDefaultTimepoints = (concentration, time) => {
 export const getDescription = (component) => {
   let description = '';
   if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
-    description = component.fields.value_type;
-    if (description === 'Float') {
-      description = 'Decimal';
-    } else if (description === 'String') {
-      description = 'Text';
-    } else if (description === 'Boolean') {
-      description = 'True/False';
-    }
+    const { value, valueUnitId, units } = component.form.value;
+    if (value !== '') {
+      if (value === true) description = 'True';
+      else if (value === false) description = 'False';
+      else description = `${value}`;
+      if (valueUnitId) {
+        const unit = units.value.find((unit) => unit.id === valueUnitId);
+        description += ` ${unit.abbreviation}`;
+      }
+    } else description = '';
   } else {
     if (
       component.isValid &&

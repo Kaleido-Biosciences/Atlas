@@ -4,20 +4,23 @@ import { Listbox, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
-export class UnitDropdown extends Component {
+const options = [
+  { name: 'True', value: true },
+  { name: 'False', value: false },
+];
+
+export class BooleanSelect extends Component {
   handleChange = (option) => {
-    if (this.props.onChange) this.props.onChange(option);
+    if (this.props.onChange) this.props.onChange(option.value);
   };
   render() {
-    const { options, value } = this.props;
-    const selectedOption = value
-      ? options.find((option) => option.id === value)
-      : null;
-    const buttonText = selectedOption ? selectedOption.abbreviation : 'Unit';
+    const { value } = this.props;
+    const selectedOption = options.find((option) => option.value === value);
+    const buttonText = selectedOption ? selectedOption.name : 'Select value';
     return (
       <Listbox value={selectedOption} onChange={this.handleChange}>
         <div className="mt-1 relative">
-          <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm px-2 py-1 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-xxs">
+          <Listbox.Button className="relative w-32 bg-white border border-gray-300 rounded-md shadow-sm px-2 py-1 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-xxs">
             <span className="w-full inline-flex truncate">
               <span className="truncate">{buttonText}</span>
             </span>
@@ -35,14 +38,14 @@ export class UnitDropdown extends Component {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-10 mt-1 w-50 bg-white shadow-lg max-h-60 rounded-md py-1 ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none text-10">
+            <Listbox.Options className="absolute z-10 mt-1 w-32 bg-white shadow-lg max-h-60 rounded-md py-1 ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none text-10">
               {options.map((option) => (
                 <Listbox.Option
-                  key={option.id}
+                  key={option.name}
                   className={({ active }) =>
                     classNames(
                       active ? 'text-white bg-indigo-600' : 'text-gray-900',
-                      'cursor-default select-none relative py-2 pl-3 pr-9 text-xxs'
+                      'cursor-default select-none relative py-2 pl-3 pr-9 text-10'
                     )
                   }
                   value={option}
@@ -54,14 +57,6 @@ export class UnitDropdown extends Component {
                           className={classNames(
                             selected ? 'font-semibold' : 'font-normal',
                             'truncate'
-                          )}
-                        >
-                          {option.abbreviation}
-                        </span>
-                        <span
-                          className={classNames(
-                            active ? 'text-indigo-200' : 'text-gray-500',
-                            'ml-2 truncate'
                           )}
                         >
                           {option.name}
@@ -93,8 +88,7 @@ export class UnitDropdown extends Component {
   }
 }
 
-UnitDropdown.propTypes = {
+BooleanSelect.propTypes = {
   onChange: PropTypes.func,
-  options: PropTypes.array,
-  value: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };

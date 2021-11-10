@@ -40,7 +40,6 @@ export class ToolComponent extends React.Component {
       'px-2',
       'rounded',
       toolComponent.defaultBgClass,
-      'hover:' + toolComponent.darkBgClass,
       toolComponent.selected ? 'opacity-100' : 'opacity-30',
       'mb-1'
     );
@@ -59,7 +58,7 @@ export class ToolComponent extends React.Component {
           >
             <div className="text-white text-12 font-medium mb-0.5">{`${toolComponent.name}`}</div>
             {toolComponent.description ? (
-              <div className="text-white text-10 opacity-60">
+              <div className="text-white text-10 opacity-70">
                 {toolComponent.description}
               </div>
             ) : null}
