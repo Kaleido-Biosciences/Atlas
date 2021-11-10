@@ -19,7 +19,6 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
-  onAddAttribute: tools.addAttributeToApplyToolComponents,
   onAddToolComponent: tools.addApplyToolComponent,
   onApplyClick: tools.applySelectedToolComponentsToSelectedWells,
   onComponentSearchChange: tools.searchComponents,

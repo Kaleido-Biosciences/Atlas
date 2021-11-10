@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'KaptureApp/components';
-
 import { ComponentSearch } from './ComponentSearch';
-import { AddAttributeForm } from './AddAttributeForm';
 import { ToolComponentList } from './ToolComponentList';
 import { SelectedWells } from '../SelectedWells';
 import styles from './ApplyTool.module.css';
@@ -12,7 +10,6 @@ import styles from './ApplyTool.module.css';
 export class ApplyTool extends React.Component {
   state = {
     showComponentSearch: false,
-    showAddAttributeForm: false,
   };
   componentWillUnmount() {
     if (this.props.onUnmount) {
@@ -20,7 +17,6 @@ export class ApplyTool extends React.Component {
     }
   }
   showComponentSearch = () => {
-    this.hideAddAttributeForm();
     this.setState({
       showComponentSearch: true,
     });
@@ -33,28 +29,11 @@ export class ApplyTool extends React.Component {
       this.props.onComponentSearchHide();
     }
   };
-  showAddAttributeForm = () => {
-    this.hideComponentSearch();
-    this.setState({
-      showAddAttributeForm: true,
-    });
-  };
-  hideAddAttributeForm = () => {
-    this.setState({
-      showAddAttributeForm: false,
-    });
-  };
   handleAddComponent = (component) => {
     if (this.props.onAddToolComponent) {
       this.props.onAddToolComponent(component);
     }
     this.hideComponentSearch();
-  };
-  handleAddAttribute = (attributeData) => {
-    if (this.props.onAddAttribute) {
-      this.props.onAddAttribute(attributeData);
-    }
-    this.hideAddAttributeForm();
   };
   handleApplyClick = () => {
     if (this.props.onApplyClick) {
@@ -62,7 +41,7 @@ export class ApplyTool extends React.Component {
     }
   };
   render() {
-    const { showComponentSearch, showAddAttributeForm } = this.state;
+    const { showComponentSearch } = this.state;
     return (
       <div className="flex flex-col h-full overflow-auto">
         <div className="flex flex-row flex-none px-3 pb-1">
@@ -72,14 +51,8 @@ export class ApplyTool extends React.Component {
             onClick={this.showComponentSearch}
             className="mr-1"
           />
-          <Button
-            content="Attribute"
-            icon="plus-circle"
-            onClick={this.showAddAttributeForm}
-            secondary
-          />
         </div>
-        {!showComponentSearch && !showAddAttributeForm && (
+        {!showComponentSearch && (
           <div className={styles.toolComponentsContainer}>
             <div
               className={classNames(
@@ -123,12 +96,6 @@ export class ApplyTool extends React.Component {
             onSearchChange={this.props.onComponentSearchChange}
           />
         )}
-        {showAddAttributeForm && (
-          <AddAttributeForm
-            onClose={this.hideAddAttributeForm}
-            onSubmit={this.handleAddAttribute}
-          />
-        )}
       </div>
     );
   }
@@ -141,7 +108,6 @@ ApplyTool.propTypes = {
   componentSearchResults: PropTypes.array,
   componentSearchTerm: PropTypes.string,
   componentTypes: PropTypes.array,
-  onAddAttribute: PropTypes.func,
   onAddToolComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
   onComponentSearchChange: PropTypes.func,

@@ -6,7 +6,6 @@ import { editor } from '../editor';
 import { activity } from '../activity';
 import { api } from 'api';
 import {
-  COMPONENT_TYPE_ATTRIBUTE,
   createComponent,
   applyComponents,
 } from 'KaptureApp/config/componentTypes';
@@ -54,13 +53,6 @@ export const setActiveTool = (tool) => {
 
 export const addApplyToolComponent = (component) => {
   return (dispatch, getState) => {
-    dispatch(_addApplyToolComponent({ component }));
-  };
-};
-
-export const addAttributeToApplyToolComponents = (fields) => {
-  return (dispatch, getState) => {
-    const component = createComponent(fields, COMPONENT_TYPE_ATTRIBUTE);
     dispatch(_addApplyToolComponent({ component }));
   };
 };
