@@ -32,6 +32,7 @@ function createComponent(data) {
         valueUnitAbbreviation: '',
       },
     },
+    //TODO: move isValid and errors into form
     isValid: false,
     errors: ['A value is required.'],
     tooltip: data.tooltip,
@@ -44,13 +45,11 @@ function createComponent(data) {
     darkerBgClass: DARKER_BG_CLASS,
     abbreviation: ABBREVIATION,
     form: {
-      value: {
-        value: '',
-        valueUnitId: undefined,
-        valueUnitAbbreviation: '',
-        units: data.units,
-        valueType: data.valueType,
-      },
+      value: '',
+      valueUnitId: undefined,
+      valueUnitAbbreviation: '',
+      units: data.units,
+      valueType: data.valueType,
     },
   };
   return component;
@@ -76,8 +75,8 @@ export const attribute = {
   createComponent,
   exportComponent: (component) => {
     return {
-      value: component.fields.value.value,
-      valueUnitId: component.fields.value.valueUnitId,
+      value: component.form.value,
+      valueUnitId: component.form.valueUnitId,
     };
   },
   editForm: AttributeEditForm,

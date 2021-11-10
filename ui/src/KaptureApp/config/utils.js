@@ -28,7 +28,7 @@ export const getDefaultTimepoints = (concentration, time) => {
 export const getDescription = (component) => {
   let description = '';
   if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
-    const { value, valueUnitId, units } = component.form.value;
+    const { value, valueUnitId, units } = component.form;
     if (value !== '') {
       if (value === true) description = 'True';
       else if (value === false) description = 'False';

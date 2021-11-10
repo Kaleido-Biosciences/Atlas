@@ -10,35 +10,32 @@ export class AttributeEditForm extends Component {
     if (this.props.onChange) {
       let valid = true;
       const { component } = this.props;
-      const valueType = component.form.value.valueType;
+      const valueType = component.form.valueType;
       const newComponent = {
         ...component,
         form: {
           ...component.form,
-          value: {
-            ...component.form.value,
-            value,
-            valueUnitId,
-          },
+          value,
+          valueUnitId,
         },
         errors: [],
       };
-      if (newComponent.form.value.value === '') {
+      if (newComponent.form.value === '') {
         newComponent.errors.push('A value is required.');
         valid = false;
       } else {
         if (valueType === 'Integer') {
-          if (!validate.isInteger(newComponent.form.value.value)) {
+          if (!validate.isInteger(newComponent.form.value)) {
             newComponent.errors.push('Value must be an integer.');
             valid = false;
           }
         } else if (valueType === 'Double') {
-          if (!validate.isNumber(newComponent.form.value.value)) {
+          if (!validate.isNumber(newComponent.form.value)) {
             newComponent.errors.push('Value must be a number.');
             valid = false;
           }
         } else if (valueType === 'Boolean') {
-          if (!validate.isBoolean(newComponent.form.value.value)) {
+          if (!validate.isBoolean(newComponent.form.value)) {
             newComponent.errors.push('Value must be a boolean.');
             valid = false;
           }
@@ -50,32 +47,29 @@ export class AttributeEditForm extends Component {
     }
   };
   handleUnitChange = (unit) => {
-    this.handleChange(this.props.component.form.value.value, unit.id);
+    this.handleChange(this.props.component.form.value, unit.id);
   };
   handleDoubleChange = (e) => {
     this.handleChange(
       e.target.value ? parseFloat(e.target.value) : '',
-      this.props.component.form.value.valueUnitId
+      this.props.component.form.valueUnitId
     );
   };
   handleIntegerChange = (e) => {
     this.handleChange(
       e.target.value ? parseInt(e.target.value) : '',
-      this.props.component.form.value.valueUnitId
+      this.props.component.form.valueUnitId
     );
   };
   handleTextChange = (e) => {
-    this.handleChange(
-      e.target.value,
-      this.props.component.form.value.valueUnitId
-    );
+    this.handleChange(e.target.value, this.props.component.form.valueUnitId);
   };
   handleBooleanChange = (value) => {
-    this.handleChange(value, this.props.component.form.value.valueUnitId);
+    this.handleChange(value, this.props.component.form.valueUnitId);
   };
   render() {
     const { component } = this.props;
-    const { value, valueType, valueUnitId, units } = component.form.value;
+    const { value, valueType, valueUnitId, units } = component.form;
     const inputClassName =
       'px-2 py-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full text-xs border-gray-300 rounded-md';
     let content;
