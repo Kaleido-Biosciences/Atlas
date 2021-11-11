@@ -27,6 +27,7 @@ export class Well extends PureComponent {
             row: this.props.well.row,
             column: this.props.well.column,
           }}
+          compact={this.props.componentSettings.compact}
         />
       );
     });
@@ -51,6 +52,7 @@ export class Well extends PureComponent {
 }
 
 Well.propTypes = {
+  componentSettings: PropTypes.object,
   enableRemoveComponent: PropTypes.bool,
   height: PropTypes.number,
   marginBottom: PropTypes.number,

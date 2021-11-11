@@ -13,14 +13,26 @@ export class PlateEditor extends Component {
   handlePlateChange = (plateId) => {
     this.props.onPlateChange([plateId]);
   };
+  handleSizeChange = (size) => {
+    this.props.onUpdateViewData(this.props.view.id, {
+      selectedSizeOption: size,
+    });
+  };
   render() {
     const plate = this.props.plates.find((plate) => plate.selected);
+    const viewData = this.props.view.data;
+    const selectedSizeOption = viewData.sizeOptions.find(
+      (option) => option.name === viewData.selectedSizeOption
+    );
     return (
       <div className={styles.editor}>
         <Header
           onPlateChange={this.handlePlateChange}
           onSaveName={this.props.onSaveName}
+          onSizeChange={this.handleSizeChange}
           plates={this.props.plates}
+          selectedSizeOption={viewData.selectedSizeOption}
+          sizeOptions={viewData.sizeOptions}
         />
         <div className={styles.gridContainer}>
           {plate ? (
@@ -29,6 +41,7 @@ export class PlateEditor extends Component {
               plate={plate}
               onClick={this.handleGridClick}
               onRemoveComponent={this.props.onRemoveComponent}
+              settings={selectedSizeOption.settings}
             />
           ) : null}
         </div>
@@ -43,6 +56,7 @@ PlateEditor.propTypes = {
   onPlateChange: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   onSaveName: PropTypes.func,
+  onUpdateViewData: PropTypes.func,
   plates: PropTypes.array,
   view: PropTypes.object,
 };

@@ -13,6 +13,7 @@ export class Wells extends Component {
       const wells = row.map((well, i) => {
         return (
           <Well
+            componentSettings={this.props.componentSettings}
             enableRemoveComponent={this.props.enableRemoveComponent}
             height={this.props.wellHeight}
             key={well.id}
@@ -37,6 +38,7 @@ export class Wells extends Component {
 }
 
 Wells.propTypes = {
+  componentSettings: PropTypes.object,
   enableRemoveComponent: PropTypes.bool,
   onRemoveComponent: PropTypes.func,
   onWellClick: PropTypes.func,

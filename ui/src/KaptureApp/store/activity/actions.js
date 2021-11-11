@@ -65,6 +65,7 @@ export const removeComponentTypesFromWells =
 export const setGridComponents = gridActions.setGridComponents;
 
 export const setActiveView = viewActions.setActiveView;
+export const updateViewData = viewActions.updateViewData;
 
 async function importGrids(grids) {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);

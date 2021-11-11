@@ -14,7 +14,9 @@ export class ContainerComponent extends Component {
   render() {
     const { component, position } = this.props;
     const divProps = {
-      className: styles.containerComponent,
+      className: this.props.compact
+        ? styles.compactContainerComponent
+        : styles.containerComponent,
       style: {
         background: component.colorCode,
       },
@@ -28,8 +30,14 @@ export class ContainerComponent extends Component {
       <div>
         <div {...divProps}>
           <div>
-            <div className={styles.name}>{`${component.name}`}</div>
-            <div className={styles.description}>{component.description}</div>
+            {this.props.compact ? (
+              <div className={styles.compactName}>{component.data.name}</div>
+            ) : (
+              <div className={styles.name}>{component.name}</div>
+            )}
+            {!this.props.compact ? (
+              <div className={styles.description}>{component.description}</div>
+            ) : null}
           </div>
           {this.props.enableRemove ? (
             <div onClick={this.handleRemoveClick}>
@@ -49,6 +57,7 @@ export class ContainerComponent extends Component {
 }
 
 ContainerComponent.propTypes = {
+  compact: PropTypes.bool,
   component: PropTypes.object.isRequired,
   enableRemove: PropTypes.bool,
   onRemove: PropTypes.func,

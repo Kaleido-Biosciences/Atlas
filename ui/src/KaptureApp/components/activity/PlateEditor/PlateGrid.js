@@ -41,28 +41,7 @@ export class PlateGrid extends Component {
   };
   render() {
     const { plate } = this.props;
-    const wellHeight = 120;
-    const wellWidth = 120;
-    const wellMarginRight = 4;
-    const wellMarginBottom = 4;
-    const wellPadding = 6;
-    const headerMargin = 4;
-    const headerSize = 24;
-    const settings = {
-      columnHeaderCellHeight: headerSize,
-      columnHeaderCellWidth: wellWidth,
-      columnHeaderCellMarginRight: wellMarginRight,
-      columnHeaderBottomMargin: headerMargin,
-      rowHeaderCellHeight: wellHeight,
-      rowHeaderCellWidth: headerSize,
-      rowHeaderCellMarginBottom: wellMarginBottom,
-      rowHeaderRightMargin: headerMargin,
-      wellHeight,
-      wellWidth,
-      wellMarginRight,
-      wellMarginBottom,
-      wellPadding,
-    };
+    const { settings } = this.props;
     const cornerStyle = {
       height: settings.columnHeaderCellHeight + 'px',
       width: settings.rowHeaderCellWidth + 'px',
@@ -109,6 +88,7 @@ export class PlateGrid extends Component {
               wellMarginRight={settings.wellMarginRight}
               wellPadding={settings.wellPadding}
               wellWidth={settings.wellWidth}
+              componentSettings={settings.component}
             />
           </Scrollbars>
         </div>
@@ -122,4 +102,5 @@ PlateGrid.propTypes = {
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   plate: PropTypes.object,
+  settings: PropTypes.object,
 };

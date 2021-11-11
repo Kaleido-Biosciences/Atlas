@@ -184,6 +184,11 @@ const activity = createSlice({
         }
       }
     },
+    updateViewData(state, action) {
+      const { viewId, data } = action.payload;
+      const view = state.views.find((view) => view.id === viewId);
+      Object.assign(view.data, data);
+    },
     selectAllPlateWells(state, action) {
       const { plateIds } = action.payload;
       plateIds.forEach((plateId) => {

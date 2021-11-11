@@ -14,6 +14,7 @@ const mapDispatch = {
   onPlateChange: activity.setPlateSelections,
   onRemoveComponent: activity.removeComponentFromWell,
   onSaveName: activity.setPlateName,
+  onUpdateViewData: activity.updateViewData,
 };
 
 const connected = connect(mapState, mapDispatch)(PlateEditor);
