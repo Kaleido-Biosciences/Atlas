@@ -80,6 +80,7 @@ export class PlateGrid extends Component {
           <Scrollbars onScrollFrame={this.handleScroll}>
             <Wells
               enableRemoveComponent={this.props.enableRemoveComponent}
+              enableTooltips={this.props.enableTooltips}
               onRemoveComponent={this.handleRemoveComponent}
               onWellClick={this.handleWellClick}
               plate={plate}
@@ -99,6 +100,7 @@ export class PlateGrid extends Component {
 
 PlateGrid.propTypes = {
   enableRemoveComponent: PropTypes.bool,
+  enableTooltips: PropTypes.bool,
   onClick: PropTypes.func,
   onRemoveComponent: PropTypes.func,
   plate: PropTypes.object,

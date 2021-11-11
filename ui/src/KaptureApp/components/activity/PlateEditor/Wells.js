@@ -15,6 +15,7 @@ export class Wells extends Component {
           <Well
             componentSettings={this.props.componentSettings}
             enableRemoveComponent={this.props.enableRemoveComponent}
+            enableTooltips={this.props.enableTooltips}
             height={this.props.wellHeight}
             key={well.id}
             marginBottom={this.props.wellMarginBottom}
@@ -40,6 +41,7 @@ export class Wells extends Component {
 Wells.propTypes = {
   componentSettings: PropTypes.object,
   enableRemoveComponent: PropTypes.bool,
+  enableTooltips: PropTypes.bool,
   onRemoveComponent: PropTypes.func,
   onWellClick: PropTypes.func,
   plate: PropTypes.object.isRequired,

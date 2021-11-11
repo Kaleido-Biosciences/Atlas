@@ -45,7 +45,8 @@ export class ContainerComponent extends Component {
             </div>
           ) : null}
         </div>
-        {component.tooltip.length > 0 && (
+
+        {this.props.enableTooltip && component.tooltip.length > 0 && (
           <ComponentTooltip
             id={`${stringPosition}-${component.id}`}
             tooltip={component.tooltip}
@@ -60,6 +61,7 @@ ContainerComponent.propTypes = {
   compact: PropTypes.bool,
   component: PropTypes.object.isRequired,
   enableRemove: PropTypes.bool,
+  enableTooltip: PropTypes.bool,
   onRemove: PropTypes.func,
   position: PropTypes.object.isRequired,
 };

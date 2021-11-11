@@ -18,6 +18,11 @@ export class PlateEditor extends Component {
       selectedSizeOption: size,
     });
   };
+  handleToggleTooltips = () => {
+    this.props.onUpdateViewData(this.props.view.id, {
+      enableTooltips: !this.props.view.data.enableTooltips,
+    });
+  };
   render() {
     const plate = this.props.plates.find((plate) => plate.selected);
     const viewData = this.props.view.data;
@@ -30,9 +35,9 @@ export class PlateEditor extends Component {
           onPlateChange={this.handlePlateChange}
           onSaveName={this.props.onSaveName}
           onSizeChange={this.handleSizeChange}
+          onToggleTooltips={this.handleToggleTooltips}
           plates={this.props.plates}
-          selectedSizeOption={viewData.selectedSizeOption}
-          sizeOptions={viewData.sizeOptions}
+          viewData={viewData}
         />
         <div className={styles.gridContainer}>
           {plate ? (
@@ -42,6 +47,7 @@ export class PlateEditor extends Component {
               onClick={this.handleGridClick}
               onRemoveComponent={this.props.onRemoveComponent}
               settings={selectedSizeOption.settings}
+              enableTooltips={viewData.enableTooltips}
             />
           ) : null}
         </div>

@@ -27,6 +27,7 @@ export function getPlateEditor(active) {
     name: 'Plate Editor',
     active,
     data: {
+      enableTooltips: false,
       selectedSizeOption: 'Medium',
       sizeOptions: [
         {

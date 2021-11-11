@@ -19,15 +19,16 @@ export class Well extends PureComponent {
     return this.props.well.components.map((component) => {
       return (
         <ContainerComponent
+          compact={this.props.componentSettings.compact}
           component={component}
           enableRemove={this.props.enableRemoveComponent}
+          enableTooltip={this.props.enableTooltips}
           key={component.id}
           onRemove={this.handleRemoveComponent}
           position={{
             row: this.props.well.row,
             column: this.props.well.column,
           }}
-          compact={this.props.componentSettings.compact}
         />
       );
     });
@@ -54,6 +55,7 @@ export class Well extends PureComponent {
 Well.propTypes = {
   componentSettings: PropTypes.object,
   enableRemoveComponent: PropTypes.bool,
+  enableTooltips: PropTypes.bool,
   height: PropTypes.number,
   marginBottom: PropTypes.number,
   marginRight: PropTypes.number,

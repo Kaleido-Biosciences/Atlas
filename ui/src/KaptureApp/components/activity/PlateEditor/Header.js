@@ -18,11 +18,23 @@ export class Header extends Component {
             plates={this.props.plates}
           />
         </div>
-        <SizeOptions
-          onChange={this.props.onSizeChange}
-          options={this.props.sizeOptions}
-          value={this.props.selectedSizeOption}
-        />
+        <div className="flex items-center">
+          <div className="text-xs mr-4">
+            <input
+              checked={this.props.viewData.enableTooltips}
+              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2"
+              name="enableTooltips"
+              onChange={this.props.onToggleTooltips}
+              type="checkbox"
+            />
+            Enable Tooltips
+          </div>
+          <SizeOptions
+            onChange={this.props.onSizeChange}
+            options={this.props.viewData.sizeOptions}
+            value={this.props.viewData.selectedSizeOption}
+          />
+        </div>
       </div>
     );
   }
@@ -32,7 +44,7 @@ Header.propTypes = {
   onPlateChange: PropTypes.func,
   onSaveName: PropTypes.func,
   onSizeChange: PropTypes.func,
+  onToggleTooltips: PropTypes.func,
   plates: PropTypes.array,
-  selectedSizeOption: PropTypes.string,
-  sizeOptions: PropTypes.array,
+  viewData: PropTypes.object,
 };
