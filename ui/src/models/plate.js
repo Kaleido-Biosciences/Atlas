@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createWell } from './well';
+import { createComponent } from 'KaptureApp/config/componentTypes';
 
 const rowHeaders = [
   'A',
@@ -30,19 +31,22 @@ const rowHeaders = [
   'Z',
 ];
 
-export function createPlate({
-  id = null,
-  name = null,
-  barcode = null,
-  plateNumber = null,
-  plateType = null,
-  wells = [],
-  overviewPositionTop = null,
-  overviewPositionLeft = null,
-  overviewWidth = 110,
-  overviewHeight = 60,
-  selected = false,
-}) {
+export function createPlate(
+  {
+    id = null,
+    name = null,
+    barcode = null,
+    plateNumber = null,
+    plateType = null,
+    wells = [],
+    overviewPositionTop = null,
+    overviewPositionLeft = null,
+    overviewWidth = 110,
+    overviewHeight = 60,
+    selected = false,
+  },
+  components
+) {
   const plate = {
     id: id || uuidv4(),
     name: name || 'Untitled',
@@ -60,6 +64,9 @@ export function createPlate({
   };
   if (plateType) {
     setPlateType(plate, plateType);
+    if (wells.length) {
+      plate.wells = importWells(wells, components);
+    }
   }
   return plate;
 }
@@ -75,7 +82,6 @@ export function setPlateType(plate, plateType) {
     height = 230;
   }
   plate.plateType = plateType;
-  plate.wells = createWells(plateType.numRows, plateType.numCols);
   plate.rowHeaders = createRowHeaders(plateType.numRows);
   plate.columnHeaders = createColumnHeaders(plateType.numCols);
   plate.overviewWidth = width;
@@ -124,4 +130,28 @@ export function getPlateRows(plate) {
     }
   }
   return rows;
+}
+
+export function importWells(wells, components) {
+  return wells.map((well) => {
+    const importedComponents = [];
+    well.components.forEach((wellComponent) => {
+      const component = components.find(
+        (component) => component.id === wellComponent.id
+      );
+      if (!component) {
+        console.log('NOT FOUND');
+        console.log('well', wellComponent);
+        console.log('components', component);
+      } else {
+        importedComponents.push(createComponent(component));
+      }
+    });
+    return createWell({
+      id: well.id,
+      row: well.row,
+      column: well.column,
+      components: importedComponents,
+    });
+  });
 }

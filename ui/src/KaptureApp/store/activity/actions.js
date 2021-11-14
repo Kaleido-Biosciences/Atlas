@@ -13,32 +13,32 @@ export const { resetState: resetActivity, resetSaveTime } = actions;
 export function loadActivity(name) {
   return async (dispatch, getState) => {
     dispatch(actions.setLoading());
-    try {
-      const plateTypes = await api.fetchPlateTypes();
-      dispatch(actions.setPlateTypes({ plateTypes }));
-      const activityData = await api.fetchActivity(name);
-      let plates = [];
-      if (activityData.platemaps && activityData.platemaps.length) {
-        plates = activityData.platemaps.map((platemap) => {
-          return createPlate(platemap);
-        });
-      }
-      const activity = {
-        id: activityData.id,
-        name: activityData.name,
-        createdTime: activityData.createdTime,
-        updatedTime: activityData.updatedTime,
-        plates,
-        views: [
-          viewActions.getOverview(true),
-          viewActions.getPlateEditor(false),
-          viewActions.getPlateTable(false),
-        ],
-      };
-      dispatch(actions.setActivity({ activity }));
-    } catch (error) {
-      dispatch(actions.setInitializationError({ error: error.message }));
+    // try {
+    const plateTypes = await api.fetchPlateTypes();
+    dispatch(actions.setPlateTypes({ plateTypes }));
+    const activityData = await api.fetchActivity(name);
+    let plates = [];
+    if (activityData.platemaps && activityData.platemaps.length) {
+      plates = activityData.platemaps.map((platemap) => {
+        return createPlate(platemap, activityData.components);
+      });
     }
+    const activity = {
+      id: activityData.id,
+      name: activityData.name,
+      createdTime: activityData.createdTime,
+      updatedTime: activityData.updatedTime,
+      plates,
+      views: [
+        viewActions.getOverview(true),
+        viewActions.getPlateEditor(false),
+        viewActions.getPlateTable(false),
+      ],
+    };
+    dispatch(actions.setActivity({ activity }));
+    // } catch (error) {
+    //   dispatch(actions.setInitializationError({ error: error.message }));
+    // }
   };
 }
 
