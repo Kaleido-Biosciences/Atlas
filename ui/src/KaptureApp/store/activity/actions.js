@@ -17,15 +17,18 @@ export function loadActivity(name) {
       const plateTypes = await api.fetchPlateTypes();
       dispatch(actions.setPlateTypes({ plateTypes }));
       const activityData = await api.fetchActivity(name);
+      let plates = [];
+      if (activityData.platemaps && activityData.platemaps.length) {
+        plates = activityData.platemaps.map((platemap) => {
+          return createPlate(platemap);
+        });
+      }
       const activity = {
         id: activityData.id,
         name: activityData.name,
         createdTime: activityData.createdTime,
         updatedTime: activityData.updatedTime,
-        plates:
-          activityData.platemaps && activityData.platemaps.length
-            ? activityData.platemaps.map((plateMap) => createPlate(plateMap))
-            : [],
+        plates,
         views: [
           viewActions.getOverview(true),
           viewActions.getPlateEditor(false),

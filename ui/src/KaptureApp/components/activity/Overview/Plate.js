@@ -163,7 +163,9 @@ export class Plate extends Component {
             </div>
           </div>
           <div className="flex justify-center">{this.renderPlate()}</div>
-          {plate.numRows > 0 && plate.numCols > 0 ? (
+          {plate.plateType &&
+          plate.plateType.numRows > 0 &&
+          plate.plateType.numCols > 0 ? (
             <div className="flex justify-evenly pt-2">
               <FontAwesomeIcon
                 className="text-gray-200 hover:text-gray-500 cursor-pointer"

@@ -32,36 +32,54 @@ const rowHeaders = [
 
 export function createPlate({
   id = null,
-  numRows = null,
-  numCols = null,
   name = null,
   barcode = null,
-  wells = [],
-  attributes = [],
   plateNumber = null,
+  plateType = null,
+  wells = [],
   overviewPositionTop = null,
   overviewPositionLeft = null,
   overviewWidth = 110,
   overviewHeight = 60,
   selected = false,
 }) {
-  return {
+  const plate = {
     id: id || uuidv4(),
-    numRows,
-    numCols,
     name: name || 'Untitled',
     barcode,
-    wells,
-    attributes,
-    rowHeaders: createRowHeaders(numRows),
-    columnHeaders: createColumnHeaders(numCols),
     plateNumber,
+    plateType,
+    wells,
+    rowHeaders: [],
+    columnHeaders: [],
     overviewPositionTop,
     overviewPositionLeft,
     overviewWidth,
     overviewHeight,
     selected,
   };
+  if (plateType) {
+    setPlateType(plate, plateType);
+  }
+  return plate;
+}
+
+export function setPlateType(plate, plateType) {
+  let width, height;
+  if (plateType.numCols === 12 && plateType.numRows === 8) {
+    width = 130;
+    height = 150;
+  }
+  if (plateType.numCols === 24 && plateType.numRows === 16) {
+    width = 240;
+    height = 230;
+  }
+  plate.plateType = plateType;
+  plate.wells = createWells(plateType.numRows, plateType.numCols);
+  plate.rowHeaders = createRowHeaders(plateType.numRows);
+  plate.columnHeaders = createColumnHeaders(plateType.numCols);
+  plate.overviewWidth = width;
+  plate.overviewHeight = height;
 }
 
 export function createWells(numRows, numCols) {
@@ -97,11 +115,13 @@ export function createColumnHeaders(numCols) {
 
 export function getPlateRows(plate) {
   const rows = [];
-  for (let i = 0; i < plate.numRows; i++) {
-    const start = i * plate.numCols;
-    const end = (i + 1) * plate.numCols;
-    const row = plate.wells.slice(start, end);
-    rows.push(row);
+  if (plate.plateType) {
+    for (let i = 0; i < plate.plateType.numRows; i++) {
+      const start = i * plate.plateType.numCols;
+      const end = (i + 1) * plate.plateType.numCols;
+      const row = plate.wells.slice(start, end);
+      rows.push(row);
+    }
   }
   return rows;
 }
