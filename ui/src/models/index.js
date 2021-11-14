@@ -1,4 +1,3 @@
-export { createComponent } from './component';
 export { createContainer } from './container';
 export {
   createGrid,
