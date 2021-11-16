@@ -105,7 +105,7 @@ function findComponent(componentId, componentArray) {
 
 function setApplyToolComponentsValid(state) {
   const invalidFound = state.applyToolComponents.find((component) => {
-    return !component.isValid;
+    return component.form.errors.length > 0;
   });
   state.applyToolComponentsValid = !invalidFound;
 }

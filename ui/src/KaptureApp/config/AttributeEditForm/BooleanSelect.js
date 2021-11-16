@@ -19,7 +19,7 @@ export class BooleanSelect extends Component {
     const buttonText = selectedOption ? selectedOption.name : 'Select value';
     return (
       <Listbox value={selectedOption} onChange={this.handleChange}>
-        <div className="mt-1 relative">
+        <div className="relative">
           <Listbox.Button className="relative w-32 bg-white border border-gray-300 rounded-md shadow-sm px-2 py-1 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-xxs">
             <span className="w-full inline-flex truncate">
               <span className="truncate">{buttonText}</span>

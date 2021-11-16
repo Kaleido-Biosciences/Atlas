@@ -6,12 +6,19 @@ import classNames from 'classnames';
 
 export class UnitDropdown extends Component {
   handleChange = (option) => {
-    if (this.props.onChange) this.props.onChange(option);
+    if (this.props.onChange) {
+      if (option.id === null) this.props.onChange(null);
+      else this.props.onChange(option);
+    }
   };
   render() {
-    const { options, value } = this.props;
+    const { value } = this.props;
+    const options = [
+      ...this.props.options,
+      { id: null, name: '', abbreviation: 'None' },
+    ];
     const selectedOption = value
-      ? options.find((option) => option.id === value)
+      ? options.find((option) => option.id === value.id)
       : null;
     const buttonText = selectedOption ? selectedOption.abbreviation : 'Unit';
     return (
@@ -96,5 +103,5 @@ export class UnitDropdown extends Component {
 UnitDropdown.propTypes = {
   onChange: PropTypes.func,
   options: PropTypes.array,
-  value: PropTypes.number,
+  value: PropTypes.object,
 };

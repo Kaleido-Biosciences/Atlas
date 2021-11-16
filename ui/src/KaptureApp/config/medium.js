@@ -28,12 +28,6 @@ function createComponent(data, timepoints) {
     selected: true,
     editable: true,
     displayEditForm: false,
-    fields: {
-      timepoints:
-        timepoints || getDefaultTimepoints(DEFAULT_CONCENTRATION, DEFAULT_TIME),
-    },
-    isValid: true,
-    errors: [],
     tooltip: data.tooltip,
     color: COLOR,
     colorCode: COLOR_CODE,
@@ -44,7 +38,10 @@ function createComponent(data, timepoints) {
     darkerBgClass: DARKER_BG_CLASS,
     abbreviation: ABBREVIATION,
     form: {
+      errors: [],
       units: data.units,
+      timepoints:
+        timepoints || getDefaultTimepoints(DEFAULT_CONCENTRATION, DEFAULT_TIME),
     },
   };
   component.description = getDescription(component);

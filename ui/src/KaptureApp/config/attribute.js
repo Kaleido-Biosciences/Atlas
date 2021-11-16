@@ -25,16 +25,6 @@ function createComponent(data) {
     selected: true,
     editable: true,
     displayEditForm: true,
-    fields: {
-      value: {
-        value: '',
-        valueUnitId: '',
-        valueUnitAbbreviation: '',
-      },
-    },
-    //TODO: move isValid and errors into form
-    isValid: false,
-    errors: ['A value is required.'],
     tooltip: data.tooltip,
     color: COLOR,
     colorCode: COLOR_CODE,
@@ -45,11 +35,11 @@ function createComponent(data) {
     darkerBgClass: DARKER_BG_CLASS,
     abbreviation: ABBREVIATION,
     form: {
+      errors: ['A value is required.'],
       value: '',
-      valueUnitId: undefined,
-      valueUnitAbbreviation: '',
-      units: data.units,
       valueType: data.valueType,
+      valueUnit: null,
+      units: data.units,
     },
   };
   return component;
@@ -76,7 +66,7 @@ export const attribute = {
   exportComponent: (component) => {
     return {
       value: component.form.value,
-      valueUnitId: component.form.valueUnitId,
+      valueUnit: component.form.valueUnit,
     };
   },
   editForm: AttributeEditForm,

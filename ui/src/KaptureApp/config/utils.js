@@ -12,40 +12,37 @@ export const getName = (data) => {
   return name;
 };
 
-export const getDefaultTimepoints = (concentration, time) => {
+export function getDefaultTimepoints(concentration, time) {
   return [
     {
       concentration,
-      concentrationUnitId: null,
-      concentrationUnitAbbreviation: '',
+      concentrationUnit: null,
       time,
-      timeUnitId: null,
-      timeUnitAbbreviation: '',
+      timeUnit: null,
     },
   ];
-};
+}
 
 export const getDescription = (component) => {
   let description = '';
   if (component.type === COMPONENT_TYPE_ATTRIBUTE) {
-    const { value, valueUnitId, units } = component.form;
+    const { value, valueUnit } = component.form;
     if (value !== '') {
       if (value === true) description = 'True';
       else if (value === false) description = 'False';
       else description = `${value}`;
-      if (valueUnitId) {
-        const unit = units.value.find((unit) => unit.id === valueUnitId);
-        description += ` ${unit.abbreviation}`;
+      if (valueUnit) {
+        description += ` ${valueUnit.abbreviation}`;
       }
     } else description = '';
   } else {
     if (
-      component.isValid &&
-      component.fields &&
-      component.fields.timepoints &&
-      component.fields.timepoints.length
+      !component.form.errors.length &&
+      component.form &&
+      component.form.timepoints &&
+      component.form.timepoints.length
     ) {
-      description = getTimepointsString(component.fields.timepoints);
+      description = getTimepointsString(component.form.timepoints);
     }
   }
   return description;
@@ -53,12 +50,21 @@ export const getDescription = (component) => {
 
 export const getTimepointsString = (timepoints) => {
   const timepointStrings = timepoints.map((timepoint) => {
-    const timeString = `@ ${timepoint.time} ${timepoint.timeUnitAbbreviation}`;
+    let timeString = '',
+      concString = '';
+    if (timepoint.time || timepoint.time === 0) {
+      timeString = `@ ${timepoint.time}`;
+      if (timepoint.timeUnit) {
+        timeString += ` ${timepoint.timeUnit.abbreviation}`;
+      }
+    }
     if (timepoint.concentration) {
-      return `${timepoint.concentration.toFixed(2)} ${
-        timepoint.concentrationUnitAbbreviation
-      } ${timeString}`;
-    } else return timeString;
+      concString = `${timepoint.concentration.toFixed(2)}`;
+      if (timepoint.concentrationUnit) {
+        concString += ` ${timepoint.concentrationUnit.abbreviation}`;
+      }
+    }
+    return `${concString} ${timeString}`;
   });
   return timepointStrings.join(', ');
 };
@@ -68,12 +74,12 @@ export const exportComponent = (component) => {
     type: component.type,
     id: component.data.id,
     fields: {
-      timepoints: component.fields.timepoints.map((timepoint) => {
+      timepoints: component.form.timepoints.map((timepoint) => {
         return {
           concentration: timepoint.concentration,
-          concentrationUnitId: timepoint.concentrationUnitId,
+          concentrationUnit: timepoint.concentrationUnit,
           time: timepoint.time,
-          timeUnitId: timepoint.timeUnitId,
+          timeUnit: timepoint.timeUnit,
         };
       }),
     },

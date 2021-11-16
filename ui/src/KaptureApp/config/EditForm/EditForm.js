@@ -8,21 +8,19 @@ export class EditForm extends Component {
   handleChange = (timepoints) => {
     if (this.props.onChange) {
       const newComponent = { ...this.props.component };
-      newComponent.fields = {
-        ...newComponent.fields,
+      newComponent.form = {
+        ...newComponent.form,
         timepoints,
       };
       const errors = validate.single(
-        newComponent.fields.timepoints,
+        newComponent.form.timepoints,
         { timepoints: true },
         { fullMessages: false }
       );
       if (!errors) {
-        newComponent.isValid = true;
-        newComponent.errors = [];
+        newComponent.form.errors = [];
       } else {
-        newComponent.isValid = false;
-        newComponent.errors = errors;
+        newComponent.form.errors = errors;
       }
       newComponent.description = getDescription(newComponent);
       this.props.onChange(newComponent);
@@ -34,7 +32,7 @@ export class EditForm extends Component {
       <Timepoints
         concentrationUnits={component.form.units.concentration}
         onChange={this.handleChange}
-        timepoints={component.fields.timepoints}
+        timepoints={component.form.timepoints}
         timeUnits={component.form.units.time}
       />
     );

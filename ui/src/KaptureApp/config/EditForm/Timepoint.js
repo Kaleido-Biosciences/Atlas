@@ -6,32 +6,32 @@ import { UnitDropdown } from './UnitDropdown';
 export class Timepoint extends Component {
   handleConcChange = (e) => {
     if (this.props.onChange) {
-      const values = { ...this.props.timepoint };
-      values.concentration = e.target.value ? parseFloat(e.target.value) : '';
-      this.props.onChange(this.props.index, values);
+      const timepoint = { ...this.props.timepoint };
+      timepoint.concentration = e.target.value
+        ? parseFloat(e.target.value)
+        : '';
+      this.props.onChange(this.props.index, timepoint);
     }
   };
   handleConcUnitChange = (option) => {
     if (this.props.onChange) {
-      const values = { ...this.props.timepoint };
-      values.concentrationUnitId = option.id;
-      values.concentrationUnitAbbreviation = option.abbreviation;
-      this.props.onChange(this.props.index, values);
+      const timepoint = { ...this.props.timepoint };
+      timepoint.concentrationUnit = option;
+      this.props.onChange(this.props.index, timepoint);
     }
   };
   handleTimeChange = (e) => {
     if (this.props.onChange) {
-      const values = { ...this.props.timepoint };
-      values.time = e.target.value ? parseFloat(e.target.value) : '';
-      this.props.onChange(this.props.index, values);
+      const timepoint = { ...this.props.timepoint };
+      timepoint.time = e.target.value ? parseFloat(e.target.value) : '';
+      this.props.onChange(this.props.index, timepoint);
     }
   };
   handleTimeUnitChange = (option) => {
     if (this.props.onChange) {
-      const values = { ...this.props.timepoint };
-      values.timeUnitId = option.id;
-      values.timeUnitAbbreviation = option.abbreviation;
-      this.props.onChange(this.props.index, values);
+      const timepoint = { ...this.props.timepoint };
+      timepoint.timeUnit = option;
+      this.props.onChange(this.props.index, timepoint);
     }
   };
   handleDeleteClick = () => {
@@ -57,7 +57,7 @@ export class Timepoint extends Component {
           <UnitDropdown
             onChange={this.handleConcUnitChange}
             options={this.props.concentrationUnits}
-            value={timepoint.concentrationUnitId}
+            value={timepoint.concentrationUnit}
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ export class Timepoint extends Component {
             <UnitDropdown
               options={this.props.timeUnits}
               onChange={this.handleTimeUnitChange}
-              value={timepoint.timeUnitId}
+              value={timepoint.timeUnit}
             />
           </div>
         </div>

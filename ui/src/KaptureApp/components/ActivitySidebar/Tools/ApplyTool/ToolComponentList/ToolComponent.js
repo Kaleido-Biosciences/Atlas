@@ -29,7 +29,7 @@ export class ToolComponent extends React.Component {
     }
   };
   renderValidationErrors = () => {
-    return this.props.toolComponent.errors.map((error, i) => {
+    return this.props.toolComponent.form.errors.map((error, i) => {
       return <div key={i}>{error}</div>;
     });
   };
@@ -76,7 +76,7 @@ export class ToolComponent extends React.Component {
               component={toolComponent}
               onChange={this.handleEditFormChange}
             />
-            {!toolComponent.isValid && (
+            {toolComponent.form.errors.length > 0 && (
               <div className="text-xs text-white mt-2 font-bold">
                 {this.renderValidationErrors()}
               </div>

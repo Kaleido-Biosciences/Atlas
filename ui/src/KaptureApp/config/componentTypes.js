@@ -60,7 +60,7 @@ export const exportComponent = (component) => {
 export const cloneComponent = (component) => {
   return {
     ...component,
-    fields: JSON.parse(JSON.stringify(component.fields)),
+    form: JSON.parse(JSON.stringify(component.form)),
   };
 };
 
@@ -100,23 +100,23 @@ export const applyComponents = (target, source) => {
     if (!targetComponent) {
       targetComponents.push(sourceComponent);
     } else {
-      if (targetComponent.fields.timepoints) {
-        targetComponent.fields.timepoints.forEach((eTimepoint) => {
-          const index = sourceComponent.fields.timepoints.findIndex(
+      if (targetComponent.form.timepoints) {
+        targetComponent.form.timepoints.forEach((eTimepoint) => {
+          const index = sourceComponent.form.timepoints.findIndex(
             (timepoint) => timepoint.time === eTimepoint.time
           );
           if (index === -1) {
-            sourceComponent.fields.timepoints.push(eTimepoint);
+            sourceComponent.form.timepoints.push(eTimepoint);
           }
         });
-        sourceComponent.fields.timepoints.sort((a, b) => {
+        sourceComponent.form.timepoints.sort((a, b) => {
           return a.time - b.time;
         });
+        sourceComponent.description = getDescription(sourceComponent);
       }
       const index = targetComponents.findIndex(
         (tComponent) => tComponent.id === sourceComponent.id
       );
-      sourceComponent.description = getDescription(sourceComponent);
       targetComponents.splice(index, 1, sourceComponent);
     }
   });
