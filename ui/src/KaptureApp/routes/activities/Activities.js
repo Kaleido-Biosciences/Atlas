@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Spinner } from 'KaptureApp/components/ui/Spinner';
 import { Activity } from 'KaptureApp/components';
 import styles from './Activities.module.css';
 
@@ -16,7 +17,11 @@ export class Activities extends Component {
   render() {
     let content;
     if (this.props.loading) {
-      content = <div>Loading</div>;
+      content = (
+        <div className="w-full pt-10 flex items-center justify-center">
+          <Spinner />
+        </div>
+      );
     } else if (this.props.initializationError) {
       content = <div>Error</div>;
     } else if (this.props.initialized) {
