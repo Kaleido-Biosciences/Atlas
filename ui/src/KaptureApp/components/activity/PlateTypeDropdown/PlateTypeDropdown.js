@@ -5,7 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 export class PlateTypeDropdown extends Component {
   handleClick = (plateType) => {
     if (this.props.onSelect) {
-      this.props.onSelect(plateType.id);
+      this.props.onSelect(plateType);
     }
   };
   render() {

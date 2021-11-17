@@ -70,10 +70,7 @@ const activity = createSlice({
       state.plateTypes = action.payload.plateTypes;
     },
     setPlateType(state, action) {
-      const { plateIds, plateTypeId } = action.payload;
-      const plateType = state.plateTypes.find(
-        (plateType) => plateType.id === plateTypeId
-      );
+      const { plateIds, plateType } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
         setPlateType(plate, plateType);

@@ -13,8 +13,8 @@ export class Overview extends Component {
       return selectedIds;
     }, []);
   };
-  handleSetPlateType = (plateTypeId) => {
-    this.props.onSetPlateType(this.getSelectedPlateIds(), plateTypeId);
+  handleSetPlateType = (plateType) => {
+    this.props.onSetPlateType(this.getSelectedPlateIds(), plateType);
   };
   handleViewPlateInEditor = (plateId) => {
     this.props.onSwitchToView('PlateEditor', plateId);
