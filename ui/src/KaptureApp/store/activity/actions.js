@@ -18,9 +18,9 @@ export function loadActivity(name) {
     dispatch(actions.setPlateTypes({ plateTypes }));
     const activityData = await api.fetchActivity(name);
     let plates = [];
-    if (activityData.platemaps && activityData.platemaps.length) {
-      plates = activityData.platemaps.map((platemap) => {
-        return createPlate(platemap, activityData.components);
+    if (activityData.plates && activityData.plates.length) {
+      plates = activityData.plates.map((plate) => {
+        return createPlate(plate, activityData.components);
       });
     }
     const activity = {
