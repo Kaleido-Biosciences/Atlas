@@ -157,3 +157,12 @@ export function importWells(wells, components) {
     });
   });
 }
+
+export function copyPlate(target, source) {
+  target.plateType = source.plateType;
+  target.columnHeaders = source.columnHeaders;
+  target.rowHeaders = source.rowHeaders;
+  target.overviewWidth = source.overviewWidth;
+  target.overviewHeight = source.overviewHeight;
+  target.wells = JSON.parse(JSON.stringify(source.wells));
+}

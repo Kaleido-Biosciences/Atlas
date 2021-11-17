@@ -64,7 +64,7 @@ export class Overview extends Component {
         const plate = this.props.plates.find(
           (plate) => plate.id === selectedIds[0]
         );
-        if (plate.plateTypeId) plateIdToCopy = plate.id;
+        if (plate.plateType) plateIdToCopy = plate.id;
       }
       this.props.onCopyPlate(plateIdToCopy);
     }

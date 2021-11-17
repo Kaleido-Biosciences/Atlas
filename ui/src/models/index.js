@@ -13,5 +13,6 @@ export {
   createColumnHeaders,
   getPlateRows,
   setPlateType,
+  copyPlate,
 } from './plate';
 export { createWell } from './well';

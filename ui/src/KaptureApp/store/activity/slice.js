@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setPlateType, createWells } from 'models';
+import { setPlateType, createWells, copyPlate } from 'models';
 
 const initialSaveTime = {
   savePending: false,
@@ -103,19 +103,12 @@ const activity = createSlice({
     },
     pasteToPlates(state, action) {
       if (state.plateToCopy) {
-        const plateToCopy = findPlate(state.plateToCopy, state.plates);
-        if (plateToCopy && plateToCopy.plateTypeId) {
+        const sourcePlate = findPlate(state.plateToCopy, state.plates);
+        if (sourcePlate && sourcePlate.plateType) {
           const targetPlateIds = action.payload.plateIds;
           targetPlateIds.forEach((targetPlateId) => {
             const targetPlate = findPlate(targetPlateId, state.plates);
-            targetPlate.plateTypeId = plateToCopy.plateTypeId;
-            targetPlate.numCols = plateToCopy.numCols;
-            targetPlate.numRows = plateToCopy.numRows;
-            targetPlate.columnHeaders = plateToCopy.columnHeaders;
-            targetPlate.rowHeaders = plateToCopy.rowHeaders;
-            targetPlate.overviewWidth = plateToCopy.overviewWidth;
-            targetPlate.overviewHeight = plateToCopy.overviewHeight;
-            targetPlate.wells = JSON.parse(JSON.stringify(plateToCopy.wells));
+            copyPlate(targetPlate, sourcePlate);
           });
         }
       }
