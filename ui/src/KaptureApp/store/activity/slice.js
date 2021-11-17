@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setPlateType } from 'models';
+import { setPlateType, createWells } from 'models';
 
 const initialSaveTime = {
   savePending: false,
@@ -77,6 +77,7 @@ const activity = createSlice({
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
         setPlateType(plate, plateType);
+        createWells(plate);
       });
     },
     updatePlateWells(state, action) {

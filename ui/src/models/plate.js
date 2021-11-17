@@ -88,17 +88,19 @@ export function setPlateType(plate, plateType) {
   plate.overviewHeight = height;
 }
 
-export function createWells(numRows, numCols) {
-  const wells = [];
-  for (let i = 0; i < numRows; i++) {
-    const row = rowHeaders[i];
-    for (let j = 0; j < numCols; j++) {
-      const column = j + 1;
-      const name = `${row}${column}`;
-      wells.push(createWell({ row, column, name }));
+export function createWells(plate) {
+  if (plate.plateType) {
+    const wells = [];
+    for (let i = 0; i < plate.plateType.numRows; i++) {
+      const row = rowHeaders[i];
+      for (let j = 0; j < plate.plateType.numCols; j++) {
+        const column = j + 1;
+        const name = `${row}${column}`;
+        wells.push(createWell({ row, column, name }));
+      }
     }
+    plate.wells = wells;
   }
-  return wells;
 }
 
 export function createRowHeaders(numRows) {
