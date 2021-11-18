@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-
 import { Tools } from './Tools';
-import { tools } from 'KaptureApp/store';
+import { tools } from 'store';
 
 const mapState = (state, props) => {
   return {

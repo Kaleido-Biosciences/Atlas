@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ActivitySearch as ActivitySearchComponent } from './ActivitySearch';
-import { activitySearch } from 'KaptureApp/store';
+import { activitySearch } from 'store';
 
 const onUnmount = () => {
   return activitySearch.resetActivitySearch();

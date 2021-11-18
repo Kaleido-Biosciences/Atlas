@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Overview } from './Overview';
-import { activity } from 'KaptureApp/store';
+import { activity } from 'store';
 
 const mapState = (state, props) => {
   return {

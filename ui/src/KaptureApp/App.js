@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './fontAwesome';
 import { version } from '../../package.json';
 import { Header } from 'KaptureApp/components';
-import { store } from 'KaptureApp/store';
+import { store } from 'store';
 import { Home, Activities } from 'KaptureApp/routes';
 import styles from './App.module.css';
 

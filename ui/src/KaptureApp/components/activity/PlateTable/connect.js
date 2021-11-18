@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { PlateTable } from './PlateTable';
-import { activity, tools } from 'KaptureApp/store';
+import { activity, tools } from 'store';
 
 const mapState = (state, props) => {
   return {
