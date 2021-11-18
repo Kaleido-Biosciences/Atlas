@@ -1,8 +1,6 @@
 import _ from 'lodash';
-
 import { actions } from './slice';
 import * as selectors from './selectors';
-// import { editor } from '../editor';
 import { activity } from '../activity';
 import { api } from 'api';
 import {
@@ -28,26 +26,8 @@ export const { resetComponentSearch } = actions;
 export const setActiveTool = (tool) => {
   return (dispatch, getState) => {
     dispatch(_setActiveTool({ tool }));
-    // const clickMode = selectors.selectClickMode(getState());
-    // if (tool === 'remove' && clickMode === 'apply') {
-    //   dispatch(_setClickMode({ clickMode: 'remove' }));
-    // } else if (tool === 'apply' && clickMode === 'remove') {
-    //   dispatch(_setClickMode({ clickMode: 'apply' }));
-    // }
   };
 };
-
-// export const setClickMode = (clickMode) => {
-//   return (dispatch, getState) => {
-//     dispatch(_setClickMode({ clickMode }));
-//     if (clickMode === 'apply' || clickMode === 'remove') {
-//       const activeId = editor.selectActiveGridId(getState());
-//       if (activeId) {
-//         dispatch(editor.deselectGridContainers([activeId]));
-//       }
-//     }
-//   };
-// };
 
 export const addApplyToolComponent = (component) => {
   return (dispatch, getState) => {
@@ -180,57 +160,6 @@ export const removeComponentTypesFromSelectedWells = () => {
     });
   };
 };
-
-const removeComponentsFromPositions = (positions, componentTypesToRemove) => {
-  const actionPositions = [];
-  positions.forEach((position) => {
-    if (position.container) {
-      const newComponents = position.container.components.filter(
-        (component) => {
-          return !componentTypesToRemove.includes(component.type);
-        }
-      );
-      actionPositions.push({
-        row: position.row,
-        column: position.column,
-        components: newComponents,
-      });
-    }
-  });
-  return actionPositions;
-};
-
-// export const removeComponentFromPosition = wrapWithChangeHandler(
-//   (gridId, position, componentId) => {
-//     return (dispatch, getState) => {
-//       const grids = editor.selectGrids(getState());
-//       const grid = grids.find((grid) => grid.id === gridId);
-//       const flattened = grid.data.flat();
-//       const gridPosition = flattened.find((gridPosition) => {
-//         return (
-//           gridPosition.row === position.row &&
-//           gridPosition.column === position.column
-//         );
-//       });
-//       if (gridPosition.container) {
-//         const newComponents = gridPosition.container.components.filter(
-//           (component) => {
-//             return component.id !== componentId;
-//           }
-//         );
-//         dispatch(
-//           editor.setGridComponents(gridId, [
-//             {
-//               row: position.row,
-//               column: position.column,
-//               components: newComponents,
-//             },
-//           ])
-//         );
-//       }
-//     };
-//   }
-// );
 
 export const toggleComponentDisplayEditForm = (component) => {
   return (dispatch, getState) => {
