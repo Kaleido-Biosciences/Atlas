@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { ComponentTooltip } from 'AtlasUI/components';
+import { ComponentTooltip } from 'KaptureApp/components/activity/ComponentTooltip';
 
 export class Component extends React.Component {
   handleClick = () => {
