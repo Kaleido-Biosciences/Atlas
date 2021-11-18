@@ -70,11 +70,6 @@ export const setGridComponents = gridActions.setGridComponents;
 export const setActiveView = viewActions.setActiveView;
 export const updateViewData = viewActions.updateViewData;
 
-async function importGrids(grids) {
-  const kaptureComponents = await api.fetchComponentsForGrids(grids);
-  //return api.importGrids(grids, kaptureComponents);
-}
-
 function getStringifiedData(grids, views) {
   return JSON.stringify(grids) + JSON.stringify(views);
 }
