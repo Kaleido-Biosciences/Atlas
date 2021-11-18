@@ -5,13 +5,11 @@ import { activity } from './activity';
 import { activitySearch } from './activitySearch';
 import { print } from './print';
 import { tools } from './tools';
-import { editorImport } from './editorImport';
 
 export const store = configureStore({
   reducer: {
     activity: activity.reducer,
     activitySearch: activitySearch.reducer,
-    editorImport: editorImport.reducer,
     tools: tools.reducer,
     print: print.reducer,
   },
