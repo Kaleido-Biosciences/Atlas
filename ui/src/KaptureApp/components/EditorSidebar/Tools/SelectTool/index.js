@@ -1,1 +1,0 @@
-export { SelectTool } from './connect';

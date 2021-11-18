@@ -1,1 +1,0 @@
-export { ImportComponentsModal } from './connect';
