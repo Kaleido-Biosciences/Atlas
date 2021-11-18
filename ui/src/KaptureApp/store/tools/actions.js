@@ -10,8 +10,6 @@ import {
   applyComponents,
 } from 'KaptureApp/config/componentTypes';
 
-const { wrapWithChangeHandler } = activity;
-
 const {
   setActiveTool: _setActiveTool,
   setComponentSearchTerm: _setComponentSearchTerm,
