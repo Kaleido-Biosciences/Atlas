@@ -1,4 +1,4 @@
-.containerComponent {
+.wellComponent {
   align-items: center;
   border-radius: 4px;
   color: #fff;
@@ -9,7 +9,7 @@
   padding: 6px 4px;
 }
 
-.compactContainerComponent {
+.compactWellComponent {
   align-items: center;
   border-radius: 4px;
   color: #fff;

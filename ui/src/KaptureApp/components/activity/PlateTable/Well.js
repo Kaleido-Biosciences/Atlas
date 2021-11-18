@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ContainerComponent } from 'AtlasUI/components';
+import { WellComponent } from 'KaptureApp/components/activity/WellComponent';
 import styles from './PlateTable.module.css';
 
 export class Well extends Component {
@@ -19,7 +19,7 @@ export class Well extends Component {
     return well.components.map((component) => {
       return (
         <div className={styles.wellComponent} key={component.id}>
-          <ContainerComponent
+          <WellComponent
             component={component}
             enableRemove={this.props.enableRemoveComponent}
             key={component.id}

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ComponentTooltip } from 'KaptureApp/components/activity/ComponentTooltip';
-import styles from './ContainerComponent.module.css';
+import styles from './WellComponent.module.css';
 
-export class ContainerComponent extends Component {
+export class WellComponent extends Component {
   handleRemoveClick = (e) => {
     e.stopPropagation();
     if (this.props.onRemove) {
@@ -15,8 +15,8 @@ export class ContainerComponent extends Component {
     const { component, position } = this.props;
     const divProps = {
       className: this.props.compact
-        ? styles.compactContainerComponent
-        : styles.containerComponent,
+        ? styles.compactWellComponent
+        : styles.wellComponent,
       style: {
         background: component.colorCode,
       },
@@ -57,7 +57,7 @@ export class ContainerComponent extends Component {
   }
 }
 
-ContainerComponent.propTypes = {
+WellComponent.propTypes = {
   compact: PropTypes.bool,
   component: PropTypes.object.isRequired,
   enableRemove: PropTypes.bool,
@@ -66,6 +66,6 @@ ContainerComponent.propTypes = {
   position: PropTypes.object.isRequired,
 };
 
-ContainerComponent.defaultProps = {
+WellComponent.defaultProps = {
   enableRemove: false,
 };

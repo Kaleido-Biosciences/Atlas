@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { ContainerComponent } from 'AtlasUI/components';
+import { WellComponent } from 'KaptureApp/components/activity/WellComponent';
 import styles from './PlateGrid.module.css';
 
 export class Well extends PureComponent {
@@ -18,7 +18,7 @@ export class Well extends PureComponent {
   renderComponents() {
     return this.props.well.components.map((component) => {
       return (
-        <ContainerComponent
+        <WellComponent
           compact={this.props.componentSettings.compact}
           component={component}
           enableRemove={this.props.enableRemoveComponent}
