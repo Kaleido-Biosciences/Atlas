@@ -33,7 +33,6 @@
     "react-to-print": "^2.12.6",
     "react-tooltip": "^4.2.21",
     "redux-logger": "^3.0.6",
-    "semantic-ui-react": "^2.0.3",
     "uuid": "^8.3.2",
     "validate.js": "^0.13.1",
     "web-vitals": "^1.1.2"
