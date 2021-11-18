@@ -5,7 +5,7 @@ import './fontAwesome';
 import { version } from '../../package.json';
 import { Header } from 'KaptureApp/components';
 import { store } from 'store';
-import { Home, Activities } from 'KaptureApp/routes';
+import { Home, Activities } from 'routes';
 import styles from './App.module.css';
 
 class App extends Component {
