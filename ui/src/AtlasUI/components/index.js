@@ -1,6 +1,5 @@
 export { Print } from './print/Print';
 export { PrintActions } from './print/PrintActions';
-export { PopupButton } from './ui/PopupButton';
 export { ComponentTypeCircle } from './editor/ComponentTypeCircle';
 export { Editor } from './editor/Editor';
 export { GridTabs } from './editor/GridTabs';
