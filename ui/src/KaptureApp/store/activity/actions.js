@@ -72,7 +72,7 @@ export const updateViewData = viewActions.updateViewData;
 
 async function importGrids(grids) {
   const kaptureComponents = await api.fetchComponentsForGrids(grids);
-  return api.importGrids(grids, kaptureComponents);
+  //return api.importGrids(grids, kaptureComponents);
 }
 
 function getStringifiedData(grids, views) {
