@@ -8,7 +8,6 @@ import { editor } from './editor';
 import { print } from './print';
 import { tools } from './tools';
 import { editorImport } from './editorImport';
-import './validators';
 
 export const store = configureStore({
   reducer: {

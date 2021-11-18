@@ -11,6 +11,7 @@ import {
   COMPONENT_TYPE_ATTRIBUTE,
 } from './constants';
 import { getDescription } from './utils';
+import './validators';
 
 export {
   COMPONENT_TYPE_COMMUNITY,
