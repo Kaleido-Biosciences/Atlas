@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ApplyTool } from './ApplyTool';
 import { RemoveTool } from './RemoveTool';
 import { SelectTool } from './SelectTool';
-import { ButtonGroup } from 'KaptureApp/components';
+import { ButtonGroup } from 'ui';
 import styles from './Tools.module.css';
 
 export class Tools extends React.Component {
