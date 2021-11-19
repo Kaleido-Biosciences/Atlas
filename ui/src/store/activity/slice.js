@@ -191,15 +191,15 @@ const activity = createSlice({
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
         if (plate.wells) {
-          for (let i = 0; i < plate.numRows; i++) {
-            const start = i * plate.numCols;
-            const end = (i + 1) * plate.numCols;
+          for (let i = 0; i < plate.plateType.numRows; i++) {
+            const start = i * plate.plateType.numCols;
+            const end = (i + 1) * plate.plateType.numCols;
             const row = plate.wells.slice(start, end);
             row.forEach((well, j) => {
-              if (i === 0 || i === plate.numRows - 1) {
+              if (i === 0 || i === plate.plateType.numRows - 1) {
                 well.selected = false;
               } else {
-                if (j === 0 || j === plate.numCols - 1) {
+                if (j === 0 || j === plate.plateType.numCols - 1) {
                   well.selected = false;
                 } else well.selected = true;
               }
@@ -213,15 +213,15 @@ const activity = createSlice({
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
         if (plate.wells) {
-          for (let i = 0; i < plate.numRows; i++) {
-            const start = i * plate.numCols;
-            const end = (i + 1) * plate.numCols;
+          for (let i = 0; i < plate.plateType.numRows; i++) {
+            const start = i * plate.plateType.numCols;
+            const end = (i + 1) * plate.plateType.numCols;
             const row = plate.wells.slice(start, end);
             row.forEach((well, j) => {
-              if (i === 0 || i === plate.numRows - 1) {
+              if (i === 0 || i === plate.plateType.numRows - 1) {
                 well.selected = true;
               } else {
-                if (j === 0 || j === plate.numCols - 1) {
+                if (j === 0 || j === plate.plateType.numCols - 1) {
                   well.selected = true;
                 } else well.selected = false;
               }
