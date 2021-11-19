@@ -7,7 +7,7 @@ import { Header } from '../Header';
 import { PlateEditor } from '../PlateEditor';
 import SplitPane from 'react-split-pane';
 import styles from './Activity.module.css';
-import { ActivitySidebar } from '../../ActivitySidebar';
+import { Sidebar } from '../Sidebar';
 
 export class Activity extends Component {
   renderActiveView() {
@@ -44,7 +44,7 @@ export class Activity extends Component {
               />
               <div className={styles.activeView}>{this.renderActiveView()}</div>
             </div>
-            <ActivitySidebar />
+            <Sidebar />
           </SplitPane>
         </div>
       </div>
