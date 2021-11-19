@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Header } from './Header';
-import { Scrollbars } from 'KaptureApp/components';
+import { Scrollbars } from 'ui';
 import { Well } from './Well';
 import styles from './PlateTable.module.css';
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Plate } from './Plate';
 import { Button } from 'KaptureApp/components';
 import { PlateTypeDropdown } from '../PlateTypeDropdown';
-// import { Scrollbars } from 'KaptureApp/components';
+// import { Scrollbars } from 'ui';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {

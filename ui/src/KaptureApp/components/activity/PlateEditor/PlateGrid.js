@@ -4,7 +4,7 @@ import { ColumnHeaders } from './ColumnHeaders';
 import { RowHeaders } from './RowHeaders';
 import { Wells } from './Wells';
 import styles from './PlateGrid.module.css';
-import { Scrollbars } from 'KaptureApp/components';
+import { Scrollbars } from 'ui';
 import { getPlateRows } from 'models';
 
 export class PlateGrid extends Component {
