@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { store } from 'store';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import './fontAwesome';
-import { version } from '../package.json';
-import { Header } from 'KaptureApp/components';
+import { version } from '../../package.json';
+import { Header } from './Header';
 import { Home, Activities } from 'routes';
 import styles from './App.module.css';
 
-class App extends Component {
+export class App extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -30,5 +29,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
