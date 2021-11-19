@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from 'KaptureApp/App';
+import App from './App';
 import './index.css';
 //import reportWebVitals from './reportWebVitals';
 
