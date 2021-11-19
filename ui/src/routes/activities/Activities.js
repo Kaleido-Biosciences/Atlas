@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'KaptureApp/components/ui/Spinner';
 import { Activity } from 'KaptureApp/components';
-import styles from './Activities.module.css';
 
 export class Activities extends Component {
   componentDidMount() {
@@ -27,7 +26,7 @@ export class Activities extends Component {
     } else if (this.props.initialized) {
       content = <Activity />;
     }
-    return <div className={styles.activities}>{content}</div>;
+    return <div className="h-full">{content}</div>;
   }
 }
 
