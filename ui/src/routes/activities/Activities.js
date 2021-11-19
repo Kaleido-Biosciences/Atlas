@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner } from 'KaptureApp/components/ui/Spinner';
+import { Spinner } from 'ui';
 import { Activity } from 'KaptureApp/components';
 
 export class Activities extends Component {
