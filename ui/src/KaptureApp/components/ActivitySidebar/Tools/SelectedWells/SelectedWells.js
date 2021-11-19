@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'KaptureApp/components';
-
+import { Button } from 'ui';
 import styles from './SelectedWells.module.css';
 
 export class SelectedWells extends Component {

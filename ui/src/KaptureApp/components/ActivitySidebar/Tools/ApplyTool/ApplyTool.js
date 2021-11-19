@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Button } from 'KaptureApp/components';
+import { Button } from 'ui';
 import { ComponentSearch } from './ComponentSearch';
 import { ToolComponentList } from './ToolComponentList';
 import { SelectedWells } from '../SelectedWells';

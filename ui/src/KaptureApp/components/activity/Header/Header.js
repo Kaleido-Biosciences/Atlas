@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'KaptureApp/components';
+import { Button } from 'ui';
 
 export class Header extends Component {
   render() {

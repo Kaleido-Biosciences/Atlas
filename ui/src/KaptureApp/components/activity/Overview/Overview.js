@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Plate } from './Plate';
-import { Button } from 'KaptureApp/components';
+import { Button } from 'ui';
 import { PlateTypeDropdown } from '../PlateTypeDropdown';
 // import { Scrollbars } from 'ui';
 import styles from './Overview.module.css';

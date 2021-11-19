@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Search } from 'ui';
-import { Button } from 'KaptureApp/components/ui/Button';
+import { Button } from 'ui';
 import { ComponentList } from '../ComponentList';
 import styles from './ApplyTool.module.css';
 

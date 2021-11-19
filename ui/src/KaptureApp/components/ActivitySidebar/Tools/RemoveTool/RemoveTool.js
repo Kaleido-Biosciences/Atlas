@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'KaptureApp/components';
+import { Button } from 'ui';
 import { RemoveToolOption } from './RemoveToolOption';
 import { SelectedWells } from '../SelectedWells';
 import styles from './RemoveTool.module.css';
