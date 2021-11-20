@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { WellComponent } from 'KaptureApp/components/activity/WellComponent';
+import { WellComponent } from '../WellComponent';
 import styles from './PlateGrid.module.css';
 
 export class Well extends PureComponent {

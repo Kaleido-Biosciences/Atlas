@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ComponentTooltip } from 'KaptureApp/components/activity/ComponentTooltip';
+import { ComponentTooltip } from '../ComponentTooltip';
 import styles from './WellComponent.module.css';
 
 export class WellComponent extends Component {

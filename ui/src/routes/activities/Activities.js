@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'ui';
-import { Activity } from 'KaptureApp/components';
+import { Activity } from './Activity';
 
 export class Activities extends Component {
   componentDidMount() {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Overview } from '../Overview';
-import { PlateTable } from '../PlateTable';
-import { ViewTabs } from '../ViewTabs';
-import { Header } from '../Header';
-import { PlateEditor } from '../PlateEditor';
+import { Overview } from './Overview';
+import { PlateTable } from './PlateTable';
+import { ViewTabs } from './ViewTabs';
+import { Header } from './Header';
+import { PlateEditor } from './PlateEditor';
 import SplitPane from 'react-split-pane';
 import styles from './Activity.module.css';
-import { Sidebar } from '../Sidebar';
+import { Sidebar } from './Sidebar';
 
 export class Activity extends Component {
   renderActiveView() {
