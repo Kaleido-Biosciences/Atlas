@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from 'KaptureApp/config/api';
+import { API_URL } from 'config/api';
 import { exportComponent } from 'KaptureApp/config/componentTypes';
 
 export async function searchActivities(searchTerm) {
