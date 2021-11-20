@@ -7,7 +7,6 @@ const SINGULAR = 'Community';
 const PLURAL = 'Communities';
 const DEFAULT_CONCENTRATION = 1.0;
 const DEFAULT_TIME = 0;
-const COLOR = 'green';
 const COLOR_CODE = 'rgba(5, 150, 105, 1)';
 const DARK_CODE = 'rgba(4, 120, 87, 1)';
 const DARKER_CODE = 'rgba(6, 95, 70, 1)';
@@ -29,7 +28,6 @@ function createComponent(data, timepoints) {
     editable: true,
     displayEditForm: false,
     tooltip: data.tooltip,
-    color: COLOR,
     colorCode: COLOR_CODE,
     darkCode: DARK_CODE,
     darkerCode: DARKER_CODE,
@@ -53,7 +51,6 @@ export const community = {
   singular: SINGULAR,
   plural: PLURAL,
   abbreviation: ABBREVIATION,
-  typeColor: COLOR,
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,
@@ -63,8 +60,6 @@ export const community = {
   allowExcelImport: true,
   defaultConcentration: DEFAULT_CONCENTRATION,
   defaultTime: DEFAULT_TIME,
-  allowAddTimepoint: true,
-  enableOptions: ['concentration'],
   createComponent,
   exportComponent,
   editForm: EditForm,

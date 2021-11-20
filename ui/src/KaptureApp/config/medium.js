@@ -7,7 +7,6 @@ const SINGULAR = 'Medium';
 const PLURAL = 'Media';
 const DEFAULT_CONCENTRATION = '';
 const DEFAULT_TIME = 0;
-const COLOR = 'orange';
 const COLOR_CODE = 'rgba(245, 158, 11, 1)';
 const DARK_CODE = 'rgba(217, 119, 6, 1';
 const DARKER_CODE = 'rgba(180, 83, 9, 1)';
@@ -29,7 +28,6 @@ function createComponent(data, timepoints) {
     editable: true,
     displayEditForm: false,
     tooltip: data.tooltip,
-    color: COLOR,
     colorCode: COLOR_CODE,
     darkCode: DARK_CODE,
     darkerCode: DARKER_CODE,
@@ -53,7 +51,6 @@ export const medium = {
   singular: SINGULAR,
   plural: PLURAL,
   abbreviation: ABBREVIATION,
-  typeColor: COLOR,
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,
@@ -63,8 +60,6 @@ export const medium = {
   allowExcelImport: true,
   defaultConcentration: DEFAULT_CONCENTRATION,
   defaultTime: DEFAULT_TIME,
-  allowAddTimepoint: false,
-  enableOptions: [],
   createComponent,
   exportComponent,
   editForm: EditForm,

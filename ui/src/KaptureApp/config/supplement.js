@@ -7,7 +7,6 @@ const SINGULAR = 'Supplement';
 const PLURAL = 'Supplements';
 const DEFAULT_CONCENTRATION = 0.5;
 const DEFAULT_TIME = 0;
-const COLOR = 'black';
 const COLOR_CODE = 'rgba(55, 65, 81, 1)';
 const DARK_CODE = 'rgba(31, 41, 55, 1)';
 const DARKER_CODE = 'rgba(17, 24, 39, 1)';
@@ -29,7 +28,6 @@ function createComponent(data, timepoints) {
     editable: true,
     displayEditForm: false,
     tooltip: data.tooltip,
-    color: COLOR,
     colorCode: COLOR_CODE,
     darkCode: DARK_CODE,
     darkerCode: DARKER_CODE,
@@ -53,7 +51,6 @@ export const supplement = {
   singular: SINGULAR,
   plural: PLURAL,
   abbreviation: ABBREVIATION,
-  typeColor: COLOR,
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,
@@ -63,8 +60,6 @@ export const supplement = {
   allowExcelImport: true,
   defaultConcentration: DEFAULT_CONCENTRATION,
   defaultTime: DEFAULT_TIME,
-  allowAddTimepoint: true,
-  enableOptions: ['concentration'],
   createComponent,
   exportComponent,
   editForm: EditForm,

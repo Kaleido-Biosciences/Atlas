@@ -4,7 +4,6 @@ import { AttributeEditForm } from './AttributeEditForm';
 const TYPE = COMPONENT_TYPE_ATTRIBUTE;
 const SINGULAR = 'Attribute';
 const PLURAL = 'Attributes';
-const COLOR = 'red';
 const COLOR_CODE = 'rgba(220, 38, 38, 1)';
 const DARK_CODE = 'rgba(185, 28, 28, 1)';
 const DARKER_CODE = 'rgba(153, 27, 27, 1)';
@@ -26,7 +25,6 @@ function createComponent(data) {
     editable: true,
     displayEditForm: true,
     tooltip: data.tooltip,
-    color: COLOR,
     colorCode: COLOR_CODE,
     darkCode: DARK_CODE,
     darkerCode: DARKER_CODE,
@@ -50,7 +48,6 @@ export const attribute = {
   singular: SINGULAR,
   plural: PLURAL,
   abbreviation: ABBREVIATION,
-  typeColor: COLOR,
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,
@@ -60,8 +57,6 @@ export const attribute = {
   allowExcelImport: false,
   defaultConcentration: null,
   defaultTime: null,
-  allowAddTimepoint: false,
-  enableOptions: ['concentration'],
   createComponent,
   exportComponent: (component) => {
     return {
