@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createWell } from './well';
-import { createComponent } from 'KaptureApp/config/componentTypes';
+import { ComponentService } from 'services/ComponentService';
 
 const rowHeaders = [
   'A',
@@ -146,7 +146,7 @@ export function importWells(wells, components) {
         console.log('well', wellComponent);
         console.log('components', component);
       } else {
-        importedComponents.push(createComponent(component));
+        importedComponents.push(ComponentService.createComponent(component));
       }
     });
     return createWell({

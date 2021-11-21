@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from 'config/api';
-import { exportComponent } from 'KaptureApp/config/componentTypes';
+import { ComponentService } from 'services/ComponentService';
 
 export async function searchActivities(searchTerm) {
   const response = await axios.get(
@@ -54,7 +54,7 @@ function exportPlate(plate) {
       };
       if (well.components && well.components.length) {
         exportedWell.components = well.components.map((component) =>
-          exportComponent(component)
+          ComponentService.exportComponent(component)
         );
       }
       return exportedWell;

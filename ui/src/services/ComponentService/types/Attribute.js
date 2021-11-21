@@ -1,5 +1,5 @@
-import { COMPONENT_TYPE_ATTRIBUTE } from './constants';
-import { AttributeEditForm } from './AttributeEditForm';
+import { COMPONENT_TYPE_ATTRIBUTE } from '../constants';
+import { AttributeEditForm } from '../forms/AttributeEditForm';
 
 const TYPE = COMPONENT_TYPE_ATTRIBUTE;
 const SINGULAR = 'Attribute';
@@ -10,7 +10,6 @@ const DARKER_CODE = 'rgba(153, 27, 27, 1)';
 const DEFAULT_BG_CLASS = 'bg-red-600';
 const DARK_BG_CLASS = 'bg-red-700';
 const DARKER_BG_CLASS = 'bg-red-800';
-const ABBREVIATION = 'A';
 
 function createComponent(data) {
   const component = {
@@ -31,7 +30,6 @@ function createComponent(data) {
     defaultBgClass: DEFAULT_BG_CLASS,
     darkBgClass: DARK_BG_CLASS,
     darkerBgClass: DARKER_BG_CLASS,
-    abbreviation: ABBREVIATION,
     form: {
       errors: ['A value is required.'],
       value: '',
@@ -43,11 +41,10 @@ function createComponent(data) {
   return component;
 }
 
-export const attribute = {
+export const Attribute = {
   name: TYPE,
   singular: SINGULAR,
   plural: PLURAL,
-  abbreviation: ABBREVIATION,
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,

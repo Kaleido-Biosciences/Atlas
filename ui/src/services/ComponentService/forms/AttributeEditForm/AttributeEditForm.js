@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
-import { getDescription } from '../utils';
+import { getDescription } from '../../utils';
 import { BooleanSelect } from './BooleanSelect';
-import { UnitDropdown } from '../EditForm/UnitDropdown';
+import { UnitDropdown } from '../UnitDropdown';
 
 export class AttributeEditForm extends Component {
   handleChange = (value, valueUnit) => {

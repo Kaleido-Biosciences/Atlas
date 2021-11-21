@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { UnitDropdown } from './UnitDropdown';
+import { UnitDropdown } from '../UnitDropdown';
 
 export class Timepoint extends Component {
   handleConcChange = (e) => {

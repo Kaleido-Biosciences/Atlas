@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { RemoveTool } from './RemoveTool';
-import { COMPONENT_TYPES } from 'KaptureApp/config/componentTypes';
+import { ComponentService } from 'services/ComponentService';
 import { activity, tools } from 'store';
 
 const mapState = (state, props) => {
   return {
     activeView: activity.selectActiveView(state),
-    componentTypes: COMPONENT_TYPES,
+    componentTypes: ComponentService.getAllTypes(),
     componentTypesToRemove: tools.selectComponentTypesToRemove(state),
     plates: activity.selectPlates(state),
   };

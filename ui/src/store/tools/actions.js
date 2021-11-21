@@ -3,10 +3,7 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import { activity } from '../activity';
 import { api } from 'api';
-import {
-  createComponent,
-  applyComponents,
-} from 'KaptureApp/config/componentTypes';
+import { ComponentService } from 'services/ComponentService';
 
 const {
   setActiveTool: _setActiveTool,
@@ -80,7 +77,10 @@ export const applySelectedToolComponentsToWells = (wellIds, plateIds) => {
         wells.forEach((well) => {
           updatedWells.push({
             ...well,
-            components: applyComponents(well.components, toolComponents),
+            components: ComponentService.applyComponents(
+              well.components,
+              toolComponents
+            ),
           });
         });
         dispatch(activity.updatePlateWells(plateId, updatedWells));
@@ -103,7 +103,10 @@ export const applySelectedToolComponentsToSelectedWells = () => {
             if (well.selected) {
               updatedWells.push({
                 ...well,
-                components: applyComponents(well.components, toolComponents),
+                components: ComponentService.applyComponents(
+                  well.components,
+                  toolComponents
+                ),
               });
             }
           });
@@ -190,9 +193,9 @@ const loadResults = _.debounce(async (searchTerm, dispatch, getState) => {
       const results = await api.searchComponents(searchTerm);
       const components = [];
       results.forEach((result) => {
-        const component = createComponent(result);
+        const component = ComponentService.createComponent(result);
         if (component) {
-          components.push(createComponent(result));
+          components.push(component);
         }
       });
       const toolComponents = selectors.selectApplyToolComponents(getState());

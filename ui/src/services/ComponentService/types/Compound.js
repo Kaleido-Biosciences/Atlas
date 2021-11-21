@@ -1,19 +1,22 @@
-import { getDefaultTimepoints, getDescription, exportComponent } from './utils';
-import { EditForm } from './EditForm';
-import { COMPONENT_TYPE_COMMUNITY } from './constants';
+import { COMPONENT_TYPE_COMPOUND } from '../constants';
+import { EditForm } from '../forms/EditForm';
+import {
+  getDefaultTimepoints,
+  getDescription,
+  exportComponent,
+} from '../utils';
 
-const TYPE = COMPONENT_TYPE_COMMUNITY;
-const SINGULAR = 'Community';
-const PLURAL = 'Communities';
-const DEFAULT_CONCENTRATION = 1.0;
+const TYPE = COMPONENT_TYPE_COMPOUND;
+const SINGULAR = 'Compound';
+const PLURAL = 'Compounds';
+const DEFAULT_CONCENTRATION = 0.5;
 const DEFAULT_TIME = 0;
-const COLOR_CODE = 'rgba(5, 150, 105, 1)';
-const DARK_CODE = 'rgba(4, 120, 87, 1)';
-const DARKER_CODE = 'rgba(6, 95, 70, 1)';
-const DEFAULT_BG_CLASS = 'bg-green-600';
-const DARK_BG_CLASS = 'bg-green-700';
-const DARKER_BG_CLASS = 'bg-green-800';
-const ABBREVIATION = 'C';
+const COLOR_CODE = 'rgba(37, 99, 235, 1)';
+const DARK_CODE = 'rgba(29, 78, 216, 1';
+const DARKER_CODE = 'rgba(30, 64, 175, 1)';
+const DEFAULT_BG_CLASS = 'bg-blue-600';
+const DARK_BG_CLASS = 'bg-blue-700';
+const DARKER_BG_CLASS = 'bg-blue-800';
 
 function createComponent(data, timepoints) {
   const component = {
@@ -34,7 +37,6 @@ function createComponent(data, timepoints) {
     defaultBgClass: DEFAULT_BG_CLASS,
     darkBgClass: DARK_BG_CLASS,
     darkerBgClass: DARKER_BG_CLASS,
-    abbreviation: ABBREVIATION,
     form: {
       errors: [],
       units: data.units,
@@ -46,11 +48,10 @@ function createComponent(data, timepoints) {
   return component;
 }
 
-export const community = {
+export const Compound = {
   name: TYPE,
   singular: SINGULAR,
   plural: PLURAL,
-  abbreviation: ABBREVIATION,
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,

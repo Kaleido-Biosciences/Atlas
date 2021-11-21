@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
+import './validators';
 import { Timepoints } from './Timepoints';
-import { getDescription } from '../utils';
+import { getDescription } from '../../utils';
 
 export class EditForm extends Component {
   handleChange = (timepoints) => {

@@ -1,6 +1,3 @@
-export const STATUS_DRAFT = 'DRAFT';
-export const STATUS_COMPLETED = 'COMPLETED';
-
 export const COMPONENT_TYPE_COMMUNITY = 'COMMUNITY';
 export const COMPONENT_TYPE_COMPOUND = 'BATCH';
 export const COMPONENT_TYPE_MEDIUM = 'MEDIA';
