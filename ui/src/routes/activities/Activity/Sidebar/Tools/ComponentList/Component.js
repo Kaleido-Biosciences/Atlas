@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { ComponentService } from 'services/ComponentService';
 import { ComponentTooltip } from '../../../ComponentTooltip';
 
 export class Component extends React.Component {
@@ -32,7 +33,9 @@ export class Component extends React.Component {
       <div {...divProps} onClick={this.handleClick}>
         <div className="flex flex-row justify-between items-center">
           <div className="font-medium">{component.name}</div>
-          <div className="opacity-40">{component.singularTypeDisplayName}</div>
+          <div className="opacity-40">
+            {ComponentService.getSingularTypeDisplayName(component)}
+          </div>
         </div>
         {component.tooltip.length > 0 && (
           <ComponentTooltip

@@ -7,8 +7,6 @@ import {
 } from '../utils';
 
 const TYPE = COMPONENT_TYPE_COMMUNITY;
-const SINGULAR = 'Community';
-const PLURAL = 'Communities';
 const DEFAULT_CONCENTRATION = 1.0;
 const DEFAULT_TIME = 0;
 const COLOR_CODE = 'rgba(5, 150, 105, 1)';
@@ -23,8 +21,6 @@ function createComponent(data, timepoints) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
-    singularTypeDisplayName: SINGULAR,
-    pluralTypeDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -50,8 +46,8 @@ function createComponent(data, timepoints) {
 
 export const Community = {
   name: TYPE,
-  singular: SINGULAR,
-  plural: PLURAL,
+  singularDisplayName: 'Community',
+  pluralDisplayName: 'Communities',
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,

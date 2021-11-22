@@ -2,8 +2,6 @@ import { COMPONENT_TYPE_ATTRIBUTE } from '../constants';
 import { AttributeEditForm } from '../forms/AttributeEditForm';
 
 const TYPE = COMPONENT_TYPE_ATTRIBUTE;
-const SINGULAR = 'Attribute';
-const PLURAL = 'Attributes';
 const COLOR_CODE = 'rgba(220, 38, 38, 1)';
 const DARK_CODE = 'rgba(185, 28, 28, 1)';
 const DARKER_CODE = 'rgba(153, 27, 27, 1)';
@@ -16,8 +14,6 @@ function createComponent(data) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
-    singularTypeDisplayName: SINGULAR,
-    pluralTypeDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -43,8 +39,8 @@ function createComponent(data) {
 
 export const Attribute = {
   name: TYPE,
-  singular: SINGULAR,
-  plural: PLURAL,
+  singularDisplayName: 'Attribute',
+  pluralDisplayName: 'Attributes',
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,

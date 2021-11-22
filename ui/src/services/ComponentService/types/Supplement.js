@@ -7,8 +7,6 @@ import {
 } from '../utils';
 
 const TYPE = COMPONENT_TYPE_SUPPLEMENT;
-const SINGULAR = 'Supplement';
-const PLURAL = 'Supplements';
 const DEFAULT_CONCENTRATION = 0.5;
 const DEFAULT_TIME = 0;
 const COLOR_CODE = 'rgba(55, 65, 81, 1)';
@@ -23,8 +21,6 @@ function createComponent(data, timepoints) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
-    singularTypeDisplayName: SINGULAR,
-    pluralTypeDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -50,8 +46,8 @@ function createComponent(data, timepoints) {
 
 export const Supplement = {
   name: TYPE,
-  singular: SINGULAR,
-  plural: PLURAL,
+  singularDisplayName: 'Supplement',
+  pluralDisplayName: 'Supplements',
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,

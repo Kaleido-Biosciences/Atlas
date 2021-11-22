@@ -32,7 +32,7 @@ export const ComponentService = {
   },
   getSingularTypeDisplayName(component) {
     if (typeIndex[component.type]) {
-      return typeIndex[component.type].singular;
+      return typeIndex[component.type].singularDisplayName;
     } else return null;
   },
   applyComponents(target, source) {

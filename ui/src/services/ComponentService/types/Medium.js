@@ -7,8 +7,6 @@ import {
 } from '../utils';
 
 const TYPE = COMPONENT_TYPE_MEDIUM;
-const SINGULAR = 'Medium';
-const PLURAL = 'Media';
 const DEFAULT_CONCENTRATION = '';
 const DEFAULT_TIME = 0;
 const COLOR_CODE = 'rgba(245, 158, 11, 1)';
@@ -23,8 +21,6 @@ function createComponent(data, timepoints) {
     id: `${TYPE.toUpperCase()}_${data.id}`,
     type: TYPE,
     name: data.displayName,
-    singularTypeDisplayName: SINGULAR,
-    pluralTypeDisplayName: PLURAL,
     description: '',
     data,
     selected: true,
@@ -50,8 +46,8 @@ function createComponent(data, timepoints) {
 
 export const Medium = {
   name: TYPE,
-  singular: SINGULAR,
-  plural: PLURAL,
+  singularDisplayName: 'Medium',
+  pluralDisplayName: 'Media',
   colorCode: COLOR_CODE,
   darkCode: DARK_CODE,
   darkerCode: DARKER_CODE,
