@@ -62,7 +62,6 @@ export class ApplyTool extends React.Component {
               )}
             >
               <ToolComponentList
-                componentTypes={this.props.componentTypes}
                 onEditClick={this.props.onToolComponentEditClick}
                 onSelectionsChange={this.props.onComponentSelectionsChange}
                 onRemove={this.props.onRemoveToolComponent}
@@ -107,7 +106,6 @@ ApplyTool.propTypes = {
   componentSearchPending: PropTypes.bool,
   componentSearchResults: PropTypes.array,
   componentSearchTerm: PropTypes.string,
-  componentTypes: PropTypes.array,
   onAddToolComponent: PropTypes.func,
   onApplyClick: PropTypes.func,
   onComponentSearchChange: PropTypes.func,

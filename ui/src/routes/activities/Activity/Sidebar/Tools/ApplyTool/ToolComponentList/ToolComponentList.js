@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import memoize from 'memoize-one';
+import { ComponentService } from 'services/ComponentService';
 import { ToolComponent } from './ToolComponent';
 
 export class ToolComponentList extends React.Component {
-  getEditForm = memoize((componentType, componentTypes) => {
-    return componentTypes.find((type) => {
-      return type.name === componentType;
-    }).editForm;
-  });
   handleSelectionChange = (componentId, selection) => {
     if (this.props.onSelectionsChange) {
       this.props.onSelectionsChange([componentId], selection);
@@ -23,10 +18,7 @@ export class ToolComponentList extends React.Component {
     return (
       <div className="pb-3">
         {this.props.toolComponents.map((component) => {
-          const editForm = this.getEditForm(
-            component.type,
-            this.props.componentTypes
-          );
+          const editForm = ComponentService.getEditForm(component);
           return (
             <ToolComponent
               editForm={editForm}
@@ -45,7 +37,6 @@ export class ToolComponentList extends React.Component {
 }
 
 ToolComponentList.propTypes = {
-  componentTypes: PropTypes.array,
   onEditClick: PropTypes.func,
   onSelectionsChange: PropTypes.func,
   onRemove: PropTypes.func,

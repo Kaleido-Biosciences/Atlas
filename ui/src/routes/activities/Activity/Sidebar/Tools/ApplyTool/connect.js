@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { ApplyTool } from './ApplyTool';
 import { tools, activity } from 'store';
-import { ComponentService } from 'services/ComponentService';
 
 const mapState = (state, props) => {
   return {
@@ -10,7 +9,6 @@ const mapState = (state, props) => {
     componentSearchPending: tools.selectComponentSearchPending(state),
     componentSearchResults: tools.selectComponentSearchResults(state),
     componentSearchTerm: tools.selectComponentSearchTerm(state),
-    componentTypes: ComponentService.getAllTypes(),
     plates: activity.selectPlates(state),
     toolComponents: tools.selectApplyToolComponents(state),
     toolComponentsValid: tools.selectApplyToolComponentsValid(state),
