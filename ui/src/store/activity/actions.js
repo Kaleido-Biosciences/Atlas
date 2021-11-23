@@ -23,8 +23,8 @@ export function loadActivity(name) {
     const activity = {
       id: activityData.id,
       name: activityData.name,
-      createdTime: activityData.createdTime,
-      updatedTime: activityData.updatedTime,
+      startDate: activityData.startDate,
+      updateDate: activityData.updateDate,
       plates,
       views: [
         viewActions.getOverview(true),

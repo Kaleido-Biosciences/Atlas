@@ -28,7 +28,11 @@ export class Activity extends Component {
   render() {
     return (
       <div className={styles.activity}>
-        <Header name={this.props.name} onSave={this.props.onSave} />
+        <Header
+          name={this.props.name}
+          onSave={this.props.onSave}
+          updateDate={this.props.updateDate}
+        />
         <div className={styles.container}>
           <SplitPane
             primary="second"
@@ -57,5 +61,6 @@ Activity.propTypes = {
   name: PropTypes.string,
   onSave: PropTypes.func,
   onViewTabClick: PropTypes.func,
+  updateDate: PropTypes.string,
   views: PropTypes.array.isRequired,
 };

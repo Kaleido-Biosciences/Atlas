@@ -7,6 +7,7 @@ export const selectInitializationError = (state) =>
 export const selectId = (state) => state.activity.id;
 export const selectName = (state) => state.activity.name;
 export const selectDescription = (state) => state.activity.description;
+export const selectUpdateDate = (state) => state.activity.updateDate;
 export const selectPlates = (state) => state.activity.plates;
 export const selectPlateCount = createSelector([selectPlates], (plates) => {
   return plates.length;

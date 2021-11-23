@@ -6,6 +6,7 @@ const mapState = (state, props) => {
   return {
     activeView: activity.selectActiveView(state),
     name: activity.selectName(state),
+    updateDate: activity.selectUpdateDate(state),
     views: activity.selectViews(state),
   };
 };

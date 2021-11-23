@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+//import reportWebVitals from './reportWebVitals';
 import 'config/fontAwesome';
 import { App } from './App';
 import './index.css';
-//import reportWebVitals from './reportWebVitals';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 ReactDOM.render(
   //<React.StrictMode>
