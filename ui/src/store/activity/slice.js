@@ -1,12 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { setPlateType, createWells, copyPlate } from 'models';
 
-const initialSaveTime = {
-  savePending: false,
-  saveError: '',
-  lastSaveTime: null,
-};
-
 const initialState = {
   loading: false,
   initialized: false,
@@ -20,15 +14,6 @@ const initialState = {
   views: [],
   plateTypes: [],
   plateToCopy: null,
-  settings: {
-    containerSize: {
-      size: 120,
-      innerPadding: 4,
-      outerPadding: 2,
-    },
-  },
-  status: '',
-  ...initialSaveTime,
 };
 
 const activity = createSlice({
@@ -277,23 +262,6 @@ const activity = createSlice({
     },
     resetState(state, action) {
       Object.assign(state, initialState);
-    },
-    setSavePending(state, action) {
-      state.savePending = true;
-      state.saveError = '';
-      state.lastSaveTime = null;
-    },
-    setLastSaveTime(state, action) {
-      state.savePending = false;
-      state.saveError = '';
-      state.lastSaveTime = action.payload.lastSaveTime;
-    },
-    setSaveError(state, action) {
-      state.savePending = false;
-      state.saveError = action.payload.error;
-    },
-    resetSaveTime(state, action) {
-      Object.assign(state, initialSaveTime);
     },
   },
 });

@@ -17,7 +17,3 @@ export const selectActiveView = createSelector([selectViews], (views) => {
   return views.find((view) => view.active);
 });
 export const selectPlateTypes = (state) => state.activity.plateTypes;
-export const selectSettings = (state) => state.activity.settings;
-export const selectSavePending = (state) => state.activity.savePending;
-export const selectLastSaveTime = (state) => state.activity.lastSaveTime;
-export const selectSaveError = (state) => state.activity.saveError;
