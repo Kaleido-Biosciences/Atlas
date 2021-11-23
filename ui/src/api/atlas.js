@@ -10,9 +10,7 @@ export async function searchActivities(searchTerm) {
 }
 
 export async function fetchActivity(name) {
-  const response = await axios.get(
-    API_URL + '/api/atlas/experiments/name/' + name
-  );
+  const response = await axios.get(API_URL + '/api/atlas/activity/' + name);
   return response.data;
 }
 
