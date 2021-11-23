@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 
 export class Header extends Component {
   getFormattedDate = memoize((updateDate) => {
-    return dayjs(updateDate).utc().format('L LT');
+    return dayjs(updateDate).format('L LT');
   });
   render() {
     return (
