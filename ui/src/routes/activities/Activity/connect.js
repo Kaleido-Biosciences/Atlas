@@ -5,6 +5,7 @@ import { activity } from 'store';
 const mapState = (state, props) => {
   return {
     activeView: activity.selectActiveView(state),
+    deleteActivityStatus: activity.selectDeleteActivityStatus(state),
     name: activity.selectName(state),
     updateDate: activity.selectUpdateDate(state),
     views: activity.selectViews(state),
@@ -12,6 +13,7 @@ const mapState = (state, props) => {
 };
 
 const mapDispatch = {
+  onDeleteActivity: activity.deleteActivity,
   onSave: activity.saveActivity,
   onViewTabClick: activity.setActiveView,
 };

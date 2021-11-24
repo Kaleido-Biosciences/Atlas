@@ -14,6 +14,11 @@ export async function fetchActivity(name) {
   return response.data;
 }
 
+export async function deleteActivity(name) {
+  const response = await axios.delete(API_URL + '/api/atlas/activity/' + name);
+  return response.data;
+}
+
 export async function fetchPlateTypes() {
   const response = await axios.get(API_URL + '/api/atlas/platetypes');
   return response.data;

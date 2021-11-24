@@ -19,3 +19,5 @@ export const selectActiveView = createSelector([selectViews], (views) => {
 export const selectPlateTypes = (state) => state.activity.plateTypes;
 export const selectSetPlateTypeError = (state) =>
   state.activity.setPlateTypeError;
+export const selectDeleteActivityStatus = (state) =>
+  state.activity.deleteActivityStatus;

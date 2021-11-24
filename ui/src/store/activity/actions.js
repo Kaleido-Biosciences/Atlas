@@ -47,6 +47,18 @@ export function saveActivity() {
   };
 }
 
+export function deleteActivity(name) {
+  return async (dispatch, getState) => {
+    dispatch(actions.setDeleteActivityStatus({ status: 'Deleting...' }));
+    try {
+      await api.deleteActivity(name);
+      dispatch(actions.setDeleteActivityStatus({ status: 'Activity deleted' }));
+    } catch (error) {
+      dispatch(actions.setDeleteActivityStatus({ status: error.message }));
+    }
+  };
+}
+
 export const autoArrangePlates = actions.autoArrangePlates;
 export const setPlateType = gridActions.setPlateType;
 export const clearSetPlateTypeError = actions.clearSetPlateTypeError;

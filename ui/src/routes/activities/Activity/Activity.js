@@ -25,11 +25,16 @@ export class Activity extends Component {
       }
     } else return <div>No view selected</div>;
   }
+  handleDeleteActivity = () => {
+    this.props.onDeleteActivity(this.props.name);
+  };
   render() {
     return (
       <div className={styles.activity}>
         <Header
           name={this.props.name}
+          deleteActivityStatus={this.props.deleteActivityStatus}
+          onDeleteActivity={this.handleDeleteActivity}
           onSave={this.props.onSave}
           updateDate={this.props.updateDate}
         />
@@ -58,7 +63,9 @@ export class Activity extends Component {
 
 Activity.propTypes = {
   activeView: PropTypes.object.isRequired,
+  deleteActivityStatus: PropTypes.string,
   name: PropTypes.string,
+  onDeleteActivity: PropTypes.func.isRequired,
   onSave: PropTypes.func,
   onViewTabClick: PropTypes.func,
   updateDate: PropTypes.string,

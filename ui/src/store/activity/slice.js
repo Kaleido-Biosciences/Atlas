@@ -15,6 +15,7 @@ const initialState = {
   plateTypes: [],
   plateToCopy: null,
   setPlateTypeError: '',
+  deleteActivityStatus: '',
 };
 
 const activity = createSlice({
@@ -285,6 +286,9 @@ const activity = createSlice({
     },
     resetState(state, action) {
       Object.assign(state, initialState);
+    },
+    setDeleteActivityStatus(state, action) {
+      state.deleteActivityStatus = action.payload.status;
     },
   },
 });
