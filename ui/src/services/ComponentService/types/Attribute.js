@@ -53,8 +53,12 @@ export const Attribute = {
   createComponent,
   exportComponent: (component) => {
     return {
+      id: component.data.id,
+      type: component.type,
       value: component.form.value,
-      valueUnit: component.form.valueUnit,
+      valueUnitId: component.form.valueUnit
+        ? component.form.valueUnit.id
+        : null,
     };
   },
   editForm: AttributeEditForm,

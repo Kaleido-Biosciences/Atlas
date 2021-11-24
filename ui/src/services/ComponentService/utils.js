@@ -65,9 +65,11 @@ export const exportComponent = (component) => {
       timepoints: component.form.timepoints.map((timepoint) => {
         return {
           concentration: timepoint.concentration,
-          concentrationUnit: timepoint.concentrationUnit,
+          concentrationUnitId: timepoint.concentrationUnit
+            ? timepoint.concentrationUnit.id
+            : null,
           time: timepoint.time,
-          timeUnit: timepoint.timeUnit,
+          timeUnitId: timepoint.timeUnit ? timepoint.timeUnit.id : null,
         };
       }),
     },

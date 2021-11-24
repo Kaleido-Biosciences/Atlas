@@ -39,11 +39,10 @@ export function loadActivity(name) {
   };
 }
 
-export function saveActivity() {
+export function saveActivity(name) {
   return async (dispatch, getState) => {
     const plates = selectors.selectPlates(getState());
-    const exportedPlates = api.exportPlates(plates);
-    console.log(exportedPlates);
+    api.saveActivity(name, plates);
   };
 }
 

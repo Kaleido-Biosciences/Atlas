@@ -8,6 +8,9 @@ export class Header extends Component {
   getFormattedDate = memoize((updateDate) => {
     return dayjs(updateDate).format('L LT');
   });
+  handleSave = () => {
+    this.props.onSave(this.props.name);
+  };
   render() {
     return (
       <div className="h-12 w-full flex flex-row flex-none items-center justify-between pl-4 border-b border-gray-300">
@@ -20,7 +23,7 @@ export class Header extends Component {
               icon="save"
               secondary
               className="ml-2"
-              onClick={this.props.onSave}
+              onClick={this.handleSave}
             />
             <div className="text-xxs mt-px ml-3 text-gray-400">{`Last updated: ${this.getFormattedDate(
               this.props.updateDate
@@ -49,6 +52,6 @@ Header.propTypes = {
   deleteActivityStatus: PropTypes.string,
   name: PropTypes.string.isRequired,
   onDeleteActivity: PropTypes.func,
-  onSave: PropTypes.func,
+  onSave: PropTypes.func.isRequired,
   updateDate: PropTypes.string,
 };
