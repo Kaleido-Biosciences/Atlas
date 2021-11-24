@@ -3,7 +3,6 @@ export const createWell = ({
   row = null,
   column = null,
   components = [],
-  attributes = [],
   selected = false,
 }) => {
   let position;
@@ -17,7 +16,6 @@ export const createWell = ({
     column,
     position,
     components,
-    attributes,
     selected,
   };
 };
