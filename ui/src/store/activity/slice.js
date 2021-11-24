@@ -55,14 +55,6 @@ const activity = createSlice({
     setPlateTypes(state, action) {
       state.plateTypes = action.payload.plateTypes;
     },
-    setPlateType(state, action) {
-      const { plateIds, plateType } = action.payload;
-      plateIds.forEach((plateId) => {
-        const plate = findPlate(plateId, state.plates);
-        setPlateType(plate, plateType);
-        createWells(plate);
-      });
-    },
     setPlatesSaving(state, action) {
       const { plateIds, saving } = action.payload;
       plateIds.forEach((plateId) => {
