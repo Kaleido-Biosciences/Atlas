@@ -16,7 +16,7 @@ export class Header extends Component {
           <div className="flex items-center">
             <Button content="Clone" icon="clone" secondary className="ml-2" />
             <Button
-              content="Save to Kapture"
+              content="Save"
               icon="save"
               secondary
               className="ml-2"
