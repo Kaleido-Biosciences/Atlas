@@ -55,10 +55,12 @@ export const Attribute = {
     return {
       id: component.data.id,
       type: component.type,
-      value: component.form.value,
-      valueUnitId: component.form.valueUnit
-        ? component.form.valueUnit.id
-        : null,
+      fields: {
+        value: component.form.value,
+        valueUnitId: component.form.valueUnit
+          ? component.form.valueUnit.id
+          : null,
+      },
     };
   },
   editForm: AttributeEditForm,
