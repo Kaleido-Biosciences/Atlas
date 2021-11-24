@@ -7,3 +7,14 @@
 .scrollContainer {
   flex: 1 1 100%;
 }
+
+.setPlateTypeError {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 24rem;
+  z-index: 999;
+}

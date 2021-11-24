@@ -4,6 +4,7 @@ import { Plate } from './Plate';
 import { Button } from 'ui';
 import { PlateTypeDropdown } from '../PlateTypeDropdown';
 // import { Scrollbars } from 'ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
@@ -77,6 +78,9 @@ export class Overview extends Component {
   handleAutoArrangePlates = () => {
     this.props.onAutoArrangePlates();
   };
+  handleCloseSetPlateTypeError = () => {
+    this.props.onCloseSetPlateTypeError();
+  };
   renderPlates() {
     const { plates } = this.props;
     return plates.map((plate, i) => {
@@ -93,6 +97,31 @@ export class Overview extends Component {
         />
       );
     });
+  }
+  renderSetPlateTypeError() {
+    return (
+      <div
+        className={
+          styles.setPlateTypeError + ' rounded-md bg-red-600 p-4 text-white'
+        }
+      >
+        <div className="flex">
+          <div className="flex-grow">
+            <div className="text-xs">
+              An error occurred while setting the plate type
+            </div>
+            <div>{this.props.setPlateTypeError}</div>
+          </div>
+          <div className="flex items-center justify-center">
+            <FontAwesomeIcon
+              className="cursor-pointer"
+              icon="times"
+              onClick={this.handleCloseSetPlateTypeError}
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
   render() {
     return (
@@ -133,6 +162,9 @@ export class Overview extends Component {
             onClick={this.handleDeselectClick}
             className="plateContainer min-h-full relative overflow-auto bg-gray-100"
           >
+            {this.props.setPlateTypeError
+              ? this.renderSetPlateTypeError()
+              : null}
             {this.renderPlates()}
           </div>
           {/* </Scrollbars> */}
@@ -144,12 +176,15 @@ export class Overview extends Component {
 
 Overview.propTypes = {
   onAutoArrangePlates: PropTypes.func.isRequired,
+  onCloseSetPlateTypeError: PropTypes.func.isRequired,
   onCopyPlate: PropTypes.func.isRequired,
   onPastePlate: PropTypes.func.isRequired,
   onPlateSelectionChange: PropTypes.func.isRequired,
   onSavePlateName: PropTypes.func.isRequired,
+  onSetPlateType: PropTypes.func.isRequired,
   onSwitchToView: PropTypes.func,
   plates: PropTypes.array.isRequired,
   plateTypes: PropTypes.array.isRequired,
+  setPlateTypeError: PropTypes.string,
   view: PropTypes.object,
 };

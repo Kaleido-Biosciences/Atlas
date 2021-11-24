@@ -44,6 +44,7 @@ export function createPlate(
     overviewWidth = 110,
     overviewHeight = 60,
     selected = false,
+    saving = false,
   },
   components
 ) {
@@ -61,6 +62,7 @@ export function createPlate(
     overviewWidth,
     overviewHeight,
     selected,
+    saving,
   };
   if (plateType) {
     setPlateType(plate, plateType);

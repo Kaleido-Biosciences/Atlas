@@ -6,11 +6,13 @@ const mapState = (state, props) => {
   return {
     plates: activity.selectPlates(state),
     plateTypes: activity.selectPlateTypes(state),
+    setPlateTypeError: activity.selectSetPlateTypeError(state),
   };
 };
 
 const mapDispatch = {
   onAutoArrangePlates: activity.autoArrangePlates,
+  onCloseSetPlateTypeError: activity.clearSetPlateTypeError,
   onCopyPlate: activity.setPlateToCopy,
   onPastePlate: activity.pasteToPlates,
   onPlateSelectionChange: activity.setPlateSelections,

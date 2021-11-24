@@ -14,6 +14,7 @@ const initialState = {
   views: [],
   plateTypes: [],
   plateToCopy: null,
+  setPlateTypeError: '',
 };
 
 const activity = createSlice({
@@ -60,6 +61,36 @@ const activity = createSlice({
         const plate = findPlate(plateId, state.plates);
         setPlateType(plate, plateType);
         createWells(plate);
+      });
+    },
+    setPlatesSaving(state, action) {
+      const { plateIds, saving } = action.payload;
+      plateIds.forEach((plateId) => {
+        const plate = findPlate(plateId, state.plates);
+        plate.saving = saving;
+      });
+    },
+    replacePlates(state, action) {
+      const { plates } = action.payload;
+      plates.forEach((plate) => {
+        const index = state.plates.findIndex(
+          (statePlate) => statePlate.id === plate.id
+        );
+        if (index > -1) {
+          if (state.plates[index].selected) {
+            plate.selected = true;
+          }
+          state.plates.splice(index, 1, plate);
+        }
+      });
+    },
+    setSetPlateTypeError(state, action) {
+      state.setPlateTypeError = action.payload.error;
+    },
+    clearSetPlateTypeError(state, action) {
+      state.setPlateTypeError = '';
+      state.plates.forEach((plate) => {
+        plate.saving = false;
       });
     },
     updatePlateWells(state, action) {

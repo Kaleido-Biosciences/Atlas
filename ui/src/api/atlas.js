@@ -26,6 +26,20 @@ export async function searchComponents(searchTerm) {
   return response.data;
 }
 
+export async function setPlateType(plateIds, plateTypeId) {
+  const postData = plateIds.map((plateId) => {
+    return {
+      id: plateId,
+      plateTypeId,
+    };
+  });
+  const response = await axios.post(
+    API_URL + '/api/atlas/plate/setType',
+    postData
+  );
+  return response.data;
+}
+
 export function exportPlates(plates) {
   return plates.map((plate) => {
     return exportPlate(plate);

@@ -49,6 +49,7 @@ export function saveActivity() {
 
 export const autoArrangePlates = actions.autoArrangePlates;
 export const setPlateType = gridActions.setPlateType;
+export const clearSetPlateTypeError = actions.clearSetPlateTypeError;
 export const setPlateName = gridActions.setPlateName;
 export const setPlateToCopy = gridActions.setPlateToCopy;
 export const pasteToPlates = gridActions.pasteToPlates;

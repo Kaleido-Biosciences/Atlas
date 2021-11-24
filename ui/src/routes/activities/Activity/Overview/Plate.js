@@ -7,6 +7,7 @@ import { EditableText } from 'ui';
 import Draggable from 'react-draggable';
 import { PlateTooltip } from './PlateTooltip';
 import styles from './Plate.module.css';
+import { Spinner } from 'ui';
 
 export class Plate extends Component {
   state = {
@@ -68,6 +69,9 @@ export class Plate extends Component {
       }
     }
   };
+  handleOverlayMouseDown = (e) => {
+    e.stopPropagation();
+  };
   renderPlate() {
     const rows = getPlateRows(this.props.plate);
     let className;
@@ -128,6 +132,24 @@ export class Plate extends Component {
       width: plate.overviewWidth,
       height: plate.overviewHeight,
     };
+    const overlayClassName = classNames(
+      'bg-white',
+      'rounded-lg',
+      'border-2',
+      'border-white',
+      'cursor-not-allowed',
+      'opacity-90',
+      'flex',
+      'items-center',
+      'justify-center'
+    );
+    const overlayStyle = {
+      position: 'absolute',
+      top: -2,
+      left: -2,
+      width: plate.overviewWidth,
+      height: plate.overviewHeight,
+    };
     return (
       <Draggable
         grid={[10, 10]}
@@ -140,6 +162,15 @@ export class Plate extends Component {
         }}
       >
         <div className={className} style={style}>
+          {plate.saving ? (
+            <div
+              className={overlayClassName}
+              style={overlayStyle}
+              onMouseDown={this.handleOverlayMouseDown}
+            >
+              <Spinner className="transform scale-50" />
+            </div>
+          ) : null}
           <div className={styles.header}>
             <div className="text-xs font-medium flex flex-row justify-between w-full">
               <div>
