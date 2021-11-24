@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Plate } from './Plate';
 import { Button } from 'ui';
 import { PlateTypeDropdown } from '../PlateTypeDropdown';
-// import { Scrollbars } from 'ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Overview.module.css';
 
@@ -157,7 +156,6 @@ export class Overview extends Component {
           />
         </div>
         <div className={styles.scrollContainer}>
-          {/* <Scrollbars> */}
           <div
             onClick={this.handleDeselectClick}
             className="plateContainer min-h-full relative overflow-auto bg-gray-100"
@@ -167,7 +165,6 @@ export class Overview extends Component {
               : null}
             {this.renderPlates()}
           </div>
-          {/* </Scrollbars> */}
         </div>
       </div>
     );
