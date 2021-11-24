@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setPlateType, createWells, copyPlate } from 'models';
+import { copyPlate } from 'models';
 
 const initialState = {
   loading: false,
