@@ -29,7 +29,9 @@ export class RemoveToolOption extends Component {
               background: componentType.colorCode,
             }}
           ></div>
-          <div className="text-sm font-light">{componentType.plural}</div>
+          <div className="text-sm font-light">
+            {componentType.pluralDisplayName}
+          </div>
         </div>
       </div>
     );
