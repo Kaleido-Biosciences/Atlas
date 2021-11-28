@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
 import { v4 as uuidv4 } from 'uuid';
+import classNames from 'classnames';
+
+const defaultClasses =
+  'text-gray-600 hover:bg-gray-200 disabled:opacity-50 flex items-center justify-center cursor-pointer';
 
 export class IconButton extends Component {
   constructor() {
@@ -10,7 +14,8 @@ export class IconButton extends Component {
     this.id = uuidv4();
   }
   render() {
-    const { icon, onClick, tooltip, ...props } = this.props;
+    const { icon, onClick, tooltip, className, ...props } = this.props;
+    const buttonClass = classNames(defaultClasses, className);
     return (
       <div>
         <ReactTooltip
@@ -23,13 +28,14 @@ export class IconButton extends Component {
             {this.props.tooltip}
           </div>
         </ReactTooltip>
-        <div
-          data-tip="tooltip"
-          data-for={this.id}
-          onClick={this.props.onClick}
-          {...props}
-        >
-          <FontAwesomeIcon icon={this.props.icon} />
+        <div data-tip="tooltip" data-for={this.id}>
+          <button
+            className={buttonClass}
+            onClick={this.props.onClick}
+            {...props}
+          >
+            <FontAwesomeIcon icon={this.props.icon} />
+          </button>
         </div>
       </div>
     );

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Plate } from './Plate';
-import { Button } from 'ui';
-import { PlateTypeDropdown } from '../PlateTypeDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
+import { Plate } from './Plate';
+import { Button, IconButton } from 'ui';
+import { PlateTypeDropdown } from '../PlateTypeDropdown';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
@@ -126,6 +127,7 @@ export class Overview extends Component {
     );
   }
   render() {
+    const iconButtonClasses = 'w-8 h-8';
     return (
       <div
         className={`${styles.overview} focus:outline-none`}
@@ -133,19 +135,32 @@ export class Overview extends Component {
         tabIndex="1"
       >
         <div className="px-3 py-2 bg-gray-50  flex flex-row items-center">
-          <Button
-            onClick={this.handleSelectAll}
-            content="Select All"
+          <IconButton
+            className={iconButtonClasses}
             icon="check-square"
-            secondary
-            className="mr-2"
+            onClick={this.handleSelectAll}
+            tooltip="Select All"
           />
-          <Button
-            onClick={this.handleDeselectAll}
-            content="Deselect All"
+          <IconButton
+            className={iconButtonClasses}
             icon={['far', 'square']}
-            secondary
-            className="mr-2"
+            onClick={this.handleDeselectAll}
+            tooltip="Deselect All"
+          />
+          <IconButton
+            className={iconButtonClasses}
+            icon="clipboard"
+            tooltip="Copy"
+          />
+          <IconButton
+            className={iconButtonClasses}
+            icon="paste"
+            tooltip="Paste"
+          />
+          <IconButton
+            className={classNames(iconButtonClasses, 'mr-2')}
+            icon="exchange-alt"
+            tooltip="Swap"
           />
           <Button
             onClick={this.handleAutoArrangePlates}
