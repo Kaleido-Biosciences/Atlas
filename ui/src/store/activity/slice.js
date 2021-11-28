@@ -13,7 +13,7 @@ const initialState = {
   plates: [],
   views: [],
   plateTypes: [],
-  plateToCopy: null,
+  plateIdToCopy: null,
   setPlateTypeError: '',
   deleteActivityStatus: '',
 };
@@ -104,12 +104,12 @@ const activity = createSlice({
       const plate = findPlate(plateId, state.plates);
       Object.assign(plate, details);
     },
-    setPlateToCopy(state, action) {
-      state.plateToCopy = action.payload.plateId;
+    setPlateIdToCopy(state, action) {
+      state.plateIdToCopy = action.payload.plateId;
     },
     pasteToPlates(state, action) {
-      if (state.plateToCopy) {
-        const sourcePlate = findPlate(state.plateToCopy, state.plates);
+      if (state.plateIdToCopy) {
+        const sourcePlate = findPlate(state.plateIdToCopy, state.plates);
         if (sourcePlate && sourcePlate.plateType) {
           const targetPlateIds = action.payload.plateIds;
           targetPlateIds.forEach((targetPlateId) => {

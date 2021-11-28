@@ -5,6 +5,7 @@ import { activity } from 'store';
 const mapState = (state, props) => {
   return {
     plates: activity.selectPlates(state),
+    plateIdToCopy: activity.selectPlateIdToCopy(state),
     plateTypes: activity.selectPlateTypes(state),
     setPlateTypeError: activity.selectSetPlateTypeError(state),
   };
@@ -13,7 +14,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onAutoArrangePlates: activity.autoArrangePlates,
   onCloseSetPlateTypeError: activity.clearSetPlateTypeError,
-  onCopyPlate: activity.setPlateToCopy,
+  onCopyPlate: activity.setPlateIdToCopy,
   onPastePlate: activity.pasteToPlates,
   onPlateSelectionChange: activity.setPlateSelections,
   onSavePlateName: activity.setPlateName,

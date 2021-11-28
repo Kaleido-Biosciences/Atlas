@@ -17,9 +17,9 @@ export function setPlateType(plateIds, plateType) {
   };
 }
 
-export function setPlateToCopy(plateId) {
+export function setPlateIdToCopy(plateId) {
   return (dispatch, getState) => {
-    dispatch(actions.setPlateToCopy({ plateId }));
+    dispatch(actions.setPlateIdToCopy({ plateId }));
   };
 }
 

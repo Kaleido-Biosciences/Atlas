@@ -21,3 +21,4 @@ export const selectSetPlateTypeError = (state) =>
   state.activity.setPlateTypeError;
 export const selectDeleteActivityStatus = (state) =>
   state.activity.deleteActivityStatus;
+export const selectPlateIdToCopy = (state) => state.activity.plateIdToCopy;
