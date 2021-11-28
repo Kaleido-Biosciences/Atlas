@@ -14,6 +14,9 @@ export class Overview extends Component {
       return selectedIds;
     }, []);
   };
+  getSelectedPlates = () => {
+    return this.props.plates.filter((plate) => plate.selected);
+  };
   handleSetPlateType = (plateType) => {
     const selectedPlateIds = this.getSelectedPlateIds();
     if (selectedPlateIds.length > 0) {
@@ -63,14 +66,7 @@ export class Overview extends Component {
   handleKeyDown = (e) => {
     const selectedIds = this.getSelectedPlateIds();
     if (e.keyCode === 67 && (e.metaKey || e.ctrlKey)) {
-      let plateIdToCopy = null;
-      if (selectedIds.length === 1) {
-        const plate = this.props.plates.find(
-          (plate) => plate.id === selectedIds[0]
-        );
-        if (plate.plateType) plateIdToCopy = plate.id;
-      }
-      this.props.onCopyPlate(plateIdToCopy);
+      this.handleCopyPlate();
     }
     if (e.keyCode === 86 && (e.metaKey || e.ctrlKey)) {
       if (selectedIds.length) {
@@ -83,6 +79,14 @@ export class Overview extends Component {
   };
   handleCloseSetPlateTypeError = () => {
     this.props.onCloseSetPlateTypeError();
+  };
+  handleCopyPlate = () => {
+    let plateIdToCopy = null;
+    const selectedPlates = this.getSelectedPlates();
+    if (selectedPlates.length === 1 && selectedPlates[0].plateType) {
+      plateIdToCopy = selectedPlates[0].id;
+    }
+    this.props.onCopyPlate(plateIdToCopy);
   };
   renderPlates() {
     const { plates } = this.props;
@@ -128,6 +132,11 @@ export class Overview extends Component {
   }
   render() {
     const iconButtonClasses = 'w-8 h-8';
+    let copyDisabled = true;
+    const selectedPlates = this.getSelectedPlates();
+    if (selectedPlates.length === 1 && selectedPlates[0].plateType) {
+      copyDisabled = false;
+    }
     return (
       <div
         className={`${styles.overview} focus:outline-none`}
@@ -150,7 +159,9 @@ export class Overview extends Component {
           <IconButton
             className={iconButtonClasses}
             icon="clipboard"
+            onClick={this.handleCopyPlate}
             tooltip="Copy"
+            disabled={copyDisabled}
           />
           <IconButton
             className={iconButtonClasses}
