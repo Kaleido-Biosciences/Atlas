@@ -68,6 +68,8 @@ export const selectSwapComponentsDisabled = createSelector(
     let swapDisabled = true;
     if (
       selectedPlates.length === 2 &&
+      selectedPlates[0].plateType &&
+      selectedPlates[1].plateType &&
       selectedPlates[0].plateType.id === selectedPlates[1].plateType.id
     ) {
       swapDisabled = false;
