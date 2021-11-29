@@ -47,7 +47,7 @@ export const selectCopyPlateDisabled = createSelector(
     return copyDisabled;
   }
 );
-export const selectPasteDisabled = createSelector(
+export const selectPastePlateDisabled = createSelector(
   [selectSelectedPlates, selectPlateToCopy],
   (selectedPlates, plateToCopy) => {
     let pasteDisabled = true;

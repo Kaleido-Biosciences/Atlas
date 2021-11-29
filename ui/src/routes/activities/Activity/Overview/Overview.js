@@ -22,7 +22,7 @@ export class Overview extends Component {
     }
   };
   handlePastePlate = () => {
-    if (!this.props.pasteDisabled) {
+    if (!this.props.pastePlateDisabled) {
       this.props.onPastePlate(this.props.selectedPlateIds);
     }
   };
@@ -156,8 +156,8 @@ export class Overview extends Component {
             className={iconButtonClasses}
             icon="paste"
             onClick={this.handlePastePlate}
-            tooltip="Paste"
-            disabled={this.props.pasteDisabled}
+            tooltip="Paste Plate"
+            disabled={this.props.pastePlateDisabled}
           />
           <IconButton
             className={classNames(iconButtonClasses, 'mr-2')}
@@ -204,7 +204,7 @@ Overview.propTypes = {
   onSetPlateType: PropTypes.func.isRequired,
   onSwapComponents: PropTypes.func.isRequired,
   onSwitchToView: PropTypes.func,
-  pasteDisabled: PropTypes.bool,
+  pastePlateDisabled: PropTypes.bool,
   plates: PropTypes.array.isRequired,
   plateTypes: PropTypes.array.isRequired,
   selectedPlateIds: PropTypes.array,
