@@ -44,6 +44,12 @@ export function pasteToPlates(plateIds) {
   };
 }
 
+export function swapComponents(plateIds) {
+  return (dispatch, getState) => {
+    dispatch(actions.swapComponents({ plateIds }));
+  };
+}
+
 export function setPlateName(plateId, name) {
   return (dispatch, getState) => {
     dispatch(

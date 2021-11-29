@@ -26,6 +26,11 @@ export class Overview extends Component {
       this.props.onPastePlate(this.props.selectedPlateIds);
     }
   };
+  handleSwapComponents = () => {
+    if (!this.props.swapComponentsDisabled) {
+      this.props.onSwapComponents(this.props.selectedPlateIds);
+    }
+  };
   handleAutoArrangePlates = () => {
     this.props.onAutoArrangePlates();
   };
@@ -157,7 +162,9 @@ export class Overview extends Component {
           <IconButton
             className={classNames(iconButtonClasses, 'mr-2')}
             icon="exchange-alt"
-            tooltip="Swap"
+            onClick={this.handleSwapComponents}
+            tooltip="Swap Components"
+            disabled={this.props.swapComponentsDisabled}
           />
           <Button
             onClick={this.handleAutoArrangePlates}
@@ -195,11 +202,13 @@ Overview.propTypes = {
   onPlateSelectionChange: PropTypes.func.isRequired,
   onSavePlateName: PropTypes.func.isRequired,
   onSetPlateType: PropTypes.func.isRequired,
+  onSwapComponents: PropTypes.func.isRequired,
   onSwitchToView: PropTypes.func,
   pasteDisabled: PropTypes.bool,
   plates: PropTypes.array.isRequired,
   plateTypes: PropTypes.array.isRequired,
   selectedPlateIds: PropTypes.array,
   setPlateTypeError: PropTypes.string,
+  swapComponentsDisabled: PropTypes.bool,
   view: PropTypes.object,
 };

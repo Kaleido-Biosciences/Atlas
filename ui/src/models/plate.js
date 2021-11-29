@@ -176,3 +176,13 @@ export function copyPlate(target, source) {
   target.overviewHeight = source.overviewHeight;
   target.wells = JSON.parse(JSON.stringify(source.wells));
 }
+
+export function swapComponents(plates) {
+  const [plate1, plate2] = plates;
+  plate1.wells.forEach((plate1Well, i) => {
+    const plate2Well = plate2.wells[i];
+    const temp = plate1Well.components;
+    plate1Well.components = plate2Well.components;
+    plate2Well.components = temp;
+  });
+}

@@ -7,5 +7,6 @@ export {
   setPlateProperties,
   copyPlate,
   copyWells,
+  swapComponents,
 } from './plate';
 export { createWell } from './well';

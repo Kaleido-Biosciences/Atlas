@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { copyWells, setPlateProperties } from 'models';
+import { copyWells, setPlateProperties, swapComponents } from 'models';
 
 const initialState = {
   loading: false,
@@ -69,6 +69,13 @@ const activity = createSlice({
         const plate = findPlate(plateId, state.plates);
         plate.saving = saving;
       });
+    },
+    swapComponents(state, action) {
+      const { plateIds } = action.payload;
+      const plates = state.plates.filter((plate) =>
+        plateIds.includes(plate.id)
+      );
+      swapComponents(plates);
     },
     setSetPlateTypeError(state, action) {
       state.setPlateTypeError = action.payload.error;

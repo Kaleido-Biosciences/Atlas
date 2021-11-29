@@ -10,6 +10,7 @@ const mapState = (state, props) => {
     plateTypes: activity.selectPlateTypes(state),
     selectedPlateIds: activity.selectSelectedPlateIds(state),
     setPlateTypeError: activity.selectSetPlateTypeError(state),
+    swapComponentsDisabled: activity.selectSwapComponentsDisabled(state),
   };
 };
 
@@ -21,6 +22,7 @@ const mapDispatch = {
   onPlateSelectionChange: activity.setPlateSelections,
   onSavePlateName: activity.setPlateName,
   onSetPlateType: activity.setPlateType,
+  onSwapComponents: activity.swapComponents,
   onSwitchToView: activity.setActiveView,
   onUpdatePlateDetails: activity.updatePlateDetails,
 };

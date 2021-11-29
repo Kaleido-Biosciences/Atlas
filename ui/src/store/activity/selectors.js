@@ -62,3 +62,16 @@ export const selectPasteDisabled = createSelector(
     return pasteDisabled;
   }
 );
+export const selectSwapComponentsDisabled = createSelector(
+  [selectSelectedPlates],
+  (selectedPlates) => {
+    let swapDisabled = true;
+    if (
+      selectedPlates.length === 2 &&
+      selectedPlates[0].plateType.id === selectedPlates[1].plateType.id
+    ) {
+      swapDisabled = false;
+    }
+    return swapDisabled;
+  }
+);
