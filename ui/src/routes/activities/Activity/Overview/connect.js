@@ -4,9 +4,11 @@ import { activity } from 'store';
 
 const mapState = (state, props) => {
   return {
+    copyDisabled: activity.selectCopyDisabled(state),
+    pasteDisabled: activity.selectPasteDisabled(state),
     plates: activity.selectPlates(state),
-    plateIdToCopy: activity.selectPlateIdToCopy(state),
     plateTypes: activity.selectPlateTypes(state),
+    selectedPlateIds: activity.selectSelectedPlateIds(state),
     setPlateTypeError: activity.selectSetPlateTypeError(state),
   };
 };

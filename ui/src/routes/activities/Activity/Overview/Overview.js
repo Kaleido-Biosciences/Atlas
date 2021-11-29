@@ -8,27 +8,6 @@ import { PlateTypeDropdown } from '../PlateTypeDropdown';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
-  getSelectedPlateIds = () => {
-    return this.props.plates.reduce((selectedIds, plate) => {
-      if (plate.selected) selectedIds.push(plate.id);
-      return selectedIds;
-    }, []);
-  };
-  getSelectedPlates = () => {
-    return this.props.plates.filter((plate) => plate.selected);
-  };
-  handleSetPlateType = (plateType) => {
-    const selectedPlateIds = this.getSelectedPlateIds();
-    if (selectedPlateIds.length > 0) {
-      this.props.onSetPlateType(this.getSelectedPlateIds(), plateType);
-    }
-  };
-  handleViewPlateInEditor = (plateId) => {
-    this.props.onSwitchToView('PlateEditor', plateId);
-  };
-  handleViewPlateInTable = (plateId) => {
-    this.props.onSwitchToView('PlateTable', plateId);
-  };
   handleSelectAll = () => {
     this.props.onPlateSelectionChange(
       this.props.plates.map((plate) => plate.id)
@@ -37,12 +16,22 @@ export class Overview extends Component {
   handleDeselectAll = (e) => {
     this.props.onPlateSelectionChange([]);
   };
-  handleDeselectClick = (e) => {
-    if (
-      e.target.nodeName === 'DIV' &&
-      e.target.className.includes('plateContainer')
-    ) {
-      this.props.onPlateSelectionChange([]);
+  handleCopyPlate = () => {
+    if (!this.props.copyDisabled) {
+      this.props.onCopyPlate(this.props.selectedPlateIds[0]);
+    }
+  };
+  handlePastePlate = () => {
+    if (!this.props.pasteDisabled) {
+      this.props.onPastePlate(this.props.selectedPlateIds);
+    }
+  };
+  handleAutoArrangePlates = () => {
+    this.props.onAutoArrangePlates();
+  };
+  handleSetPlateType = (plateType) => {
+    if (this.props.selectedPlateIds.length > 0) {
+      this.props.onSetPlateType(this.props.selectedPlateIds, plateType);
     }
   };
   handlePlateClick = (plateId, key) => {
@@ -63,30 +52,30 @@ export class Overview extends Component {
     }
     this.props.onPlateSelectionChange(plateSelections);
   };
+  handleDeselectClick = (e) => {
+    if (
+      e.target.nodeName === 'DIV' &&
+      e.target.className.includes('plateContainer')
+    ) {
+      this.props.onPlateSelectionChange([]);
+    }
+  };
+  handleViewPlateInEditor = (plateId) => {
+    this.props.onSwitchToView('PlateEditor', plateId);
+  };
+  handleViewPlateInTable = (plateId) => {
+    this.props.onSwitchToView('PlateTable', plateId);
+  };
   handleKeyDown = (e) => {
-    const selectedIds = this.getSelectedPlateIds();
     if (e.keyCode === 67 && (e.metaKey || e.ctrlKey)) {
       this.handleCopyPlate();
     }
     if (e.keyCode === 86 && (e.metaKey || e.ctrlKey)) {
-      if (selectedIds.length) {
-        this.props.onPastePlate(selectedIds);
-      }
+      this.handlePastePlate();
     }
-  };
-  handleAutoArrangePlates = () => {
-    this.props.onAutoArrangePlates();
   };
   handleCloseSetPlateTypeError = () => {
     this.props.onCloseSetPlateTypeError();
-  };
-  handleCopyPlate = () => {
-    let plateIdToCopy = null;
-    const selectedPlates = this.getSelectedPlates();
-    if (selectedPlates.length === 1 && selectedPlates[0].plateType) {
-      plateIdToCopy = selectedPlates[0].id;
-    }
-    this.props.onCopyPlate(plateIdToCopy);
   };
   renderPlates() {
     const { plates } = this.props;
@@ -132,11 +121,6 @@ export class Overview extends Component {
   }
   render() {
     const iconButtonClasses = 'w-8 h-8';
-    let copyDisabled = true;
-    const selectedPlates = this.getSelectedPlates();
-    if (selectedPlates.length === 1 && selectedPlates[0].plateType) {
-      copyDisabled = false;
-    }
     return (
       <div
         className={`${styles.overview} focus:outline-none`}
@@ -161,12 +145,14 @@ export class Overview extends Component {
             icon="clipboard"
             onClick={this.handleCopyPlate}
             tooltip="Copy"
-            disabled={copyDisabled}
+            disabled={this.props.copyDisabled}
           />
           <IconButton
             className={iconButtonClasses}
             icon="paste"
+            onClick={this.handlePastePlate}
             tooltip="Paste"
+            disabled={this.props.pasteDisabled}
           />
           <IconButton
             className={classNames(iconButtonClasses, 'mr-2')}
@@ -201,6 +187,7 @@ export class Overview extends Component {
 }
 
 Overview.propTypes = {
+  copyDisabled: PropTypes.bool,
   onAutoArrangePlates: PropTypes.func.isRequired,
   onCloseSetPlateTypeError: PropTypes.func.isRequired,
   onCopyPlate: PropTypes.func.isRequired,
@@ -209,8 +196,10 @@ Overview.propTypes = {
   onSavePlateName: PropTypes.func.isRequired,
   onSetPlateType: PropTypes.func.isRequired,
   onSwitchToView: PropTypes.func,
+  pasteDisabled: PropTypes.bool,
   plates: PropTypes.array.isRequired,
   plateTypes: PropTypes.array.isRequired,
+  selectedPlateIds: PropTypes.array,
   setPlateTypeError: PropTypes.string,
   view: PropTypes.object,
 };

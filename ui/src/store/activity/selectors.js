@@ -12,6 +12,15 @@ export const selectPlates = (state) => state.activity.plates;
 export const selectPlateCount = createSelector([selectPlates], (plates) => {
   return plates.length;
 });
+export const selectSelectedPlates = createSelector([selectPlates], (plates) => {
+  return plates.filter((plate) => plate.selected);
+});
+export const selectSelectedPlateIds = createSelector(
+  [selectSelectedPlates],
+  (selectedPlates) => {
+    return selectedPlates.map((plate) => plate.id);
+  }
+);
 export const selectViews = (state) => state.activity.views;
 export const selectActiveView = createSelector([selectViews], (views) => {
   return views.find((view) => view.active);
@@ -22,3 +31,38 @@ export const selectSetPlateTypeError = (state) =>
 export const selectDeleteActivityStatus = (state) =>
   state.activity.deleteActivityStatus;
 export const selectPlateIdToCopy = (state) => state.activity.plateIdToCopy;
+export const selectPlateToCopy = createSelector(
+  [selectPlateIdToCopy, selectPlates],
+  (plateIdToCopy, plates) => {
+    return plates.find((plate) => plate.id === plateIdToCopy);
+  }
+);
+export const selectCopyDisabled = createSelector(
+  [selectSelectedPlates],
+  (selectedPlates) => {
+    let copyDisabled = true;
+    if (selectedPlates.length === 1 && selectedPlates[0].plateType) {
+      copyDisabled = false;
+    }
+    return copyDisabled;
+  }
+);
+export const selectPasteDisabled = createSelector(
+  [selectSelectedPlates, selectPlateToCopy],
+  (selectedPlates, plateToCopy) => {
+    let pasteDisabled = true;
+    if (plateToCopy && selectedPlates.length > 0) {
+      const validTargets = selectedPlates.filter((plate) => {
+        return (
+          plate.id !== plateToCopy.id &&
+          plate.plateType &&
+          plate.plateType.id === plateToCopy.plateType.id
+        );
+      });
+      if (validTargets.length === selectedPlates.length) {
+        pasteDisabled = false;
+      }
+    }
+    return pasteDisabled;
+  }
+);
