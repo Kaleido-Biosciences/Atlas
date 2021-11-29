@@ -17,7 +17,6 @@ export class Header extends Component {
         <div className="flex flex-row items-center">
           <div>{this.props.name}</div>
           <div className="flex items-center">
-            <Button content="Clone" icon="clone" secondary className="ml-2" />
             <Button
               content="Save"
               icon="save"
