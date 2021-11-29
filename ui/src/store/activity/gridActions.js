@@ -1,17 +1,16 @@
 import { actions } from './slice';
 import * as selectors from './selectors';
 import { api } from 'api';
-import { createPlate } from 'models';
 
 export function setPlateType(plateIds, plateType) {
   return async (dispatch, getState) => {
     dispatch(actions.setPlatesSaving({ plateIds, saving: true }));
     try {
       const responseData = await api.setPlateType(plateIds, plateType.id);
-      const updatedPlates = responseData.map((data) => {
-        return createPlate(data);
+      responseData.forEach((data) => {
+        dispatch(actions.updatePlateType({ data }));
       });
-      dispatch(actions.replacePlates({ plates: updatedPlates }));
+      dispatch(actions.setPlatesSaving({ plateIds, saving: false }));
     } catch (error) {
       dispatch(actions.setSetPlateTypeError({ error: error.message }));
     }

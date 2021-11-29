@@ -65,15 +65,13 @@ export function createPlate(
     saving,
   };
   if (plateType) {
-    setPlateType(plate, plateType);
-    if (wells.length) {
-      plate.wells = importWells(wells, components);
-    }
+    setPlateProperties(plate);
   }
   return plate;
 }
 
-export function setPlateType(plate, plateType) {
+export function setPlateProperties(plate, components) {
+  const { plateType } = plate;
   let width, height;
   if (plateType.numCols === 12 && plateType.numRows === 8) {
     width = 130;
@@ -83,11 +81,13 @@ export function setPlateType(plate, plateType) {
     width = 240;
     height = 230;
   }
-  plate.plateType = plateType;
   plate.rowHeaders = createRowHeaders(plateType.numRows);
   plate.columnHeaders = createColumnHeaders(plateType.numCols);
   plate.overviewWidth = width;
   plate.overviewHeight = height;
+  if (plate.wells.length) {
+    plate.wells = importWells(plate.wells, components);
+  }
 }
 
 export function createWells(plate) {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { copyWells } from 'models';
+import { copyWells, setPlateProperties } from 'models';
 
 const initialState = {
   loading: false,
@@ -56,25 +56,18 @@ const activity = createSlice({
     setPlateTypes(state, action) {
       state.plateTypes = action.payload.plateTypes;
     },
+    updatePlateType(state, action) {
+      const { data } = action.payload;
+      const existingPlate = state.plates.find((plate) => plate.id === data.id);
+      existingPlate.plateType = data.plateType;
+      existingPlate.wells = data.wells;
+      setPlateProperties(existingPlate);
+    },
     setPlatesSaving(state, action) {
       const { plateIds, saving } = action.payload;
       plateIds.forEach((plateId) => {
         const plate = findPlate(plateId, state.plates);
         plate.saving = saving;
-      });
-    },
-    replacePlates(state, action) {
-      const { plates } = action.payload;
-      plates.forEach((plate) => {
-        const index = state.plates.findIndex(
-          (statePlate) => statePlate.id === plate.id
-        );
-        if (index > -1) {
-          if (state.plates[index].selected) {
-            plate.selected = true;
-          }
-          state.plates.splice(index, 1, plate);
-        }
       });
     },
     setSetPlateTypeError(state, action) {

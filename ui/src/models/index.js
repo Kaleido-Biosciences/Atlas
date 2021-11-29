@@ -4,7 +4,7 @@ export {
   createRowHeaders,
   createColumnHeaders,
   getPlateRows,
-  setPlateType,
+  setPlateProperties,
   copyPlate,
   copyWells,
 } from './plate';
