@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { copyPlate } from 'models';
+import { copyWells } from 'models';
 
 const initialState = {
   loading: false,
@@ -114,7 +114,7 @@ const activity = createSlice({
           const targetPlateIds = action.payload.plateIds;
           targetPlateIds.forEach((targetPlateId) => {
             const targetPlate = findPlate(targetPlateId, state.plates);
-            copyPlate(targetPlate, sourcePlate);
+            copyWells(targetPlate, sourcePlate);
           });
         }
       }

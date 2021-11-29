@@ -35,6 +35,9 @@ export const ComponentService = {
       return typeIndex[component.type].singularDisplayName;
     } else return null;
   },
+  copyComponents(components) {
+    return components.map((component) => cloneComponent(component));
+  },
   applyComponents(target, source) {
     const targetComponents = target.slice();
     const sourceComponents = source.map((component) => {

@@ -160,6 +160,14 @@ export function importWells(wells, components) {
   });
 }
 
+export function copyWells(target, source) {
+  source.wells.forEach((sourceWell, i) => {
+    target.wells[i].components = ComponentService.copyComponents(
+      sourceWell.components
+    );
+  });
+}
+
 export function copyPlate(target, source) {
   target.plateType = source.plateType;
   target.columnHeaders = source.columnHeaders;

@@ -6,5 +6,6 @@ export {
   getPlateRows,
   setPlateType,
   copyPlate,
+  copyWells,
 } from './plate';
 export { createWell } from './well';

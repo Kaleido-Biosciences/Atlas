@@ -1,4 +1,5 @@
 import { actions } from './slice';
+import * as selectors from './selectors';
 import { api } from 'api';
 import { createPlate } from 'models';
 
@@ -24,7 +25,22 @@ export function setPlateIdToCopy(plateId) {
 }
 
 export function pasteToPlates(plateIds) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+    const plates = selectors.selectPlates(getState());
+    const plateToCopy = selectors.selectPlateToCopy(getState());
+    const pasteTargets = plates.filter((plate) => plateIds.includes(plate.id));
+    const plateIdsToUpdate = [];
+    pasteTargets.forEach((pasteTarget) => {
+      if (
+        !pasteTarget.plateType ||
+        pasteTarget.plateType.id !== plateToCopy.plateType.id
+      ) {
+        plateIdsToUpdate.push(pasteTarget.id);
+      }
+    });
+    if (plateIdsToUpdate.length) {
+      await dispatch(setPlateType(plateIdsToUpdate, plateToCopy.plateType));
+    }
     dispatch(actions.pasteToPlates({ plateIds }));
   };
 }

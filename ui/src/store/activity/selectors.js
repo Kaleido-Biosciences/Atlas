@@ -52,13 +52,9 @@ export const selectPasteDisabled = createSelector(
   (selectedPlates, plateToCopy) => {
     let pasteDisabled = true;
     if (plateToCopy && selectedPlates.length > 0) {
-      const validTargets = selectedPlates.filter((plate) => {
-        return (
-          plate.id !== plateToCopy.id &&
-          plate.plateType &&
-          plate.plateType.id === plateToCopy.plateType.id
-        );
-      });
+      const validTargets = selectedPlates.filter(
+        (plate) => plate.id !== plateToCopy.id
+      );
       if (validTargets.length === selectedPlates.length) {
         pasteDisabled = false;
       }
