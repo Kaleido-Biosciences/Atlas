@@ -17,7 +17,7 @@ export class Overview extends Component {
     this.props.onPlateSelectionChange([]);
   };
   handleCopyPlate = () => {
-    if (!this.props.copyDisabled) {
+    if (!this.props.copyPlateDisabled) {
       this.props.onCopyPlate(this.props.selectedPlateIds[0]);
     }
   };
@@ -149,8 +149,8 @@ export class Overview extends Component {
             className={iconButtonClasses}
             icon="clipboard"
             onClick={this.handleCopyPlate}
-            tooltip="Copy"
-            disabled={this.props.copyDisabled}
+            tooltip="Copy Plate"
+            disabled={this.props.copyPlateDisabled}
           />
           <IconButton
             className={iconButtonClasses}
@@ -194,7 +194,7 @@ export class Overview extends Component {
 }
 
 Overview.propTypes = {
-  copyDisabled: PropTypes.bool,
+  copyPlateDisabled: PropTypes.bool,
   onAutoArrangePlates: PropTypes.func.isRequired,
   onCloseSetPlateTypeError: PropTypes.func.isRequired,
   onCopyPlate: PropTypes.func.isRequired,

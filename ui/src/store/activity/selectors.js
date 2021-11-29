@@ -37,7 +37,7 @@ export const selectPlateToCopy = createSelector(
     return plates.find((plate) => plate.id === plateIdToCopy);
   }
 );
-export const selectCopyDisabled = createSelector(
+export const selectCopyPlateDisabled = createSelector(
   [selectSelectedPlates],
   (selectedPlates) => {
     let copyDisabled = true;

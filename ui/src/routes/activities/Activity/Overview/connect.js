@@ -4,7 +4,7 @@ import { activity } from 'store';
 
 const mapState = (state, props) => {
   return {
-    copyDisabled: activity.selectCopyDisabled(state),
+    copyPlateDisabled: activity.selectCopyPlateDisabled(state),
     pasteDisabled: activity.selectPasteDisabled(state),
     plates: activity.selectPlates(state),
     plateTypes: activity.selectPlateTypes(state),
