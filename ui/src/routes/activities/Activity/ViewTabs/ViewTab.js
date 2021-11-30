@@ -18,7 +18,14 @@ export class ViewTab extends Component {
     );
     return (
       <div className={className} onClick={this.handleClick}>
-        <div>{this.props.view.name}</div>
+        {this.props.view.id === 'PlateTable' ? (
+          <div>
+            {this.props.view.name}{' '}
+            <span className="text-xxs text-gray-400">Beta</span>
+          </div>
+        ) : (
+          <div>{this.props.view.name}</div>
+        )}
       </div>
     );
   }
