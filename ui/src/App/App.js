@@ -4,7 +4,7 @@ import { store } from 'store';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { version } from '../../package.json';
 import { Header } from './Header';
-import { Home, Activities } from 'routes';
+import { Home, Activities, ServiceTest } from 'routes';
 import styles from './App.module.css';
 
 export class App extends Component {
@@ -20,6 +20,7 @@ export class App extends Component {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/activities/:activityId" component={Activities} />
+                <Route path="/servicetest" component={ServiceTest} />
                 <Route component={() => <Redirect to="/" />} />
               </Switch>
             </div>
