@@ -104,6 +104,15 @@ const activity = createSlice({
       const plate = findPlate(plateId, state.plates);
       Object.assign(plate, details);
     },
+    updatePlateProperties(state, action) {
+      const { plateProperties } = action.payload;
+      plateProperties.forEach((plateProps) => {
+        const statePlate = state.plates.find(
+          (statePlate) => statePlate.id === plateProps.id
+        );
+        Object.assign(statePlate, plateProps);
+      });
+    },
     setPlateIdToCopy(state, action) {
       state.plateIdToCopy = action.payload.plateId;
     },

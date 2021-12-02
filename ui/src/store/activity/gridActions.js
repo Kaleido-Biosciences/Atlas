@@ -72,6 +72,12 @@ export function updatePlateDetails(plateId, details) {
   };
 }
 
+export function updatePlateProperties(plateProperties) {
+  return (dispatch, getState) => {
+    dispatch(actions.updatePlateProperties({ plateProperties }));
+  };
+}
+
 export function setPlateSelections(selections) {
   return (dispatch, getState) => {
     dispatch(actions.setPlateSelections({ selections }));

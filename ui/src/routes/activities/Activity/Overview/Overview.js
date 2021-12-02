@@ -8,6 +8,19 @@ import { PlateTypeDropdown } from '../PlateTypeDropdown';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
+  constructor(props) {
+    super(props);
+    const platePositions = {};
+    props.plates.forEach((plate) => {
+      platePositions[plate.id] = {
+        x: plate.overviewPositionLeft,
+        y: plate.overviewPositionTop,
+      };
+    });
+    this.state = {
+      platePositions,
+    };
+  }
   handleSelectAll = () => {
     this.props.onPlateSelectionChange(
       this.props.plates.map((plate) => plate.id)
@@ -44,7 +57,10 @@ export class Overview extends Component {
     const { plates } = this.props,
       plateSelections = [];
     if (!key) {
-      plateSelections.push(plateId);
+      if (!this.props.selectedPlateIds.includes(plateId)) {
+        plateSelections.push(plateId);
+        this.props.onPlateSelectionChange(plateSelections);
+      }
     } else if (key === 'meta' || key === 'ctrl' || key === 'shift') {
       plates.forEach((plate) => {
         if (
@@ -54,8 +70,8 @@ export class Overview extends Component {
           plateSelections.push(plate.id);
         }
       });
+      this.props.onPlateSelectionChange(plateSelections);
     }
-    this.props.onPlateSelectionChange(plateSelections);
   };
   handleDeselectClick = (e) => {
     if (
@@ -82,6 +98,29 @@ export class Overview extends Component {
   handleCloseSetPlateTypeError = () => {
     this.props.onCloseSetPlateTypeError();
   };
+  handlePlateDrag = (e, data) => {
+    const platePositions = {
+      ...this.state.platePositions,
+    };
+    this.props.selectedPlateIds.forEach((id) => {
+      platePositions[id].x += data.deltaX;
+      platePositions[id].y += data.deltaY;
+    });
+    this.setState({
+      platePositions,
+    });
+  };
+  handlePlateDragStop = () => {
+    const plateProperties = [];
+    for (let i in this.state.platePositions) {
+      plateProperties.push({
+        id: parseInt(i),
+        overviewPositionLeft: this.state.platePositions[i].x,
+        overviewPositionTop: this.state.platePositions[i].y,
+      });
+    }
+    this.props.onPlateDragStop(plateProperties);
+  };
   renderPlates() {
     const { plates } = this.props;
     return plates.map((plate, i) => {
@@ -89,11 +128,14 @@ export class Overview extends Component {
         <Plate
           key={plate.id}
           onClick={this.handlePlateClick}
+          onDrag={this.handlePlateDrag}
+          onDragStop={this.handlePlateDragStop}
           onSaveName={this.props.onSavePlateName}
           onUpdatePlateDetails={this.props.onUpdatePlateDetails}
           onViewInEditor={this.handleViewPlateInEditor}
           onViewInTable={this.handleViewPlateInTable}
           plate={plate}
+          position={this.state.platePositions[plate.id]}
           zIndex={`${plates.length - i}`}
         />
       );
@@ -199,6 +241,7 @@ Overview.propTypes = {
   onCloseSetPlateTypeError: PropTypes.func.isRequired,
   onCopyPlate: PropTypes.func.isRequired,
   onPastePlate: PropTypes.func.isRequired,
+  onPlateDragStop: PropTypes.func.isRequired,
   onPlateSelectionChange: PropTypes.func.isRequired,
   onSavePlateName: PropTypes.func.isRequired,
   onSetPlateType: PropTypes.func.isRequired,

@@ -19,6 +19,7 @@ const mapDispatch = {
   onCloseSetPlateTypeError: activity.clearSetPlateTypeError,
   onCopyPlate: activity.setPlateIdToCopy,
   onPastePlate: activity.pasteToPlates,
+  onPlateDragStop: activity.updatePlateProperties,
   onPlateSelectionChange: activity.setPlateSelections,
   onSavePlateName: activity.setPlateName,
   onSetPlateType: activity.setPlateType,

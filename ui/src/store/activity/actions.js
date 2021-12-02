@@ -66,6 +66,7 @@ export const setPlateIdToCopy = gridActions.setPlateIdToCopy;
 export const pasteToPlates = gridActions.pasteToPlates;
 export const swapComponents = gridActions.swapComponents;
 export const updatePlateDetails = gridActions.updatePlateDetails;
+export const updatePlateProperties = gridActions.updatePlateProperties;
 export const setPlateSelections = gridActions.setPlateSelections;
 export const selectAllPlateWells = gridActions.selectAllPlateWells;
 export const deselectAllPlateWells = gridActions.deselectAllPlateWells;

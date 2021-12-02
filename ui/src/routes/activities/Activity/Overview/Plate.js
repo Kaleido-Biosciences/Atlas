@@ -61,12 +61,7 @@ export class Plate extends Component {
       plate.overviewPositionTop !== lastY ||
       plate.overviewPositionLeft !== lastX
     ) {
-      if (this.props.onUpdatePlateDetails) {
-        this.props.onUpdatePlateDetails(this.props.plate.id, {
-          overviewPositionTop: lastY,
-          overviewPositionLeft: lastX,
-        });
-      }
+      this.props.onDragStop();
     }
   };
   handleOverlayMouseDown = (e) => {
@@ -110,7 +105,6 @@ export class Plate extends Component {
     } else if (plate.selected) {
       zIndex = 101;
     }
-    const { overviewPositionLeft, overviewPositionTop } = plate;
     const className = classNames(
       styles.plate,
       'inline-block',
@@ -155,11 +149,9 @@ export class Plate extends Component {
         grid={[10, 10]}
         onMouseDown={this.handleMouseDown}
         onStart={this.handleDragStart}
+        onDrag={this.props.onDrag}
         onStop={this.handleDragStop}
-        position={{
-          x: overviewPositionLeft,
-          y: overviewPositionTop,
-        }}
+        position={this.props.position}
       >
         <div className={className} style={style}>
           {plate.saving ? (
@@ -218,10 +210,13 @@ export class Plate extends Component {
 
 Plate.propTypes = {
   onClick: PropTypes.func,
+  onDrag: PropTypes.func,
+  onDragStop: PropTypes.func,
   onSaveName: PropTypes.func,
   onUpdatePlateDetails: PropTypes.func,
   onViewInEditor: PropTypes.func,
   onViewInTable: PropTypes.func,
   plate: PropTypes.object,
+  position: PropTypes.object,
   zIndex: PropTypes.string,
 };
