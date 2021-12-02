@@ -7,6 +7,8 @@ const mapState = (state, props) => {
     activeView: activity.selectActiveView(state),
     deleteActivityStatus: activity.selectDeleteActivityStatus(state),
     name: activity.selectName(state),
+    saveError: activity.selectSaveError(state),
+    savePending: activity.selectSavePending(state),
     updateDate: activity.selectUpdateDate(state),
     views: activity.selectViews(state),
   };

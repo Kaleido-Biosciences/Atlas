@@ -36,6 +36,8 @@ export class Activity extends Component {
           deleteActivityStatus={this.props.deleteActivityStatus}
           onDeleteActivity={this.handleDeleteActivity}
           onSave={this.props.onSave}
+          saveError={this.props.saveError}
+          savePending={this.props.savePending}
           updateDate={this.props.updateDate}
         />
         <div className={styles.container}>
@@ -68,6 +70,8 @@ Activity.propTypes = {
   onDeleteActivity: PropTypes.func.isRequired,
   onSave: PropTypes.func,
   onViewTabClick: PropTypes.func,
+  saveError: PropTypes.string,
+  savePending: PropTypes.bool,
   updateDate: PropTypes.string,
   views: PropTypes.array.isRequired,
 };

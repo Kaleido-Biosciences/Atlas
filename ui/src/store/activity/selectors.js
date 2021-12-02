@@ -77,3 +77,5 @@ export const selectSwapComponentsDisabled = createSelector(
     return swapDisabled;
   }
 );
+export const selectSavePending = (state) => state.activity.savePending;
+export const selectSaveError = (state) => state.activity.saveError;

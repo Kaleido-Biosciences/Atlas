@@ -41,8 +41,14 @@ export function loadActivity(name) {
 
 export function saveActivity(name) {
   return async (dispatch, getState) => {
-    const plates = selectors.selectPlates(getState());
-    api.saveActivity(name, plates);
+    dispatch(actions.setSavePending());
+    try {
+      const plates = selectors.selectPlates(getState());
+      const response = await api.saveActivity(name, plates);
+      dispatch(actions.setSaveSuccess({ updateDate: response.updateDate }));
+    } catch (error) {
+      dispatch(actions.setSaveError({ error: error.message }));
+    }
   };
 }
 

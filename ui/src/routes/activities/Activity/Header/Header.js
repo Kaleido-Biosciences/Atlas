@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'ui';
+import { Button, Spinner } from 'ui';
 import memoize from 'memoize-one';
 import dayjs from 'dayjs';
+import styles from './Header.module.css';
 
 export class Header extends Component {
   getFormattedDate = memoize((updateDate) => {
@@ -24,9 +25,14 @@ export class Header extends Component {
               className="ml-2"
               onClick={this.handleSave}
             />
-            <div className="text-xxs mt-px ml-3 text-gray-400">{`Last updated: ${this.getFormattedDate(
-              this.props.updateDate
-            )}`}</div>
+            {this.props.savePending && <Spinner className={styles.spinner} />}
+            {this.props.saveError ? (
+              <div className="text-xxs mt-px ml-3 text-red-600">{`Save error: ${this.props.saveError}`}</div>
+            ) : (
+              <div className="text-xxs mt-px ml-3 text-gray-400">{`Last updated: ${this.getFormattedDate(
+                this.props.updateDate
+              )}`}</div>
+            )}
           </div>
         </div>
         {process.env.NODE_ENV === `development` ? (
@@ -52,5 +58,7 @@ Header.propTypes = {
   name: PropTypes.string.isRequired,
   onDeleteActivity: PropTypes.func,
   onSave: PropTypes.func.isRequired,
+  saveError: PropTypes.string,
+  savePending: PropTypes.bool,
   updateDate: PropTypes.string,
 };

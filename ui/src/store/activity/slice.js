@@ -16,6 +16,8 @@ const initialState = {
   plateIdToCopy: null,
   setPlateTypeError: '',
   deleteActivityStatus: '',
+  savePending: false,
+  saveError: '',
 };
 
 const activity = createSlice({
@@ -298,6 +300,19 @@ const activity = createSlice({
     },
     setDeleteActivityStatus(state, action) {
       state.deleteActivityStatus = action.payload.status;
+    },
+    setSavePending(state, action) {
+      state.savePending = true;
+      state.saveError = '';
+    },
+    setSaveSuccess(state, action) {
+      state.savePending = false;
+      state.saveError = '';
+      state.updateDate = action.payload.updateDate;
+    },
+    setSaveError(state, action) {
+      state.savePending = false;
+      state.saveError = action.payload.error;
     },
   },
 });
