@@ -5,27 +5,26 @@
   "dependencies": {
     "@craco/craco": "^6.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.15",
+    "@headlessui/react": "^1.4.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@tailwindcss/forms": "^0.3.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "aws-sdk": "^2.959.0",
     "axios": "^0.21.1",
-    "big-integer": "^1.6.48",
     "classnames": "^2.3.1",
+    "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
-    "lzutf8": "^0.6.0",
     "memoize-one": "^5.2.1",
-    "moment": "^2.29.1",
-    "pako": "^2.0.4",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.4",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -33,7 +32,6 @@
     "react-to-print": "^2.12.6",
     "react-tooltip": "^4.2.21",
     "redux-logger": "^3.0.6",
-    "semantic-ui-react": "^2.0.3",
     "uuid": "^8.3.2",
     "validate.js": "^0.13.1",
     "web-vitals": "^1.1.2"
@@ -62,9 +60,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://kapture-staging.apps.kaleidobio.com/api",
   "devDependencies": {
     "autoprefixer": "^9.8.6",
+    "http-proxy-middleware": "^2.0.1",
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
   }

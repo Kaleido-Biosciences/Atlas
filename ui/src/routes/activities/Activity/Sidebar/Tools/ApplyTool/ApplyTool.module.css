@@ -1,0 +1,42 @@
+.componentSearch {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search {
+  flex: 1 1 100%;
+}
+
+.componentList {
+  flex: 1 1 100%;
+  overflow: auto;
+}
+
+.cancelContainer {
+  flex: 0;
+  text-align: right;
+}
+
+.cancelContainer :global(button) {
+  margin-right: 0 !important;
+}
+
+.toolComponentsContainer {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.toolComponentListContainer {
+  flex: 1 1;
+  overflow: auto;
+  width: 100%;
+}
+
+.selectedWellsContainer {
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  flex: 0 1;
+}

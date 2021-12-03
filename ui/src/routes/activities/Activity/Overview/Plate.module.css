@@ -1,0 +1,38 @@
+.plate {
+  min-width: 110px;
+  min-height: 60px;
+  padding: 6px 8px 8px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.container {
+  height: 8px;
+  width: 8px;
+  margin-right: 1px;
+}
+
+.container:last-child {
+  margin-right: 0;
+}
+
+.viewContainer {
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -1,1 +1,0 @@
-export { GridTabs } from './GridTabs';

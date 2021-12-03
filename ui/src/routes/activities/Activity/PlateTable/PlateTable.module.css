@@ -1,0 +1,19 @@
+.plateTable {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.scrollContainer {
+  flex: 1 1 100%;
+}
+
+.wellComponent {
+  width: 120px;
+  margin-right: 4px;
+}
+
+.components {
+  display: flex;
+  flex-direction: row;
+}

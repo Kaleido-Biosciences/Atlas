@@ -1,0 +1,12 @@
+.headerContainer {
+  position: fixed;
+  height: 2.5rem;
+  width: 100%;
+}
+
+.mainContainer {
+  height: calc(100% - 2.5rem);
+  margin-top: 2.5rem;
+  display: inline-block;
+  width: 100%;
+}

@@ -1,1 +1,0 @@
-export { CloneActivityModal } from './connect';

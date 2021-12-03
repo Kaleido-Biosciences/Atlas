@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import App from 'KaptureApp/App';
-import './index.css';
 //import reportWebVitals from './reportWebVitals';
+import 'config/fontAwesome';
+import { App } from './App';
+import './index.css';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
 
 ReactDOM.render(
   //<React.StrictMode>

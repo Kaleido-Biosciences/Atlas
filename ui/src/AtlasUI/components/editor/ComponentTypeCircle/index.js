@@ -1,1 +1,0 @@
-export { ComponentTypeCircle } from './ComponentTypeCircle';

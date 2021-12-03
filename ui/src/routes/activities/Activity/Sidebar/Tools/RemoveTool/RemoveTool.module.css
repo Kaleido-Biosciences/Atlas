@@ -1,0 +1,9 @@
+.body {
+  flex: 1 1 100%;
+  padding: 0 0.8em 0 0.8em;
+}
+
+.selectedContainersContainer {
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  flex: 0 1;
+}

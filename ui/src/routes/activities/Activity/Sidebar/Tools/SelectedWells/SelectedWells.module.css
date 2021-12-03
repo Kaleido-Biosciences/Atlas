@@ -1,0 +1,16 @@
+.selectedWells {
+  padding: 0.8em;
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8em;
+}
+
+.buttonContainer {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}
