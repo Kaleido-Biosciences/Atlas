@@ -65,7 +65,7 @@ export function createPlate(
     saving,
   };
   if (plateType) {
-    setPlateProperties(plate);
+    setPlateProperties(plate, components);
   }
   return plate;
 }
