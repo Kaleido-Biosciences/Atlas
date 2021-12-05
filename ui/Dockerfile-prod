@@ -1,5 +1,5 @@
 # build environment
-FROM node:12.2.0-alpine as build
+FROM node:14.17.1-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ENV REACT_APP_API_URL https://__KAPTURE_URL__.apps.kaleidobio.com/api
