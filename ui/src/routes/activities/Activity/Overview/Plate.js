@@ -52,7 +52,11 @@ export class Plate extends Component {
     this.setState({ bringForward: false });
   };
   handleDragStart = (e) => {
-    this.setState({ bringForward: true });
+    if (e.target.nodeName === 'INPUT') {
+      return false;
+    } else {
+      this.setState({ bringForward: true });
+    }
   };
   handleDragStop = (e, { lastX, lastY }) => {
     this.setState({ bringForward: false });
