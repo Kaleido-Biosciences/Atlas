@@ -56,6 +56,7 @@ export class Plate extends Component {
       return false;
     } else {
       this.setState({ bringForward: true });
+      this.props.onDragStart();
     }
   };
   handleDragStop = (e, { lastX, lastY }) => {
@@ -65,7 +66,9 @@ export class Plate extends Component {
       plate.overviewPositionTop !== lastY ||
       plate.overviewPositionLeft !== lastX
     ) {
-      this.props.onDragStop();
+      this.props.onDragStop(true);
+    } else {
+      this.props.onDragStop(false);
     }
   };
   handleOverlayMouseDown = (e) => {
@@ -215,6 +218,7 @@ export class Plate extends Component {
 Plate.propTypes = {
   onClick: PropTypes.func,
   onDrag: PropTypes.func,
+  onDragStart: PropTypes.func,
   onDragStop: PropTypes.func,
   onSaveName: PropTypes.func,
   onUpdatePlateDetails: PropTypes.func,

@@ -10,15 +10,9 @@ import styles from './Overview.module.css';
 export class Overview extends Component {
   constructor(props) {
     super(props);
-    const platePositions = {};
-    props.plates.forEach((plate) => {
-      platePositions[plate.id] = {
-        x: plate.overviewPositionLeft,
-        y: plate.overviewPositionTop,
-      };
-    });
     this.state = {
-      platePositions,
+      platePositions: {},
+      dragging: false,
     };
   }
   handleSelectAll = () => {
@@ -98,6 +92,19 @@ export class Overview extends Component {
   handleCloseSetPlateTypeError = () => {
     this.props.onCloseSetPlateTypeError();
   };
+  handlePlateDragStart = () => {
+    const platePositions = {};
+    this.props.plates.forEach((plate) => {
+      platePositions[plate.id] = {
+        x: plate.overviewPositionLeft,
+        y: plate.overviewPositionTop,
+      };
+    });
+    this.setState({
+      platePositions,
+      dragging: true,
+    });
+  };
   handlePlateDrag = (e, data) => {
     const platePositions = {
       ...this.state.platePositions,
@@ -110,32 +117,45 @@ export class Overview extends Component {
       platePositions,
     });
   };
-  handlePlateDragStop = () => {
-    const plateProperties = [];
-    for (let i in this.state.platePositions) {
-      plateProperties.push({
-        id: parseInt(i),
-        overviewPositionLeft: this.state.platePositions[i].x,
-        overviewPositionTop: this.state.platePositions[i].y,
-      });
+  handlePlateDragStop = (positionChanged) => {
+    if (positionChanged) {
+      const plateProperties = [];
+      for (let i in this.state.platePositions) {
+        plateProperties.push({
+          id: parseInt(i),
+          overviewPositionLeft: this.state.platePositions[i].x,
+          overviewPositionTop: this.state.platePositions[i].y,
+        });
+      }
+      this.props.onPlateDragStop(plateProperties);
     }
-    this.props.onPlateDragStop(plateProperties);
+    this.setState({
+      platePositions: {},
+      dragging: false,
+    });
   };
   renderPlates() {
     const { plates } = this.props;
     return plates.map((plate, i) => {
+      const position = this.state.dragging
+        ? this.state.platePositions[plate.id]
+        : {
+            x: plate.overviewPositionLeft,
+            y: plate.overviewPositionTop,
+          };
       return (
         <Plate
           key={plate.id}
           onClick={this.handlePlateClick}
           onDrag={this.handlePlateDrag}
+          onDragStart={this.handlePlateDragStart}
           onDragStop={this.handlePlateDragStop}
           onSaveName={this.props.onSavePlateName}
           onUpdatePlateDetails={this.props.onUpdatePlateDetails}
           onViewInEditor={this.handleViewPlateInEditor}
           onViewInTable={this.handleViewPlateInTable}
           plate={plate}
-          position={this.state.platePositions[plate.id]}
+          position={position}
           zIndex={`${plates.length - i}`}
         />
       );
