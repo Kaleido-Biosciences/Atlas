@@ -64,6 +64,7 @@ const tools = createSlice({
       if (!existingComponent) {
         applyToolComponents.unshift(component);
       }
+      setApplyToolComponentsValid(state);
     },
     updateApplyToolComponent(state, action) {
       const { component } = action.payload;
@@ -107,5 +108,6 @@ function setApplyToolComponentsValid(state) {
   const invalidFound = state.applyToolComponents.find((component) => {
     return component.form.errors.length > 0;
   });
+  console.log(invalidFound);
   state.applyToolComponentsValid = !invalidFound;
 }
