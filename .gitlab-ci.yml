@@ -3,10 +3,10 @@
 
 stages:
 #  - test
-  - package
-  - setup
-  - cleanup
-  - deploy
+#  - package
+#  - setup
+#  - cleanup
+#  - deploy
 
 
 image_build_staging:
