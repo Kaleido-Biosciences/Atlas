@@ -15,9 +15,12 @@ export const ComponentService = {
   getAllTypes() {
     return allTypes;
   },
-  createComponent(data, timepoints) {
-    if (typeIndex[data.type]) {
-      return typeIndex[data.type].createComponent(data, timepoints);
+  createComponent(componentData, wellComponentData) {
+    if (typeIndex[componentData.type]) {
+      return typeIndex[componentData.type].createComponent(
+        componentData,
+        wellComponentData
+      );
     } else return null;
   },
   exportComponent(component) {

@@ -52,7 +52,12 @@ export class Plate extends Component {
     this.setState({ bringForward: false });
   };
   handleDragStart = (e) => {
-    this.setState({ bringForward: true });
+    if (e.target.nodeName === 'INPUT') {
+      return false;
+    } else {
+      this.setState({ bringForward: true });
+      this.props.onDragStart();
+    }
   };
   handleDragStop = (e, { lastX, lastY }) => {
     this.setState({ bringForward: false });
@@ -61,7 +66,9 @@ export class Plate extends Component {
       plate.overviewPositionTop !== lastY ||
       plate.overviewPositionLeft !== lastX
     ) {
-      this.props.onDragStop();
+      this.props.onDragStop(true);
+    } else {
+      this.props.onDragStop(false);
     }
   };
   handleOverlayMouseDown = (e) => {
@@ -211,6 +218,7 @@ export class Plate extends Component {
 Plate.propTypes = {
   onClick: PropTypes.func,
   onDrag: PropTypes.func,
+  onDragStart: PropTypes.func,
   onDragStop: PropTypes.func,
   onSaveName: PropTypes.func,
   onUpdatePlateDetails: PropTypes.func,

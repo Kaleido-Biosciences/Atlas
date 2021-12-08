@@ -143,12 +143,10 @@ export function importWells(wells, components) {
       const component = components.find(
         (component) => component.id === wellComponent.id
       );
-      if (!component) {
-        console.log('NOT FOUND');
-        console.log('well', wellComponent);
-        console.log('components', component);
-      } else {
-        importedComponents.push(ComponentService.createComponent(component));
+      if (component) {
+        importedComponents.push(
+          ComponentService.createComponent(component, wellComponent)
+        );
       }
     });
     return createWell({

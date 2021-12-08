@@ -65,7 +65,7 @@ export class EditableText extends Component {
             onKeyUp={this.handleKeyUp}
             ref={this.inputRef}
             value={this.state.inputValue}
-            size="15"
+            size="10"
           />
         ) : (
           <span

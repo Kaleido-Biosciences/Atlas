@@ -16,17 +16,17 @@ const DEFAULT_BG_CLASS = 'bg-blue-600';
 const DARK_BG_CLASS = 'bg-blue-700';
 const DARKER_BG_CLASS = 'bg-blue-800';
 
-function createComponent(data, timepoints) {
+function createComponent(componentData, wellComponentData) {
   const component = {
-    id: `${TYPE.toUpperCase()}_${data.id}`,
+    id: `${TYPE.toUpperCase()}_${componentData.id}`,
     type: TYPE,
-    name: data.displayName,
+    name: componentData.displayName,
     description: '',
-    data,
+    data: componentData,
     selected: true,
     editable: true,
     displayEditForm: false,
-    tooltip: data.tooltip,
+    tooltip: componentData.tooltip,
     colorCode: COLOR_CODE,
     darkCode: DARK_CODE,
     darkerCode: DARKER_CODE,
@@ -35,11 +35,14 @@ function createComponent(data, timepoints) {
     darkerBgClass: DARKER_BG_CLASS,
     form: {
       errors: [],
-      units: data.units,
-      timepoints:
-        timepoints || getDefaultTimepoints(DEFAULT_CONCENTRATION, DEFAULT_TIME),
+      units: componentData.units,
+      timepoints: undefined,
     },
   };
+  component.form.timepoints =
+    wellComponentData && wellComponentData.fields
+      ? wellComponentData.fields.timepoints
+      : getDefaultTimepoints(DEFAULT_CONCENTRATION, DEFAULT_TIME);
   component.description = getDescription(component);
   return component;
 }

@@ -1,5 +1,6 @@
 import { COMPONENT_TYPE_ATTRIBUTE } from '../constants';
 import { AttributeEditForm } from '../forms/AttributeEditForm';
+import { getDescription } from '../utils';
 
 const TYPE = COMPONENT_TYPE_ATTRIBUTE;
 const COLOR_CODE = 'rgba(220, 38, 38, 1)';
@@ -9,17 +10,17 @@ const DEFAULT_BG_CLASS = 'bg-red-600';
 const DARK_BG_CLASS = 'bg-red-700';
 const DARKER_BG_CLASS = 'bg-red-800';
 
-function createComponent(data) {
+function createComponent(componentData, wellComponentData) {
   const component = {
-    id: `${TYPE.toUpperCase()}_${data.id}`,
+    id: `${TYPE.toUpperCase()}_${componentData.id}`,
     type: TYPE,
-    name: data.displayName,
+    name: componentData.displayName,
     description: '',
-    data,
+    data: componentData,
     selected: true,
     editable: true,
     displayEditForm: true,
-    tooltip: data.tooltip,
+    tooltip: componentData.tooltip,
     colorCode: COLOR_CODE,
     darkCode: DARK_CODE,
     darkerCode: DARKER_CODE,
@@ -29,11 +30,18 @@ function createComponent(data) {
     form: {
       errors: ['A value is required.'],
       value: '',
-      valueType: data.valueType,
+      valueType: componentData.valueType,
       valueUnit: null,
-      units: data.units,
+      units: componentData.units,
     },
   };
+  if (wellComponentData && wellComponentData.fields) {
+    component.form.value = wellComponentData.fields.value;
+    if (component.form.value === 'true') component.form.value = true;
+    else if (component.form.value === 'false') component.form.value = false;
+    component.form.valueUnit = wellComponentData.fields.valueUnit;
+  }
+  component.description = getDescription(component);
   return component;
 }
 
