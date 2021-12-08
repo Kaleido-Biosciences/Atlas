@@ -2,11 +2,11 @@ import validate from 'validate.js';
 
 validate.validators.timepoints = function (timepoints) {
   const messages = [];
-  let emptyTime = false;
+  let unitWithoutTime;
   let unitWithoutConcentration;
   timepoints.forEach((timepoint) => {
-    if (validate.isEmpty(timepoint.time)) {
-      emptyTime = true;
+    if (validate.isEmpty(timepoint.time) && timepoint.timeUnit !== null) {
+      unitWithoutTime = true;
     }
     if (
       validate.isEmpty(timepoint.concentration) &&
@@ -15,8 +15,8 @@ validate.validators.timepoints = function (timepoints) {
       unitWithoutConcentration = true;
     }
   });
-  if (emptyTime) {
-    messages.push('Time must be specified.');
+  if (unitWithoutTime) {
+    messages.push('Unit selected without time');
   }
   if (unitWithoutConcentration) {
     messages.push('Unit selected without concentration');
