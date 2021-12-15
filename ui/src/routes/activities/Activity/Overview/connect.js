@@ -18,6 +18,7 @@ const mapDispatch = {
   onAutoArrangePlates: activity.autoArrangePlates,
   onCloseSetPlateTypeError: activity.clearSetPlateTypeError,
   onCopyPlate: activity.setPlateIdToCopy,
+  onImportModalClose: activity.resetImport,
   onPastePlate: activity.pasteToPlates,
   onPlateDragStop: activity.updatePlateProperties,
   onPlateSelectionChange: activity.setPlateSelections,

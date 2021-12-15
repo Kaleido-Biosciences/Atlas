@@ -2,17 +2,20 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import { api } from 'api';
 
-export function setPlateType(plateIds, plateType) {
+export function setPlateType(plateTypeSettings) {
   return async (dispatch, getState) => {
+    const plateIds = plateTypeSettings.map((setting) => setting.id);
     dispatch(actions.setPlatesSaving({ plateIds, saving: true }));
     try {
-      const responseData = await api.setPlateType(plateIds, plateType.id);
+      const responseData = await api.setPlateType(plateTypeSettings);
       responseData.forEach((data) => {
         dispatch(actions.updatePlateType({ data }));
       });
       dispatch(actions.setPlatesSaving({ plateIds, saving: false }));
+      return true;
     } catch (error) {
       dispatch(actions.setSetPlateTypeError({ error: error.message }));
+      return false;
     }
   };
 }
@@ -28,17 +31,20 @@ export function pasteToPlates(plateIds) {
     const plates = selectors.selectPlates(getState());
     const plateToCopy = selectors.selectPlateToCopy(getState());
     const pasteTargets = plates.filter((plate) => plateIds.includes(plate.id));
-    const plateIdsToUpdate = [];
+    const plateTypeSettings = [];
     pasteTargets.forEach((pasteTarget) => {
       if (
         !pasteTarget.plateType ||
         pasteTarget.plateType.id !== plateToCopy.plateType.id
       ) {
-        plateIdsToUpdate.push(pasteTarget.id);
+        plateTypeSettings.push({
+          id: pasteTarget.id,
+          plateTypeId: plateToCopy.plateType.id,
+        });
       }
     });
-    if (plateIdsToUpdate.length) {
-      await dispatch(setPlateType(plateIdsToUpdate, plateToCopy.plateType));
+    if (plateTypeSettings.length) {
+      await dispatch(setPlateType(plateTypeSettings));
     }
     dispatch(actions.pasteToPlates({ plateIds }));
   };

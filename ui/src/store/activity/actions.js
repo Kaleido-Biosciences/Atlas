@@ -64,6 +64,93 @@ export function deleteActivity(name) {
   };
 }
 
+export function loadImportSourceActivity(name) {
+  return async (dispatch, getState) => {
+    dispatch(actions.setLoadingImportSourceActivity());
+    try {
+      const sourceActivity = await api.fetchActivity(name);
+      let sourceError = '';
+      if (!sourceActivity.plates || sourceActivity.plates.length === 0) {
+        sourceError = 'The activity does not have any plates';
+      } else {
+        const plateWithType = sourceActivity.plates.find(
+          (plate) => plate.plateType
+        );
+        if (!plateWithType)
+          sourceError =
+            'The activity does not have at least one plate with a plate type';
+      }
+      if (sourceError) {
+        dispatch(
+          actions.setLoadingImportSourceActivityError({ error: sourceError })
+        );
+      } else {
+        const plates = sourceActivity.plates.map((plate) => {
+          return createPlate(plate, sourceActivity.components);
+        });
+        dispatch(
+          actions.setImportSourceActivity({
+            importSourceActivity: {
+              name: sourceActivity.name,
+              plates,
+            },
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        actions.setLoadingImportSourceActivityError({ error: error.message })
+      );
+    }
+  };
+}
+
+export function updateImportMappings(mappings) {
+  return (dispatch, getState) => {
+    dispatch(actions.updateImportMapping({ mappings }));
+  };
+}
+
+export function importPlates() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(actions.setImportPending());
+      const plates = selectors.selectPlates(getState());
+      const sourcePlates = selectors.selectImportSourceActivity(
+        getState()
+      ).plates;
+      const importMappings = selectors.selectImportMappings(getState());
+      const plateTypeSettings = [];
+      importMappings.forEach((mapping) => {
+        if (mapping.sourceId) {
+          const target = plates.find((plate) => plate.id === mapping.targetId);
+          const source = sourcePlates.find(
+            (plate) => plate.id === mapping.sourceId
+          );
+          if (
+            !target.plateType ||
+            target.plateType.id !== source.plateType.id
+          ) {
+            plateTypeSettings.push({
+              id: target.id,
+              plateTypeId: source.plateType.id,
+            });
+          }
+        }
+      });
+      const responseData = await api.setPlateType(plateTypeSettings);
+      responseData.forEach((data) => {
+        dispatch(actions.updatePlateType({ data }));
+      });
+      dispatch(actions.importPlates());
+      dispatch(actions.setImportSuccess());
+    } catch (error) {
+      dispatch(actions.setImportError({ error: error.message }));
+    }
+  };
+}
+
+export const resetImport = actions.resetImport;
 export const autoArrangePlates = actions.autoArrangePlates;
 export const setPlateType = gridActions.setPlateType;
 export const clearSetPlateTypeError = actions.clearSetPlateTypeError;

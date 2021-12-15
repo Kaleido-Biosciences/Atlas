@@ -1,6 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { copyWells, setPlateProperties, swapComponents } from 'models';
 
+const initialImportState = {
+  loadingImportSourceActivity: false,
+  loadingImportSourceActivityError: '',
+  importSourceActivity: null,
+  importMappings: [],
+  importPending: false,
+  importError: '',
+  importSuccess: false,
+};
+
 const initialState = {
   loading: false,
   initialized: false,
@@ -18,6 +28,7 @@ const initialState = {
   deleteActivityStatus: '',
   savePending: false,
   saveError: '',
+  ...initialImportState,
 };
 
 const activity = createSlice({
@@ -313,6 +324,69 @@ const activity = createSlice({
     setSaveError(state, action) {
       state.savePending = false;
       state.saveError = action.payload.error;
+    },
+    setLoadingImportSourceActivity(state, action) {
+      state.loadingImportSourceActivity = true;
+      state.loadingImportSourceActivityError = '';
+    },
+    setLoadingImportSourceActivityError(state, action) {
+      state.loadingImportSourceActivity = false;
+      state.loadingImportSourceActivityError = action.payload.error;
+    },
+    setImportSourceActivity(state, action) {
+      const { importSourceActivity } = action.payload;
+      let sourcePlates = importSourceActivity.plates.filter((plate) => {
+        if (plate.plateType) {
+          return true;
+        } else return false;
+      });
+      state.loadingImportSourceActivity = false;
+      state.importSourceActivity = {
+        name: importSourceActivity.name,
+        plates: sourcePlates,
+      };
+      state.importMappings = state.plates.map((plate, i) => {
+        return {
+          targetId: plate.id,
+          sourceId: sourcePlates[i] ? sourcePlates[i].id : null,
+        };
+      });
+    },
+    updateImportMapping(state, action) {
+      const { mappings } = action.payload;
+      mappings.forEach((mapping) => {
+        const index = state.importMappings.findIndex(
+          (stateMapping) => stateMapping.targetId === mapping.targetId
+        );
+        state.importMappings.splice(index, 1, mapping);
+      });
+    },
+    importPlates(state, action) {
+      state.importMappings.forEach((mapping) => {
+        if (mapping.targetId && mapping.sourceId) {
+          const targetPlate = findPlate(mapping.targetId, state.plates);
+          const sourcePlate = findPlate(
+            mapping.sourceId,
+            state.importSourceActivity.plates
+          );
+          copyWells(targetPlate, sourcePlate);
+        }
+      });
+    },
+    setImportPending(state, action) {
+      state.importPending = true;
+      state.importError = '';
+    },
+    setImportError(state, action) {
+      state.importPending = false;
+      state.importError = action.payload.error;
+    },
+    setImportSuccess(state, action) {
+      state.importPending = false;
+      state.importSuccess = true;
+    },
+    resetImport(state, action) {
+      Object.assign(state, initialImportState);
     },
   },
 });
