@@ -108,6 +108,5 @@ function setApplyToolComponentsValid(state) {
   const invalidFound = state.applyToolComponents.find((component) => {
     return component.form.errors.length > 0;
   });
-  console.log(invalidFound);
   state.applyToolComponentsValid = !invalidFound;
 }
