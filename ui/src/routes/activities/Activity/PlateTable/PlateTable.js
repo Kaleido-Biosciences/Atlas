@@ -12,8 +12,8 @@ export class PlateTable extends Component {
       this.props.onWellClick([well.id], [plate.id], this.props.view.id);
     }
   };
-  handlePlateChange = (plateId) => {
-    this.props.onPlateChange([plateId]);
+  handlePlateChange = (plate) => {
+    this.props.onPlateChange([plate.id]);
   };
   handleRemoveComponent = (wellId, componentId) => {
     if (this.props.onRemoveComponent) {
