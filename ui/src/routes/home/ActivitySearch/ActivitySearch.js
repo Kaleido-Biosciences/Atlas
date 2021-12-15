@@ -23,7 +23,7 @@ export class ActivitySearch extends Component {
       disableBlur: false,
       allowShowNoResults: false,
     };
-    this.inputRef = React.createRef();
+    this.inputRef = props.inputRef || React.createRef();
   }
   componentDidMount() {
     if (this.props.autoFocus) {
@@ -45,6 +45,7 @@ export class ActivitySearch extends Component {
   }
   handleFocus = () => {
     this.setState({ focused: true });
+    if (this.props.onInputFocus) this.props.onInputFocus();
   };
   handleBlur = (event) => {
     if (!this.state.disableBlur) {
@@ -57,6 +58,8 @@ export class ActivitySearch extends Component {
     }
   };
   handleResultClick = (id, name) => {
+    this.inputRef.current.blur();
+    this.setState({ focused: false, disableBlur: false });
     if (this.props.onSelect) {
       this.props.onSelect(id, name);
     }
@@ -194,8 +197,10 @@ export class ActivitySearch extends Component {
 ActivitySearch.propTypes = {
   autoFocus: PropTypes.bool,
   error: PropTypes.string,
+  inputRef: PropTypes.object,
   loading: PropTypes.bool,
   onChange: PropTypes.func,
+  onInputFocus: PropTypes.func,
   onSelect: PropTypes.func,
   onUnmount: PropTypes.func,
   placeholder: PropTypes.string,
