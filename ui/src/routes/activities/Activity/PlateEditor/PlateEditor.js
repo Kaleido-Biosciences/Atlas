@@ -10,8 +10,8 @@ export class PlateEditor extends Component {
       this.props.onGridClick(wells, plates, this.props.view.id);
     }
   };
-  handlePlateChange = (plateId) => {
-    this.props.onPlateChange([plateId]);
+  handlePlateChange = (plate) => {
+    this.props.onPlateChange([plate.id]);
   };
   handleSizeChange = (size) => {
     this.props.onUpdateViewData(this.props.view.id, {

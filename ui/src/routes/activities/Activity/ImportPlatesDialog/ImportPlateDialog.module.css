@@ -1,0 +1,9 @@
+.dialogBody {
+  height: 500px;
+  width: 500px;
+}
+
+.options {
+  flex: 1 1 100%;
+  overflow-y: auto;
+}

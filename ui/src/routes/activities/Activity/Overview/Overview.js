@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { Plate } from './Plate';
 import { Button, IconButton } from 'ui';
 import { PlateTypeDropdown } from '../PlateTypeDropdown';
+import { ImportPlatesDialog } from '../ImportPlatesDialog';
 import styles from './Overview.module.css';
 
 export class Overview extends Component {
@@ -13,6 +14,7 @@ export class Overview extends Component {
     this.state = {
       platePositions: {},
       dragging: false,
+      importPlatesDialogOpen: false,
     };
   }
   handleSelectAll = () => {
@@ -43,7 +45,13 @@ export class Overview extends Component {
   };
   handleSetPlateType = (plateType) => {
     if (this.props.selectedPlateIds.length > 0) {
-      this.props.onSetPlateType(this.props.selectedPlateIds, plateType);
+      const plateTypeSettings = this.props.selectedPlateIds.map((plateId) => {
+        return {
+          id: plateId,
+          plateTypeId: plateType.id,
+        };
+      });
+      this.props.onSetPlateType(plateTypeSettings);
     }
   };
   handlePlateClick = (plateId, key) => {
@@ -134,6 +142,17 @@ export class Overview extends Component {
       dragging: false,
     });
   };
+  handleOpenImportPlatesDialog = () => {
+    this.setState({
+      importPlatesDialogOpen: true,
+    });
+  };
+  handleCloseImportPlatesDialog = () => {
+    this.setState({
+      importPlatesDialogOpen: false,
+    });
+    this.props.onImportModalClose();
+  };
   renderPlates() {
     const { plates } = this.props;
     return plates.map((plate, i) => {
@@ -194,6 +213,10 @@ export class Overview extends Component {
         onKeyDown={this.handleKeyDown}
         tabIndex="1"
       >
+        <ImportPlatesDialog
+          onClose={this.handleCloseImportPlatesDialog}
+          open={this.state.importPlatesDialogOpen}
+        />
         <div className="px-3 py-2 bg-gray-50  flex flex-row items-center">
           <IconButton
             className={iconButtonClasses}
@@ -222,11 +245,17 @@ export class Overview extends Component {
             disabled={this.props.pastePlateDisabled}
           />
           <IconButton
-            className={classNames(iconButtonClasses, 'mr-2')}
+            className={iconButtonClasses}
             icon="exchange-alt"
             onClick={this.handleSwapComponents}
             tooltip="Swap Components"
             disabled={this.props.swapComponentsDisabled}
+          />
+          <IconButton
+            className={classNames(iconButtonClasses, 'mr-2')}
+            icon="file-import"
+            onClick={this.handleOpenImportPlatesDialog}
+            tooltip="Import Plates"
           />
           <Button
             onClick={this.handleAutoArrangePlates}
@@ -260,6 +289,7 @@ Overview.propTypes = {
   onAutoArrangePlates: PropTypes.func.isRequired,
   onCloseSetPlateTypeError: PropTypes.func.isRequired,
   onCopyPlate: PropTypes.func.isRequired,
+  onImportModalClose: PropTypes.func.isRequired,
   onPastePlate: PropTypes.func.isRequired,
   onPlateDragStop: PropTypes.func.isRequired,
   onPlateSelectionChange: PropTypes.func.isRequired,

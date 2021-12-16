@@ -7,11 +7,14 @@ import classNames from 'classnames';
 export class PlateDropdown extends Component {
   handleChange = (plate) => {
     if (this.props.onChange) {
-      this.props.onChange(plate.id);
+      this.props.onChange(plate);
     }
   };
   render() {
-    const selectedPlate = this.props.plates.find((plate) => plate.selected);
+    let selectedPlate = this.props.value;
+    if (!selectedPlate) {
+      selectedPlate = this.props.plates.find((plate) => plate.selected);
+    }
     return (
       <Listbox value={selectedPlate} onChange={this.handleChange}>
         <div className="mt-1 relative">
@@ -104,4 +107,5 @@ export class PlateDropdown extends Component {
 PlateDropdown.propTypes = {
   onChange: PropTypes.func,
   plates: PropTypes.array,
+  value: PropTypes.object,
 };

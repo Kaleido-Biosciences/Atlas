@@ -79,3 +79,6 @@ export const selectSwapComponentsDisabled = createSelector(
 );
 export const selectSavePending = (state) => state.activity.savePending;
 export const selectSaveError = (state) => state.activity.saveError;
+export const selectImportPending = (state) => state.activity.importPending;
+export const selectImportError = (state) => state.activity.importError;
+export const selectImportSuccess = (state) => state.activity.importSuccess;

@@ -18,6 +18,9 @@ const initialState = {
   deleteActivityStatus: '',
   savePending: false,
   saveError: '',
+  importPending: false,
+  importError: '',
+  importSuccess: false,
 };
 
 const activity = createSlice({
@@ -313,6 +316,28 @@ const activity = createSlice({
     setSaveError(state, action) {
       state.savePending = false;
       state.saveError = action.payload.error;
+    },
+    importPlates(state, action) {
+      const { importMappings, sourcePlates } = action.payload;
+      importMappings.forEach((mapping) => {
+        if (mapping.targetId && mapping.sourceId) {
+          const targetPlate = findPlate(mapping.targetId, state.plates);
+          const sourcePlate = findPlate(mapping.sourceId, sourcePlates);
+          copyWells(targetPlate, sourcePlate);
+        }
+      });
+    },
+    setImportPending(state, action) {
+      state.importPending = true;
+      state.importError = '';
+    },
+    setImportError(state, action) {
+      state.importPending = false;
+      state.importError = action.payload.error;
+    },
+    setImportSuccess(state, action) {
+      state.importPending = false;
+      state.importSuccess = true;
     },
   },
 });
