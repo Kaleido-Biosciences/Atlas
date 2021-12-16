@@ -10,7 +10,7 @@ export class Header extends Component {
     return dayjs(updateDate).format('L LT');
   });
   handleSave = () => {
-    this.props.onSave(this.props.name);
+    this.props.onSave();
   };
   render() {
     return (

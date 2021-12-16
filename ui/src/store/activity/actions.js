@@ -40,10 +40,11 @@ export function loadActivity(name) {
   };
 }
 
-export function saveActivity(name) {
+export function saveActivity() {
   return async (dispatch, getState) => {
     dispatch(actions.setSavePending());
     try {
+      const name = selectors.selectName(getState());
       const plates = selectors.selectPlates(getState());
       const response = await api.saveActivity(name, plates);
       dispatch(actions.setSaveSuccess({ updateDate: response.updateDate }));
@@ -98,8 +99,7 @@ export function importPlates() {
       });
       dispatch(actions.importPlates({ importMappings, sourcePlates }));
       dispatch(actions.setImportSuccess());
-      const activityName = selectors.selectName(getState());
-      dispatch(saveActivity(activityName));
+      dispatch(saveActivity());
     } catch (error) {
       dispatch(actions.setImportError({ error: error.message }));
     }
