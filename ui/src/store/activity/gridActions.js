@@ -6,36 +6,6 @@ export function setPlateIdToCopy(plateId) {
   };
 }
 
-// export function pasteToPlates(plateIds) {
-//   return async (dispatch, getState) => {
-//     const plates = selectors.selectPlates(getState());
-//     const plateToCopy = selectors.selectPlateToCopy(getState());
-//     const pasteTargets = plates.filter((plate) => plateIds.includes(plate.id));
-//     const plateTypeSettings = [];
-//     pasteTargets.forEach((pasteTarget) => {
-//       if (
-//         !pasteTarget.plateType ||
-//         pasteTarget.plateType.id !== plateToCopy.plateType.id
-//       ) {
-//         plateTypeSettings.push({
-//           id: pasteTarget.id,
-//           plateTypeId: plateToCopy.plateType.id,
-//         });
-//       }
-//     });
-//     if (plateTypeSettings.length) {
-//       await dispatch(setPlateType(plateTypeSettings));
-//     }
-//     dispatch(actions.pasteToPlates({ plateIds }));
-//   };
-// }
-
-export function swapComponents(plateIds) {
-  return (dispatch, getState) => {
-    dispatch(actions.swapComponents({ plateIds }));
-  };
-}
-
 export function setPlateName(plateId, name) {
   return (dispatch, getState) => {
     dispatch(

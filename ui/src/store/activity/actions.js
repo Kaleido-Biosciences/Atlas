@@ -115,6 +115,13 @@ export function pasteToPlates(plateIds) {
   };
 }
 
+export function swapComponents(plateIds) {
+  return (dispatch, getState) => {
+    dispatch(actions.swapComponents({ plateIds }));
+    dispatch(saveActivity());
+  };
+}
+
 export function importPlates() {
   return async (dispatch, getState) => {
     try {
@@ -159,7 +166,6 @@ export const autoArrangePlates = actions.autoArrangePlates;
 export const clearSetPlateTypeError = actions.clearSetPlateTypeError;
 export const setPlateName = gridActions.setPlateName;
 export const setPlateIdToCopy = gridActions.setPlateIdToCopy;
-export const swapComponents = gridActions.swapComponents;
 export const updatePlateDetails = gridActions.updatePlateDetails;
 export const updatePlateProperties = gridActions.updatePlateProperties;
 export const setPlateSelections = gridActions.setPlateSelections;
