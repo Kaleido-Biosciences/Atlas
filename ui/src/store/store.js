@@ -3,6 +3,7 @@ import logger from 'redux-logger';
 
 import { activity } from './activity';
 import { activitySearch } from './activitySearch';
+import { importPlates } from './importPlates';
 import { print } from './print';
 import { tools } from './tools';
 
@@ -10,6 +11,7 @@ export const store = configureStore({
   reducer: {
     activity: activity.reducer,
     activitySearch: activitySearch.reducer,
+    importPlates: importPlates.reducer,
     tools: tools.reducer,
     print: print.reducer,
   },

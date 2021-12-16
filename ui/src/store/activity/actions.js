@@ -2,6 +2,7 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import * as gridActions from './gridActions';
 import * as viewActions from './viewActions';
+import * as importPlatesSelectors from '../importPlates/selectors';
 import { api } from 'api';
 import { createPlate } from 'models';
 
@@ -64,62 +65,15 @@ export function deleteActivity(name) {
   };
 }
 
-export function loadImportSourceActivity(name) {
-  return async (dispatch, getState) => {
-    dispatch(actions.setLoadingImportSourceActivity());
-    try {
-      const sourceActivity = await api.fetchActivity(name);
-      let sourceError = '';
-      if (!sourceActivity.plates || sourceActivity.plates.length === 0) {
-        sourceError = 'The activity does not have any plates';
-      } else {
-        const plateWithType = sourceActivity.plates.find(
-          (plate) => plate.plateType
-        );
-        if (!plateWithType)
-          sourceError =
-            'The activity does not have at least one plate with a plate type';
-      }
-      if (sourceError) {
-        dispatch(
-          actions.setLoadingImportSourceActivityError({ error: sourceError })
-        );
-      } else {
-        const plates = sourceActivity.plates.map((plate) => {
-          return createPlate(plate, sourceActivity.components);
-        });
-        dispatch(
-          actions.setImportSourceActivity({
-            importSourceActivity: {
-              name: sourceActivity.name,
-              plates,
-            },
-          })
-        );
-      }
-    } catch (error) {
-      dispatch(
-        actions.setLoadingImportSourceActivityError({ error: error.message })
-      );
-    }
-  };
-}
-
-export function updateImportMappings(mappings) {
-  return (dispatch, getState) => {
-    dispatch(actions.updateImportMapping({ mappings }));
-  };
-}
-
 export function importPlates() {
   return async (dispatch, getState) => {
     try {
       dispatch(actions.setImportPending());
       const plates = selectors.selectPlates(getState());
-      const sourcePlates = selectors.selectImportSourceActivity(
+      const sourcePlates = importPlatesSelectors.selectSourceActivity(
         getState()
       ).plates;
-      const importMappings = selectors.selectImportMappings(getState());
+      const importMappings = importPlatesSelectors.selectMappings(getState());
       const plateTypeSettings = [];
       importMappings.forEach((mapping) => {
         if (mapping.sourceId) {
@@ -142,7 +96,7 @@ export function importPlates() {
       responseData.forEach((data) => {
         dispatch(actions.updatePlateType({ data }));
       });
-      dispatch(actions.importPlates());
+      dispatch(actions.importPlates({ importMappings, sourcePlates }));
       dispatch(actions.setImportSuccess());
     } catch (error) {
       dispatch(actions.setImportError({ error: error.message }));
@@ -150,7 +104,6 @@ export function importPlates() {
   };
 }
 
-export const resetImport = actions.resetImport;
 export const autoArrangePlates = actions.autoArrangePlates;
 export const setPlateType = gridActions.setPlateType;
 export const clearSetPlateTypeError = actions.clearSetPlateTypeError;

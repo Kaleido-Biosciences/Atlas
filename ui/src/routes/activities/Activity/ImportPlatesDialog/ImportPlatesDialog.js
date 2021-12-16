@@ -21,8 +21,8 @@ export class ImportPlatesDialog extends Component {
     ]);
   };
   handleUseForAll = (plateId) => {
-    const { importMappings } = this.props;
-    const newMappings = importMappings.map((mapping) => {
+    const { mappings } = this.props;
+    const newMappings = mappings.map((mapping) => {
       return {
         targetId: mapping.targetId,
         sourceId: plateId,
@@ -31,8 +31,8 @@ export class ImportPlatesDialog extends Component {
     this.props.onMappingChange(newMappings);
   };
   handleClearAll = () => {
-    const { importMappings } = this.props;
-    const newMappings = importMappings.map((mapping) => {
+    const { mappings } = this.props;
+    const newMappings = mappings.map((mapping) => {
       return {
         targetId: mapping.targetId,
         sourceId: null,
@@ -40,15 +40,16 @@ export class ImportPlatesDialog extends Component {
     });
     this.props.onMappingChange(newMappings);
   };
+  handleStartOver = () => {
+    this.props.onStartOver();
+  };
   renderPlateOptions = () => {
     const targetPlates = this.props.targetPlates;
     const sourceActivity = this.props.sourceActivity;
     const sourcePlates = sourceActivity.plates;
-    const importMappings = this.props.importMappings;
+    const { mappings } = this.props;
     const options = targetPlates.map((plate) => {
-      const mapping = importMappings.find(
-        (mapping) => mapping.targetId === plate.id
-      );
+      const mapping = mappings.find((mapping) => mapping.targetId === plate.id);
       return (
         <PlateOption
           key={plate.id}
@@ -85,7 +86,7 @@ export class ImportPlatesDialog extends Component {
           <Button secondary onClick={this.handleClearAll} className="mr-2">
             Clear All
           </Button>
-          <Button secondary onClick={this.props.onStartOver} className="mr-2">
+          <Button secondary onClick={this.handleStartOver} className="mr-2">
             Start Over
           </Button>
           <Button onClick={this.props.onImport}>Import</Button>
@@ -141,11 +142,7 @@ export class ImportPlatesDialog extends Component {
               </div>
             </div>
             <div className="mt-2">
-              <Button
-                secondary
-                onClick={this.props.onStartOver}
-                className="mr-2"
-              >
+              <Button secondary onClick={this.handleStartOver} className="mr-2">
                 Start Over
               </Button>
               <Button onClick={this.props.onImport}>Try again</Button>
@@ -184,11 +181,11 @@ export class ImportPlatesDialog extends Component {
 
 ImportPlatesDialog.propTypes = {
   importError: PropTypes.string,
-  importMappings: PropTypes.array,
   importPending: PropTypes.bool,
   importSuccess: PropTypes.bool,
   loadingSourceActvity: PropTypes.bool,
   loadingSourceActivityError: PropTypes.string,
+  mappings: PropTypes.array,
   onActivitySearchInputFocus: PropTypes.func,
   onActivitySelect: PropTypes.func.isRequired,
   onClose: PropTypes.func,

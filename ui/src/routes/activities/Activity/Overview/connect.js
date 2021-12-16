@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Overview } from './Overview';
-import { activity } from 'store';
+import { activity, importPlates } from 'store';
 
 const mapState = (state, props) => {
   return {
@@ -18,7 +18,7 @@ const mapDispatch = {
   onAutoArrangePlates: activity.autoArrangePlates,
   onCloseSetPlateTypeError: activity.clearSetPlateTypeError,
   onCopyPlate: activity.setPlateIdToCopy,
-  onImportModalClose: activity.resetImport,
+  onImportModalClose: importPlates.reset,
   onPastePlate: activity.pasteToPlates,
   onPlateDragStop: activity.updatePlateProperties,
   onPlateSelectionChange: activity.setPlateSelections,
