@@ -144,10 +144,14 @@ export function pasteToPlates(plateIds) {
         });
       }
     });
+    let setTypeSuccess = false;
     if (plateTypeSettings.length) {
-      await dispatch(setPlateType(plateTypeSettings));
+      setTypeSuccess = await dispatch(setPlateType(plateTypeSettings));
     }
-    dispatch(actions.pasteToPlates({ plateIds }));
+    if (!plateTypeSettings.length || setTypeSuccess) {
+      dispatch(actions.pasteToPlates({ plateIds }));
+      dispatch(saveActivity());
+    }
   };
 }
 
