@@ -104,11 +104,6 @@ const activity = createSlice({
       const plate = findPlate(plateId, state.plates);
       plate.name = name;
     },
-    updatePlateDetails(state, action) {
-      const { plateId, details } = action.payload;
-      const plate = findPlate(plateId, state.plates);
-      Object.assign(plate, details);
-    },
     updatePlateProperties(state, action) {
       const { plateProperties } = action.payload;
       plateProperties.forEach((plateProps) => {

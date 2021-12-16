@@ -17,17 +17,6 @@ export function setPlateName(plateId, name) {
   };
 }
 
-export function updatePlateDetails(plateId, details) {
-  return (dispatch, getState) => {
-    dispatch(
-      actions.updatePlateDetails({
-        plateId,
-        details,
-      })
-    );
-  };
-}
-
 export function updatePlateProperties(plateProperties) {
   return (dispatch, getState) => {
     dispatch(actions.updatePlateProperties({ plateProperties }));

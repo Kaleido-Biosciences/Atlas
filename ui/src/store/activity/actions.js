@@ -166,7 +166,6 @@ export const autoArrangePlates = actions.autoArrangePlates;
 export const clearSetPlateTypeError = actions.clearSetPlateTypeError;
 export const setPlateName = gridActions.setPlateName;
 export const setPlateIdToCopy = gridActions.setPlateIdToCopy;
-export const updatePlateDetails = gridActions.updatePlateDetails;
 export const updatePlateProperties = gridActions.updatePlateProperties;
 export const setPlateSelections = gridActions.setPlateSelections;
 export const selectAllPlateWells = gridActions.selectAllPlateWells;
