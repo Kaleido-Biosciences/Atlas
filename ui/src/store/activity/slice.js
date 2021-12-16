@@ -317,6 +317,9 @@ const activity = createSlice({
       state.savePending = false;
       state.saveError = action.payload.error;
     },
+    setUpdateDate(state, action) {
+      state.updateDate = action.payload.updateDate;
+    },
     importPlates(state, action) {
       const { importMappings, sourcePlates } = action.payload;
       importMappings.forEach((mapping) => {

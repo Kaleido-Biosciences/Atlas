@@ -1,24 +1,4 @@
 import { actions } from './slice';
-import * as selectors from './selectors';
-import { api } from 'api';
-
-export function setPlateType(plateTypeSettings) {
-  return async (dispatch, getState) => {
-    const plateIds = plateTypeSettings.map((setting) => setting.id);
-    dispatch(actions.setPlatesSaving({ plateIds, saving: true }));
-    try {
-      const responseData = await api.setPlateType(plateTypeSettings);
-      responseData.forEach((data) => {
-        dispatch(actions.updatePlateType({ data }));
-      });
-      dispatch(actions.setPlatesSaving({ plateIds, saving: false }));
-      return true;
-    } catch (error) {
-      dispatch(actions.setSetPlateTypeError({ error: error.message }));
-      return false;
-    }
-  };
-}
 
 export function setPlateIdToCopy(plateId) {
   return (dispatch, getState) => {
@@ -26,29 +6,29 @@ export function setPlateIdToCopy(plateId) {
   };
 }
 
-export function pasteToPlates(plateIds) {
-  return async (dispatch, getState) => {
-    const plates = selectors.selectPlates(getState());
-    const plateToCopy = selectors.selectPlateToCopy(getState());
-    const pasteTargets = plates.filter((plate) => plateIds.includes(plate.id));
-    const plateTypeSettings = [];
-    pasteTargets.forEach((pasteTarget) => {
-      if (
-        !pasteTarget.plateType ||
-        pasteTarget.plateType.id !== plateToCopy.plateType.id
-      ) {
-        plateTypeSettings.push({
-          id: pasteTarget.id,
-          plateTypeId: plateToCopy.plateType.id,
-        });
-      }
-    });
-    if (plateTypeSettings.length) {
-      await dispatch(setPlateType(plateTypeSettings));
-    }
-    dispatch(actions.pasteToPlates({ plateIds }));
-  };
-}
+// export function pasteToPlates(plateIds) {
+//   return async (dispatch, getState) => {
+//     const plates = selectors.selectPlates(getState());
+//     const plateToCopy = selectors.selectPlateToCopy(getState());
+//     const pasteTargets = plates.filter((plate) => plateIds.includes(plate.id));
+//     const plateTypeSettings = [];
+//     pasteTargets.forEach((pasteTarget) => {
+//       if (
+//         !pasteTarget.plateType ||
+//         pasteTarget.plateType.id !== plateToCopy.plateType.id
+//       ) {
+//         plateTypeSettings.push({
+//           id: pasteTarget.id,
+//           plateTypeId: plateToCopy.plateType.id,
+//         });
+//       }
+//     });
+//     if (plateTypeSettings.length) {
+//       await dispatch(setPlateType(plateTypeSettings));
+//     }
+//     dispatch(actions.pasteToPlates({ plateIds }));
+//   };
+// }
 
 export function swapComponents(plateIds) {
   return (dispatch, getState) => {

@@ -106,12 +106,55 @@ export function importPlates() {
   };
 }
 
+export function setPlateType(plateTypeSettings) {
+  return async (dispatch, getState) => {
+    const plateIds = plateTypeSettings.map((setting) => setting.id);
+    dispatch(actions.setPlatesSaving({ plateIds, saving: true }));
+    try {
+      const responseData = await api.setPlateType(plateTypeSettings);
+      responseData.forEach((data) => {
+        dispatch(actions.updatePlateType({ data }));
+      });
+      dispatch(
+        actions.setUpdateDate({ updateDate: responseData[0].updateDate })
+      );
+      dispatch(actions.setPlatesSaving({ plateIds, saving: false }));
+      return true;
+    } catch (error) {
+      dispatch(actions.setSetPlateTypeError({ error: error.message }));
+      return false;
+    }
+  };
+}
+
+export function pasteToPlates(plateIds) {
+  return async (dispatch, getState) => {
+    const plates = selectors.selectPlates(getState());
+    const plateToCopy = selectors.selectPlateToCopy(getState());
+    const pasteTargets = plates.filter((plate) => plateIds.includes(plate.id));
+    const plateTypeSettings = [];
+    pasteTargets.forEach((pasteTarget) => {
+      if (
+        !pasteTarget.plateType ||
+        pasteTarget.plateType.id !== plateToCopy.plateType.id
+      ) {
+        plateTypeSettings.push({
+          id: pasteTarget.id,
+          plateTypeId: plateToCopy.plateType.id,
+        });
+      }
+    });
+    if (plateTypeSettings.length) {
+      await dispatch(setPlateType(plateTypeSettings));
+    }
+    dispatch(actions.pasteToPlates({ plateIds }));
+  };
+}
+
 export const autoArrangePlates = actions.autoArrangePlates;
-export const setPlateType = gridActions.setPlateType;
 export const clearSetPlateTypeError = actions.clearSetPlateTypeError;
 export const setPlateName = gridActions.setPlateName;
 export const setPlateIdToCopy = gridActions.setPlateIdToCopy;
-export const pasteToPlates = gridActions.pasteToPlates;
 export const swapComponents = gridActions.swapComponents;
 export const updatePlateDetails = gridActions.updatePlateDetails;
 export const updatePlateProperties = gridActions.updatePlateProperties;
