@@ -98,6 +98,8 @@ export function importPlates() {
       });
       dispatch(actions.importPlates({ importMappings, sourcePlates }));
       dispatch(actions.setImportSuccess());
+      const activityName = selectors.selectName(getState());
+      dispatch(saveActivity(activityName));
     } catch (error) {
       dispatch(actions.setImportError({ error: error.message }));
     }
