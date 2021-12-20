@@ -5,3 +5,6 @@ export const selectLoadingSourceActivityError = (state) =>
 export const selectSourceActivity = (state) =>
   state.importPlates.sourceActivity;
 export const selectMappings = (state) => state.importPlates.mappings;
+export const selectImportPending = (state) => state.importPlates.importPending;
+export const selectImportError = (state) => state.importPlates.importError;
+export const selectImportSuccess = (state) => state.importPlates.importSuccess;
