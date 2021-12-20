@@ -20,6 +20,7 @@ export class Header extends Component {
           <div className="flex items-center">
             <Button
               content="Save"
+              disabled={this.props.savePending}
               icon="save"
               secondary
               className="ml-2"

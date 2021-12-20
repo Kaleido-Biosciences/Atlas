@@ -85,7 +85,7 @@ export const applySelectedToolComponentsToWells = (wellIds, plateIds) => {
         });
         dispatch(activity.updatePlateWells(plateId, updatedWells));
       });
-      dispatch(activity.saveActivity());
+      dispatch(activity.debouncedSaveActivity());
     }
   };
 };
@@ -114,7 +114,7 @@ export const applySelectedToolComponentsToSelectedWells = () => {
           dispatch(activity.updatePlateWells(plate.id, updatedWells));
         }
       });
-      dispatch(activity.saveActivity());
+      dispatch(activity.debouncedSaveActivity());
     }
   };
 };
@@ -137,7 +137,7 @@ export const removeComponentTypesFromWells = (wellIds, plateIds) => {
         plateIds
       )
     );
-    dispatch(activity.saveActivity());
+    dispatch(activity.debouncedSaveActivity());
   };
 };
 
@@ -164,7 +164,7 @@ export const removeComponentTypesFromSelectedWells = () => {
         }
       }
     });
-    dispatch(activity.saveActivity());
+    dispatch(activity.debouncedSaveActivity());
   };
 };
 

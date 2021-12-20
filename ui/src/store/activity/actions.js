@@ -41,7 +41,7 @@ export function loadActivity(name) {
   };
 }
 
-const debouncedSave = _.debounce(async (dispatch, getState) => {
+const saveActivity = async (dispatch, getState) => {
   dispatch(actions.setSavePending());
   try {
     const name = selectors.selectName(getState());
@@ -51,11 +51,19 @@ const debouncedSave = _.debounce(async (dispatch, getState) => {
   } catch (error) {
     dispatch(actions.setSaveError({ error: error.message }));
   }
-}, 1000);
+};
 
-export function saveActivity() {
-  return async (dispatch, getState) => {
+const debouncedSave = _.debounce(saveActivity, 1000);
+
+export function debouncedSaveActivity() {
+  return (dispatch, getState) => {
     debouncedSave(dispatch, getState);
+  };
+}
+
+export function instantSaveActivity() {
+  return (dispatch, getState) => {
+    saveActivity(dispatch, getState);
   };
 }
 
@@ -115,7 +123,7 @@ export function pasteToPlates(plateIds) {
     }
     if (!plateTypeSettings.length || setTypeSuccess) {
       dispatch(actions.pasteToPlates({ plateIds }));
-      dispatch(saveActivity());
+      dispatch(debouncedSaveActivity());
     }
   };
 }
@@ -123,7 +131,7 @@ export function pasteToPlates(plateIds) {
 export function swapComponents(plateIds) {
   return (dispatch, getState) => {
     dispatch(actions.swapComponents({ plateIds }));
-    dispatch(saveActivity());
+    dispatch(debouncedSaveActivity());
   };
 }
 
@@ -160,7 +168,7 @@ export function importPlates() {
       });
       dispatch(actions.importPlates({ importMappings, sourcePlates }));
       dispatch(actions.setImportSuccess());
-      dispatch(saveActivity());
+      dispatch(debouncedSaveActivity());
     } catch (error) {
       dispatch(actions.setImportError({ error: error.message }));
     }
@@ -176,7 +184,7 @@ export function removeComponentFromWell(plateId, wellId, componentId) {
         componentId,
       })
     );
-    dispatch(saveActivity());
+    dispatch(debouncedSaveActivity());
   };
 }
 
