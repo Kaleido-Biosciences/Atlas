@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { actions } from './slice';
 import * as selectors from './selectors';
 import * as gridActions from './gridActions';
@@ -40,17 +41,21 @@ export function loadActivity(name) {
   };
 }
 
+const debouncedSave = _.debounce(async (dispatch, getState) => {
+  dispatch(actions.setSavePending());
+  try {
+    const name = selectors.selectName(getState());
+    const plates = selectors.selectPlates(getState());
+    const response = await api.saveActivity(name, plates);
+    dispatch(actions.setSaveSuccess({ updateDate: response.updateDate }));
+  } catch (error) {
+    dispatch(actions.setSaveError({ error: error.message }));
+  }
+}, 1000);
+
 export function saveActivity() {
   return async (dispatch, getState) => {
-    dispatch(actions.setSavePending());
-    try {
-      const name = selectors.selectName(getState());
-      const plates = selectors.selectPlates(getState());
-      const response = await api.saveActivity(name, plates);
-      dispatch(actions.setSaveSuccess({ updateDate: response.updateDate }));
-    } catch (error) {
-      dispatch(actions.setSaveError({ error: error.message }));
-    }
+    debouncedSave(dispatch, getState);
   };
 }
 
