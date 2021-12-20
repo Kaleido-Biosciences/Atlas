@@ -4,9 +4,9 @@ import { activity, importPlates } from 'store';
 
 const mapState = (state, props) => {
   return {
-    importError: activity.selectImportError(state),
-    importPending: activity.selectImportPending(state),
-    importSuccess: activity.selectImportSuccess(state),
+    importError: importPlates.selectImportError(state),
+    importPending: importPlates.selectImportPending(state),
+    importSuccess: importPlates.selectImportSuccess(state),
     loadingSourceActivity: importPlates.selectLoadingSourceActivity(state),
     loadingSourceActivityError:
       importPlates.selectLoadingSourceActivityError(state),
@@ -19,7 +19,7 @@ const mapState = (state, props) => {
 const mapDispatch = {
   onActivitySearchInputFocus: importPlates.reset,
   onActivitySelect: importPlates.loadSourceActivity,
-  onImport: activity.importPlates,
+  onImport: importPlates.importPlates,
   onMappingChange: importPlates.updateMappings,
   onStartOver: importPlates.reset,
 };

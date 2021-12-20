@@ -3,7 +3,6 @@ import { actions } from './slice';
 import * as selectors from './selectors';
 import * as gridActions from './gridActions';
 import * as viewActions from './viewActions';
-import * as importPlatesSelectors from '../importPlates/selectors';
 import { api } from 'api';
 import { createPlate } from 'models';
 
@@ -132,46 +131,6 @@ export function swapComponents(plateIds) {
   return (dispatch, getState) => {
     dispatch(actions.swapComponents({ plateIds }));
     dispatch(debouncedSaveActivity());
-  };
-}
-
-export function importPlates() {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(actions.setImportPending());
-      const plates = selectors.selectPlates(getState());
-      const sourcePlates = importPlatesSelectors.selectSourceActivity(
-        getState()
-      ).plates;
-      const importMappings = importPlatesSelectors.selectMappings(getState());
-      const plateTypeSettings = [];
-      importMappings.forEach((mapping) => {
-        if (mapping.sourceId) {
-          const target = plates.find((plate) => plate.id === mapping.targetId);
-          const source = sourcePlates.find(
-            (plate) => plate.id === mapping.sourceId
-          );
-          if (
-            !target.plateType ||
-            target.plateType.id !== source.plateType.id
-          ) {
-            plateTypeSettings.push({
-              id: target.id,
-              plateTypeId: source.plateType.id,
-            });
-          }
-        }
-      });
-      const responseData = await api.setPlateType(plateTypeSettings);
-      responseData.forEach((data) => {
-        dispatch(actions.updatePlateType({ data }));
-      });
-      dispatch(actions.importPlates({ importMappings, sourcePlates }));
-      dispatch(actions.setImportSuccess());
-      dispatch(debouncedSaveActivity());
-    } catch (error) {
-      dispatch(actions.setImportError({ error: error.message }));
-    }
   };
 }
 

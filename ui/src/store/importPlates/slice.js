@@ -5,6 +5,9 @@ const initialState = {
   loadingSourceActivityError: '',
   sourceActivity: null,
   mappings: [],
+  importPending: false,
+  importError: '',
+  importSuccess: false,
 };
 
 const importPlates = createSlice({
@@ -60,6 +63,18 @@ const importPlates = createSlice({
         );
         state.mappings.splice(index, 1, mapping);
       });
+    },
+    setImportPending(state, action) {
+      state.importPending = true;
+      state.importError = '';
+    },
+    setImportError(state, action) {
+      state.importPending = false;
+      state.importError = action.payload.error;
+    },
+    setImportSuccess(state, action) {
+      state.importPending = false;
+      state.importSuccess = true;
     },
     resetState(state, action) {
       Object.assign(state, initialState);
