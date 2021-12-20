@@ -101,18 +101,6 @@ export function togglePlateWellSelections(wellIds, plateIds, viewId) {
   };
 }
 
-export function removeComponentFromWell(plateId, wellId, componentId) {
-  return (dispatch, getState) => {
-    dispatch(
-      actions.removeWellComponent({
-        plateId,
-        wellId,
-        componentId,
-      })
-    );
-  };
-}
-
 export function removeComponentTypesFromWells(
   componentTypes,
   wellIds,
