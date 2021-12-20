@@ -16,7 +16,7 @@ const mapState = (state, props) => {
 
 const mapDispatch = {
   onDeleteActivity: activity.deleteActivity,
-  onSave: activity.saveActivity,
+  onSave: activity.instantSaveActivity,
   onViewTabClick: activity.setActiveView,
 };
 

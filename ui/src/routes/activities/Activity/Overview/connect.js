@@ -26,7 +26,6 @@ const mapDispatch = {
   onSetPlateType: activity.setPlateType,
   onSwapComponents: activity.swapComponents,
   onSwitchToView: activity.setActiveView,
-  onUpdatePlateDetails: activity.updatePlateDetails,
 };
 
 const connected = connect(mapState, mapDispatch)(Overview);

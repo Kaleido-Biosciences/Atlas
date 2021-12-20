@@ -104,11 +104,6 @@ const activity = createSlice({
       const plate = findPlate(plateId, state.plates);
       plate.name = name;
     },
-    updatePlateDetails(state, action) {
-      const { plateId, details } = action.payload;
-      const plate = findPlate(plateId, state.plates);
-      Object.assign(plate, details);
-    },
     updatePlateProperties(state, action) {
       const { plateProperties } = action.payload;
       plateProperties.forEach((plateProps) => {
@@ -316,6 +311,9 @@ const activity = createSlice({
     setSaveError(state, action) {
       state.savePending = false;
       state.saveError = action.payload.error;
+    },
+    setUpdateDate(state, action) {
+      state.updateDate = action.payload.updateDate;
     },
     importPlates(state, action) {
       const { importMappings, sourcePlates } = action.payload;

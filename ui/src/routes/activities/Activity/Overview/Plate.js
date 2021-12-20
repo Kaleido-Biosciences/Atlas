@@ -221,7 +221,6 @@ Plate.propTypes = {
   onDragStart: PropTypes.func,
   onDragStop: PropTypes.func,
   onSaveName: PropTypes.func,
-  onUpdatePlateDetails: PropTypes.func,
   onViewInEditor: PropTypes.func,
   onViewInTable: PropTypes.func,
   plate: PropTypes.object,

@@ -10,7 +10,7 @@ export class Header extends Component {
     return dayjs(updateDate).format('L LT');
   });
   handleSave = () => {
-    this.props.onSave(this.props.name);
+    this.props.onSave();
   };
   render() {
     return (
@@ -20,6 +20,7 @@ export class Header extends Component {
           <div className="flex items-center">
             <Button
               content="Save"
+              disabled={this.props.savePending}
               icon="save"
               secondary
               className="ml-2"

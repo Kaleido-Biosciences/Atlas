@@ -170,7 +170,6 @@ export class Overview extends Component {
           onDragStart={this.handlePlateDragStart}
           onDragStop={this.handlePlateDragStop}
           onSaveName={this.props.onSavePlateName}
-          onUpdatePlateDetails={this.props.onUpdatePlateDetails}
           onViewInEditor={this.handleViewPlateInEditor}
           onViewInTable={this.handleViewPlateInTable}
           plate={plate}
